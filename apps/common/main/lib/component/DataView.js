@@ -395,8 +395,15 @@ define([
                     rec.set({selected: false});
                 });
 
-                if (record)
-                    record.set({selected: true});
+                if (record) {
+                    if (Common.Utils.isSafari) {
+                        setTimeout(function () {
+                            record.set({selected: true});
+                        }, 200);
+                    } else {
+                        record.set({selected: true});
+                    }
+                }
             } else {
                 if (record)
                     record.set({selected: !record.get('selected')});
