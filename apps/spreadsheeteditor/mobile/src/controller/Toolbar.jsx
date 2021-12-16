@@ -24,6 +24,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const storeToolbarSettings = props.storeToolbarSettings;
     const isCanUndo = storeToolbarSettings.isCanUndo;
     const isCanRedo = storeToolbarSettings.isCanRedo;
+    const disabledControls = storeToolbarSettings.disabledControls;
+    const disabledEditControls = storeToolbarSettings.disabledEditControls;
+    const disabledSettings = storeToolbarSettings.disabledSettings;
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -108,26 +111,26 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         }
     }
 
-    const [disabledEditControls, setDisabledEditControls] = useState(false);
+    // const [disabledEditControls, setDisabledEditControls] = useState(false);
 
     const onApiActiveSheetChanged = (index) => {
         Common.Notifications.trigger('comments:filterchange', ['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)], false );
     };
 
-    const [disabledSettings, setDisabledSettings] = useState(false);
+    // const [disabledSettings, setDisabledSettings] = useState(false);
     const deactivateEditControls = (enableDownload) => {
-        setDisabledEditControls(true);
+        storeToolbarSettings.setDisabledEditControls(true);
         if (enableDownload) {
             //DE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
         } else {
-            setDisabledSettings(true);
+            storeToolbarSettings.setDisabledSettings(true);
         }
     };
-
-
-    const [disabledControls, setDisabledControls] = useState(/*true*/false);
+    
+    // const [disabledControls, setDisabledControls] = useState(/*true*/false);
     const activateControls = () => {
-        setDisabledControls(false);
+        // setDisabledControls(false);
+        storeToolbarSettings.setDisabledControls(false);
     };
 
     const onEditDocument = () => {
