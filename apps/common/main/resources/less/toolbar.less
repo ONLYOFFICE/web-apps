@@ -199,6 +199,22 @@
         /**/
     }
 
+    .more-container {
+        .compactwidth {
+            .btn-group, .btn-toolbar {
+                &.x-huge {
+                    .caption {
+                        display: none;
+                    }
+
+                    .inner-box-caption {
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+    }
+
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     @minus-px: calc(-1 * @scaled-one-px-value);
