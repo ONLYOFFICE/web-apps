@@ -495,7 +495,7 @@ define([
 
             setMoreButton: function(tab, panel) {
                 if (!btnsMore[tab]) {
-                    var box = $('<div class="more-box" style="position: absolute;right: 0; padding-left: 12px;display: none;">' +
+                    var box = $('<div class="more-box" style="position: absolute;right: 0; padding-left: 12px;padding-right: 6px;display: none;">' +
                         '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
                         '<div class="group" style=""><span class="btn-slot text x-huge slot-btn-more"></span></div>' +
                         '</div>');
@@ -510,234 +510,11 @@ define([
                     btnsMore[tab].on('toggle', function(btn, state, e) {
                         Common.NotificationCenter.trigger('more:toggle', btn, state);
                     });
-                    var moreContainer = $('<div class="dropdown-menu more-container" style="min-width:auto; padding: 5px 10px; background: #f1f1f1; border-radius: 0;z-index:999;"><div style="display: inline;"></div></div>');
+                    var moreContainer = $('<div class="dropdown-menu more-container"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
                     btnsMore[tab].panel = moreContainer.find('div');
                 }
                 this.$moreBar = btnsMore[tab].panel;
-                // this.resizeToolbar(true);
-            },
-
-            showMorePanel: function(force) {
-                var activePanel = this.$panels.filter('.active'),
-                    more_section = activePanel.find('.more-box'),
-                    more_section_width = parseInt(more_section.css('width')) || 0,
-                    boxpanels_offset = this.$boxpanels.offset(),
-                    boxpanels_width = this.$boxpanels.width(),
-                    delta = (this._prevBoxWidth) ? (boxpanels_width - this._prevBoxWidth) : -1;
-                this._prevBoxWidth = boxpanels_width;
-                more_section.is(':visible') && (boxpanels_width -= more_section_width);
-
-                var boxpanels_right = boxpanels_offset.left + boxpanels_width;
-
-                if (this.$moreBar && this.$moreBar.parent().is(':visible')) {
-                    this.$moreBar.parent().css('max-width', Common.Utils.innerWidth());
-                }
-
-                if ((force || delta<0) && activePanel.width() > boxpanels_width) {
-                    if (!more_section.is(':visible')) {
-                        more_section.css('display', "");
-                        boxpanels_width = this.$boxpanels.width() - parseInt(more_section.css('width'));
-                        boxpanels_right = boxpanels_offset.left + boxpanels_width;
-                    }
-
-                    var last_separator = null,
-                        last_group = null,
-                        prevchild = this.$moreBar.children();
-                    if (prevchild.length>0) {
-                        prevchild = $(prevchild[0]);
-                        if (prevchild.hasClass('separator'))
-                            last_separator = prevchild;
-                        if (prevchild.hasClass('group') && prevchild.attr('group-state') == 'open')
-                            last_group = prevchild;
-                    }
-
-                    var items = activePanel.find('> div:not(.more-box)');
-                    var need_break = false;
-                    for (var i=items.length-1; i>=0; i--) {
-                        var item = $(items[i]);
-                        if (item.hasClass('group')) {
-                            var offset = item.offset(),
-                                item_width = item.width(),
-                                children = item.children();
-                            if (!item.attr('inner-width') && item.attr('group-state') !== 'open') {
-                                item.attr('inner-width', item_width);
-                                for (var j=children.length-1; j>=0; j--) {
-                                    var child = $(children[j]);
-                                    child.attr('inner-width', child.width());
-                                }
-                            }
-                            if ((offset.left > boxpanels_right || children.length==1) && item.attr('group-state') != 'open') {
-                                // move group
-                                this.$moreBar.prepend(item);
-                                if (last_separator) {
-                                    last_separator.css('display', '');
-                                }
-                            } else if ( offset.left+item_width > boxpanels_right ) {
-                                // move buttons from group
-                                for (var j=children.length-1; j>=0; j--) {
-                                    var child = $(children[j]);
-                                    if (child.hasClass('elset')) {
-                                        this.$moreBar.prepend(item);
-                                        if (last_separator) {
-                                            last_separator.css('display', '');
-                                        }
-                                        break;
-                                    } else {
-                                        var child_offset = child.offset(),
-                                            child_width = child.width();
-                                        if (child_offset.left+child_width>boxpanels_right) {
-                                            if (!last_group) {
-                                                last_group = $('<div class="group"></div>');
-                                                this.$moreBar.prepend(last_group);
-                                                if (last_separator) {
-                                                    last_separator.css('display', '');
-                                                }
-                                            }
-                                            last_group.prepend(child);
-                                        } else {
-                                            need_break = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (item.children().length<1) { // all buttons are moved
-                                    item.remove();
-                                    last_group && last_group.removeAttr('group-state').attr('inner-width', item.attr('inner-width'));
-                                    last_group = null;
-                                } else {
-                                    last_group && last_group.attr('group-state', 'open') && item.attr('group-state', 'open');
-                                }
-                                if (need_break)
-                                    break;
-                            } else {
-                                break;
-                            }
-                            last_separator = null;
-                        } else if (item.hasClass('separator')) {
-                            this.$moreBar.prepend(item);
-                            item.css('display', 'none');
-                            last_separator = item;
-                        }
-                    }
-                }
-            },
-
-            hideMorePanel: function(force) {
-                var activePanel = this.$panels.filter('.active'),
-                    more_section = activePanel.find('.more-box'),
-                    more_section_width = parseInt(more_section.css('width')) || 0,
-                    boxpanels_offset = this.$boxpanels.offset(),
-                    boxpanels_width = this.$boxpanels.width(),
-                    delta = (this._prevBoxWidth) ? (boxpanels_width - this._prevBoxWidth) : -1;
-                this._prevBoxWidth = boxpanels_width;
-                more_section.is(':visible') && (boxpanels_width -= more_section_width);
-
-                var boxpanels_right = boxpanels_offset.left + boxpanels_width;
-
-                if (this.$moreBar && this.$moreBar.parent().is(':visible')) {
-                    this.$moreBar.parent().css('max-width', Common.Utils.innerWidth());
-                }
-
-                if ((force || delta>0) && (activePanel.width() <= boxpanels_width) && more_section.is(':visible')) {
-                    var last_separator = null,
-                        last_group = null,
-                        prevchild = activePanel.find('> div:not(.more-box)');
-                    var last_width = 0;
-                    if (prevchild.length>0) {
-                        prevchild = $(prevchild[prevchild.length-1]);
-                        if (prevchild.hasClass('separator')) {
-                            last_separator = prevchild;
-                            last_width = 7;
-                        }
-                        if (prevchild.hasClass('group') && prevchild.attr('group-state') == 'open')
-                            last_group = prevchild;
-                    }
-
-                    var items = this.$moreBar.children();
-                    var active_width = activePanel.width();
-
-                    if (items.length>0) {
-                        // from more panel to toolbar
-                        for (var i=0; i<items.length; i++) {
-                            var need_break = false;
-                            var item = $(items[i]);
-                            active_width = activePanel.width();
-                            if (item.hasClass('group')) {
-                                var islast = false;
-                                if (this.$moreBar.children().filter('.group').length == 1) {
-                                    boxpanels_width = this.$boxpanels.width();
-                                    islast = true;
-                                }
-
-                                var item_width = parseInt(item.attr('inner-width') || 0);
-                                if (active_width + last_width + item_width < boxpanels_width && item.attr('group-state') != 'open') {
-                                    // move group
-                                    more_section.before(item);
-                                    if (last_separator) {
-                                        last_separator.css('display', '');
-                                    }
-                                    if (this.$moreBar.children().filter('.group').length == 0) {
-                                        this.hideMoreBtns();
-                                        more_section.css('display', "none");
-                                    }
-                                } else if ( active_width + last_width < boxpanels_width ) {
-                                    // move buttons from group
-                                    var children = item.children();
-                                    boxpanels_width = this.$boxpanels.width() - more_section_width;
-                                    for (var j=0; j<children.length; j++) {
-                                        if (islast && j==children.length-1)
-                                            boxpanels_width = this.$boxpanels.width();
-                                        active_width = activePanel.width();
-                                        var child = $(children[j]);
-                                        if (child.hasClass('elset')) { // don't add group - no enough space
-                                            break;
-                                        } else {
-                                            var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? 12 : 0);
-                                            if (active_width+last_width+child_width<boxpanels_width) {
-                                                if (!last_group) {
-                                                    last_group = $('<div class="group"></div>');
-                                                    more_section.before(last_group);
-                                                    if (last_separator) {
-                                                        last_separator.css('display', '');
-                                                    }
-                                                }
-                                                last_group.append(child);
-                                            } else {
-                                                need_break = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (item.children().length<1) { // all buttons are moved
-                                        item.remove();
-                                        last_group && last_group.removeAttr('group-state').attr('inner-width', item.attr('inner-width'));
-                                        last_group = null;
-                                        if (this.$moreBar.children().filter('.group').length == 0) {
-                                            this.hideMoreBtns();
-                                            more_section.css('display', "none");
-                                        }
-                                    } else {
-                                        last_group && last_group.attr('group-state', 'open') && item.attr('group-state', 'open');
-                                    }
-                                    if (need_break)
-                                        break;
-                                } else {
-                                    break;
-                                }
-                                last_separator = null; last_width = 0;
-                            } else if (item.hasClass('separator')) {
-                                more_section.before(item);
-                                item.css('display', 'none');
-                                last_separator = item;
-                                last_width = 7;
-                            }
-                        }
-                    } else {
-                        this.hideMoreBtns();
-                        more_section.css('display', "none");
-                    }
-                }
             },
 
             resizeToolbar: function(reset) {
@@ -745,7 +522,7 @@ define([
                     more_section = activePanel.find('.more-box'),
                     more_section_width = parseInt(more_section.css('width')) || 0,
                     boxpanels_offset = this.$boxpanels.offset(),
-                    boxpanels_width = this.$boxpanels.width(),
+                    boxpanels_width = this.$boxpanels.outerWidth(),
                     delta = (this._prevBoxWidth) ? (boxpanels_width - this._prevBoxWidth) : -1;
                 this._prevBoxWidth = boxpanels_width;
                 more_section.is(':visible') && (boxpanels_width -= more_section_width);
@@ -756,10 +533,10 @@ define([
                     this.$moreBar.parent().css('max-width', Common.Utils.innerWidth());
                 }
 
-                if ((reset || delta<0) && activePanel.width() > boxpanels_width) {
+                if ((reset || delta<0) && activePanel.outerWidth() > boxpanels_width) {
                     if (!more_section.is(':visible')) {
                         more_section.css('display', "");
-                        boxpanels_width = this.$boxpanels.width() - parseInt(more_section.css('width'));
+                        boxpanels_width = this.$boxpanels.outerWidth() - parseInt(more_section.css('width'));
                         boxpanels_right = boxpanels_offset.left + boxpanels_width;
                     }
 
@@ -777,7 +554,8 @@ define([
                     var items = activePanel.find('> div:not(.more-box)');
                     var need_break = false;
                     for (var i=items.length-1; i>=0; i--) {
-                        var item = $(items[i]);
+                        var item = $(items[i]),
+                            itemCls = items[i].className;
                         if (item.hasClass('group')) {
                             var offset = item.offset(),
                                 item_width = item.outerWidth(),
@@ -810,7 +588,8 @@ define([
                                             child_width = child.outerWidth();
                                         if (child_offset.left+child_width>boxpanels_right) {
                                             if (!last_group) {
-                                                last_group = $('<div class="group"></div>');
+                                                last_group = $('<div></div>');
+                                                last_group.addClass(itemCls);
                                                 this.$moreBar.prepend(last_group);
                                                 if (last_separator) {
                                                     last_separator.css('display', '');
@@ -858,17 +637,18 @@ define([
                     }
 
                     var items = this.$moreBar.children();
-                    var active_width = activePanel.width();
+                    var active_width = activePanel.outerWidth();
 
                     if (items.length>0) {
                         // from more panel to toolbar
                         for (var i=0; i<items.length; i++) {
-                            var item = $(items[i]);
-                            active_width = activePanel.width();
+                            var item = $(items[i]),
+                                itemCls = items[i].className;
+                            active_width = activePanel.outerWidth();
                             if (item.hasClass('group')) {
                                 var islast = false;
                                 if (this.$moreBar.children().filter('.group').length == 1) {
-                                    boxpanels_width = this.$boxpanels.width();
+                                    boxpanels_width = this.$boxpanels.outerWidth();
                                     islast = true;
                                 }
 
@@ -886,19 +666,21 @@ define([
                                 } else if ( active_width + last_width < boxpanels_width ) {
                                     // move buttons from group
                                     var children = item.children();
-                                    boxpanels_width = this.$boxpanels.width() - more_section_width;
+                                    boxpanels_width = this.$boxpanels.outerWidth() - more_section_width;
                                     for (var j=0; j<children.length; j++) {
                                         if (islast && j==children.length-1)
-                                            boxpanels_width = this.$boxpanels.width();
-                                        active_width = activePanel.width();
+                                            boxpanels_width = this.$boxpanels.outerWidth();
+                                        active_width = activePanel.outerWidth();
                                         var child = $(children[j]);
                                         if (child.hasClass('elset')) { // don't add group - no enough space
+                                            need_break = true;
                                             break;
                                         } else {
-                                            var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? 12 : 0);
+                                            var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? 6 : 0);
                                             if (active_width+last_width+child_width<boxpanels_width) {
                                                 if (!last_group) {
-                                                    last_group = $('<div class="group"></div>');
+                                                    last_group = $('<div></div>');
+                                                    last_group.addClass(itemCls);
                                                     more_section.before(last_group);
                                                     if (last_separator) {
                                                         last_separator.css('display', '');

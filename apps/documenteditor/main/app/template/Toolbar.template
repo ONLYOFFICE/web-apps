@@ -78,7 +78,7 @@
                         <span class="btn-slot" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
                     </div>
                 </div>
-                <div class="group small" id="slot-field-styles"></div>
+                <div class="group small field-styles" id="slot-field-styles" style="min-width: 160px;"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
