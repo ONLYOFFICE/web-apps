@@ -371,35 +371,35 @@
             }
         };
 
-        var _callLocalStorage = function(data) {
-            if (data.cmd == 'get') {
-                if (data.keys && data.keys.length) {
-                    var af = data.keys.split(','), re = af[0];
-                    for (i = 0; ++i < af.length;)
-                        re += '|' + af[i];
-
-                    re = new RegExp(re); k = {};
-                    for (i in localStorage)
-                        if (re.test(i)) k[i] = localStorage[i];
-                } else {
-                    k = localStorage;
-                }
-
-                _sendCommand({
-                    command: 'internalCommand',
-                    data: {
-                        type: 'localstorage',
-                        keys: k
-                    }
-                });
-            } else
-            if (data.cmd == 'set') {
-                var k = data.keys, i;
-                for (i in k) {
-                    localStorage.setItem(i, k[i]);
-                }
-            }
-        };
+        // var _callLocalStorage = function(data) {
+        //     if (data.cmd == 'get') {
+        //         if (data.keys && data.keys.length) {
+        //             var af = data.keys.split(','), re = af[0];
+        //             for (i = 0; ++i < af.length;)
+        //                 re += '|' + af[i];
+        //
+        //             re = new RegExp(re); k = {};
+        //             for (i in localStorage)
+        //                 if (re.test(i)) k[i] = localStorage[i];
+        //         } else {
+        //             k = localStorage;
+        //         }
+        //
+        //         _sendCommand({
+        //             command: 'internalCommand',
+        //             data: {
+        //                 type: 'localstorage',
+        //                 keys: k
+        //             }
+        //         });
+        //     } else
+        //     if (data.cmd == 'set') {
+        //         var k = data.keys, i;
+        //         for (i in k) {
+        //             localStorage.setItem(i, k[i]);
+        //         }
+        //     }
+        // };
 
         var _onMessage = function(msg) {
             if ( msg ) {
@@ -415,8 +415,8 @@
 
                     if (msg.event === 'onRequestEditRights' && !handler) {
                         _applyEditRights(false, 'handler isn\'t defined');
-                    } else if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
-                        _callLocalStorage(msg.data.data);
+                    // } else if (msg.event === 'onInternalMessage' && msg.data && msg.data.type == 'localstorage') {
+                        // _callLocalStorage(msg.data.data);
                     } else {
                         if (msg.event === 'onAppReady') {
                             _onAppReady();
