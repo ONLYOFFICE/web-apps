@@ -93,6 +93,7 @@ define([
                 cls: 'input-group-nr',
                 editable: false,
                 style   : 'margin-top: 16px; width: 100%;',
+                menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true,
                 data    : this.EffectGroupData,
                 value   : (this._state.activeEffect != undefined)?this._state.activeGroup:undefined
@@ -104,6 +105,7 @@ define([
                 cls: 'input-group-nr',
                 editable: false,
                 style   : 'margin-top: 16px; width: 100%;',
+                menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true
             });
             this.cmbLevel.on('selected', _.bind(this.onLevelSelect,this));
