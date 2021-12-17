@@ -361,7 +361,7 @@ define([
                     iconCls: 'toolbar__icon btn-arrow-up',
                     style: 'min-width: 82px',
                     caption: this.textMoveEarlier,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationEarlier],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -374,7 +374,7 @@ define([
                     iconCls: 'toolbar__icon btn-arrow-down',
                     style: 'min-width: 82px',
                     caption: this.textMoveLater,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationLater],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'

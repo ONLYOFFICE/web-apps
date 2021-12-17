@@ -187,11 +187,15 @@ define([
         },
 
         onMoveEarlier: function () {
-
+            if(this.api) {
+                this.api.asc_moveAnimationEarlier();
+            }
         },
 
         onMoveLater: function () {
-
+            if(this.api) {
+                this.api.asc_moveAnimationLater();
+            }
         },
 
         onTriggerClick: function (value) {
@@ -247,10 +251,11 @@ define([
         },
 
         setSettings: function () {
-            this._state.noGraphic = this._state.noAnimation = this._state.noAnimationParam = this._state.noTriggerObjects = true;
+            this._state.noGraphic = this._state.noAnimation = this._state.noAnimationParam = this._state.noTriggerObjects = this._state.noMoveAnimationLater = this._state.noMoveAnimationEarlier = true;
             if (this.AnimationProperties) {
                 this._state.noGraphic = false;
-
+                this._state.noMoveAnimationLater = !this.api.asc_canMoveAnimationLater();
+                this._state.noMoveAnimationEarlier = !this.api.asc_canMoveAnimationEarlier();
                 var item,
                     view = this.view,
                     store = view.listEffects.store,
@@ -396,6 +401,11 @@ define([
                 this.lockToolbar(PE.enumLock.noAnimationParam, this._state.noAnimationParam);
             if (this._state.noTriggerObjects != undefined)
                 this.lockToolbar(PE.enumLock.noTriggerObjects, this._state.noTriggerObjects);
+            if (this._state.noMoveAnimationLater != undefined)
+                this.lockToolbar(PE.enumLock.noMoveAnimationLater, this._state.noMoveAnimationLater);
+            if (this._state.noMoveAnimationEarlier != undefined)
+                this.lockToolbar(PE.enumLock.noMoveAnimationEarlier, this._state.noMoveAnimationEarlier);
+
         }
 
     }, PE.Controllers.Animation || {}));
