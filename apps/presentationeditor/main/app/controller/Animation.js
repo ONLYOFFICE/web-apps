@@ -312,7 +312,7 @@ define([
                             view.listEffects.fieldPicker.selectRecord(fieldStore.add(new Common.UI.DataViewModel({
                                 group: 'none',
                                 value: AscFormat.ANIM_PRESET_MULTIPLE,
-                                iconCls: 'transition-multiple',
+                                iconCls: 'animation-multiple',
                                 displayValue: view.textMultiple
                             }), {at:1}));
                             view.listEffects.menuPicker.deselectAll();

@@ -150,7 +150,7 @@ define([
                     ClickSequence:  0,
                     ClickOf:        1
                 }
-                this.allEffects = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'transition-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectFullData());
+                this.allEffects = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectFullData());
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
@@ -158,7 +158,7 @@ define([
                 var _set = PE.enumLock;
                 this.lockedControls = [];
 
-                this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'transition-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
+                this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
                 this._arrEffectOptions = [];
                 var itemWidth = 87,
                     itemHeight = 40;
