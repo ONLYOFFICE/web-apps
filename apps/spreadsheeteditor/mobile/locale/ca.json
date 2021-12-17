@@ -154,7 +154,9 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Contacta amb el teu administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacta amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textOk": "Ok"
     }
   },
   "Error": {
