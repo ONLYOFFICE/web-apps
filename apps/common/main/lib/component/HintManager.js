@@ -455,6 +455,7 @@ Common.UI.HintManager = new(function() {
                     setTimeout(function () {
                         if (_currentLevel === 0) {
                             _hideHints();
+                            _resetToDefault();
                             _lockedKeyEvents(false);
                         } else {
                             _prevLevel();
