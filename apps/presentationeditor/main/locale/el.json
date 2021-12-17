@@ -1328,7 +1328,7 @@
   "PE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Δημιουργήθηκε",
   "PE.Views.FileMenuPanels.DocumentInfo.txtModifyBy": "Τελευταία Τροποποίηση Από",
   "PE.Views.FileMenuPanels.DocumentInfo.txtModifyDate": "Τελευταίο Τροποποιημένο",
-  "PE.Views.FileMenuPanels.DocumentInfo.txtOwner": "Ιδιοκτήτης",
+  "PE.Views.FileMenuPanels.DocumentInfo.txtOwner": "Κάτοχος",
   "PE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Τοποθεσία",
   "PE.Views.FileMenuPanels.DocumentInfo.txtRights": "Άτομα που έχουν δικαιώματα",
   "PE.Views.FileMenuPanels.DocumentInfo.txtSubject": "Θέμα",
