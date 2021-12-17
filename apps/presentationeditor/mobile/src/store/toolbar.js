@@ -8,8 +8,32 @@ export class storeToolbarSettings {
             isCanRedo: observable,
             setCanRedo: action,
             countPages: observable,
-            setCountPages: action
+            setCountPages: action,
+            disabledControls: observable,
+            setDisabledControls: action,
+            disabledEditControls: observable,
+            setDisabledEditControls: action,
+            disabledSettings: observable, 
+            setDisabledSettings: action
         })
+    }
+
+    disabledControls = true;
+
+    setDisabledControls(value) {
+        this.disabledControls = value;
+    }
+
+    disabledEditControls = false;
+
+    setDisabledEditControls(value) {
+        this.disabledEditControls = value;
+    }
+
+    disabledSettings = false;
+
+    setDisabledSettings(value) {
+        this.disabledSettings = value;
     }
 
     isCanUndo = false;
