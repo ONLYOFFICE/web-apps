@@ -76,15 +76,22 @@ define([
             this.chZeros.on('change', function (field, value) {
                 me.fireEvent('viewtab:zeros', [3, value]);
             });
-            this.cmbZoom.on('selected', function(combo, record) {
-                me.fireEvent('viewtab:zoom', [record.value]);
-            });
             this.chToolbar.on('change', function (field, value) {
                 me.fireEvent('viewtab:showtoolbar', [field, value !== 'checked']);
             });
             this.chStatusbar.on('change', function (field, value) {
                 me.fireEvent('statusbar:setcompact', [field, value === 'checked']);
             });
+            this.cmbZoom.on('selected', function (combo, record) {
+                me.fireEvent('zoom:selected', [combo, record]);
+            }).on('changed:before', function (combo, record) {
+                me.fireEvent('zoom:changedbefore', [true, combo, record]);
+            }).on('changed:after', function (combo, record) {
+                me.fireEvent('zoom:changedafter', [false, combo, record]);
+            }).on('combo:blur', function () {
+                me.fireEvent('editcomplete', me);
+            }).on('combo:focusin', _.bind(this.onComboOpen, this, false))
+              .on('show:after', _.bind(this.onComboOpen, this, true));
         }
 
         return {
@@ -160,7 +167,7 @@ define([
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
                     hint        : me.tipFontSize,
-                    editable    : false,
+                    editable    : true,
                     lock        : [_set.coAuth, _set.lostConnect, _set.editCell],
                     data        : [
                         { displayValue: "50%", value: 50 },
@@ -394,6 +401,14 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+            },
+
+            onComboOpen: function (needfocus, combo) {
+                _.delay(function() {
+                    var input = $('input', combo.cmpEl).select();
+                    if (needfocus) input.focus();
+                    else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+                }, 10);
             },
 
             capBtnSheetView: 'Sheet View',

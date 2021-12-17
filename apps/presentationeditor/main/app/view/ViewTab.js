@@ -51,9 +51,6 @@ define([
 
             setEvents: function () {
                 var me = this;
-                me.cmbZoom && me.cmbZoom.on('selected', function (combo, record) {
-                    me.fireEvent('zoom:value', [record.value]);
-                });
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
                     me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
                 });
@@ -72,6 +69,8 @@ define([
                 me.chNotes && me.chNotes.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('notes:change', [me.chNotes, state === 'checked']);
                 }, me));
+                me.cmbZoom.on('combo:focusin', _.bind(this.onComboOpen, this, false));
+                me.cmbZoom.on('show:after', _.bind(this.onComboOpen, this, true));
             },
 
             initialize: function (options) {
@@ -89,7 +88,7 @@ define([
                     el: $host.find('#slot-field-zoom'),
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
-                    editable: false,
+                    editable: true,
                     lock: [_set.disableOnStart],
                     data: [
                         { displayValue: "50%", value: 50 },
@@ -219,6 +218,14 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+            },
+
+            onComboOpen: function (needfocus, combo) {
+                _.delay(function() {
+                    var input = $('input', combo.cmpEl).select();
+                    if (needfocus) input.focus();
+                    else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+                }, 10);
             },
 
             textZoom: 'Zoom',
