@@ -829,7 +829,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_OBJECT_COLOR,             iconCls: 'transition-push',    displayValue: this.textObjectColor},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_COMPLEMENTARY_COLOR,      iconCls: 'transition-push',    displayValue: this.textComplementaryColor},
                     {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_LINE_COLOR,               iconCls: 'transition-push',    displayValue: this.textLineColor},
-                    {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_FILL_COLOR,               iconCls: 'transition-push',    displayValue: this.textFillColor},
+                    {group: 'menu-effect-group-emphasis',   value: AscFormat.EMPHASIS_FILL_COLOR,               iconCls: 'animation-emphasis-fill_color',    displayValue: this.textFillColor},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_DISAPPEAR,                    iconCls: 'transition-push',    displayValue: this.textDisappear},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FADE,                         iconCls: 'transition-push',    displayValue: this.textFade},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FLY_OUT_TO,                   iconCls: 'transition-push',    displayValue: this.textFlyOut},
