@@ -447,13 +447,24 @@ define([
                     }
                 }
 
+                var idx = _.indexOf(this.store.models, record);
                 if (innerEl) {
-                    if (opts && opts.at == 0)
-                        innerEl.prepend(view.render().el); else
+                    if (opts && (typeof opts.at==='number') && opts.at >= 0) {
+                        if (opts.at == 0) {
+                            innerEl.prepend(view.render().el);
+                        } else if (!(this.groups && this.groups.length > 0)) { // for dataview without groups
+                            var innerDivs = innerEl.find('> div');
+                            if (idx > 0)
+                                $(innerDivs.get(idx - 1)).after(view.render().el);
+                            else {
+                                (innerDivs.length > 0) ? $(innerDivs[idx]).before(view.render().el) : innerEl.append(view.render().el);
+                            }
+                        } else
+                            innerEl.append(view.render().el);
+                    } else
                         innerEl.append(view.render().el);
 
                     (this.dataViewItems.length<1) && innerEl.find('.empty-text').remove();
-                    var idx = _.indexOf(this.store.models, record);
                     this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
                     var me = this,

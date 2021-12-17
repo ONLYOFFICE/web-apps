@@ -400,7 +400,7 @@ define([
                     accept();
                 })).then(function() {
                     me.btnAddAnimation.setMenu( new Common.UI.Menu({
-                        style: 'width: 370px;padding-top: 12px;',
+                        style: 'width: 375px;padding-top: 12px;',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-addanimation" class="menu-animation"></div>')},
                             {caption: '--'},

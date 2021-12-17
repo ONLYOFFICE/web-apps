@@ -306,6 +306,7 @@ define([
                         view.listEffects.fillComboView(item, true, forceFill);
                         view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
                     } else {
+                        store.remove(store.findWhere({isCustom: true})); // remove custom effects
                         if (this._state.Effect==AscFormat.ANIM_PRESET_MULTIPLE) { // add and select "multiple" item
                             view.listEffects.fillComboView(store.at(0), false, true);
                             fieldStore.remove(fieldStore.at(fieldStore.length-1));
@@ -318,8 +319,6 @@ define([
                             view.listEffects.menuPicker.deselectAll();
                         } else { // add custom effect to appropriate group
                             if (group) {
-                                store.remove(store.findWhere({isCustom: true})); // remove other custom effects
-
                                 var items = store.where({group: group.get('id')});
                                 var index = (items && items.length>0) ? store.indexOf(items.at(items.length-1)) : store.length-1;
                                 var rec = _.findWhere(Common.define.effectData.getEffectFullData(), {group: group.get('id'), value: this._state.Effect});
