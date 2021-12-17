@@ -91,6 +91,7 @@ define([
         noTriggerObjects: 'no-trigger-objects',
         noMoveAnimationEarlier: 'no-move-animation-earlier',
         noMoveAnimationLater: 'no-move-animation-later',
+        noAnimationPreview: 'no-animation-preview'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){

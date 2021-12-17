@@ -101,8 +101,10 @@ define([
 
         setApi: function (api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onFocusObject, this));
-            this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onApiCountPages, this));
+            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onFocusObject, this));
+            this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
+            this.api.asc_registerCallback('asc_onAnimPreviewStarted',   _.bind(this.onAnimPreviewStarted, this));
+            this.api.asc_registerCallback('asc_onAnimPreviewFinished',  _.bind(this.onAnimPreviewFinished, this));
             return this;
         },
 
@@ -123,7 +125,23 @@ define([
         },
 
         onPreviewClick: function() {
-            this.api.asc_StartAnimationPreview();
+            if (this._state.playPreview)
+                this.api.asc_StopAnimationPreview();
+            else
+                this.api.asc_StartAnimationPreview();
+
+        },
+
+        onAnimPreviewStarted: function () {
+
+            this._state.playPreview = true;
+            this.view.btnPreview.setIconCls('toolbar__icon transition-zoom');
+
+        },
+        onAnimPreviewFinished: function ()
+        {
+            this._state.playPreview = false;
+            this.view.btnPreview.setIconCls('toolbar__icon transition-fade');
         },
 
         onParameterClick: function (value) {
@@ -252,6 +270,7 @@ define([
 
         setSettings: function () {
             this._state.noGraphic = this._state.noAnimation = this._state.noAnimationParam = this._state.noTriggerObjects = this._state.noMoveAnimationLater = this._state.noMoveAnimationEarlier = true;
+            this._state.noAnimationPreview = !this.api.asc_canStartAnimationPreview();
             if (this.AnimationProperties) {
                 this._state.noGraphic = false;
                 this._state.noMoveAnimationLater = !this.api.asc_canMoveAnimationLater();
@@ -405,6 +424,8 @@ define([
                 this.lockToolbar(PE.enumLock.noMoveAnimationLater, this._state.noMoveAnimationLater);
             if (this._state.noMoveAnimationEarlier != undefined)
                 this.lockToolbar(PE.enumLock.noMoveAnimationEarlier, this._state.noMoveAnimationEarlier);
+            if (PE.enumLock.noAnimationPreview != undefined)
+                this.lockToolbar(PE.enumLock.noAnimationPreview, this._state.noAnimationPreview);
 
         }
 
