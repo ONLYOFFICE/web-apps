@@ -90,7 +90,8 @@ define([
                 me.fireEvent('zoom:changedafter', [false, combo, record]);
             }).on('combo:blur', function () {
                 me.fireEvent('editcomplete', me);
-            });
+            }).on('combo:focusin', _.bind(this.onComboOpen, this, false))
+              .on('show:after', _.bind(this.onComboOpen, this, true));
         }
 
         return {
@@ -400,6 +401,14 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+            },
+
+            onComboOpen: function (needfocus, combo) {
+                _.delay(function() {
+                    var input = $('input', combo.cmpEl).select();
+                    if (needfocus) input.focus();
+                    else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+                }, 10);
             },
 
             capBtnSheetView: 'Sheet View',

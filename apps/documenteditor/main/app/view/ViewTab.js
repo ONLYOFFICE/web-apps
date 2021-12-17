@@ -72,6 +72,8 @@ define([
                 me.btnDarkDocument.on('click', _.bind(function () {
                     me.fireEvent('darkmode:change');
                 }, me));
+                me.cmbZoom.on('combo:focusin', _.bind(this.onComboOpen, this, false));
+                me.cmbZoom.on('show:after', _.bind(this.onComboOpen, this, true));
             },
 
             initialize: function (options) {
@@ -237,6 +239,14 @@ define([
 
             turnNavigation: function (state) {
                 this.btnNavigation && this.btnNavigation.toggle(state, true);
+            },
+
+            onComboOpen: function (needfocus, combo) {
+                _.delay(function() {
+                    var input = $('input', combo.cmpEl).select();
+                    if (needfocus) input.focus();
+                    else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+                }, 10);
             },
 
             textNavigation: 'Navigation',
