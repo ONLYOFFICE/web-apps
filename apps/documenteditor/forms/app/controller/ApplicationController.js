@@ -1413,6 +1413,10 @@ define([
             }
 
         },
+        onBtnZoom: function (btn, e) {
+            btn == 'up' ? this.api.zoomIn() : this.api.zoomOut();
+            e.stopPropagation();
+        },
 
         onDarkModeClick: function(item) {
             Common.UI.Themes.toggleContentTheme();
@@ -1580,8 +1584,10 @@ define([
             // zoom
             $('#id-btn-zoom-in').on('click', this.api.zoomIn.bind(this.api));
             $('#id-btn-zoom-out').on('click', this.api.zoomOut.bind(this.api));
-            $('#id-menu-zoom-in').on('click', this.api.zoomIn.bind(this.api));
-            $('#id-menu-zoom-out').on('click', this.api.zoomOut.bind(this.api));
+            /*$('#id-menu-zoom-in').on('click', this.api.zoomIn.bind(this.api));
+            $('#id-menu-zoom-out').on('click', this.api.zoomOut.bind(this.api));*/
+            $('#id-menu-zoom-in').on('click', _.bind(this.onBtnZoom, this,'down'));
+            $('#id-menu-zoom-out').on('click', _.bind(this.onBtnZoom, this,'up'));
             this.view.btnOptions.menu.on('item:click', _.bind(this.onOptionsClick, this));
             this.view.mnuZoom.on('item:click', _.bind(this.onMenuZoomClick, this));
 
