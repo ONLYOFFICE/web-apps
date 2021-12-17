@@ -7,7 +7,6 @@ import ToolbarView from "../view/Toolbar";
 const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
-
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
     const displayMode = props.storeReview.displayMode;
@@ -23,8 +22,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
 
+    const docInfo = props.storeDocumentInfo;
+    const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
+
     useEffect(() => {
-        Common.Notifications.on('setdoctitle', setDocTitle);
         Common.Gateway.on('init', loadConfig);
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
@@ -37,18 +38,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         }
 
         return () => {
-            // Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
         }
     });
-
-    const docInfo = props.storeDocumentInfo;
-    const [docTitle, resetDocTitle] = useState(docInfo.dataDoc ? docInfo.dataDoc.title : '');
-    const setDocTitle = (title) => {
-        resetDocTitle(title);
-    }
 
     // Back button
     const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);

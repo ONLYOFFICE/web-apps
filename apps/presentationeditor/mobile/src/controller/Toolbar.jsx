@@ -21,8 +21,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
     const isCanRedo = storeToolbarSettings.isCanRedo;
     const disabledPreview = storeToolbarSettings.countPages <= 0;
 
+    const docInfo = props.storePresentationInfo;
+    const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
+
     useEffect(() => {
-        Common.Notifications.on('setdoctitle', setDocTitle);
         Common.Gateway.on('init', loadConfig);
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
@@ -35,18 +37,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
         }
 
         return () => {
-            Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
         }
     });
-
-    const docInfo = props.storePresentationInfo;
-    const [docTitle, resetDocTitle] = useState(docInfo.dataDoc ? docInfo.dataDoc.title : '');
-    const setDocTitle = (title) => {
-        resetDocTitle(title);
-    }
 
     // Back button
     const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
