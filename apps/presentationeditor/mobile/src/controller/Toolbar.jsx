@@ -20,6 +20,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
     const isCanUndo = storeToolbarSettings.isCanUndo;
     const isCanRedo = storeToolbarSettings.isCanRedo;
     const disabledPreview = storeToolbarSettings.countPages <= 0;
+    const disabledControls = storeToolbarSettings.disabledControls;
+    const disabledEditControls = storeToolbarSettings.disabledEditControls;
+    const disabledSettings = storeToolbarSettings.disabledSettings;
 
     const docInfo = props.storePresentationInfo;
     const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
@@ -105,21 +108,17 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
         }
     }
 
-    const [disabledEditControls, setDisabledEditControls] = useState(false);
-    const [disabledSettings, setDisabledSettings] = useState(false);
     const deactivateEditControls = (enableDownload) => {
-        setDisabledEditControls(true);
+        storeToolbarSettings.setDisabledEditControls(true);
         if (enableDownload) {
             //DE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
         } else {
-            setDisabledSettings(true);
+            storeToolbarSettings.setDisabledSettings(true);
         }
     };
 
-
-    const [disabledControls, setDisabledControls] = useState(/*true*/false);
     const activateControls = () => {
-        setDisabledControls(false);
+        storeToolbarSettings.setDisabledControls(false);
     };
 
     const onEditDocument = () => {

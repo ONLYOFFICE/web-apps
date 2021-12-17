@@ -19,6 +19,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const storeToolbarSettings = props.storeToolbarSettings;
     const isCanUndo = storeToolbarSettings.isCanUndo;
     const isCanRedo = storeToolbarSettings.isCanRedo;
+    const disabledControls = storeToolbarSettings.disabledControls;
+    const disabledEditControls = storeToolbarSettings.disabledEditControls;
+    const disabledSettings = storeToolbarSettings.disabledSettings;
 
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
 
@@ -104,20 +107,17 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         }
     }
 
-    const [disabledEditControls, setDisabledEditControls] = useState(false);
-    const [disabledSettings, setDisabledSettings] = useState(false);
     const deactivateEditControls = (enableDownload) => {
-        setDisabledEditControls(true);
+        storeToolbarSettings.setDisabledEditControls(true);
         if (enableDownload) {
             //DE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
         } else {
-            setDisabledSettings(true);
+            storeToolbarSettings.setDisabledSettings(true);
         }
     };
 
-    const [disabledControls, setDisabledControls] = useState(true);
     const activateControls = () => {
-        setDisabledControls(false);
+        storeToolbarSettings.setDisabledControls(false);
     };
 
     const onEditDocument = () => {

@@ -111,13 +111,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         }
     }
 
-    // const [disabledEditControls, setDisabledEditControls] = useState(false);
-
     const onApiActiveSheetChanged = (index) => {
         Common.Notifications.trigger('comments:filterchange', ['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)], false );
     };
 
-    // const [disabledSettings, setDisabledSettings] = useState(false);
     const deactivateEditControls = (enableDownload) => {
         storeToolbarSettings.setDisabledEditControls(true);
         if (enableDownload) {
@@ -127,9 +124,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         }
     };
     
-    // const [disabledControls, setDisabledControls] = useState(/*true*/false);
     const activateControls = () => {
-        // setDisabledControls(false);
         storeToolbarSettings.setDisabledControls(false);
     };
 
