@@ -1463,34 +1463,21 @@ define([
                 else
                     last = menuItems[5];
 
-                // theme
-                if (!menuItems[6].isVisible())
-                    menuItems[7].setVisible(false);
+                // theme and zoom
+                if (!menuItems[6].isVisible() && !menuItems[7].isVisible())
+                    menuItems[8].setVisible(false);
                 else
-                    last = menuItems[7];
-
-                //last = menuItems[8];
+                    last = menuItems[8];
 
                 // share, location
-                if (!menuItems[10].isVisible() && !menuItems[11].isVisible())
-                    menuItems[12].setVisible(false);
+                if (!menuItems[9].isVisible() && !menuItems[10].isVisible())
+                    menuItems[11].setVisible(false);
                 else
-                    last = menuItems[12];
+                    last = menuItems[11];
 
                 // embed, fullscreen
-                if (!menuItems[13].isVisible() && !menuItems[14].isVisible())
+                if (!menuItems[12].isVisible() && !menuItems[13].isVisible())
                     last && last.setVisible(false);
-
-
-                // share, location
-                /*if (!menuItems[8].isVisible() && !menuItems[9].isVisible())
-                    menuItems[10].setVisible(false);
-                else
-                    last = menuItems[10];
-
-                // embed, fullscreen
-                if (!menuItems[11].isVisible() && !menuItems[12].isVisible())
-                    last && last.setVisible(false);*/
 
                 menu.off('show:after', initMenu);
             };
@@ -1542,22 +1529,22 @@ define([
             }
 
             if ( !this.embedConfig.shareUrl || this.appOptions.isOFORM) {
-                menuItems[10].setVisible(false);
+                menuItems[9].setVisible(false);
                 itemsCount--;
             }
 
             if (!this.appOptions.canBackToFolder) {
-                menuItems[11].setVisible(false);
+                menuItems[10].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
-                menuItems[13].setVisible(false);
+                menuItems[12].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.fullscreenUrl || this.appOptions.isOFORM) {
-                menuItems[14].setVisible(false);
+                menuItems[13].setVisible(false);
                 itemsCount--;
             }
             if (itemsCount<1)

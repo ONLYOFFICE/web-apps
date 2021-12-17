@@ -31,7 +31,6 @@ define([
                                 items: []
                             })
                         },
-                        {caption: '--'},
                         {caption: this.textZoom, value: 'zoomn',  conCls: 'mi-icon' ,
                             menu        : this.mnuZoom = new Common.UI.Menu({
                                 cls: 'shifted-right',
