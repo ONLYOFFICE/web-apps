@@ -92,7 +92,7 @@ define([
                     if ( obj.lockthemes != undefined ) {
                         // TODO: remove after 7.0.2. depricated. used is_win_xp variable instead
                         // Common.UI.Themes.setAvailable(!obj.lockthemes);
-                    } else
+                    }
                     if ( obj.singlewindow !== undefined ) {
                         $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;
