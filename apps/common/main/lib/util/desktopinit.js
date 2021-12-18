@@ -18,5 +18,5 @@ if ( window.AscDesktopEditor ) {
         desktop.theme = window.RendererProcessVariable.theme;
     }
 
-    window.desktop.execCommand('webapps:entry', window.uitype || '');
+    window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');
 }
