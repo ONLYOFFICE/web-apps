@@ -72,9 +72,9 @@ define([
             this.EffectGroupData.forEach(function (item) {item.displayValue = item.caption;});
             if ((this.options.activeEffect != undefined) && (this.options.activeEffect != AscFormat.ANIM_PRESET_NONE)){
                 this._state.activeEffect = this.options.activeEffect;
-                var itemEffect = _.findWhere(this.allEffects,{value: this._state.activeEffect});
-                this._state.activeGroup = itemEffect.group;
-                this._state.activeGroupValue = _.findWhere(this.EffectGroupData, {id: this._state.activeGroup}).value;
+                this._state.activeGroupValue = this.options.groupValue;
+                this._state.activeGroup = _.findWhere(this.EffectGroupData, {value: this._state.activeGroupValue}).id;
+                var itemEffect = _.findWhere(this.allEffects,{group: this._state.activeGroup, value: this._state.activeEffect});
                 this.activeLevel = itemEffect.level;
             }
             Common.UI.Window.prototype.initialize.call(this, this.options);

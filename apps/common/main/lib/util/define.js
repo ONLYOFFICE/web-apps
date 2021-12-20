@@ -870,8 +870,8 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TRAPEZOID,                  iconCls: 'animation-motion_paths-shapes',    displayValue: this.textTrapezoid},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'animation-motion_paths-loops',    displayValue: this.textHorizontalFigure},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_VERTICAL_FIGURE_8,          iconCls: 'animation-motion_paths-loops',    displayValue: this.textVerticalFigure},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_LOOP_DE_LOOP,               iconCls: 'animation-motion_paths-loops',    displayValue: this.textLoopDeLoop},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'animation-motion_paths-custom_path',    displayValue: this.textCustomPath}
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_LOOP_DE_LOOP,               iconCls: 'animation-motion_paths-loops',    displayValue: this.textLoopDeLoop}//,
+                    //{group: 'menu-effect-group-path',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'animation-motion_paths-custom_path',    displayValue: this.textCustomPath}
                 ];
             },
 

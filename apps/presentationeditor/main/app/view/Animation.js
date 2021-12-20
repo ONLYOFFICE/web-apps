@@ -477,9 +477,9 @@ define([
                 return this.lockedControls;
             },
 
-            setMenuParameters: function (effectId, option)
+            setMenuParameters: function (effectId, effectGroup, option)
             {
-                var effect = _.findWhere(this.allEffects, {value: effectId});
+                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
                 var arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
                 if(!arrEffectOptions) {
                     this.btnParameters.menu.removeAll();
