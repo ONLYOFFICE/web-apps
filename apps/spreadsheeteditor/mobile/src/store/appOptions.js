@@ -11,6 +11,7 @@ export class storeAppOptions {
 
             lostEditingRights: observable,
             changeEditingRights: action,
+            canBranding: observable,
 
             isDocReady: observable,
             changeDocReady: action
@@ -25,6 +26,7 @@ export class storeAppOptions {
         this.canViewComments = value;
     }
 
+    canBranding = undefined;
     lostEditingRights = false;
     changeEditingRights (value) {
         this.lostEditingRights = value;
@@ -76,6 +78,8 @@ export class storeAppOptions {
     setPermissionOptions (document, licType, params, permissions, isSupportEditFeature) {
         if (params.asc_getRights() !== Asc.c_oRights.Edit)
             permissions.edit = false;
+        this.canBranding = params.asc_getCustomization();
+        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
         this.canAutosave = true;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -98,8 +102,6 @@ export class storeAppOptions {
         this.trialMode = params.asc_getLicenseMode();
         this.canDownloadOrigin = permissions.download !== false;
         this.canDownload = permissions.download !== false;
-        this.canBranding = params.asc_getCustomization();
-        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
         this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
