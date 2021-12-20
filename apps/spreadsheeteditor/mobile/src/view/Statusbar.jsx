@@ -1,11 +1,56 @@
-import React, { Fragment } from 'react';
-import { View, Link, Icon, Popover, List, ListButton, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
+import React, { Fragment, useState } from 'react';
+import { View, Link, Icon, Popover, List, ListItem, ListButton, Actions, ActionsGroup, ActionsButton, Sheet, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
 
 const viewStyle = {
     height: 30
+};
+
+const MoveMenuActions = (props) => {
+    const { t } = useTranslation();
+    let { opened, setOpenActions, onMenuMoveClick, visibleSheets } = props;
+
+    return (
+        <Actions className="actions-move-sheet" opened={opened} onActionsClosed={() => setOpenActions(false)}>
+            <ActionsGroup>
+                <ActionsButton className={visibleSheets[0]?.active ? 'disabled' : ''} onClick={() => onMenuMoveClick("back")}>
+                    {t('Statusbar.textMoveBack')}
+                </ActionsButton>
+                <ActionsButton className={visibleSheets[visibleSheets.length - 1]?.active ? 'disabled' : ''} onClick={() => onMenuMoveClick("forward")}> 
+                    {t('Statusbar.textMoveForward')}
+                </ActionsButton>
+            </ActionsGroup>
+            <ActionsGroup>
+                <ActionsButton>{t('Statusbar.textCancel')}</ActionsButton>
+            </ActionsGroup>
+        </Actions>
+    )
+}
+
+const PageListMove = props => {
+    const { sheets, onMenuMoveClick } = props;
+    const allSheets = sheets.sheets;
+    const visibleSheets = sheets.visibleWorksheets();
+    const [stateActionsOpened, setOpenActions] = useState(false);
+
+    return (
+        <Page>
+            <List>
+                { allSheets.map(model => 
+                    model.hidden ? null : 
+                    <ListItem className={model.active ? '' : 'disabled'} key={model.name} title={model.name}>
+                        <div slot='after'
+                        onClick={() => setOpenActions(true) }>
+                            <Icon icon='icon-menu-comment'/>
+                        </div>
+                    </ListItem>)
+                }
+            </List>
+            <MoveMenuActions opened={stateActionsOpened} setOpenActions={setOpenActions} onMenuMoveClick={onMenuMoveClick} visibleSheets={visibleSheets}/>
+        </Page>
+    )
 };
 
 const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(props => {
@@ -63,6 +108,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                             <ListButton title={_t.textDelete} onClick={() => props.onTabMenu('del')} />
                             <ListButton title={_t.textRename} onClick={() => props.onTabMenu('ren')} />
                             <ListButton title={_t.textHide} onClick={() => props.onTabMenu('hide')} />
+                            <ListButton title={_t.textMove} onClick={() => props.onTabMenu('move')} />
                             {hiddenSheets.length ? (
                                 <ListButton title={_t.textUnhide} onClick={() => props.onTabMenu('unhide')} />
                             ) : null}
@@ -75,6 +121,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                     <ActionsGroup>
                         <ActionsButton onClick={() => props.onTabMenu('ren')}>{_t.textRename}</ActionsButton>
                         <ActionsButton onClick={() => props.onTabMenu('hide')}>{_t.textHide}</ActionsButton>
+                        <ActionsButton onClick={() => props.onTabMenu('move')}>{_t.textMove}</ActionsButton>
                         {hiddenSheets.length ? (
                             <ActionsButton onClick={() => props.onTabMenu('unhide')}>{_t.textUnhide}</ActionsButton>
                         ) : null}
@@ -84,6 +131,18 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                     </ActionsGroup> 
                 </Actions>
             ) : null}
+            {isPhone ? 
+                <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true} backdrop={false}>
+                    <div className='swipe-container'>
+                        <Icon icon='icon-swipe'/>
+                    </div>
+                    <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
+                </Sheet>
+                :
+                <Popover style={{height: '420px'}} id="idx-move-sheet-popover" closeByOutsideClick={false}>
+                    <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
+                </Popover>
+            }
             {hiddenSheets.length ? (
                 <Popover id="idx-hidden-sheets-popover"
                     className="document-menu"
