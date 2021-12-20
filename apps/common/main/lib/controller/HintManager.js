@@ -567,9 +567,9 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            var isAlt = e.keyCode == Common.UI.Keys.ALT;
+            var isAlt = e.altKey;
             _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
-            if (isAlt) {
+            if (isAlt && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });
