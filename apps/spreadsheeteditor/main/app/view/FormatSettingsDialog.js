@@ -321,7 +321,7 @@ define([
                 if (this._state.hasSeparator)
                     this.chSeparator.setValue(props.formatInfo.asc_getSeparator());
                 if (this._state.hasSymbols)
-                    this.cmbSymbols.setValue(props.formatInfo.asc_getCurrencySymbol() || props.formatInfo.asc_getSymbol());
+                    this.cmbSymbols.setValue(props.formatInfo.asc_getSymbol() || props.formatInfo.asc_getCurrencySymbol());
 
                 if (props.format) {
                     if (this._state.hasNegative) {
@@ -483,7 +483,7 @@ define([
                 me = this,
                 valDecimal = (initFormatInfo) ? initFormatInfo.asc_getDecimalPlaces() : this.spnDecimal.getNumberValue(),
                 valSeparator = (initFormatInfo) ? initFormatInfo.asc_getSeparator() : (this.chSeparator.getValue()=='checked'),
-                valSymbol = (initFormatInfo) ? (initFormatInfo.asc_getCurrencySymbol() || initFormatInfo.asc_getSymbol()) : this.langId;
+                valSymbol = (initFormatInfo) ? (initFormatInfo.asc_getSymbol() || initFormatInfo.asc_getCurrencySymbol()) : this.langId;
 
             if (record.value !== Asc.c_oAscNumFormatType.Custom) {
                 var info = new Asc.asc_CFormatCellsInfo();
