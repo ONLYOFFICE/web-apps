@@ -53,6 +53,7 @@ define([
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/controller/Transitions',
+    'presentationeditor/main/app/controller/Animation',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/HeaderFooterDialog',
@@ -2485,7 +2486,7 @@ define([
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
-                me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.addTab(tab, $panel, 4);
                 me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
             }
 
@@ -2500,6 +2501,9 @@ define([
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
+
+                var animationController = me.getApplication().getController('Animation');
+                animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
@@ -2521,7 +2525,7 @@ define([
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)
-                            me.toolbar.addTab(tab, $panel, 4);
+                            me.toolbar.addTab(tab, $panel, 5);
                     }
                 }
             }

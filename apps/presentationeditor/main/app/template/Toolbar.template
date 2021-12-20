@@ -218,6 +218,64 @@
                     </div>
                 </div>
             </section>
+            <section id="animation-panel" class="panel" data-tab="animate">
+                <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 140px;" data-group-width="700px"></div>
+
+                <div class="group small">
+                    <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <span class="btn-slot text " id="animation-button-add-effect"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                     <span class="btn-slot text" id="animation-button-preview"></span>
+                    <!--<div class="elset">
+                        <span class="btn-slot text " id="animation-button-pane"></span>
+                    </div>-->
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset font-normal">
+                        <label id="animation-label-start"></label>
+                        <div class="btn-slot" style="width: 96px; " id="animation-start"></div>
+                    </div>
+                    <div class="elset font-normal">
+                         <label id="animation-delay"></label>
+                         <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset font-normal">
+                        <label id="animation-duration"></label>
+                        <span id="animation-spin-duration" class="btn-slot text spinner" ></span>
+                    </div>
+                    <div class="elset font-normal">
+                        <div class="btn-slot" style="width: 82px;" id="animation-trigger"></div>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset font-normal">
+                        <label id="animation-repeat"></label>
+                        <span id="animation-spin-repeat" class="btn-slot text spinner" ></span>
+                    </div>
+                    <div class="elset font-normal">
+                         <span class="btn-slot text" id="animation-checkbox-rewind"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small" style="width: 120px; min-width: 100px;">
+                    <div class="elset">
+                        <div class="btn-slot" id="animation-moveearlier"></div>
+                    </div>
+                    <div class="elset font-normal">
+                        <div class="btn-slot" id="animation-movelater"></div>
+                    </div>
+                </div>
+            </section>
         </section>
     </section>
 </div>

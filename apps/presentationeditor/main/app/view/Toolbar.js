@@ -86,7 +86,14 @@ define([
         noColumns: 'no-columns',
         transitLock: 'transit-lock',
         inSmartart: 'in-smartart',
-        inSmartartInternal: 'in-smartart-internal'
+        inSmartartInternal: 'in-smartart-internal',
+        noGraphic: 'no-graphic',
+        noAnimation: 'no-animation',
+        noAnimationParam: 'no-animation-params',
+        noTriggerObjects: 'no-trigger-objects',
+        noMoveAnimationEarlier: 'no-move-animation-earlier',
+        noMoveAnimationLater: 'no-move-animation-later',
+        noAnimationPreview: 'no-animation-preview'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -135,6 +142,7 @@ define([
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
                                 {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'},
+                                {caption: me.textTabAnimation, action: 'animate', extcls: 'canedit'},
                                 undefined, undefined,
                                 {caption: me.textTabView, action: 'view', extcls: 'canedit', layoutname: 'toolbar-view', dataHintTitle: 'W'}
                             ]
@@ -1972,6 +1980,7 @@ define([
             tipHighlightColor: 'Highlight color',
             txtScheme22: 'New Office',
             textTabTransitions: 'Transitions',
+            textTabAnimation: 'Animation',
             textRecentlyUsed: 'Recently Used',
             txtDuplicateSlide: 'Duplicate Slide',
             tipNumCapitalLetters: 'A. B. C.',
