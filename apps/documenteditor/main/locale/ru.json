@@ -884,6 +884,7 @@
   "DE.Controllers.Statusbar.textTrackChanges": "Документ открыт при включенном режиме отслеживания изменений",
   "DE.Controllers.Statusbar.tipReview": "Отслеживать изменения",
   "DE.Controllers.Statusbar.zoomText": "Масштаб {0}%",
+  "DE.Controllers.Statusbar.textDisconnect": "<b>Соединение потеряно</b><br>Пытаемся восстановить соединение. Проверьте параметры подключения.",
   "DE.Controllers.Toolbar.confirmAddFontName": "Шрифт, который вы хотите сохранить, недоступен на этом устройстве.<br>Стиль текста будет отображаться с помощью одного из системных шрифтов. Сохраненный шрифт будет использоваться, когда он станет доступен.<br>Вы хотите продолжить?",
   "DE.Controllers.Toolbar.dataUrl": "Вставьте URL-адрес данных",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Внимание",
