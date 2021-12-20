@@ -325,7 +325,7 @@ define([
                                 item = store.add(new Common.UI.DataViewModel({
                                     group: group.get('id'),
                                     value: this._state.Effect,
-                                    iconCls: 'transition-push',
+                                    iconCls: group.get('iconClsCustom'),
                                     displayValue: rec ? rec.displayValue : '',
                                     isCustom: true
                                 }), {at:index+1});
