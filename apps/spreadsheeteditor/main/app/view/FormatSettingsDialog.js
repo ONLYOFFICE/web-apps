@@ -222,7 +222,8 @@ define([
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true,
-                takeFocusOnClose: true
+                takeFocusOnClose: true,
+                search: true
             });
             this.cmbSymbols.on('selected', _.bind(this.onSymbolsSelect, this));
 
