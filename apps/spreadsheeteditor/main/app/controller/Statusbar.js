@@ -824,7 +824,8 @@ define([
                     text    : this.textDisconnect,
                     placement: 'top',
                     position: this.statusbar.isVisible() ? undefined : {bottom: 0},
-                    showLink: false
+                    showLink: false,
+                    style: 'max-width: 310px;'
                 });
                 this.disconnectTip.on({
                     'closeclick': function() {
@@ -848,6 +849,6 @@ define([
         strSheet        : 'Sheet',
         textSheetViewTip: 'You are in Sheet View mode. Filters and sorting are visible only to you and those who are still in this view.',
         textSheetViewTipFilters: 'You are in Sheet View mode. Filters are visible only to you and those who are still in this view.',
-        textDisconnect: '<b>Connection is lost</b><br>Please check connection settings.'
+        textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.'
     }, SSE.Controllers.Statusbar || {}));
 });

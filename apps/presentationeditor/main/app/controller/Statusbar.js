@@ -246,7 +246,8 @@ define([
                     text    : this.textDisconnect,
                     placement: 'top',
                     position: this.statusbar.isVisible() ? undefined : {bottom: 0},
-                    showLink: false
+                    showLink: false,
+                    style: 'max-width: 310px;'
                 });
                 this.disconnectTip.on({
                     'closeclick': function() {
@@ -264,7 +265,7 @@ define([
         },
 
         zoomText        : 'Zoom {0}%',
-        textDisconnect: '<b>Connection is lost</b><br>Please check connection settings.'
+        textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.'
 
     }, PE.Controllers.Statusbar || {}));
 });
