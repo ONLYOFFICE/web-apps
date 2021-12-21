@@ -526,10 +526,11 @@ define([
                     more_section_width = parseInt(more_section.css('width')) || 0,
                     boxpanels_offset = this.$boxpanels.offset(),
                     boxpanels_outer_width = this.$boxpanels.outerWidth(),
+                    boxpanels_width = boxpanels_outer_width,
                     boxpanels_inner_width = this.$boxpanels.width(),
-                    boxpanels_width = more_section.is(':visible') ? boxpanels_outer_width - more_section_width : boxpanels_inner_width, // more section has absolute position -> use outer width
-                    delta = (this._prevBoxWidth) ? (boxpanels_inner_width - this._prevBoxWidth) : -1;
-                this._prevBoxWidth = boxpanels_inner_width;
+                    delta = (this._prevBoxWidth) ? (boxpanels_outer_width - this._prevBoxWidth) : -1;
+                this._prevBoxWidth = boxpanels_outer_width;
+                more_section.is(':visible') && (boxpanels_width -= more_section_width); // more section has absolute position -> use outer width
 
                 var boxpanels_right = boxpanels_offset.left + boxpanels_width;
 
@@ -659,7 +660,6 @@ define([
                                 }
 
                                 var item_width = parseInt(item.attr('inner-width') || 0);
-                                var children = item.children();
                                 if (active_width + last_width + item_width < boxpanels_width && item.attr('group-state') != 'open') {
                                     // move group
                                     more_section.before(item);
@@ -670,8 +670,9 @@ define([
                                         this.hideMoreBtns();
                                         more_section.css('display', "none");
                                     }
-                                } else if ( active_width + last_width < boxpanels_width && children.length>1 ) { // if only one child in group - don't move child. try to move whole group
+                                } else if ( active_width + last_width < boxpanels_width) { 
                                     // move buttons from group
+                                    var children = item.children();
                                     boxpanels_width = boxpanels_outer_width - more_section_width;
                                     for (var j=0; j<children.length; j++) {
                                         if (islast && j==children.length-1)
