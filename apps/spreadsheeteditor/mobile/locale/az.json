@@ -154,7 +154,9 @@
       "warnLicenseUsersExceeded": "1% redaktor üçün istifadəçi limitinə çatdınız. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
       "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
-      "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur."
+      "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textOk": "Ok"
     }
   },
   "Error": {

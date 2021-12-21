@@ -54,9 +54,6 @@ define([
                 me.btnNavigation.on('click', function (btn, e) {
                     me.fireEvent('viewtab:navigation', [btn.pressed]);
                 });
-                me.cmbZoom.on('selected', function (combo, record) {
-                    me.fireEvent('zoom:value', [record.value]);
-                });
                 me.btnFitToPage.on('click', function () {
                     me.fireEvent('zoom:topage');
                 });
@@ -75,6 +72,8 @@ define([
                 me.btnDarkDocument.on('click', _.bind(function () {
                     me.fireEvent('darkmode:change');
                 }, me));
+                me.cmbZoom.on('combo:focusin', _.bind(this.onComboOpen, this, false));
+                me.cmbZoom.on('show:after', _.bind(this.onComboOpen, this, true));
             },
 
             initialize: function (options) {
@@ -104,7 +103,7 @@ define([
                     el: $host.find('#slot-field-zoom'),
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
-                    editable: false,
+                    editable: true,
                     disabled: true,
                     data: [
                         { displayValue: "50%", value: 50 },
@@ -171,7 +170,7 @@ define([
                 this.btnDarkDocument = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-dark-document'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon night',
+                    iconCls: 'toolbar__icon dark-mode',
                     caption: this.textDarkDocument,
                     enableToggle: true,
                     disabled: true,
@@ -240,6 +239,14 @@ define([
 
             turnNavigation: function (state) {
                 this.btnNavigation && this.btnNavigation.toggle(state, true);
+            },
+
+            onComboOpen: function (needfocus, combo) {
+                _.delay(function() {
+                    var input = $('input', combo.cmpEl).select();
+                    if (needfocus) input.focus();
+                    else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+                }, 10);
             },
 
             textNavigation: 'Navigation',

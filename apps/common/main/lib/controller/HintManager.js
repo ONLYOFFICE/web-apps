@@ -116,7 +116,8 @@ Common.UI.HintManager = new(function() {
         _isLockedKeyEvents = false,
         _inputTimer,
         _isDocReady = false,
-        _isEditDiagram = false;
+        _isEditDiagram = false,
+        _usedTitles = [];
 
     var _api;
 
@@ -195,10 +196,21 @@ Common.UI.HintManager = new(function() {
     };
 
     var _getLetters = function(countButtons) {
-        var arr = _arrAlphabet.slice();
-        arr[0] = _arrAlphabet[0] + _arrAlphabet[0];
-        for (var i = 1; arr.length < countButtons; i++) {
-            arr.push(_arrAlphabet[0] + _arrAlphabet[i]);
+        var arr = _arrAlphabet.slice(),
+            firstFreeLetter,
+            ind;
+        for (var i = 0; i < _arrAlphabet.length, !firstFreeLetter; i++) {
+            if (_usedTitles.indexOf(_arrAlphabet[i]) === -1) {
+                firstFreeLetter = _arrAlphabet[i];
+                ind = i;
+            }
+        }
+        arr[ind] = firstFreeLetter + _arrAlphabet[0];
+        for (var i = 0; arr.length < countButtons; i++) {
+            var addTip = firstFreeLetter + _arrAlphabet[i];
+            if (addTip !== arr[ind]) {
+                arr.push(firstFreeLetter + _arrAlphabet[i]);
+            }
         }
         return arr;
     };
@@ -209,6 +221,7 @@ Common.UI.HintManager = new(function() {
 
     var _getControls = function() {
         _currentControls = [];
+        _usedTitles = [];
         var arr = [],
             arrItemsWithTitle = [];
         if (_.isArray(_currentSection)) {
@@ -249,6 +262,14 @@ Common.UI.HintManager = new(function() {
         }
         var _arrLetters = [];
         if (visibleItems.length > _arrAlphabet.length) {
+            visibleItemsWithTitle.forEach(function (item) {
+                var t = $(item).data('hint-title').toLowerCase();
+                if (_arrAlphabet.indexOf(t) === -1) {
+                    var ind = _arrEnAlphabet.indexOf(t);
+                    t = _arrAlphabet[ind];
+                }
+                _usedTitles.push(t);
+            });
             _arrLetters = _getLetters(visibleItems.length);
         } else {
             _arrLetters = _arrAlphabet.slice();
@@ -567,9 +588,9 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            var isAlt = e.keyCode == Common.UI.Keys.ALT;
+            var isAlt = e.altKey;
             _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
-            if (isAlt) {
+            if (isAlt && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });

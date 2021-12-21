@@ -50,7 +50,7 @@ define([
             },
 
             template: _.template([
-                '<div class="synch-tip-root <% if (!!scope.options.extCls) {print(scope.options.extCls + \" \");} %><%= scope.placement %>">',
+                '<div class="synch-tip-root <% if (!!scope.options.extCls) {print(scope.options.extCls + \" \");} %><%= scope.placement %>" style="<%= scope.style %>">',
                     '<div class="asc-synchronizetip">',
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
@@ -82,6 +82,7 @@ define([
                 this.closable = this.options.closable;
                 this.textButton = this.options.textButton || '';
                 this.position = this.options.position; // show in the position relative to target
+                this.style = this.options.style || '';
             },
 
             render: function() {

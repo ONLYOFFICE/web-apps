@@ -154,7 +154,9 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textOk": "Ok"
     }
   },
   "Error": {

@@ -103,6 +103,7 @@ define([
                 this.api.asc_registerCallback('asc_onCountPages',            this.onCountPages.bind(this));
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
+                this.api.asc_registerCallback('asc_onZoomChange',           this.onApiZoomChange.bind(this));
 
                 // Initialize api gateway
                 Common.Gateway.on('init',               this.loadConfig.bind(this));
@@ -1392,6 +1393,30 @@ define([
         onThemeClick: function(menu, item) {
             (item.value!==null) && Common.UI.Themes.setTheme(item.value);
         },
+        onApiZoomChange: function(percent, type) {
+            this.view.mnuZoom.items[0].setChecked(type == 2, true);
+            this.view.mnuZoom.items[1].setChecked(type == 1, true);
+            this.view.mnuZoom.options.value = percent;
+
+            if ( this.view.mnuZoom.$el )
+                $('.menu-zoom label.zoom', this.view.mnuZoom.$el).html(percent + '%');
+        },
+
+        onMenuZoomClick: function(menu, item, e){
+            switch ( item.value ) {
+                case 'zoom:page':
+                    item.isChecked() ? this.api.zoomFitToPage() : this.api.zoomCustomMode();
+                    break;
+                case 'zoom:width':
+                    item.isChecked() ? this.api.zoomFitToWidth() : this.api.zoomCustomMode();
+                    break;
+            }
+
+        },
+        onBtnZoom: function (btn, e) {
+            btn == 'up' ? this.api.zoomIn() : this.api.zoomOut();
+            e.stopPropagation();
+        },
 
         onDarkModeClick: function(item) {
             Common.UI.Themes.toggleContentTheme();
@@ -1438,20 +1463,20 @@ define([
                 else
                     last = menuItems[5];
 
-                // theme
-                if (!menuItems[6].isVisible())
-                    menuItems[7].setVisible(false);
+                // theme and zoom
+                if (!menuItems[6].isVisible() && !menuItems[7].isVisible())
+                    menuItems[8].setVisible(false);
                 else
-                    last = menuItems[7];
+                    last = menuItems[8];
 
                 // share, location
-                if (!menuItems[8].isVisible() && !menuItems[9].isVisible())
-                    menuItems[10].setVisible(false);
+                if (!menuItems[9].isVisible() && !menuItems[10].isVisible())
+                    menuItems[11].setVisible(false);
                 else
-                    last = menuItems[10];
+                    last = menuItems[11];
 
                 // embed, fullscreen
-                if (!menuItems[11].isVisible() && !menuItems[12].isVisible())
+                if (!menuItems[12].isVisible() && !menuItems[13].isVisible())
                     last && last.setVisible(false);
 
                 menu.off('show:after', initMenu);
@@ -1504,22 +1529,22 @@ define([
             }
 
             if ( !this.embedConfig.shareUrl || this.appOptions.isOFORM) {
-                menuItems[8].setVisible(false);
-                itemsCount--;
-            }
-
-            if (!this.appOptions.canBackToFolder) {
                 menuItems[9].setVisible(false);
                 itemsCount--;
             }
 
+            if (!this.appOptions.canBackToFolder) {
+                menuItems[10].setVisible(false);
+                itemsCount--;
+            }
+
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
-                menuItems[11].setVisible(false);
+                menuItems[12].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.fullscreenUrl || this.appOptions.isOFORM) {
-                menuItems[12].setVisible(false);
+                menuItems[13].setVisible(false);
                 itemsCount--;
             }
             if (itemsCount<1)
@@ -1546,7 +1571,11 @@ define([
             // zoom
             $('#id-btn-zoom-in').on('click', this.api.zoomIn.bind(this.api));
             $('#id-btn-zoom-out').on('click', this.api.zoomOut.bind(this.api));
+            $('#id-menu-zoom-in').on('click', _.bind(this.onBtnZoom, this,'up'));
+            $('#id-menu-zoom-out').on('click', _.bind(this.onBtnZoom, this,'down'));
             this.view.btnOptions.menu.on('item:click', _.bind(this.onOptionsClick, this));
+            this.view.mnuZoom.on('item:click', _.bind(this.onMenuZoomClick, this));
+
 
             // pages
             var $pagenum = this.view.txtGoToPage._input;

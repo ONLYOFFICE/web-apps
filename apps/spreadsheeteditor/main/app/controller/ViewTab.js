@@ -85,6 +85,9 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
+                    'zoom:selected': _.bind(this.onSelectedZoomValue, this),
+                    'zoom:changedbefore': _.bind(this.onZoomChanged, this),
+                    'zoom:changedafter': _.bind(this.onZoomChanged, this),
                     'viewtab:freeze': this.onFreeze,
                     'viewtab:freezeshadow': this.onFreezeShadow,
                     'viewtab:formula': this.onViewSettings,
@@ -151,11 +154,34 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onZoom: function(zoom) {
-            if (this.api) {
-                this.api.asc_setZoom(zoom/100);
-            }
+        applyZoom: function (value) {
+            var val = Math.max(25, Math.min(500, value));
+            this.api.asc_setZoom(val/100);
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onSelectedZoomValue: function (combo, record) {
+            this.applyZoom(record.value);
+        },
+
+        onZoomChanged: function (before, combo, record, e) {
+            var value = parseFloat(record.value);
+            if (this._state.zoomValue === undefined) {
+                this._state.zoomValue = 100;
+            }
+            if (before) {
+                var expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(%)?\\s*$');
+                if (!expr.exec(record.value)) {
+                    this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                }
+            } else {
+                if (this._state.zoomValue !== value && !isNaN(value)) {
+                    this.applyZoom(value);
+                } else if (record.value !== this._state.zoomValue + '%') {
+                    this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
+                }
+            }
         },
 
         onViewSettings: function(type, value){
@@ -245,8 +271,10 @@ define([
         },
 
         onApiZoomChange: function(zf, type){
+            console.log('zoom');
             var value = Math.floor((zf + .005) * 100);
             this.view.cmbZoom.setValue(value, value + '%');
+            this._state.zoomValue = value;
         },
 
         onThemeChanged: function () {

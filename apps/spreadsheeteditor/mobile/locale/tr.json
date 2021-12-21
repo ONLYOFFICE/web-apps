@@ -154,7 +154,9 @@
       "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok."
+      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textOk": "Ok"
     }
   },
   "Error": {

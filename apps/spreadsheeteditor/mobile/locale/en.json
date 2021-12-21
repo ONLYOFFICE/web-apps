@@ -154,7 +154,9 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnProcessRightsChange": "You don't have permission to edit the file.",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textOk": "Ok"
     }
   },
   "Error": {
@@ -288,6 +290,9 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {

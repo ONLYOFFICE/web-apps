@@ -1,0 +1,52 @@
+#animation-panel  {
+  label {
+    margin-right: 10px;
+  }
+
+}
+.a-table{
+  display: table;
+  width: 100%;
+}
+.a-tr{
+  display: table-row;
+  height: 20px;
+  border-top: 2px solid transparent;
+  &.bottom {
+    border-top: 4px solid transparent;
+  }
+  .a-td
+  {
+    display: table-cell;
+  }
+}
+
+.combo-animation {
+  .menu-picker-container .dataview {
+    padding: 10px 0 0 2px;
+  }
+  .dropdown-menu {
+    padding-bottom: 5px;
+  }
+}
+
+.menu-animation .dataview {
+  padding: 0 0 0 2px;
+
+  .group-description {
+    padding: 3px 0 3px 10px;
+    font-weight: bold;
+  }
+
+  .group-items-container {
+    float: left;
+    position: relative;
+    .item {
+        box-shadow: none;
+        margin: @scaled-two-px-value 0 0 @scaled-two-px-value;
+        &:last-child {
+          margin-bottom: @scaled-two-px-value;
+        }
+      }
+  }
+}
