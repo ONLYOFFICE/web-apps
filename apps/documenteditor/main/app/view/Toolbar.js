@@ -1311,7 +1311,7 @@ define([
                         cls: 'combo-styles',
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
-                        style: 'min-width:145px;',
+                        style: 'min-width:150px;',
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
