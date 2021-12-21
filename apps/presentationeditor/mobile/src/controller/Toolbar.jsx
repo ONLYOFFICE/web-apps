@@ -4,7 +4,7 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects', 'storeToolbarSettings')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
 
@@ -20,9 +20,14 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
     const isCanUndo = storeToolbarSettings.isCanUndo;
     const isCanRedo = storeToolbarSettings.isCanRedo;
     const disabledPreview = storeToolbarSettings.countPages <= 0;
+    const disabledControls = storeToolbarSettings.disabledControls;
+    const disabledEditControls = storeToolbarSettings.disabledEditControls;
+    const disabledSettings = storeToolbarSettings.disabledSettings;
+
+    const docInfo = props.storePresentationInfo;
+    const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
 
     useEffect(() => {
-        Common.Notifications.on('setdoctitle', setDocTitle);
         Common.Gateway.on('init', loadConfig);
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
@@ -35,24 +40,19 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
         }
 
         return () => {
-            Common.Notifications.off('setdoctitle', setDocTitle);
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
         }
     });
 
-    const [docTitle, resetDocTitle] = useState('');
-    const setDocTitle = (title) => {
-        resetDocTitle(title);
-    }
-
     // Back button
-    const [isShowBack, setShowBack] = useState(false);
+    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose)) {
+            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
+        {
             setShowBack(true);
         }
     };
@@ -108,21 +108,17 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
         }
     }
 
-    const [disabledEditControls, setDisabledEditControls] = useState(false);
-    const [disabledSettings, setDisabledSettings] = useState(false);
     const deactivateEditControls = (enableDownload) => {
-        setDisabledEditControls(true);
+        storeToolbarSettings.setDisabledEditControls(true);
         if (enableDownload) {
             //DE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
         } else {
-            setDisabledSettings(true);
+            storeToolbarSettings.setDisabledSettings(true);
         }
     };
 
-
-    const [disabledControls, setDisabledControls] = useState(true);
     const activateControls = () => {
-        setDisabledControls(false);
+        storeToolbarSettings.setDisabledControls(false);
     };
 
     const onEditDocument = () => {

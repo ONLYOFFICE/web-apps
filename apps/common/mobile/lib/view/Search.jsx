@@ -97,10 +97,13 @@ class SearchView extends Component {
 
     componentDidMount(){
         this.$replace = $$('#idx-replace-val');
-
         const $editor = $$('#editor_sdk');
-        $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
-        $editor.on('pointerup', this.onEditorTouchEnd.bind(this));
+
+        this.onEditorTouchStart = this.onEditorTouchStart.bind(this);
+        this.onEditorTouchEnd = this.onEditorTouchEnd.bind(this);
+
+        $editor.on('pointerdown', this.onEditorTouchStart);
+        $editor.on('pointerup',   this.onEditorTouchEnd);
 
         if( !this.searchbar ) {
             this.searchbar = f7.searchbar.get('.searchbar');
@@ -123,11 +126,8 @@ class SearchView extends Component {
     }
 
     componentWillUnmount() {
-        const $$ = Dom7;
-        const $editor = $$('#editor_sdk');
-
-        $editor.off('pointerdown', this.onEditorTouchStart.bind(this));
-        $editor.off('pointerup', this.onEditorTouchEnd.bind(this));
+        $$('#editor_sdk').off('pointerdown', this.onEditorTouchStart)
+                        .off('pointerup', this.onEditorTouchEnd);
     }
 
     onSettingsClick(e) {
@@ -192,6 +192,7 @@ class SearchView extends Component {
     }
 
     onEditorTouchStart(e) {
+        console.log('taouch start');
         this.startPoint = this.pointerPosition(e);
     }
 
