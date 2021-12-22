@@ -70,6 +70,8 @@
 
         transition: transform 0.2s ease;
         transform: rotate(-135deg) translate(1px,1px);
+
+        margin: 0 1px 0 4px;
     }
 
     //&:active,
@@ -232,11 +234,16 @@
             padding: 0 2px;
             display: flex;
             align-items: center;
+            //align-items: start;
 
             .caption {
-                max-width: 107px;
+                //max-width: 107px;
                 text-overflow: ellipsis;
                 overflow: hidden;
+
+                white-space: pre-line;
+                line-height: 11px;
+                padding-right: 0;
             }
         }
 
@@ -267,7 +274,7 @@
 
         &.dropdown-toggle {
             .caption {
-                max-width: 100px;
+                //max-width: 100px;
             }
         }
     }

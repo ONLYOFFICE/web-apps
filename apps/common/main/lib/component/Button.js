@@ -210,8 +210,9 @@ define([
                     templateBtnIcon +
                 '</div>' +
                 '<div class="inner-box-caption">' +
-                    '<span class="caption"><%= caption %></span>' +
-                    '<i class="caret"></i>' +
+                    '<span class="caption"><%= caption %>' +
+                        '<i class="caret"></i>' +
+                    '</span>' +
                 '</div>' +
             '</button>' +
         '</div>';
