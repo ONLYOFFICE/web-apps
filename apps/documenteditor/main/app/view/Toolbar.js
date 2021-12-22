@@ -2653,8 +2653,7 @@ define([
             tipMarkersCheckmark: 'Checkmark bullets',
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
-            textTabView: 'View',
-            capBtnMore: 'More'
+            textTabView: 'View'
         }
     })(), DE.Views.Toolbar || {}));
 });
