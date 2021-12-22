@@ -1846,7 +1846,7 @@ define([
 
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
-                    if ( !!Common.UI.Themes.setTheme )
+                    if ( Common.UI.Themes && !!Common.UI.Themes.setTheme )
                         Common.UI.Themes.setTheme(param);
                 } else
                 if (/window:features/.test(cmd)) {
