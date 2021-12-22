@@ -1404,15 +1404,6 @@ define([
                             ]
                         });
                     }
-
-                    this.btnMore = new Common.UI.Button({
-                        id: 'tlbtn-more',
-                        cls: 'btn-toolbar x-huge icon-top dropdown-manual',
-                        caption: this.capBtnMore,
-                        iconCls: 'btn-insertchart',
-                        enableToggle: true
-                    });
-
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
                 } else {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
@@ -1565,7 +1556,6 @@ define([
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
-                _injectComponent('#slot-btn-more', this.btnMore);
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);

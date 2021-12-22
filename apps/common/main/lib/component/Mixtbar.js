@@ -521,30 +521,25 @@ define([
             },
 
             resizeToolbar: function(reset) {
-                var activePanel = this.$panels.filter('.active'),
-                    more_section = activePanel.find('.more-box'),
+                var $active = this.$panels.filter('.active'),
+                    more_section = $active.find('.more-box'),
                     more_section_width = parseInt(more_section.css('width')) || 0,
-                    boxpanels_offset = this.$boxpanels.offset(),
-                    boxpanels_outer_width = this.$boxpanels.outerWidth(),
-                    boxpanels_width = boxpanels_outer_width,
-                    boxpanels_inner_width = this.$boxpanels.width(),
-                    delta = (this._prevBoxWidth) ? (boxpanels_outer_width - this._prevBoxWidth) : -1;
-                this._prevBoxWidth = boxpanels_outer_width;
-                more_section.is(':visible') && (boxpanels_width -= more_section_width); // more section has absolute position -> use outer width
-
-                var boxpanels_right = boxpanels_offset.left + boxpanels_width;
+                    box_controls_width = $active.parents('.box-controls').width(),
+                    _maxright = box_controls_width,
+                    _rightedge = $active.get(0).getBoundingClientRect().right,
+                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1;
+                this._prevBoxWidth = _maxright;
+                more_section.is(':visible') && (_maxright -= more_section_width);
 
                 if (this.$moreBar && this.$moreBar.parent().is(':visible')) {
                     this.$moreBar.parent().css('max-width', Common.Utils.innerWidth());
                 }
 
-                if ((reset || delta<0) && activePanel.outerWidth() > boxpanels_width) { // from toolbar to more section
-                    if (!more_section.is(':visible')) {
+                if ( (reset || delta<0) && (_rightedge > _maxright)) { // from toolbar to more section
+                    if (!more_section.is(':visible') ) {
                         more_section.css('display', "");
-                        boxpanels_width = boxpanels_outer_width - parseInt(more_section.css('width')); // more section has absolute position -> use outer width
-                        boxpanels_right = boxpanels_offset.left + boxpanels_width;
+                        _maxright -= parseInt(more_section.css('width'));
                     }
-
                     var last_separator = null,
                         last_group = null,
                         prevchild = this.$moreBar.children();
@@ -555,12 +550,15 @@ define([
                         if (prevchild.hasClass('group') && prevchild.attr('group-state') == 'open')
                             last_group = prevchild;
                     }
-
-                    var items = activePanel.find('> div:not(.more-box)');
+                    var items = $active.find('> div:not(.more-box)');
                     var need_break = false;
                     for (var i=items.length-1; i>=0; i--) {
                         var item = $(items[i]);
                         if (item.hasClass('group')) {
+                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            if (_rightedge <= _maxright) // stop moving items
+                                break;
+
                             var offset = item.offset(),
                                 item_width = item.outerWidth(),
                                 children = item.children();
@@ -571,13 +569,13 @@ define([
                                     child.attr('inner-width', child.outerWidth());
                                 }
                             }
-                            if ((offset.left > boxpanels_right || children.length==1) && item.attr('group-state') != 'open') {
+                            if ((offset.left > _maxright || children.length==1) && item.attr('group-state') != 'open') {
                                 // move group
                                 this.$moreBar.prepend(item);
                                 if (last_separator) {
                                     last_separator.css('display', '');
                                 }
-                            } else if ( offset.left+item_width > boxpanels_right ) {
+                            } else if ( offset.left+item_width > _maxright ) {
                                 // move buttons from group
                                 for (var j=children.length-1; j>=0; j--) {
                                     var child = $(children[j]);
@@ -590,7 +588,7 @@ define([
                                     } else {
                                         var child_offset = child.offset(),
                                             child_width = child.outerWidth();
-                                        if (child_offset.left+child_width>boxpanels_right) {
+                                        if (child_offset.left+child_width>_maxright) {
                                             if (!last_group) {
                                                 last_group = $('<div></div>');
                                                 last_group.addClass(items[i].className);
@@ -632,7 +630,7 @@ define([
                 } else if ((reset || delta>0) && more_section.is(':visible')) {
                     var last_separator = null,
                         last_group = null,
-                        prevchild = activePanel.find('> div:not(.more-box)');
+                        prevchild = $active.find('> div:not(.more-box)');
                     var last_width = 0;
                     if (prevchild.length>0) {
                         prevchild = $(prevchild[prevchild.length-1]);
@@ -645,22 +643,20 @@ define([
                     }
 
                     var items = this.$moreBar.children();
-                    var active_width = activePanel.outerWidth();
-
                     if (items.length>0) {
                         // from more panel to toolbar
                         for (var i=0; i<items.length; i++) {
                             var item = $(items[i]);
-                            active_width = activePanel.outerWidth();
+                            _rightedge = $active.get(0).getBoundingClientRect().right;
                             if (item.hasClass('group')) {
                                 var islast = false;
                                 if (this.$moreBar.children().filter('.group').length == 1) {
-                                    boxpanels_width = boxpanels_inner_width; // try to move last group
+                                    _maxright = box_controls_width; // try to move last group
                                     islast = true;
                                 }
 
                                 var item_width = parseInt(item.attr('inner-width') || 0);
-                                if (active_width + last_width + item_width < boxpanels_width && item.attr('group-state') != 'open') {
+                                if (_rightedge + last_width + item_width < _maxright && item.attr('group-state') != 'open') {
                                     // move group
                                     more_section.before(item);
                                     if (last_separator) {
@@ -670,21 +666,21 @@ define([
                                         this.hideMoreBtns();
                                         more_section.css('display', "none");
                                     }
-                                } else if ( active_width + last_width < boxpanels_width) { 
+                                } else if ( _rightedge + last_width < _maxright) {
                                     // move buttons from group
                                     var children = item.children();
-                                    boxpanels_width = boxpanels_outer_width - more_section_width;
+                                    _maxright = box_controls_width - more_section_width;
                                     for (var j=0; j<children.length; j++) {
                                         if (islast && j==children.length-1)
-                                            boxpanels_width = boxpanels_inner_width; // try to move last item from last group
-                                        active_width = activePanel.outerWidth();
+                                             _maxright = box_controls_width; // try to move last item from last group
+                                        _rightedge = $active.get(0).getBoundingClientRect().right;
                                         var child = $(children[j]);
                                         if (child.hasClass('elset')) { // don't add group - no enough space
                                             need_break = true;
                                             break;
                                         } else {
-                                            var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? 6 : 0);
-                                            if (active_width+last_width+child_width<boxpanels_width) {
+                                            var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? parseInt(item.css('padding-left')) : 0); // if new group is started add left-padding
+                                            if (_rightedge+last_width+child_width < _maxright) {
                                                 if (!last_group) {
                                                     last_group = $('<div></div>');
                                                     last_group.addClass(items[i].className);
@@ -693,7 +689,7 @@ define([
                                                         last_group.attr(attrs[k].name, attrs[k].value);
                                                     }
                                                     if (last_group.hasClass('flex')) { // need to update flex groups list
-                                                        activePanel.data().flex = null;
+                                                        $active.data().flex = null;
                                                     }
                                                     more_section.before(last_group);
                                                     if (last_separator) {

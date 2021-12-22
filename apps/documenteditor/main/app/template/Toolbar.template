@@ -27,7 +27,7 @@
             </div>
             <div class="separator long"></div>
         </section>
-        <section class="box-panels" style="overflow: hidden;">
+        <section class="box-panels">
             <section class="panel" data-tab="home">
                 <div class="group small">
                     <div class="elset" style="width:208px;">
@@ -217,12 +217,6 @@
                     <div class="elset"></div>
                 </div>
             </section>
-        </section>
-        <section class="panel static" style="display: none;">
-            <div class="separator long"></div>
-            <div class="group">
-                <span class="btn-slot text x-huge" id="slot-btn-more"></span>
-            </div>
         </section>
     </section>
 </div>
