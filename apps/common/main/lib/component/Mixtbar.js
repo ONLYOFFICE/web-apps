@@ -506,7 +506,7 @@ define([
                     panel.append(box);
                     btnsMore[tab] = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
-                        caption: 'More',
+                        caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
                         iconCls: 'toolbar__icon btn-insertchart',
                         enableToggle: true
                     });

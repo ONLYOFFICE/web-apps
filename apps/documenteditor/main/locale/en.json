@@ -124,6 +124,7 @@
   "Common.Translation.warnFileLocked": "You can't edit this file because it's being edited in another app.",
   "Common.Translation.warnFileLockedBtnEdit": "Create a copy",
   "Common.Translation.warnFileLockedBtnView": "Open for viewing",
+  "Common.Translation.textMoreButton": "More",
   "Common.UI.ButtonColored.textAutoColor": "Automatic",
   "Common.UI.ButtonColored.textNewColor": "Add New Custom Color",
   "Common.UI.Calendar.textApril": "April",
