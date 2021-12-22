@@ -142,6 +142,7 @@ define([
                     cls: 'combo-transitions',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
+                    style: 'min-width:110px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
@@ -221,7 +222,7 @@ define([
                 this.numDuration = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-duration'),
                     step: 1,
-                    width: 50,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -236,7 +237,7 @@ define([
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-delay'),
                     step: 1,
-                    width: 60,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,

@@ -543,7 +543,7 @@ define([
                     }
                     var last_separator = null,
                         last_group = null,
-                        prevchild = this.$moreBar.children();
+                        prevchild = this.$moreBar.children().filter("[data-hidden-tb-item!=true]");
                     if (prevchild.length>0) {
                         prevchild = $(prevchild[0]);
                         if (prevchild.hasClass('separator'))
@@ -555,7 +555,10 @@ define([
                     var need_break = false;
                     for (var i=items.length-1; i>=0; i--) {
                         var item = $(items[i]);
-                        if (item.hasClass('group')) {
+                        if (!item.is(':visible')) { // move invisible items as is and set special attr
+                            item.attr('data-hidden-tb-item', true);
+                            this.$moreBar.prepend(item);
+                        } else if (item.hasClass('group')) {
                             _rightedge = $active.get(0).getBoundingClientRect().right;
                             if (_rightedge <= _maxright) // stop moving items
                                 break;
@@ -649,7 +652,14 @@ define([
                         for (var i=0; i<items.length; i++) {
                             var item = $(items[i]);
                             _rightedge = $active.get(0).getBoundingClientRect().right;
-                            if (item.hasClass('group')) {
+                            if (!item.is(':visible') && item.attr('data-hidden-tb-item')) { // move invisible items as is
+                                item.removeAttr('data-hidden-tb-item');
+                                more_section.before(item);
+                                if (this.$moreBar.children().filter('.group').length == 0) {
+                                    this.hideMoreBtns();
+                                    more_section.css('display', "none");
+                                }
+                            } else if (item.hasClass('group')) {
                                 var islast = false;
                                 if (this.$moreBar.children().filter('.group').length == 1) {
                                     _maxright = box_controls_width; // try to move last group

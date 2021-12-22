@@ -169,6 +169,7 @@ define([
                     cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
+                    style: 'min-width:200px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
@@ -259,7 +260,7 @@ define([
                 this.numDuration = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-duration'),
                     step: 1,
-                    width: 52,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -304,7 +305,7 @@ define([
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-delay'),
                     step: 1,
-                    width: 52,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -318,7 +319,7 @@ define([
 
                 this.cmbStart = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
-                    menuStyle: 'width: 150px;',
+                    menuStyle: 'min-width: 100%;',
                     lock: [_set.slideDeleted,  _set.noSlides, _set.noGraphic, _set.noAnimation],
                     data: [
                         {value: AscFormat.NODE_TYPE_CLICKEFFECT, displayValue: this.textStartOnClick},
@@ -343,7 +344,7 @@ define([
                 this.numRepeat = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-repeat'),
                     step: 1,
-                    width: 88,
+                    width: 55,
                     value: '',
                     maxValue: 1000,
                     minValue: 0,
