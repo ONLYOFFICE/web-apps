@@ -177,6 +177,9 @@ define([
                     }
                 }
             });
+            Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
+                this.toolbar.collapse();
+            }, this));
 
             var me = this;
 

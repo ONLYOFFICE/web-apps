@@ -231,6 +231,9 @@ define([
 //            Common.NotificationCenter.on('menu:afterkeydown', _.bind(this.onAfterKeydownMenu, this));
             Common.NotificationCenter.on('style:commitsave', _.bind(this.onSaveStyle, this));
             Common.NotificationCenter.on('style:commitchange', _.bind(this.onUpdateStyle, this));
+            Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
+                this.toolbar.collapse();
+            }, this));
         },
 
         onLaunch: function() {
