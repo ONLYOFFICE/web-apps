@@ -497,6 +497,7 @@ define([
             },
 
             setMoreButton: function(tab, panel) {
+                var me = this;
                 if (!btnsMore[tab]) {
                     var box = $('<div class="more-box" style="position: absolute;right: 0; padding-left: 12px;padding-right: 6px;display: none;">' +
                         '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
@@ -511,7 +512,7 @@ define([
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));
                     btnsMore[tab].on('toggle', function(btn, state, e) {
-                        Common.NotificationCenter.trigger('more:toggle', btn, state);
+                        (state) ? me.onMoreShow(btn, e) : me.onMoreHide(btn, e);
                     });
                     var moreContainer = $('<div class="dropdown-menu more-container"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
@@ -732,6 +733,29 @@ define([
                         more_section.css('display', "none");
                     }
                 }
+            },
+
+            onMoreHide: function(btn, e) {
+                var moreContainer = btn.panel.parent();
+                if (btn.pressed) {
+                    btn.toggle(false, true);
+                }
+                if (moreContainer.is(':visible')) {
+                    moreContainer.hide();
+                    Common.NotificationCenter.trigger('edit:complete', this.toolbar, btn);
+                }
+            },
+
+            onMoreShow: function(btn, e) {
+                var moreContainer = btn.panel.parent(),
+                    parentxy = moreContainer.parent().offset(),
+                    target = btn.$el,
+                    showxy = target.offset(),
+                    right = Common.Utils.innerWidth() - (showxy.left - parentxy.left + target.width()),
+                    top = showxy.top - parentxy.top + target.height() + 10;
+
+                moreContainer.css({right: right, left: 'auto', top : top});
+                moreContainer.show();
             },
 
             hideMoreBtns: function() {
