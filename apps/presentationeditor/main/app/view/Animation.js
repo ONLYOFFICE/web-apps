@@ -215,8 +215,10 @@ define([
                     iconCls: 'toolbar__icon transition-fade',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview],
                     dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'medium'
+                    /*dataHintDirection: 'left',
+                    dataHintOffset: 'medium'*/
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnPreview);
 
@@ -352,8 +354,8 @@ define([
                     defaultUnit: '',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
                     dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintDirection: 'top',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.numRepeat);
 
@@ -481,8 +483,10 @@ define([
 
             setMenuParameters: function (effectId, effectGroup, option)
             {
+                var arrEffectOptions;
                 var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
-                var arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
+                if(effect)
+                    arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
                 if(!arrEffectOptions) {
                     this.btnParameters.menu.removeAll();
                     this._effectId = effectId
