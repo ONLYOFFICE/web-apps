@@ -133,8 +133,8 @@ define([
             {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP,  ext: '.otp'}
         ], [
             {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM, ext: '.pptm'},
-            {name: 'PNG',   imgCls: 'png',   type: Asc.c_oAscFileType.PNG, ext: '.png'},
-            {name: 'JPG',   imgCls: 'jpg',   type: Asc.c_oAscFileType.JPG, ext: '.jpg'}
+            {name: 'PNG',   imgCls: 'png',   type: Asc.c_oAscFileType.PNG, ext: '.zip'},
+            {name: 'JPG',   imgCls: 'jpg',   type: Asc.c_oAscFileType.JPG, ext: '.zip'}
         ]],
 
         template: _.template([
