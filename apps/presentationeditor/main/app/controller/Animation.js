@@ -105,6 +105,7 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             this.api.asc_registerCallback('asc_onAnimPreviewStarted',   _.bind(this.onAnimPreviewStarted, this));
             this.api.asc_registerCallback('asc_onAnimPreviewFinished',  _.bind(this.onAnimPreviewFinished, this));
+            this.api.asc_onShowAnimTab(!!this._state.onactivetab)
             return this;
         },
 
@@ -403,6 +404,7 @@ define([
                 this.setSettings();
             }
             else this._state.onactivetab = false;
+            this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
         },
 
         lockToolbar: function (causes, lock, opts) {
