@@ -935,6 +935,7 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 112,
                     itemHeight      : 40,
+                    style: 'min-width:158px;',
                     menuMaxHeight   : 226,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
@@ -985,6 +986,7 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBox({
                     cls         : 'input-group-nr',
+                    style       : 'width: 113px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells']],
