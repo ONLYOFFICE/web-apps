@@ -252,7 +252,7 @@
                         <span id="animation-spin-duration" class="btn-slot text spinner" ></span>
                     </div>
                     <div class="elset font-normal">
-                        <div class="btn-slot text" id="animation-trigger"></div>
+                        <div class="btn-slot text"  id="animation-trigger"></div>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -266,7 +266,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group small">
+                <div class="group small" >
                     <div class="elset">
                         <div class="btn-slot text" id="animation-moveearlier"></div>
                     </div>
