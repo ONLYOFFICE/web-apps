@@ -87,7 +87,7 @@ define([
                         '<span class="btn-slot text" id="slot-chk-banded-column"></span>' +
                     '</div>' +
                 '</div>' +
-                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 336px;max-width: 336px;min-width: 115px;" data-group-width="336px">' +
+                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 324px;max-width: 324px;min-width: 105px;" data-group-width="324px">' +
                 '</div>' +
             '</section>';
 

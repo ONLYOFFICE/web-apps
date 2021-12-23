@@ -237,9 +237,8 @@ define([
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
                 }
-
+                this.hideMoreBtns();
                 this.processPanelVisible();
-                // this.resizeToolbar();
             },
 
             onTabClick: function (e) {
@@ -514,7 +513,7 @@ define([
                     btnsMore[tab].on('toggle', function(btn, state, e) {
                         (state) ? me.onMoreShow(btn, e) : me.onMoreHide(btn, e);
                     });
-                    var moreContainer = $('<div class="dropdown-menu more-container"><div style="display: inline;"></div></div>');
+                    var moreContainer = $('<div class="dropdown-menu more-container" data-tab="' + tab + '"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
                     btnsMore[tab].panel = moreContainer.find('div');
                 }
