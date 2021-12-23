@@ -70,7 +70,7 @@ define([
             this._state.activeGroup = this.EffectGroupData[0].id;
             this._state.activeGroupValue = this.EffectGroupData[0].value;
             this.EffectGroupData.forEach(function (item) {item.displayValue = item.caption;});
-            if ((this.options.activeEffect != undefined) && (this.options.activeEffect != AscFormat.ANIM_PRESET_NONE)){
+            if ((this.options.activeEffect != undefined) && (this.options.activeEffect != AscFormat.ANIM_PRESET_NONE) && (this.options.activeEffect !== AscFormat.ANIM_PRESET_MULTIPLE)){
                 this._state.activeEffect = this.options.activeEffect;
                 this._state.activeGroupValue = this.options.groupValue;
                 this._state.activeGroup = _.findWhere(this.EffectGroupData, {value: this._state.activeGroupValue}).id;

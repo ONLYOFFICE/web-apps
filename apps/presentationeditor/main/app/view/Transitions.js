@@ -221,7 +221,7 @@ define([
                 this.numDuration = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-duration'),
                     step: 1,
-                    width: 50,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -236,7 +236,7 @@ define([
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-delay'),
                     step: 1,
-                    width: 60,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
