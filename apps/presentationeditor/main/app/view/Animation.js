@@ -184,6 +184,7 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
+                    delayRenderTips: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
@@ -215,8 +216,6 @@ define([
                     iconCls: 'toolbar__icon transition-fade',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview],
                     dataHint: '1',
-                    /*dataHintDirection: 'left',
-                    dataHintOffset: 'medium'*/
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
