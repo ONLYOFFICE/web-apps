@@ -109,8 +109,8 @@ const EditCell = props => {
                         </ListItem>
                     </List>
                     <BlockTitle>{_t.textCellStyles}</BlockTitle>
-                    {cellStyles.length ? (
-                        <Swiper pagination>
+                    {cellStyles && cellStyles.length ? (
+                        <Swiper pagination={true}>
                             {arraySlides.map((_, indexSlide) => {
                                 let stylesSlide = cellStyles.slice(indexSlide * 9, (indexSlide * 9) + 9);
                                 
