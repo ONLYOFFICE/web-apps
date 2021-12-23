@@ -330,7 +330,8 @@ define([
                         {value: AscFormat.NODE_TYPE_AFTEREFFECT, displayValue: this.textStartAfterPrevious}
                     ],
                     dataHint: '1',
-                    dataHintDirection: 'top'
+                    dataHintDirection: 'top',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.cmbStart);
 
