@@ -149,6 +149,9 @@ Common.UI.HintManager = new(function() {
 
     var _showHints = function () {
         _inputLetters = '';
+        if (_currentLevel === 0) {
+            Common.NotificationCenter.trigger('toolbar:collapse');
+        }
         if (_currentHints.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
             _getHints();
         }
