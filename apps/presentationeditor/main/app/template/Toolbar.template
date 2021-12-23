@@ -119,7 +119,7 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
                 </div>
-                <div class="group flex small" id="slot-combo-insertshape"></div>
+                <div class="group small" id="slot-combo-insertshape"></div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-comment"></span>
