@@ -70,12 +70,18 @@ define([
             this._state.activeGroup = this.EffectGroupData[0].id;
             this._state.activeGroupValue = this.EffectGroupData[0].value;
             this.EffectGroupData.forEach(function (item) {item.displayValue = item.caption;});
-            if ((this.options.activeEffect != undefined) && (this.options.activeEffect != AscFormat.ANIM_PRESET_NONE)){
+            if ((this.options.activeEffect != undefined) && (this.options.activeEffect != AscFormat.ANIM_PRESET_NONE) && (this.options.activeEffect !== AscFormat.ANIM_PRESET_MULTIPLE)){
                 this._state.activeEffect = this.options.activeEffect;
-                var itemEffect = _.findWhere(this.allEffects,{value: this._state.activeEffect});
-                this._state.activeGroup = itemEffect.group;
-                this._state.activeGroupValue = _.findWhere(this.EffectGroupData, {id: this._state.activeGroup}).value;
-                this.activeLevel = itemEffect.level;
+                this._state.activeGroupValue = this.options.groupValue;
+                var group = _.findWhere(this.EffectGroupData, {value: this._state.activeGroupValue})
+                this._state.activeGroup = group.id;
+                var itemEffect = _.findWhere(this.allEffects, {
+                    group: this._state.activeGroup,
+                    value: this._state.activeEffect
+                });
+                if(itemEffect)
+                    this.activeLevel = itemEffect.level;
+
             }
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -154,7 +160,9 @@ define([
         fillEffect: function () {
             var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
             this.lstEffectList.store.reset(arr);
-            var  item = (this._state.activeEffect != undefined)?this.lstEffectList.store.findWhere({value: this._state.activeEffect}):this.lstEffectList.store.at(0);
+            var  item = this.lstEffectList.store.findWhere({value: this._state.activeEffect});
+            if(!item)
+                item = this.lstEffectList.store.at(0);
             this.lstEffectList.selectRecord(item);
             this._state.activeEffect = item.get('value');
         },

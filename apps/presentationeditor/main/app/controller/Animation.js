@@ -157,12 +157,13 @@ define([
         onAnimationAdditional: function(replace) { // replace or add new additional effect
             var me = this;
             (new PE.Views.AnimationDialog({
-                api         : this.api,
-                activeEffect : this._state.Effect,
-                handler: function(result, value) {
+                api             : this.api,
+                activeEffect    : this._state.Effect,
+                groupValue       : this._state.EffectGroup,
+                handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            me.addNewEffect(value.activeEffect, value.activeGroupValue, replace);
+                            me.addNewEffect(value.activeEffect, value.activeGroupValue, value.activeGroup, replace);
                         }
                     }
                 }
@@ -171,13 +172,13 @@ define([
 
         onAddAnimation: function(picker, record) {
             var type = record.get('value');
-            var group = _.findWhere(Common.define.effectData.getEffectGroupData(), {id: record.get('group')}).value;
-            this.addNewEffect(type, group, false);
+            var group = _.findWhere(this.EffectGroups, {id: record.get('group')}).value;
+            this.addNewEffect(type, group, record.get('group'), false);
         },
 
-        addNewEffect: function (type, group, replace) {
+        addNewEffect: function (type, group, groupName, replace) {
             if (this._state.Effect == type) return;
-            var parameter = this.view.setMenuParameters(type, undefined, group == this._state.EffectGroups);
+            var parameter = this.view.setMenuParameters(type, groupName, undefined);
             this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace);
             this._state.EffectGroups = group;
             this._state.Effect = type;
@@ -237,14 +238,13 @@ define([
         onEffectSelect: function (combo, record) {
             if (this.api) {
                 var type = record.get('value');
-                var group = (type != AscFormat.ANIM_PRESET_NONE) ? _.findWhere(Common.define.effectData.getEffectGroupData(), {id: record.get('group')}).value : undefined;
-                this.addNewEffect(type, group, this._state.Effect != AscFormat.ANIM_PRESET_NONE);
+                var group = (type != AscFormat.ANIM_PRESET_NONE) ? _.findWhere(this.EffectGroups, {id: record.get('group')}).value : undefined;
+                this.addNewEffect(type, group, record.get('group'),this._state.Effect != AscFormat.ANIM_PRESET_NONE);
             }
         },
 
         onStartSelect: function (combo, record) {
             if (this.api) {
-                // this._state.StartEffect = record.value;
                 this.AnimationProperties.asc_putStartType(record.value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -326,7 +326,7 @@ define([
                                 item = store.add(new Common.UI.DataViewModel({
                                     group: group.get('id'),
                                     value: this._state.Effect,
-                                    iconCls: 'transition-push',
+                                    iconCls: group.get('iconClsCustom'),
                                     displayValue: rec ? rec.displayValue : '',
                                     isCustom: true
                                 }), {at:index+1});
@@ -342,8 +342,8 @@ define([
                 }
 
                 this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
-                if (this._state.EffectOption !== undefined)
-                    this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, this._state.EffectOption)===undefined;
+                if (this._state.EffectOption !== undefined && this._state.EffectOption !== null)
+                    this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, _.findWhere(this.EffectGroups,{value: this._state.EffectGroup}).id, this._state.EffectOption)===undefined;
 
                 value = this.AnimationProperties.asc_getDuration();
                 if (Math.abs(this._state.Duration - value) > 0.001 ||
