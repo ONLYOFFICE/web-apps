@@ -120,7 +120,10 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Contacta amb el teu administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacta amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -234,7 +237,8 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Taula",
       "textTableSize": "Mida de la taula",
-      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -383,7 +387,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Amplia",
       "textZoomOut": "Redueix",
-      "textZoomRotate": "Amplia i gira"
+      "textZoomRotate": "Amplia i gira",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",

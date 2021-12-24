@@ -56,7 +56,8 @@
     "textStartAt": "Başlangıç",
     "textTable": "Tablo",
     "textTableSize": "Tablo Boyutu",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textOk": "Tamam"
   },
   "Common": {
     "Collaboration": {
@@ -304,7 +305,8 @@
     "textTopAndBottom": "Üst ve alt",
     "textTotalRow": "Toplam Satır",
     "textType": "Tip",
-    "textWrap": "Metni Kaydır"
+    "textWrap": "Metni Kaydır",
+    "textOk": "Tamam"
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
@@ -474,7 +476,10 @@
     "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
     "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok."
+    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",
