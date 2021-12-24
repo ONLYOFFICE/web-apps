@@ -99,7 +99,16 @@ class EditLinkController extends Component {
             const urltype = api.asc_getUrlType(url.trim());
             const isEmail = (urltype == 2);
             if (urltype < 1) {
-                f7.dialog.alert(_t.textNotUrl, _t.notcriticalErrorTitle);
+                f7.dialog.create({
+                    title: t('View.Edit.notcriticalErrorTitle'),
+                    text: t('View.Edit.textNotUrl'),
+                    buttons: [
+                        {
+                            text: t('View.Edit.textOk')
+                        }
+                    ]
+                }).open();
+
                 return;
             }
 
