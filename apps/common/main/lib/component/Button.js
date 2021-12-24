@@ -226,8 +226,9 @@ define([
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>' +
                 '<span class="btn-fixflex-vcenter">' +
-                    '<span class="caption"><%= caption %></span>' +
-                    '<i class="caret"></i>' +
+                    '<span class="caption"><%= caption %>' +
+                        '<i class="caret"></i>' +
+                    '</span>' +
                 '</span>' +
             '</button>' +
         '</div>';
@@ -341,6 +342,20 @@ define([
                             this.template = _.template(templateHugeMenuCaption);
                         } else {
                             this.template = _.template(templateHugeCaption);
+                        }
+                        var words = me.caption.split(' '),
+                            newCaption = null;
+                        if (words.length > 1) {
+                            if (words.length < 3) {
+                                newCaption = words[0] + '<br>' + words[1];
+                            } else {
+                                newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
+                            }
+                        } else if (!!me.menu || me.split === true) {
+                            newCaption = me.caption + '<br>';
+                        }
+                        if (newCaption) {
+                            me.caption = newCaption;
                         }
                     }
 

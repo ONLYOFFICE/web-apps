@@ -1,4 +1,4 @@
-@x-huge-btn-height: 46px;
+@x-huge-btn-height: 48px;
 @x-huge-btn-icon-size: 28px;
 
 .btn {
@@ -70,8 +70,6 @@
 
         transition: transform 0.2s ease;
         transform: rotate(-135deg) translate(1px,1px);
-
-        margin: 0 1px 0 4px;
     }
 
     //&:active,
@@ -233,17 +231,21 @@
             line-height: 18px;
             padding: 0 2px;
             display: flex;
-            align-items: center;
-            //align-items: start;
+            //align-items: center;
+            align-items: start;
 
             .caption {
-                //max-width: 107px;
+                max-width: 85px;
+                max-height: 22px;
                 text-overflow: ellipsis;
-                overflow: hidden;
 
                 white-space: pre-line;
-                line-height: 11px;
-                padding-right: 0;
+                line-height: 10px;
+                padding: 0 2px;
+
+                .caret {
+                    margin: 0 1px 0 4px;
+                }
             }
         }
 
@@ -277,6 +279,7 @@
                 //max-width: 100px;
             }
         }
+
     }
 
     .inner-box-icon {
@@ -302,7 +305,7 @@
 
     .inner-box-caption {
         margin: 0;
-        height: 18px;
+        height: 20px;
     }
 
     div.inner-box-icon {
