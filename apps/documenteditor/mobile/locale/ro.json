@@ -56,7 +56,8 @@
     "textStartAt": "Pornire de la",
     "textTable": "Tabel",
     "textTableSize": "Dimensiune tabel",
-    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -304,7 +305,8 @@
     "textTopAndBottom": "Sus și jos",
     "textTotalRow": "Rând total",
     "textType": "Tip",
-    "textWrap": "Încadrare"
+    "textWrap": "Încadrare",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -474,7 +476,10 @@
     "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
     "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",
