@@ -290,7 +290,10 @@
     "textSheet": "Blad",
     "textSheetName": "Bladnaam",
     "textUnhide": "Verbergen ongedaan maken",
-    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?"
+    "textWarnDeleteSheet": "Het werkblad heeft misschien gegevens. Verder gaan met de bewerking?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

@@ -290,7 +290,10 @@
     "textSheet": "Hoja",
     "textSheetName": "Nombre de hoja",
     "textUnhide": "Volver a mostrar",
-    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?"
+    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
