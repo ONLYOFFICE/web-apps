@@ -119,7 +119,7 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
                 </div>
-                <div class="group flex small" id="slot-combo-insertshape"></div>
+                <div class="group small" id="slot-combo-insertshape"></div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-comment"></span>
@@ -253,7 +253,7 @@
                         <span id="animation-spin-duration" class="btn-slot text spinner" ></span>
                     </div>
                     <div class="elset font-normal">
-                        <div class="btn-slot" style="width: 82px;" id="animation-trigger"></div>
+                        <div class="btn-slot text"  id="animation-trigger"></div>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -267,12 +267,12 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group small" style="width: 120px; min-width: 100px;">
+                <div class="group small" >
                     <div class="elset">
-                        <div class="btn-slot" id="animation-moveearlier"></div>
+                        <div class="btn-slot text" id="animation-moveearlier"></div>
                     </div>
                     <div class="elset font-normal">
-                        <div class="btn-slot" id="animation-movelater"></div>
+                        <div class="btn-slot text" id="animation-movelater"></div>
                     </div>
                 </div>
             </section>

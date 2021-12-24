@@ -290,7 +290,10 @@
     "textSheet": "シート",
     "textSheetName": "シートの名",
     "textUnhide": "表示する",
-    "textWarnDeleteSheet": "ワークシートはデータがあるそうです。操作を続けてもよろしいですか？"
+    "textWarnDeleteSheet": "ワークシートはデータがあるそうです。操作を続けてもよろしいですか？",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",

@@ -62,7 +62,7 @@ define([
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
                 me.listEffectsMore.on('click', _.bind(function () {
-                    me.fireEvent('animation:additional', [true]); // replace effect
+                    me.fireEvent('animation:additional', [me.listEffects.menuPicker.getSelectedRec().get('value') != AscFormat.ANIM_PRESET_NONE]); // replace effect
                 }, me));
             }
 
@@ -159,6 +159,7 @@ define([
                 this.lockedControls = [];
 
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
+                _.forEach(this._arrEffectName,function (elm){elm.tip = elm.displayValue;});
                 this._arrEffectOptions = [];
                 var itemWidth = 87,
                     itemHeight = 40;
@@ -183,6 +184,7 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
+                    delayRenderTips: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
@@ -214,8 +216,8 @@ define([
                     iconCls: 'toolbar__icon transition-fade',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview],
                     dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'medium'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnPreview);
 
@@ -259,7 +261,7 @@ define([
                 this.numDuration = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-duration'),
                     step: 1,
-                    width: 52,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -304,7 +306,7 @@ define([
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-delay'),
                     step: 1,
-                    width: 52,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -318,7 +320,8 @@ define([
 
                 this.cmbStart = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
-                    menuStyle: 'width: 150px;',
+                    menuStyle: 'min-width: 100%;',
+                    editable: false,
                     lock: [_set.slideDeleted,  _set.noSlides, _set.noGraphic, _set.noAnimation],
                     data: [
                         {value: AscFormat.NODE_TYPE_CLICKEFFECT, displayValue: this.textStartOnClick},
@@ -326,7 +329,8 @@ define([
                         {value: AscFormat.NODE_TYPE_AFTEREFFECT, displayValue: this.textStartAfterPrevious}
                     ],
                     dataHint: '1',
-                    dataHintDirection: 'top'
+                    dataHintDirection: 'top',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.cmbStart);
 
@@ -343,15 +347,15 @@ define([
                 this.numRepeat = new Common.UI.MetricSpinner({
                     el: this.$el.find('#animation-spin-repeat'),
                     step: 1,
-                    width: 88,
+                    width: 55,
                     value: '',
                     maxValue: 1000,
                     minValue: 0,
                     defaultUnit: '',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
                     dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintDirection: 'top',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.numRepeat);
 
@@ -477,10 +481,12 @@ define([
                 return this.lockedControls;
             },
 
-            setMenuParameters: function (effectId, option)
+            setMenuParameters: function (effectId, effectGroup, option)
             {
-                var effect = _.findWhere(this.allEffects, {value: effectId});
-                var arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
+                var arrEffectOptions;
+                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
+                if(effect)
+                    arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
                 if(!arrEffectOptions) {
                     this.btnParameters.menu.removeAll();
                     this._effectId = effectId

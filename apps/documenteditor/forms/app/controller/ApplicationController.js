@@ -1877,12 +1877,13 @@ define([
 
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
-                    if ( !!Common.UI.Themes.setTheme )
+                    if ( Common.UI.Themes && !!Common.UI.Themes.setTheme )
                         Common.UI.Themes.setTheme(param);
                 } else
                 if (/window:features/.test(cmd)) {
                     var obj = JSON.parse(param);
                     if ( obj.singlewindow !== undefined ) {
+                        native.features.singlewindow = obj.singlewindow;
                         $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
                     }
                 }
@@ -1901,14 +1902,16 @@ define([
                         native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
                 },
             });
+
+            Common.Gateway.on('opendocument', function () {
+                api = DE.getController('ApplicationController').api;
+
+                $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
+
+                var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
+                Common.UI.Themes.setAvailable(!is_win_xp);
+            });
         }
-
-        Common.Gateway.on('opendocument', function () {
-            api = DE.getController('ApplicationController').api;
-
-            var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
-            Common.UI.Themes.setAvailable(!is_win_xp);
-        });
 
         return {
             isActive: function () {

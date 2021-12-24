@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, ListButton, ListInput, Icon, Page, Navbar, NavRight, BlockTitle, Toggle, Range, Link, Tabs, Tab} from 'framework7-react';
+import {f7, List, ListItem, ListButton, ListInput, Icon, Page, Navbar, NavRight, BlockTitle, Toggle, Range, Link, Tabs, Tab, Swiper, SwiperSlide} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -148,6 +148,8 @@ const PageChartType = props => {
     const { t } = useTranslation();
     const storeChartSettings = props.storeChartSettings;
     const types = storeChartSettings.types;
+    const countSlides = Math.floor(types.length / 3);
+    const arraySlides = Array(countSlides).fill(countSlides);
     const storeFocusObjects = props.storeFocusObjects;
     const chartProperties = storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties();
     const curType = chartProperties && chartProperties.getType();
@@ -155,24 +157,35 @@ const PageChartType = props => {
     return (
         <Page>
             <Navbar backLink={t('View.Edit.textBack')} title={t('View.Edit.textType')} />
-
             <div id={"edit-chart-type"} className="page-content no-padding-top dataview">
                 <div className="chart-types">
-                    {types.map((row, rowIndex) => {
-                        return (
-                            <ul className="row" key={`row-${rowIndex}`}>
-                                {row.map((type, index)=>{
-                                    return(
-                                        <li key={`${rowIndex}-${index}`}
-                                            className={curType === type.type ? ' active' : ''}
-                                            onClick={() => {props.onType(type.type)}}>
-                                            <div className={'thumb' + ` ${type.thumb}`}></div>
-                                        </li>
-                                    )
-                                })}
-                            </ul>
-                        )
-                    })}
+                    {types && types.length ? (
+                        <Swiper pagination={true}>
+                            {arraySlides.map((_, indexSlide) => {
+                                let typesSlide = types.slice(indexSlide * 3, (indexSlide * 3) + 3);
+
+                                return (
+                                    <SwiperSlide key={indexSlide}>
+                                        {typesSlide.map((row, rowIndex) => {
+                                            return (
+                                                <ul className="row" key={`row-${rowIndex}`}>
+                                                    {row.map((type, index) => {
+                                                        return (
+                                                            <li key={`${rowIndex}-${index}`}
+                                                                className={curType === type.type ? ' active' : ''}
+                                                                onClick={() => {props.onType(type.type)}}>
+                                                                <div className={'thumb' + ` ${type.thumb}`}></div>
+                                                            </li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            )
+                                        })}
+                                    </SwiperSlide>
+                                )
+                            })}
+                        </Swiper>
+                    ) : null}
                 </div>
             </div>
         </Page>

@@ -290,7 +290,10 @@
     "textSheet": "Sayfa",
     "textSheetName": "Sayfa ismi",
     "textUnhide": "Gizlemeyi kaldır",
-    "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?"
+    "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

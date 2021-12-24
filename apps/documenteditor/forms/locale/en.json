@@ -147,12 +147,15 @@
   "DE.Views.ApplicationView.textClear": "Clear All Fields",
   "DE.Views.ApplicationView.textCopy": "Copy",
   "DE.Views.ApplicationView.textCut": "Cut",
+  "DE.Views.ApplicationView.textFitToPage": "Fit to Page",
+  "DE.Views.ApplicationView.textFitToWidth": "Fit to Width",
   "DE.Views.ApplicationView.textNext": "Next Field",
   "DE.Views.ApplicationView.textPaste": "Paste",
   "DE.Views.ApplicationView.textPrintSel": "Print Selection",
   "DE.Views.ApplicationView.textRedo": "Redo",
   "DE.Views.ApplicationView.textSubmit": "Submit",
   "DE.Views.ApplicationView.textUndo": "Undo",
+  "DE.Views.ApplicationView.textZoom": "Zoom",
   "DE.Views.ApplicationView.txtDarkMode": "Dark mode",
   "DE.Views.ApplicationView.txtDownload": "Download",
   "DE.Views.ApplicationView.txtDownloadDocx": "Download as docx",
@@ -162,8 +165,5 @@
   "DE.Views.ApplicationView.txtFullScreen": "Full Screen",
   "DE.Views.ApplicationView.txtPrint": "Print",
   "DE.Views.ApplicationView.txtShare": "Share",
-  "DE.Views.ApplicationView.txtTheme": "Interface theme",
-  "DE.Views.ApplicationView.textZoom": "Zoom",
-  "DE.Views.ApplicationView.textFitToPage": "Fit to Page",
-  "DE.Views.ApplicationView.textFitToWidth": "Fit to Width"
+  "DE.Views.ApplicationView.txtTheme": "Interface theme"
 }

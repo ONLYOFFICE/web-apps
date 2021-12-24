@@ -29,10 +29,12 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const storeToolbarSettings = props.storeToolbarSettings;
     const isCanUndo = storeToolbarSettings.isCanUndo;
     const isCanRedo = storeToolbarSettings.isCanRedo;
+    const disabledControls = storeToolbarSettings.disabledControls;
+    const disabledEditControls = storeToolbarSettings.disabledEditControls;
+    const disabledSettings = storeToolbarSettings.disabledSettings;
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
-
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
@@ -53,11 +55,12 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     });
 
     // Back button
-    const [isShowBack, setShowBack] = useState(false);
+    const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose)) {
+            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
+        {
             setShowBack(true);
         }
     };
@@ -113,26 +116,21 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         }
     }
 
-    const [disabledEditControls, setDisabledEditControls] = useState(false);
-
     const onApiActiveSheetChanged = (index) => {
         Common.Notifications.trigger('comments:filterchange', ['doc', 'sheet' + Common.EditorApi.get().asc_getWorksheetId(index)], false );
     };
 
-    const [disabledSettings, setDisabledSettings] = useState(false);
     const deactivateEditControls = (enableDownload) => {
-        setDisabledEditControls(true);
+        storeToolbarSettings.setDisabledEditControls(true);
         if (enableDownload) {
             //DE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
         } else {
-            setDisabledSettings(true);
+            storeToolbarSettings.setDisabledSettings(true);
         }
     };
-
-
-    const [disabledControls, setDisabledControls] = useState(true);
+    
     const activateControls = () => {
-        setDisabledControls(false);
+        storeToolbarSettings.setDisabledControls(false);
     };
 
     const onEditDocument = () => {

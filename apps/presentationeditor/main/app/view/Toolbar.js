@@ -1072,6 +1072,7 @@ define([
 
                     this.cmbInsertShape = new Common.UI.ComboDataViewShape({
                         cls: 'combo-styles shapes',
+                        style: 'min-width: 140px;',
                         itemWidth: 20,
                         itemHeight: 20,
                         menuMaxHeight: 640,

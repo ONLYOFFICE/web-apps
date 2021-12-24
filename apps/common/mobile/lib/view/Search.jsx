@@ -97,10 +97,13 @@ class SearchView extends Component {
 
     componentDidMount(){
         this.$replace = $$('#idx-replace-val');
-
         const $editor = $$('#editor_sdk');
-        $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
-        $editor.on('pointerup', this.onEditorTouchEnd.bind(this));
+
+        this.onEditorTouchStart = this.onEditorTouchStart.bind(this);
+        this.onEditorTouchEnd = this.onEditorTouchEnd.bind(this);
+
+        $editor.on('pointerdown', this.onEditorTouchStart);
+        $editor.on('pointerup',   this.onEditorTouchEnd);
 
         if( !this.searchbar ) {
             this.searchbar = f7.searchbar.get('.searchbar');
@@ -123,11 +126,8 @@ class SearchView extends Component {
     }
 
     componentWillUnmount() {
-        const $$ = Dom7;
-        const $editor = $$('#editor_sdk');
-
-        $editor.off('pointerdown', this.onEditorTouchStart.bind(this));
-        $editor.off('pointerup', this.onEditorTouchEnd.bind(this));
+        $$('#editor_sdk').off('pointerdown', this.onEditorTouchStart)
+                        .off('pointerup', this.onEditorTouchEnd);
     }
 
     onSettingsClick(e) {
@@ -162,7 +162,7 @@ class SearchView extends Component {
     }
 
     onReplaceClick() {
-        if (this.searchbar && this.state.searchQuery) {
+        if (this.searchbar && this.state.replaceQuery) {
             if (this.props.onReplaceQuery) {
                 let params = this.searchParams();
                 params.find = this.state.searchQuery;
@@ -174,7 +174,7 @@ class SearchView extends Component {
     }
 
     onReplaceAllClick() {
-        if (this.searchbar && this.state.searchQuery) {
+        if (this.searchbar && this.state.replaceQuery) {
             if (this.props.onReplaceAllQuery) {
                 let params = this.searchParams();
                 params.find = this.state.searchQuery;
@@ -192,6 +192,7 @@ class SearchView extends Component {
     }
 
     onEditorTouchStart(e) {
+        console.log('taouch start');
         this.startPoint = this.pointerPosition(e);
     }
 
@@ -281,9 +282,9 @@ class SearchView extends Component {
                             {/* <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                             <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a> */}
                             {isReplaceAll ? (
-                                <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                                <a id="replace-all-link" className={"link " + (replaceQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
                             ) : usereplace ? (
-                                <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                                <a id="replace-link" className={"link " + (replaceQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                             ) : null}
                         </div>
                         <div className="buttons-row">

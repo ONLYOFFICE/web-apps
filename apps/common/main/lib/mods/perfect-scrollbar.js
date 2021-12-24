@@ -210,6 +210,7 @@
             currentPageX;
 
         $scrollbarX.bind('mousedown' + eventClassName, function (e) {
+          Common.NotificationCenter.trigger('hints:clear');
           currentPageX = e.pageX;
           currentLeft = $scrollbarX.position().left;
           $scrollbarXRail.addClass('in-scrolling');
@@ -240,6 +241,7 @@
             currentPageY;
 
         $scrollbarY.bind('mousedown' + eventClassName, function (e) {
+          Common.NotificationCenter.trigger('hints:clear');
           currentPageY = e.pageY;
           currentTop = $scrollbarY.position().top;
           $scrollbarYRail.addClass('in-scrolling');

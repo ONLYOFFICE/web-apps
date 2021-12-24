@@ -187,7 +187,7 @@ class CommentsController extends Component {
             uid                 : id,
             userId              : data.asc_getUserId(),
             userName            : userName,
-            parsedName          : Common.Utils.String.htmlEncode(parsedName),
+            parsedName,
             userColor           : (user) ? user.asc_getColor() : null,
             date                : dateToLocaleTimeString(date),
             quote               : data.asc_getQuoteText(),

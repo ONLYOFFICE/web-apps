@@ -290,7 +290,10 @@
     "textSheet": "List",
     "textSheetName": "Název listu",
     "textUnhide": "Odkrýt",
-    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? "
+    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? ",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
