@@ -16,19 +16,21 @@
 			<h1>Use Mail Merge</h1>
             <p class="note"><b>Note</b>: this option is available in the <em>online version</em> only.</p>
 			<p>The <b>Mail Merge</b> feature is used to create a set of documents combining a common content which is taken from a text document and some individual components (variables, such as names, greetings etc.) taken from a spreadsheet (for example, a customer list). It can be useful if you need to create a lot of personalized letters and send them to recipients.</p>
-			<p>To start working with the <b>Mail Merge</b> feature in the <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>,</p>
+        <ul>
+            <li><b>Prepare a data source and load it to the main document</b>
             <ol>
-                <li><b>Prepare a data source and load it to the main document</b>
-                <ol>
-                    <li>A data source used for the mail merge must be an <b>.xlsx</b> spreadsheet stored on your portal. Open an existing spreadsheet or create a new one and make sure that it meets the following requirements.
-                    <p>The spreadsheet should have a header row with the column titles, as values in the first cell of each column will designate merge fields (i.e. variables that you can insert into the text). Each column should contain a set of actual values for a variable. Each row in the spreadsheet should correspond to a separate record (i.e. a set of values that belongs to a certain recipient). During the merge process, a copy of the main document will be created for each record and each merge field inserted into the main text will be replaced with an actual value from the corresponding column. If you are goung to send results by email, the spreadsheet must also include a column with the recipients' email addresses.</p>
-                    </li>
-                    <li>Open an existing text document or create a new one. It must contain the main text which will be the same for each version of the merged document. Click the <b>Mail Merge</b> <img alt="Mail Merge icon" src="../images/mailmergeicon.png" /> icon on the <b>Home</b> tab of the top toolbar.</li>
-                    <li>The <b>Select Data Source</b> window will open. It displays the list of all your <b>.xlsx</b> spreadsheets stored in the <b>My Documents</b> section. To navigate between other <b>Documents</b> module sections, use the menu on the left part of the window. Select the required file and click <b>OK</b>.</li>
-                </ol>
-                <p>Once the data source is loaded, the <b>Mail Merge setting</b> tab will be available on the right sidebar.</p>
-                <p><img alt="Mail Merge setting tab" src="../images/right_mailmerge.png" /></p>
+                <li>A data source used for the mail merge must be an <b>.xlsx</b> spreadsheet stored on your portal. Open an existing spreadsheet or create a new one and make sure that it meets the following requirements.
+                <li>The spreadsheet should have a header row with the column titles, as values in the first cell of each column will designate merge fields (i.e. variables that you can insert into the text). Each column should contain a set of actual values for a variable. Each row in the spreadsheet should correspond to a separate record (i.e. a set of values that belongs to a certain recipient). During the merge process, a copy of the main document will be created for each record and each merge field inserted into the main text will be replaced with an actual value from the corresponding column. If you are goung to send results by email, the spreadsheet must also include a column with the recipients' email addresses.</li>
+                <li>
+                    Open an existing text document or create a new one. It must contain the main text which will be the same for each version of the merged document. Click the <b>Mail Merge</b> <img alt="Mail Merge icon" src="../images/mailmergeicon.png" /> icon on the <b>Home</b> tab of the top toolbar and select the data source location: <b>From File</b>, <b>From URL</b> or <b>From Storage</b>.
+                    <p><img alt="Mail Merge Options" src="../images/mailmerge_options.png" /></p>
                 </li>
+                <li>
+                    Select the necesary file or paste a URL and click <b>OK</b>.
+                    <p>Once the data source is loaded, the <b>Mail Merge setting</b> tab will be available on the right sidebar.</p>
+                    <p><img alt="Mail Merge setting tab" src="../images/right_mailmerge.png" /></p>
+                </li>
+            </ol>
                 <li><b>Verify or change the recipients list</b>
                 <ol>
                     <li>Click the <b>Edit recipients list</b> button on the top of the right sidebar to open the <b>Mail Merge Recipients</b> window, where the content of the selected data source is displayed.
@@ -117,7 +119,7 @@
                     </li>
                 </ol>
                 </li>
-            </ol>
+            </ul>
 		</div>
 	</body>
 </html>

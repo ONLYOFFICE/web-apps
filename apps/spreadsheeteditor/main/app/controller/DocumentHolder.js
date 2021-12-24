@@ -1854,7 +1854,7 @@ define([
                 if (!documentHolder.copyPasteMenu || !showMenu && !documentHolder.copyPasteMenu.isVisible()) return;
                 if (showMenu) this.showPopupMenu(documentHolder.copyPasteMenu, {}, event);
             } else if (isimagemenu || isshapemenu || ischartmenu) {
-                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible() || this._state.wsProps['Objects']) return;
+                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = isslicermenu = false;
                 documentHolder.mnuImgAdvanced.imageInfo = undefined;
@@ -1866,6 +1866,10 @@ define([
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
                         var elValue = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || elValue.asc_getLocked();
+
+                        if (this._state.wsProps['Objects'] && elValue.asc_getProtectionLocked()) // don't show menu for locked shape
+                            return;
+
                         var shapeprops = elValue.asc_getShapeProperties();
                         if (shapeprops) {
                             if (shapeprops.asc_getFromChart())
@@ -1957,7 +1961,7 @@ define([
                     documentHolder.menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                 }
             } else if (istextshapemenu || istextchartmenu) {
-                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible() || this._state.wsProps['Objects']) return;
+                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
                 
                 documentHolder.pmiTextAdvanced.textInfo = undefined;
 
@@ -1972,6 +1976,10 @@ define([
                             direct = value.asc_getVert(),
                             listtype = this.api.asc_getCurrentListType(),
                             shapeProps = value ? value.asc_getShapeProperties() : null;
+
+                        if (this._state.wsProps['Objects'] && value.asc_getProtectionLockText()) // don't show menu for locked text
+                            return;
+
                         isObjLocked = isObjLocked || value.asc_getLocked();
                         isSmartArt = shapeProps ? shapeProps.asc_getFromSmartArt() : false;
                         isSmartArtInternal = shapeProps ? shapeProps.asc_getFromSmartArtInternal() : false;

@@ -183,7 +183,7 @@ const Search = withTranslation()(props => {
         let searchIn = +params.searchIn === 1;
         let searchBy = +params.searchBy === 0;
 
-        if (params.find && params.find.length) {
+        // if (params.find && params.find.length) {
             api.isReplaceAll = false;
 
             let options = new Asc.asc_CFindOptions();
@@ -198,7 +198,7 @@ const Search = withTranslation()(props => {
             options.asc_setIsReplaceAll(false);
 
             api.asc_replaceText(options);
-        }
+        // }
     }
 
     const onReplaceAllQuery = params => {
@@ -207,7 +207,7 @@ const Search = withTranslation()(props => {
         let searchIn = +params.searchIn === 1;
         let searchBy = +params.searchBy === 0;
 
-        if (params.find && params.find.length) {
+        // if (params.find && params.find.length) {
             api.isReplaceAll = true;
 
             let options = new Asc.asc_CFindOptions();
@@ -222,7 +222,7 @@ const Search = withTranslation()(props => {
             options.asc_setIsReplaceAll(true);
 
             api.asc_replaceText(options);
-        }
+        // }
     }
 
     return <SESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />

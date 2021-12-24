@@ -210,6 +210,7 @@ define([
                             this.dlgChanges.btnReject.setDisabled(btnlock);
                         }
                         this._state.lock = btnlock;
+                        Common.Utils.InternalSettings.set(this.view.appPrefix + "accept-reject-lock", btnlock);
                     }
                     this._state.posx = posX;
                     this._state.posy = posY;
