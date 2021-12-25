@@ -154,7 +154,10 @@
       "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok."
+      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -348,7 +351,8 @@
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "txtSorting": "Sıralama",
       "txtSortSelected": "Seçili olanları sırala",
-      "txtYes": "Evet"
+      "txtYes": "Evet",
+      "textOk": "Tamam"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -528,7 +532,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "txtSortHigh2Low": "Büyükten Küçüğe Sırala",
-      "txtSortLow2High": "Küçükten Büyüğe Sırala"
+      "txtSortLow2High": "Küçükten Büyüğe Sırala",
+      "textOk": "Tamam"
     },
     "Settings": {
       "advCSVOptions": "CSV Seçenekleri Belirle",

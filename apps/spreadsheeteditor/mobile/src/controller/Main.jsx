@@ -412,7 +412,16 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
-        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));   
+        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));  
+        this.api.asc_registerCallback('asc_onRenameCellTextEnd', this.onRenameText.bind(this)); 
+    }
+
+    onRenameText(found, replaced) {
+        const { t } = this.props;
+
+        if (this.api.isReplaceAll) { 
+            f7.dialog.alert(null, (found) ? ((!found - replaced) ? Common.Utils.String.format(t('Controller.Main.textReplaceSuccess'), replaced) : Common.Utils.String.format(t('Controller.Main.textReplaceSkipped'), found - replaced)) : t('Controller.Main.textNoTextFound'));
+        }
     }
 
     onChangeProtectSheet() {

@@ -414,6 +414,18 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onCountPages', (count) => {
             storeToolbarSettings.setCountPages(count);
         });
+
+        this.api.asc_registerCallback('asc_onReplaceAll', this.onApiTextReplaced.bind(this));
+    }
+
+    onApiTextReplaced(found, replaced) {
+        const { t } = this.props;
+
+        if (found) {
+            f7.dialog.alert(null, !(found - replaced > 0) ? Common.Utils.String.format(t('Controller.Main.textReplaceSuccess'), replaced) : Common.Utils.String.format(t('Controller.Main.textReplaceSkipped'), found - replaced));
+        } else {
+            f7.dialog.alert(null, t('Controller.Main.textNoTextFound'));
+        }
     }
 
     onDocumentContentReady () {
