@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Tamam",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -353,7 +356,8 @@
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "txtSorting": "Sıralama",
       "txtSortSelected": "Seçili olanları sırala",
-      "txtYes": "Evet"
+      "txtYes": "Evet",
+      "textOk": "Tamam"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -534,7 +538,8 @@
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "txtSortHigh2Low": "Büyükten Küçüğe Sırala",
       "txtSortLow2High": "Küçükten Büyüğe Sırala",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Tamam"
     },
     "Settings": {
       "advCSVOptions": "CSV Seçenekleri Belirle",

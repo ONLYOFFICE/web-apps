@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
       "warnProcessRightsChange": "你没有编辑文件的权限。",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -353,7 +356,8 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序",
       "txtSortSelected": "排序选定的",
-      "txtYes": "是"
+      "txtYes": "是",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -534,7 +538,8 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSortHigh2Low": "从最高到最低排序",
       "txtSortLow2High": "从最低到最高排序",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "选择CSV选项",
