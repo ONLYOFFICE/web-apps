@@ -34,7 +34,15 @@ class AddLinkController extends Component {
         const isEmail = (urltype == 2);
 
         if (urltype < 1) {
-            f7.dialog.alert(_t.txtNotUrl, _t.notcriticalErrorTitle);
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.txtNotUrl,
+                buttons: [
+                    {
+                        text: t('Add.textOk')
+                    }
+                ]
+            }).open();
             return;
         }
 

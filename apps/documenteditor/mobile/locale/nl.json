@@ -56,7 +56,8 @@
     "textStartAt": "Beginnen bij",
     "textTable": "Tabel",
     "textTableSize": "Tabelgrootte",
-    "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\""
+    "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -328,7 +329,8 @@
     "textOctober": "October",
     "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textEmpty": "Empty",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Time-out voor conversie overschreden.",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met uw beheerder voor meer informatie.",
     "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
     "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
-    "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken."
+    "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",

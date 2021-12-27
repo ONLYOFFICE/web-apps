@@ -28,7 +28,17 @@ class EditHyperlinkController extends Component {
             const isEmail = (urltype == 2);
             if (urltype < 1) {
                 const { t } = this.props;
-                f7.dialog.alert(t('Edit.textNotUrl'), t('Edit.notcriticalErrorTitle'));
+    
+                f7.dialog.create({
+                    title: t('Edit.notcriticalErrorTitle'),
+                    text: t('Edit.textNotUrl'),
+                    buttons: [
+                        {
+                            text: t('Edit.textOk')
+                        }
+                    ]
+                }).open();
+                
                 return;
             }
             let url = link.replace(/^\s+|\s+$/g,'');

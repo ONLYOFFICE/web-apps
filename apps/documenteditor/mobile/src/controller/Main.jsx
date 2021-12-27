@@ -689,6 +689,18 @@ class MainController extends Component {
             if (this.props.users.isDisconnected) return;
             storeToolbarSettings.setCanRedo(can);
         });
+
+        this.api.asc_registerCallback('asc_onReplaceAll', this.onApiTextReplaced.bind(this));
+    }
+
+    onApiTextReplaced(found, replaced) {
+        const { t } = this.props;
+
+        if (found) { 
+            f7.dialog.alert(null, !(found - replaced > 0) ? Common.Utils.String.format(t('Main.textReplaceSuccess'), replaced) : Common.Utils.String.format(t('Main.textReplaceSkipped'), found - replaced));
+        } else {
+            f7.dialog.alert(null, t('Main.textNoTextFound'));
+        }
     }
 
     onShowDateActions(obj, x, y) {

@@ -56,7 +56,8 @@
     "textStartAt": "Empezar con",
     "textTable": "Tabla",
     "textTableSize": "Tamaño de tabla",
-    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -328,7 +329,8 @@
     "textOctober": "October",
     "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textEmpty": "Empty",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
     "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
     "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-    "warnProcessRightsChange": "No tiene permiso para editar este archivo."
+    "warnProcessRightsChange": "No tiene permiso para editar este archivo.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Archivo protegido",
