@@ -233,6 +233,30 @@ define([
             '</button>' +
         '</div>';
 
+    var getWidthOfCaption = function (txt) {
+        var el = document.createElement('span');
+        el.style.fontSize = '11px';
+        el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+        el.style.position = "absolute";
+        el.style.top = '-1000px';
+        el.style.left = '-1000px';
+        el.innerHTML = txt;
+        document.body.appendChild(el);
+        var result = el.offsetWidth;
+        document.body.removeChild(el);
+        return result;
+    };
+
+    var getShortText = function (txt, max) {
+        var lastIndex = txt.length - 1,
+            word = txt;
+        while (getWidthOfCaption(word) > max) {
+            word = txt.slice(0, lastIndex).trim() + '...';
+            lastIndex--;
+        }
+        return word;
+    };
+
     Common.UI.Button = Common.UI.BaseView.extend({
         options : {
             id              : null,
@@ -344,15 +368,33 @@ define([
                             this.template = _.template(templateHugeCaption);
                         }
                         var words = me.caption.split(' '),
-                            newCaption = null;
+                            newCaption = null,
+                            maxWidth = !!me.menu ? 85 - 4 - 10 : 85 - 4;
                         if (words.length > 1) {
                             if (words.length < 3) {
+                                words[1] = getShortText(words[1], maxWidth);
                                 newCaption = words[0] + '<br>' + words[1];
                             } else {
-                                newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
+                                if (getWidthOfCaption(words[0] + ' ' + words[1]) < maxWidth) { // first and second words in first line
+                                    words[2] = getShortText(words[2], maxWidth);
+                                    newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
+                                } else if (getWidthOfCaption(words[1] + ' ' + words[2]) < maxWidth) { // second and third words in second line
+                                    words[2] = getShortText(words[2], maxWidth);
+                                    newCaption = words[0] + '<br>' + words[1] + ' ' + words[2];
+                                } else {
+                                    words[1] = getShortText(words[1] + ' ' + words[2], maxWidth);
+                                    newCaption = words[0] + '<br>' + words[1];
+                                }
                             }
                         } else if (!!me.menu || me.split === true) {
-                            newCaption = me.caption + '<br>';
+                            var width = getWidthOfCaption(me.caption);
+                            if (width < maxWidth) {
+                                newCaption = me.caption + '<br>';
+                            } else if (width > maxWidth * 2 - 10) {
+                                newCaption = getShortText(me.caption, maxWidth * 2 - 10);
+                            } else {
+                                newCaption = me.caption;
+                            }
                         }
                         if (newCaption) {
                             me.caption = newCaption;
