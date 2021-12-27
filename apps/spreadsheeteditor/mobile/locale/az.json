@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -290,7 +293,10 @@
     "textSheet": "Vərəq",
     "textSheetName": "Vərəq Adı",
     "textUnhide": "Gizlətməni ləğv et",
-    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?"
+    "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -350,7 +356,8 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "txtSorting": "Sıralama",
       "txtSortSelected": "Seçilmiş sıralama",
-      "txtYes": "Bəli"
+      "txtYes": "Bəli",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Xəbərdarlıq",
@@ -531,7 +538,8 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "txtSortHigh2Low": "Ən Böyükdən ən Kiçiyə doğru Çeşidləyin.",
       "txtSortLow2High": "Ən Kiçikdən ən Böyüyə doğru Çeşidləyin.",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",

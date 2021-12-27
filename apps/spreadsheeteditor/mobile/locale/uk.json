@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -290,7 +293,10 @@
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -350,7 +356,8 @@
       "textSelectedRange": "Selected Range",
       "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
       "txtNo": "No",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -531,7 +538,8 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
       "txtSortLow2High": "Sort Lowest to Highest",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",

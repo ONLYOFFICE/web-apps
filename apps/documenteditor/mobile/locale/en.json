@@ -56,7 +56,8 @@
     "textStartAt": "Start At",
     "textTable": "Table",
     "textTableSize": "Table Size",
-    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -328,7 +329,8 @@
     "textOctober": "October",
     "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textEmpty": "Empty",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -414,6 +416,9 @@
     "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
     "leavePageText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "notcriticalErrorTitle": "Warning",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found",
     "SDK": {
       " -Section ": " -Section ",
       "above": "above",

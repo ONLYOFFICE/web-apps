@@ -183,6 +183,9 @@ define([
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
                 }
             });
+            Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
+                this.toolbar.collapse();
+            }, this));
 
             var me = this;
 

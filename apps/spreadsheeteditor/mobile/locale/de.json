@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -290,7 +293,10 @@
     "textSheet": "Blatt",
     "textSheetName": "Blattname",
     "textUnhide": "Einblenden",
-    "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?"
+    "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
@@ -350,7 +356,8 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja"
+      "txtYes": "Ja",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -531,7 +538,8 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
       "txtSortLow2High": "Aufsteigend sortieren",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",

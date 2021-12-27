@@ -63,7 +63,7 @@ define([
         var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
 
         if ( !!native ) {
-            native.features = {};
+            native.features = native.features || {};
             window.on_native_message = function (cmd, param) {
                 if (/^style:change/.test(cmd)) {
                     var obj = JSON.parse(param);
@@ -92,7 +92,7 @@ define([
                     if ( obj.lockthemes != undefined ) {
                         // TODO: remove after 7.0.2. depricated. used is_win_xp variable instead
                         // Common.UI.Themes.setAvailable(!obj.lockthemes);
-                    } else
+                    }
                     if ( obj.singlewindow !== undefined ) {
                         $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;

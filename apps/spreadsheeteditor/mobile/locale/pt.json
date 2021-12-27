@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
       "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -290,7 +293,10 @@
     "textSheet": "Folha",
     "textSheetName": "Nome da folha",
     "textUnhide": "Reexibir",
-    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
+    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -350,7 +356,8 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -531,7 +538,8 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
       "txtSortLow2High": "Classificar do menor para o maior",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",

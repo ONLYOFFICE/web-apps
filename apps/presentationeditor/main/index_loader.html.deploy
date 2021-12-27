@@ -245,6 +245,7 @@
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
+        window.uitype = 'slide';
 
         if ( lang == 'de')      loading = 'Ladevorgang...';
         else if ( lang == 'es') loading = 'Cargando...';
@@ -285,6 +286,7 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/presentationeditor/main/resources/css/app.css">
+    <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>

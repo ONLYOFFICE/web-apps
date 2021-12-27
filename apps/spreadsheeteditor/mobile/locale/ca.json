@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
       "warnProcessRightsChange": "No tens permís per editar el fitxer.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -290,7 +293,10 @@
     "textSheet": "Full",
     "textSheetName": "Nom del full",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?"
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -350,7 +356,8 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordena els objectes seleccionats",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -531,7 +538,8 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
       "txtSortLow2High": "Ordena de menor a major",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Tria les opcions CSV",

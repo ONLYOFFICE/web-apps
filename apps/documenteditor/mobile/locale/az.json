@@ -56,7 +56,8 @@
     "textStartAt": "Başlayın",
     "textTable": "Cədvəl",
     "textTableSize": "Cədvəl Ölçüsü",
-    "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır"
+    "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -328,7 +329,8 @@
     "textOctober": "October",
     "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textEmpty": "Empty",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Çevrilmə vaxtı maksimumu keçdi.",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "1% redaktor üçün istifadəçi limitinə çatdınız. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
     "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
-    "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur."
+    "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Qorunan Fayl",

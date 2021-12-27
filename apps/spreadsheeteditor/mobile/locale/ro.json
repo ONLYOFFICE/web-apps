@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -290,7 +293,10 @@
     "textSheet": "Foaie",
     "textSheetName": "Numele foii",
     "textUnhide": "Reafișare",
-    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
+    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -350,7 +356,8 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
       "txtSortSelected": "Sortarea selecției",
-      "txtYes": "Da"
+      "txtYes": "Da",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -531,7 +538,8 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
       "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
