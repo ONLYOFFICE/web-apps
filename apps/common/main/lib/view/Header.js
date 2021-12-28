@@ -124,7 +124,8 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
-                                    '<label id="title-doc-name" />' +
+                                    // '<label id="title-doc-name" />' +
+                                    '<input id="title-doc-name" /></input>' +
                                 '</div>' +
                                 '<label id="title-user-name"></label>' +
                             '</section>';
@@ -214,8 +215,10 @@ define([
         }
 
         function onAppShowed(config) {
+            //config.isCrypted =true; //delete fore merge!
             if ( this.labelDocName ) {
                 if ( config.isCrypted ) {
+                this.labelDocName.attr({'style':'text-align: left;'});
                     this.labelDocName.before(
                         '<div class="inner-box-icon crypted">' +
                             '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
@@ -504,7 +507,7 @@ define([
                     if ( !me.labelDocName ) {
                         me.labelDocName = $html.find('#rib-doc-name');
                         if ( me.documentCaption ) {
-                            me.labelDocName.text(me.documentCaption);
+                            me.labelDocName.val(me.documentCaption);
                         }
                     } else {
                         $html.find('#rib-doc-name').hide();
@@ -562,7 +565,7 @@ define([
 
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
                     me.labelDocName = $html.find('#title-doc-name');
-                    me.labelDocName.text( me.documentCaption );
+                    me.labelDocName.val( me.documentCaption );
 
                     me.labelUserName = $('> #title-user-name', $html);
                     me.setUserName(me.options.userName);
@@ -630,7 +633,7 @@ define([
                 this.documentCaption = value;
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
-                    this.labelDocName.text( value );
+                    this.labelDocName.val( value );
                     // this.labelDocName.attr('size', value.length);
 
                     this.setCanRename(true);
@@ -649,7 +652,7 @@ define([
                 var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.labelDocName.text(_name);
+                this.labelDocName.val(_name);
             },
 
             setCanBack: function (value, text) {
@@ -679,7 +682,7 @@ define([
             },
 
             setCanRename: function (rename) {
-                rename = false;
+                rename = true;      //for merge rename = false; ??
 
                 var me = this;
                 me.options.canRename = rename;
