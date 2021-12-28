@@ -881,7 +881,7 @@ Common.Utils.lockControls = function(causes, lock, opts, defControls) {
     opts.merge && (controls = _.union(defControls,controls));
 
     function doLock(cmp, cause) {
-        if ( cmp && _.contains(cmp.options.lock, cause) ) {
+        if ( cmp && cmp.options && _.contains(cmp.options.lock, cause) ) {
             var index = cmp.keepState.indexOf(cause);
             if (lock) {
                 if (index < 0) {
