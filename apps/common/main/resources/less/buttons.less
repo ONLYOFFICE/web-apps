@@ -70,6 +70,9 @@
 
         transition: transform 0.2s ease;
         transform: rotate(-135deg) translate(1px,1px);
+        &.compact-caret {
+            display: none;
+        }
     }
 
     //&:active,
@@ -229,7 +232,7 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 0 2px;
+            padding: 0 3px;
             display: flex;
             //align-items: center;
             align-items: start;
@@ -238,6 +241,7 @@
                 max-width: 85px;
                 max-height: 22px;
                 text-overflow: ellipsis;
+                overflow: hidden;
 
                 white-space: pre-line;
                 line-height: 10px;

@@ -213,6 +213,7 @@ define([
                     '<span class="caption"><%= caption %>' +
                         '<i class="caret"></i>' +
                     '</span>' +
+                    '<i class="caret compact-caret"></i>' +
                 '</div>' +
             '</button>' +
         '</div>';
@@ -229,6 +230,7 @@ define([
                     '<span class="caption"><%= caption %>' +
                         '<i class="caret"></i>' +
                     '</span>' +
+                    '<i class="caret compact-caret"></i>' +
                 '</span>' +
             '</button>' +
         '</div>';
