@@ -772,7 +772,7 @@ define([
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
                 if (options.review) {
-                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable, options.reviewMode, options.fillFormwMode);
                 }
                 if (options.viewport) {
                     app.getController('Viewport').SetDisabled(disable);

@@ -3046,38 +3046,21 @@ define([
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
+            if (reviewmode)
+                this.toolbar.lockToolbar(Common.enumLock.previewReviewMode, disable);
+            else if (fillformmode)
+                this.toolbar.lockToolbar(Common.enumLock.fillFormwMode, disable);
+
             if(disable) {
-                if (reviewmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review):not(.no-group-mask.inner-elset)'));
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset'));
-                } else if (fillformmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view):not(.no-group-mask.inner-elset)'));
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset:not(.no-group-mask.form-view)'));
-                } else
+                if (reviewmode || fillformmode)
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
+                else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
                 mask.remove();
             }
-            $('.no-group-mask').each(function(index, item){
-                var $el = $(item);
-                if ($el.find('> .toolbar-group-mask').length>0)
-                    $el.css('opacity', 0.4);
-                else {
-                    $el.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
-                    $el.find('.elset').each(function(index, elitem){
-                        var $elset = $(elitem);
-                        if ($elset.find('> .toolbar-group-mask').length>0) {
-                            $elset.css('opacity', 0.4);
-                        } else {
-                            $elset.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
-                        }
-                        $el.css('opacity', 1);
-                    });
-                }
-            });
-
+            toolbar.$el.find('.toolbar').toggleClass('masked', $('.toolbar-mask').length>0);
             disable = disable || ((reviewmode || fillformmode) ? toolbar_mask.length>0 : group_mask.length>0);
-            toolbar.$el.find('.toolbar').toggleClass('masked', disable);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
 
