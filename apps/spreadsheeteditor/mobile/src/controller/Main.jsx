@@ -398,11 +398,18 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onEditCell', (state) => {
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 const isEditCell = state === Asc.c_oAscCellEditorState.editStart;
+                const isEditEnd = state === Asc.c_oAscCellEditorState.editEnd;
+               
                 if (storeFocusObjects.isEditCell !== isEditCell) {
                     storeFocusObjects.setEditCell(isEditCell);
                 }
+
+                if(isEditEnd) {
+                    storeFocusObjects.setEditFormulaMode(false);
+                }
             } else {
                 const isFormula = state === Asc.c_oAscCellEditorState.editFormula;
+               
                 if (storeFocusObjects.editFormulaMode !== isFormula) {
                     storeFocusObjects.setEditFormulaMode(isFormula);
                 }
