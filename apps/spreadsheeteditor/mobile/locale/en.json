@@ -291,6 +291,7 @@
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
     "textMove": "Move",
+    "textTabColor": "Tab Color",
     "textMoveBack": "Move back",
     "textMoveForward": "Move forward",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"

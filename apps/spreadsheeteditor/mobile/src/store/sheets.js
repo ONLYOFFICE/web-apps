@@ -42,13 +42,22 @@ export class storeWorksheets {
             setWsProps: action,
 
             isDisabledEditSheet: observable,
-            setDisabledEditSheet: action
+            setDisabledEditSheet: action,
+
+            colorTab:observable,
+            changeTabColor: action
         });
         this.sheets = [];
     }
 
+    colorTab = undefined;
+
     resetSheets(sheets) {
         this.sheets = Object.values(sheets)
+    }
+
+    changeTabColor(color) {
+        this.colorTab = color;
     }
 
     setActiveWorksheet(i) {
