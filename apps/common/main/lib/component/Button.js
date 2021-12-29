@@ -348,6 +348,39 @@ define([
                 me.render(me.options.parentEl);
         },
 
+        getCaptionWithBreaks: function (caption) {
+            var words = caption.split(' '),
+                newCaption = null,
+                maxWidth = !!this.menu ? 85 - 4 - 10 : 85 - 4;
+            if (words.length > 1) {
+                if (words.length < 3) {
+                    words[1] = getShortText(words[1], maxWidth);
+                    newCaption = words[0] + '<br>' + words[1];
+                } else {
+                    if (getWidthOfCaption(words[0] + ' ' + words[1]) < maxWidth) { // first and second words in first line
+                        words[2] = getShortText(words[2], maxWidth);
+                        newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
+                    } else if (getWidthOfCaption(words[1] + ' ' + words[2]) < maxWidth) { // second and third words in second line
+                        words[2] = getShortText(words[2], maxWidth);
+                        newCaption = words[0] + '<br>' + words[1] + ' ' + words[2];
+                    } else {
+                        words[1] = getShortText(words[1] + ' ' + words[2], maxWidth);
+                        newCaption = words[0] + '<br>' + words[1];
+                    }
+                }
+            } else if (!!this.menu || this.split === true) {
+                var width = getWidthOfCaption(caption);
+                if (width < maxWidth) {
+                    newCaption = caption + '<br>';
+                } else if (width > maxWidth * 2 - 10) {
+                    newCaption = getShortText(caption, maxWidth * 2 - 10);
+                } else {
+                    newCaption = caption;
+                }
+            }
+            return newCaption;
+        },
+
         render: function(parentEl) {
             var me = this;
 
@@ -369,35 +402,7 @@ define([
                         } else {
                             this.template = _.template(templateHugeCaption);
                         }
-                        var words = me.caption.split(' '),
-                            newCaption = null,
-                            maxWidth = !!me.menu ? 85 - 4 - 10 : 85 - 4;
-                        if (words.length > 1) {
-                            if (words.length < 3) {
-                                words[1] = getShortText(words[1], maxWidth);
-                                newCaption = words[0] + '<br>' + words[1];
-                            } else {
-                                if (getWidthOfCaption(words[0] + ' ' + words[1]) < maxWidth) { // first and second words in first line
-                                    words[2] = getShortText(words[2], maxWidth);
-                                    newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
-                                } else if (getWidthOfCaption(words[1] + ' ' + words[2]) < maxWidth) { // second and third words in second line
-                                    words[2] = getShortText(words[2], maxWidth);
-                                    newCaption = words[0] + '<br>' + words[1] + ' ' + words[2];
-                                } else {
-                                    words[1] = getShortText(words[1] + ' ' + words[2], maxWidth);
-                                    newCaption = words[0] + '<br>' + words[1];
-                                }
-                            }
-                        } else if (!!me.menu || me.split === true) {
-                            var width = getWidthOfCaption(me.caption);
-                            if (width < maxWidth) {
-                                newCaption = me.caption + '<br>';
-                            } else if (width > maxWidth * 2 - 10) {
-                                newCaption = getShortText(me.caption, maxWidth * 2 - 10);
-                            } else {
-                                newCaption = me.caption;
-                            }
-                        }
+                        var newCaption = this.getCaptionWithBreaks(this.caption);
                         if (newCaption) {
                             me.caption = newCaption;
                         }
@@ -808,15 +813,19 @@ define([
 
         setCaption: function(caption) {
             if (this.caption != caption) {
-                this.caption = caption;
+                if ( /icon-top/.test(this.cls) && !!this.caption && /huge/.test(this.cls) ) {
+                    var newCaption = this.getCaptionWithBreaks(caption);
+                    this.caption = newCaption || caption;
+                } else
+                    this.caption = caption;
 
                 if (this.rendered) {
                     var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
-                        captionNode.text(caption);
+                        captionNode.html(this.caption);
                     } else {
-                        this.cmpEl.find('button:first').addBack().filter('button').text(caption);
+                        this.cmpEl.find('button:first').addBack().filter('button').html(this.caption);
                     }
                 }
             }
