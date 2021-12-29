@@ -112,7 +112,7 @@ define([
         onApiCountPages: function (count) {
             if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
-                this.lockToolbar(PE.enumLock.noSlides, this._state.no_slides);
+                this.lockToolbar(Common.enumLock.noSlides, this._state.no_slides);
             }
         },
 
@@ -413,19 +413,19 @@ define([
 
         setLocked: function() {
             if (this._state.noGraphic != undefined)
-                this.lockToolbar(PE.enumLock.noGraphic, this._state.noGraphic);
+                this.lockToolbar(Common.enumLock.noGraphic, this._state.noGraphic);
             if (this._state.noAnimation != undefined)
-                this.lockToolbar(PE.enumLock.noAnimation, this._state.noAnimation);
+                this.lockToolbar(Common.enumLock.noAnimation, this._state.noAnimation);
             if (this._state.noAnimationParam != undefined)
-                this.lockToolbar(PE.enumLock.noAnimationParam, this._state.noAnimationParam);
+                this.lockToolbar(Common.enumLock.noAnimationParam, this._state.noAnimationParam);
             if (this._state.noTriggerObjects != undefined)
-                this.lockToolbar(PE.enumLock.noTriggerObjects, this._state.noTriggerObjects);
+                this.lockToolbar(Common.enumLock.noTriggerObjects, this._state.noTriggerObjects);
             if (this._state.noMoveAnimationLater != undefined)
-                this.lockToolbar(PE.enumLock.noMoveAnimationLater, this._state.noMoveAnimationLater);
+                this.lockToolbar(Common.enumLock.noMoveAnimationLater, this._state.noMoveAnimationLater);
             if (this._state.noMoveAnimationEarlier != undefined)
-                this.lockToolbar(PE.enumLock.noMoveAnimationEarlier, this._state.noMoveAnimationEarlier);
-            if (PE.enumLock.noAnimationPreview != undefined)
-                this.lockToolbar(PE.enumLock.noAnimationPreview, this._state.noAnimationPreview);
+                this.lockToolbar(Common.enumLock.noMoveAnimationEarlier, this._state.noMoveAnimationEarlier);
+            if (Common.enumLock.noAnimationPreview != undefined)
+                this.lockToolbar(Common.enumLock.noAnimationPreview, this._state.noAnimationPreview);
 
         }
 

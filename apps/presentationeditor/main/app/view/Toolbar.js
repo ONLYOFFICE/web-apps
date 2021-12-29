@@ -61,7 +61,10 @@ define([
 ], function (Backbone, template, template_view) {
     'use strict';
 
-    PE.enumLock = {
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    var enumLock = {
         paragraphLock:  'para-lock',
         shapeLock:      'shape-lock',
         slideLock:      'slide-lock',
@@ -95,6 +98,11 @@ define([
         noMoveAnimationLater: 'no-move-animation-later',
         noAnimationPreview: 'no-animation-preview'
     };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
 
@@ -155,7 +163,7 @@ define([
                     /**
                      * UI Components
                      */
-                    var _set = PE.enumLock;
+                    var _set = Common.enumLock;
 
                     me.btnChangeSlide = new Common.UI.Button({
                         id: 'id-toolbar-button-change-slide',
@@ -1078,7 +1086,7 @@ define([
                         menuMaxHeight: 640,
                         menuWidth: 362,
                         enableKeyEvents: true,
-                        lock: [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
+                        lock: [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, 0'
@@ -1100,7 +1108,7 @@ define([
                             if (_.isFunction(cmp.setDisabled))
                                 cmp.setDisabled(true);
                         });
-                    this.lockToolbar(PE.enumLock.disableOnStart, true, {array: me.slideOnlyControls.concat(me.shapeControls)});
+                    this.lockToolbar(Common.enumLock.disableOnStart, true, {array: me.slideOnlyControls.concat(me.shapeControls)});
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
                 } else {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
@@ -1235,16 +1243,16 @@ define([
                 }
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
                 this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, false, true, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, false, true, '1', 'bottom', 'small');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
-                    [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
+                    [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
 
                 var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
-                this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
+                this.lockToolbar(Common.enumLock.disableOnStart, true, {array: created});
 
                 Array.prototype.push.apply(this.slideOnlyControls, created);
                 Array.prototype.push.apply(this.lockControls, created);
@@ -1552,14 +1560,14 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.lockToolbar(PE.enumLock.lostConnect, true);
-                    this.lockToolbar( PE.enumLock.lostConnect, true, {array:[this.btnUndo,this.btnRedo,this.btnSave]} );
+                    this.lockToolbar(Common.enumLock.lostConnect, true);
+                    this.lockToolbar( Common.enumLock.lostConnect, true, {array:[this.btnUndo,this.btnRedo,this.btnSave]} );
                     if ( this.synchTooltip )
                         this.synchTooltip.hide();
                     if (!mode.enableDownload)
-                        this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                        this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
                 } else
-                    this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+                    this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
 
                 this.mode = mode;
             },

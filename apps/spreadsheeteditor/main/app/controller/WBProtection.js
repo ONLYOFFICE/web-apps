@@ -71,8 +71,8 @@ define([
             this._state = {};
             this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
                 'DeleteRows', 'Sort', 'AutoFilter', 'PivotTables', 'Objects', 'Scenarios'];
-            SSE.enumLock && this.wsLockOptions.forEach(function(item){
-                SSE.enumLock[item] = item;
+            Common.enumLock && this.wsLockOptions.forEach(function(item){
+                Common.enumLock[item] = item;
             });
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -281,8 +281,8 @@ define([
 
                 var props = me.getWSProps();
                 me.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
-                Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [me.view.chLockedText, me.view.chLockedShape]});
-                Common.Utils.lockControls(SSE.enumLock.wsLock, props.wsLock, { array: [me.view.btnAllowRanges]});
+                Common.Utils.lockControls(Common.enumLock['Objects'], props.wsProps['Objects'], { array: [me.view.chLockedText, me.view.chLockedShape]});
+                Common.Utils.lockControls(Common.enumLock.wsLock, props.wsLock, { array: [me.view.btnAllowRanges]});
             });
         },
 
@@ -295,8 +295,8 @@ define([
 
             if (this.view && props) {
                 this.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
-                Common.Utils.lockControls(SSE.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
-                Common.Utils.lockControls(SSE.enumLock.wsLock, props.wsLock, { array: [this.view.btnAllowRanges]});
+                Common.Utils.lockControls(Common.enumLock['Objects'], props.wsProps['Objects'], { array: [this.view.chLockedText, this.view.chLockedShape]});
+                Common.Utils.lockControls(Common.enumLock.wsLock, props.wsLock, { array: [this.view.btnAllowRanges]});
             }
             Common.NotificationCenter.trigger('protect:wslock', props);
         },
@@ -335,7 +335,7 @@ define([
             var selectionType = info.asc_getSelectionType();
             var need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
                                 selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
-            Common.Utils.lockControls(SSE.enumLock.selRange, need_disable, { array: [this.view.chLockedText, this.view.chLockedShape]});
+            Common.Utils.lockControls(Common.enumLock.selRange, need_disable, { array: [this.view.chLockedText, this.view.chLockedShape]});
 
             var xfs = info.asc_getXfs();
             this.view.chLockedCell.setValue(!!xfs.asc_getLocked(), true);
@@ -352,8 +352,8 @@ define([
                             lock = elValue.asc_getProtectionLocked();
                         this.view.chLockedText.setValue(locktext!==undefined ? !!locktext : 'indeterminate', true);
                         this.view.chLockedShape.setValue(lock!==undefined ? !!lock : 'indeterminate', true);
-                        Common.Utils.lockControls(SSE.enumLock.wsLockText, locktext===null, { array: [this.view.chLockedText]});
-                        Common.Utils.lockControls(SSE.enumLock.wsLockShape, lock===null, { array: [this.view.chLockedShape]});
+                        Common.Utils.lockControls(Common.enumLock.wsLockText, locktext===null, { array: [this.view.chLockedText]});
+                        Common.Utils.lockControls(Common.enumLock.wsLockShape, lock===null, { array: [this.view.chLockedShape]});
                         break;
                     }
                 }
