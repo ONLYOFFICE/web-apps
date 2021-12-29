@@ -174,21 +174,21 @@ define([
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
                 plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
 
-            this.lockToolbar(DE.enumLock.paragraphLock, paragraph_locked,   {array: this.view.btnsNotes.concat(this.view.btnsHyperlink).concat([this.view.btnBookmarks, this.view.btnTableFiguresUpdate, this.view.btnCrossRef])});
-            this.lockToolbar(DE.enumLock.inHeader,      in_header,          {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnBookmarks, this.view.btnTableFigures,
+            this.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.btnsNotes.concat(this.view.btnsHyperlink).concat([this.view.btnBookmarks, this.view.btnTableFiguresUpdate, this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.inHeader,      in_header,          {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnBookmarks, this.view.btnTableFigures,
                                                                                             this.view.btnTableFiguresUpdate, this.view.btnCaption])});
-            this.lockToolbar(DE.enumLock.controlPlain,  control_plain,      {array: this.view.btnsNotes.concat([this.view.btnBookmarks, this.view.btnCrossRef])});
-            this.lockToolbar(DE.enumLock.richEditLock,  rich_edit_lock,     {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate,
+            this.lockToolbar(Common.enumLock.controlPlain,  control_plain,      {array: this.view.btnsNotes.concat([this.view.btnBookmarks, this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate,
                                                                                             this.view.btnCrossRef])});
-            this.lockToolbar(DE.enumLock.plainEditLock, plain_edit_lock,    {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate,
+            this.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate,
                                                                                             this.view.btnCrossRef])});
-            this.lockToolbar(DE.enumLock.headerLock,    header_locked,      {array: this.view.btnsHyperlink.concat([this.view.btnBookmarks, this.view.btnCrossRef])});
-            this.lockToolbar(DE.enumLock.inEquation,    in_equation,        {array: this.view.btnsNotes});
-            this.lockToolbar(DE.enumLock.inImage,       in_image,           {array: this.view.btnsNotes});
-            this.lockToolbar(DE.enumLock.richDelLock,   rich_del_lock,      {array: this.view.btnsContents.concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate])});
-            this.lockToolbar(DE.enumLock.plainDelLock,  plain_del_lock,     {array: this.view.btnsContents.concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate])});
-            this.lockToolbar(DE.enumLock.contentLock,   content_locked,     {array: [this.view.btnCrossRef]});
-            this.lockToolbar(DE.enumLock.cantUpdateTOF, !this.api.asc_CanUpdateTablesOfFigures(),   {array: [this.view.btnTableFiguresUpdate]});
+            this.lockToolbar(Common.enumLock.headerLock,    header_locked,      {array: this.view.btnsHyperlink.concat([this.view.btnBookmarks, this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.inEquation,    in_equation,        {array: this.view.btnsNotes});
+            this.lockToolbar(Common.enumLock.inImage,       in_image,           {array: this.view.btnsNotes});
+            this.lockToolbar(Common.enumLock.richDelLock,   rich_del_lock,      {array: this.view.btnsContents.concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate])});
+            this.lockToolbar(Common.enumLock.plainDelLock,  plain_del_lock,     {array: this.view.btnsContents.concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate])});
+            this.lockToolbar(Common.enumLock.contentLock,   content_locked,     {array: [this.view.btnCrossRef]});
+            this.lockToolbar(Common.enumLock.cantUpdateTOF, !this.api.asc_CanUpdateTablesOfFigures(),   {array: [this.view.btnTableFiguresUpdate]});
 
             this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(this.view.btnCrossRef.isDisabled());
         },
@@ -198,7 +198,7 @@ define([
         },
 
         onApiCanAddHyperlink: function(value) {
-            this.toolbar.editMode && this.lockToolbar(DE.enumLock.hyperlinkLock, !value, {array: this.view.btnsHyperlink});
+            this.toolbar.editMode && this.lockToolbar(Common.enumLock.hyperlinkLock, !value, {array: this.view.btnsHyperlink});
         },
 
         onHyperlinkClick: function(btn) {

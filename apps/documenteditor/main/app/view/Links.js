@@ -157,7 +157,7 @@ define([
                 this.btnsPrevEndNote = [];
                 this.btnsNextEndNote = [];
                 this.paragraphControls = [];
-                var _set = DE.enumLock;
+                var _set = Common.enumLock;
                 var me = this,
                     $host = me.toolbar.$el;
 
@@ -245,7 +245,7 @@ define([
                     dataHintOffset: 'medium'
                 });
                 this.paragraphControls.push(this.btnTableFiguresUpdate);
-                Common.Utils.lockControls(DE.enumLock.disableOnStart, true, {array: this.paragraphControls});
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },

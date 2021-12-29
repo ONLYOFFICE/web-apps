@@ -85,7 +85,7 @@ define([
 
                 var me = this,
                     $host = me.toolbar.$el;
-                var _set = DE.enumLock;
+                var _set = Common.enumLock;
 
                 this.btnNavigation = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-navigation'),

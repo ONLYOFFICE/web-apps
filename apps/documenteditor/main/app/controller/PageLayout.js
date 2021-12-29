@@ -166,14 +166,14 @@ define([
                         break;
                     }
                 }
-                me.toolbar.lockToolbar(DE.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
-                me.toolbar.lockToolbar(DE.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping]});
-                me.toolbar.lockToolbar(DE.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
-                me.toolbar.lockToolbar(DE.enumLock.inImageInline, wrapping == Asc.c_oAscWrapStyle2.Inline, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup]});
-                me.toolbar.lockToolbar(DE.enumLock.inSmartartInternal, shapeProps && shapeProps.asc_getFromSmartArtInternal(), {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
-                me.toolbar.lockToolbar(DE.enumLock.cantGroup, !canGroupUngroup, {array: [me.toolbar.btnImgGroup]});
-                me.toolbar.lockToolbar(DE.enumLock.cantWrap, disable.wrapping, {array: [me.toolbar.btnImgWrapping]});
-                me.toolbar.lockToolbar(DE.enumLock.cantArrange, disable.arrange, {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping]});
+                me.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.inImageInline, wrapping == Asc.c_oAscWrapStyle2.Inline, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup]});
+                me.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, shapeProps && shapeProps.asc_getFromSmartArtInternal(), {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.cantGroup, !canGroupUngroup, {array: [me.toolbar.btnImgGroup]});
+                me.toolbar.lockToolbar(Common.enumLock.cantWrap, disable.wrapping, {array: [me.toolbar.btnImgWrapping]});
+                me.toolbar.lockToolbar(Common.enumLock.cantArrange, disable.arrange, {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
             },
 
             onApiCoAuthoringDisconnect: function() {

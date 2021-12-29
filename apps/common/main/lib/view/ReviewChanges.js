@@ -54,6 +54,23 @@ define([
 ], function () {
     'use strict';
 
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    var enumLock = {
+        isReviewOnly:   'review-only',
+        reviewChangelock: 'review-change-lock',
+        hasCoeditingUsers: 'has-coediting-users',
+        previewReviewMode: 'preview-review-mode', // display mode on Collaboration tab
+        viewFormMode:   'view-form-mode', // view form mode on Forms tab
+        viewMode:       'view-mode' // view mode on disconnect, version history etc
+    };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
+
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="review-changes-panel" class="panel" data-tab="review">' +

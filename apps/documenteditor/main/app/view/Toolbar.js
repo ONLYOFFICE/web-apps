@@ -39,6 +39,8 @@
  *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
+if (Common === undefined)
+    var Common = {};
 
 define([
     'jquery',
@@ -62,7 +64,10 @@ define([
 ], function ($, _, Backbone, template, template_view) {
     'use strict';
 
-    DE.enumLock = {
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    var enumLock = {
         undoLock:       'can-undo',
         redoLock:       'can-redo',
         copyLock:       'can-copy',
@@ -111,6 +116,11 @@ define([
         lostConnect:    'disconnect',
         disableOnStart: 'on-start'
     };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
 
     DE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
 
@@ -155,7 +165,7 @@ define([
             applyLayout: function (config) {
                 var me = this;
                 me.lockControls = [];
-                var _set = DE.enumLock;
+                var _set = Common.enumLock;
                 if ( config.isEdit ) {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
@@ -1489,7 +1499,7 @@ define([
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls);
-                    this.lockToolbar(DE.enumLock.disableOnStart, true, {array: this.lockControls});
+                    this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
 
                     var editStyleMenuUpdate = new Common.UI.MenuItem({
                         caption: me.textStyleMenuUpdate
@@ -1676,8 +1686,8 @@ define([
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
-                    [DE.enumLock.paragraphLock, DE.enumLock.headerLock, DE.enumLock.richEditLock, DE.enumLock.plainEditLock, DE.enumLock.inEquation, DE.enumLock.richDelLock, DE.enumLock.plainDelLock,
-                        DE.enumLock.inHeader, DE.enumLock.inFootnote, DE.enumLock.inControl, DE.enumLock.cantPageBreak, DE.enumLock.lostConnect, DE.enumLock.disableOnStart],
+                    [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
+                        Common.enumLock.inHeader, Common.enumLock.inFootnote, Common.enumLock.inControl, Common.enumLock.cantPageBreak, Common.enumLock.previewReviewMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart],
                         true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
                 Array.prototype.push.apply(this.lockControls, this.btnsPageBreak);
@@ -2372,13 +2382,13 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.lockToolbar(DE.enumLock.lostConnect, true);
+                    this.lockToolbar(Common.enumLock.lostConnect, true);
                     if ( this.synchTooltip )
                         this.synchTooltip.hide();
                     if (!mode.enableDownload)
-                        this.lockToolbar(DE.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                        this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
                 } else
-                    this.lockToolbar(DE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+                    this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
 
                 this.mode = mode;
 

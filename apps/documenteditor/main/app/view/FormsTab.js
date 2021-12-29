@@ -142,7 +142,7 @@ define([
                 this.paragraphControls = [];
 
                 var me = this;
-                var _set = DE.enumLock;
+                var _set = Common.enumLock;
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                     this.btnClear = new Common.UI.Button({
@@ -316,7 +316,7 @@ define([
                     });
                     this.paragraphControls.push(this.btnSaveForm);
                 }
-                Common.Utils.lockControls(DE.enumLock.disableOnStart, true, {array: this.paragraphControls});
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },

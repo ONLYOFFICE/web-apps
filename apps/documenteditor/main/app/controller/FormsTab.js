@@ -145,10 +145,10 @@ define([
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var arr = [ this.view.btnTextField, this.view.btnComboBox, this.view.btnDropDown, this.view.btnCheckBox,
                         this.view.btnRadioBox, this.view.btnImageField ];
-            Common.Utils.lockControls(DE.enumLock.paragraphLock, paragraph_locked,   {array: arr});
-            Common.Utils.lockControls(DE.enumLock.headerLock,    header_locked,      {array: arr});
-            Common.Utils.lockControls(DE.enumLock.controlPlain,  control_plain,      {array: arr});
-            Common.Utils.lockControls(DE.enumLock.contentLock,   content_locked,     {array: arr});
+            Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: arr});
+            Common.Utils.lockControls(Common.enumLock.headerLock,    header_locked,      {array: arr});
+            Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
+            Common.Utils.lockControls(Common.enumLock.contentLock,   content_locked,     {array: arr});
         },
 
         onChangeSpecialFormsGlobalSettings: function() {
