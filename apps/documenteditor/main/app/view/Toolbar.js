@@ -80,6 +80,7 @@ define([
         dropcapLock:    'dropcap-lock',
         docPropsLock:   'doc-props-lock',
         docSchemaLock:  'doc-schema-lock',
+        hyperlinkLock:  'can-hyperlink',
         inSmartart:     'in-smartart',
         inSmartartInternal: 'in-smartart-internal',
         inSpecificForm: 'in-specific-form',
@@ -88,8 +89,10 @@ define([
         inHeader:       'in-header',
         inImage:        'in-image',
         inImagePara:    'in-image-para',
+        inImageInline:  'in-image-inline',
         inFootnote:     'in-footnote',
         inControl:      'in-control',
+        inLightTheme:   'light-theme',
         controlPlain:   'control-plain',
         noParagraphSelected:  'no-paragraph',
         cantAddTable:   'cant-add-table',
@@ -100,6 +103,11 @@ define([
         cantAddChart:   'cant-add-chart',
         cantAddPageNum: 'cant-add-page-num',
         cantPageBreak:  'cant-page-break',
+        cantUpdateTOF:  'cant-update-tof',
+        cantGroup:      'cant-group',
+        cantWrap:       'cant-wrap',
+        cantArrange:    'cant-arrange',
+        noObjectSelected:  'no-object',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start'
     };
@@ -1281,7 +1289,7 @@ define([
                     me.btnImgAlign = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-align',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.imageLock, _set.contentLock, _set.inImageInline, _set.noObjectSelected, _set.lostConnect, _set.disableOnStart],
                         caption: me.capImgAlign,
                         menu: true,
                         dataHint: '1',
@@ -1292,7 +1300,7 @@ define([
                     me.btnImgGroup = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-group',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.imageLock, _set.contentLock, _set.inImageInline, _set.noObjectSelected, _set.cantGroup, _set.lostConnect, _set.disableOnStart],
                         caption: me.capImgGroup,
                         menu: true,
                         dataHint: '1',
@@ -1302,7 +1310,7 @@ define([
                     me.btnImgForward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-frwd',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.cantArrange, _set.lostConnect, _set.contentLock, _set.noObjectSelected, _set.inSmartartInternal, _set.disableOnStart],
                         caption: me.capImgForward,
                         split: true,
                         menu: true,
@@ -1313,7 +1321,7 @@ define([
                     me.btnImgBackward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-bkwd',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.cantArrange, _set.lostConnect, _set.contentLock, _set.noObjectSelected, _set.inSmartartInternal, _set.disableOnStart],
                         caption: me.capImgBackward,
                         split: true,
                         menu: true,
@@ -1324,7 +1332,7 @@ define([
                     me.btnImgWrapping = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-wrap',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.cantWrap, _set.imageLock, _set.contentLock, _set.noObjectSelected, _set.lostConnect, _set.disableOnStart],
                         caption: me.capImgWrapping,
                         menu: true,
                         dataHint: '1',

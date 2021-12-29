@@ -142,6 +142,7 @@ define([
                 this.paragraphControls = [];
 
                 var me = this;
+                var _set = DE.enumLock;
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                     this.btnClear = new Common.UI.Button({
@@ -153,8 +154,8 @@ define([
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text-field',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnText,
-                        disabled: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -164,8 +165,8 @@ define([
                     this.btnComboBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-combo-box',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnComboBox,
-                        disabled: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -175,8 +176,8 @@ define([
                     this.btnDropDown = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropdown',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnDropDown,
-                        disabled: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -186,8 +187,8 @@ define([
                     this.btnCheckBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-checkbox',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnCheckBox,
-                        disabled: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -197,8 +198,8 @@ define([
                     this.btnRadioBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-radio-button',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnRadioBox,
-                        disabled: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -208,8 +209,8 @@ define([
                     this.btnImageField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnImage,
-                        disabled: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -219,9 +220,9 @@ define([
                     this.btnViewForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-sheet-view',
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnView,
                         enableToggle: true,
-                        disabled: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -231,8 +232,8 @@ define([
                     this.btnClearFields = new Common.UI.Button({
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-clearstyle',
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         caption     : this.textClearFields,
-                        disabled: true,
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
@@ -242,9 +243,9 @@ define([
                     this.btnHighlight = new Common.UI.ButtonColored({
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-highlight',
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         caption     : this.textHighlight,
                         menu        : true,
-                        disabled: true,
                         additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
                                               id: 'id-toolbar-menu-no-highlight-form',
                                               caption: this.textNoHighlight,
@@ -268,8 +269,9 @@ define([
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon previous-field',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnPrev,
-                    disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
+                    // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -279,8 +281,9 @@ define([
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon next-field',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnNext,
-                    disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
+                    // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -291,8 +294,9 @@ define([
                     this.btnSubmit = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon submit-form',
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnSubmit,
-                        disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
+                        // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -302,16 +306,17 @@ define([
                 if (this.appConfig.canDownloadForms) {
                     this.btnSaveForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         iconCls: 'toolbar__icon save-form',
                         caption: this.capBtnSaveForm,
-                        disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
+                        // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnSaveForm);
                 }
-
+                Common.Utils.lockControls(DE.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
