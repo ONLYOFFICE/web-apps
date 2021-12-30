@@ -3156,6 +3156,7 @@
   "SSE.Views.Statusbar.textNoColor": "No Color",
   "SSE.Views.Statusbar.textSum": "Sum",
   "SSE.Views.Statusbar.tipAddTab": "Add worksheet",
+  "SSE.Views.Statusbar.tipListOfSheets": "List of Sheets",
   "SSE.Views.Statusbar.tipFirst": "Scroll to first sheet",
   "SSE.Views.Statusbar.tipLast": "Scroll to last sheet",
   "SSE.Views.Statusbar.tipNext": "Scroll sheet list right",
