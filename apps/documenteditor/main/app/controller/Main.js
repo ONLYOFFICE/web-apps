@@ -751,7 +751,8 @@ define([
                     viewport: true,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false
+                    plugins: false,
+                    protect: false
                 }, temp ? 'reconnect' : 'disconnect');
             },
 
@@ -804,6 +805,9 @@ define([
                 }
                 if (options.plugins) {
                     app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+                }
+                if (options.protect) {
+                    app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
                 }
 
                 if (prev_options) {

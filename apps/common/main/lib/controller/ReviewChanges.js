@@ -791,7 +791,8 @@ define([
                 viewport: false,
                 documentHolder: true,
                 toolbar: true,
-                plugins: true
+                plugins: true,
+                protect: true
             }, 'review');
 
             // if (this.view) {

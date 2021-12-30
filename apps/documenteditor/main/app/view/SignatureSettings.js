@@ -411,7 +411,8 @@ define([
                     viewport: false,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false
+                    plugins: false,
+                    protect: false
                 }, 'signature');
             }
         },

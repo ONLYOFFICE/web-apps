@@ -310,7 +310,8 @@ define([
                     viewport: false,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false
+                    plugins: false,
+                    protect: true
                 }, 'forms');
                 if (this.view)
                     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
