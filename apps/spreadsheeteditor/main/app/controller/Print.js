@@ -62,10 +62,6 @@ define([
             this._isPreviewVisible = false;
 
             this.addListeners({
-                /*'MainSettingsPrint': {
-                    'show': _.bind(this.onShowMainSettingsPrint, this),
-                    'render:after': _.bind(this.onAfterRender, this)
-                },*/
                 'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
                     'render:after': _.bind(this.onAfterRender, this),
@@ -80,7 +76,6 @@ define([
         },
 
         onLaunch: function() {
-            //this.printSettings = this.createView('MainSettingsPrint');
             this.printSettings = this.createView('PrintWithPreview');
         },
 

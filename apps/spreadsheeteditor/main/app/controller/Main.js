@@ -2552,7 +2552,6 @@ define([
                     this.getApplication().getController('RightMenu').updateMetricUnit();
                     this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
                 }
-                //this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
                 this.getApplication().getController('Print').getView('PrintWithPreview').updateMetricUnit();
             },
 
