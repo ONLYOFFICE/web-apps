@@ -295,7 +295,7 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: false,
                     reviewMode: false,
-                    fillFormwMode: true,
+                    fillFormMode: true,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
@@ -310,11 +310,11 @@ define([
                     viewport: false,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false,
+                    plugins: true,
                     protect: true
                 }, 'forms');
-                if (this.view)
-                    this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
+                // if (this.view)
+                //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
             }
         },
 

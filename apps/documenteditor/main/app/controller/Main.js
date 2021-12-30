@@ -736,7 +736,7 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     reviewMode: false,
-                    fillFormwMode: false,
+                    fillFormMode: false,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
@@ -773,16 +773,16 @@ define([
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
                 if (options.review) {
-                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable, options.reviewMode, options.fillFormwMode);
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable, options.reviewMode, options.fillFormMode);
                 }
                 if (options.viewport) {
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormwMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect, options.fillFormwMode);
+                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)

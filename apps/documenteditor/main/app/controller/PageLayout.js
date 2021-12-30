@@ -177,14 +177,7 @@ define([
             },
 
             onApiCoAuthoringDisconnect: function() {
-                var me = this;
-                me.editMode = false;
-
-                // me.toolbar.btnImgAlign.setDisabled(true);
-                // me.toolbar.btnImgGroup.setDisabled(true);
-                // me.toolbar.btnImgForward.setDisabled(true);
-                // me.toolbar.btnImgBackward.setDisabled(true);
-                // me.toolbar.btnImgWrapping.setDisabled(true);
+                this.editMode = false;
             },
 
             onBeforeShapeAlign: function() {

@@ -3049,7 +3049,7 @@ define([
             if (reviewmode)
                 this.toolbar.lockToolbar(Common.enumLock.previewReviewMode, disable);
             else if (fillformmode)
-                this.toolbar.lockToolbar(Common.enumLock.fillFormwMode, disable);
+                this.toolbar.lockToolbar(Common.enumLock.viewFormMode, disable);
 
             if(disable) {
                 if (reviewmode || fillformmode)

@@ -840,7 +840,7 @@ define([
             Common.NotificationCenter.trigger('editing:disable', disable, {
                 viewMode: disable,
                 reviewMode: false,
-                fillFormwMode: false,
+                fillFormMode: false,
                 allowMerge: true,
                 allowSignature: false,
                 allowProtect: false,

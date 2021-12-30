@@ -161,13 +161,13 @@ define([
             this.document = data.doc;
         },
 
-        SetDisabled: function(state, reviewMode, fillFormwMode) {
+        SetDisabled: function(state, reviewMode, fillFormMode) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
             if (reviewMode)
                 this.lockToolbar(Common.enumLock.previewReviewMode, state);
-            else if (fillFormwMode)
-                this.lockToolbar(Common.enumLock.fillFormwMode, state);
+            else if (fillFormMode)
+                this.lockToolbar(Common.enumLock.viewFormMode, state);
             else
                 this.lockToolbar(Common.enumLock.viewMode, state);
 
@@ -776,7 +776,7 @@ define([
             Common.NotificationCenter.trigger('editing:disable', disable, {
                 viewMode: false,
                 reviewMode: true,
-                fillFormwMode: false,
+                fillFormMode: false,
                 allowMerge: false,
                 allowSignature: false,
                 allowProtect: false,
@@ -794,16 +794,6 @@ define([
                 plugins: true,
                 protect: true
             }, 'review');
-
-            // if (this.view) {
-            //     this.view.$el.find('.no-group-mask.review').css('opacity', 1);
-            //
-            //     this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
-            //         if ( button ) {
-            //             button.setDisabled(disable || !this.langs || this.langs.length<1);
-            //         }
-            //     }, this);
-            // }
         },
 
         createToolbarPanel: function() {
@@ -943,11 +933,6 @@ define([
         setLanguages: function (array) {
             this.langs = array;
             this.lockToolbar(Common.enumLock.noSpellcheckLangs, this.langs.length<1, {array: this.view.btnsDocLang});
-            // this.view && this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
-            //     if ( button ) {
-            //         button.setDisabled(this.langs.length<1);
-            //     }
-            // }, this);
         },
 
         onDocLanguage: function() {
@@ -1017,7 +1002,6 @@ define([
                     if (!item.asc_getView())
                         length++;
                 });
-                // this.view.btnCompare.setDisabled(length>1 || this.viewmode);
                 Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare]});
             }
         },

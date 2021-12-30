@@ -154,7 +154,7 @@ define([
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text-field',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnText,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -165,7 +165,7 @@ define([
                     this.btnComboBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-combo-box',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnComboBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -176,7 +176,7 @@ define([
                     this.btnDropDown = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropdown',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnDropDown,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -187,7 +187,7 @@ define([
                     this.btnCheckBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-checkbox',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnCheckBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -198,7 +198,7 @@ define([
                     this.btnRadioBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-radio-button',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnRadioBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -209,7 +209,7 @@ define([
                     this.btnImageField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnImage,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -243,7 +243,7 @@ define([
                     this.btnHighlight = new Common.UI.ButtonColored({
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-highlight',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption     : this.textHighlight,
                         menu        : true,
                         additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
