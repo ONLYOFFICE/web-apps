@@ -53,7 +53,7 @@
     { "src": "UsageInstructions/CreateTableOfContents.htm", "name": "Create table of contents" },
     {"src": "UsageInstructions/AddTableofFigures.htm", "name": "Add and Format a Table of Figures" },
     { "src": "UsageInstructions/CreateFillableForms.htm", "name": "Create fillable forms", "headername": "Fillable forms" },
-    { "src": "UsageInstructions/FillingOutForm.htm", "headername": "Filling Out a Form" },
+    { "src": "UsageInstructions/FillingOutForm.htm", "name": "Filling Out a Form" },
     {"src": "UsageInstructions/UseMailMerge.htm", "name": "Use mail merge", "headername": "Mail Merge"},
     { "src": "UsageInstructions/InsertEquation.htm", "name": "Insert equations", "headername": "Math equations" },
     {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative document editing", "headername": "Document co-editing"},
