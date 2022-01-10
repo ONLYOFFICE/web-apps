@@ -188,7 +188,6 @@ define([
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 model.set('hint', !me.appConfig.canReview);
             });
-            // Common.Utils.lockControls(Common.enumLock.viewMode, this.viewmode, {array: [this.view.btnCompare]});
         },
 
         onApiShowChange: function (sdkchange) {

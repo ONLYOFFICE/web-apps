@@ -64,7 +64,7 @@ define([
         hasCoeditingUsers: 'has-coediting-users',
         previewReviewMode: 'preview-review-mode', // display mode on Collaboration tab
         viewFormMode:   'view-form-mode', // view form mode on Forms tab
-        viewMode:       'view-mode', // view mode on disconnect, version history etc
+        viewMode:       'view-mode', // view mode on disconnect, version history etc (used for locking buttons not in toolbar)
         hideComments:   'hide-comments', // no live comments and left panel is closed
         cantShare: 'cant-share'
     };
