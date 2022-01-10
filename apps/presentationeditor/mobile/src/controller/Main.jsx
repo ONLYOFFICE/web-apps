@@ -427,7 +427,7 @@ class MainController extends Component {
         const { t } = this.props;
 
         if (found) {
-            f7.dialog.alert(null, !(found - replaced > 0) ? Common.Utils.String.format(t('Controller.Main.textReplaceSuccess'), replaced) : Common.Utils.String.format(t('Controller.Main.textReplaceSkipped'), found - replaced));
+            f7.dialog.alert(null, !(found - replaced > 0) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`));
         } else {
             f7.dialog.alert(null, t('Controller.Main.textNoTextFound'));
         }
