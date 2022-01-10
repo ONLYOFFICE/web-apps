@@ -1894,6 +1894,10 @@ define([
                         config.maxwidth = 400;
                         break;
 
+                    case Asc.c_oAscError.ID.CannotUseCommandProtectedSheet:
+                        config.msg = this.errorCannotUseCommandProtectedSheet;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3447,7 +3451,8 @@ define([
             textFormulaFilledAllRowsWithEmpty: 'Formula filled first {0} rows. Filling other empty rows may take a few minutes.',
             textFormulaFilledFirstRowsOtherIsEmpty: 'Formula filled only first {0} rows by memory save reason. Other rows in this sheet don\'t have data.',
             textFormulaFilledFirstRowsOtherHaveData: 'Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.',
-            textReconnect: 'Connection is restored'
+            textReconnect: 'Connection is restored',
+            errorCannotUseCommandProtectedSheet: 'You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.'
         }
     })(), SSE.Controllers.Main || {}))
 });

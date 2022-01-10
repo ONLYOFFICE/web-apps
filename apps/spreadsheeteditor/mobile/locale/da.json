@@ -232,7 +232,8 @@
     "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "advDRMPassword": "Kodeord",

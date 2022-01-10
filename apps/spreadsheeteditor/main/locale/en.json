@@ -650,6 +650,7 @@
   "SSE.Controllers.Main.errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.",
   "SSE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "SSE.Controllers.Main.errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
+  "SSE.Controllers.Main.errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.",
   "SSE.Controllers.Main.errorChangeArray": "You cannot change part of an array.",
   "SSE.Controllers.Main.errorChangeFilteredRange": "This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.",
   "SSE.Controllers.Main.errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.",

@@ -232,7 +232,8 @@
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
-    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "advDRMPassword": "Contrasinal",
