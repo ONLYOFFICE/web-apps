@@ -356,18 +356,19 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
+        function cutDocName(name) {
+            var idx = name.lastIndexOf('.');
+            return (idx>0) ? name.substring(0, idx) : name ;
+        }
+
         function onFocusDocName(e){
             var me = this;
             if(me.options.isNotTrimAfterPoint)  return;
 
-            var name = me.labelDocName.val();
-            var idx = name.lastIndexOf('.');
-            if (idx>0)
-                name = name.substring(0, idx);
+            var name = cutDocName(me.labelDocName.val());
             _.delay(function(){
                 me.labelDocName.val(name);
             },100);
-
         }
 
         function onDocNameKeyDown(e) {
@@ -376,7 +377,7 @@ define([
             var name = me.labelDocName.val();
             if ( e.keyCode == Common.UI.Keys.RETURN ) {
                 name = name.trim();
-                if ( !_.isEmpty(name) && me.documentCaption !== name ) {
+                if ( !_.isEmpty(name) && cutDocName(me.documentCaption) !== name ) {
                     if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
                         _.defer(function() {
                             Common.UI.error({
@@ -388,13 +389,15 @@ define([
                                     }, 50);
                                 }
                             });
-                            me.api.asc_wopi_renameFile(name);
                             me.labelDocName.blur();
                         })
                     } else {
-                        Common.Gateway.requestRename(name);
+                        me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
+                } else {
+                    me.labelDocName.val(me.documentCaption);
+                    Common.NotificationCenter.trigger('edit:complete', me);
                 }
             } else
             if ( e.keyCode == Common.UI.Keys.ESC ) {
@@ -654,7 +657,6 @@ define([
 
                     //this.setCanRename(true);
                 }
-
                 return value;
             },
 
