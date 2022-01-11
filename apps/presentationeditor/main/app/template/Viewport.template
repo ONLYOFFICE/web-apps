@@ -5,7 +5,7 @@
     </section>
     <div id="viewport-vbox-layout" class="layout-ct vbox">
         <section id="app-title" class="layout-item"></section>
-        <div id="toolbar" class="layout-item hint-section"></div>
+        <div id="toolbar" class="layout-item hint-section" data-layout-name="toolbar"></div>
         <div class="layout-item middle">
             <div id="viewport-hbox-layout" class="layout-ct hbox">
                 <div id="left-menu" class="layout-item hint-section" data-layout-name="leftMenu" style="width: 40px;"></div>
@@ -15,6 +15,6 @@
                 <div id="left-panel-history" class="layout-item"></div>
             </div>
         </div>
-        <div id="statusbar" class="layout-item"></div>
+        <div id="statusbar" class="layout-item" data-layout-name="statusBar"></div>
     </div>
 </div>
