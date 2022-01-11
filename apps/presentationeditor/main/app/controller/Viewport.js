@@ -181,7 +181,7 @@ define([
 
             var _intvars = Common.Utils.InternalSettings;
             var $filemenu = $('.toolbar-fullview-panel');
-            $filemenu.css('top', _intvars.get('toolbar-height-tabs'));
+            $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
@@ -206,7 +206,7 @@ define([
                 _intvars.set('toolbar-height-compact', _tabs_new_height);
                 _intvars.set('toolbar-height-normal', _tabs_new_height + _intvars.get('toolbar-height-controls'));
 
-                $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _tabs_new_height : 0) + _intvars.get('document-title-height'));
 
                 toolbar = me.getApplication().getController('Toolbar').getView('Toolbar');
                 toolbar.btnCollabChanges = me.header.btnSave;
@@ -255,7 +255,7 @@ define([
                     value: 'statusbar'
                 });
 
-                if ( config.canBrandingExt && config.customization && config.customization.statusBar === false )
+                if ( config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar'))
                     me.header.mnuitemHideStatusBar.hide();
 
                 me.header.mnuitemHideRulers = new Common.UI.MenuItem({

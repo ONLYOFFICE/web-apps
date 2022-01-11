@@ -165,7 +165,7 @@
                                 navigation: false/true // navigation button in de
                             } / false / true, // view tab
                             save: false/true // save button on toolbar in 
-                        },
+                        } / false / true, // use instead of customization.toolbar,
                         header: {
                             users: false/true // users list button
                             save: false/true // save button
@@ -179,7 +179,7 @@
                             textLang: false/true // text language button in de/pe
                             docLang: false/true // document language button in de/pe
                             actionStatus: false/true // status of operation
-                        }
+                        } / false / true, // use instead of customization.statusBar
                     },
                     features: { // disable feature
                         spellcheck: {
@@ -194,8 +194,8 @@
                     leftMenu: true, // must be deprecated. use layout.leftMenu instead
                     rightMenu: true, // must be deprecated. use layout.rightMenu instead
                     hideRightMenu: false, // hide or show right panel on first loading
-                    toolbar: true,
-                    statusBar: true,
+                    toolbar: true, // must be deprecated. use layout.toolbar instead
+                    statusBar: true, // must be deprecated. use layout.statusBar instead
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
