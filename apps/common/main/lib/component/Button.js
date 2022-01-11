@@ -351,8 +351,9 @@ define([
         getCaptionWithBreaks: function (caption) {
             var words = caption.split(' '),
                 newCaption = null,
-                maxWidth = !!this.menu ? 85 - 4 - 10 : 85 - 4;
+                maxWidth = 85 - 4;
             if (words.length > 1) {
+                maxWidth = !!this.menu || this.split === true ? maxWidth - 10 : maxWidth;
                 if (words.length < 3) {
                     words[1] = getShortText(words[1], maxWidth);
                     newCaption = words[0] + '<br>' + words[1];
@@ -368,14 +369,11 @@ define([
                         newCaption = words[0] + '<br>' + words[1];
                     }
                 }
-            } else if (!!this.menu || this.split === true) {
+            } else {
                 var width = getWidthOfCaption(caption);
-                if (width < maxWidth) {
-                    newCaption = caption + '<br>';
-                } else if (width > maxWidth * 2 - 10) {
-                    newCaption = getShortText(caption, maxWidth * 2 - 10);
-                } else {
-                    newCaption = caption;
+                newCaption = width < maxWidth ? caption : getShortText(caption, maxWidth);
+                if (!!this.menu || this.split === true) {
+                    newCaption += '<br>';
                 }
             }
             return newCaption;
