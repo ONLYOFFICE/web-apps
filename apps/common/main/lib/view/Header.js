@@ -124,7 +124,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
-                                    // '<label id="title-doc-name" />' +
+                                    // '<label id="title-doc-name" /></label>' +
                                     '<input id="title-doc-name" /></input>' +
                                 '</div>' +
                                 '<label id="title-user-name"></label>' +
@@ -356,6 +356,20 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
+        function onFocusDocName(e){
+            var me = this;
+            if(me.options.isNotTrimAfterPoint)  return;
+
+            var name = me.labelDocName.val();
+            var idx = name.lastIndexOf('.');
+            if (idx>0)
+                name = name.substring(0, idx);
+            _.delay(function(){
+                me.labelDocName.val(name);
+            },100);
+
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
 
@@ -369,11 +383,12 @@ define([
                                 msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
                                 , callback: function() {
                                     _.delay(function() {
+                                        me.options.isNotTrimAfterPoint = true;
                                         me.labelDocName.focus();
                                     }, 50);
                                 }
                             });
-
+                            me.api.asc_wopi_renameFile(name);
                             me.labelDocName.blur();
                         })
                     } else {
@@ -635,8 +650,9 @@ define([
                 if ( this.labelDocName ) {
                     this.labelDocName.val( value );
                     // this.labelDocName.attr('size', value.length);
+                    this.setCanRename(this.options.canRename);
 
-                    this.setCanRename(true);
+                    //this.setCanRename(true);
                 }
 
                 return value;
@@ -696,8 +712,9 @@ define([
 
                         label.on({
                             'keydown': onDocNameKeyDown.bind(this),
+                            'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
-
+                                me.options.isNotTrimAfterPoint =false;
                             }
                         });
 
