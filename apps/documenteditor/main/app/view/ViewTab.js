@@ -178,7 +178,6 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.btnDarkDocument);
 
                 this.chStatusbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-statusbar'),
@@ -235,6 +234,7 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
+                this.btnDarkDocument && this.btnDarkDocument.setDisabled(state);
             },
 
             turnNavigation: function (state) {
