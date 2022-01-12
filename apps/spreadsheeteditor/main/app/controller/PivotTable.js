@@ -87,6 +87,7 @@ define([
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.SetDisabled, this));
+            Common.NotificationCenter.on('more:toggle', _.bind(this.onMoreToggle, this));
         },
 
         setConfig: function (config) {
@@ -424,6 +425,17 @@ define([
                 resolve();
             })).then(function () {
             });
+        },
+
+        onMoreToggle: function(btn, state, e) {
+            if (this.view && this.view.toolbar && this.view.toolbar.isTabActive('pivot') && state) {
+                var styles = this.view.pivotStyles;
+                if (styles && styles.needFillComboView &&  styles.menuPicker.store.length > 0 && styles.rendered){
+                    var styleRec;
+                    if (this._state.TemplateName) styleRec = styles.menuPicker.store.findWhere({name: this._state.TemplateName});
+                    styles.fillComboView((styleRec) ? styleRec : styles.menuPicker.store.at(0), true);
+                }
+            }
         },
 
         strSheet        : 'Sheet'

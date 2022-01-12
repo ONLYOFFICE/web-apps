@@ -512,6 +512,7 @@ define([
                     btnsMore[tab].render(box.find('.slot-btn-more'));
                     btnsMore[tab].on('toggle', function(btn, state, e) {
                         (state) ? me.onMoreShow(btn, e) : me.onMoreHide(btn, e);
+                        Common.NotificationCenter.trigger('more:toggle', btn, state);
                     });
                     var moreContainer = $('<div class="dropdown-menu more-container" data-tab="' + tab + '"><div style="display: inline;"></div></div>');
                     optsFold.$bar.append(moreContainer);
