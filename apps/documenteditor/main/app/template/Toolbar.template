@@ -203,13 +203,13 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
-                    </div>
-                    <div class="elset">
                         <span class="btn-slot text" id="slot-chk-toolbar"></span>
                     </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
+                    </div>
                 </div>
-                <div class="separator long"></div>
+                <div class="separator long separator-rulers"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-chk-rulers"></span>

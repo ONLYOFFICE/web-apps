@@ -72,12 +72,22 @@ define([
         },
 
         setConfig: function(config) {
+            var mode = config.mode;
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode,
+                mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                this.view.chStatusbar.$el.remove();
+                var slotChkRulers = this.view.chRulers.$el,
+                    groupRulers = slotChkRulers.closest('.group'),
+                    groupToolbar = this.view.chToolbar.$el.closest('.group');
+                groupToolbar.find('.elset')[1].append(slotChkRulers[0]);
+                groupRulers.remove();
+                this.view.cmpEl.find('.separator-rulers').remove();
+            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
