@@ -63,21 +63,24 @@ define([
 
             this.addListeners({
                 'PE.Views.Animation': {
-                    'animation:preview':        _.bind(this.onPreviewClick, this),
-                    'animation:parameters':     _.bind(this.onParameterClick, this),
-                    'animation:duration':       _.bind(this.onDurationChange, this),
-                    'animation:selecteffect':   _.bind(this.onEffectSelect, this),
-                    'animation:delay':          _.bind(this.onDelayChange, this),
-                    'animation:animationpane':  _.bind(this.onAnimationPane, this),
-                    'animation:addanimation':   _.bind(this.onAddAnimation, this),
-                    'animation:startselect':    _.bind(this.onStartSelect, this),
-                    'animation:checkrewind':    _.bind(this.onCheckRewindChange,this),
-                    'animation:repeat':         _.bind(this.onRepeatChange, this),
-                    'animation:additional':     _.bind(this.onAnimationAdditional, this),
-                    'animation:trigger':        _.bind(this.onTriggerClick, this),
-                    'animation:triggerclickof': _.bind(this.onTriggerClickOfClick, this),
-                    'animation:moveearlier':    _.bind(this.onMoveEarlier, this),
-                    'animation:movelater':      _.bind(this.onMoveLater, this)
+                    'animation:preview':            _.bind(this.onPreviewClick, this),
+                    'animation:parameters':         _.bind(this.onParameterClick, this),
+                    'animation:duration':           _.bind(this.onDurationChange, this),
+                    'animation:selecteffect':       _.bind(this.onEffectSelect, this),
+                    'animation:delay':              _.bind(this.onDelayChange, this),
+                    'animation:animationpane':      _.bind(this.onAnimationPane, this),
+                    'animation:addanimation':       _.bind(this.onAddAnimation, this),
+                    'animation:startselect':        _.bind(this.onStartSelect, this),
+                    'animation:checkrewind':        _.bind(this.onCheckRewindChange,this),
+                    'animation:repeat':             _.bind(this.onRepeatChange, this),
+                    'animation:additional':         _.bind(this.onAnimationAdditional, this),
+                    'animation:trigger':            _.bind(this.onTriggerClick, this),
+                    'animation:triggerclickof':     _.bind(this.onTriggerClickOfClick, this),
+                    'animation:moveearlier':        _.bind(this.onMoveEarlier, this),
+                    'animation:movelater':          _.bind(this.onMoveLater, this),
+                    'animation:repeatchangebefore': _.bind(this.onRepeatChange, this),
+                    'animation:repeatchangeafter':  _.bind(this.onRepeatChange, this),
+                    'animation:repeatselected':     _.bind(this.onRepeatSelected, this)
                 },
                 'Toolbar': {
                     'tab:active':               _.bind(this.onActiveTab, this)
@@ -197,12 +200,30 @@ define([
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
+        onRepeatChange: function (before,combo, record, e){
+            var value,
+                me = this;
+            if(before)
+            {
 
-        onRepeatChange: function (field, newValue, oldValue, eOpts){
+            } else {
+
+            }
+        },
+
+        onRepeatSelected: function (combo, record) {
             if (this.api) {
-                this.AnimationProperties.asc_putRepeatCount(field.getNumberValue() * 1000);
+                this.AnimationProperties.asc_putRepeatCount(record.value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
+        },
+
+        onRepeatComboOpen: function(needfocus, combo) {
+            _.delay(function() {
+                var input = $('input', combo.cmpEl).select();
+                if (needfocus) input.focus();
+                else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+            }, 10);
         },
 
         onMoveEarlier: function () {
@@ -249,6 +270,8 @@ define([
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
+
+
 
         onCheckRewindChange: function (field, newValue, oldValue, eOpts) {
             if (this.api && this.AnimationProperties) {
@@ -359,13 +382,8 @@ define([
                     this._state.Delay = value;
                     view.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
                 }
-                value = this.AnimationProperties.asc_getRepeatCount();
-                if (Math.abs(this._state.Repeat - value) > 0.001 ||
-                    (this._state.Repeat === null || value === null) && (this._state.Repeat !== value) ||
-                    (this._state.Repeat === undefined || value === undefined) && (this._state.Repeat !== value)) {
-                    this._state.Repeat = value;
-                    view.numRepeat.setValue((this._state.Repeat !== null && this._state.Repeat !== undefined) ? this._state.Repeat / 1000. : '', true);
-                }
+                this._state.Repeat = this.AnimationProperties.asc_getRepeatCount();
+                view.cmbRepeat.setValue((this._state.Repeat !== null && this._state.Repeat !== undefined) ? this._state.Repeat/1000. : 1);
 
                 this._state.StartSelect = this.AnimationProperties.asc_getStartType();
                 view.cmbStart.setValue(this._state.StartSelect!==undefined ? this._state.StartSelect : AscFormat.NODE_TYPE_CLICKEFFECT);

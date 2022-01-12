@@ -117,9 +117,21 @@ define([
                 });
             }
 
-            if (me.numRepeat) {
-                me.numRepeat.on('change', function(bth) {
-                    me.fireEvent('animation:repeat', [me.numRepeat]);
+            if (me.cmbRepeat) {
+                me.cmbRepeat.on('change:before', function (combo, record) {
+                    me.fireEvent('animation:repeatchangebefore', [true, combo, record]);
+                }, me);
+                me.cmbRepeat.on('change:after', function (combo, record) {
+                    me.fireEvent('animation:repeatchangeafter', [false, combo, record]);
+                }, me);
+                me.cmbRepeat.on('selected', function (combo, record) {
+                    me.fireEvent('animation:repeatselected', [combo, record]);
+                }, me);
+                me.cmbRepeat.on('show:after', function (needfocus, combo) {
+                    me.fireEvent('animation:repeatopen', [needfocus, combo]);
+                }, me);
+                me.cmbRepeat.on('combo:focusin', function (needfocus, combo) {
+                    me.fireEvent('animation:repeatopen', [needfocus, combo]);
                 }, me);
             }
 
@@ -344,20 +356,27 @@ define([
                 });
                 this.lockedControls.push(this.chRewind);
 
-                this.numRepeat = new Common.UI.MetricSpinner({
+                this.cmbRepeat = new Common.UI.ComboBox({
                     el: this.$el.find('#animation-spin-repeat'),
-                    step: 1,
-                    width: 55,
-                    value: '',
-                    maxValue: 1000,
-                    minValue: 0,
-                    defaultUnit: '',
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100%;',
+                    editable: true,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    data: [
+                        {value: 1, displayValue: this.textNoRepeat},
+                        {value: 2, displayValue: "2"},
+                        {value: 3, displayValue: "3"},
+                        {value: 4, displayValue: "4"},
+                        {value: 5, displayValue: "5"},
+                        {value: 10, displayValue: "10"},
+                        {value: AscFormat.untilNextClick, displayValue: this.textUntilNextClick},
+                        {value: AscFormat.untilNextSlide, displayValue: this.textUntilEndOfSlide}
+                    ],
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.numRepeat);
+                this.lockedControls.push(this.cmbRepeat);
 
                 this.btnMoveEarlier = new Common.UI.Button({
                     parentEl: $('#animation-moveearlier'),
@@ -457,7 +476,7 @@ define([
                 this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'));
                 this.renderComponent('#animation-spin-duration', this.numDuration);
                 this.renderComponent('#animation-spin-delay', this.numDelay);
-                this.renderComponent('#animation-spin-repeat', this.numRepeat);
+                this.renderComponent('#animation-spin-repeat', this.cmbRepeat);
                 this.$el.find("#animation-duration").innerText = this.strDuration;
                 this.$el.find("#animation-delay").innerText = this.strDelay;
                 this.$el.find("#animation-label-start").innerText = this.strStart;
@@ -534,7 +553,10 @@ define([
             textMultiple: 'Multiple',
             textMoreEffects: 'Show More Effects',
             textMoveEarlier: 'Move Earlier',
-            textMoveLater:  'Move Later'
+            textMoveLater:  'Move Later',
+            textNoRepeat: '(none)',
+            textUntilNextClick: 'Until Next Click',
+            textUntilEndOfSlide: 'Until End of Slide'
         }
     }()), PE.Views.Animation || {}));
 
