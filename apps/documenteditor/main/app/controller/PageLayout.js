@@ -107,12 +107,12 @@ define([
 
                 switch ( type ) {
                 case Asc.c_oAscWrapStyle2.Inline:       menu.items[0].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Square:       menu.items[1].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Tight:        menu.items[2].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Through:      menu.items[3].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.TopAndBottom: menu.items[4].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Behind:       menu.items[6].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.InFront:      menu.items[5].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Square:       menu.items[2].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Tight:        menu.items[3].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Through:      menu.items[4].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.TopAndBottom: menu.items[5].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Behind:       menu.items[8].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.InFront:      menu.items[7].setChecked(true); break;
                 default:
                     for (var i in menu.items) {
                         menu.items[i].setChecked( false );
@@ -140,7 +140,7 @@ define([
                         _.each(me.toolbar.btnImgWrapping.menu.items, function(item) {
                             item.setDisabled(notflow);
                         });
-                        me.toolbar.btnImgWrapping.menu.items[8].setDisabled(!me.api.CanChangeWrapPolygon());
+                        me.toolbar.btnImgWrapping.menu.items[10].setDisabled(!me.api.CanChangeWrapPolygon());
 
                         var control_props = me.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,

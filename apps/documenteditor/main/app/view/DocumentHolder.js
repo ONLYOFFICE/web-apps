@@ -1637,22 +1637,22 @@ define([
                     this.menuImageWrap.menu.items[0].setChecked(true);
                     break;
                 case Asc.c_oAscWrapStyle2.Square:
-                    this.menuImageWrap.menu.items[1].setChecked(true);
-                    break;
-                case Asc.c_oAscWrapStyle2.Tight:
                     this.menuImageWrap.menu.items[2].setChecked(true);
                     break;
-                case Asc.c_oAscWrapStyle2.Through:
+                case Asc.c_oAscWrapStyle2.Tight:
                     this.menuImageWrap.menu.items[3].setChecked(true);
                     break;
-                case Asc.c_oAscWrapStyle2.TopAndBottom:
+                case Asc.c_oAscWrapStyle2.Through:
                     this.menuImageWrap.menu.items[4].setChecked(true);
                     break;
+                case Asc.c_oAscWrapStyle2.TopAndBottom:
+                    this.menuImageWrap.menu.items[5].setChecked(true);
+                    break;
                 case Asc.c_oAscWrapStyle2.Behind:
-                    this.menuImageWrap.menu.items[6].setChecked(true);
+                    this.menuImageWrap.menu.items[8].setChecked(true);
                     break;
                 case Asc.c_oAscWrapStyle2.InFront:
-                    this.menuImageWrap.menu.items[5].setChecked(true);
+                    this.menuImageWrap.menu.items[7].setChecked(true);
                     break;
             }
         },
@@ -2329,6 +2329,7 @@ define([
                                 checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
+                            { caption: '--' },
                             new Common.UI.MenuItem({
                                 caption     : me.txtSquare,
                                 iconCls     : 'menu__icon wrap-square',
@@ -2361,6 +2362,7 @@ define([
                                 checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
+                            { caption: '--' },
                             new Common.UI.MenuItem({
                                 caption     : me.txtInFront,
                                 iconCls     : 'menu__icon wrap-infront',
@@ -2616,7 +2618,7 @@ define([
 
                     var cls = 'menu__icon ';
                     if (notflow) {
-                        for (var i = 0; i < 6; i++) {
+                        for (var i = 0; i < 8; i++) {
                             me.menuImageWrap.menu.items[i].setChecked(false);
                         }
                         cls += 'wrap-inline';
@@ -2627,31 +2629,31 @@ define([
                                 cls += 'wrap-inline';
                                 break;
                             case Asc.c_oAscWrapStyle2.Square:
-                                me.menuImageWrap.menu.items[1].setChecked(true);
+                                me.menuImageWrap.menu.items[2].setChecked(true);
                                 cls += 'wrap-square';
                                 break;
                             case Asc.c_oAscWrapStyle2.Tight:
-                                me.menuImageWrap.menu.items[2].setChecked(true);
+                                me.menuImageWrap.menu.items[3].setChecked(true);
                                 cls += 'wrap-tight';
                                 break;
                             case Asc.c_oAscWrapStyle2.Through:
-                                me.menuImageWrap.menu.items[3].setChecked(true);
+                                me.menuImageWrap.menu.items[4].setChecked(true);
                                 cls += 'wrap-through';
                                 break;
                             case Asc.c_oAscWrapStyle2.TopAndBottom:
-                                me.menuImageWrap.menu.items[4].setChecked(true);
+                                me.menuImageWrap.menu.items[5].setChecked(true);
                                 cls += 'wrap-topandbottom';
                                 break;
                             case Asc.c_oAscWrapStyle2.Behind:
-                                me.menuImageWrap.menu.items[6].setChecked(true);
+                                me.menuImageWrap.menu.items[8].setChecked(true);
                                 cls += 'wrap-behind';
                                 break;
                             case Asc.c_oAscWrapStyle2.InFront:
-                                me.menuImageWrap.menu.items[5].setChecked(true);
+                                me.menuImageWrap.menu.items[7].setChecked(true);
                                 cls += 'wrap-infront';
                                 break;
                             default:
-                                for (var i = 0; i < 6; i++) {
+                                for (var i = 0; i < 8; i++) {
                                     me.menuImageWrap.menu.items[i].setChecked(false);
                                 }
                                 cls += 'wrap-infront';
