@@ -83,7 +83,6 @@ define([
                     'tab:active':               _.bind(this.onActiveTab, this)
                 }
             });
-            this.EffectGroups = Common.define.effectData.getEffectGroupData();
         },
 
         onLaunch: function () {
@@ -92,6 +91,7 @@ define([
 
         setConfig: function (config) {
             this.appConfig = config.mode;
+            this.EffectGroups = Common.define.effectData.getEffectGroupData();
             this.view = this.createView('PE.Views.Animation', {
                 toolbar : config.toolbar,
                 mode    : config.mode

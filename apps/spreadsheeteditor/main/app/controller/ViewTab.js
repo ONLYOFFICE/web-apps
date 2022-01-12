@@ -271,7 +271,6 @@ define([
         },
 
         onApiZoomChange: function(zf, type){
-            console.log('zoom');
             var value = Math.floor((zf + .005) * 100);
             this.view.cmbZoom.setValue(value, value + '%');
             this._state.zoomValue = value;

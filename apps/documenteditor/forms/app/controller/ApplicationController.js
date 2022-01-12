@@ -787,7 +787,7 @@ define([
                             }
                         } else {
                             Common.Gateway.requestClose();
-                            Common.Controllers.Desktop.requestClose();
+                            DE.Controllers.Desktop.requestClose();
                         }
                         me._openDlg = null;
                     }

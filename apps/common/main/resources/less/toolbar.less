@@ -162,7 +162,7 @@
 
     .box-controls {
         //height: @height-controls;         // button has strange offset in IE when odd height
-        padding: 10px 0;
+        padding: 9px 0;
         display: flex;
 
         //background-color: #F2CBBF;
@@ -184,7 +184,7 @@
         }
 
         /* ##adopt-panel-width */
-        .panel:not(#plugns-panel) .compactwidth {
+        .panel .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -193,6 +193,11 @@
 
                     .inner-box-caption {
                         justify-content: center;
+                        align-items: center;
+                    }
+
+                    .compact-caret {
+                        display: block;
                     }
                 }
             }
@@ -216,6 +221,10 @@
 
                     .inner-box-caption {
                         justify-content: center;
+                        align-items: center;
+                    }
+                    .compact-caret {
+                        display: block;
                     }
                 }
             }
@@ -264,7 +273,7 @@
         font-size: 0;
 
         &:not(:first-child) {
-            margin-top: 6px;
+            margin-top: 8px;
         }
 
         &.font-normal {
@@ -280,7 +289,7 @@
         }
 
         &.long {
-            height: 46px;
+            height: 48px;
         }
 
         &.short {
