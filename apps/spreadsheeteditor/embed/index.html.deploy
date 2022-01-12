@@ -71,7 +71,7 @@
             font-size: 0;
             border: 1px solid #dfdfdf;
             white-space: nowrap;
-            padding-top: 48px;
+            padding-top: 28px;
         }
 
         .loadmask > .placeholder > .columns {
