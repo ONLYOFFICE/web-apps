@@ -188,7 +188,7 @@ const PageAdditionalFormatting = props => {
     )
 };
 
-const PageBullets = props => {
+const PageBullets = observer(props => {
     const { t } = useTranslation();
     const bulletArrays = [
         [
@@ -217,9 +217,10 @@ const PageBullets = props => {
                                 onClick={() => {
                                     if (bullet.type === -1) {
                                         storeTextSettings.resetBullets(-1);
+                                    } else {
+                                        storeTextSettings.resetBullets(bullet.type);
                                     }
-                                    props.onBullet(bullet.type)
-                                    props.f7router.back();
+                                    props.onBullet(bullet.type);
                                 }}>
                                 {bullet.thumb.length < 1 ?
                                     <Icon className="thumb" style={{position: 'relative'}}>
@@ -233,9 +234,9 @@ const PageBullets = props => {
             ))}
         </View>
     )
-};
+});
 
-const PageNumbers = props => {
+const PageNumbers = observer(props => {
     const { t } = useTranslation();
     const numberArrays = [
         [
@@ -265,9 +266,10 @@ const PageNumbers = props => {
                             onClick={() => {
                                 if (number.type === -1) {
                                     storeTextSettings.resetNumbers(-1);
+                                } else {
+                                    storeTextSettings.resetNumbers(number.type);
                                 }
-                                props.onNumber(number.type)
-                                props.f7router.back();
+                                props.onNumber(number.type);
                             }}>
                             {number.thumb.length < 1 ?
                                 <Icon className="thumb" style={{position: 'relative'}}>
@@ -281,9 +283,9 @@ const PageNumbers = props => {
             ))}
         </View>
     )
-};
+});
 
-const PageMultiLevel = props => {
+const PageMultiLevel = observer(props => {
     const { t } = useTranslation();
     
     const arrayMultiLevel = [
@@ -302,9 +304,8 @@ const PageMultiLevel = props => {
                     {arrayMultiLevel.map((item) => (
                         <ListItem key={'multi-level-' + item.type} data-type={item.type} className={item.type === typeMultiLevel ? 'active' : ''}
                         onClick={(e) => {
-                            item.type === -1 ? storeTextSettings.resetMultiLevel(-1) : storeTextSettings.resetMultiLevel(null);
-                            props.onMultiLevelList(item.type);
-                            props.f7router.back();
+                                item.type === -1 ? storeTextSettings.resetMultiLevel(-1) : storeTextSettings.resetMultiLevel(null);
+                                props.onMultiLevelList(item.type);
                             }}>
                             {item.thumb.length < 1 ?
                                 <Icon className="thumb" style={{position: 'relative'}}>
@@ -318,7 +319,7 @@ const PageMultiLevel = props => {
         </View>
     )
         
-}
+});
 
 const PageBulletsAndNumbers = props => {
     const { t } = useTranslation();
@@ -336,9 +337,15 @@ const PageBulletsAndNumbers = props => {
                 }
             </Navbar>
             <Swiper pagination>
-                <SwiperSlide> <PageNumbers f7router={props.f7router}  storeTextSettings={storeTextSettings} onNumber={props.onNumber}/></SwiperSlide> 
-                <SwiperSlide> <PageBullets f7router={props.f7router} storeTextSettings={storeTextSettings} onBullet={props.onBullet}/></SwiperSlide>
-                <SwiperSlide> <PageMultiLevel f7router={props.f7router} storeTextSettings={storeTextSettings} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
+                <SwiperSlide> 
+                    <PageNumbers storeTextSettings={storeTextSettings} onNumber={props.onNumber} />
+                </SwiperSlide> 
+                <SwiperSlide>
+                    <PageBullets storeTextSettings={storeTextSettings} onBullet={props.onBullet} />
+                </SwiperSlide>
+                <SwiperSlide> 
+                    <PageMultiLevel storeTextSettings={storeTextSettings} onMultiLevelList={props.onMultiLevelList} />
+                </SwiperSlide>
             </Swiper>
         </Page>
     )
