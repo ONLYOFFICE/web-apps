@@ -74,12 +74,16 @@ define([
         },
 
         setConfig: function(config) {
+            var mode = config.mode;
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode,
+                mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                this.view.chStatusbar.$el.remove();
+            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),

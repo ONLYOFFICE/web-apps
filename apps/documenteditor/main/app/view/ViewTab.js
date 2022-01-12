@@ -211,6 +211,8 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chRulers);
+
+                this.cmpEl = $host;
             },
 
             render: function (el) {
