@@ -1720,7 +1720,9 @@ define([
                                 wrapType    : Asc.c_oAscWrapStyle2.Inline,
                                 checkmark   : false,
                                 checkable   : true
-                            }, {
+                            },
+                            { caption: '--' },
+                            {
                                 caption     : _holder_view.txtSquare,
                                 iconCls     : 'menu__icon wrap-square',
                                 toggleGroup : 'imgwrapping',
@@ -1748,7 +1750,9 @@ define([
                                 wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                                 checkmark   : false,
                                 checkable   : true
-                            }, {
+                            },
+                            { caption: '--' },
+                            {
                                 caption     : _holder_view.txtInFront,
                                 iconCls     : 'menu__icon wrap-infront',
                                 toggleGroup : 'imgwrapping',
