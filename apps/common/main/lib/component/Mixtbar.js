@@ -527,7 +527,8 @@ define([
                     box_controls_width = $active.parents('.box-controls').width(),
                     _maxright = box_controls_width,
                     _rightedge = $active.get(0).getBoundingClientRect().right,
-                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1;
+                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
+                    hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
                 more_section.is(':visible') && (_maxright -= more_section_width);
 
@@ -557,6 +558,7 @@ define([
                         if (!item.is(':visible')) { // move invisible items as is and set special attr
                             item.attr('data-hidden-tb-item', true);
                             this.$moreBar.prepend(item);
+                            hideAllMenus = true;
                         } else if (item.hasClass('group')) {
                             _rightedge = $active.get(0).getBoundingClientRect().right;
                             if (_rightedge <= _maxright) // stop moving items
@@ -578,6 +580,7 @@ define([
                                 if (last_separator) {
                                     last_separator.css('display', '');
                                 }
+                                hideAllMenus = true;
                             } else if ( offset.left+item_width > _maxright ) {
                                 // move buttons from group
                                 for (var j=children.length-1; j>=0; j--) {
@@ -587,6 +590,7 @@ define([
                                         if (last_separator) {
                                             last_separator.css('display', '');
                                         }
+                                        hideAllMenus = true;
                                         break;
                                     } else {
                                         var child_offset = child.offset(),
@@ -605,6 +609,7 @@ define([
                                                 }
                                             }
                                             last_group.prepend(child);
+                                            hideAllMenus = true;
                                         } else {
                                             need_break = true;
                                             break;
@@ -628,6 +633,7 @@ define([
                             this.$moreBar.prepend(item);
                             item.css('display', 'none');
                             last_separator = item;
+                            hideAllMenus = true;
                         }
                     }
                 } else if ((reset || delta>0) && more_section.is(':visible')) {
@@ -676,6 +682,7 @@ define([
                                         this.hideMoreBtns();
                                         more_section.css('display', "none");
                                     }
+                                    hideAllMenus = true;
                                 } else if ( _rightedge + last_width < _maxright) {
                                     // move buttons from group
                                     var children = item.children();
@@ -707,6 +714,7 @@ define([
                                                     }
                                                 }
                                                 last_group.append(child);
+                                                hideAllMenus = true;
                                             } else {
                                                 need_break = true;
                                                 break;
@@ -735,6 +743,7 @@ define([
                                 item.css('display', 'none');
                                 last_separator = item;
                                 last_width = parseInt(last_separator.css('margin-left')) + parseInt(last_separator.css('margin-right')) + 1;
+                                hideAllMenus = true;
                             }
                         }
                     } else {
@@ -742,6 +751,7 @@ define([
                         more_section.css('display', "none");
                     }
                 }
+                hideAllMenus && Common.UI.Menu.Manager.hideAll();
             },
 
             onMoreHide: function(btn, e) {
