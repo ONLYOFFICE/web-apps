@@ -155,7 +155,7 @@ define([
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
                 this.$el = this.toolbar.toolbar.$el.find('#animation-panel');
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
                 this.lockedControls = [];
 
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());

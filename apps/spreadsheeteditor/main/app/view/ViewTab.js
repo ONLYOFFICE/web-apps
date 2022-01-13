@@ -106,7 +106,7 @@ define([
 
                 var me = this,
                     $host = me.toolbar.$el,
-                    _set = SSE.enumLock;
+                    _set = Common.enumLock;
 
                 if ( me.appConfig.canFeatureViews ) {
                     this.btnSheetView = new Common.UI.Button({

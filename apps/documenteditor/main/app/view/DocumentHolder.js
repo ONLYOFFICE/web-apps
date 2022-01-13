@@ -1616,7 +1616,7 @@ define([
                     : Common.util.Shortcuts.resumeEvents(hkComments);
                 /** coauthoring end **/
                 this.editorConfig = {user: m.user};
-                this._fillFormwMode = !this.mode.isEdit && this.mode.canFillForms;
+                this._fillFormMode = !this.mode.isEdit && this.mode.canFillForms;
             };
 
             me.on('render:after', onAfterRender, me);
@@ -2095,9 +2095,9 @@ define([
                     var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuViewCopy.setDisabled(!cancopy);
-                    menuViewCut.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewCut.setVisible(me._fillFormMode && canEditControl);
                     menuViewCut.setDisabled(disabled || !cancopy);
-                    menuViewPaste.setVisible(me._fillFormwMode && canEditControl);
+                    menuViewPaste.setVisible(me._fillFormMode && canEditControl);
                     menuViewPaste.setDisabled(disabled);
                     menuViewPrint.setVisible(me.mode.canPrint);
                     menuViewPrint.setDisabled(!cancopy);
@@ -4507,10 +4507,10 @@ define([
             _.defer(function(){  me.cmpEl.focus(); }, 50);
         },
 
-        SetDisabled: function(state, canProtect, fillFormwMode) {
+        SetDisabled: function(state, canProtect, fillFormMode) {
             this._isDisabled = state;
             this._canProtect = canProtect;
-            this._fillFormwMode = state ? fillFormwMode : false;
+            this._fillFormMode = state ? fillFormMode : false;
         },
 
         alignmentText           : 'Alignment',

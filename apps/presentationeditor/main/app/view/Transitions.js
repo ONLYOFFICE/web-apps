@@ -118,7 +118,7 @@ define([
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
                 this.$el = this.toolbar.toolbar.$el.find('#transitions-panel');
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
                 this.lockedControls = [];
 
                 this._arrEffectName = [
@@ -269,7 +269,7 @@ define([
                 });
                 this.lockedControls.push(this.chDelay);
 
-                Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 this.$el.find('#transit-duration').text(this.strDuration);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));

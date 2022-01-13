@@ -479,12 +479,12 @@ define([
         onApiCanRevert: function(which, can) {
             if (which=='undo') {
                 if (this._state.can_undo !== can) {
-                    this.toolbar.lockToolbar(PE.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
+                    this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
                     if (this._state.activated) this._state.can_undo = can;
                 }
             } else {
                 if (this._state.can_redo !== can) {
-                    this.toolbar.lockToolbar(PE.enumLock.redoLock, !can, {array: [this.toolbar.btnRedo]});
+                    this.toolbar.lockToolbar(Common.enumLock.redoLock, !can, {array: [this.toolbar.btnRedo]});
                     if (this._state.activated) this._state.can_redo = can;
                 }
             }
@@ -492,14 +492,14 @@ define([
 
         onApiCanIncreaseIndent: function(value) {
             if (this._state.can_increase !== value) {
-                this.toolbar.lockToolbar(PE.enumLock.incIndentLock, !value, {array: [this.toolbar.btnIncLeftOffset]});
+                this.toolbar.lockToolbar(Common.enumLock.incIndentLock, !value, {array: [this.toolbar.btnIncLeftOffset]});
                 if (this._state.activated) this._state.can_increase = value;
             }
         },
 
         onApiCanDecreaseIndent: function(value) {
             if (this._state.can_decrease !== value) {
-                this.toolbar.lockToolbar(PE.enumLock.decIndentLock, !value, {array: [this.toolbar.btnDecLeftOffset]});
+                this.toolbar.lockToolbar(Common.enumLock.decIndentLock, !value, {array: [this.toolbar.btnDecLeftOffset]});
                 if (this._state.activated) this._state.can_decrease = value;
             }
         },
@@ -636,7 +636,7 @@ define([
 
         onApiCanAddHyperlink: function(value) {
             if (this._state.can_hyper !== value && this.editMode) {
-                this.toolbar.lockToolbar(PE.enumLock.hyperlinkLock, !value, {array: [this.toolbar.btnInsertHyperlink]});
+                this.toolbar.lockToolbar(Common.enumLock.hyperlinkLock, !value, {array: [this.toolbar.btnInsertHyperlink]});
                 if (this._state.activated) this._state.can_hyper = value;
             }
         },
@@ -666,17 +666,17 @@ define([
         onApiCountPages: function(count) {
             if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
-                this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
-                this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: [
+                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: [
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ]});
-                this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
+                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides,
                     { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt, this.toolbar.btnInsAudio, this.toolbar.btnInsVideo) });
                 if (this.btnsComment)
-                    this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
+                    this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
             }
         },
 
@@ -684,7 +684,7 @@ define([
             if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
                 if (this.btnsComment)
-                    this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
+                    this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
             }
         },
 
@@ -760,49 +760,49 @@ define([
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
                 if (paragraph_locked!==undefined)
-                    this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls});
-                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked===true, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum]});
+                    this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked===true, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum]});
             }
 
             if (this._state.no_paragraph !== no_paragraph) {
                 if (this._state.activated) this._state.no_paragraph = no_paragraph;
-                this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: me.toolbar.paragraphControls});
-                this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
+                this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
             }
 
             if (this._state.no_text !== no_text) {
                 if (this._state.activated) this._state.no_text = no_text;
-                this.toolbar.lockToolbar(PE.enumLock.noTextSelected, no_text, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(Common.enumLock.noTextSelected, no_text, {array: me.toolbar.paragraphControls});
             }
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
-                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
+                this.toolbar.lockToolbar(Common.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
             }
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
-                this.toolbar.lockToolbar(PE.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnVerticalAlign ]});
+                this.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnVerticalAlign ]});
             }
 
             if (slide_layout_lock !== undefined && this._state.slidelayoutdisable !== slide_layout_lock ) {
                 if (this._state.activated) this._state.slidelayoutdisable = slide_layout_lock;
-                this.toolbar.lockToolbar(PE.enumLock.slideLock, slide_layout_lock, {array: [me.toolbar.btnChangeSlide]});
+                this.toolbar.lockToolbar(Common.enumLock.slideLock, slide_layout_lock, {array: [me.toolbar.btnChangeSlide]});
             }
 
             if (slide_deleted !== undefined && this._state.slidecontrolsdisable !== slide_deleted) {
                 if (this._state.activated) this._state.slidecontrolsdisable = slide_deleted;
-                this.toolbar.lockToolbar(PE.enumLock.slideDeleted, slide_deleted, {array: me.toolbar.slideOnlyControls.concat(me.toolbar.paragraphControls)});
+                this.toolbar.lockToolbar(Common.enumLock.slideDeleted, slide_deleted, {array: me.toolbar.slideOnlyControls.concat(me.toolbar.paragraphControls)});
             }
 
             if (this._state.in_equation !== in_equation) {
                 if (this._state.activated) this._state.in_equation = in_equation;
-                this.toolbar.lockToolbar(PE.enumLock.inEquation, in_equation, {array: [me.toolbar.btnSuperscript, me.toolbar.btnSubscript]});
+                this.toolbar.lockToolbar(Common.enumLock.inEquation, in_equation, {array: [me.toolbar.btnSuperscript, me.toolbar.btnSubscript]});
             }
 
             if (this._state.no_columns !== no_columns) {
                 if (this._state.activated) this._state.no_columns = no_columns;
-                this.toolbar.lockToolbar(PE.enumLock.noColumns, no_columns, {array: [me.toolbar.btnColumns]});
+                this.toolbar.lockToolbar(Common.enumLock.noColumns, no_columns, {array: [me.toolbar.btnColumns]});
             }
 
             if (this.toolbar.btnChangeSlide) {
@@ -813,12 +813,12 @@ define([
             }
 
             if (this._state.in_smartart !== in_smartart) {
-                this.toolbar.lockToolbar(PE.enumLock.inSmartart, in_smartart, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(Common.enumLock.inSmartart, in_smartart, {array: me.toolbar.paragraphControls});
                 this._state.in_smartart = in_smartart;
             }
 
             if (this._state.in_smartart_internal !== in_smartart_internal) {
-                this.toolbar.lockToolbar(PE.enumLock.inSmartartInternal, in_smartart_internal, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smartart_internal, {array: me.toolbar.paragraphControls});
                 this._state.in_smartart_internal = in_smartart_internal;
 
                 this.toolbar.mnuArrangeFront.setDisabled(in_smartart_internal);
@@ -868,24 +868,24 @@ define([
 
         onApiLockDocumentProps: function() {
             if (this._state.lock_doc!==true) {
-                this.toolbar.lockToolbar(PE.enumLock.docPropsLock, true, {array: [this.toolbar.btnSlideSize]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnSlideSize]});
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function() {
             if (this._state.lock_doc!==false) {
-                this.toolbar.lockToolbar(PE.enumLock.docPropsLock, false, {array: [this.toolbar.btnSlideSize]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnSlideSize]});
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
 
         onApiLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
+            this.toolbar.lockToolbar(Common.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiUnLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
+            this.toolbar.lockToolbar(Common.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
@@ -2442,7 +2442,7 @@ define([
 
         activateControls: function() {
             this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
-            this.toolbar.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.toolbar.slideOnlyControls.concat(this.toolbar.shapeControls)});
+            this.toolbar.lockToolbar(Common.enumLock.disableOnStart, false, {array: this.toolbar.slideOnlyControls.concat(this.toolbar.shapeControls)});
             this._state.activated = true;
         },
 
@@ -2458,7 +2458,7 @@ define([
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
             if (toolbar.btnsAddSlide) // toolbar buttons are rendered
-                this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
+                this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
@@ -2541,7 +2541,7 @@ define([
 
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
                 this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
@@ -2556,7 +2556,7 @@ define([
                             btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
 
-                    this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
+                    this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
         },

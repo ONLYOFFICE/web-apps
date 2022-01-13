@@ -161,12 +161,12 @@ define([
                         me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                             var value = item.value;
                             Common.UI.Themes.setTheme(value);
-                            me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                            Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
                         }, me));
 
                         setTimeout(function () {
                             me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
-                            me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                            Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
                         }, 0);
                     }
                 });
@@ -248,7 +248,7 @@ define([
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
                 this.view.btnInterfaceTheme.menu.clearAll();
                 menu_item.setChecked(true, true);
-                this.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [this.view.btnDarkDocument]});
             }
         },
 
