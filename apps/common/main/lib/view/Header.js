@@ -392,6 +392,7 @@ define([
                         })
                     } else
                     if(me.withoutExt) {
+                        name = me.cutDocName(name);
                         me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
                         name += me.fileExtention;
                         me.labelDocName.val(name);
