@@ -119,16 +119,16 @@ define([
 
             if (me.cmbRepeat) {
                 me.cmbRepeat.on('changed:before', function (combo, record) {
-                    me.fireEvent('animation:repeatchangebefore', [true, combo, record]);
+                    me.fireEvent('animation:repeatchange', [true, combo, record]);
                 }, me);
                 me.cmbRepeat.on('changed:after', function (combo, record) {
-                    me.fireEvent('animation:repeatchangeafter', [false, combo, record]);
+                    me.fireEvent('animation:repeatchange', [false, combo, record]);
                 }, me);
                 me.cmbRepeat.on('selected', function (combo, record) {
                     me.fireEvent('animation:repeatselected', [combo, record]);
                 }, me);
                 me.cmbRepeat.on('show:after', function (combo) {
-                    me.fireEvent('animation:repeatshow', [true, combo]);
+                    me.fireEvent('animation:repeatfocusin', [true, combo]);
                 }, me);
                 me.cmbRepeat.on('combo:focusin', function (combo) {
                     me.fireEvent('animation:repeatfocusin', [false, combo]);

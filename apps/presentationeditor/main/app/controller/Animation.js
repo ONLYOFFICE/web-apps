@@ -72,15 +72,12 @@ define([
                     'animation:addanimation':       _.bind(this.onAddAnimation, this),
                     'animation:startselect':        _.bind(this.onStartSelect, this),
                     'animation:checkrewind':        _.bind(this.onCheckRewindChange,this),
-                    //'animation:repeat':             _.bind(this.onRepeatChange, this),
                     'animation:additional':         _.bind(this.onAnimationAdditional, this),
                     'animation:trigger':            _.bind(this.onTriggerClick, this),
                     'animation:triggerclickof':     _.bind(this.onTriggerClickOfClick, this),
                     'animation:moveearlier':        _.bind(this.onMoveEarlier, this),
                     'animation:movelater':          _.bind(this.onMoveLater, this),
-                    'animation:repeatchangebefore': _.bind(this.onRepeatChange, this),
-                    'animation:repeatchangeafter':  _.bind(this.onRepeatChange, this),
-                    'animation:repeatshow':         _.bind(this.onRepeatComboOpen, this),
+                    'animation:repeatchange':       _.bind(this.onRepeatChange, this),
                     'animation:repeatfocusin':      _.bind(this.onRepeatComboOpen, this),
                     'animation:repeatselected':     _.bind(this.onRepeatSelected, this)
 
@@ -218,9 +215,11 @@ define([
                     if (!value) {
                         value = this._state.Repeat;
                         combo.setRawValue(value);
-                        if(!_.isNumber(record.value))
+                        if(isNaN(record.value)) {
                             record.value = value;
-
+                            if(value < 0)
+                                record.displayValue = combo.store.findWhere({value: value}).get('displayValue');
+                        }
                         return false;
                     }
                 }
