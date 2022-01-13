@@ -506,7 +506,7 @@ define([
                     btnsMore[tab] = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
-                        iconCls: 'toolbar__icon btn-insertchart',
+                        iconCls: 'toolbar__icon btn-more',
                         enableToggle: true
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));
