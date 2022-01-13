@@ -3700,6 +3700,7 @@ define([
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
+            toolbar.hideMoreBtns();
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
             this.toolbar.lockToolbar(SSE.enumLock.menuFileOpen, disable);

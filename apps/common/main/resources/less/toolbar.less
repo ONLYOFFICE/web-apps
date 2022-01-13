@@ -177,13 +177,14 @@
     .box-panels {
         flex-grow: 1;
         -ms-flex: 1;
+        padding-right: 6px;
 
         .panel:not(.active) {
             display: none;
         }
 
         /* ##adopt-panel-width */
-        .panel:not(#plugns-panel) .compactwidth {
+        .panel .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -204,6 +205,40 @@
         /**/
     }
 
+    .more-container {
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
+        min-width:auto;
+        padding: 12px 10px 7px 0;
+        border-radius: 0;
+        z-index:999;
+        .compactwidth {
+            .btn-group, .btn-toolbar {
+                &.x-huge {
+                    .caption {
+                        display: none;
+                    }
+
+                    .inner-box-caption {
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .compact-caret {
+                        display: block;
+                    }
+                }
+            }
+        }
+        &[data-tab=pivot] {
+            padding: 5px 10px 0 0;
+        }
+    }
+
+    .more-box {
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
+    }
+
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     @minus-px: calc(-1 * @scaled-one-px-value);
@@ -217,10 +252,6 @@
         white-space: nowrap;
         padding-left: 6px;
         font-size: 0;
-
-        &:last-child {
-            padding-right: 6px;
-        }
 
         &.small {
             padding-left: 10px;
@@ -769,3 +800,6 @@
     min-width: 46px;
 }
 
+section .field-styles {
+    width: 100%;
+}

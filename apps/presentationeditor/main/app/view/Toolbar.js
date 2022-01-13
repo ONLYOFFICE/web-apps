@@ -1023,6 +1023,7 @@ define([
                         itemWidth: 88,
                         enableKeyEvents: true,
                         itemHeight: 40,
+                        style: 'min-width:130px;',
                         lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1072,11 +1073,11 @@ define([
 
                     this.cmbInsertShape = new Common.UI.ComboDataViewShape({
                         cls: 'combo-styles shapes',
-                        style: 'min-width: 140px;',
                         itemWidth: 20,
                         itemHeight: 20,
                         menuMaxHeight: 640,
                         menuWidth: 362,
+                        style: 'width: 140px;',
                         enableKeyEvents: true,
                         lock: [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
                         dataHint: '1',

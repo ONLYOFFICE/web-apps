@@ -3082,6 +3082,7 @@ define([
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
+            toolbar.hideMoreBtns();
             if(disable) {
                 if (reviewmode) {
                     mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review):not(.no-group-mask.inner-elset)'));

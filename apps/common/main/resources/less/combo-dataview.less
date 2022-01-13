@@ -342,8 +342,13 @@
     .combo-template(60px);
 
     top: -7px;
-    padding-right: 24px;
+    padding-right: 12px;
     position: absolute;
+
+    .more-container & {
+        padding-right: 0;
+        position: static;
+    }
 
     .view .dataview, .dropdown-menu {
         padding: 1px;

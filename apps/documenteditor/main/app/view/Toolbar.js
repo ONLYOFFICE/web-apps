@@ -1311,6 +1311,7 @@ define([
                         cls: 'combo-styles',
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
+                        style: 'min-width:150px;',
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1403,7 +1404,6 @@ define([
                             ]
                         });
                     }
-
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
                 } else {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
