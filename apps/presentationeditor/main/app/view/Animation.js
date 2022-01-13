@@ -118,20 +118,20 @@ define([
             }
 
             if (me.cmbRepeat) {
-                me.cmbRepeat.on('change:before', function (combo, record) {
+                me.cmbRepeat.on('changed:before', function (combo, record) {
                     me.fireEvent('animation:repeatchangebefore', [true, combo, record]);
                 }, me);
-                me.cmbRepeat.on('change:after', function (combo, record) {
+                me.cmbRepeat.on('changed:after', function (combo, record) {
                     me.fireEvent('animation:repeatchangeafter', [false, combo, record]);
                 }, me);
                 me.cmbRepeat.on('selected', function (combo, record) {
                     me.fireEvent('animation:repeatselected', [combo, record]);
                 }, me);
-                me.cmbRepeat.on('show:after', function (needfocus, combo) {
-                    me.fireEvent('animation:repeatopen', [needfocus, combo]);
+                me.cmbRepeat.on('show:after', function (combo) {
+                    me.fireEvent('animation:repeatshow', [true, combo]);
                 }, me);
-                me.cmbRepeat.on('combo:focusin', function (needfocus, combo) {
-                    me.fireEvent('animation:repeatopen', [needfocus, combo]);
+                me.cmbRepeat.on('combo:focusin', function (combo) {
+                    me.fireEvent('animation:repeatfocusin', [false, combo]);
                 }, me);
             }
 

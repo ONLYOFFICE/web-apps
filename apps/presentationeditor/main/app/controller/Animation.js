@@ -72,7 +72,7 @@ define([
                     'animation:addanimation':       _.bind(this.onAddAnimation, this),
                     'animation:startselect':        _.bind(this.onStartSelect, this),
                     'animation:checkrewind':        _.bind(this.onCheckRewindChange,this),
-                    'animation:repeat':             _.bind(this.onRepeatChange, this),
+                    //'animation:repeat':             _.bind(this.onRepeatChange, this),
                     'animation:additional':         _.bind(this.onAnimationAdditional, this),
                     'animation:trigger':            _.bind(this.onTriggerClick, this),
                     'animation:triggerclickof':     _.bind(this.onTriggerClickOfClick, this),
@@ -80,7 +80,10 @@ define([
                     'animation:movelater':          _.bind(this.onMoveLater, this),
                     'animation:repeatchangebefore': _.bind(this.onRepeatChange, this),
                     'animation:repeatchangeafter':  _.bind(this.onRepeatChange, this),
+                    'animation:repeatshow':         _.bind(this.onRepeatComboOpen, this),
+                    'animation:repeatfocusin':      _.bind(this.onRepeatComboOpen, this),
                     'animation:repeatselected':     _.bind(this.onRepeatSelected, this)
+
                 },
                 'Toolbar': {
                     'tab:active':               _.bind(this.onActiveTab, this)
@@ -205,9 +208,35 @@ define([
                 me = this;
             if(before)
             {
+                var item = combo.store.findWhere({
+                    displayValue: record.value
+                });
+
+                if (!item) {
+                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                    if (!value) {
+                        value = this._state.Repeat;
+                        combo.setRawValue(value);
+                        if(!_.isNumber(record.value))
+                            record.value = value;
+
+                        return false;
+                    }
+                }
 
             } else {
+                value = Common.Utils.String.parseFloat(record.value);
+                if(!record.displayValue)
+                    value = value > 9999  ? 9999 :
+                        value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
 
+                combo.setValue(value);
+
+                if (this.api) {
+                    this.AnimationProperties.asc_putRepeatCount(value);
+                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                }
             }
         },
 
@@ -383,7 +412,7 @@ define([
                     view.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
                 }
                 this._state.Repeat = this.AnimationProperties.asc_getRepeatCount();
-                view.cmbRepeat.setValue((this._state.Repeat !== null && this._state.Repeat !== undefined) ? this._state.Repeat/1000. : 1);
+                view.cmbRepeat.setValue( this._state.Repeat !== undefined ? this._state.Repeat : 1);
 
                 this._state.StartSelect = this.AnimationProperties.asc_getStartType();
                 view.cmbStart.setValue(this._state.StartSelect!==undefined ? this._state.StartSelect : AscFormat.NODE_TYPE_CLICKEFFECT);
