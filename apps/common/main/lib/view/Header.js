@@ -125,7 +125,7 @@ define([
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     // '<label id="title-doc-name" /></label>' +
-                                    '<input id="title-doc-name" /></input>' +
+                                    '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
                                 '<label id="title-user-name"></label>' +
                             '</section>';
