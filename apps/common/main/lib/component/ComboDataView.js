@@ -255,6 +255,7 @@ define([
                 var picker = this.menuPicker;
                 if (picker) {
                     var record = picker.getSelectedRec();
+                    this.itemMarginLeft = undefined;
                     this.fillComboView(record || picker.store.at(0), !!record, true);
 
                     picker.onResize();
