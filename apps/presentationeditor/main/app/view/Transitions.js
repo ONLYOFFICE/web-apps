@@ -136,7 +136,7 @@ define([
                     item.tip = item.title;
                 });
 
-                var itemWidth = 87,
+                var itemWidth = 88,
                     itemHeight = 40;
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-transitions',

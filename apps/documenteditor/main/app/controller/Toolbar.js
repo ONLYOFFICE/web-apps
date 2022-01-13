@@ -2910,6 +2910,7 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
+            this.toolbar.btnDarkDocument && this.toolbar.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
             if (!this._state.mmdisable) {
                 this.toolbar.btnMailRecepients.setDisabled(false);
                 this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients);
@@ -3241,6 +3242,7 @@ define([
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, viewtab.getView('ViewTab').getButtons());
+                me.toolbar.btnDarkDocument = viewtab.getView('ViewTab').btnDarkDocument;
             }
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {
