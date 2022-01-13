@@ -161,7 +161,7 @@ define([
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
                 _.forEach(this._arrEffectName,function (elm){elm.tip = elm.displayValue;});
                 this._arrEffectOptions = [];
-                var itemWidth = 87,
+                var itemWidth = 88,
                     itemHeight = 40;
                 this.listEffectsMore = new Common.UI.MenuItem({
                     caption: this.textMoreEffects
@@ -415,7 +415,7 @@ define([
                         ]
                     }));
 
-                    var itemWidth = 87,
+                    var itemWidth = 88,
                         itemHeight = 40;
                     var onShowBefore = function(menu) {
                         var picker = new Common.UI.DataView({

@@ -378,10 +378,20 @@
         height: @combo-dataview-height-calc;
     }
 
-    .item {
+    .item, .menu-picker-container .dataview .group-items-container .item {
         padding: 0px;
-        margin: @combo-dataview-item-margins 0 0 @combo-dataview-item-margins;
+        margin: @combo-dataview-item-margins;
         .box-shadow(none);
+
+        &:hover {
+            .box-shadow(0 0 0 2px @border-preview-hover-ie);
+            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+        }
+
+        &.selected {
+            .box-shadow(0 0 0 2px @border-preview-select-ie);
+            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+        }
     }
 
     .menu-picker-container {
@@ -391,8 +401,6 @@
         }
 
         .group-items-container .item {
-            box-shadow: none;
-            margin: @scaled-two-px-value 0 0 @scaled-two-px-value;
             &:last-child {
                 margin-bottom: @combo-dataview-item-margins;
             }
@@ -424,11 +432,10 @@
             width: @x-huge-btn-icon-size;
             height: @x-huge-btn-icon-size;
             min-width: 0;
-            margin-top: -2px;
         }
 
         .caption{
-            line-height: 18px;
+            line-height: 12px;
             font-size: 11px;
             text-overflow: ellipsis;
             overflow: hidden;
