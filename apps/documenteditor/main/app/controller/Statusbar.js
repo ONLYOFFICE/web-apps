@@ -119,6 +119,9 @@ define([
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }
+                if (cfg.canUseSelectHandTools) {
+                    me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
+                }
             });
 
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
@@ -131,6 +134,10 @@ define([
                 resolve();
             })).then(function () {
                 me.bindViewEvents(me.statusbar, me.events);
+                if (config.canUseSelectHandTools) {
+                    me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
+                    me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
+                }
 
                 var statusbarIsHidden = Common.localStorage.getBool("de-hidden-status");
                 if ( config.canReview && !statusbarIsHidden ) {
@@ -342,6 +349,10 @@ define([
         hideDisconnectTip: function() {
             this.disconnectTip && this.disconnectTip.hide();
             this.disconnectTip = null;
+        },
+
+        onSelectTool: function (type, btn, e) {
+
         },
 
         zoomText        : 'Zoom {0}%',
