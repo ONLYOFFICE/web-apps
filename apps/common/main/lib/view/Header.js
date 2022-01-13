@@ -218,11 +218,12 @@ define([
             //config.isCrypted =true; //delete fore merge!
             if ( this.labelDocName ) {
                 if ( config.isCrypted ) {
-                this.labelDocName.attr({'style':'text-align: left;'});
+                    this.labelDocName.attr({'style':'text-align: left;'});
                     this.labelDocName.before(
                         '<div class="inner-box-icon crypted">' +
                             '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
                         '</div>');
+                    this.imgCrypted = this.labelDocName.parent().find('.crypted');
                 }
 
                 if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
@@ -356,19 +357,16 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
-        function cutDocName(name) {
-            var idx = name.lastIndexOf('.');
-            return (idx>0) ? name.substring(0, idx) : name ;
-        }
-
         function onFocusDocName(e){
             var me = this;
-            if(me.options.isNotTrimAfterPoint)  return;
-
-            var name = cutDocName(me.labelDocName.val());
+            me.imgCrypted && me.imgCrypted.attr('hidden', true);
+            me.isSaveDocName =false;
+            if(me.withoutExt) return;
+            var name = me.cutDocName(me.labelDocName.val());
             _.delay(function(){
                 me.labelDocName.val(name);
             },100);
+            me.withoutExt = true;
         }
 
         function onDocNameKeyDown(e) {
@@ -377,34 +375,39 @@ define([
             var name = me.labelDocName.val();
             if ( e.keyCode == Common.UI.Keys.RETURN ) {
                 name = name.trim();
-                if ( !_.isEmpty(name) && cutDocName(me.documentCaption) !== name ) {
+                me.isSaveDocName =true;
+                if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
                     if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
                         _.defer(function() {
                             Common.UI.error({
                                 msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
                                 , callback: function() {
                                     _.delay(function() {
-                                        me.options.isNotTrimAfterPoint = true;
                                         me.labelDocName.focus();
+                                        me.isSaveDocName =true;
                                     }, 50);
                                 }
                             });
-                            me.labelDocName.blur();
+                            //me.labelDocName.blur();
                         })
-                    } else {
+                    } else
+                    if(me.withoutExt) {
                         me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
+                        name += me.fileExtention;
+                        me.labelDocName.val(name);
+                        me.withoutExt = false;
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
+
                 } else {
-                    me.labelDocName.val(me.documentCaption);
+
                     Common.NotificationCenter.trigger('edit:complete', me);
                 }
             } else
             if ( e.keyCode == Common.UI.Keys.ESC ) {
-                me.labelDocName.val(me.documentCaption);
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
-                me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
+                me.labelDocName.attr('size', name.length + me.fileExtention.length > 10  ? name.length + me.fileExtention.length : 10);
             }
         }
 
@@ -584,6 +587,7 @@ define([
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
                     me.labelDocName = $html.find('#title-doc-name');
                     me.labelDocName.val( me.documentCaption );
+                    me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
                     me.labelUserName = $('> #title-user-name', $html);
                     me.setUserName(me.options.userName);
@@ -649,6 +653,9 @@ define([
                 !value && (value = '');
 
                 this.documentCaption = value;
+                var idx = this.documentCaption.lastIndexOf('.');
+                if (idx>0)
+                    this.fileExtention = this.documentCaption.substring(idx);
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
                     this.labelDocName.val( value );
@@ -700,7 +707,7 @@ define([
             },
 
             setCanRename: function (rename) {
-                rename = true;      //for merge rename = false; ??
+               // rename = true;      //for merge rename = false; ??
 
                 var me = this;
                 me.options.canRename = rename;
@@ -716,7 +723,11 @@ define([
                             'keydown': onDocNameKeyDown.bind(this),
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
-                                me.options.isNotTrimAfterPoint =false;
+                                me.imgCrypted && me.imgCrypted.attr('hidden', false);
+                                if(!me.isSaveDocName) {
+                                    me.labelDocName.val(me.documentCaption);
+                                    me.withoutExt = false;
+                                }
                             }
                         });
 
@@ -731,6 +742,13 @@ define([
                     }
                     label.attr('data-can-copy', rename);
                 }
+            },
+
+            cutDocName: function(name) {
+                if((name.length <= this.fileExtention.length) && this.withoutExt) return;
+                var idx =name.length - this.fileExtention.length;
+
+                return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
             },
 
             setUserName: function(name) {
