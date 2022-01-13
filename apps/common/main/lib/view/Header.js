@@ -728,6 +728,13 @@ define([
                                     me.labelDocName.val(me.documentCaption);
                                     me.withoutExt = false;
                                 }
+                            },
+                            'paste': function (e) {
+                                setTimeout(function() {
+                                    var name = me.cutDocName(me.labelDocName.val());
+                                    me.labelDocName.val(name);
+                                    me.labelDocName.attr('size', name.length + me.fileExtention.length > 10  ? name.length + me.fileExtention.length : 10);
+                                });
                             }
                         });
 
@@ -745,7 +752,7 @@ define([
             },
 
             cutDocName: function(name) {
-                if((name.length <= this.fileExtention.length) && this.withoutExt) return;
+                if(name.length <= this.fileExtention.length) return;
                 var idx =name.length - this.fileExtention.length;
 
                 return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
