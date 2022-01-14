@@ -774,10 +774,10 @@ define(function(){ 'use strict';
             textToRight: 'To Right',
             textToBottomRight: 'To Bottom-Right',
             textSpoke1: '1 Spoke',
-            textSpoke2: '2 Spoke',
-            textSpoke3: '3 Spoke',
-            textSpoke4: '4 Spoke',
-            textSpoke8: '8 Spoke',
+            textSpoke2: '2 Spokes',
+            textSpoke3: '3 Spokes',
+            textSpoke4: '4 Spokes',
+            textSpoke8: '8 Spokes',
             textCustomPath: 'Custom Path',
             textHorizontalIn: 'Horizontal In',
             textHorizontalOut: 'Horizontal Out',
@@ -1132,10 +1132,10 @@ define(function(){ 'use strict';
                             case AscFormat.ENTRANCE_WHEEL:
                                 return [
                                     {value: AscFormat.ENTRANCE_WHEEL_1_SPOKE,           caption: this.textSpoke1},
-                                    {value: AscFormat.ENTRANCE_WHEEL_2_SPOKE,           caption: this.textSpoke2},
-                                    {value: AscFormat.ENTRANCE_WHEEL_3_SPOKE,           caption: this.textSpoke3},
-                                    {value: AscFormat.ENTRANCE_WHEEL_4_SPOKE,           caption: this.textSpoke4},
-                                    {value: AscFormat.ENTRANCE_WHEEL_8_SPOKE,           caption: this.textSpoke8}
+                                    {value: AscFormat.ENTRANCE_WHEEL_2_SPOKES,           caption: this.textSpoke2},
+                                    {value: AscFormat.ENTRANCE_WHEEL_3_SPOKES,           caption: this.textSpoke3},
+                                    {value: AscFormat.ENTRANCE_WHEEL_4_SPOKES,           caption: this.textSpoke4},
+                                    {value: AscFormat.ENTRANCE_WHEEL_8_SPOKES,           caption: this.textSpoke8}
                                 ];
                             case AscFormat.ENTRANCE_WIPE_FROM:
                                 return [
@@ -1248,10 +1248,10 @@ define(function(){ 'use strict';
                             case AscFormat.EXIT_WHEEL:
                                 return [
                                     {value: AscFormat.EXIT_WHEEL_1_SPOKE,           caption: this.textSpoke1},
-                                    {value: AscFormat.EXIT_WHEEL_2_SPOKE,           caption: this.textSpoke2},
-                                    {value: AscFormat.EXIT_WHEEL_3_SPOKE,           caption: this.textSpoke3},
-                                    {value: AscFormat.EXIT_WHEEL_4_SPOKE,           caption: this.textSpoke4},
-                                    {value: AscFormat.EXIT_WHEEL_8_SPOKE,           caption: this.textSpoke8}
+                                    {value: AscFormat.EXIT_WHEEL_2_SPOKES,           caption: this.textSpoke2},
+                                    {value: AscFormat.EXIT_WHEEL_3_SPOKES,           caption: this.textSpoke3},
+                                    {value: AscFormat.EXIT_WHEEL_4_SPOKES,           caption: this.textSpoke4},
+                                    {value: AscFormat.EXIT_WHEEL_8_SPOKES,           caption: this.textSpoke8}
                                 ];
                             case AscFormat.EXIT_WIPE_FROM:
                                 return [

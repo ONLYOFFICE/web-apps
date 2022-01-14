@@ -260,7 +260,7 @@
                 <div class="group small">
                     <div class="elset font-normal">
                         <label id="animation-repeat"></label>
-                        <span id="animation-spin-repeat" class="btn-slot text spinner" ></span>
+                        <div id="animation-spin-repeat" style="width: 96px; " class="btn-slot" ></div>
                     </div>
                     <div class="elset font-normal">
                          <span class="btn-slot text" id="animation-checkbox-rewind"></span>
