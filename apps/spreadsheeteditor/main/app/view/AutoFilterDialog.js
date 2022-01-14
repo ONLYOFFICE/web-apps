@@ -962,7 +962,7 @@ define([
 
             _.extend(_options, {
                 width           : width || 450,
-                height          : height || 265,
+                height          : height || 277,
                 contentWidth    : (width - 50) || 400,
                 header          : false,
                 cls             : 'filter-dlg',
@@ -973,7 +973,7 @@ define([
                 items           : [],
                 resizable       : true,
                 minwidth        : 450,
-                minheight       : 265
+                minheight       : 277
             }, options);
 
             this.template   =   options.template || [
