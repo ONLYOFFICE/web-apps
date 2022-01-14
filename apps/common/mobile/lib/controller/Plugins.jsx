@@ -121,7 +121,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     };
 
     const pluginClose = plugin => {
-        if (plugin) {
+        if (plugin && modal) {
             modal.close();
         }
     };
