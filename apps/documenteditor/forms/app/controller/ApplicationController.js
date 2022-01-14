@@ -1856,7 +1856,9 @@ define([
         saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
         errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
         textSaveAs: 'Save as PDF',
-        textSaveAsDesktop: 'Save as...'
+        textSaveAsDesktop: 'Save as...',
+        warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
+        titleLicenseExp: 'License expired'
 
     }, DE.Controllers.ApplicationController));
 
