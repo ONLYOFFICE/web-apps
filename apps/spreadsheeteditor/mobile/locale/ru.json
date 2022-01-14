@@ -142,9 +142,13 @@
       "textGuest": "Гость",
       "textHasMacros": "Файл содержит автозапускаемые макросы.<br>Хотите запустить макросы?",
       "textNo": "Нет",
+      "textNoChoices": "Нет вариантов для заполнения ячейки.<br>Для замены можно выбрать только текстовые значения из столбца.",
       "textNoLicenseTitle": "Лицензионное ограничение",
+      "textNoTextFound": "Текст не найден",
       "textPaidFeature": "Платная функция",
       "textRemember": "Запомнить мой выбор",
+      "textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
+      "textReplaceSuccess": "Поиск выполнен. Заменено вхождений: {0}",
       "textYes": "Да",
       "titleServerVersion": "Редактор обновлен",
       "titleUpdateVersion": "Версия изменилась",
@@ -155,11 +159,7 @@
       "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textOk": "Ok"
     }
   },
   "Error": {
@@ -570,6 +570,7 @@
       "textComments": "Комментарии",
       "textCreated": "Создана",
       "textCustomSize": "Особый размер",
+      "textDarkTheme": "Темная тема",
       "textDelimeter": "Разделитель",
       "textDisableAll": "Отключить все",
       "textDisableAllMacrosWithNotification": "Отключить все макросы с уведомлением",
@@ -670,8 +671,7 @@
       "txtSemicolon": "Точка с запятой",
       "txtSpace": "Пробел",
       "txtTab": "Табуляция",
-      "warnDownloadAs": "Если вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Если вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?"
     }
   }
 }

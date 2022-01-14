@@ -73,9 +73,6 @@
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "notcriticalErrorTitle": "Warning",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found",
       "SDK": {
         "txtAccent": "Accent",
         "txtAll": "(All)",
@@ -145,9 +142,14 @@
       "textGuest": "Guest",
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
       "textNo": "No",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textNoLicenseTitle": "License limit reached",
+      "textNoTextFound": "Text not found",
+      "textOk": "Ok",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textYes": "Yes",
       "titleServerVersion": "Editor updated",
       "titleUpdateVersion": "Version changed",
@@ -157,9 +159,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -288,15 +288,15 @@
     "textErrorRemoveSheet": "Can't delete the worksheet.",
     "textHide": "Hide",
     "textMore": "More",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward",
     "textOk": "Ok",
     "textRename": "Rename",
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
@@ -340,6 +340,7 @@
       "textLink": "Link",
       "textLinkSettings": "Link Settings",
       "textLinkType": "Link Type",
+      "textOk": "Ok",
       "textOther": "Other",
       "textPictureFromLibrary": "Picture from library",
       "textPictureFromURL": "Picture from URL",
@@ -357,8 +358,7 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes",
-      "textOk": "Ok"
+      "txtYes": "Yes"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -478,6 +478,7 @@
       "textNoOverlay": "No Overlay",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "textNumber": "Number",
+      "textOk": "Ok",
       "textOnTickMarks": "On Tick Marks",
       "textOpacity": "Opacity",
       "textOut": "Out",
@@ -539,8 +540,7 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest",
-      "textOk": "Ok"
+      "txtSortLow2High": "Sort Lowest to Highest"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",
@@ -570,6 +570,7 @@
       "textComments": "Comments",
       "textCreated": "Created",
       "textCustomSize": "Custom Size",
+      "textDarkTheme": "Dark Theme",
       "textDelimeter": "Delimiter",
       "textDisableAll": "Disable All",
       "textDisableAllMacrosWithNotification": "Disable all macros with a notification",
@@ -670,8 +671,7 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }

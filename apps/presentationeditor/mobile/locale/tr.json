@@ -124,9 +124,9 @@
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textNoTextFound": "Text not found",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -392,8 +392,8 @@
       "textAutomatic": "Automatic",
       "textDesign": "Design",
       "textPush": "Push",
-      "textWedge": "Wedge",
-      "textOk": "Tamam"
+      "textOk": "Tamam",
+      "textWedge": "Wedge"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -470,10 +470,10 @@
       "txtScheme7": "Net Değer",
       "txtScheme8": "Yayılma",
       "txtScheme9": "Döküm",
+      "textDarkTheme": "Dark Theme",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
-      "txtScheme19": "Trek",
-      "textDarkTheme": "Dark Theme"
+      "txtScheme19": "Trek"
     }
   }
 }
