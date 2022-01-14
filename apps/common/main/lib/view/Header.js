@@ -124,7 +124,8 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
-                                    '<label id="title-doc-name" />' +
+                                    // '<label id="title-doc-name" /></label>' +
+                                    '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
                                 '<label id="title-user-name"></label>' +
                             '</section>';
@@ -214,12 +215,15 @@ define([
         }
 
         function onAppShowed(config) {
+            //config.isCrypted =true; //delete fore merge!
             if ( this.labelDocName ) {
                 if ( config.isCrypted ) {
+                    this.labelDocName.attr({'style':'text-align: left;'});
                     this.labelDocName.before(
                         '<div class="inner-box-icon crypted">' +
                             '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
                         '</div>');
+                    this.imgCrypted = this.labelDocName.parent().find('.crypted');
                 }
 
                 if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
@@ -353,13 +357,26 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
+        function onFocusDocName(e){
+            var me = this;
+            me.imgCrypted && me.imgCrypted.attr('hidden', true);
+            me.isSaveDocName =false;
+            if(me.withoutExt) return;
+            var name = me.cutDocName(me.labelDocName.val());
+            _.delay(function(){
+                me.labelDocName.val(name);
+            },100);
+            me.withoutExt = true;
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
 
             var name = me.labelDocName.val();
             if ( e.keyCode == Common.UI.Keys.RETURN ) {
                 name = name.trim();
-                if ( !_.isEmpty(name) && me.documentCaption !== name ) {
+                me.isSaveDocName =true;
+                if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
                     if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
                         _.defer(function() {
                             Common.UI.error({
@@ -367,23 +384,31 @@ define([
                                 , callback: function() {
                                     _.delay(function() {
                                         me.labelDocName.focus();
+                                        me.isSaveDocName =true;
                                     }, 50);
                                 }
                             });
-
-                            me.labelDocName.blur();
+                            //me.labelDocName.blur();
                         })
-                    } else {
-                        Common.Gateway.requestRename(name);
+                    } else
+                    if(me.withoutExt) {
+                        name = me.cutDocName(name);
+                        me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
+                        name += me.fileExtention;
+                        me.labelDocName.val(name);
+                        me.withoutExt = false;
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
+
+                } else {
+
+                    Common.NotificationCenter.trigger('edit:complete', me);
                 }
             } else
             if ( e.keyCode == Common.UI.Keys.ESC ) {
-                me.labelDocName.val(me.documentCaption);
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
-                me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
+                me.labelDocName.attr('size', name.length + me.fileExtention.length > 10  ? name.length + me.fileExtention.length : 10);
             }
         }
 
@@ -504,7 +529,7 @@ define([
                     if ( !me.labelDocName ) {
                         me.labelDocName = $html.find('#rib-doc-name');
                         if ( me.documentCaption ) {
-                            me.labelDocName.text(me.documentCaption);
+                            me.labelDocName.val(me.documentCaption);
                         }
                     } else {
                         $html.find('#rib-doc-name').hide();
@@ -562,7 +587,8 @@ define([
 
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
                     me.labelDocName = $html.find('#title-doc-name');
-                    me.labelDocName.text( me.documentCaption );
+                    me.labelDocName.val( me.documentCaption );
+                    me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
                     me.labelUserName = $('> #title-user-name', $html);
                     me.setUserName(me.options.userName);
@@ -628,14 +654,17 @@ define([
                 !value && (value = '');
 
                 this.documentCaption = value;
+                var idx = this.documentCaption.lastIndexOf('.');
+                if (idx>0)
+                    this.fileExtention = this.documentCaption.substring(idx);
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
-                    this.labelDocName.text( value );
+                    this.labelDocName.val( value );
                     // this.labelDocName.attr('size', value.length);
+                    this.setCanRename(this.options.canRename);
 
-                    this.setCanRename(true);
+                    //this.setCanRename(true);
                 }
-
                 return value;
             },
 
@@ -649,7 +678,7 @@ define([
                 var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.labelDocName.text(_name);
+                this.labelDocName.val(_name);
             },
 
             setCanBack: function (value, text) {
@@ -679,7 +708,7 @@ define([
             },
 
             setCanRename: function (rename) {
-                rename = false;
+               // rename = true;      //for merge rename = false; ??
 
                 var me = this;
                 me.options.canRename = rename;
@@ -693,8 +722,20 @@ define([
 
                         label.on({
                             'keydown': onDocNameKeyDown.bind(this),
+                            'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
-
+                                me.imgCrypted && me.imgCrypted.attr('hidden', false);
+                                if(!me.isSaveDocName) {
+                                    me.labelDocName.val(me.documentCaption);
+                                    me.withoutExt = false;
+                                }
+                            },
+                            'paste': function (e) {
+                                setTimeout(function() {
+                                    var name = me.cutDocName(me.labelDocName.val());
+                                    me.labelDocName.val(name);
+                                    me.labelDocName.attr('size', name.length + me.fileExtention.length > 10  ? name.length + me.fileExtention.length : 10);
+                                });
                             }
                         });
 
@@ -709,6 +750,13 @@ define([
                     }
                     label.attr('data-can-copy', rename);
                 }
+            },
+
+            cutDocName: function(name) {
+                if(name.length <= this.fileExtention.length) return;
+                var idx =name.length - this.fileExtention.length;
+
+                return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
             },
 
             setUserName: function(name) {
