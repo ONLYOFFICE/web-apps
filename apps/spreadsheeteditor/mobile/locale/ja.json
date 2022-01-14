@@ -156,10 +156,10 @@
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textNoTextFound": "Text not found",
       "textOk": "Ok",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -268,13 +268,13 @@
     "textLoadingDocument": "ドキュメントを読み込んでいます",
     "textNo": "いいえ",
     "textOk": "OK",
+    "textUnlockRange": "範囲を解除",
     "textUnlockRangeWarning": "変更しようとしている範囲がパスワードで保護されています。",
     "textYes": "Yes",
     "txtEditingMode": "編集モードを設定する",
     "uploadImageTextText": "イメージのアップロード中...",
     "uploadImageTitleText": "イメージのアップロード中",
-    "waitText": "少々お待ちください...",
-    "textUnlockRange": "Unlock Range"
+    "waitText": "少々お待ちください..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": " 警告",
