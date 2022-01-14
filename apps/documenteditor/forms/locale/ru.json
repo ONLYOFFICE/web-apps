@@ -147,6 +147,8 @@
   "DE.Views.ApplicationView.textClear": "Очистить все поля",
   "DE.Views.ApplicationView.textCopy": "Копировать",
   "DE.Views.ApplicationView.textCut": "Вырезать",
+  "DE.Views.ApplicationView.textFitToPage": "По размеру страницы",
+  "DE.Views.ApplicationView.textFitToWidth": "По ширине",
   "DE.Views.ApplicationView.textNext": "Следующее поле",
   "DE.Views.ApplicationView.textPaste": "Вставить",
   "DE.Views.ApplicationView.textPrintSel": "Напечатать выделенное",
