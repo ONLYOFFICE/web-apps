@@ -555,6 +555,7 @@ module.exports = function(grunt) {
                 webpack_app_build: {
                     options: {
                         cwd: '../vendor/framework7-react',
+                        env: {...process.env, ...{addon: grunt.option('addon')}},
                     },
                     cmd: function() {
                         const editor = packageFile.name == 'presentationeditor' ? 'slide' :
