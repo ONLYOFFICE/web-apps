@@ -407,7 +407,7 @@ class MainController extends Component {
     onLicenseChanged (params) {
         const appOptions = this.props.storeAppOptions;
         const licType = params.asc_getLicenseType();
-        if (licType !== undefined && appOptions.canEdit && appOptions.config.mode !== 'view' &&
+        if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
             (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
