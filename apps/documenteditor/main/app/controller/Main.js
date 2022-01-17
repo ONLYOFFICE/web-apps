@@ -2193,7 +2193,8 @@ define([
 
                 var me = this,
                     shapegrouparray = [],
-                    shapeStore = this.getCollection('ShapeGroups');
+                    shapeStore = this.getCollection('ShapeGroups'),
+                    name_arr = {};
 
                 shapeStore.reset();
 
@@ -2208,12 +2209,15 @@ define([
                         width = 30 * cols;
 
                     _.each(shapes[index], function(shape, idx){
+                        var name = me['txtShape_' + shape.Type];
                         arr.push({
                             data     : {shapeType: shape.Type},
-                            tip      : me['txtShape_' + shape.Type] || (me.textShape + ' ' + (idx+1)),
+                            tip      : name || (me.textShape + ' ' + (idx+1)),
                             allowSelected : true,
                             selected: false
                         });
+                        if (name)
+                            name_arr[shape.Type] = name;
                     });
                     store.add(arr);
                     shapegrouparray.push({
@@ -2228,6 +2232,7 @@ define([
                 setTimeout(function(){
                     me.getApplication().getController('Toolbar').onApiAutoShapes();
                 }, 50);
+                this.api.asc_setShapeNames(name_arr);
             },
 
             fillTextArt: function(shapes){
