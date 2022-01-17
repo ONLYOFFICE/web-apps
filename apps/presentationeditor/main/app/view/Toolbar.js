@@ -1075,7 +1075,7 @@ define([
                         style: 'min-width: 140px;',
                         itemWidth: 20,
                         itemHeight: 20,
-                        menuMaxHeight: 640,
+                        menuMaxHeight: 652,
                         menuWidth: 362,
                         enableKeyEvents: true,
                         lock: [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
@@ -1752,7 +1752,7 @@ define([
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: collection,
                     parentMenu: menuShape,
-                    restoreHeight: 640,
+                    restoreHeight: 652,
                     textRecentlyUsed: me.textRecentlyUsed,
                     recentShapes: recents
                 });
