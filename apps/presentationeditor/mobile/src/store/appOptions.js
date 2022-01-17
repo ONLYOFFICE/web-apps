@@ -12,6 +12,7 @@ export class storeAppOptions {
             lostEditingRights: observable,
             changeEditingRights: action,
             canBrandingExt: observable,
+            canBranding: observable,
 
             isDocReady: observable,
             changeDocReady: action
@@ -21,6 +22,7 @@ export class storeAppOptions {
     isEdit = false;
     canViewComments = false;
     canBrandingExt = false;
+    canBranding = false;
     config = {};
 
     lostEditingRights = false;
