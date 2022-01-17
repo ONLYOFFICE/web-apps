@@ -505,6 +505,7 @@ define([
 
             this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
             this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
+            this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
             this.api.asc_setDocInfo(docInfo);
             this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
             this.api.asc_enableKeyEvents(true);
@@ -640,6 +641,17 @@ define([
                     })
                 }
             });
+        },
+
+        onLicenseChanged: function(params) {
+            var licType = params.asc_getLicenseType();
+            if (licType !== undefined && this.appOptions.canFillForms &&
+                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
+                this._state.licenseType = licType;
+
+            if (this._isDocReady)
+                this.applyLicense();
         },
 
         applyLicense: function() {
