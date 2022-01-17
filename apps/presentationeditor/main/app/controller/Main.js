@@ -1905,7 +1905,8 @@ define([
                     return;
 
                 var me = this,
-                    shapegrouparray = [];
+                    shapegrouparray = [],
+                    name_arr = {};
 
                 _.each(groupNames, function(groupName, index){
                     var store = new Backbone.Collection([], {
@@ -1918,12 +1919,15 @@ define([
                         width = 30 * cols;
 
                     _.each(shapes[index], function(shape, idx){
+                        var name = me['txtShape_' + shape.Type];
                         arr.push({
                             data     : {shapeType: shape.Type},
-                            tip      : me['txtShape_' + shape.Type] || (me.textShape + ' ' + (idx+1)),
+                            tip      : name || (me.textShape + ' ' + (idx+1)),
                             allowSelected : true,
                             selected: false
                         });
+                        if (name)
+                            name_arr[shape.Type] = name;
                     });
                     store.add(arr);
                     shapegrouparray.push({
@@ -1935,6 +1939,7 @@ define([
                 });
 
                 this.getCollection('ShapeGroups').reset(shapegrouparray);
+                this.api.asc_setShapeNames(name_arr);
             },
 
             fillLayoutsStore: function(layouts){
