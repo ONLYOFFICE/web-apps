@@ -64,13 +64,15 @@ define([
 
             }, options);
 
+            this.handler        =   options.handler;
+
             this.template = options.template || [
                 '<div class="box">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<label>' + t.txtDescription + '</label>',
                     '</div>',
                     '<div class="input-row">',
-                        '<label>' + t.txtPassword + '</label>',
+                        '<label>' + t.txtPassword + (t.passwordOptional ? ' (' + t.txtOptional + ')': '') + '</label>',
                     '</div>',
                     '<div id="id-password-txt" class="input-row" style="margin-bottom: 5px;"></div>',
                     '<div class="input-row">',
@@ -80,9 +82,6 @@ define([
                     '<label>' + t.txtWarning + '</label>',
                 '</div>'
             ].join('');
-
-            this.handler        =   options.handler;
-            this.settings       =   options.settings;
 
             _options.tpl        =   _.template(this.template)(_options);
 

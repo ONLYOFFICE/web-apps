@@ -913,7 +913,7 @@ Common.Utils.lockControls = function(causes, lock, opts, defControls) {
     });
 };
 
-Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle) {
+Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle) {
     var btnsArr = createButtonSet();
     btnsArr.setDisabled(true);
     id = id || ("id-toolbar-" + iconCls);
@@ -931,7 +931,11 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
             menu: menu || false,
             enableToggle: toggle || false,
             lock: lock,
-            disabled: true
+            disabled: true,
+            dataHint: dataHint,
+            dataHintDirection: dataHintDirection,
+            dataHintOffset: dataHintOffset,
+            dataHintTitle: dataHintTitle
         });
 
         btnsArr.add(button);
@@ -1068,3 +1072,12 @@ Common.Utils.UserInfoParser = new(function() {
         }
     }
 })();
+
+Common.Utils.getKeyByValue = function(obj, value) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop)) {
+            if(obj[prop] === value)
+                return prop;
+        }
+    }
+};

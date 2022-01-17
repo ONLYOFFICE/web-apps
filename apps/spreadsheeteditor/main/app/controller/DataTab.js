@@ -71,8 +71,11 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
+                this.api.asc_registerCallback('asc_onChangeProtectWorkbook',_.bind(this.onChangeProtectWorkbook, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
+                Common.NotificationCenter.on('document:ready',              _.bind(this.onDocumentReady, this));
             }
             return this;
         },
@@ -276,29 +279,52 @@ define([
         },
 
         onCustomSort: function() {
+            Common.NotificationCenter.trigger('protect:check', this.onCustomSortCallback, this);
+        },
+
+        onCustomSortCallback: function() {
             var me = this;
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
-                if (res) {
-                    var config = {
-                        width: 500,
-                        title: this.toolbar.txtSorting,
-                        msg: this.toolbar.txtExpandSort,
-
-                        buttons: [  {caption: this.toolbar.txtExpand, primary: true, value: 'expand'},
-                            {caption: this.toolbar.txtSortSelected, primary: true, value: 'sort'},
-                            'cancel'],
-                        callback: function(btn){
-                            if (btn == 'expand' || btn == 'sort') {
-                                setTimeout(function(){
-                                    me.showCustomSort(btn == 'expand');
-                                },1);
+                switch (res) {
+                    case Asc.c_oAscSelectionSortExpand.showExpandMessage:
+                        var config = {
+                            width: 500,
+                            title: this.toolbar.txtSorting,
+                            msg: this.toolbar.txtExpandSort,
+                            buttons: [  {caption: this.toolbar.txtExpand, primary: true, value: 'expand'},
+                                {caption: this.toolbar.txtSortSelected, primary: true, value: 'sort'},
+                                'cancel'],
+                            callback: function(btn){
+                                if (btn == 'expand' || btn == 'sort') {
+                                    setTimeout(function(){
+                                        me.showCustomSort(btn == 'expand');
+                                    },1);
+                                }
                             }
-                        }
-                    };
-                    Common.UI.alert(config);
-                } else
-                    me.showCustomSort(res !== null);
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.showLockMessage:
+                        var config = {
+                            width: 500,
+                            title: this.toolbar.txtSorting,
+                            msg: this.toolbar.txtLockSort,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn){
+                                (btn == 'yes') && setTimeout(function(){
+                                                    me.showCustomSort(false);
+                                                },1);
+                            }
+                        };
+                        Common.UI.alert(config);
+                        break;
+                    case Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage:
+                    case Asc.c_oAscSelectionSortExpand.notExpandAndNotShowMessage:
+                        me.showCustomSort(res === Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
+                        break;
+                }
             }
         },
 
@@ -323,7 +349,7 @@ define([
             var me = this;
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
-                if (res) {
+                if (res===Asc.c_oAscSelectionSortExpand.showExpandMessage) {
                     var config = {
                         width: 500,
                         title: this.txtRemDuplicates,
@@ -340,8 +366,8 @@ define([
                         }
                     };
                     Common.UI.alert(config);
-                } else
-                    me.showRemDuplicates(res !== null);
+                } else if (res !== Asc.c_oAscSelectionSortExpand.showLockMessage)
+                    me.showRemDuplicates(res===Asc.c_oAscSelectionSortExpand.expandAndNotShowMessage);
             }
         },
 
@@ -409,11 +435,27 @@ define([
             }
         },
 
+        onChangeProtectWorkbook: function() {
+            Common.Utils.lockControls(SSE.enumLock.wbLock, this.api.asc_isProtectedWorkbook(), {array: [this.view.btnDataFromText]});
+        },
+
         onApiSheetChanged: function() {
             if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+        },
+
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            props && props.wsProps && Common.Utils.lockControls(SSE.enumLock['Sort'], props.wsProps['Sort'], {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort)});
+        },
+
+        onDocumentReady: function() {
+            this.onChangeProtectSheet();
         },
 
         textWizard: 'Text to Columns Wizard',

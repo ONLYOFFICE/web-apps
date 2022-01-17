@@ -279,7 +279,7 @@ define([
 
                 me.header.mnuZoom = new Common.UI.MenuItem({
                     template: _.template([
-                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 26px;" ',
                             '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                 'data-stopPropagation="true"',
                             '<% } %>', '>',

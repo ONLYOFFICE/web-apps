@@ -81,12 +81,14 @@ define([
             template: _.template([
                 '<div class="input-field" style="<%= style %>">',
                     '<input ',
-                        'type="<%= type %>" ',
+                        'type="text" ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
                         'placeholder="<%= placeHolder %>" ',
-                        'value="<%= value %>"',
+                        'data-hint="<%= dataHint %>"',
+                        'data-hint-direction="<%= dataHintDirection %>"',
+                        'data-hint-offset="<%= dataHintOffset %>"',
                     '>',
                     '<span class="input-error"></span>',
                 '</div>'
@@ -135,6 +137,9 @@ define([
                         name        : this.name,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
+                        dataHint    : this.options.dataHint,
+                        dataHintDirection: this.options.dataHintDirection,
+                        dataHintOffset: this.options.dataHintOffset,
                         scope       : me
                     }));
 
@@ -159,6 +164,8 @@ define([
                         this._input.on('keydown',    _.bind(this.onKeyDown, this));
                         this._input.on('keyup',    _.bind(this.onKeyUp, this));
                         if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
+                        if (this.type=='password') this._input.on('input', _.bind(this.checkPasswordType, this));
+
                         if (this.maxLength) this._input.attr('maxlength', this.maxLength);
                     }
 
@@ -177,7 +184,18 @@ define([
 
                 me.rendered = true;
 
+                if (me.value)
+                    me.setValue(me.value);
+
                 return this;
+            },
+
+            checkPasswordType: function(){
+                if (this._input.val() !== '') {
+                    (this._input.attr('type') !== 'password') && this._input.attr('type', 'password');
+                } else {
+                    this._input.attr('type', 'text');
+                }
             },
 
             _doChange: function(e, extra) {
@@ -297,6 +315,8 @@ define([
                 if (this.rendered){
                     this._input.val(value);
                 }
+
+                (this.type=='password') && this.checkPasswordType();
             },
 
             getValue: function() {

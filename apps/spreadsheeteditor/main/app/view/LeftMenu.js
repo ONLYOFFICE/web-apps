@@ -40,6 +40,7 @@ define([
     /** coauthoring begin **/
     'common/main/lib/view/Comments',
     'common/main/lib/view/Chat',
+    'common/main/lib/view/History',
     /** coauthoring end **/
     'common/main/lib/view/SearchDialog',
     'common/main/lib/view/Plugins',
@@ -75,7 +76,7 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
-            this._state = {};
+            this._state = {disabled: false};
         },
 
         render: function () {
@@ -244,6 +245,8 @@ define([
             } else
             if (name == 'spellcheck' && !this.panelSpellcheck) {
                 this.panelSpellcheck = panel.render('#left-panel-spellcheck');
+            } else if (name == 'history') {
+                this.panelHistory = panel.render('#left-panel-history');
             }
         },
 
@@ -307,10 +310,10 @@ define([
             this.btnSpellcheck.setDisabled(false);
         },
 
-        showMenu: function(menu) {
+        showMenu: function(menu, opts) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
-                this.menuFile.show(re[2].length ? re[2] : undefined);
+                this.menuFile.show(re[2].length ? re[2] : undefined, opts);
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {
@@ -421,6 +424,14 @@ define([
                 top += (this.betaHeight + 4);
             }
             this.limitHint && this.limitHint.css('top', top);
+        },
+
+        showHistory: function() {
+            this._state.pluginIsRunning = false;
+            this._state.historyIsRunning = true;
+            this.panelHistory.show();
+            this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('sse-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
+            Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
         /** coauthoring begin **/

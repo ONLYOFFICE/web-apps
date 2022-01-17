@@ -187,7 +187,7 @@ class CommentsController extends Component {
             uid                 : id,
             userId              : data.asc_getUserId(),
             userName            : userName,
-            parsedName          : Common.Utils.String.htmlEncode(parsedName),
+            parsedName,
             userColor           : (user) ? user.asc_getColor() : null,
             date                : dateToLocaleTimeString(date),
             quote               : data.asc_getQuoteText(),
@@ -613,9 +613,9 @@ class ViewCommentsController extends Component {
     render() {
         return(
             <Fragment>
-                {this.props.allComments && <ViewComments onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
+                {this.props.allComments && <ViewComments wsProps={this.props?.storeWorksheets?.wsProps} onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
                     showComment={this.showComment} />}
-                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments}
+                {this.state.isOpenViewCurComments && <ViewCurrentComments wsProps={this.props?.storeWorksheets?.wsProps} opened={this.state.isOpenViewCurComments}
                                                                           closeCurComments={this.closeViewCurComments}
                                                                           onCommentMenuClick={this.onCommentMenuClick}
                                                                           onResolveComment={this.onResolveComment}
@@ -625,14 +625,22 @@ class ViewCommentsController extends Component {
     }
 }
 
+class ViewCommentsSheetsController extends ViewCommentsController {
+    constructor(props) {
+        super(props);
+    }
+}
+
 const _CommentsController = inject('storeAppOptions', 'storeComments', 'users', "storeApplicationSettings")(observer(CommentsController));
 const _AddCommentController = inject('storeAppOptions', 'storeComments', 'users')(observer(AddCommentController));
 const _EditCommentController = inject('storeComments', 'users')(observer(EditCommentController));
-const _ViewCommentsController = inject('storeComments', 'users', "storeApplicationSettings")(observer(withTranslation()(ViewCommentsController)));
+const _ViewCommentsController = inject('storeComments', 'users', "storeApplicationSettings", "storeReview", "storeAppOptions")(observer(withTranslation()(ViewCommentsController)));
+const _ViewCommentsSheetsController = inject('storeComments', 'users', "storeApplicationSettings", "storeWorksheets", "storeReview", "storeAppOptions")(observer(withTranslation()(ViewCommentsSheetsController)));
 
 export {
     _CommentsController as CommentsController,
     _AddCommentController as AddCommentController,
     _EditCommentController as EditCommentController,
-    _ViewCommentsController as ViewCommentsController
+    _ViewCommentsController as ViewCommentsController,
+    _ViewCommentsSheetsController as ViewCommentsSheetsController
 };

@@ -96,3 +96,33 @@
     }
 }
 
+.item-content {
+    .preview{
+        color: @gray;
+    }
+}
+
+.phone, .tablet {
+    .swiper-container{
+        position: static;
+   }
+}
+
+.swiper-container {
+    height: 100%;
+    .swiper-pagination-bullet-active{
+        background: @black;
+    }
+    .multilevels {
+        li:not(:first-child){ 
+            border:none;
+            .item-content {
+                min-height: 70px;
+            }
+        }
+    }
+}
+
+
+
+

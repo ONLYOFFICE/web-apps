@@ -49,3 +49,22 @@
 #spellcheck-complete {
     display: flex;
 }
+.btn-resolve
+ {
+    position: relative;
+
+    &:after {
+        content: '';
+        position: absolute;
+        border: solid @text-normal-ie;
+        border: solid @text-normal;
+        border-color: @icon-success-ie;
+        border-color: @icon-success;
+        border-width: 0 3px 3px 0;
+        transform: rotate(40deg);
+        width: 6px;
+        height: 10px;
+    }
+
+   
+}

@@ -203,12 +203,13 @@ if (window.Common === undefined) {
                 });
             },
 
-            requestRestore: function(version, url) {
+            requestRestore: function(version, url, fileType) {
                 _postMessage({
                     event: 'onRequestRestore',
                     data: {
                         version: version,
-                        url: url
+                        url: url,
+                        fileType: fileType
                     }
                 });
             },
@@ -273,19 +274,23 @@ if (window.Common === undefined) {
                 _postMessage({ event: 'onOutdatedVersion' });
             },
 
-            downloadAs: function(url) {
+            downloadAs: function(url, fileType) {
                 _postMessage({
                     event: 'onDownloadAs',
-                    data: url
+                    data: {
+                        url: url,
+                        fileType: fileType
+                    }
                 });
             },
 
-            requestSaveAs: function(url, title) {
+            requestSaveAs: function(url, title, fileType) {
                 _postMessage({
                     event: 'onRequestSaveAs',
                     data: {
                         url: url,
-                        title: title
+                        title: title,
+                        fileType: fileType
                     }
                 });
             },

@@ -127,7 +127,10 @@ define([
                     style: 'min-width: 190px;max-width: 400px;',
                     maxHeight: 200,
                     items: []
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.txtFieldNum = new Common.UI.InputField({
@@ -149,7 +152,10 @@ define([
 
                     return true;
                 },
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 var val = parseInt(me.txtFieldNum.getValue());
                 if (val !== parseInt(oldValue)) {
@@ -170,14 +176,20 @@ define([
             this.chHighlight = new Common.UI.CheckBox({
                 el: me.$el.find('#mmerge-switcher-highlight'),
                 labelText: this.textHighlight,
-                lock: [_set.noFields, _set.lostConnect]
+                lock: [_set.noFields, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chHighlight.on('change', _.bind(this.onCheckHighlightChange, this));
 
             this.chPreview = new Common.UI.CheckBox({
                 el: me.$el.find('#mmerge-switcher-preview'),
                 labelText: this.textPreview,
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chPreview.on('change', _.bind(this.onCheckPreviewChange, this));
             this.emptyDBControls.push(this.chPreview);
@@ -189,7 +201,9 @@ define([
                 disabled: true,
                 value: 0,
                 hint: this.txtFirst,
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
             this.btnFirst.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnFirst);
@@ -201,7 +215,9 @@ define([
                 disabled: true,
                 value: 1,
                 hint: this.txtPrev,
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
             this.btnPrev.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnPrev);
@@ -212,7 +228,9 @@ define([
                 iconCls: 'toolbar__icon btn-nextitem',
                 value: 2,
                 hint: this.txtNext,
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
             this.btnNext.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnNext);
@@ -223,7 +241,9 @@ define([
                 iconCls: 'toolbar__icon btn-lastitem',
                 value: 3,
                 hint: this.txtLast,
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
             this.btnLast.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnLast);
@@ -240,7 +260,10 @@ define([
                 menuStyle: 'min-width: 190px;',
                 editable: false,
                 data: this._arrMergeSrc,
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbMergeTo.setValue(this._arrMergeSrc[0].value);
             this.cmbMergeTo.on('selected', _.bind(this.onCmbMergeToSelect, this));
@@ -251,7 +274,10 @@ define([
                 labelText: this.textAll,
                 name: 'asc-radio-merge',
                 checked: true,
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', _.bind(this.onRadioAllCurrent, this));
             this.emptyDBControls.push(this.radioAll);
 
@@ -259,7 +285,10 @@ define([
                 el: $('#mmerge-radio-current', me.$el),
                 labelText: this.textCurrent,
                 name: 'asc-radio-merge',
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', _.bind(this.onRadioAllCurrent, this));
             this.emptyDBControls.push(this.radioCurrent);
 
@@ -267,7 +296,10 @@ define([
                 el: $('#mmerge-radio-from-to', me.$el),
                 labelText: this.textFrom,
                 name: 'asc-radio-merge',
-                lock: [_set.noRecipients, _set.lostConnect]
+                lock: [_set.noRecipients, _set.lostConnect],
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', _.bind(this.onRadioFromToChange, this));
             this.emptyDBControls.push(this.radioFromTo);
 
@@ -303,7 +335,10 @@ define([
                         }
                     }
                     return true;
-                }
+                },
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.emptyDBControls.push(this.txtFieldFrom);
 
@@ -338,7 +373,10 @@ define([
                         }
                     }
                     return true;
-                }
+                },
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.txtFieldTo.on('changed:after', function() {
                 me._isToChanged = true;
@@ -532,7 +570,7 @@ define([
             }
         },
 
-        onSaveMailMerge: function(url) {
+        onSaveMailMerge: function(url, fileType) {
             var loadMask = DE.getController('Main').loadMask;
             loadMask && loadMask.hide();
 
@@ -541,7 +579,7 @@ define([
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
                 var defFileName = me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx');
                 if (me.mode.canRequestSaveAs) {
-                    Common.Gateway.requestSaveAs(url, defFileName);
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
                 } else {
                     me._mailMergeDlg = new Common.Views.SaveAsDlg({
                         saveFolderUrl: me.mode.mergeFolderUrl,
@@ -799,18 +837,26 @@ define([
         },
 
         disableEditing: function(disable) {
-            DE.getController('Toolbar').DisableToolbar(disable, disable);
-            DE.getController('RightMenu').SetDisabled(disable, true);
-            DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-            DE.getController('DocumentHolder').getView().SetDisabled(disable);
-            DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
-
-            var comments = DE.getController('Common.Controllers.Comments');
-            if (comments)
-                comments.setPreviewMode(disable);
-
-            DE.getController('LeftMenu').setPreviewMode(disable);
+            Common.NotificationCenter.trigger('editing:disable', disable, {
+                viewMode: disable,
+                reviewMode: false,
+                fillFormwMode: false,
+                allowMerge: true,
+                allowSignature: false,
+                allowProtect: false,
+                rightMenu: {clear: false, disable: true},
+                statusBar: true,
+                leftMenu: {disable: false, previewMode: true},
+                fileMenu: false,
+                navigation: {disable: false, previewMode: true},
+                comments: {disable: false, previewMode: true},
+                chat: false,
+                review: true,
+                viewport: false,
+                documentHolder: true,
+                toolbar: true,
+                plugins: false
+            }, 'mailmerge');
 
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },

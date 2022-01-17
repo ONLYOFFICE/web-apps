@@ -210,6 +210,7 @@
             currentPageX;
 
         $scrollbarX.bind('mousedown' + eventClassName, function (e) {
+          Common.NotificationCenter.trigger('hints:clear');
           currentPageX = e.pageX;
           currentLeft = $scrollbarX.position().left;
           $scrollbarXRail.addClass('in-scrolling');
@@ -240,6 +241,7 @@
             currentPageY;
 
         $scrollbarY.bind('mousedown' + eventClassName, function (e) {
+          Common.NotificationCenter.trigger('hints:clear');
           currentPageY = e.pageY;
           currentTop = $scrollbarY.position().top;
           $scrollbarYRail.addClass('in-scrolling');
@@ -316,6 +318,7 @@
 
         var shouldPrevent = false;
         $this.bind('mousewheel' + eventClassName, function (e, deprecatedDelta, deprecatedDeltaX, deprecatedDeltaY) {
+          Common.NotificationCenter.trigger('hints:clear');
           var deltaX = e.deltaX * e.deltaFactor || deprecatedDeltaX,
               deltaY = e.deltaY * e.deltaFactor || deprecatedDeltaY;
 

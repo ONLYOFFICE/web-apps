@@ -15,7 +15,6 @@
       "textAddReply": "Add Reply",
       "textBack": "Back",
       "textCancel": "Cancel",
-      "textOk": "Ok",
       "textCollaboration": "Collaboration",
       "textComments": "Comments",
       "textDeleteComment": "Delete Comment",
@@ -28,6 +27,7 @@
       "textMessageDeleteComment": "Do you really want to delete this comment?",
       "textMessageDeleteReply": "Do you really want to delete this reply?",
       "textNoComments": "This document doesn't contain comments",
+      "textOk": "Ok",
       "textReopen": "Reopen",
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
@@ -70,6 +70,9 @@
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "notcriticalErrorTitle": "Warning",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found",
       "SDK": {
         "Chart": "Chart",
         "Click to add first slide": "Click to add first slide",
@@ -129,7 +132,7 @@
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Download failed.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
-    "errorBadImageUrl": "Image url is incorrect",
+    "errorBadImageUrl": "Image URL is incorrect",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
     "errorDatabaseConnection": "External error.<br>Database connection error. Please, contact support.",
     "errorDataEncrypted": "Encrypted changes have been received, they cannot be deciphered.",
@@ -234,7 +237,8 @@
       "textSlideNumber": "Slide Number",
       "textTable": "Table",
       "textTableSize": "Table Size",
-      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -372,7 +376,7 @@
       "textTopLeft": "Top-Left",
       "textTopRight": "Top-Right",
       "textTotalRow": "Total Row",
-      "textTransition": "Transition",
+      "textTransitions": "Transitions",
       "textType": "Type",
       "textUnCover": "UnCover",
       "textVerticalIn": "Vertical In",
@@ -382,7 +386,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate"
+      "textZoomRotate": "Zoom and Rotate",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

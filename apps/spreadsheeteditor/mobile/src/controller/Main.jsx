@@ -10,7 +10,7 @@ import {
     AddCommentController,
     CommentsController,
     EditCommentController,
-    ViewCommentsController
+    ViewCommentsSheetsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 import LongActionsController from "./LongActions";
@@ -18,6 +18,7 @@ import ErrorController from "./Error";
 import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
+import EncodingController from "./Encoding";
 import { StatusbarController } from "./Statusbar";
 
 @inject(
@@ -30,7 +31,8 @@ import { StatusbarController } from "./Statusbar";
     "storeSpreadsheetSettings",
     "storeSpreadsheetInfo",
     "storeApplicationSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeWorksheets"
     )
 class MainController extends Component {
     constructor(props) {
@@ -46,6 +48,9 @@ class MainController extends Component {
             licenseType: false,
             isDocModified: false
         };
+        
+        this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
+                'DeleteRows', 'Sort', 'AutoFilter', 'PivotTables', 'Objects', 'Scenarios'];
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
 
@@ -331,6 +336,14 @@ class MainController extends Component {
             this.api.asc_Resize();
         });
 
+        $$(window).on('popover:open popup:open sheet:open actions:open', () => {
+            this.api.asc_enableKeyEvents(false);
+        });
+
+        $$(window).on('popover:close popup:close sheet:close actions:close', () => {
+            this.api.asc_enableKeyEvents(true);
+        });
+
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion',              this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl',                   this.onPrintUrl.bind(this));
@@ -347,6 +360,11 @@ class MainController extends Component {
         const styleSize = this.props.storeCellSettings.styleSize;
         this.api.asc_setThumbnailStylesSizes(styleSize.width, styleSize.height);
 
+        // Text settings 
+
+        const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('sse-settings-recent-fonts'));
+
         // Spreadsheet Settings
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', schemes => {
@@ -358,8 +376,10 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
             const {t} = this.props;
             const _t = t("View.Settings", { returnObjects: true });
-            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose,this.isDRM);
-            if(type == Asc.c_oAscAdvancedOptionsID.DRM) this.isDRM = true;
+            if(type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
+                this.isDRM = true;
+            }
         });
 
         // Toolbar settings
@@ -378,16 +398,74 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onEditCell', (state) => {
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 const isEditCell = state === Asc.c_oAscCellEditorState.editStart;
+                const isEditEnd = state === Asc.c_oAscCellEditorState.editEnd;
+               
                 if (storeFocusObjects.isEditCell !== isEditCell) {
                     storeFocusObjects.setEditCell(isEditCell);
                 }
+
+                if(isEditEnd) {
+                    storeFocusObjects.setEditFormulaMode(false);
+                }
             } else {
                 const isFormula = state === Asc.c_oAscCellEditorState.editFormula;
+               
                 if (storeFocusObjects.editFormulaMode !== isFormula) {
                     storeFocusObjects.setEditFormulaMode(isFormula);
                 }
             }
+
+            storeFocusObjects.setFunctionsDisabled(state === Asc.c_oAscCellEditorState.editText);
         });
+
+        this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
+        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));  
+        this.api.asc_registerCallback('asc_onRenameCellTextEnd', this.onRenameText.bind(this)); 
+    }
+
+    onRenameText(found, replaced) {
+        const { t } = this.props;
+
+        if (this.api.isReplaceAll) { 
+            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoTextFound'));
+        }
+    }
+
+    onChangeProtectSheet() {
+        const storeWorksheets = this.props.storeWorksheets;
+        let {wsLock, wsProps} = this.getWSProps(true);
+
+        if(wsProps) {
+            storeWorksheets.setWsLock(wsLock);
+            storeWorksheets.setWsProps(wsProps);
+        }
+    }
+
+    getWSProps(update) {
+        const storeAppOptions = this.props.storeAppOptions;
+        let wsProtection = {};
+        if (!storeAppOptions.config || !storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit) 
+            return wsProtection;
+
+        if (update) {
+            let wsLock = !!this.api.asc_isProtectedSheet();
+            let wsProps = {};
+
+            if (wsLock) {
+                let props = this.api.asc_getProtectedSheet();
+                props && this.wsLockOptions.forEach(function(item){
+                    wsProps[item] = props['asc_get' + item] ? props['asc_get' + item]() : false;
+                });
+            } else {
+                this.wsLockOptions.forEach(function(item){
+                    wsProps[item] = false;
+                });
+            }
+
+            wsProtection = {wsLock, wsProps};
+            
+            return wsProtection;
+        }
     }
 
     _onLongActionEnd(type, id) {
@@ -647,9 +725,9 @@ class MainController extends Component {
         }
     }
 
-    onDownloadUrl () {
+    onDownloadUrl (url, fileType) {
         if (this._state.isFromGatewayDownloadAs) {
-            Common.Gateway.downloadAs(url);
+            Common.Gateway.downloadAs(url, fileType);
         }
 
         this._state.isFromGatewayDownloadAs = false;
@@ -833,8 +911,9 @@ class MainController extends Component {
                 <CommentsController />
                 <AddCommentController />
                 <EditCommentController />
-                <ViewCommentsController />
+                <ViewCommentsSheetsController />
                 <PluginsController />
+                <EncodingController />
             </Fragment>
         )
     }

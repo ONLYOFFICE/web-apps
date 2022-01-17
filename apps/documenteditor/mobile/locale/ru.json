@@ -56,7 +56,8 @@
     "textStartAt": "Начать с",
     "textTable": "Таблица",
     "textTableSize": "Размер таблицы",
-    "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\""
+    "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -122,6 +123,7 @@
       "textNot": "Не",
       "textNoWidow": "Без запрета висячих строк",
       "textNum": "Изменение нумерации",
+      "textOk": "Ok",
       "textOriginal": "Исходный документ",
       "textParaDeleted": "Абзац удален",
       "textParaFormatted": "Абзац отформатирован",
@@ -154,8 +156,7 @@
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
       "textUnderline": "Подчёркнутый",
       "textUsers": "Пользователи",
-      "textWidow": "Запрет висячих строк",
-      "textOk": "Ok"
+      "textWidow": "Запрет висячих строк"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Пользовательские цвета",
@@ -168,19 +169,27 @@
     "menuAddComment": "Добавить комментарий",
     "menuAddLink": "Добавить ссылку",
     "menuCancel": "Отмена",
+    "menuContinueNumbering": "Продолжить нумерацию",
     "menuDelete": "Удалить",
     "menuDeleteTable": "Удалить таблицу",
     "menuEdit": "Редактировать",
+    "menuJoinList": "Объединить с предыдущим списком",
     "menuMerge": "Объединить",
     "menuMore": "Ещё",
     "menuOpenLink": "Перейти",
     "menuReview": "Рецензирование",
     "menuReviewChange": "Просмотр изменений",
+    "menuSeparateList": "Разделить список",
     "menuSplit": "Разделить",
+    "menuStartNewList": "Начать новый список",
+    "menuStartNumberingFrom": "Задать начальное значение",
     "menuViewComment": "Просмотреть комментарий",
+    "textCancel": "Отмена",
     "textColumns": "Столбцы",
     "textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
     "textDoNotShowAgain": "Больше не показывать",
+    "textNumberingValue": "Начальное значение",
+    "textOk": "Ok",
     "textRows": "Строки"
   },
   "Edit": {
@@ -218,7 +227,7 @@
     "textDifferentOddAndEvenPages": "Разные для четных и нечетных",
     "textDisplay": "Отобразить",
     "textDistanceFromText": "Расстояние до текста",
-    "textDoubleStrikethrough": "Двойное зачеркивание",
+    "textDoubleStrikethrough": "Двойное зачёркивание",
     "textEditLink": "Редактировать ссылку",
     "textEffects": "Эффекты",
     "textEmptyImgUrl": "Необходимо указать URL рисунка.",
@@ -296,7 +305,8 @@
     "textTopAndBottom": "Сверху и снизу",
     "textTotalRow": "Строка итогов",
     "textType": "Тип",
-    "textWrap": "Стиль обтекания"
+    "textWrap": "Стиль обтекания",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
@@ -466,7 +476,10 @@
     "warnLicenseUsersExceeded": "Вы достигли лимита на количество пользователей редакторов %1. Свяжитесь с администратором, чтобы узнать больше.",
     "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
     "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
-    "warnProcessRightsChange": "У вас нет прав на редактирование этого файла."
+    "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Защищенный файл",
@@ -483,6 +496,8 @@
     "textCancel": "Отмена",
     "textCaseSensitive": "С учетом регистра",
     "textCentimeter": "Сантиметр",
+    "textChooseEncoding": "Выбрать кодировку",
+    "textChooseTxtOptions": "Выбрать параметры текстового файла",
     "textCollaboration": "Совместная работа",
     "textColorSchemes": "Цветовые схемы",
     "textComment": "Комментарий",
@@ -528,6 +543,8 @@
     "textOpenFile": "Введите пароль для открытия файла",
     "textOrientation": "Ориентация",
     "textOwner": "Владелец",
+    "textPages": "Страницы",
+    "textParagraphs": "Абзацы",
     "textPoint": "Пункт",
     "textPortrait": "Книжная",
     "textPrint": "Печать",
@@ -539,14 +556,19 @@
     "textSearch": "Поиск",
     "textSettings": "Настройки",
     "textShowNotification": "Показывать уведомление",
+    "textSpaces": "Пробелы",
     "textSpellcheck": "Проверка орфографии",
     "textStatistic": "Статистика",
     "textSubject": "Тема",
+    "textSymbols": "Символы",
     "textTitle": "Название",
     "textTop": "Верхнее",
     "textUnitOfMeasurement": "Единица измерения",
     "textUploaded": "Загружен",
+    "textWords": "Слова",
+    "txtDownloadTxt": "Скачать TXT",
     "txtIncorrectPwd": "Неверный пароль",
+    "txtOk": "Ok",
     "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен",
     "txtScheme1": "Стандартная",
     "txtScheme10": "Обычная",

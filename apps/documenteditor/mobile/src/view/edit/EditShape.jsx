@@ -391,10 +391,10 @@ const PageWrap = props => {
             }
             <List>
                 <ListItem title={_t.textMoveWithText} className={'inline' === wrapType ? 'disabled' : ''}>
-                    <Toggle checked={moveText} onChange={() => {props.onMoveText(!moveText)}}/>
+                    <Toggle checked={moveText} onToggleChange={() => {props.onMoveText(!moveText)}}/>
                 </ListItem>
                 <ListItem title={_t.textAllowOverlap}>
-                    <Toggle checked={overlap} onChange={() => {props.onOverlap(!overlap)}}/>
+                    <Toggle checked={overlap} onToggleChange={() => {props.onOverlap(!overlap)}}/>
                 </ListItem>
             </List>
             {
@@ -505,27 +505,46 @@ const PageReorder = props => {
 const EditShape = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const api = Common.EditorApi.get();
     const canFill = props.storeFocusObjects.shapeObject.get_ShapeProperties().get_CanFill();
     const shapeObject = props.storeFocusObjects.shapeObject;
     const wrapType = props.storeShapeSettings.getWrapType(shapeObject);
-    
-    let disableRemove = !!props.storeFocusObjects.paragraphObject;
+
+    const shapeType = shapeObject.get_ShapeProperties().asc_getType();
+    const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
+    || shapeType=='bentConnector4' || shapeType=='bentConnector5' || shapeType=='curvedConnector2'
+    || shapeType=='curvedConnector3' || shapeType=='curvedConnector4' || shapeType=='curvedConnector5'
+    || shapeType=='straightConnector1';
+
+    const inControl = api.asc_IsContentControl();
+    const controlProps = (api && inControl) ? api.asc_GetContentControlProperties() : null;
+    const lockType = controlProps ? controlProps.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+
+    let fixedSize = false;
+
+    if (controlProps) {
+        let spectype = controlProps.get_SpecificType();
+        fixedSize = (spectype == Asc.c_oAscContentControlSpecificType.CheckBox || spectype == Asc. c_oAscContentControlSpecificType.ComboBox || spectype == Asc.c_oAscContentControlSpecificType.DropDownList || spectype == Asc.c_oAscContentControlSpecificType.None || spectype == Asc.c_oAscContentControlSpecificType.Picture) && controlProps.get_FormPr() && controlProps.get_FormPr().get_Fixed();
+    }
+
+    let disableRemove = !!props.storeFocusObjects.paragraphObject || (lockType == Asc.c_oAscSdtLockType.SdtContentLocked || lockType == Asc.c_oAscSdtLockType.SdtLocked);
 
     return (
         <Fragment>
             <List>
-                {canFill ?
-                    <ListItem title={_t.textStyle} link='/edit-shape-style/' routeProps={{
-                        onFillColor: props.onFillColor,
-                        onBorderSize: props.onBorderSize,
-                        onBorderColor: props.onBorderColor,
-                        onOpacity: props.onOpacity
-                    }}></ListItem> :
-                    <ListItem title={_t.textStyle} link='/edit-shape-style-no-fill/' routeProps={{
-                        onBorderSize: props.onBorderSize,
-                        onBorderColor: props.onBorderColor
-                    }}></ListItem>
-                }
+                {!fixedSize ?
+                    canFill ?
+                        <ListItem title={_t.textStyle} link='/edit-shape-style/' routeProps={{
+                            onFillColor: props.onFillColor,
+                            onBorderSize: props.onBorderSize,
+                            onBorderColor: props.onBorderColor,
+                            onOpacity: props.onOpacity
+                        }}></ListItem> :
+                        <ListItem title={_t.textStyle} link='/edit-shape-style-no-fill/' routeProps={{
+                            onBorderSize: props.onBorderSize,
+                            onBorderColor: props.onBorderColor
+                        }}></ListItem>
+                : null}
                 <ListItem title={_t.textWrap} link='/edit-shape-wrap/' routeProps={{
                     onWrapType: props.onWrapType,
                     onShapeAlign: props.onShapeAlign,
@@ -533,10 +552,12 @@ const EditShape = props => {
                     onOverlap: props.onOverlap,
                     onWrapDistance: props.onWrapDistance
                 }}></ListItem>
-                <ListItem title={_t.textReplace} link='/edit-shape-replace/' routeProps={{
-                    onReplace: props.onReplace
-                }}></ListItem>
-                { wrapType !== 'inline' && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
+                {(!hideChangeType && !fixedSize) &&
+                    <ListItem title={_t.textReplace} link='/edit-shape-replace/' routeProps={{
+                        onReplace: props.onReplace
+                    }}></ListItem>
+                }
+                {wrapType !== 'inline' && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem> }
             </List>

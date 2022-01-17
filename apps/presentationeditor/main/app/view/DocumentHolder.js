@@ -219,6 +219,8 @@ define([
             };
 
             var onContextMenu = function(event){
+                if (Common.UI.HintManager.isHintVisible())
+                    Common.UI.HintManager.clearHints();
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                         showPopupMenu.call(me, (me.mode.isEdit && !me._isDisabled) ? me.slideMenu : me.viewModeMenuSlide, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
@@ -303,7 +305,8 @@ define([
                     }
                     if (key == Common.UI.Keys.ESC) {
                         Common.UI.Menu.Manager.hideAll();
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+                        if (!Common.UI.HintManager.isHintVisible())
+                            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                     }
                 }
             };
@@ -436,12 +439,30 @@ define([
                     /** coauthoring end **/
                     me.hideTips();
                     onDocumentHolderResize();
+                },
+                'preview:show': function(e){
+                    me.isPreviewVisible = true;
+                    screenTip && (screenTip.tipLength = -1); // redraw link tip
+                },
+                'preview:hide': function(e){
+                    me.isPreviewVisible = false;
+                    screenTip && (screenTip.tipLength = -1);  // redraw link tip
                 }
             });
 
             var onHyperlinkClick = function(url) {
-                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
-                    window.open(url);
+                if (url) {
+                    if (me.api.asc_getUrlType(url)>0)
+                        window.open(url);
+                    else
+                        Common.UI.warning({
+                            msg: me.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                (btn == 'yes') && window.open(url);
+                            }
+                        });
                 }
             };
 
@@ -495,15 +516,15 @@ define([
                                 ToolTip = ToolTip.substr(0, 256) + '...';
 
                             if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                                screenTip.toolTip.setTitle(ToolTip + '<br><b>' + me.txtPressLink + '</b>');
+                                screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + me.txtPressLink + '</b>'));
                                 screenTip.tipLength = ToolTip.length;
                                 screenTip.strTip = ToolTip;
                                 recalc = true;
                             }
 
                             showPoint = [moveData.get_X(), moveData.get_Y()];
-                            showPoint[1] += (me._XY[1]-15);
-                            showPoint[0] += (me._XY[0]+5);
+                            showPoint[1] += ((me.isPreviewVisible ? 0 : me._XY[1])-15);
+                            showPoint[0] += ((me.isPreviewVisible ? 0 : me._XY[0])+5);
 
                             if (!screenTip.isVisible || recalc) {
                                 screenTip.isVisible = true;
@@ -515,6 +536,8 @@ define([
                                 screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
                             }
                             showPoint[1] -= screenTip.tipHeight;
+                            if (showPoint[1]<0)
+                                showPoint[1] = 0;
                             if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
                                 showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                             screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
@@ -3630,7 +3653,7 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (placeholder)
-                                    me.api.AddImageUrl(checkUrl, undefined, undefined, obj);
+                                    me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
                                 else {
                                     var props = new Asc.asc_CImgProperty();
                                     props.put_ImageUrl(checkUrl);
@@ -3951,7 +3974,8 @@ define([
         addToLayoutText: 'Add to Layout',
         txtResetLayout: 'Reset Slide',
         mniCustomTable: 'Insert Custom Table',
-        textFromStorage: 'From Storage'
+        textFromStorage: 'From Storage',
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
 
     }, PE.Views.DocumentHolder || {}));
 });

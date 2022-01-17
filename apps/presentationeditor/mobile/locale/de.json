@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Möchten Sie diesen Kommentar wirklich löschen?",
       "textMessageDeleteReply": "Möchten Sie diese Antwort wirklich löschen?",
       "textNoComments": "Dieses Dokument enthält keine Kommentare",
+      "textOk": "OK",
       "textReopen": "Wiederöffnen",
       "textResolve": "Lösen",
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
-      "textUsers": "Benutzer",
-      "textOk": "Ok"
+      "textUsers": "Benutzer"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -120,7 +120,10 @@
       "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
+      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -234,7 +237,8 @@
       "textSlideNumber": "Foliennummer",
       "textTable": "Tabelle",
       "textTableSize": "Tabellengröße",
-      "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein."
+      "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -373,6 +377,7 @@
       "textTopRight": "Oben rechts",
       "textTotalRow": "Ergebniszeile",
       "textTransition": "Übergang",
+      "textTransitions": "Übergänge",
       "textType": "Typ",
       "textUnCover": "Aufdecken",
       "textVerticalIn": "Vertikal nach innen",
@@ -382,7 +387,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
-      "textZoomRotate": "Vergrößern und drehen"
+      "textZoomRotate": "Vergrößern und drehen",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

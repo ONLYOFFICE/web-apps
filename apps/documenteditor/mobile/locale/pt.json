@@ -56,7 +56,8 @@
     "textStartAt": "Começar em",
     "textTable": "Tabela",
     "textTableSize": "Tamanho da tabela",
-    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -122,6 +123,7 @@
       "textNot": "Não",
       "textNoWidow": "Sem controle de linhas órfãs/viúvas",
       "textNum": "Alterar numeração",
+      "textOk": "OK",
       "textOriginal": "Original",
       "textParaDeleted": "Parágrafo excluído",
       "textParaFormatted": "Parágrafo formatado",
@@ -154,8 +156,7 @@
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido",
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
-      "textWidow": "Controle de linhas órfãs/viúvas.",
-      "textOk": "Ok"
+      "textWidow": "Controle de linhas órfãs/viúvas."
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",
@@ -168,19 +169,27 @@
     "menuAddComment": "Adicionar comentário",
     "menuAddLink": "Adicionar Link",
     "menuCancel": "Cancelar",
+    "menuContinueNumbering": "Continuar numerando",
     "menuDelete": "Excluir",
     "menuDeleteTable": "Excluir tabela",
     "menuEdit": "Editar",
+    "menuJoinList": "Junta-se à lista anterior",
     "menuMerge": "Mesclar",
     "menuMore": "Mais",
     "menuOpenLink": "Abrir link",
     "menuReview": "Revisão",
     "menuReviewChange": "Rever Alterações",
+    "menuSeparateList": "Lista separada",
     "menuSplit": "Dividir",
+    "menuStartNewList": "Começar nova lista",
+    "menuStartNumberingFrom": "Definir valor de numeração",
     "menuViewComment": "Ver Comentário",
+    "textCancel": "Cancelar",
     "textColumns": "Colunas",
     "textCopyCutPasteActions": "Copiar, Cortar e Colar",
     "textDoNotShowAgain": "Não volte a aparecer",
+    "textNumberingValue": "Valor de numeração",
+    "textOk": "OK",
     "textRows": "Linhas"
   },
   "Edit": {
@@ -296,7 +305,8 @@
     "textTopAndBottom": "Parte superior e inferior",
     "textTotalRow": "Total de linhas",
     "textType": "Tipo",
-    "textWrap": "Encapsulamento"
+    "textWrap": "Encapsulamento",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
@@ -315,6 +325,7 @@
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite de seu servidor.<br>Por favor, contate seu administrador.",
     "errorKeyEncrypt": "Descritor de chave desconhecido",
     "errorKeyExpire": "Descritor de chave expirado",
+    "errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
     "errorMailMergeLoadFile": "O carregamento falhou",
     "errorMailMergeSaveFile": "Mesclagem falhou.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
@@ -335,8 +346,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -466,7 +476,10 @@
     "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
     "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
     "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo."
+    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Arquivo protegido",
@@ -483,6 +496,8 @@
     "textCancel": "Cancelar",
     "textCaseSensitive": "Maiúsculas e Minúsculas",
     "textCentimeter": "Centímetro",
+    "textChooseEncoding": "Escolha a codificação",
+    "textChooseTxtOptions": "Escolha Opções de TXT",
     "textCollaboration": "Colaboração",
     "textColorSchemes": "Esquemas de cor",
     "textComment": "Comente",
@@ -524,9 +539,12 @@
     "textMarginsW": "Margens são muito grandes para uma determinada largura da página",
     "textNoCharacters": "Caracteres não imprimíveis",
     "textNoTextFound": "Texto não encontrado",
+    "textOk": "OK",
     "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
     "textOrientation": "Orientação",
     "textOwner": "Proprietário",
+    "textPages": "Páginas",
+    "textParagraphs": "Parágrafos",
     "textPoint": "Ponto",
     "textPortrait": "Retrato ",
     "textPrint": "Imprimir",
@@ -538,14 +556,19 @@
     "textSearch": "Pesquisar",
     "textSettings": "Configurações",
     "textShowNotification": "Mostrar notificação",
+    "textSpaces": "Espaços",
     "textSpellcheck": "Verificação ortográfica",
     "textStatistic": "Estatística",
     "textSubject": "Assunto",
+    "textSymbols": "Símbolos",
     "textTitle": "Título",
     "textTop": "Parte superior",
     "textUnitOfMeasurement": "Unidade de medida",
     "textUploaded": "Carregado",
+    "textWords": "Palavras",
+    "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
+    "txtOk": "OK",
     "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida",
     "txtScheme1": "Office",
     "txtScheme10": "Mediana",
@@ -568,8 +591,7 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição",
-    "textOk": "Ok"
+    "txtScheme9": "Fundição"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

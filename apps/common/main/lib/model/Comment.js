@@ -56,6 +56,7 @@ define([
             guid                : '',
             userid              : 0,
             username            : 'Guest',
+            parsedName          : 'Guest',
             usercolor           : null,
             date                : undefined,
             quote               : '',
@@ -65,6 +66,7 @@ define([
             lockuserid          : '',
             unattached          : false,
             userdata            : '',
+            position            : -1,
 
             id                  : Common.UI.getId(),        //  internal
             time                : 0,
@@ -88,6 +90,7 @@ define([
             time                : 0,                    //  acs
             userid              : 0,
             username            : 'Guest',
+            parsedName          : 'Guest',
             usercolor           : null,
             reply               : '',
             date                : undefined,

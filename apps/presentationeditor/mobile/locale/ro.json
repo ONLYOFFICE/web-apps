@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Sunteți sigur că doriți să stergeți acest comentariu?",
       "textMessageDeleteReply": "Sinteți sigur că doriți să ștergeți acest răspuns?",
       "textNoComments": "Documentul nu cuprinde comentarii",
+      "textOk": "OK",
       "textReopen": "Redeschide",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori",
-      "textOk": "Ok"
+      "textUsers": "Utilizatori"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -112,15 +112,18 @@
       "titleServerVersion": "Editorul a fost actualizat",
       "titleUpdateVersion": "Versiunea s-a modificat",
       "txtIncorrectPwd": "Parolă incorectă",
-      "txtProtected": "Parola curentă va fi resetată, de îndată ce parola este introdusă și fișierul este deschis.",
+      "txtProtected": "Parola curentă va fi resetată de îndată ce parola este introdusă și fișierul este deschis.",
       "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat. Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori al %1 editoare. Pentru detalii, contactați administratorul dvs.",
+      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori al %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -234,7 +237,8 @@
       "textSlideNumber": "Număr diapozitiv",
       "textTable": "Tabel",
       "textTableSize": "Dimensiune tabel",
-      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -373,6 +377,7 @@
       "textTopRight": "Dreapta sus",
       "textTotalRow": "Rând total",
       "textTransition": "Tranziții",
+      "textTransitions": "Tranziții",
       "textType": "Tip",
       "textUnCover": "Descoperire",
       "textVerticalIn": "Vertical în interior",
@@ -382,7 +387,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
-      "textZoomRotate": "Zoom și rotire"
+      "textZoomRotate": "Zoom și rotire",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

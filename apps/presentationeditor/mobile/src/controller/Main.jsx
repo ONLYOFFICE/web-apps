@@ -297,6 +297,14 @@ class MainController extends Component {
             this.api.Resize();
         });
 
+        $$(window).on('popup:open sheet:open actions:open', () => {
+            this.api.asc_enableKeyEvents(false);
+        });
+
+        $$(window).on('popup:close sheet:close actions:close', () => {
+            this.api.asc_enableKeyEvents(true);
+        });
+
         this.api.asc_registerCallback('asc_onDocumentContentReady', this.onDocumentContentReady.bind(this));
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion', this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion', this.onServerVersion.bind(this));
@@ -325,6 +333,7 @@ class MainController extends Component {
         // Text settings 
 
         const storeTextSettings = this.props.storeTextSettings;
+        storeTextSettings.resetFontsRecent(LocalStorage.getItem('ppe-settings-recent-fonts'));
 
         EditorUIController.initFonts && EditorUIController.initFonts(storeTextSettings);
 
@@ -405,6 +414,18 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onCountPages', (count) => {
             storeToolbarSettings.setCountPages(count);
         });
+
+        this.api.asc_registerCallback('asc_onReplaceAll', this.onApiTextReplaced.bind(this));
+    }
+
+    onApiTextReplaced(found, replaced) {
+        const { t } = this.props;
+
+        if (found) {
+            f7.dialog.alert(null, !(found - replaced > 0) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`));
+        } else {
+            f7.dialog.alert(null, t('Controller.Main.textNoTextFound'));
+        }
     }
 
     onDocumentContentReady () {

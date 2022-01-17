@@ -393,23 +393,22 @@ define([
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;
 
-                var rightMenuController = SSE.getController('RightMenu');
-                if (disable && rightMenuController.rightmenu.GetActivePane() !== 'id-signature-settings')
-                    rightMenuController.rightmenu.clearSelection();
-                rightMenuController.SetDisabled(disable, true);
-                SSE.getController('Toolbar').DisableToolbar(disable, disable);
-                SSE.getController('Statusbar').SetDisabled(disable);
-                SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                SSE.getController('DocumentHolder').SetDisabled(disable, true);
-                SSE.getController('CellEditor').setPreviewMode(disable);
-                SSE.getController('Viewport').disableEditing(disable);
-
-                // var leftMenu = SSE.getController('LeftMenu').leftMenu;
-                // leftMenu.btnComments.setDisabled(disable);
-                SSE.getController('LeftMenu').setPreviewMode(disable);
-                var comments = SSE.getController('Common.Controllers.Comments');
-                if (comments)
-                    comments.setPreviewMode(disable);
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: disable,
+                    allowSignature: true,
+                    allowProtect: true,
+                    rightMenu: {clear: false, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: false, previewMode: true},
+                    fileMenu: false,
+                    comments: {disable: false, previewMode: true},
+                    chat: false,
+                    review: true,
+                    viewport: true,
+                    documentHolder: true,
+                    toolbar: true,
+                    celleditor: {previewMode: true}
+                }, 'signature');
             }
         },
 

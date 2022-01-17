@@ -3,7 +3,7 @@
 	<head>
 		<title>IFERROR Function</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="" />
+		<meta name="description" content="The IFERROR function is used to check for an error in the formula in the first argument. Learn how to use the IFERROR function in Excel sheets with ONLYOFFICE." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -18,6 +18,7 @@
 			<p>The <b>IFERROR</b> function syntax is:</p> 
 			<p style="text-indent: 150px;"><b><em>IFERROR(value, value_if_error,)</em></b></p> 
 			<p>where <b><em>value</em></b> and <b><em>value_if_error</em></b> are values entered manually or included into the cell you make reference to.</p>
+			<h2>How to use IFERROR</h2>
 			<p>To apply the <b>IFERROR</b> function,</p>
 			<ol>
 			<li>select the cell where you wish to display the result,</li>
@@ -32,10 +33,8 @@
 			</ol>
 			<p>The result will be displayed in the selected cell.</p>
 			<p><em>For example:</em></p>
-			<p>There are two arguments: <em>value</em> = <b>A1/B1</b>, <em>value_if_error</em> = <b>"error"</b>, where <b>A1</b> is <b>12</b>, <b>B1</b> is <b>3</b>. The formula in the first argument does not contain any error. So the function returns the result of the calculation.</p>
-			<p style="text-indent: 150px;"><img alt="IFERROR Function: no error" src="../images/noerror.png" /></p>
-			<p>If we change the <b>B1</b> value from <b>3</b> to <b>0</b>, as the division by zero is not possible, the function returns <b>error</b>:</p>
-			<p style="text-indent: 150px;"><img alt="IFERROR Function: if error" src="../images/iferror.png" /></p>
+			<p>You have a list of available item stock and its overall value. To learn unit price, we will use the <b>IFERROR</b> function to see if there are any errors. The arguments are as follows: <em>value</em> = <b>B2/A2</b>, <em>value_if_error</em> = <b>"Out of stock"</b>. The formula in the first argument does not contain any errors for cells C2:C9 and C11:C14 so the function returns the result of the calculation. However, it is the opposite for C10 and C11 since the formula tries to divide by zero, hence, we get <em>"Out of stock"</em> as a result.</p>
+			<p><img class="gif" alt="IFERROR Function: if error" src="../images/iferror_function.gif" /></p>
 		</div>
 	</body>
 </html>

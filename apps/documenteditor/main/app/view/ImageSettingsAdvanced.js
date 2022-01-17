@@ -117,7 +117,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#image-advanced-spin-width'),
                 step: .1,
-                width: 80,
+                width: 70,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -145,7 +145,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#image-advanced-spin-height'),
                 step: .1,
-                width: 80,
+                width: 70,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -1385,15 +1385,23 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 var shapeprops = props.get_ShapeProperties();
                 var chartprops = props.get_ChartProperties();
                 var pluginGuid = props.asc_getPluginGuid();
+                var control_props = this.api && this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                    fixed_size = false;
+                if (control_props) {
+                    var spectype = control_props.get_SpecificType();
+                    fixed_size = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
+                                spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
+                                spectype==Asc.c_oAscContentControlSpecificType.Picture) &&
+                                control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
+                }
 
                 this.btnOriginalSize.setVisible(!(shapeprops || chartprops));
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
-                this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
-                this.btnsCategory[6].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
+                this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart() && !fixed_size);   // Shapes
+                this.btnsCategory[6].setVisible(shapeprops!==null && !shapeprops.get_FromChart() && !fixed_size);   // Margins
+                this.btnsCategory[7].setVisible(!fixed_size);   // Alt
                 this.btnsCategory[2].setVisible(!chartprops && (pluginGuid === null || pluginGuid === undefined)); // Rotation
-
-                var control_props = this.api && this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
-                this.btnsCategory[3].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture)); // Wrapping
+                this.btnsCategory[3].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr()); // Wrapping
 
                 if (shapeprops) {
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;

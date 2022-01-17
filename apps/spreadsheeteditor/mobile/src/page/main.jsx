@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
@@ -25,7 +25,7 @@ class MainPage extends Component {
             addOptionsVisible: false,
             addShowOptions: null,
             settingsVisible: false,
-            collaborationVisible: false,
+            collaborationVisible: false
         };
     }
 
@@ -88,6 +88,9 @@ class MainPage extends Component {
 
   render() {
       const appOptions = this.props.storeAppOptions;
+      const storeWorksheets = this.props.storeWorksheets;
+      const wsProps = storeWorksheets.wsProps;
+      const wsLock = storeWorksheets.wsLock;
       const config = appOptions.config;
 
       let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
@@ -96,6 +99,7 @@ class MainPage extends Component {
       }
 
       const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+
       return (
             <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
               {/* Top Navbar */}
@@ -107,7 +111,6 @@ class MainPage extends Component {
                     </Subnavbar>
                 </Navbar>
                 <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
-                <FilterOptionsController/>
                 {/* Page content */}
                 <View id="editor_sdk" />
                 {showPlaceholder ?
@@ -120,11 +123,11 @@ class MainPage extends Component {
                 <SearchSettings useSuspense={false} />
                 {
                     !this.state.editOptionsVisible ? null :
-                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} wsLock={wsLock} wsProps={wsProps} />
                 }
                 {
                     !this.state.addOptionsVisible ? null :
-                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} wsLock={wsLock} wsProps={wsProps} showOptions={this.state.addShowOptions} />
                 }
                 {
                     !this.state.settingsVisible ? null :
@@ -135,15 +138,19 @@ class MainPage extends Component {
                         <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                 }
 
-                <FilterOptionsController />
+                {appOptions.isDocReady &&
+                    <Fragment key='filter-context'>
+                        <FilterOptionsController wsProps={wsProps} />
+                        <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                    </Fragment>
+                }
                 
                 <Statusbar />
 
                 <FunctionGroups /> {/* hidden component*/}
-                <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
             </Page>
       )
   }
 }
 
-export default inject("storeAppOptions")(observer(MainPage));
+export default inject("storeAppOptions", "storeWorksheets")(observer(MainPage));

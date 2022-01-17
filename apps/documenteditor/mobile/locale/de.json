@@ -56,7 +56,8 @@
     "textStartAt": "Beginnen mit",
     "textTable": "Tabelle",
     "textTableSize": "Tabellengröße",
-    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein."
+    "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -122,6 +123,7 @@
       "textNot": "Nicht",
       "textNoWidow": "Keine Absatzkontrolle",
       "textNum": "Nummerierung ändern",
+      "textOk": "OK",
       "textOriginal": "Original",
       "textParaDeleted": "Absatz gelöscht",
       "textParaFormatted": "Absatz formatiert",
@@ -154,8 +156,7 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUnderline": "Unterstrichen",
       "textUsers": "Benutzer",
-      "textWidow": "Absatzkontrolle",
-      "textOk": "Ok"
+      "textWidow": "Absatzkontrolle"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
@@ -168,19 +169,27 @@
     "menuAddComment": "Kommentar hinzufügen",
     "menuAddLink": "Link hinzufügen",
     "menuCancel": "Abbrechen",
+    "menuContinueNumbering": "Nummerierung fortführen",
     "menuDelete": "Löschen",
     "menuDeleteTable": "Tabelle löschen",
     "menuEdit": "Bearbeiten",
+    "menuJoinList": "Mit der vorherigen Liste verbinden",
     "menuMerge": "Verbinden",
     "menuMore": "Mehr",
     "menuOpenLink": "Link öffnen",
     "menuReview": "Überprüfung",
     "menuReviewChange": "Änderung überprüfen",
+    "menuSeparateList": "Liste trennen",
     "menuSplit": "Aufteilen",
+    "menuStartNewList": "Neue Liste beginnen",
+    "menuStartNumberingFrom": "Nummerierungswert festlegen",
     "menuViewComment": "Kommentar anzeigen",
+    "textCancel": "Abbrechen",
     "textColumns": "Spalten",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
+    "textNumberingValue": "Nummerierungswert",
+    "textOk": "OK",
     "textRows": "Zeilen"
   },
   "Edit": {
@@ -296,7 +305,8 @@
     "textTopAndBottom": "Oben und unten",
     "textTotalRow": "Ergebniszeile",
     "textType": "Typ",
-    "textWrap": "Umbrechen"
+    "textWrap": "Umbrechen",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -466,7 +476,10 @@
     "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
+    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Geschützte Datei",
@@ -483,6 +496,8 @@
     "textCancel": "Abbrechen",
     "textCaseSensitive": "Groß-/Kleinschreibung beachten",
     "textCentimeter": "Zentimeter",
+    "textChooseEncoding": "Codierung auswählen",
+    "textChooseTxtOptions": "Optionen für TXT-Dateien auswählen",
     "textCollaboration": "Zusammenarbeit",
     "textColorSchemes": "Farbschemata",
     "textComment": "Kommentar",
@@ -528,6 +543,8 @@
     "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
     "textOrientation": "Orientierung",
     "textOwner": "Besitzer",
+    "textPages": "Seiten",
+    "textParagraphs": "Absätze",
     "textPoint": "Punkt",
     "textPortrait": "Hochformat",
     "textPrint": "Drucken",
@@ -539,14 +556,19 @@
     "textSearch": "Suche",
     "textSettings": "Einstellungen",
     "textShowNotification": "Benachrichtigung anzeigen",
+    "textSpaces": "Leerzeichen",
     "textSpellcheck": "Rechtschreibprüfung",
     "textStatistic": "Statistik",
     "textSubject": "Betreff",
+    "textSymbols": "Symbole",
     "textTitle": "Titel",
     "textTop": "Oben",
     "textUnitOfMeasurement": "Maßeinheit",
     "textUploaded": "Hochgeladen",
+    "textWords": "Wörter",
+    "txtDownloadTxt": "TXT herunterladen",
     "txtIncorrectPwd": "Passwort ist falsch",
+    "txtOk": "OK",
     "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt",
     "txtScheme1": "Office",
     "txtScheme10": "Median",

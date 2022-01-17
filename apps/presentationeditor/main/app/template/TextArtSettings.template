@@ -33,10 +33,10 @@
                 <table cols="2" style="width: 100%;">
                 <tr>
                     <td class="padding-small" width="50%">
-                        <button type="button" class="btn btn-text-default" id="textart-button-from-file" style="width:90px;"><%= scope.textFromFile %></button>
+                        <button type="button" class="btn btn-text-default" id="textart-button-from-file" style="width:90px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textFromFile %></button>
                     </td>
                     <td class="padding-small" width="50%">
-                        <button type="button" class="btn btn-text-default" id="textart-button-from-url" style="width:90px;float:right;"><%= scope.textFromUrl %></button>
+                        <button type="button" class="btn btn-text-default" id="textart-button-from-url" style="width:90px;float:right;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textFromUrl %></button>
                     </td>
                 </tr>
                 <tr>

@@ -16,9 +16,15 @@
             --border-toolbar: #2a2a2a;
             --highlight-button-hover: #555;
             --highlight-header-button-hover: rgba(255,255,255,.05);
-            --canvas-background: #666666;
+            --canvas-background: #555;
             /*--canvas-content-background: #fff;*/
-            --canvas-page-border: #555;
+            --skeleton-canvas-page-border: #555;
+        }
+
+        .content-theme-dark {
+            --skeleton-canvas-content-background: #3a3a3a;
+            --skeleton-canvas-page-border: #2a2a2a;
+            --skeleton-canvas-line: rgba(255,255,255,.05);
         }
 
         .theme-classic-light {
@@ -30,7 +36,7 @@
             --highlight-button-hover: #ccc;
             --highlight-header-button-hover: rgba(255,255,255,.15);
             --canvas-background: #eee;
-            --canvas-page-border: #ccc;
+            --loadmask-canvas-page-border: #ccc;
         }
 
         .loadmask {
@@ -130,19 +136,19 @@
 
         .loadmask > .placeholder {
             background: #fff;
-            background: var(--canvas-content-background, #fff);
+            background: var(--skeleton-canvas-content-background, #fff);
             width: 794px;
             margin: 46px auto;
             height: 100%;
             border: 1px solid #bbbec2;
-            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #bbbec2);
+            border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, #bbbec2);
             padding-top: 50px;
         }
 
         .loadmask > .placeholder > .line {
             height: 15px;
             margin: 30px 80px;
-            background: rgba(0,0,0,.05);
+            background: var(--skeleton-canvas-line, rgba(0,0,0,.05));
             overflow: hidden;
             position: relative;
 
@@ -233,7 +239,8 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
@@ -241,6 +248,7 @@
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
     </script>
+    <script src="../../common/main/lib/util/themeinit.js"></script>
 
     <!-- debug begin -->
     <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
@@ -291,7 +299,7 @@
         } else {
             var elem = document.querySelector('.loading-logo img');
             if (elem) {
-                logo && (elem.setAttribute('src', logo));
+                (logo || logoDark) && elem.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
                 elem.style.opacity = 1;
             }
         }
@@ -313,6 +321,9 @@
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/html.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/fb2.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/epub.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/docm.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/oform.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/docxf.svg">
     <img class="inline-svg" src="resources/img/blank.svg">
     <img class="inline-svg" src="resources/img/recent-file.svg">
     <img class="inline-svg" src="resources/img/file-template.svg">

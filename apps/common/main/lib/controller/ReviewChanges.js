@@ -101,7 +101,7 @@ define([
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
 
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null /*new AscCommon.CComparisonPr()*/};
+            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: []};
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
@@ -109,6 +109,7 @@ define([
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
+            Common.NotificationCenter.on('protect:wslock', _.bind(this.onChangeProtectSheet, this));
 
             this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
             this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
@@ -162,7 +163,7 @@ define([
         SetDisabled: function(state) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(state, this.langs);
+            this.view && this.view.SetDisabled(state, this.langs, {comments: !!this._state.wsProps['Objects']});
             this.setPreviewMode(state);
         },
 
@@ -209,6 +210,7 @@ define([
                             this.dlgChanges.btnReject.setDisabled(btnlock);
                         }
                         this._state.lock = btnlock;
+                        Common.Utils.InternalSettings.set(this.view.appPrefix + "accept-reject-lock", btnlock);
                     }
                     this._state.posx = posX;
                     this._state.posy = posY;
@@ -758,25 +760,26 @@ define([
         },
 
         disableEditing: function(disable) {
-            var app = this.getApplication();
-            app.getController('Toolbar').DisableToolbar(disable, false, true);
-            app.getController('DocumentHolder').getView().SetDisabled(disable);
-
-            if (this.appConfig.canReview) {
-                disable && app.getController('RightMenu').getView('RightMenu').clearSelection();
-                app.getController('RightMenu').SetDisabled(disable, false);
-                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-                app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
-            }
-
-            var comments = app.getController('Common.Controllers.Comments');
-            if (comments)
-                comments.setPreviewMode(disable);
-
-            var leftMenu = app.getController('LeftMenu');
-            leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
-            leftMenu.setPreviewMode(disable);
+            Common.NotificationCenter.trigger('editing:disable', disable, {
+                viewMode: false,
+                reviewMode: true,
+                fillFormwMode: false,
+                allowMerge: false,
+                allowSignature: false,
+                allowProtect: false,
+                rightMenu: {clear: true, disable: true},
+                statusBar: true,
+                leftMenu: {disable: false, previewMode: true},
+                fileMenu: {protect: true},
+                navigation: {disable: false, previewMode: true},
+                comments: {disable: false, previewMode: true},
+                chat: false,
+                review: false,
+                viewport: false,
+                documentHolder: true,
+                toolbar: true,
+                plugins: true
+            }, 'review');
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask.review').css('opacity', 1);
@@ -813,7 +816,9 @@ define([
                     //     Common.Utils.InternalSettings.set(me.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
                     // };
 
-                    var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined;
+                    var trackChanges = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.trackChanges : undefined;
+                    (trackChanges===undefined) && (trackChanges = me.appConfig.customization ? me.appConfig.customization.trackChanges : undefined);
+
                     if (config.isReviewOnly || trackChanges!==undefined)
                         me.api.asc_SetLocalTrackRevisions(config.isReviewOnly || trackChanges===true);
                     else
@@ -821,12 +826,17 @@ define([
                     me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
 
                     var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode-editor");
-                    if (val===null)
-                        val = me.appConfig.customization && /^(original|final|markup|simple)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'markup';
+                    if (val===null) {
+                        val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
+                        !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
+                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : 'markup';
+                    }
+
                     me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
                     me.view.turnDisplayMode(val);
 
-                    if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
+                    if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.review && me.appConfig.customization.review.showReviewChanges==true ||
+                        (!me.appConfig.customization.review || me.appConfig.customization.review.showReviewChanges===undefined) && me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
                             popoverChanges  : me.popoverChanges,
                             mode            : me.appConfig
@@ -840,8 +850,11 @@ define([
                 config.canViewReview = (config.isEdit || me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
                 if (config.canViewReview) {
                     var val = Common.localStorage.getItem(me.view.appPrefix + (config.isEdit || config.isRestrictedEdit ? "review-mode-editor" : "review-mode"));
-                    if (val===null)
-                        val = me.appConfig.customization && /^(original|final|markup|simple)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : (config.isEdit || config.isRestrictedEdit ? 'markup' : 'original');
+                    if (val===null) {
+                        val = me.appConfig.customization && me.appConfig.customization.review ? me.appConfig.customization.review.reviewDisplay : undefined;
+                        !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
+                        val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : (config.isEdit || config.isRestrictedEdit ? 'markup' : 'original');
+                    }
                     me.turnDisplayMode(val);
                     me.view.turnDisplayMode(val);
                 }
@@ -853,9 +866,10 @@ define([
                         me.view.turnChat(state);
                 });
             }
+            me.onChangeProtectSheet();
             if (me.view) {
-                me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
-                me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
+                me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
+                me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
             }
 
             var val = Common.localStorage.getItem(me.view.appPrefix + "settings-review-hover-mode");
@@ -905,6 +919,8 @@ define([
         applySettings: function(menu) {
             this.view && this.view.turnSpelling( Common.localStorage.getBool(this.view.appPrefix + "settings-spellcheck", true) );
             this.view && this.view.turnCoAuthMode( Common.localStorage.getBool(this.view.appPrefix + "settings-coauthmode", true) );
+            if ((this.appConfig.canReview || this.appConfig.canViewReview) && this.appConfig.reviewHoverMode)
+                this.onApiShowChange();
         },
 
         synchronizeChanges: function() {
@@ -995,8 +1011,24 @@ define([
         commentsShowHide: function(mode) {
             if (!this.view) return;
             var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
-            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value);
-            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(mode != 'show' && !value);
+            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
+            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
+        },
+
+        onChangeProtectSheet: function(props) {
+            if (!props) {
+                var wbprotect = this.getApplication().getController('WBProtection');
+                props = wbprotect ? wbprotect.getWSProps() : null;
+            }
+            this._state.wsProps = props ? props.wsProps : [];
+            this._state.wsLock = props ? props.wsLock : false;
+
+            if (!this.view) return;
+            var leftmenu = this.getApplication().getController('LeftMenu'),
+                isCommentsVisible = leftmenu && leftmenu.isCommentsVisible();
+            var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
+            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
+            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
         },
 
         textInserted: '<b>Inserted:</b>',

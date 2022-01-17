@@ -61,7 +61,8 @@
     "notcriticalErrorTitle": "Warning",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "warnMergeLostData": "The operation can destroy data in the selected cells. Continue?"
+    "warnMergeLostData": "The operation can destroy data in the selected cells. Continue?",
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
   },
   "Controller": {
     "Main": {
@@ -153,7 +154,10 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnProcessRightsChange": "You don't have permission to edit the file.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -214,7 +218,7 @@
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download it until the connection is restored and the page is reloaded.",
     "errorWrongBracketsCount": "An error in the formula.<br>Wrong number of brackets.",
-    "errorWrongOperator": "An error in the entered formula. The wrong operator is used.<br>Correct the error or use the Esc button to cancel the formula editing.",
+    "errorWrongOperator": "An error in the entered formula. Wrong operator is used.<br> Please correct the error.",
     "notcriticalErrorTitle": "Warning",
     "openErrorText": "An error has occurred while opening the file",
     "pastInMergeAreaError": "Cannot change a part of a merged cell",
@@ -224,7 +228,9 @@
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
     "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
+    "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
+    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -260,7 +266,12 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait..."
+    "waitText": "Please, wait...",
+    "advDRMPassword": "Password",
+    "textCancel": "Cancel",
+    "textErrorWrongPassword": "The password you supplied is not correct.",
+    "textUnlockRange": "Unlock Range",
+    "textUnlockRangeWarning": "A range you are trying to change is password protected."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Warning",
@@ -337,7 +348,11 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "textSelectedRange": "Selected Range"
+      "textSelectedRange": "Selected Range",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
+      "txtNo": "No",
+      "txtYes": "Yes",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -517,7 +532,8 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest"
+      "txtSortLow2High": "Sort Lowest to Highest",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",
@@ -636,7 +652,18 @@
       "txtSpace": "Space",
       "txtTab": "Tab",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textChooseCsvOptions": "Choose CSV Options",
+      "textChooseDelimeter": "Choose Delimeter",
+      "textChooseEncoding": "Choose Encoding",
+      "textDelimeter": "Delimiter",
+      "textEncoding": "Encoding",
+      "txtColon": "Colon",
+      "txtComma": "Comma",
+      "txtDownloadCsv": "Download CSV",
+      "txtOk": "Ok",
+      "txtSemicolon": "Semicolon",
+      "textExample": "Example"
     }
   }
 }

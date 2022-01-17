@@ -327,11 +327,12 @@
     }
 }
 
-@img-colorpicker-width: 205px;
+@img-colorpicker-width: 208px;
 .img-colorpicker, .hsb-colorpicker .empty-color:before
 {
     background-image: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/hsbcolorpicker/hsb-colorpicker.png')), ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker.png)");
     background-repeat: no-repeat;
+    background-size:  @img-colorpicker-width auto;
 
     @media only screen {
         @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
@@ -349,6 +350,14 @@
             background-image: ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker@2x.png)";
             background-size:  @img-colorpicker-width auto;
         }
+    }
+
+    .pixel-ratio__1_25 & {
+        background-image: ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker@1.25x.png)";
+    }
+
+    .pixel-ratio__1_75 & {
+        background-image: ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker@1.75x.png)";
     }
 }
 

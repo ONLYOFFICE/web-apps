@@ -56,7 +56,8 @@
     "textStartAt": "Pornire de la",
     "textTable": "Tabel",
     "textTableSize": "Dimensiune tabel",
-    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -122,6 +123,7 @@
       "textNot": "Nu",
       "textNoWidow": "Fără control văduvă",
       "textNum": "Modificarea numerotării",
+      "textOk": "OK",
       "textOriginal": "Inițial",
       "textParaDeleted": "Paragraful a fost șters",
       "textParaFormatted": "Paragraful a fost formatat",
@@ -154,8 +156,7 @@
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUnderline": "Subliniat",
       "textUsers": "Utilizatori",
-      "textWidow": "Control văduvă",
-      "textOk": "Ok"
+      "textWidow": "Control văduvă"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -168,19 +169,27 @@
     "menuAddComment": "Adaugă comentariu",
     "menuAddLink": "Adăugare link",
     "menuCancel": "Revocare",
+    "menuContinueNumbering": "Continuare de la lista precedentă",
     "menuDelete": "Șterge",
     "menuDeleteTable": "Ștergere tabel",
     "menuEdit": "Editare",
+    "menuJoinList": "Continuare de la lista precedentă",
     "menuMerge": "Îmbinare",
     "menuMore": "Mai multe",
     "menuOpenLink": "Deschidere link",
     "menuReview": "Revizuire",
     "menuReviewChange": "Revizuire modificări",
+    "menuSeparateList": "Repornire la 1",
     "menuSplit": "Scindare",
+    "menuStartNewList": "Pornire listă nouă",
+    "menuStartNumberingFrom": "Setare valoare de numerotare",
     "menuViewComment": "Vizualizarea comentariilor",
+    "textCancel": "Anulare",
     "textColumns": "Coloane",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
+    "textNumberingValue": "Valoare de numerotare",
+    "textOk": "OK",
     "textRows": "Rânduri"
   },
   "Edit": {
@@ -296,7 +305,8 @@
     "textTopAndBottom": "Sus și jos",
     "textTotalRow": "Rând total",
     "textType": "Tip",
-    "textWrap": "Încadrare"
+    "textWrap": "Încadrare",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -463,10 +473,13 @@
     "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
     "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
     "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat. Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-    "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori al %1 editoare. Pentru detalii, contactați administratorul dvs.",
+    "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-    "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori al %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de actualizare.",
-    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+    "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",
@@ -483,6 +496,8 @@
     "textCancel": "Revocare",
     "textCaseSensitive": "Sensibil la litere mari și mici",
     "textCentimeter": "Centimetru",
+    "textChooseEncoding": "Alegeți codificare",
+    "textChooseTxtOptions": "Selectează opțiunile TXT",
     "textCollaboration": "Colaborare",
     "textColorSchemes": "Scheme de culori",
     "textComment": "Comentariu",
@@ -528,6 +543,8 @@
     "textOpenFile": "Introduceți parola pentru deschidere fișier",
     "textOrientation": "Orientare",
     "textOwner": "Proprietar",
+    "textPages": "Pagini",
+    "textParagraphs": "Paragrafe",
     "textPoint": "Punct",
     "textPortrait": "Portret",
     "textPrint": "Imprimare",
@@ -539,15 +556,20 @@
     "textSearch": "Căutare",
     "textSettings": "Setări",
     "textShowNotification": "Afișare notificări",
+    "textSpaces": "Spații",
     "textSpellcheck": "Verificarea ortografică",
     "textStatistic": "Statistic",
     "textSubject": "Subiect",
+    "textSymbols": "Simboluri",
     "textTitle": "Titlu",
     "textTop": "Sus",
     "textUnitOfMeasurement": "Unitate de măsură ",
     "textUploaded": "S-a încărcat",
+    "textWords": "Cuvinte",
+    "txtDownloadTxt": "Încărcare TXT",
     "txtIncorrectPwd": "Parolă incorectă",
-    "txtProtected": "Parola curentă la fișierul va fi resetată, de îndată ce este introdusă și fișierul este deschis",
+    "txtOk": "OK",
+    "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis",
     "txtScheme1": "Office",
     "txtScheme10": "Median",
     "txtScheme11": "Metrou",

@@ -52,6 +52,7 @@ define([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
+    'presentationeditor/main/app/controller/Transitions',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/HeaderFooterDialog',
@@ -160,7 +161,10 @@ define([
                             Asc.c_oAscFileType.ODP,
                             Asc.c_oAscFileType.PDFA,
                             Asc.c_oAscFileType.POTX,
-                            Asc.c_oAscFileType.OTP
+                            Asc.c_oAscFileType.OTP,
+                            Asc.c_oAscFileType.PPTM,
+                            Asc.c_oAscFileType.PNG,
+                            Asc.c_oAscFileType.JPG
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -173,6 +177,9 @@ define([
                     }
                 }
             });
+            Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
+                this.toolbar.collapse();
+            }, this));
 
             var me = this;
 
@@ -301,8 +308,7 @@ define([
             toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
             toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
-            toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
-            $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
+            toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
@@ -1581,7 +1587,7 @@ define([
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
                                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                                    me.api.AddImageUrl(checkUrl);
+                                    me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                                 } else {
@@ -1609,20 +1615,34 @@ define([
                     fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                 })).on('selectfile', function(obj, file){
                     file && (file.c = type);
+                    !file.images && (file.images = [{fileType: file.fileType, url: file.url}]); // SelectFileDlg uses old format for inserting image
+                    file.url = null;
                     me.insertImage(file);
                 }).show();
             }
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && (!data.c || data.c=='add')) {
+            if (data && data._urls && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                (data._urls.length>0) && this.api.AddImageUrl(data._urls, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
         insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
+            }
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
@@ -1871,11 +1891,7 @@ define([
             return out_value;
         },
 
-        onNewFontColor: function(picker, color) {
-            this.toolbar.mnuFontColorPicker.addNewColor();
-        },
-
-        onSelectFontColor: function(picker, color) {
+        onSelectFontColor: function(btn, color) {
             this._state.clrtext = this._state.clrtext_asccolor  = undefined;
 
             this.toolbar.btnFontColor.currentColor = color;
@@ -1965,7 +1981,8 @@ define([
             var me = this;
 
             if (h === 'menu') {
-                me.toolbar.mnuHighlightTransparent.setChecked(false);
+                me._state.clrhighlight = undefined;
+                me.onApiHighlightColor();
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
                 me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
@@ -2003,9 +2020,6 @@ define([
 
         onHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
-            item.setChecked(true, true);
-            this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onResetAutoshapes: function () {
@@ -2403,19 +2417,24 @@ define([
                 } else
                 if ( config.customization && config.customization.compactToolbar )
                     compactview = true;
-            }
 
+            }
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
-                me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.addTab(tab, $panel, 4);
                 me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
             }
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
+
+                var transitController = me.getApplication().getController('Transitions');
+                transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
+                Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
+                Array.prototype.push.apply(me.toolbar.slideOnlyControls,transitController.getView().getButtons());
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
@@ -2428,12 +2447,13 @@ define([
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
                 }
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) { // don't add protect panel to toolbar
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)
                             me.toolbar.addTab(tab, $panel, 4);
@@ -2449,7 +2469,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = PE.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides]);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
@@ -2462,6 +2482,7 @@ define([
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
+
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }

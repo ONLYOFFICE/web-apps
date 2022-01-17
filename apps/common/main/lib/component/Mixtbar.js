@@ -93,19 +93,19 @@ define([
 
                 var _template_tabs =
                     '<section class="tabs">' +
-                        '<a class="scroll left"></a>' +
+                        '<a class="scroll left" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="V"></a>' +
                         '<ul>' +
                             '<% for(var i in items) { %>' +
                                 '<% if (typeof items[i] == "object") { %>' +
                                 '<li class="ribtab' +
                                         '<% if (items[i].haspanel===false) print(" x-lone") %>' +
                                         '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>">' +
-                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>"><%= items[i].caption %></a>' +
+                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
                                 '</li>' +
                                 '<% } %>' +
                             '<% } %>' +
                         '</ul>' +
-                        '<a class="scroll right"></a>' +
+                        '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({
@@ -316,7 +316,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);

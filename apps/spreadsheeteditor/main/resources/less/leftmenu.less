@@ -14,6 +14,12 @@
     }
 }
 
+.left-panel {
+    #left-panel-history {
+        height: 100%;
+    }
+}
+
 .left-menu-full-ct {
     width: 100%;
     height: 100%;
@@ -43,10 +49,6 @@
     width: 96px;
     height: 96px;
     cursor: pointer;
-
-    svg&:hover {
-        opacity:0.85;
-    }
 }
 
 #file-menu-panel {
@@ -132,10 +134,10 @@
             table {
                 margin-left: auto;
                 margin-right: auto;
-                margin-bottom: 65px;
+                margin-bottom: 24px;
 
                 .btn-doc-format {
-                    margin: 65px 25px 0px;
+                    margin: 24px 12px 0px;
                 }
             }
         }
@@ -265,10 +267,6 @@
                 white-space: nowrap;
             }
 
-            .blank-document {
-                min-width: 650px;
-            }
-
             .blank-document-info {
                 vertical-align: top;
                 width: 445px;
@@ -281,14 +279,6 @@
                 }
             }
 
-            .blank-document-btn {
-                display: inline-block;
-                margin: 25px 20px 65px;
-                width: 96px;
-                height: 96px;
-                cursor: pointer;
-            }
-
             hr {
                 margin: 0;
                 border-bottom: none;
@@ -297,22 +287,47 @@
             }
 
             .thumb-list {
-                .thumb-wrap {
+                max-width: 600px;
+                .thumb-wrap, .blank-document {
                     display: inline-block;
                     text-align: center;
                     width: auto;
-                    padding: 30px 20px;
                     cursor: pointer;
+                    vertical-align: top;
+                    .border-radius(@border-radius-small);
 
-                    .thumb {
+                    .thumb, .blank-document-btn {
                         width: 96px;
                         height: 96px;
                         background-repeat: no-repeat;
                         background-position: center;
+                        margin:  12px 12px 0px 12px;
+                        background-size: contain;
                     }
 
                     .title {
-                        padding-top: 20px;
+                        width: 104px;
+                        font-size: 12px;
+                        line-height: 14px;
+                        height: 28px;
+                        margin: 8px 8px 12px 8px;
+                        word-break: break-word;
+                        word-wrap: break-word;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                    }
+                    &:hover{
+                        background-color: @highlight-button-hover-ie;
+                        background-color: @highlight-button-hover;
+                    }
+                    &:active{
+                        color: @text-normal-pressed-ie;
+                        color: @text-normal-pressed;
+                        background-color: @highlight-button-pressed-ie;
+                        background-color: @highlight-button-pressed;
                     }
                 }
             }
@@ -467,24 +482,19 @@
                 font-size: 12px;
             }
 
-            .close {
-                width: 16px;
-                height: 16px;
-                cursor: pointer;
-                display: inline-block;
-                vertical-align: middle;
-                margin-left: 5px;
-
-                background-position: @but-close-offset-x @but-close-offset-y;
-
-                &.over,
-                &:hover {
-                    background-position: @but-close-offset-x @but-close-offset-y - 16px;
-                }
-
-                &.disabled {
-                    background-position: @but-close-offset-x @but-close-offset-y - 32px;
-                    cursor: default;
+            .tool {
+                margin-left: 4px;
+                background-image: none;
+                &.close{
+                    &:before, &:after {
+                        height: 12px;
+                        left: 8px;
+                        width: 2px;
+                        width: @scaled-two-px-value;
+                    }
+                    &.disabled {
+                        opacity: 0.4;
+                    }
                 }
             }
         }

@@ -60,7 +60,10 @@ define([
             beforeOpenHandler   : null,
             additionalMenuItems  : null,
             showLast: true,
-            minWidth: -1
+            minWidth: -1,
+            dataHint: '',
+            dataHintDirection: '',
+            dataHintOffset: ''
         },
 
         template: _.template([
@@ -88,6 +91,7 @@ define([
             this.rendered    = false;
             this.needFillComboView = false;
             this.minWidth = this.options.minWidth;
+            this.delayRenderTips = this.options.delayRenderTips || false;
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
@@ -99,7 +103,8 @@ define([
                             '<span class="title"><%= title %></span>',
                         '<% } %>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                delayRenderTips: this.delayRenderTips
             });
 
             this.openButton = new Common.UI.Button({
@@ -109,17 +114,17 @@ define([
                     offset: [0, 3],
                     items: [
                         {template: _.template('<div class="menu-picker-container"></div>')}
-                    ]
-                })
+                    ].concat(this.options.additionalMenuItems != null ? this.options.additionalMenuItems : [])
+                }),
+                dataHint: this.options.dataHint,
+                dataHintDirection: this.options.dataHintDirection,
+                dataHintOffset: this.options.dataHintOffset
             });
-
-            if  (this.options.additionalMenuItems != null) {
-                this.openButton.menu.items = this.openButton.menu.items.concat(this.options.additionalMenuItems)
-            }
 
             this.menuPicker  = new Common.UI.DataView({
                 cls: 'menu-picker',
                 parentMenu: this.openButton.menu,
+                outerMenu:  this.options.additionalMenuItems ? {menu: this.openButton.menu, index: 0} : undefined,
                 restoreHeight: this.menuMaxHeight,
                 style: 'max-height: '+this.menuMaxHeight+'px;',
                 enableKeyEvents: this.options.enableKeyEvents,
@@ -131,8 +136,13 @@ define([
                             '<span class="title"><%= title %></span>',
                         '<% } %>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                delayRenderTips: this.delayRenderTips
             });
+
+            if  (this.options.additionalMenuItems != null) {
+                this.openButton.menu.setInnerMenu([{menu: this.menuPicker, index: 0}]);
+            }
 
             // Handle resize
             setInterval(_.bind(this.checkSize, this), 500);
@@ -207,6 +217,9 @@ define([
                 me.rendered = true;
 
                 me.trigger('render:after', me);
+            }
+            if (this.disabled) {
+                this.setDisabled(!!this.disabled);
             }
 
             return this;

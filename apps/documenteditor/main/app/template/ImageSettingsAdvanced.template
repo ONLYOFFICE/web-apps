@@ -2,19 +2,19 @@
     <div class="inner-content">
     <table cols="4" width="100%">
         <tr>
-            <td width="88px">
+            <td width="78px">
                 <label class="input-label"><%= scope.textWidth %></label>
                 <div id="image-advanced-spin-width"></div>
             </td>
             <td width="28px" style="vertical-align: bottom;">
                 <div id="image-advanced-button-ratio"></div>
             </td>
-            <td width="88px">
+            <td width="78px">
                 <label class="input-label"><%= scope.textHeight %></label>
                 <div id="image-advanced-spin-height"></div>
             </td>
             <td style="vertical-align: bottom;">
-                <button type="button" class="btn btn-text-default" id="image-advanced-button-original-size" style="width:100px;"><%= scope.textOriginalSize %></button>
+                <button type="button" class="btn btn-text-default auto" id="image-advanced-button-original-size" style="min-width:100px;"><%= scope.textOriginalSize %></button>
             </td>
         </tr>
     </table>

@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Sunteți sigur că doriți să stergeți acest comentariu?",
       "textMessageDeleteReply": "Sinteți sigur că doriți să ștergeți acest răspuns?",
       "textNoComments": "Documentul nu cuprinde comentarii",
+      "textOk": "OK",
       "textReopen": "Redeschidere",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori",
-      "textOk": "Ok"
+      "textUsers": "Utilizatori"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Operațiuni de copiere, decupare și lipire din meniul contextual se execută numai în fișierul curent.",
+    "errorInvalidLink": "Legătură de referință nu există. Corectați sau eliminați legătura.",
     "menuAddComment": "Adaugă comentariu",
     "menuAddLink": "Adăugare link",
     "menuCancel": "Anulează",
@@ -61,7 +62,7 @@
     "notcriticalErrorTitle": "Avertisment",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
-    "warnMergeLostData": "Operațiunea poate rezulta în distrugerea datelor din celule selectate. Doriți să continuați?"
+    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {
     "Main": {
@@ -125,7 +126,7 @@
         "txtStyle_Title": "Titlu",
         "txtStyle_Total": "Total",
         "txtStyle_Warning_Text": "Mesaj de avertisment",
-        "txtTab": "Fila",
+        "txtTab": "Tabulator",
         "txtTable": "Tabel",
         "txtTime": "Oră",
         "txtValues": "Valori",
@@ -150,10 +151,13 @@
       "warnLicenseExceeded": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați administratorul dvs pentru mai multe detalii.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită.<br>Funcțiile de editare sunt cu acces limitat.<br>Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori al %1 editoare. Pentru detalii, contactați administratorul dvs.",
+      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori al %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de actualizare.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -169,6 +173,7 @@
     "errorAutoFilterHiddenRange": "Operațiunea nu poate fi efectuată deoarece zonă conține celule filtrate.<br>Reafișați elementele filtrate și încercați din nou.",
     "errorBadImageUrl": "URL-ul imaginii incorectă",
     "errorChangeArray": "Nu puteți modifica parte dintr-o matrice.",
+    "errorChangeOnProtectedSheet": "Celula sau diagrama pe care încercați să schimbați este din foaia de calcul protejată. Dezactivați protejarea foii de calcul dacă doriți s-o schimați.Este posibil să fie necesară introducerea parolei.",
     "errorConnectToServer": "Salvarea documentului nu este posibilă. Verificați configurarea conexeunii sau contactaţi administratorul dumneavoastră de reţea<br>Când faceți clic pe OK, vi se va solicita să descărcați documentul.",
     "errorCopyMultiselectArea": "Această comandă nu poate fi aplicată la selecții multiple<br>Selectați o singură zonă și încercați din nou.",
     "errorCountArg": "Eroare în formulă.<br>Număr incorect de argumente.",
@@ -215,18 +220,20 @@
     "errorUsersExceed": "Limita de utilizatori stipulată de planul tarifar a fost depășită",
     "errorViewerDisconnect": "Conexiunea a fost pierdută. Încă mai puteți vizualiza documentul,<br>dar nu și să-l descărcați până când conexiunea se restabilește și pagina se reîmprospătează.",
     "errorWrongBracketsCount": "Eroare în formulă.<br>Numărul de paranteze incorect.",
-    "errorWrongOperator": "Eroare în formulă. Operator necorespunzător.<br>Corectați eroarea sau apăsați Esc pentru anularea editărilor formulei.",
+    "errorWrongOperator": "Eroare în formulă. Operator necorespunzător.<br>Corectați eroarea.",
     "notcriticalErrorTitle": "Avertisment",
     "openErrorText": "Eroare la deschiderea fișierului",
     "pastInMergeAreaError": "O parte din celulă îmbinată nu poate fi modificată ",
     "saveErrorText": "Eroare la salvarea fișierului",
     "scriptLoadError": "Conexeunea e prea lentă și unele elemente nu se încarcă. Încercați să reîmprospătati pagina.",
+    "textErrorPasswordIsNotCorrect": "Parola introdusă este incorectă.<br>Verificaţi dacă nu este activată tasta CAPS LOCK și vă asigurați că utilizați introducerea corectă a majusculelor.",
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
     "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
+    "advDRMPassword": "Parola",
     "applyChangesTextText": "Încărcarea datelor...",
     "applyChangesTitleText": "Încărcare date",
     "confirmMoveCellRange": "Celulele din zonă de destinație pot conține datele. Doriți să continuați?",
@@ -253,9 +260,13 @@
     "savePreparingTitle": "Pregătire pentru salvare. Vă rugăm să așteptați...",
     "saveTextText": "Salvarea documentului...",
     "saveTitleText": "Salvare document",
+    "textCancel": "Anulare",
+    "textErrorWrongPassword": "Parola introdusă este incorectă.",
     "textLoadingDocument": "Încărcare document",
     "textNo": "Nu",
     "textOk": "OK",
+    "textUnlockRange": "Deblocare zonă",
+    "textUnlockRangeWarning": "Zonă, pe care doriţi să o modificaţi, este protejată prin parolă. ",
     "textYes": "Da",
     "txtEditingMode": "Setare modul de editare...",
     "uploadImageTextText": "Încărcarea imaginii...",
@@ -335,9 +346,13 @@
       "textSortAndFilter": "Sortare și filtrare",
       "txtExpand": "Extindere și sortare",
       "txtExpandSort": "Datele lângă selecție vor fi sortate. Doriți să extindeți selecția pentru a include datele adiacente sau doriți să continuați cu selecția curentă?",
+      "txtLockSort": "Alături de celulele selectate au fost găsite datele dar nu aveți permisiuni suficente ca să le modificați<br>Doriți să continuați cu selecția curentă?",
+      "txtNo": "Nu",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
-      "txtSortSelected": "Sortarea selecției"
+      "txtSortSelected": "Sortarea selecției",
+      "txtYes": "Da",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -517,7 +532,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
-      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare"
+      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
@@ -537,6 +553,9 @@
       "textByRows": "După rând",
       "textCancel": "Anulează",
       "textCentimeter": "Centimetru",
+      "textChooseCsvOptions": "Alegerea opțiunilor CSV",
+      "textChooseDelimeter": "Alegeți delimitator",
+      "textChooseEncoding": "Alegeți codificare",
       "textCollaboration": "Colaborare",
       "textColorSchemes": "Scheme de culori",
       "textComment": "Comentariu",
@@ -544,6 +563,7 @@
       "textComments": "Comentarii",
       "textCreated": "A fost creat la",
       "textCustomSize": "Dimensiunea particularizată",
+      "textDelimeter": "Delimitator",
       "textDisableAll": "Se dezactivează toate",
       "textDisableAllMacrosWithNotification": "Se dezactivează toate macrocomenzile, cu notificare   ",
       "textDisableAllMacrosWithoutNotification": "Se dezactivează toate macrocomenzile, fără notificare",
@@ -553,6 +573,8 @@
       "textEmail": "Email",
       "textEnableAll": "Se activează toate",
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile, fără notificare",
+      "textEncoding": "Codificare",
+      "textExample": "Exemplu",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
       "textFindAndReplaceAll": "Găsire și înlocuire totală",
@@ -608,10 +630,14 @@
       "textValues": "Valori",
       "textVersion": "Versiune",
       "textWorkbook": "Registru de calcul",
+      "txtColon": "Două puncte",
+      "txtComma": "Virgulă",
       "txtDelimiter": "Delimitator",
+      "txtDownloadCsv": "Încărcare CSV",
       "txtEncoding": "Codificare",
       "txtIncorrectPwd": "Parolă incorectă",
-      "txtProtected": "Parola curentă va fi resetată, de îndată ce parola este introdusă și fișierul este deschis.",
+      "txtOk": "OK",
+      "txtProtected": "Parola curentă va fi resetată de îndată ce parola este introdusă și fișierul este deschis.",
       "txtScheme1": "Office",
       "txtScheme10": "Median",
       "txtScheme11": "Metrou",
@@ -634,8 +660,9 @@
       "txtScheme7": "Echilibru",
       "txtScheme8": "Flux",
       "txtScheme9": "Forjă",
+      "txtSemicolon": "Punct și virgulă",
       "txtSpace": "Spațiu",
-      "txtTab": "Fila",
+      "txtTab": "Tabulator",
       "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
     }
   }

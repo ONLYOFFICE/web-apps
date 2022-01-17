@@ -1,15 +1,15 @@
 <table cols="1">
-    <tr>
+    <tr class="no-form">
         <td>
             <label class="header"><%= scope.strFill %></label>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td class="padding-small">
             <div id="shape-combo-fill-src" style="width: 100%;"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td>
             <div id="shape-panel-color-fill" class="padding-small" style="width: 100%;">
                 <div id="shape-back-color-btn" style=""></div>
@@ -99,7 +99,7 @@
             </div>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td>
             <div class="padding-small" id="shape-panel-transparent-fill" style="width: 100%;">
                 <label class="header" style="display:block;"><%= scope.strTransparency %></label>
@@ -112,17 +112,17 @@
             </div>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td>
             <label class="header"><%= scope.strStroke %></label>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td class="padding-small">
         <div style="display:inline-block;width:100px;vertical-align: middle;">
             <label class="input-label" style=""><%= scope.strSize %></label>
@@ -134,7 +134,7 @@
         </div>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td class="padding-small">
         <div style="display:inline-block;width:100px;vertical-align: middle;">
             <label class="input-label" style=""><%= scope.strType %></label>
@@ -142,7 +142,7 @@
         </div>
         </td>
     </tr>
-    <tr class="shape-only">
+    <tr class="shape-only-separator">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
@@ -203,12 +203,12 @@
             <div id="shape-btn-change" style="display: inline-block; float:right;"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="no-form">
         <td class="padding-small" colspan=2>
             <div id="shape-checkbox-shadow"></div>
         </td>
@@ -220,7 +220,7 @@
     </tr>
     <tr class="shape-only">
         <td align="center">
-            <label class="link" id="shape-advanced-link"><%= scope.textAdvanced %></label>
+            <label class="link" id="shape-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

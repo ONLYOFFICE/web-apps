@@ -44,7 +44,9 @@ define([
                 target  : $(document.body),
                 text    : '',
                 placement: 'right-bottom',
-                showLink: true
+                showLink: true,
+                showButton: false,
+                closable: true
             },
 
             template: _.template([
@@ -53,10 +55,15 @@ define([
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
                             '<div class="tip-text"><%= scope.text %></div>',
+                            '<% if ( scope.closable ) { %>',
                             '<div class="close"></div>',
+                            '<% } %>',
                         '</div>',
                         '<% if ( scope.showLink ) { %>',
                         '<div class="show-link"><label><%= scope.textLink %></label></div>',
+                        '<% } %>',
+                        '<% if ( scope.showButton ) { %>',
+                        '<div class="btn-div"><%= scope.textButton %></div>',
                         '<% } %>',
                     '</div>',
                 '</div>'
@@ -71,6 +78,9 @@ define([
                 this.textLink = !_.isEmpty(this.options.textLink) ? this.options.textLink : this.textDontShow;
                 this.placement = this.options.placement;
                 this.showLink = this.options.showLink;
+                this.showButton = this.options.showButton;
+                this.closable = this.options.closable;
+                this.textButton = this.options.textButton || '';
             },
 
             render: function() {
@@ -79,6 +89,7 @@ define([
                     $(document.body).append(this.cmpEl);
                     this.cmpEl.find('.close').on('click', _.bind(function() { this.trigger('closeclick');}, this));
                     this.cmpEl.find('.show-link label').on('click', _.bind(function() { this.trigger('dontshowclick');}, this));
+                    this.cmpEl.find('.btn-div').on('click', _.bind(function() { this.trigger('buttonclick');}, this));
                 }
 
                 this.applyPlacement();
@@ -143,8 +154,14 @@ define([
                     }
                     top = (top!==undefined) ? (top + 'px') : 'auto';
                     bottom = (bottom!==undefined) ? (bottom + 'px') : 'auto';
-                    left = (left!==undefined) ? (left + 'px') : 'auto';
                     right = (right!==undefined) ? (right + 'px') : 'auto';
+                    if (left!==undefined) {
+                        var width = this.cmpEl.width();
+                        if (left+width>Common.Utils.innerWidth())
+                            left = Common.Utils.innerWidth() - width - 10;
+                        left = (left + 'px');
+                    } else
+                        left = 'auto';
                     this.cmpEl.css({top : top, left: left, right: right, bottom: bottom});
                 }
             },

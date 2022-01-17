@@ -1,72 +1,53 @@
 .radiobox {
-    padding-left: 22px;
     margin-bottom: 0;
     .font-size-normal();
     font-weight: normal;
     position: relative;
     min-height: 1em;
 
-    input[type=radio] {
+    display: flex;
+    align-items: center;
 
+    svg {
+        margin-right: 8px;
+        .rb-circle {
+            fill: @background-normal;
+            stroke: @border-regular-control;
+        }
+
+        .rb-check-mark {
+            fill: @text-normal;
+        }
+    }
+
+    input[type=radio] {
         display: none;
 
-        + label {
-            position: absolute;
-            left: 0;
-            margin-top: auto;
-            padding-bottom: 4px;
-            width: 14px;
-            height: 14px;
-
-            background: @background-normal-ie;
-            background: @background-normal;
-            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-            border: @scaled-one-px-value solid @border-regular-control;
-            border-radius: 50%;
-
-            + span {
-                outline: @scaled-one-px-value-ie dotted transparent;
-                outline: @scaled-one-px-value dotted transparent;
-                display: inline-block;
-            }
-        }
-
-        &:checked {
-            + label {
-                &::before {
-                    content: '';
-                    position: absolute;
-                    background: @text-normal-ie;
-                    background: @text-normal;
-                    border-radius: 50%;
-                    width: 8px;
-                    height: 8px;
-                    left: 2px;
-                    top: 2px;
-                }
-            }
-        }
-
-        &.disabled, &:disabled {
-
-            + label {
-                &::before {
-                }
+        &:not(:checked) + svg {
+            .rb-check-mark {
+                display: none;
             }
         }
     }
 
-    &:focus:not(.disabled) {
-        input[type=radio] {
-            + label {
-                border-color: @border-control-focus-ie;
-                border-color: @border-control-focus;
+    &.disabled, &:disabled {
+        svg, span {
+            opacity: @component-disabled-opacity;
+            pointer-events: none;
+        }
+    }
 
-                + span {
-                    outline-color: @border-control-focus-ie;
-                    outline-color: @border-control-focus;
-                }
+    &:focus:not(.disabled) {
+        svg {
+            .rb-circle {
+                stroke: @border-control-focus-ie;
+                stroke: @border-control-focus;
             }
+        }
+
+        span {
+            outline: @scaled-one-px-value-ie dotted @border-control-focus-ie;
+            outline: @scaled-one-px-value dotted @border-control-focus;
         }
     }
 }

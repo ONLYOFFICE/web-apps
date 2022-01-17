@@ -77,7 +77,7 @@ define([
     Common.UI.ComboBorderSize = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>">',
+                '<div class="form-control" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<i class="image"></i>',
                     '<span class="text"></span>',
                 '</div>',
@@ -122,6 +122,7 @@ define([
 
         render : function(parentEl) {
             Common.UI.ComboBox.prototype.render.call(this, parentEl);
+            this._formControl  = this.cmpEl.find('.form-control');
             return this;
         },
 
@@ -172,13 +173,17 @@ define([
             }
         },
 
+        focus: function() {
+            this._formControl && this._formControl.focus();
+        },
+
         txtNoBorders: 'No Borders'
     }, Common.UI.ComboBorderSize || {}));
 
     Common.UI.ComboBorderSizeEditable = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<span class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<input type="text" class="form-control text">',
+                '<input type="text" class="form-control text" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
                 '</button>',
@@ -230,7 +235,7 @@ define([
     Common.UI.ComboBorderType = Common.UI.ComboBorderSize.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>">',
+                '<div class="form-control" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<i class="image"></i>',
                 '</div>',
                 '<div style="display: table-cell;"></div>',

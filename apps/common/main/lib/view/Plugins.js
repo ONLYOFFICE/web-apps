@@ -62,7 +62,7 @@ define([
             '<div id="current-plugin-box" class="layout-ct vbox hidden">',
                 '<div id="current-plugin-header">',
                     '<label></label>',
-                    '<div id="id-plugin-close" class="plugin-close img-commonctrl"></div>',
+                    '<div id="id-plugin-close" class="tool close"></div>',
                 '</div>',
                 '<div id="current-plugin-frame" class="">',
                 '</div>',
@@ -159,7 +159,10 @@ define([
                                 menu: modes && modes.length > 1,
                                 split: modes && modes.length > 1,
                                 value: guid,
-                                hint: model.get('name')
+                                hint: model.get('name'),
+                                dataHint: '1',
+                                dataHintDirection: 'bottom',
+                                dataHintOffset: 'small'
                             });
 
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
@@ -386,7 +389,10 @@ define([
                 menu: _menu_items.length > 1,
                 split: _menu_items.length > 1,
                 value: guid,
-                hint: model.get('name')
+                hint: model.get('name'),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
 
             if ( btn.split ) {

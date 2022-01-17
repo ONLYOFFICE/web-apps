@@ -106,8 +106,8 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects) {
-            if (!this.editMode)
+        onFocusObject: function(SelectedObjects, forceSignature) {
+            if (!this.editMode && !forceSignature)
                 return;
 
             var open = this._initSettings ? !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
@@ -137,8 +137,8 @@ define([
                 if (settingsType==Common.Utils.documentSettingsType.Slide) {
                     this._settings[settingsType].locked = value.get_LockDelete();
                     this._settings[settingsType].lockedBackground = value.get_LockBackground();
-                    this._settings[settingsType].lockedEffects = value.get_LockTransition();
-                    this._settings[settingsType].lockedTransition = value.get_LockTransition();
+                    /*this._settings[settingsType].lockedEffects = value.get_LockTransition();
+                    this._settings[settingsType].lockedTransition = value.get_LockTransition();*/
                     this._settings[settingsType].lockedHeader = !!value.get_LockHeader && value.get_LockHeader();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
@@ -182,8 +182,6 @@ define([
                     if (i == Common.Utils.documentSettingsType.Slide) {
                         if (pnl.locked!==undefined)
                             this.rightmenu.slideSettings.setLocked(this._state.no_slides || pnl.lockedBackground || pnl.locked,
-                                                                          this._state.no_slides || pnl.lockedEffects || pnl.locked,
-                                                                          this._state.no_slides || pnl.lockedTransition || pnl.locked,
                                                                           this._state.no_slides || pnl.lockedHeader || pnl.locked);
                     } else
                         pnl.panel.setLocked(pnl.locked);
@@ -196,6 +194,7 @@ define([
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
                 else if (lastactive>=0) active = lastactive;
+                else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
                 else active = Common.Utils.documentSettingsType.Slide;
 
                 if (active !== undefined) {
@@ -220,7 +219,7 @@ define([
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
             if (this.rightmenu && this.rightmenu.paragraphSettings) {
-                this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled, disabled);
+                this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled);
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
                 this.rightmenu.textartSettings.disableControls(disabled);
@@ -228,8 +227,9 @@ define([
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.chartSettings.disableControls(disabled);
 
-                if (!allowSignature && this.rightmenu.signatureSettings) {
-                    this.rightmenu.btnSignature.setDisabled(disabled);
+                if (this.rightmenu.signatureSettings) {
+                    !allowSignature && this.rightmenu.btnSignature.setDisabled(disabled);
+                    allowSignature && disabled && this.onFocusObject([], true); // force press signature button
                 }
 
                 if (disabled) {

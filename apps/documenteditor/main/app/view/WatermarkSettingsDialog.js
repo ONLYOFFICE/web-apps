@@ -314,43 +314,23 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.textControls.push(this.btnStrikeout);
 
-            var initNewColor = function(btn, picker_el) {
-                if (btn && btn.cmpEl) {
-                    btn.currentColor = 'c0c0c0';
-                    btn.setColor( btn.currentColor);
-                    var picker = new Common.UI.ThemeColorPalette({
-                        el: $(picker_el)
-                    });
-                }
-                btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
-                    picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-                }, me));
-                picker.on('select', _.bind(me.onColorSelect, me));
-                return picker;
-            };
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#watermark-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
-                menu        : new Common.UI.Menu({
-                    cls: 'shifted-left',
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                    {
-                        id: 'watermark-auto-color',
-                        caption: this.textAuto,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
-                    },
-                    {caption: '--'},
-                        { template: _.template('<div id="watermark-menu-textcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="watermark-menu-textcolor-new">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                auto: true,
+                color: 'c0c0c0',
+                menu: true
             });
-            this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#watermark-menu-textcolor");
-            $('#watermark-auto-color').on('click', _.bind(this.onAutoColor, this));
+            this.btnTextColor.setMenu();
+            this.mnuTextColorPicker = this.btnTextColor.getPicker();
+            this.btnTextColor.currentColor = 'c0c0c0';
             this.textControls.push(this.btnTextColor);
+
+            this.btnTextColor.on('color:select', _.bind(this.onColorSelect, this));
+            this.btnTextColor.on('auto:select',  _.bind(this.onAutoColor, this));
 
             this.chTransparency = new Common.UI.CheckBox({
                 el: $('#watermark-chb-transparency'),
@@ -402,31 +382,18 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             }, 10);
         },
 
-        onColorSelect: function(picker, color) {
-            var clr_item = this.btnTextColor.menu.$el.find('#watermark-auto-color > a');
-            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+        onColorSelect: function(btn, color) {
             this.isAutoColor = false;
-
             this.btnTextColor.currentColor = color;
-            this.btnTextColor.setColor( this.btnTextColor.currentColor);
         },
 
         updateThemeColors: function() {
             this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-        },
-
         onAutoColor: function(e) {
-            var clr_item = this.btnTextColor.menu.$el.find('#watermark-auto-color > a');
-            !clr_item.hasClass('selected') && clr_item.addClass('selected');
             this.isAutoColor = true;
-
             this.btnTextColor.currentColor = "000";
-            this.btnTextColor.setColor( this.btnTextColor.currentColor);
-            this.mnuTextColorPicker.clearSelection();
         },
 
         afterRender: function() {
@@ -444,8 +411,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.api.asc_registerCallback('asc_onWatermarkImageLoaded', onApiWMLoaded);
 
             var insertImageFromStorage = function(data) {
-                if (data && data.url && data.c=='watermark') {
-                    me.props.put_ImageUrl(data.url, data.token);
+                if (data && data._urls && data.c=='watermark') {
+                    me.props.put_ImageUrl(data._urls[0], data.token);
                 }
             };
             Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
@@ -582,16 +549,14 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                         this.btnUnderline.toggle(val.get_Underline());
                         this.btnStrikeout.toggle(val.get_Strikeout());
                         var color = val.get_Color(),
-                            clr_item = this.btnTextColor.menu.$el.find('#watermark-auto-color > a'),
                             clr = "c0c0c0";
 
                         if (color.get_auto()) {
                             clr = "000";
                             this.isAutoColor = true;
                             this.mnuTextColorPicker.clearSelection();
-                            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                            this.btnTextColor.setAutoColor(true);
                         } else {
-                            clr_item.hasClass('selected') && clr_item.removeClass('selected');
                             if (color) {
                                 color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ?
                                     clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()} :
@@ -718,7 +683,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         textDiagonal: 'Diagonal',
         textHor: 'Horizontal',
         textColor: 'Text color',
-        textNewColor: 'Add New Custom Color',
         textLanguage: 'Language',
         textFromStorage: 'From Storage',
         textSelect: 'Select Image'

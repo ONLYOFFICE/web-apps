@@ -125,6 +125,9 @@ define([
             var me = this;
 
             me.template = me.options.template || me.template;
+            me.dataHint = me.options.dataHint || '';
+            me.dataHintDirection = me.options.dataHintDirection || '';
+            me.dataHintOffset = me.options.dataHintOffset || '';
 
             me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
@@ -140,6 +143,15 @@ define([
             el.html(this.template(this.model.toJSON()));
             el.addClass('item');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            
+            if (this.dataHint !== '') {
+                el.attr('data-hint', this.dataHint);
+                el.attr('data-hint-direction', this.dataHintDirection);
+                el.attr('data-hint-offset', this.dataHintOffset);
+            }
+            if (!_.isUndefined(this.model.get('contentTarget')))
+                el.attr('content-target', this.model.get('contentTarget'));
+
             el.off('click dblclick contextmenu');
             el.on({ 'click': _.bind(this.onClick, this),
                 'dblclick': _.bind(this.onDblClick, this),
@@ -244,9 +256,13 @@ define([
             me.store          = me.options.store          || new Common.UI.DataViewStore();
             me.groups         = me.options.groups         || null;
             me.itemTemplate   = me.options.itemTemplate   || null;
+            me.itemDataHint   = me.options.itemDataHint   || '';
+            me.itemDataHintDirection = me.options.itemDataHintDirection || '';
+            me.itemDataHintOffset = me.options.itemDataHintOffset || '';
             me.multiSelect    = me.options.multiSelect;
             me.handleSelect   = me.options.handleSelect;
             me.parentMenu     = me.options.parentMenu;
+            me.outerMenu      = me.options.outerMenu;
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.showLast       = me.options.showLast;
@@ -257,6 +273,7 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.tabindex = me.options.tabindex || 0;
+            me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -282,7 +299,8 @@ define([
                 this.cmpEl = $(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
                     style: me.style,
-                    cls: me.cls
+                    cls: me.cls,
+                    options: me.options
                 }));
 
                 parentEl.html(this.cmpEl);
@@ -291,7 +309,8 @@ define([
                 this.cmpEl.html(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
                     style: me.style,
-                    cls: me.cls
+                    cls: me.cls,
+                    options: me.options
                 }));
             }
 
@@ -413,7 +432,10 @@ define([
         onAddItem: function(record, store, opts) {
             var view = new Common.UI.DataViewItem({
                 template: this.itemTemplate,
-                model: record
+                model: record,
+                dataHint: this.itemDataHint,
+                dataHintDirection: this.itemDataHintDirection,
+                dataHintOffset: this.itemDataHintOffset
             });
 
             if (view) {
@@ -436,14 +458,28 @@ define([
                     var idx = _.indexOf(this.store.models, record);
                     this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
-                    if (record.get('tip')) {
-                        var view_el = $(view.el);
-                        view_el.attr('data-toggle', 'tooltip');
-                        view_el.tooltip({
-                            title       : record.get('tip'),
-                            placement   : 'cursor',
-                            zIndex : this.tipZIndex
-                        });
+                    var me = this,
+                        view_el = $(view.el),
+                        tip = record.get('tip');
+                    if (tip) {
+                        if (this.delayRenderTips)
+                            view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                                view_el.attr('data-toggle', 'tooltip');
+                                view_el.tooltip({
+                                    title       : tip,
+                                    placement   : 'cursor',
+                                    zIndex : me.tipZIndex
+                                });
+                                view_el.mouseenter();
+                            });
+                        else {
+                            view_el.attr('data-toggle', 'tooltip');
+                            view_el.tooltip({
+                                title       : tip,
+                                placement   : 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                        }
                     }
 
                     this.listenTo(view, 'change',      this.onChangeItem);
@@ -472,7 +508,8 @@ define([
             $(this.el).html(this.template({
                 groups: this.groups ? this.groups.toJSON() : null,
                 style: this.style,
-                cls: this.cls
+                cls: this.cls,
+                options: this.options
             }));
 
             if (!_.isUndefined(this.scroller)) {
@@ -665,17 +702,27 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
@@ -761,14 +808,14 @@ define([
             };
 
             var el = $(this.dataViewItems[0].el),
-                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
                 offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
                 var top = $(this.dataViewItems[i].el).offset().top - offsetTop;
-                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW);
+                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW + 0.01);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
@@ -787,8 +834,22 @@ define([
             this._layoutParams = undefined;
         },
 
-        focus: function() {
-            this.cmpEl && this.cmpEl.find('.dataview').focus();
+        focus: function(index) {
+            $(this.el).find('.inner').addBack().filter('.inner').focus();
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                this.selectByIndex(index, true);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         }
     });
 
@@ -806,7 +867,7 @@ define([
             '<div class="dataview inner" style="<%= style %>">',
             '<% _.each(items, function(item) { %>',
                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
             '<% }) %>',
             '</div>'
         ].join('')),
@@ -968,7 +1029,7 @@ define([
             var template = _.template([
                 '<% _.each(items, function(item) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
                 '<% }) %>'
             ].join(''));
             this.cmpEl && this.cmpEl.find('.inner').html(template({
@@ -1113,17 +1174,27 @@ define([
                                 idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
-                            while (idx===undefined) {
-                                topIdx--;
-                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         } else {
-                            while (idx===undefined) {
-                                topIdx++;
-                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
-                            }
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.deselectAll(true);
+                                this.outerMenu.menu.focusOuter && this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                                return;
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
                         }
                     } else {
                         idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
@@ -1195,7 +1266,7 @@ define([
             };
 
             var el = this.dataViewItems[0].el,
-                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
                 offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;

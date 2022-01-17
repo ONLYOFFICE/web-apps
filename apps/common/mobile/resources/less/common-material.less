@@ -35,6 +35,12 @@
         --f7-touch-ripple-color: transparent;
     }
 
+    .segmented {
+        .button {
+            --f7-touch-ripple-color: var(--f7-list-link-pressed-bg-color);
+        }
+    }
+
     --f7-input-focused-border-color: @themeColor;
     --f7-label-focused-text-color: @themeColor;
 
@@ -67,17 +73,16 @@
                 margin-bottom: 0;
                 margin-top: 8px;
             }
-            .add-image {
-                ul:before, :after{
-                    display: none;
-                }
-            }
-            .inputs-list {
+            .add-image, .inputs-list {
                 ul:after {
                     display: none;
                 }
             }
         }
+    }
+
+    .coauth__sheet{
+        max-height: 65%;
     }
 
     // Buttons
@@ -299,25 +304,41 @@
             }
         }
     }
-    // Bullets and numbers
+    // Bullets, numbers and multilevels
     .bullets,
-    .numbers {
-        .page-content {
-            background: @white;
+    .numbers,
+    .multilevels {
+        .list{
+            margin: 5px;
+            ul {
+                &:before, &:after {
+                    display: none;
+                }
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                margin-top: 10px;
+                padding:  0 5px;
+            }
+            &:first-child li:first-child, &:last-child li:last-child {
+                border-radius: 0;
+            }
         }
 
-        .row {
-            justify-content: space-around;
-        }
-
-        ul {
-            margin-top: 10px;
+        .list .item-content {
+            padding-left: 0;
+            min-height: 68px;
+            .item-inner{
+                padding: 0;
+                &:after {
+                    display: none;
+                }
+            }
         }
 
         li {
             width: 70px;
             height: 70px;
-            margin-right: 1px;
             border: 1px solid @gray;
             html.pixel-ratio-2 & {
                 border: 0.5px solid @gray;
@@ -406,9 +427,11 @@
     .searchbar .input-clear-button {
         width: 18px;
         height: 18px;
+        margin-top: -8px;
         &:after {
             color: @white;
             font-size: 19px;
+            line-height: 19px;
         }
     }
 
@@ -537,6 +560,14 @@
             .item-input, .item-inner {
                 padding: 0;
             }
+        }
+    }
+
+    // Fonts List 
+
+    .font-item {
+        .item-radio:not(.item-radio-icon-end) > .icon-radio {
+            margin-right: 0;
         }
     }
 }

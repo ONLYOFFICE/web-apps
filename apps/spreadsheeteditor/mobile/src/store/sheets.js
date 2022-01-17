@@ -33,7 +33,16 @@ export class storeWorksheets {
             setWorkbookLocked: action,
 
             isWorksheetLocked: observable,
-            setWorksheetLocked: action
+            setWorksheetLocked: action,
+
+            isProtectedWorkbook: observable,
+            setProtectedWorkbook: action,
+
+            wsProps: observable,
+            setWsProps: action,
+
+            isDisabledEditSheet: observable,
+            setDisabledEditSheet: action
         });
         this.sheets = [];
     }
@@ -87,6 +96,26 @@ export class storeWorksheets {
         let model = this.sheets[index];
         if(model && model.locked !== locked)
             model.locked = locked;
-        this.isWorkbookLocked = locked;
+        this.isWorksheetLocked = locked;
+    }
+
+    isProtectedWorkbook = false;
+    setProtectedWorkbook(value) {
+        this.isProtectedWorkbook = value;
+    }
+
+    wsProps;
+    setWsProps(value) {
+        this.wsProps = value;
+    }
+
+    wsLock;
+    setWsLock(value) {
+        this.wsLock = value;
+    }
+
+    isDisabledEditSheet;
+    setDisabledEditSheet(value) {
+        this.isDisabledEditSheet = value;
     }
 }

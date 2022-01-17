@@ -75,9 +75,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     '</div>',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer justify">',
-                        '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="width: 100px;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 55px;  width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                        '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="min-width: 100px;width: auto;">' + this.textHideDetails + '</button>',
+                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;float: right;">' + this.cancelButtonText + '</button>',
+                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 10px;  width: 150px;float: right;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
                     '</div>'
                 ].join('')
             }, options);
@@ -212,7 +212,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> class="border-top" style="margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
                     '<%= scope.getDisplayValue(item) %>',
                     '</a></li>',
                     '<% }); %>'

@@ -35,8 +35,8 @@ export class storeCellSettings {
     }
 
     styleSize = {
-       width: 100,
-       height: 50
+       width: 104,
+       height: 48
     };
 
     borderInfo = {

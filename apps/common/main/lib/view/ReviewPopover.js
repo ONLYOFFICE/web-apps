@@ -210,7 +210,7 @@ define([
                             parentView.autoScrollToEditButtons();
                         }
 
-                        if (textBox && textBox.length) {
+                        if (textBox && textBox.length && parentView.scroller) {
                             domTextBox = textBox.get(0);
 
                             if (domTextBox) {
@@ -237,7 +237,6 @@ define([
                 } else {
                     this.commentsView = new CommentsPopoverDataView({
                         el: $('#id-comments-popover'),
-                        store: me.commentsStore,
                         itemTemplate: _.template(replaceWords(commentsTemplate, {
                                 textAddReply: me.textAddReply,
                                 textAdd: me.textAdd,
@@ -269,6 +268,16 @@ define([
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
+                        btns = $(view.el).find('.btn-edit');
+                        btns.tooltip({title: me.txtEditTip, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        btns = $(view.el).find('.btn-delete');
+                        btns.tooltip({title: me.txtDeleteTip, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
                         view.tipsArray = arr;
                         this.autoHeightTextBox();
                     };
@@ -285,6 +294,9 @@ define([
                     this.commentsView.on('item:remove', addtooltip);
                     this.commentsView.on('item:change', addtooltip);
                     this.commentsView.cmpEl.on('mouseover', onCommentsViewMouseOver).on('mouseout', onCommentsViewMouseOut);
+
+                    this.commentsView.setStore(me.commentsStore);
+                    this.commentsView.onResetItems();
 
                     this.commentsView.on('item:click', function (picker, item, record, e) {
                         var btn, showEditBox, showReplyBox, commentId, replyId, hideAddReply;
@@ -307,6 +319,9 @@ define([
                             }
 
                             if (btn.hasClass('btn-edit')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 if (!_.isUndefined(replyId)) {
                                     me.fireEvent('comment:closeEditing', [commentId]);
                                     me.fireEvent('comment:editReply', [commentId, replyId, true]);
@@ -347,6 +362,9 @@ define([
                                     }
                                 }
                             } else if (btn.hasClass('btn-delete')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 if (!_.isUndefined(replyId)) {
                                     me.fireEvent('comment:removeReply', [commentId, replyId]);
 
@@ -518,7 +536,6 @@ define([
                 } else {
                     this.reviewChangesView = new ReviewPopoverDataView({
                         el: $('#id-review-popover'),
-                        store: me.reviewStore,
                         itemTemplate: _.template(reviewTemplate)
                     });
 
@@ -535,6 +552,16 @@ define([
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
+                        btns = $(view.el).find('.btn-accept');
+                        btns.tooltip({title: me.txtAccept, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        btns = $(view.el).find('.btn-reject');
+                        btns.tooltip({title: me.txtReject, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
                         view.tipsArray = arr;
                     };
 
@@ -546,8 +573,14 @@ define([
                         var btn = $(e.target);
                         if (btn) {
                             if (btn.hasClass('btn-accept')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 me.fireEvent('reviewchange:accept', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-reject')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 me.fireEvent('reviewchange:reject', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-delete')) {
                                 me.fireEvent('reviewchange:delete', [record.get('changedata')]);
@@ -559,6 +592,9 @@ define([
                             }
                         }
                     });
+
+                    this.reviewChangesView.setStore(me.reviewStore);
+                    this.reviewChangesView.onResetItems();
                 }
             }
 
@@ -738,7 +774,8 @@ define([
                         leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
                         leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
 
-                        arrowView.removeClass('right').addClass('left');
+                        arrowView.removeClass('right top bottom').addClass('left');
+                        arrowView.css({left: ''});
 
                         if (!_.isUndefined(leftX)) {
                             windowWidth = this.$window.outerWidth();
@@ -805,6 +842,7 @@ define([
                 sdkPanelTop = '',
                 sdkPanelHeight = 0,
                 arrowPosY = 0,
+                arrowPosX = 0,
                 windowHeight = 0,
                 outerHeight = 0,
                 topPos = 0,
@@ -842,8 +880,10 @@ define([
 
                             var movePos = this.isOverCursor();
                             if (movePos) {
-                                var newTopDown = movePos[1] + sdkPanelHeight,// try move down
-                                    newTopUp = movePos[0] + sdkPanelHeight; // try move up
+                                var leftPos = parseInt(this.$window.css('left')) - this.arrow.width,
+                                    newTopDown = movePos[1][1] + sdkPanelHeight + this.arrow.width,// try move down
+                                    newTopUp = movePos[0][1] + sdkPanelHeight - this.arrow.width, // try move up
+                                    isMoveDown = false;
                                 if (newTopDown + outerHeight>sdkBoundsTop + sdkBoundsHeight) {
                                     var diffDown = sdkBoundsTop + sdkBoundsHeight - newTopDown;
                                     if (newTopUp - outerHeight<sdkBoundsTop) {
@@ -859,14 +899,24 @@ define([
                                                 maxHeight: diffDown + 'px',
                                                 top: newTopDown + 'px'
                                             });
+                                            isMoveDown = true;
                                             commentsView.css({height: diffDown - 3 + 'px'});
                                         }
                                     } else
                                         this.$window.css('top', newTopUp - outerHeight + 'px'); // move up
-                                } else
+                                } else {
+                                    isMoveDown = true;
                                     this.$window.css('top', newTopDown + 'px'); // move down
-                                arrowView.addClass('hidden');
-
+                                }
+                                leftPos -= this.arrow.height;
+                                this.$window.css('left', leftPos + 'px');
+                                arrowPosX = movePos[isMoveDown ? 1 : 0][0];
+                                arrowPosX = Math.max(0, arrowPosX - leftPos - this.arrow.height/2);
+                                arrowPosX = Math.min(arrowPosX, this.$window.outerWidth() - this.arrow.height);
+                                arrowView.css({top: '', left: arrowPosX + 'px'});
+                                arrowView.toggleClass('top', isMoveDown);
+                                arrowView.toggleClass('bottom', !isMoveDown);
+                                arrowView.removeClass('left right');
                             } else if (sdkBoundsHeight <= outerHeight) {
                                 this.$window.css({
                                     maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
@@ -878,8 +928,9 @@ define([
                                 // arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - sdkPanelHeight - this.arrow.width);
                                 arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
 
-                                arrowView.css({top: arrowPosY + 'px'});
-                                arrowView.removeClass('hidden');
+                                arrowView.css({top: arrowPosY + 'px', left: ''});
+                                arrowView.removeClass('top bottom right');
+                                arrowView.addClass('left');
                                 this.scroller.scrollTop(scrollPos);
                             } else {
 
@@ -897,8 +948,9 @@ define([
                                 arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - (sdkBoundsHeight - outerHeight) - this.arrow.height);
                                 arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
 
-                                arrowView.css({top: arrowPosY + 'px'});
-                                arrowView.removeClass('hidden');
+                                arrowView.css({top: arrowPosY + 'px', left: ''});
+                                arrowView.removeClass('top bottom right');
+                                arrowView.addClass('left');
                             }
                         }
                     }
@@ -915,15 +967,22 @@ define([
             if (!this.api.asc_GetSelectionBounds) return;
             
             var p = this.api.asc_GetSelectionBounds(),
-                isCursor = Math.abs(p[0][0] - p[1][0])<0.1 && Math.abs(p[0][1] - p[1][1])<0.1 && Math.abs(p[2][0] - p[3][0])<0.1 && Math.abs(p[2][1] - p[3][1])<0.1;
-            var x0 = p[0][0], y0 = p[0][1],
-                x1 = p[isCursor ? 2 : 1][0], y1 = p[isCursor ? 2 : 1][1];
-            var leftPos = parseInt(this.$window.css('left'))-25,
-                windowWidth = this.$window.outerWidth();
-            if (x0>leftPos && x0<leftPos+windowWidth || x1>leftPos && x1<leftPos+windowWidth) {
-                var newTopDown = Math.max(y0, y1),// try move down
-                    newTopUp = Math.min(y0, y1); // try move up
-                return [newTopUp, newTopDown];
+                isCursor = Math.abs(p[0][0] - p[1][0])<0.1 && Math.abs(p[0][1] - p[1][1])<0.1 && Math.abs(p[2][0] - p[3][0])<0.1 && Math.abs(p[2][1] - p[3][1])<0.1,
+                sdkPanelLeft = $('#id_panel_left'),
+                sdkPanelLeftWidth = 0;
+            if (sdkPanelLeft.length)
+                sdkPanelLeftWidth = (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
+            var x0 = p[0][0] + sdkPanelLeftWidth, y0 = p[0][1],
+                x1 = p[isCursor ? 2 : 1][0] + sdkPanelLeftWidth, y1 = p[isCursor ? 2 : 1][1];
+            var leftPos = parseInt(this.$window.css('left')) - this.arrow.width,
+                windowWidth = this.$window.outerWidth() + this.arrow.width,
+                topPos = parseInt(this.$window.css('top')),
+                windowHeight = this.$window.outerHeight();
+            if (x0>leftPos && x0<leftPos+windowWidth && y0>topPos && y0<topPos+windowHeight ||
+                x1>leftPos && x1<leftPos+windowWidth && y1>topPos && y1<topPos+windowHeight) {
+                var newDown = (y0>y1) ? [x0, y0] : [x1, y1],// try move down
+                    newUp = (y0<y1) ? [x0, y0] : [x1, y1]; // try move up
+                return [newUp, newDown];
             }
         },
 
@@ -1226,6 +1285,10 @@ define([
         textOpenAgain           : "Open Again",
         textFollowMove          : 'Follow Move',
         textMention             : '+mention will provide access to the document and send an email',
-        textMentionNotify       : '+mention will notify the user via email'
+        textMentionNotify       : '+mention will notify the user via email',
+        txtAccept: 'Accept',
+        txtReject: 'Reject',
+        txtEditTip: 'Edit',
+        txtDeleteTip: 'Delete'
     }, Common.Views.ReviewPopover || {}))
 });

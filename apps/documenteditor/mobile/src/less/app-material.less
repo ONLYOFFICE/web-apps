@@ -51,6 +51,41 @@
             font-size: 18px;
         }
     }
+
+    // Stepper 
+    .content-block.stepper-block {
+        display: flex;
+        justify-content: center;
+        margin: 25px 0 0;
+
+        .stepper {
+            --f7-touch-ripple-color: none;
+        }
+        
+        .stepper-button, .stepper-button-minus, .stepper-button-plus {
+            border: none;
+            border-radius: 0;
+
+            &:before, &:after{
+                display: none;
+            }
+        }
+
+        .stepper-button-minus.active-state, .stepper-button-plus.active-state {
+            background-color: var(--f7-list-link-pressed-bg-color);
+        }
+
+        .stepper-input-wrap{
+            border:none;
+
+            input {
+                color: #000;
+                font-size: 16px;
+                width: 40px;
+                font-weight: var(--f7-list-item-after-line-height);
+            }
+        }
+    }
 }
 
 // Color Schemes

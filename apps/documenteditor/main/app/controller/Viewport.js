@@ -153,6 +153,8 @@ define([
 
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
         },
 
         onAppShowed: function (config) {
@@ -165,7 +167,7 @@ define([
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
-            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) ||
+            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
 
@@ -205,8 +207,8 @@ define([
         onAppReady: function (config) {
             var me = this;
             if ( me.header.btnOptions ) {
-                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms);
-                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.canFeatureForms) {
+                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
+                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
                     if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                         compactview = Common.localStorage.getBool("de-compact-toolbar");
                     } else
@@ -248,6 +250,13 @@ define([
                 if (!config.isEdit)
                     mnuitemHideRulers.hide();
 
+                me.header.menuItemsDarkMode = new Common.UI.MenuItem({
+                    caption: me.txtDarkMode,
+                    checkable: true,
+                    checked: Common.UI.Themes.isContentThemeDark(),
+                    value: 'mode:dark'
+                });
+
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
                     checkable: true,
@@ -264,7 +273,7 @@ define([
 
                 me.header.mnuZoom = new Common.UI.MenuItem({
                     template: _.template([
-                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 26px;" ',
                             '<% if(!_.isUndefined(options.stopPropagation)) { %>',
                                 'data-stopPropagation="true"',
                             '<% } %>', '>',
@@ -285,6 +294,8 @@ define([
                             me.header.mnuitemCompactToolbar,
                             mnuitemHideStatusBar,
                             mnuitemHideRulers,
+                            {caption:'--'},
+                            me.header.menuItemsDarkMode,
                             {caption:'--'},
                             me.header.mnuitemFitPage,
                             me.header.mnuitemFitWidth,
@@ -314,6 +325,10 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
+                if ( !Common.UI.Themes.isDarkTheme() ) {
+                    me.header.menuItemsDarkMode.hide();
+                    me.header.menuItemsDarkMode.$el.prev('.divider').hide();
+                }
             }
         },
 
@@ -352,6 +367,22 @@ define([
                 break;
             }
             this.api.Resize();
+        },
+
+        onThemeChanged: function (id) {
+            if ( this.header.menuItemsDarkMode ) {
+                var current_dark = Common.UI.Themes.isDarkTheme();
+                var menuItem = this.header.menuItemsDarkMode;
+                menuItem.setVisible(current_dark);
+                menuItem.$el.prev('.divider')[current_dark ? 'show' : 'hide']();
+
+                menuItem.setChecked(Common.UI.Themes.isContentThemeDark());
+            }
+        },
+
+        onContentThemeChangedToDark: function (isdark) {
+            if ( this.header.menuItemsDarkMode )
+                this.header.menuItemsDarkMode.setChecked(isdark, true);
         },
 
         onWindowResize: function(e) {
@@ -400,6 +431,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            case 'mode:dark': Common.UI.Themes.toggleContentTheme(); break;
             }
         },
 
@@ -420,6 +452,7 @@ define([
         },
 
         textFitPage: 'Fit to Page',
-        textFitWidth: 'Fit to Width'
+        textFitWidth: 'Fit to Width',
+        txtDarkMode: 'Dark mode'
     }, DE.Controllers.Viewport));
 });

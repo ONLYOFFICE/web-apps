@@ -6,16 +6,24 @@
         width: 112px;
         float: left;
         padding: 3px 12px 0 10px;
+        height: 25px;
     }
 
     #status-zoom-box {
         width: 160px;
-        float: right;
+        //float: right;
         padding-top: 3px;
 
+        position: absolute;
+        right: 0;
+        height: 25px;
+
         .separator {
-            margin-right: 10px;
             margin-top: -3px;
+        }
+
+        #status-btn-zoomdown {
+            margin-left: 10px;
         }
 
         #status-label-zoom {
@@ -120,28 +128,42 @@
 
     #status-math-box,
     #status-filtered-box {
-        float: right;
+        //float: right;
         padding-top: 6px;
-        padding-right: 14px;
 
+        position: absolute;
+        height: 25px;
+
+        .separator {
+            position: relative;
+            padding-right: 11px;
+            margin-top: -6px;
+        }
+    }
+
+    #status-math-box {
+        padding-right: 4px;
+        label {
+            padding-right: 10px;
+        }
+    }
+
+    #status-filtered-box {
+        padding-right: 14px;
         label {
             &:not(:last-child) {
                 padding-right: 10px;
             }
-        }
-
-        .separator {
-            margin-top: -6px;
         }
     }
 
     #status-sheets-bar-box {
         position: absolute;
         overflow: hidden;
-        height: 32px;
+        height: 25px;
         left: 112px;
         right: 160px;
-        margin-right: 3px;
+        //margin-right: 3px;
     }
 
     #status-sheets-bar {
@@ -315,10 +337,12 @@
                     }
                 }
                 &.separator-item {
+                    margin-top: 1px;
                     margin-left: 20px;
                     width: @scaled-one-px-value-ie;
                     width: @scaled-one-px-value;
                     > span {
+                        display: none;
                         padding: 0;
                         margin: 0;
                         width: @scaled-one-px-value-ie;
@@ -334,6 +358,33 @@
         .color-tab {
             .border-radius(4px);
           margin-top: -25px;
+        }
+    }
+
+    #status-number-of-sheet , #status-action {
+        position: absolute;
+        height: 25px;
+        bottom: 0;
+        display: flex;
+        justify-content: flex-start;
+        .status-label {
+            font-weight: bold;
+            color: @text-normal;
+            margin-top: 5px;
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    #status-number-of-sheet {
+        width: 135px;
+    }
+
+    &.no-compact {
+        #status-tabs-scroll, #status-sheets-bar-box, #status-addtabs-box {
+            height: 26px;
+            border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-bottom: @scaled-one-px-value solid @border-toolbar;
         }
     }
 
@@ -361,6 +412,35 @@
         white-space: nowrap;
         &.dropup {
             position: static;
+        }
+    }
+
+    .cnt-tabslist {
+        display: inline-block;
+        position: relative;
+        .dropdown-menu {
+            min-width: 112px;
+            margin-left: -4px;
+
+            li {
+                text-align: left;
+                a {
+                    position: relative;
+                    padding-left: 26px;
+                    .color {
+                        height: 21px;
+                        width: 4px;
+                        position: absolute;
+                        top: 2px;
+                        left: 0;
+                    }
+                }
+                .hidden-mark {
+                    margin-left: 12px;
+                    font-style: italic;
+                    color: @text-secondary;
+                }
+            }
         }
     }
 
@@ -397,7 +477,34 @@
             height: 25px;
         }
     }
+}
 
+#statusbar-menu {
+    .dropdown-menu {
+        margin-top: 0;
+        margin-left: -7px;
+        li {
+            > a {
+                padding: 5px 12px 5px 26px;
+                &::before {
+                    margin-left: -22px;
+                }
+                .item-caption {
+                    min-width: 98px;
+                    display: inline-block;
+                }
+                .item-value {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    text-align: right;
+                    vertical-align: bottom;
+                    padding-left: 5px;
+                    color: silver;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
 
 .statusbar-mask {

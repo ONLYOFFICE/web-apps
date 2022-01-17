@@ -68,7 +68,8 @@
         </div>
         <div class="padding-large">
             <div class="padding-small" id="id-autocorrect-dialog-chk-quotes"></div>
-            <div id="id-autocorrect-dialog-chk-hyphens"></div>
+            <div class="padding-small" id="id-autocorrect-dialog-chk-hyphens"></div>
+            <div id="id-autocorrect-dialog-chk-hyperlink"></div>
         </div>
         <div class="padding-small">
             <label class="header"><%= scope.textApplyText %></label>

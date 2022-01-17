@@ -63,6 +63,10 @@ define([
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF}
         ],[
+            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF},
+            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM}
+        ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB}
@@ -74,9 +78,11 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
+                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                 '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
+                            '<% } %>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -87,10 +93,18 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats}));
+            if (this.mode && !this.mode.canFeatureForms) {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -132,6 +146,10 @@ define([
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'}
         ],[
+            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'},
+            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM, ext: '.oform'}
+        ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
             {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'}
@@ -143,9 +161,11 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
+                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                             '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
                             '</svg></div></td>',
+                            '<% } %>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -156,10 +176,18 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.fileType = options.fileType;
+            this.mode = options.mode;
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats}));
+            if (this.mode && !this.mode.canFeatureForms) {
+                this.formats[2].splice(1, 2);
+                this.formats[2] = this.formats[2].concat(this.formats[3]);
+                this.formats[3] = undefined;
+            }
+
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -204,13 +232,17 @@ define([
                     '<td class="right"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>','<tr class="divider comments"></tr>',
                 /** coauthoring end **/
+                '<tr class="view-review">',
+                    '<td class="left"><label><%= scope.strReviewHover %></label></td>',
+                    '<td class="right"><span id="fms-cmb-review-hover"></span></td>',
+                '</tr>','<tr class="divider view-review"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtProofing %></label></td>',
-                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;"><%= scope.txtAutoCorrect %></button></div></td>',
+                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
@@ -246,7 +278,9 @@ define([
                 /** coauthoring end **/
                 '<tr class="themes">',
                     '<td class="left"><label><%= scope.strTheme %></label></td>',
-                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
+                    '<td class="right">',
+                        '<div><div id="fms-cmb-theme" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<div id="fms-chb-dark-mode" style="display: inline-block; vertical-align: middle;margin-top: 2px;"></div></div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
@@ -272,7 +306,7 @@ define([
                 '</tr>','<tr class="divider macros"></tr>',
                 '<tr class="fms-btn-apply">',
                     '<td class="left"></td>',
-                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
@@ -280,7 +314,7 @@ define([
             '<table style="margin: 10px 0;"><tbody>',
                 '<tr>',
                 '<td class="left"></td>',
-                '<td class="right"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                '<td class="right"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>'
@@ -298,36 +332,54 @@ define([
 
             this.chInputMode = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-input-mode'),
-                labelText: this.strInputMode
+                labelText: this.strInputMode,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-live-comment'),
-                labelText: this.strLiveComment
+                labelText: this.strLiveComment,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
                 me.chResolvedComment.setDisabled(field.getValue()!=='checked');
             });
 
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-resolved-comment'),
-                labelText: this.strResolvedComment
+                labelText: this.strResolvedComment,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             /** coauthoring end **/
 
             this.chSpell = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-spell-check'),
-                labelText: this.strSpellCheckMode
+                labelText: this.strSpellCheckMode,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chCompatible = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-compatible'),
-                labelText: this.textOldVersions
+                labelText: this.textOldVersions,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
-                labelText: this.strAutosave
+                labelText: this.strAutosave,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
                 if (field.getValue()!=='checked' && me.cmbCoAuthMode.getValue()) {
                     me.cmbCoAuthMode.setValue(0);
@@ -338,12 +390,18 @@ define([
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
-                labelText: this.strForcesave
+                labelText: this.strForcesave,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.chAlignGuides = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-align-guides'),
-                labelText: this.strAlignGuides
+                labelText: this.strAlignGuides,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.cmbZoom = new Common.UI.ComboBox({
@@ -365,8 +423,14 @@ define([
                     { value: 120, displayValue: "120%" },
                     { value: 150, displayValue: "150%" },
                     { value: 175, displayValue: "175%" },
-                    { value: 200, displayValue: "200%" }
-                ]
+                    { value: 200, displayValue: "200%" },
+                    { value: 300, displayValue: "300%" },
+                    { value: 400, displayValue: "400%" },
+                    { value: 500, displayValue: "500%" }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             /** coauthoring begin **/
@@ -379,7 +443,10 @@ define([
                     { value: 'none', displayValue: this.txtNone },
                     { value: 'all', displayValue: this.txtAll },
                     { value: 'last', displayValue: this.txtLast }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
@@ -390,7 +457,10 @@ define([
                 data        : [
                     { value: 1, displayValue: this.strFast, descValue: this.strCoAuthModeDescFast},
                     { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 if (record.value == 1 && (me.chAutosave.getValue()!=='checked'))
                     me.chAutosave.setValue(1);
@@ -403,7 +473,7 @@ define([
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                     '<% }); %>'
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
@@ -417,7 +487,10 @@ define([
                     { value: 1, displayValue: this.txtMac },
                     { value: 2, displayValue: this.txtNative },
                     { value: 'custom', displayValue: this.txtCacheMode }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
@@ -430,7 +503,10 @@ define([
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
                     { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
                     { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbMacros = new Common.UI.ComboBox({
@@ -443,7 +519,10 @@ define([
                     { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
                     { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
                     { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
-                ]
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 me.lblMacrosDesc.text(record.descValue);
             });
@@ -451,7 +530,10 @@ define([
 
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
-                labelText: this.strPasteButton
+                labelText: this.strPasteButton,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.btnAutoCorrect = new Common.UI.Button({
@@ -464,6 +546,33 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            }).on('selected', function(combo, record) {
+                me.chDarkMode.setDisabled(record.themeType!=='dark');
+            });
+
+            this.chDarkMode = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-dark-mode'),
+                labelText: this.txtDarkMode,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.cmbReviewHover = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-review-hover'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: false, displayValue: this.txtChangesBalloons },
+                    { value: true, displayValue: this.txtChangesTip }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             $markup.find('.btn.primary').each(function(index, el){
@@ -531,6 +640,7 @@ define([
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
 
@@ -602,7 +712,7 @@ define([
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
-                data.push({value: t, displayValue: Common.UI.Themes.get(t).text});
+                data.push({value: t, displayValue: Common.UI.Themes.get(t).text, themeType: Common.UI.Themes.get(t).type});
             }
 
             if ( data.length ) {
@@ -610,10 +720,20 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+            this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
+            this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
+
+            if (this.mode.canViewReview) {
+                value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
+                item = this.cmbReviewHover.store.findWhere({value: value});
+                this.cmbReviewHover.setValue(item ? item.get('value') : false);
+            }
         },
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+            if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
+                Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
@@ -641,6 +761,13 @@ define([
 
             Common.localStorage.setItem("de-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("de-macros-mode", this.cmbMacros.getValue());
+
+            if (this.mode.canViewReview) {
+                var val = this.cmbReviewHover.getValue();
+                Common.localStorage.setBool("de-settings-review-hover-mode", val);
+                Common.Utils.InternalSettings.set("de-settings-review-hover-mode", val);
+                this.mode.reviewHoverMode = val;
+            }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 
@@ -738,7 +865,11 @@ define([
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
         strTheme: 'Theme',
-        txtAutoCorrect: 'AutoCorrect options...'
+        txtAutoCorrect: 'AutoCorrect options...',
+        strReviewHover: 'Track Changes Display',
+        txtChangesTip: 'Show by hover in tooltips',
+        txtChangesBalloons: 'Show by click in balloons',
+        txtDarkMode: 'Turn on document dark mode'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -811,31 +942,27 @@ define([
         },
 
         template: _.template([
-            '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
-            '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-blank-format">',
-                        '<use xlink:href="#svg-format-blank"></use>',
-                    '</svg>',
-                '</div>',
-                '<div class="blank-document-info">',
-                    '<h3><%= scope.newDocumentText %></h3>',
-                    '<%= scope.newDescriptionText %>',
-                '</div>',
-            '</div>',
-            '<h3><%= scope.fromTemplateText %></h3><hr noshade />',
+            '<h3 style="margin-top: 20px;"><%= scope.txtCreateNew %></h3>',
             '<div class="thumb-list">',
-                '<% _.each(docs, function(item) { %>',
-                    '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"',
-                        '<% if (!_.isEmpty(item.image)) { %> ',
-                            ' style="background-image: url(<%= item.image %>);">',
-                        '<% } else { ' +
-                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
-                        ' } %>',
-                        '</div>',
-                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
+                '<% if (blank) { %> ',
+                '<div class="blank-document">',
+                    '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="2, 10">',
+                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
                     '</div>',
+                    '<div class="title"><%= scope.txtBlank %></div>',
+                '</div>',
+                '<% } %>',
+                '<% _.each(docs, function(item, index) { %>',
+                '<div class="thumb-wrap" template="<%= item.url %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="14, 22">',
+                    '<div class="thumb" ',
+                        '<% if (!_.isEmpty(item.image)) {%> ',
+                        ' style="background-image: url(<%= item.image %>);">',
+                        ' <%} else {' +
+                        'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                        ' } %>',
+                    '</div>',
+                    '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
+                '</div>',
                 '<% }) %>',
             '</div>'
         ].join('')),
@@ -844,13 +971,24 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            this.docs = options.docs;
+            this.blank = !!options.blank;
         },
 
         render: function() {
             this.$el.html(this.template({
                 scope: this,
-                docs: this.options[0].docs
+                docs: this.docs,
+                blank: this.blank
             }));
+            var docs = (this.blank ? [{title: this.txtBlank}] : []).concat(this.docs);
+            var thumbsElm= this.$el.find('.thumb-wrap, .blank-document');
+            _.each(thumbsElm, function (tmb, index){
+                $(tmb).find('.title').tooltip({
+                    title       : docs[index].title,
+                    placement   : 'cursor'
+                });
+            });
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -878,11 +1016,8 @@ define([
                 this.menu.fireEvent('create:new', [this.menu, e.currentTarget.attributes['template'].value]);
         },
 
-        fromBlankText       : 'From Blank',
-        newDocumentText     : 'New Text Document',
-        newDescriptionText  : 'Create a new blank text document which you will be able to style and format after it is created during the editing. Or choose one of the templates to start a document of a certain type or purpose where some styles have already been pre-applied.',
-        fromTemplateText    : 'From Template',
-        noTemplatesText     : 'There are no templates'
+        txtBlank: 'Blank document',
+        txtCreateNew: 'Create New'
     }, DE.Views.FileMenuPanels.CreateNew || {}));
 
     DE.Views.FileMenuPanels.DocumentInfo = Common.UI.BaseView.extend(_.extend({
@@ -985,7 +1120,7 @@ define([
                 '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
-                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '</tr>',
                 '</table>',
             '</div>'
@@ -1032,19 +1167,28 @@ define([
                 el          : $markup.findById('#id-info-title'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
-                validateOnBlur: false
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
-                validateOnBlur: false
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
-                validateOnBlur: false
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
 
             // modify info
@@ -1056,7 +1200,7 @@ define([
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="close img-commonctrl"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}"></div><div class="tool close img-commonctrl" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1073,7 +1217,10 @@ define([
                 el          : $markup.findById('#id-info-add-author'),
                 style       : 'width: 200px;',
                 validateOnBlur: false,
-                placeHolder: this.txtAddAuthor
+                placeHolder: this.txtAddAuthor,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 
@@ -1732,8 +1879,8 @@ define([
                         '<td colspan="2"><label style="cursor: default;"><%= tipText %></label></td>',
                     '</tr>',
                     '<tr>',
-                        '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',
-                        '<td align="right"><label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>">' + me.txtEdit + '</label></td>',
+                        '<td><label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label></td>',
+                        '<td align="right"><label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label></td>',
                     '</tr>',
                 '</table>'
             ].join(''));

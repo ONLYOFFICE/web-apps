@@ -237,7 +237,10 @@ define([
                     iconCls: 'options__icon options__icon-huge ' + item[2],
                     posWhere:item[0],
                     posAlign:item[1],
-                    hint: item[4]
+                    hint: item[4],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 _btn.on('click', _.bind(this.onBtnPositionClick, this));
                 this._btnsPosition.push( _btn );
@@ -251,7 +254,10 @@ define([
                 value: '1.25 cm',
                 defaultUnit : "cm",
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numPosition);
             this.lockedControls.push(this.numPosition);
@@ -260,19 +266,28 @@ define([
 
             this.chDiffFirst = new Common.UI.CheckBox({
                 el: $('#headerfooter-check-diff-first'),
-                labelText: this.textDiffFirst
+                labelText: this.textDiffFirst,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chDiffFirst);
 
             this.chDiffOdd = new Common.UI.CheckBox({
                 el: $('#headerfooter-check-diff-odd'),
-                labelText: this.textDiffOdd
+                labelText: this.textDiffOdd,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chDiffOdd);
 
             this.chSameAs = new Common.UI.CheckBox({
                 el: $('#headerfooter-check-same-as'),
-                labelText: this.textSameAs
+                labelText: this.textSameAs,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.numPosition.on('change', _.bind(this.onNumPositionChange, this));
@@ -291,14 +306,20 @@ define([
                 el: $('#headerfooter-radio-prev'),
                 labelText: this.textPrev,
                 name: 'asc-radio-header-numbering',
-                checked: true
+                checked: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', _.bind(this.onRadioPrev, this));
             this.lockedControls.push(this.radioPrev);
 
             this.radioFrom = new Common.UI.RadioBox({
                 el: $('#headerfooter-radio-from'),
                 labelText: this.textFrom,
-                name: 'asc-radio-header-numbering'
+                name: 'asc-radio-header-numbering',
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             }).on('change', _.bind(this.onRadioFrom, this));
             this.lockedControls.push(this.radioFrom);
 
@@ -310,7 +331,10 @@ define([
                 defaultUnit : "",
                 maxValue: 2147483646,
                 minValue: 0,
-                allowDecimal: false
+                allowDecimal: false,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.numFrom);
             this.numFrom.on('change', _.bind(this.onNumFromChange, this));

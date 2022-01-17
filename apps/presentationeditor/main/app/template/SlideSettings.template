@@ -118,57 +118,6 @@
         </td>
     </tr>
     <tr>
-        <td>
-            <label class="header"><%= scope.strEffect %></label>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div id="slide-combo-effect-name" style="width: 100%;"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div id="slide-combo-effect-type" style="width: 100%;"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div>
-                <label class="input-label" style="margin-top:4px;"><%= scope.strDuration %></label>
-                <div id="slide-spin-duration" style="display: inline-block; float:right;"></div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-large">
-            <button type="button" class="btn btn-text-default" id="slide-button-preview" style="width:100%;"><%= scope.textPreview %></button>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div id="slide-checkbox-start-click"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-large">
-            <div>
-                <div id="slide-checkbox-delay" style="display: inline-block; width: 100px; margin-top:4px;"></div>
-                <div id="slide-spin-delay" style="display: inline-block; float:right;"></div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <button type="button" class="btn btn-text-default" id="slide-button-apply-all" style="width:100%;"><%= scope.textApplyAll %></button>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div class="separator horizontal"></div>
-        </td>
-    </tr>
-    <tr>
         <td class="padding-small">
             <div id="slide-checkbox-slidenum"></div>
         </td>

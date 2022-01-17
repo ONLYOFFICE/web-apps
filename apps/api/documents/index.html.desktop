@@ -109,6 +109,7 @@
                     },
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
+                    createUrl       : 'desktop://create.new',
                     user: {
                         id: urlParams["userid"] || urlParams["username"] || 'uid-901', name: urlParams["username"] || 'Chuk.Gek'
                     }

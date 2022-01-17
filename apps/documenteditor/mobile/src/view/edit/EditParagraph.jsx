@@ -94,21 +94,21 @@ const PageAdvancedSettings = props => {
             </List>
             <List>
                 <ListItem title={t('Edit.textSpaceBetweenParagraphs')}>
-                    <Toggle checked={spaceBetween} onChange={() => {props.onSpaceBetween(!spaceBetween)}}/>
+                    <Toggle checked={spaceBetween} onToggleChange={() => {props.onSpaceBetween(!spaceBetween)}}/>
                 </ListItem>
             </List>
             <List>
                 <ListItem title={t('Edit.textPageBreakBefore')}>
-                    <Toggle checked={breakBefore} onChange={() => {props.onBreakBefore(!breakBefore)}}/>
+                    <Toggle checked={breakBefore} onToggleChange={() => {props.onBreakBefore(!breakBefore)}}/>
                 </ListItem>
                 <ListItem title={t('Edit.textOrphanControl')}>
-                    <Toggle checked={orphanControl} onChange={() => {props.onOrphan(!orphanControl)}}/>
+                    <Toggle checked={orphanControl} onToggleChange={() => {props.onOrphan(!orphanControl)}}/>
                 </ListItem>
                 <ListItem title={t('Edit.textKeepLinesTogether')}>
-                    <Toggle checked={keepTogether} onChange={() => {props.onKeepTogether(!keepTogether)}}/>
+                    <Toggle checked={keepTogether} onToggleChange={() => {props.onKeepTogether(!keepTogether)}}/>
                 </ListItem>
                 <ListItem title={t('Edit.textKeepWithNext')}>
-                    <Toggle checked={keepWithNext} onChange={() => {props.onKeepNext(!keepWithNext)}}/>
+                    <Toggle checked={keepWithNext} onToggleChange={() => {props.onKeepNext(!keepWithNext)}}/>
                 </ListItem>
             </List>
         </Page>
@@ -196,7 +196,8 @@ const EditParagraph = props => {
     const paragraph = props.storeFocusObjects.paragraphObject;
     const curBackColor = storeParagraphSettings.backColor ? storeParagraphSettings.backColor : storeParagraphSettings.getBackgroundColor(paragraph);
     const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : curBackColor;
-
+    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
+    
     return (
         <Fragment>
             <List>
@@ -222,7 +223,7 @@ const EditParagraph = props => {
                 }}></ListItem>
             </List>
             <BlockTitle>{_t.textParagraphStyles}</BlockTitle>
-            <List>
+            <List className={activeStyle}>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
                         key={index}

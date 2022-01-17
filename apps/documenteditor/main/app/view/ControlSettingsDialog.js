@@ -141,7 +141,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
                     '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                 ],
-                paletteHeight: 94
+                paletteHeight: 94,
+                cls: 'move-focus',
+                takeFocusOnClose: true
             });
             this.colors = this.btnColor.getPicker();
 
@@ -357,7 +359,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         getFocusedComponents: function() {
             return [
-                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnApplyAll, // 0 tab
+                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnColor, this.btnApplyAll, // 0 tab
                 this.chLockDelete , this.chLockEdit, // 1 tab
                 this.list, // 2 tab
                 this.txtDate, this.listFormats, this.cmbLang // 3 tab
@@ -553,8 +555,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             if (this.btnColor.isAutoColor()) {
                 props.put_Color(null);
             } else {
-                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                var color = this.colors.getColor() || this.btnColor.color;
+                if (color) {
+                    color = Common.Utils.ThemeColor.getRgbColor(color);
+                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                }
             }
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
@@ -663,8 +668,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 if (this.btnColor.isAutoColor()) {
                     props.put_Color(null);
                 } else {
-                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                    var color = this.colors.getColor() || this.btnColor.color;
+                    if (color) {
+                        color = Common.Utils.ThemeColor.getRgbColor(color);
+                        props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                    }
                 }
                 this.api.asc_SetContentControlProperties(props, null, true);
             }

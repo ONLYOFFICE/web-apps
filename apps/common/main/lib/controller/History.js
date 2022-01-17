@@ -100,9 +100,10 @@ define([
             this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
         },
 
-        onDownloadUrl: function(url) {
-            if (this.isFromSelectRevision !== undefined)
-                Common.Gateway.requestRestore(this.isFromSelectRevision, url);
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromSelectRevision !== undefined) {
+                Common.Gateway.requestRestore(this.isFromSelectRevision, url, fileType);
+            }
             this.isFromSelectRevision = undefined;
         },
 
@@ -111,7 +112,7 @@ define([
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
                     if (record.get('isRevision'))
-                        Common.Gateway.requestRestore(record.get('revision'));
+                        Common.Gateway.requestRestore(record.get('revision'), undefined, record.get('fileType'));
                     else {
                         this.isFromSelectRevision = record.get('revision');
                         var fileType = Asc.c_oAscFileType[(record.get('fileType') || '').toUpperCase()] || Asc.c_oAscFileType.DOCX;
@@ -201,6 +202,7 @@ define([
                         urlGetTime = new Date();
                     var diff = (!opts.data.previous || this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
                         url = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.url : opts.data.url,
+                        fileType = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.fileType : opts.data.fileType,
                         docId = opts.data.key ? opts.data.key : this.currentDocId,
                         docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev,
                         token = opts.data.token;
@@ -216,6 +218,7 @@ define([
                                 rev.set('docIdPrev', docIdPrev, {silent: true});
                             }
                             rev.set('token', token, {silent: true});
+                            fileType && rev.set('fileType', fileType, {silent: true});
                         }
                     }
                     var hist = new Asc.asc_CVersionHistory();

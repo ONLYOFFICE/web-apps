@@ -14,12 +14,12 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="image-button-original-size" style="min-width:100px;width: auto;"><%= scope.textOriginalSize %></button>
+            <button type="button" class="btn btn-text-default" id="image-button-original-size" style="min-width:100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textOriginalSize %></button>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="image-button-fit-slide" style="min-width:100px;width: auto;"><%= scope.textFitSlide %></button>
+            <button type="button" class="btn btn-text-default" id="image-button-fit-slide" style="min-width:100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textFitSlide %></button>
         </td>
     </tr>
     <tr>
@@ -75,7 +75,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="image-advanced-link"><%= scope.textAdvanced %></label>
+            <label class="link" id="image-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

@@ -148,8 +148,8 @@
 .about {
     .content-block {
         margin: 0 auto 15px;
-        a {
-            color: @black;
+        p:last-child {
+            text-decoration: underline;
         }
     }
 }
@@ -494,10 +494,10 @@
         padding-top: 5px;
         li.item-theme {
             border: 0.5px solid #c8c7cc;
-            padding: 2px;
+            padding: 1px;
             background-repeat: no-repeat;
-            width: 106px;
-            height: 56px;
+            width: 108px;
+            height: 52px;
             margin-bottom: 10px;
             background-position: center;
             .item-content {
@@ -818,6 +818,85 @@ input[type="number"]::-webkit-inner-spin-button {
 .statusbar .statusbar--box-tabs > ul > .locked a {
     box-shadow: inset 0 2px red;
 }
+
+// Fonts List 
+
+.font-item {
+    .item-inner {
+        overflow: hidden;
+        &:after {
+            left: 16px;
+        }
+    }
+}
+
+// Functions List 
+
+.cell-editor {
+    overflow: initial;
+}
+
+.functions-list {
+    max-height: 175px;
+    width: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: @white;
+    &__mobile {
+        position: absolute;
+        top: 30px;
+        right: 0;
+        left: 0;
+        width: 100%;
+        box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.3);
+        .list {
+            margin: 0;
+            ul:before {
+                display: none;
+            }
+            .item-content {
+                padding-left: 0;
+            }
+            .item-inner {
+                padding-left: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-left) - var(--menu-list-offset));
+            }
+            .item-title {
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+#idx-celleditor.expanded {
+    .functions-list {
+        &__mobile {
+            top: 70px;
+        }
+    }
+}
+
+.popover__functions {
+    box-shadow: 0px 10px 100px rgba(0, 0, 0, 0.3);
+}
+
+.target-function-list {
+    position: absolute; 
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0; 
+    height: 100%;
+}
+
+.dropdown-list {
+    &__placeholder  {
+        opacity: 0.6;
+        .item-inner {
+            border-bottom: 1px solid var(--f7-list-item-border-color);
+        }
+    }
+}
+
 
 
 

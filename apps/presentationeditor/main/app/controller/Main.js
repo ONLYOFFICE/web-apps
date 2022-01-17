@@ -53,7 +53,8 @@ define([
     'common/main/lib/util/LocalStorage',
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',
-    'presentationeditor/main/app/collection/EquationGroups'
+    'presentationeditor/main/app/collection/EquationGroups',
+    'common/main/lib/component/HintManager'
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -145,7 +146,10 @@ define([
                     strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
-
+                this.stackDisableActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
+                });
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -159,6 +163,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
                 
                 if (this.api){
@@ -190,6 +195,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
+                    Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
 
                     this.isShowOpenDialog = false;
 
@@ -327,7 +333,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
@@ -473,7 +479,10 @@ define([
                         Asc.c_oAscFileType.PDF,
                         Asc.c_oAscFileType.PDFA,
                         Asc.c_oAscFileType.POTX,
-                        Asc.c_oAscFileType.OTP
+                        Asc.c_oAscFileType.OTP,
+                        Asc.c_oAscFileType.PPTM,
+                        Asc.c_oAscFileType.PNG,
+                        Asc.c_oAscFileType.JPG
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
@@ -567,6 +576,8 @@ define([
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
+
+                Common.UI.HintManager.clearHints(true);
             },
 
             onLongActionBegin: function(type, id) {
@@ -604,7 +615,11 @@ define([
                 if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
+                if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
+                    this.disableEditing(false, true);
+                }
+
+                if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
@@ -675,11 +690,6 @@ define([
                         text    = this.applyChangesTextText;
                         break;
 
-                    case Asc.c_oAscAsyncAction['PrepareToSave']:
-                        title   = this.savePreparingText;
-                        text    = this.savePreparingTitle;
-                        break;
-
                     case Asc.c_oAscAsyncAction['Waiting']:
                         title   = this.waitText;
                         text    = this.waitText;
@@ -694,6 +704,12 @@ define([
                         title   = this.loadingDocumentTitleText + '           ';
                         text    = this.loadingDocumentTextText;
                         break;
+
+                    case Asc.c_oAscAsyncAction['Disconnect']:
+                        text    = this.textDisconnect;
+                        this.disableEditing(true, true);
+                        break;
+
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
@@ -965,17 +981,71 @@ define([
                 }
             },
 
-            disableEditing: function(disable) {
+            disableEditing: function(disable, temp) {
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: disable,
+                    allowSignature: false,
+                    rightMenu: {clear: true, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: true, previewMode: true},
+                    fileMenu: {protect: true, history: temp},
+                    comments: {disable: !temp, previewMode: true},
+                    chat: true,
+                    review: true,
+                    viewport: true,
+                    documentHolder: true,
+                    toolbar: true
+                }, temp ? 'reconnect' : 'disconnect');
+            },
+
+            onEditingDisable: function(disable, options, type) {
                 var app = this.getApplication();
-                if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('RightMenu').SetDisabled(disable, false);
+
+                var action = {type: type, disable: disable, options: options};
+                if (disable && !this.stackDisableActions.get({type: type}))
+                    this.stackDisableActions.push(action);
+                !disable && this.stackDisableActions.pop({type: type});
+                var prev_options = !disable && (this.stackDisableActions.length()>0) ? this.stackDisableActions.get(this.stackDisableActions.length()-1) : null;
+
+                if (options.rightMenu && app.getController('RightMenu')) {
+                    options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
+                }
+                if (options.statusBar) {
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
-                app.getController('LeftMenu').SetDisabled(disable, true);
-                app.getController('Toolbar').DisableToolbar(disable);
-                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                app.getController('Viewport').SetDisabled(disable);
+                if (options.review) {
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                }
+                if (options.viewport) {
+                    app.getController('Viewport').SetDisabled(disable);
+                }
+                if (options.toolbar) {
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
+                }
+                if (options.documentHolder) {
+                    app.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+                }
+                if (options.leftMenu) {
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').SetDisabled(disable, options);
+                    if (options.leftMenu.previewMode)
+                        app.getController('LeftMenu').setPreviewMode(disable);
+                }
+                if (options.fileMenu) {
+                    app.getController('LeftMenu').leftMenu.getMenu('file').SetDisabled(disable, options.fileMenu);
+                    if (options.leftMenu.disable)
+                        app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                }
+                if (options.comments) {
+                    var comments = this.getApplication().getController('Common.Controllers.Comments');
+                    if (comments && options.comments.previewMode)
+                        comments.setPreviewMode(disable);
+                }
+
+                if (prev_options) {
+                    this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
+                }
             },
 
             onOpenDocument: function(progress) {
@@ -1036,8 +1106,8 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
-                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
-                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport();
+                this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
+                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
@@ -1217,6 +1287,7 @@ define([
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
+                    me.api.asc_registerCallback('asc_onConvertEquationToMath',  _.bind(me.onConvertEquationToMath, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1432,7 +1503,7 @@ define([
                             }
                         }
                     }
-                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                    if (id == Asc.c_oAscError.ID.DataEncrypted || id == Asc.c_oAscError.ID.ConvertationOpenLimitError) {
                         this.api.asc_coAuthoringDisconnect();
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
@@ -1631,9 +1702,10 @@ define([
                 });
             },
 
-            onDownloadUrl: function(url) {
-                if (this._state.isFromGatewayDownloadAs)
-                    Common.Gateway.downloadAs(url);
+            onDownloadUrl: function(url, fileType) {
+                if (this._state.isFromGatewayDownloadAs) {
+                    Common.Gateway.downloadAs(url, fileType);
+                }
                 this._state.isFromGatewayDownloadAs = false;
             },
 
@@ -1641,7 +1713,7 @@ define([
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                Common.UI.error({
+                Common.UI.warning({
                     msg: this.errorUpdateVersion,
                     callback: function() {
                         _.defer(function() {
@@ -2076,16 +2148,7 @@ define([
                 var me = this;
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
-                        var app = me.getApplication();
-                        me.disableEditing(disable);
-                        app.getController('RightMenu').SetDisabled(disable, true);
-                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        app.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
-                        var leftMenu = app.getController('LeftMenu');
-                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
-                        leftMenu.setPreviewMode(disable);
-                        var comments = app.getController('Common.Controllers.Comments');
-                        if (comments) comments.setPreviewMode(disable);
+                        me.disableEditing(disable, true);
                     }});
             },
 
@@ -2159,6 +2222,10 @@ define([
                 value = Common.localStorage.getBool("pe-settings-autoformat-fl-sentence", true);
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-hyperlink", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-hyperlink", value);
+                me.api.asc_SetAutoCorrectHyperlinks(value);
             },
 
             showRenameUserDialog: function() {
@@ -2364,6 +2431,30 @@ define([
                 this.getApplication().getController('DocumentHolder').getView().focus();
             },
 
+            onConvertEquationToMath: function(equation) {
+                var me = this,
+                    win;
+                var msg = this.textConvertEquation + '<br><br><a id="id-equation-convert-help" style="cursor: pointer;">' + this.textLearnMore + '</a>';
+                win = Common.UI.warning({
+                    width: 500,
+                    msg: msg,
+                    buttons: ['yes', 'cancel'],
+                    primary: 'yes',
+                    dontshow: true,
+                    textDontShow: this.textApplyAll,
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            this.api.asc_ConvertEquationToMath(equation, dontshow);
+                        }
+                        this.onEditComplete();
+                    }, this)
+                });
+                win.$window.find('#id-equation-convert-help').on('click', function (e) {
+                    win && win.close();
+                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
+                })
+            },
+
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
@@ -2459,8 +2550,6 @@ define([
             txtNeedSynchronize: 'You have an updates',
             applyChangesTitleText: 'Loading Data',
             applyChangesTextText: 'Loading data...',
-            savePreparingText: 'Preparing to save',
-            savePreparingTitle: 'Preparing to save. Please wait...',
             loadingDocumentTitleText: 'Loading presentation',
             loadingDocumentTextText: 'Loading presentation...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
@@ -2732,7 +2821,11 @@ define([
             leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
             textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             txtNone: 'None',
-            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+            textDisconnect: 'Connection is lost',
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+            textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
+            textApplyAll: 'Apply to all equations',
+            textLearnMore: 'Learn More'
         }
     })(), PE.Controllers.Main || {}))
 });

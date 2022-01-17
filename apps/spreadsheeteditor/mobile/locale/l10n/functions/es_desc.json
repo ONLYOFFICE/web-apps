@@ -1,15 +1,15 @@
 {
 	"DATE": {
 		"a": "(año; mes; día)",
-		"d": "Devuelve el número que representa la fecha en código de fecha y hora de Microsoft Excel"
+		"d": "Devuelve el número que representa la fecha en código de fecha y hora"
 	},
 	"DATEDIF": {
-		"a": "( fecha-inicio , fecha-final , unidad )",
-		"d": "Función de fecha y hora es utilizada para devolver la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado"
+		"a": "( fecha-inicio; fecha-final; unidad )",
+		"d": "Devuelve la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado"
 	},
 	"DATEVALUE": {
 		"a": "(texto_de_fecha)",
-		"d": "Convierte una fecha en forma de texto en un número que representa la fecha en código de fecha y hora de Microsoft Excel"
+		"d": "Convierte una fecha en forma de texto en un número que representa la fecha en código de fecha y hora"
 	},
 	"DAY": {
 		"a": "(núm_de_serie)",
@@ -65,11 +65,11 @@
 	},
 	"TIME": {
 		"a": "(hora; minuto; segundo)",
-		"d": "Convierte horas, minutos y segundos dados como números en un número de serie de Excel, con formato de hora"
+		"d": "Convierte horas, minutos y segundos dados como números en un número de serie, con formato de hora"
 	},
 	"TIMEVALUE": {
 		"a": "(texto_de_hora)",
-		"d": "Convierte una hora de texto en un número de serie de Excel para una hora, un número de 0 (12:00:00 a.m.) a 0.999988426 (11:59:59 p.m.). Da formato al número con un formato de hora después de introducir la fórmula"
+		"d": "Convierte una hora de texto en un número de serie para una hora, un número de 0 (12:00:00 a.m.) a 0.999988426 (11:59:59 p.m.). Da formato al número con un formato de hora después de introducir la fórmula"
 	},
 	"TODAY": {
 		"a": "()",
@@ -396,8 +396,8 @@
 		"d": "Devuelve la posición inicial de una cadena de texto dentro de otra cadena de texto. ENCONTRAR distingue mayúsculas de minúsculas"
 	},
 	"FINDB": {
-		"a": "(cadena-1, cadena-2 [,posición-inicio])",
-		"d": "Función de texto y datos utilizada para encontrar la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"a": "(cadena-1; cadena-2; [posición-inicio])",
+		"d": "Encuentra la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"FIXED": {
 		"a": "(número; [decimales]; [no_separar_millares])",
@@ -408,8 +408,8 @@
 		"d": "Devuelve el número especificado de caracteres del principio de una cadena de texto"
 	},
 	"LEFTB": {
-		"a": "(cadena [, número-caracteres])",
-		"d": "Función de texto y datos utilizada para extraer la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"a": "(cadena; [número-caracteres])",
+		"d": "Extrae la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"LEN": {
 		"a": "(texto)",
@@ -417,7 +417,7 @@
 	},
 	"LENB": {
 		"a": "( cadena )",
-		"d": "Función de texto y datos utilizada para analizar la cadena especificada y devolver el número de caracteres que contiene y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Analiza la cadena especificada y devolver el número de caracteres que contiene y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"LOWER": {
 		"a": "(texto)",
@@ -428,8 +428,8 @@
 		"d": "Devuelve los caracteres del centro de una cadena de texto, dada una posición y longitud iniciales"
 	},
 	"MIDB": {
-		"a": "(cadena, posición-empiece, número-caracteres)",
-		"d": "Función de texto y datos utilizada para extraer los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"a": "(cadena; posición-empiece; número-caracteres)",
+		"d": "Extrae los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"NUMBERVALUE": {
 		"a": "(texto; [separador_decimal]; [separador_grupo])",
@@ -444,8 +444,8 @@
 		"d": "Reemplaza parte de una cadena de texto por otra"
 	},
 	"REPLACEB": {
-		"a": "(cadena-1, pos-inicio, número-caracteres, cadena-2)",
-		"d": "Función de texto y datos utilizada para reemplazar un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"a": "(cadena-1; pos-inicio; número-caracteres; cadena-2)",
+		"d": "Reemplaza un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"REPT": {
 		"a": "(texto; núm_de_veces)",
@@ -456,16 +456,16 @@
 		"d": "Devuelve el número especificado de caracteres del final de una cadena de texto"
 	},
 	"RIGHTB": {
-		"a": "(cadena [, número-caracteres])",
-		"d": "Función de texto y datos utilizada para extraer una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"a": "(cadena; [número-caracteres])",
+		"d": "Extrae una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SEARCH": {
 		"a": "(texto_buscado; dentro_del_texto; [núm_inicial])",
 		"d": "Devuelve el número de carácter en el que se encuentra un carácter o una cadena de texto en particular, leyendo de izquierda a derecha (no distingue mayúsculas de minúsculas)."
 	},
 	"SEARCHB": {
-		"a": "(cadena-1, cadena-2 [,posición-inicio])",
-		"d": "Función de texto y datos utilizada para devolver la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"a": "(cadena-1; cadena-2; [posición-inicio])",
+		"d": "Devuelve la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
 	},
 	"SUBSTITUTE": {
 		"a": "(texto; texto_original; texto_nuevo; [núm_de_repeticiones])",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; alfa; beta; [A]; [B])",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la función de densidad de probabilidad beta acumulativa"
+		"d": "Devuelve la función de densidad de probabilidad beta acumulativa"
 	},
 	"BETAINV": {
 		"a": "(probabilidad; alfa; beta; [A]; [B])",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la función de densidad de probabilidad beta acumulativa (DISTR.BETA)"
+		"d": "Devuelve el inverso de la función de densidad de probabilidad beta acumulativa (DISTR.BETA)"
 	},
 	"BETA.DIST": {
 		"a": "(x; alfa; beta; acumulado; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(núm_éxito; ensayos; prob_éxito; acumulado)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad de la distribución binomial del término individual"
+		"d": "Devuelve la probabilidad de la distribución binomial del término individual"
 	},
 	"BINOM.DIST": {
 		"a": "(núm_éxito; ensayos; prob_éxito; acumulado)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; grados_de_libertad)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad de cola derecha de la distribución chi cuadrado"
+		"d": "Devuelve la probabilidad de cola derecha de la distribución chi cuadrado"
 	},
 	"CHIINV": {
 		"a": "(probabilidad; grados_de_libertad)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de una probabilidad dada, de una cola derecha, en una distribución chi cuadrado"
+		"d": "Devuelve el inverso de una probabilidad dada, de una cola derecha, en una distribución chi cuadrado"
 	},
 	"CHITEST": {
 		"a": "(rango_real; rango_esperado)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la prueba de independencia: el valor de distribución chi cuadrado para la estadística y los grados de libertad apropiados"
+		"d": "Devuelve la prueba de independencia: el valor de distribución chi cuadrado para la estadística y los grados de libertad apropiados"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; grados_de_libertad; acumulado)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(alfa; desv_estándar; tamaño)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el rango de confianza para la media de una población, con una distribución normal"
+		"d": "Devuelve el rango de confianza para la media de una población, con una distribución normal"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(alfa; desv_estándar; tamaño)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(matriz1; matriz2)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la covarianza, que es el promedio de los productos de las desviaciones de los pares de puntos de datos en dos conjuntos de datos"
+		"d": "Devuelve la covarianza, que es el promedio de los productos de las desviaciones de los pares de puntos de datos en dos conjuntos de datos"
 	},
 	"COVARIANCE.P": {
 		"a": "(matriz1; matriz2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(ensayos; prob_éxito; alfa)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el menor valor cuya distribución binomial acumulativa es mayor o igual que un valor de criterio"
+		"d": "Devuelve el menor valor cuya distribución binomial acumulativa es mayor o igual que un valor de criterio"
 	},
 	"DEVSQ": {
 		"a": "(número1; [número2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; lambda; acum)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución exponencial"
+		"d": "Devuelve la distribución exponencial"
 	},
 	"EXPON.DIST": {
 		"a": "(x; lambda; acum)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; grados_de_libertad1; grados_de_libertad2)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución de probabilidad F (grado de diversidad) (de cola derecha) de dos conjuntos de datos"
+		"d": "Devuelve la distribución de probabilidad F (grado de diversidad) (de cola derecha) de dos conjuntos de datos"
 	},
 	"FINV": {
 		"a": "(probabilidad; grados_de_libertad1; grados_de_libertad2)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución de probabilidad F (cola derecha): si p = DISTR.F (x,...), entonces INV.F(p,...) = x"
+		"d": "Devuelve el inverso de la distribución de probabilidad F (cola derecha): si p = DISTR.F (x,...), entonces INV.F(p,...) = x"
 	},
 	"FTEST": {
 		"a": "(matriz1; matriz2)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el resultado de una prueba F, la probabilidad de dos colas de que las varianzas en Matriz1 y Matriz2 no sean significativamente diferentes"
+		"d": "Devuelve el resultado de una prueba F, la probabilidad de dos colas de que las varianzas en Matriz1 y Matriz2 no sean significativamente diferentes"
 	},
 	"F.DIST": {
 		"a": "(x; grados_de_libertad1; grados_de_libertad2; acumulado)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; conocido_y; conocido_x)",
-		"d": "Esta función admite compatibilidad con Excel 2013 y versiones anteriores.\r\nCalcula o predice un valor futuro en una tendencia lineal usando valores existentes"
+		"d": "Calcula o predice un valor futuro en una tendencia lineal usando valores existentes"
 	},
 	"FORECAST.ETS": {
 		"a": "(fecha_objetivo; valores; escaladetiempo; [estacionalidad]; [finalización_datos]; [agregación])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(valores; escaladetiempo; [finalización_datos]; [agregación])",
-		"d": "Devuelve la longitud del patrón repetitivo que Microsoft Excel detecta para la serie de tiempo especificado."
+		"d": "Devuelve la longitud del patrón repetitivo que la aplicación detecta para la serie de tiempo especificado."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(valores; escaladetiempo; tipo_estadística; [estacionalidad]; [completación_datos]; [agregación])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; alfa; beta; acumulado)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución gamma"
+		"d": "Devuelve la distribución gamma"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; alfa; beta; acumulado)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(prob; alfa; beta)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución gamma acumulativa: si p = DISTR.GAMMA(x,...), entonces INV.GAMMA(p,...) = x"
+		"d": "Devuelve el inverso de la distribución gamma acumulativa: si p = DISTR.GAMMA(x,...), entonces INV.GAMMA(p,...) = x"
 	},
 	"GAMMA.INV": {
 		"a": "(probabilidad; alfa; beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(muestra_éxito; núm_de_muestra; población_éxito; núm_de_población)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución hipergeométrica"
+		"d": "Devuelve la distribución hipergeométrica"
 	},
 	"INTERCEPT": {
 		"a": "(conocido_y; conocido_x)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(probabilidad; media; desv_estándar)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la función de distribución logarítmico-normal acumulativa de x, donde ln(x) se distribuye de forma normal con los parámetros Media y desv_estándar"
+		"d": "Devuelve el inverso de la función de distribución logarítmico-normal acumulativa de x, donde ln(x) se distribuye de forma normal con los parámetros Media y desv_estándar"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; media; desv_estándar; acumulado)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; media; desv_estándar)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución logarítmico-normal acumulativa de x, donde In(x) se distribuye de forma normal con los parámetros Media y desv_estándar"
+		"d": "Devuelve la distribución logarítmico-normal acumulativa de x, donde In(x) se distribuye de forma normal con los parámetros Media y desv_estándar"
 	},
 	"MAX": {
 		"a": "(número1; [número2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(número1; [número2]; ...)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el valor más frecuente o que más se repite en una matriz o rango de datos"
+		"d": "Devuelve el valor más frecuente o que más se repite en una matriz o rango de datos"
 	},
 	"MODE.MULT": {
 		"a": "(número1; [número2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(núm_fracasos; núm_éxitos; prob_éxito)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución binomial negativa, la probabilidad de encontrar núm_fracasos antes que núm_éxito, con la probabilidad probabilidad_éxito de éxito"
+		"d": "Devuelve la distribución binomial negativa, la probabilidad de encontrar núm_fracasos antes que núm_éxito, con la probabilidad probabilidad_éxito de éxito"
 	},
 	"NORM.DIST": {
 		"a": "(x; media; desv_estándar; acumulado)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; media; desv_estándar; acum)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución acumulativa normal para la media y desviación estándar especificadas"
+		"d": "Devuelve la distribución acumulativa normal para la media y desviación estándar especificadas"
 	},
 	"NORM.INV": {
 		"a": "(probabilidad; media; desv_estándar)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(probabilidad; media; desv_estándar)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución acumulativa normal para la media y desviación estándar especificadas"
+		"d": "Devuelve el inverso de la distribución acumulativa normal para la media y desviación estándar especificadas"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; acumulado)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución normal estándar acumulativa. Tiene una media de cero y una desviación estándar de uno"
+		"d": "Devuelve la distribución normal estándar acumulativa. Tiene una media de cero y una desviación estándar de uno"
 	},
 	"NORM.S.INV": {
 		"a": "(probabilidad)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(probabilidad)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de la distribución normal estándar acumulativa. Tiene una media de cero y una desviación estándar de uno"
+		"d": "Devuelve el inverso de la distribución normal estándar acumulativa. Tiene una media de cero y una desviación estándar de uno"
 	},
 	"PEARSON": {
 		"a": "(matriz1; matriz2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(matriz; k)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el percentil k-ésimo de los valores de un rango"
+		"d": "Devuelve el percentil k-ésimo de los valores de un rango"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(matriz; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(matriz; x; [cifra_significativa])",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el rango de un valor en un conjunto de datos como porcentaje del conjunto"
+		"d": "Devuelve el rango de un valor en un conjunto de datos como porcentaje del conjunto"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(matriz; x; [cifra_significativa])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; media; acumulado)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución de Poisson"
+		"d": "Devuelve la distribución de Poisson"
 	},
 	"POISSON.DIST": {
 		"a": "(x; media; acumulado)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(matriz; cuartil)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el cuartil de un conjunto de datos"
+		"d": "Devuelve el cuartil de un conjunto de datos"
 	},
 	"QUARTILE.INC": {
 		"a": "(matriz; cuartil)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(número; referencia; [orden])",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la jerarquía de un número dentro de una lista: su tamaño depende de los otros valores de la lista"
+		"d": "Devuelve la jerarquía de un número dentro de una lista: su tamaño depende de los otros valores de la lista"
 	},
 	"RANK.AVG": {
 		"a": "(número; referencia; [orden])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(número1; [número2]; ...)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la desviación estándar de una muestra (se omiten los valores lógicos y el texto de la muestra)"
+		"d": "Calcula la desviación estándar de una muestra (se omiten los valores lógicos y el texto de la muestra)"
 	},
 	"STDEV.P": {
 		"a": "(número1; [número2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(número1; [número2]; ...)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la desviación estándar de la población total proporcionada como argumentos (se omiten los valores lógicos y el texto)"
+		"d": "Calcula la desviación estándar de la población total proporcionada como argumentos (se omiten los valores lógicos y el texto)"
 	},
 	"STDEVPA": {
 		"a": "(valor1; [valor2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; grados_de_libertad; colas)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la distribución t de Student "
+		"d": "Devuelve la distribución t de Student "
 	},
 	"TINV": {
 		"a": "(probabilidad; grados_de_libertad)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el inverso de dos colas de la distribución t de Student"
+		"d": "Devuelve el inverso de dos colas de la distribución t de Student"
 	},
 	"T.DIST": {
 		"a": "(x; grados_de_libertad; acumulado)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(matriz1; matriz2; colas; tipo)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad asociada con la prueba t de Student"
+		"d": "Devuelve la probabilidad asociada con la prueba t de Student"
 	},
 	"VAR": {
 		"a": "(número1; [número2]; ...)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la varianza de una muestra (se omiten los valores lógicos y el texto de la muestra)"
+		"d": "Calcula la varianza de una muestra (se omiten los valores lógicos y el texto de la muestra)"
 	},
 	"VAR.P": {
 		"a": "(número1; [número2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(número1; [número2]; ...)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nCalcula la varianza de la población total (se omiten los valores lógicos y el texto de la población)"
+		"d": "Calcula la varianza de la población total (se omiten los valores lógicos y el texto de la población)"
 	},
 	"VARPA": {
 		"a": "(valor1; [valor2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; alfa; beta; acumulado)",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve la probabilidad de Weibull"
+		"d": "Devuelve la probabilidad de Weibull"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; alfa; beta; acumulado)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(matriz; x; [sigma])",
-		"d": "Esta función está disponible por compatibilidad con Excel 2007 y versiones anteriores.\r\nDevuelve el valor P de una cola de una prueba z"
+		"d": "Devuelve el valor P de una cola de una prueba z"
 	},
 	"ACCRINT": {
 		"a": "(emisión; primer_interés; liquidación; tasa; par; frecuencia; [base]; [método_calc])",
@@ -1340,7 +1340,7 @@
 		"d": "Devuelve la cotangente hiperbólica inversa de un número"
 	},
 	"AGGREGATE": {
-		"a": "(núm_función; opciones; matriz; [k]!núm_función; opciones; ref1; ...)",
+		"a": "(núm_función; opciones; ref1; ...)",
 		"d": "Devuelve un agregado de una lista o base de datos"
 	},
 	"ARABIC": {
@@ -1348,8 +1348,8 @@
 		"d": "Convierte un número romano en arábigo"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(texto)",
+		"d": "Para los idiomas que empleen juegos de caracteres de dos bytes (DBCS), convierte los caracteres de ancho completo (de dos bytes) en caracteres de ancho medio (de un byte)"
 	},
 	"ASIN": {
 		"a": "(número)",
@@ -1384,8 +1384,8 @@
 		"d": "Redondea un número hacia arriba, al entero más cercano o al múltiplo significativo más cercano"
 	},
 	"CEILING.PRECISE": {
-		"a": "( x [, significado])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano."
+		"a": "( x; [significado])",
+		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"COMBIN": {
 		"a": "(número; tamaño)",
@@ -1428,8 +1428,8 @@
 		"d": "Convierte radianes en grados"
 	},
 	"ECMA.CEILING": {
-		"a": "( x, significado)",
-		"d": "Función de matemáticas y trigonometría utilizada para redondear el número hasta el múltiplo de significación más cercano"
+		"a": "( x; significado)",
+		"d": "Redondea el número hasta el múltiplo de significación más cercano"
 	},
 	"EVEN": {
 		"a": "(número)",
@@ -1452,8 +1452,8 @@
 		"d": "Redondea un número hacia abajo, hasta el múltiplo significativo más cercano"
 	},
 	"FLOOR.PRECISE": {
-		"a": "( x [, significado])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano."
+		"a": "( x; [significado])",
+		"d": "Devuelve un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano."
 	},
 	"FLOOR.MATH": {
 		"a": "(número; [cifra_significativa]; [moda])",
@@ -1468,8 +1468,8 @@
 		"d": "Redondea un número hasta el entero inferior más próximo"
 	},
 	"ISO.CEILING": {
-		"a": "( número [, significado])",
-		"d": "Función de matemáticas y trigonometría utilizada para devolver un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero."
+		"a": "(número; [significado])",
+		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero."
 	},
 	"LCM": {
 		"a": "(número1; [número2]; ...)",
@@ -1720,8 +1720,8 @@
 		"d": "Busca una coincidencia en un rango o una matriz y devuelve el elemento correspondiente de un segundo rango o matriz. De forma predeterminada, se usa una coincidencia exacta"
 	},
 	"CELL": {
-		"a": "(info_type, [reference])",
-		"d": "Función de información utilizada para devolver información sobre el formato, la ubicación o el contenido de una celda"
+		"a": "(info_type; [reference])",
+		"d": "Devuelve información sobre el formato, la ubicación o el contenido de una celda"
 	},
 	"ERROR.TYPE": {
 		"a": "(valor_de_error)",

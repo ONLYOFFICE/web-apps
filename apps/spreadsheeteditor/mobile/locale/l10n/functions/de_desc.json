@@ -1,15 +1,15 @@
 {
 	"DATE": {
 		"a": "(Jahr; Monat; Tag)",
-		"d": "Gibt die Zahl zurück, die das Datum im Microsoft Excel-Datums-/Uhrzeitcode darstellt"
+		"d": "Gibt die Zahl zurück, die das Datum im Datums-/Uhrzeitcode darstellt"
 	},
 	"DATEDIF": {
 		"a": "(Ausgangsdatum;Enddatum;Einheit)",
-		"d": "Datums- und Uhrzeitfunktion - zur Berechnung der Differenz zwischen zwei Datumsangaben (Start- und Enddatum), basierend auf der angegebenen Einheit"
+		"d": "Berechnet der Differenz zwischen zwei Datumsangaben (Start- und Enddatum), basierend auf der angegebenen Einheit"
 	},
 	"DATEVALUE": {
 		"a": "(Datumstext)",
-		"d": "Wandelt ein als Text vorliegendes Datum in eine Zahl um, die das Datum im Microsoft Excel-Datums-/Uhrzeitcode darstellt"
+		"d": "Wandelt ein als Text vorliegendes Datum in eine Zahl um, die das Datum im Datums-/Uhrzeitcode darstellt"
 	},
 	"DAY": {
 		"a": "(Zahl)",
@@ -397,7 +397,7 @@
 	},
 	"FINDB": {
 		"a": "(Suchtext;Text;[Erstes_Zeichen])",
-		"d": "Text- und Datenfunktionen - sucht eine Zeichenfolge (Suchtext) innerhalb einer anderen (Text) und gibt die Position der gesuchten Zeichenfolge ab dem ersten Zeichen der anderen Zeichenfolge an, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
+		"d": "Sucht eine Zeichenfolge (Suchtext) innerhalb einer anderen (Text) und gibt die Position der gesuchten Zeichenfolge ab dem ersten Zeichen der anderen Zeichenfolge an, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
 	},
 	"FIXED": {
 		"a": "(Zahl; [Dezimalstellen]; [Keine_Punkte])",
@@ -409,7 +409,7 @@
 	},
 	"LEFTB": {
 		"a": "(Text;[Anzahl_Bytes])",
-		"d": "Text- und Datenfunktionen - gibt auf der Grundlage der Anzahl von Bytes, die Sie angeben, das oder die erste(n) Zeichen in einer Textzeichenfolge zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
+		"d": "Gibt auf der Grundlage der Anzahl von Bytes, die Sie angeben, das oder die erste(n) Zeichen in einer Textzeichenfolge zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
 	},
 	"LEN": {
 		"a": "(Text)",
@@ -417,7 +417,7 @@
 	},
 	"LENB": {
 		"a": "(Text)",
-		"d": "Text- und Datenfunktionen - gibt die Anzahl von Bytes zurück, die zum Darstellen der Zeichen in einer Zeichenfolge verwendet werden, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
+		"d": "Gibt die Anzahl von Bytes zurück, die zum Darstellen der Zeichen in einer Zeichenfolge verwendet werden, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
 	},
 	"LOWER": {
 		"a": "(Text)",
@@ -429,7 +429,7 @@
 	},
 	"MIDB": {
 		"a": "(Text;Erstes_Zeichen;Anzahl_Byte)",
-		"d": "Text- und Datenfunktionen - gibt auf der Grundlage der angegebenen Anzahl von Bytes eine bestimmte Anzahl von Zeichen einer Zeichenfolge ab der von Ihnen angegebenen Position zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
+		"d": "Gibt auf der Grundlage der angegebenen Anzahl von Bytes eine bestimmte Anzahl von Zeichen einer Zeichenfolge ab der von Ihnen angegebenen Position zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
 	},
 	"NUMBERVALUE": {
 		"a": "(Text; [Dezimaltrennzeichen]; [Gruppentrennzeichen])",
@@ -445,7 +445,7 @@
 	},
 	"REPLACEB": {
 		"a": "(Alter_Text;Erstes_Zeichen;Anzahl_Bytes;Neuer_Text)",
-		"d": "Text- und Datenfunktionen - ersetzt eine Zeichenfolge, basierend auf der Anzahl der Zeichen und der angegebenen Startposition, durch eine neue Zeichengruppe, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
+		"d": "Ersetzt eine Zeichenfolge, basierend auf der Anzahl der Zeichen und der angegebenen Startposition, durch eine neue Zeichengruppe, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
 	},
 	"REPT": {
 		"a": "(Text; Multiplikator)",
@@ -457,7 +457,7 @@
 	},
 	"RIGHTB": {
 		"a": "(Text;[Anzahl_Bytes])",
-		"d": "Text- und Datenfunktionen - gibt auf der Grundlage der angegebenen Anzahl von Bytes das bzw. die letzten Zeichen einer Zeichenfolge zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
+		"d": "Gibt auf der Grundlage der angegebenen Anzahl von Bytes das bzw. die letzten Zeichen einer Zeichenfolge zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
 	},
 	"SEARCH": {
 		"a": "(Suchtext; Text; [Erstes_Zeichen])",
@@ -465,7 +465,7 @@
 	},
 	"SEARCHB": {
 		"a": "(Suchtext;Text;[Erstes_Zeichen])",
-		"d": "Text- und Datenfunktionen - gibt die Position der angegebenen Teilzeichenfolge in einer Zeichenfolge zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
+		"d": "Gibt die Position der angegebenen Teilzeichenfolge in einer Zeichenfolge zurück, für Sprachen die den Double-Byte Zeichensatz (DBCS) verwenden, wie japanisch, chinesisch, koreanisch etc."
 	},
 	"SUBSTITUTE": {
 		"a": "(Text; Alter_Text; Neuer_Text; [ntes_Auftreten])",
@@ -525,11 +525,11 @@
 	},
 	"BETADIST": {
 		"a": "(x; Alpha; Beta; [A]; [B])",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Werte der Verteilungsfunktion einer betaverteilten Zufallsvariablen zurück"
+		"d": "Gibt Werte der Verteilungsfunktion einer betaverteilten Zufallsvariablen zurück"
 	},
 	"BETAINV": {
 		"a": "(Wahrsch; Alpha; Beta; [A]; [B])",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der Betaverteilung zurück"
+		"d": "Gibt Perzentile der Betaverteilung zurück"
 	},
 	"BETA.DIST": {
 		"a": "(x; Alpha; Beta; kumuliert; [A]; [B])",
@@ -541,7 +541,7 @@
 	},
 	"BINOMDIST": {
 		"a": "(Zahl_Erfolge; Versuche; Erfolgswahrsch; Kumuliert)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer binomialverteilten Zufallsvariablen zurück."
+		"d": "Gibt Wahrscheinlichkeiten einer binomialverteilten Zufallsvariablen zurück."
 	},
 	"BINOM.DIST": {
 		"a": "(Zahl_Erfolge; Versuche; Erfolgswahrsch; Kumuliert)",
@@ -557,15 +557,15 @@
 	},
 	"CHIDIST": {
 		"a": "(x; Freiheitsgrade)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Werte der Verteilungsfunktion (1-Alpha) einer Chi-Quadrat-verteilten Zufallsgröße zurück."
+		"d": "Gibt Werte der Verteilungsfunktion (1-Alpha) einer Chi-Quadrat-verteilten Zufallsgröße zurück."
 	},
 	"CHIINV": {
 		"a": "(Wahrsch; Freiheitsgrade)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der Chi-Quadrat-Verteilung zurück, eine Zahl von einschließlich 0 bis einschließlich 1"
+		"d": "Gibt Perzentile der Chi-Quadrat-Verteilung zurück, eine Zahl von einschließlich 0 bis einschließlich 1"
 	},
 	"CHITEST": {
 		"a": "(Beob_Meßwerte; Erwart_Werte)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt die Teststatistik eines Chi-Quadrat-Unabhängigkeitstests zurück"
+		"d": "Gibt die Teststatistik eines Chi-Quadrat-Unabhängigkeitstests zurück"
 	},
 	"CHISQ.DIST": {
 		"a": "(x; Freiheitsgrade; kumuliert)",
@@ -589,7 +589,7 @@
 	},
 	"CONFIDENCE": {
 		"a": "(Alpha; Standabwn; Umfang_S)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nErmöglicht die Berechnung des 1-Alpha Konfidenzintervalls für den Erwartungswert einer Zufallsvariablen und verwendet dazu die Normalverteilung"
+		"d": "Ermöglicht die Berechnung des 1-Alpha Konfidenzintervalls für den Erwartungswert einer Zufallsvariablen und verwendet dazu die Normalverteilung"
 	},
 	"CONFIDENCE.NORM": {
 		"a": "(Alpha; Standardabwn; Umfang)",
@@ -625,7 +625,7 @@
 	},
 	"COVAR": {
 		"a": "(Matrix1; Matrix2)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt die Kovarianz, den Mittelwert der für alle Datenpunktpaare gebildeten Produkte der Abweichungen zurück."
+		"d": "Gibt die Kovarianz, den Mittelwert der für alle Datenpunktpaare gebildeten Produkte der Abweichungen zurück."
 	},
 	"COVARIANCE.P": {
 		"a": "(Array1; Array2)",
@@ -637,7 +637,7 @@
 	},
 	"CRITBINOM": {
 		"a": "(Versuche; Erfolgswahrsch; Alpha)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt den kleinsten Wert, für den die kumulierten Wahrscheinlichkeiten der Binomialverteilung größer oder gleich einer Grenzwahrscheinlichkeit sind zurück"
+		"d": "Gibt den kleinsten Wert, für den die kumulierten Wahrscheinlichkeiten der Binomialverteilung größer oder gleich einer Grenzwahrscheinlichkeit sind zurück"
 	},
 	"DEVSQ": {
 		"a": "(Zahl1; [Zahl2]; ...)",
@@ -645,7 +645,7 @@
 	},
 	"EXPONDIST": {
 		"a": "(x; Lambda; Kumuliert)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer exponentialverteilten Zufallsvariablen zurück"
+		"d": "Gibt Wahrscheinlichkeiten einer exponentialverteilten Zufallsvariablen zurück"
 	},
 	"EXPON.DIST": {
 		"a": "(x; Lambda; Kumuliert)",
@@ -653,15 +653,15 @@
 	},
 	"FDIST": {
 		"a": "(x; Freiheitsgrade1; Freiheitsgrade2)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Werte der Verteilungsfunktion (1-Alpha) einer rechtsseitigen F-verteilten Zufallsvariablen zurück"
+		"d": "Gibt Werte der Verteilungsfunktion (1-Alpha) einer rechtsseitigen F-verteilten Zufallsvariablen zurück"
 	},
 	"FINV": {
 		"a": "(Wahrsch; Freiheitsgrade1; Freiheitsgrade2)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der rechtsseitigen F-Verteilung zurück"
+		"d": "Gibt Perzentile der rechtsseitigen F-Verteilung zurück"
 	},
 	"FTEST": {
 		"a": "(Matrix1; Matrix2)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt die Teststatistik eines F-Tests zurück, die zweiseitige Wahrscheinlichkeit darstellt, dass sich die Varianzen in Matrix1 und Matrix2 nicht signifikant unterscheiden"
+		"d": "Gibt die Teststatistik eines F-Tests zurück, die zweiseitige Wahrscheinlichkeit darstellt, dass sich die Varianzen in Matrix1 und Matrix2 nicht signifikant unterscheiden"
 	},
 	"F.DIST": {
 		"a": "(x; Freiheitsgrade1; Freiheitsgrade2; kumuliert)",
@@ -693,7 +693,7 @@
 	},
 	"FORECAST": {
 		"a": "(x; Y_Werte; X_Werte)",
-		"d": "Diese Funktion ist aus Gründen der Kompatibilität mit Excel 2013 und niedriger verfügbar.\r\nBerechnet oder prognostiziert einen Schätzwert für einen linearen Trend unter Verwendung vorhandener Werte"
+		"d": "Berechnet oder prognostiziert einen Schätzwert für einen linearen Trend unter Verwendung vorhandener Werte"
 	},
 	"FORECAST.ETS": {
 		"a": "(Ziel_Datum; Werte; Zeitachse; [Saisonalität]; [Daten_Vollständigkeit]; [Aggregation])",
@@ -705,7 +705,7 @@
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(Werte; Zeitachse; [Daten_Vollständigkeit]; [Aggregation])",
-		"d": "Gibt die Länge des Wiederholungsmusters zurück, das von Microsoft Excel für die angegebene Zeitserie erkannt wird."
+		"d": "Gibt die Länge des Wiederholungsmusters zurück, das von eine Anwendung für die angegebene Zeitserie erkannt wird."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(Werte; Zeitachse; Statistik_Typ; [Saisonalität]; [Daten_Vollständigkeit]; [Aggregation])",
@@ -725,7 +725,7 @@
 	},
 	"GAMMADIST": {
 		"a": "(x; Alpha; Beta; Kumuliert)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer gammaverteilten Zufallsvariablen zurück"
+		"d": "Gibt Wahrscheinlichkeiten einer gammaverteilten Zufallsvariablen zurück"
 	},
 	"GAMMA.DIST": {
 		"a": "(x; Alpha; Beta; Kumuliert)",
@@ -733,7 +733,7 @@
 	},
 	"GAMMAINV": {
 		"a": "(Wahrsch; Alpha; Beta)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der Gammaverteilung zurück"
+		"d": "Gibt Perzentile der Gammaverteilung zurück"
 	},
 	"GAMMA.INV": {
 		"a": "(Wahrsch; Alpha; Beta)",
@@ -769,7 +769,7 @@
 	},
 	"HYPGEOMDIST": {
 		"a": "(Erfolge_S; Umfang_S; Erfolge_G; Umfang_G)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer hypergeometrisch-verteilten Zufallsvariablen zurück."
+		"d": "Gibt Wahrscheinlichkeiten einer hypergeometrisch-verteilten Zufallsvariablen zurück."
 	},
 	"INTERCEPT": {
 		"a": "(Y_Werte; X_Werte)",
@@ -793,7 +793,7 @@
 	},
 	"LOGINV": {
 		"a": "(Wahrsch; Mittelwert; Standabwn)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der Lognormalverteilung zurück"
+		"d": "Gibt Perzentile der Lognormalverteilung zurück"
 	},
 	"LOGNORM.DIST": {
 		"a": "(x; Mittelwert; Standabwn; kumuliert)",
@@ -805,7 +805,7 @@
 	},
 	"LOGNORMDIST": {
 		"a": "(x; Mittelwert; Standabwn)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Werte der Verteilungsfunktion einer lognormalverteilten Zufallsvariablen zurück."
+		"d": "Gibt Werte der Verteilungsfunktion einer lognormalverteilten Zufallsvariablen zurück."
 	},
 	"MAX": {
 		"a": "(Zahl1; [Zahl2]; ...)",
@@ -837,7 +837,7 @@
 	},
 	"MODE": {
 		"a": "(Zahl1; [Zahl2]; ...)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt den häufigsten Wert in einem Array oder einer Datengruppe zurück"
+		"d": "Gibt den häufigsten Wert in einem Array oder einer Datengruppe zurück"
 	},
 	"MODE.MULT": {
 		"a": "(Zahl1; [Zahl2]; ...)",
@@ -853,7 +853,7 @@
 	},
 	"NEGBINOMDIST": {
 		"a": "(Zahl_Mißerfolge; Zahl_Erfolge; Erfolgswahrsch)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer negativen, binomial verteilten Zufallsvariablen zurück"
+		"d": "Gibt Wahrscheinlichkeiten einer negativen, binomial verteilten Zufallsvariablen zurück"
 	},
 	"NORM.DIST": {
 		"a": "(x; Mittelwert; Standabwn; Kumuliert)",
@@ -861,7 +861,7 @@
 	},
 	"NORMDIST": {
 		"a": "(x; Mittelwert; Standabwn; Kumuliert)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer normal verteilten Zufallsvariablen zurück."
+		"d": "Gibt Wahrscheinlichkeiten einer normal verteilten Zufallsvariablen zurück."
 	},
 	"NORM.INV": {
 		"a": "(Wahrsch; Mittelwert; Standabwn)",
@@ -869,7 +869,7 @@
 	},
 	"NORMINV": {
 		"a": "(Wahrsch; Mittelwert; Standabwn)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der Normalverteilung zurück"
+		"d": "Gibt Perzentile der Normalverteilung zurück"
 	},
 	"NORM.S.DIST": {
 		"a": "(z; kumuliert)",
@@ -877,7 +877,7 @@
 	},
 	"NORMSDIST": {
 		"a": "(z)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Werte der Verteilungsfunktion standardmäßigen, normal verteilten Zufallsvariablen zurück."
+		"d": "Gibt Werte der Verteilungsfunktion standardmäßigen, normal verteilten Zufallsvariablen zurück."
 	},
 	"NORM.S.INV": {
 		"a": "(Wahrsch)",
@@ -885,7 +885,7 @@
 	},
 	"NORMSINV": {
 		"a": "(Wahrsch)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der Standardnormalverteilung zurück"
+		"d": "Gibt Perzentile der Standardnormalverteilung zurück"
 	},
 	"PEARSON": {
 		"a": "(Matrix1; Matrix2)",
@@ -893,7 +893,7 @@
 	},
 	"PERCENTILE": {
 		"a": "(Matrix; Alpha)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt das Alphaquantil einer Gruppe von Daten zurück"
+		"d": "Gibt das Alphaquantil einer Gruppe von Daten zurück"
 	},
 	"PERCENTILE.EXC": {
 		"a": "(Array; k)",
@@ -905,7 +905,7 @@
 	},
 	"PERCENTRANK": {
 		"a": "(Matrix; x; [Genauigkeit])",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt den prozentualen Rang (Alpha) eines Wertes zurück"
+		"d": "Gibt den prozentualen Rang (Alpha) eines Wertes zurück"
 	},
 	"PERCENTRANK.EXC": {
 		"a": "(Array; x; [Genauigkeit])",
@@ -929,7 +929,7 @@
 	},
 	"POISSON": {
 		"a": "(x; Mittelwert; Kumuliert)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer Poisson-verteilten Zufallsvariablen zurück. (Die verwendete Gleichung ist in der Hilfe genauer beschrieben.)"
+		"d": "Gibt Wahrscheinlichkeiten einer Poisson-verteilten Zufallsvariablen zurück. (Die verwendete Gleichung ist in der Hilfe genauer beschrieben.)"
 	},
 	"POISSON.DIST": {
 		"a": "(x; Mittelwert; Kumuliert)",
@@ -941,7 +941,7 @@
 	},
 	"QUARTILE": {
 		"a": "(Matrix; Quartile)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt die Quartile der Datengruppe zurück"
+		"d": "Gibt die Quartile der Datengruppe zurück"
 	},
 	"QUARTILE.INC": {
 		"a": "(Array; Quartile)",
@@ -953,7 +953,7 @@
 	},
 	"RANK": {
 		"a": "(Zahl; Bezug; [Reihenfolge])",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt den Rang, den eine Zahl innerhalb einer Liste von Zahlen einnimmt zurück"
+		"d": "Gibt den Rang, den eine Zahl innerhalb einer Liste von Zahlen einnimmt zurück"
 	},
 	"RANK.AVG": {
 		"a": "(Zahl; Bezug; [Reihenfolge])",
@@ -989,7 +989,7 @@
 	},
 	"STDEV": {
 		"a": "(Zahl1; [Zahl2]; ...)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nSchätzt die Standardabweichung ausgehend von einer Stichprobe (logische Werte und Text werden im Beispiel ignoriert)"
+		"d": "Schätzt die Standardabweichung ausgehend von einer Stichprobe (logische Werte und Text werden im Beispiel ignoriert)"
 	},
 	"STDEV.P": {
 		"a": "(Zahl1; [Zahl2]; ...)",
@@ -1005,7 +1005,7 @@
 	},
 	"STDEVP": {
 		"a": "(Zahl1; [Zahl2]; ...)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nBerechnet die Standardabweichung, ausgehend von der Grundgesamtheit angegeben als Argumente (logische Werte und Text werden ignoriert)"
+		"d": "Berechnet die Standardabweichung, ausgehend von der Grundgesamtheit angegeben als Argumente (logische Werte und Text werden ignoriert)"
 	},
 	"STDEVPA": {
 		"a": "(Wert1; [Wert2]; ...)",
@@ -1017,11 +1017,11 @@
 	},
 	"TDIST": {
 		"a": "(x; Freiheitsgrade; Seiten)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Werte der Verteilungsfunktion (1-Alpha) einer (Student) t-verteilten Zufallsvariablen zurück"
+		"d": "Gibt Werte der Verteilungsfunktion (1-Alpha) einer (Student) t-verteilten Zufallsvariablen zurück"
 	},
 	"TINV": {
 		"a": "(Wahrsch; Freiheitsgrade)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Perzentile der zweiseitigen t-Verteilung zurück"
+		"d": "Gibt Perzentile der zweiseitigen t-Verteilung zurück"
 	},
 	"T.DIST": {
 		"a": "(x; Freiheitsgrade; kumuliert)",
@@ -1057,11 +1057,11 @@
 	},
 	"TTEST": {
 		"a": "(Matrix1; Matrix2; Seiten; Typ)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt die Teststatistik eines Studentschen t-Tests zurück"
+		"d": "Gibt die Teststatistik eines Studentschen t-Tests zurück"
 	},
 	"VAR": {
 		"a": "(Zahl1; [Zahl2]; ...)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nSchätzt die Varianz, ausgehend von einer Stichprobe (logische Werte und Text werden in der Stichprobe ignoriert)"
+		"d": "Schätzt die Varianz, ausgehend von einer Stichprobe (logische Werte und Text werden in der Stichprobe ignoriert)"
 	},
 	"VAR.P": {
 		"a": "(Zahl1; [Zahl2]; ...)",
@@ -1077,7 +1077,7 @@
 	},
 	"VARP": {
 		"a": "(Zahl1; [Zahl2]; ...)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nBerechnet die Varianz, ausgehend von der Grundgesamtheit. Logische Werte und Text werden ignoriert"
+		"d": "Berechnet die Varianz, ausgehend von der Grundgesamtheit. Logische Werte und Text werden ignoriert"
 	},
 	"VARPA": {
 		"a": "(Wert1; [Wert2]; ...)",
@@ -1085,7 +1085,7 @@
 	},
 	"WEIBULL": {
 		"a": "(x; Alpha; Beta; Kumuliert)",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt Wahrscheinlichkeiten einer Weibull-verteilten Zufallsvariablen zurück"
+		"d": "Gibt Wahrscheinlichkeiten einer Weibull-verteilten Zufallsvariablen zurück"
 	},
 	"WEIBULL.DIST": {
 		"a": "(x; Alpha; Beta; Kumuliert)",
@@ -1097,7 +1097,7 @@
 	},
 	"ZTEST": {
 		"a": "(Matrix; x; [Sigma])",
-		"d": "Diese Funktion steht zwecks Kompatibilität mit Excel 2007 und früheren Versionen zur Verfügung.\r\nGibt die einseitige Prüfstatistik für einen Gaußtest (Normalverteilung) zurück."
+		"d": "Gibt die einseitige Prüfstatistik für einen Gaußtest (Normalverteilung) zurück."
 	},
 	"ACCRINT": {
 		"a": "(Emission; Erster_Zinstermin; Abrechnung; Satz; Nennwert; Häufigkeit; [Basis]; [Berechnungsmethode])",
@@ -1340,7 +1340,7 @@
 		"d": "Gibt den umgekehrten hyperbolischen Kotangens einer Zahl zurück"
 	},
 	"AGGREGATE": {
-		"a": "(Funktion; Optionen; Array; [k]!Funktion; Optionen; Bezug1; ...)",
+		"a": "(Funktion; Optionen; Bezug1; ...)",
 		"d": "Gibt ein Aggregat in einer Liste oder Datenbank zurück"
 	},
 	"ARABIC": {
@@ -1348,8 +1348,8 @@
 		"d": "Konvertiert eine römische Zahl in eine arabische Zahl"
 	},
 	"ASC": {
-		"a": "( text )",
-		"d": "Text function for Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"a": "(Text)",
+		"d": "Für Sprachen mit einem Double-Byte-Zeichensatz (DBCS) werden in dieser Funktion Zeichen normaler Breite (Double-Byte-Zeichen) in Zeichen halber Breite (Single-Byte-Zeichen) umgewandelt"
 	},
 	"ASIN": {
 		"a": "(Zahl)",
@@ -1385,7 +1385,7 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(Zahl;[Schritt])",
-		"d": "Mathematische und trigonometrische Funktion - gibt eine Zahl zurück, die auf die nächste Ganzzahl oder auf das kleinste Vielfache von „Schritt“ gerundet wurde"
+		"d": "Gibt eine Zahl zurück, die auf die nächste Ganzzahl oder auf das kleinste Vielfache von „Schritt“ gerundet wurde"
 	},
 	"COMBIN": {
 		"a": "(n; k)",
@@ -1429,7 +1429,7 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(Zahl;Schritt)",
-		"d": "Mathematische und trigonometrische Funktion - rundet eine Zahl auf die nächste Ganzzahl oder auf das kleinste Vielfache des angegebenen Schritts"
+		"d": "Rundet eine Zahl auf die nächste Ganzzahl oder auf das kleinste Vielfache des angegebenen Schritts"
 	},
 	"EVEN": {
 		"a": "(Zahl)",
@@ -1453,7 +1453,7 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(Zahl;[Schritt])",
-		"d": "Mathematische und trigonometrische Funktion - gibt eine Zahl zurück, die auf die nächste Ganzzahl oder auf das kleinste Vielfache von „Schritt“ gerundet wurde"
+		"d": "Gibt eine Zahl zurück, die auf die nächste Ganzzahl oder auf das kleinste Vielfache von „Schritt“ gerundet wurde"
 	},
 	"FLOOR.MATH": {
 		"a": "(Zahl; [Schritt]; [Modus])",
@@ -1468,8 +1468,8 @@
 		"d": "Rundet eine Zahl auf die nächstkleinere ganze Zahl ab"
 	},
 	"ISO.CEILING": {
-		"a": "(Zahl;Schritt)",
-		"d": "Mathematische und trigonometrische Funktion - gibt eine Zahl zurück, die auf die nächste Ganzzahl oder auf das kleinste Vielfache von „Schritt“ gerundet wurde. Die Zahl wird unabhängig von ihrem Vorzeichen aufgerundet. Ist „Zahl“ oder „Schritt“ gleich 0, wird 0 zurückgegeben."
+		"a": "(Zahl; Schritt)",
+		"d": "Gibt eine Zahl zurück, die auf die nächste Ganzzahl oder auf das kleinste Vielfache von „Schritt“ gerundet wurde. Die Zahl wird unabhängig von ihrem Vorzeichen aufgerundet. Ist „Zahl“ oder „Schritt“ gleich 0, wird 0 zurückgegeben."
 	},
 	"LCM": {
 		"a": "(Zahl1; [Zahl2]; ...)",
@@ -1721,7 +1721,7 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Informationsfunktion - werden Informationen zur Formatierung, zur Position oder zum Inhalt einer Zelle zurückgegeben"
+		"d": "Werden Informationen zur Formatierung, zur Position oder zum Inhalt einer Zelle zurückgegeben"
 	},
 	"ERROR.TYPE": {
 		"a": "(Fehlerwert)",

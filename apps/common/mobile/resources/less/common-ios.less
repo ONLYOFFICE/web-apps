@@ -123,25 +123,44 @@
         }
     }
 
-    // Bullets and numbers
+    // Bullets, numbers and multilevels
     .bullets,
-    .numbers {
-        .page-content {
-            background: @white;
+    .numbers,
+    .multilevels {
+        .list{
+            margin: 5px;
+            ul {
+                &:before, &:after {
+                    display: none;
+                }
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                margin-top: 10px;
+                padding:  0 5px;
+            }
+            &:first-child li:first-child, &:last-child li:last-child {
+                border-radius: 0;
+            }
+            &:last-child li:last-child:after {
+                display: none;
+            }
         }
 
-        .row {
-            justify-content: space-around;
-        }
-
-        ul {
-            margin-top: 10px;
+        .list .item-content {
+            padding-left: 0;
+            min-height: 68px;
+            .item-inner{
+                padding: 0;
+                &:after {
+                    display: none;
+                }
+            }
         }
 
         li {
             width: 70px;
             height: 70px;
-            margin-right: 1px;
             border: 1px solid #c4c4c4;
             html.pixel-ratio-2 & {
                 border: 0.5px solid #c4c4c4;
@@ -560,6 +579,14 @@
         -moz-appearance: none;
         -ms-appearance: none;
         appearance: none;
+    }
+
+    // Fonts List 
+
+    .font-item {
+        .item-content {
+            padding-left: 0;
+        }
     }
 }
 

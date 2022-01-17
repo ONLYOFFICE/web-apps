@@ -36,7 +36,7 @@ class AddImageController extends Component {
             if ((/((^https?)|(^ftp)):\/\/.+/i.test(_value))) {
                 this.closeModal();
                 const api = Common.EditorApi.get();
-                api.AddImageUrl(_value);
+                api.AddImageUrl([_value]);
             } else {
                 f7.dialog.alert(_t.txtNotUrl, _t.notcriticalErrorTitle);
             }

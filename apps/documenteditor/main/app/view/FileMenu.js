@@ -88,7 +88,11 @@ define([
                 el      : $markup.elementById('#fm-btn-save'),
                 action  : 'save',
                 caption : this.btnSaveCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14],
+                dataHintTitle: 'S'
             });
 
             if ( !!this.options.miSave ) {
@@ -100,42 +104,61 @@ define([
                 el      : $markup.elementById('#fm-btn-edit'),
                 action  : 'edit',
                 caption : this.btnToEditCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miDownload = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-download'),
                 action  : 'saveas',
                 caption : this.btnDownloadCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miSaveCopyAs = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-save-copy'),
                 action  : 'save-copy',
                 caption : this.btnSaveCopyAsCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miSaveAs = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-save-desktop'),
                 action  : 'save-desktop',
                 caption : this.btnSaveAsCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miPrint = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-print'),
                 action  : 'print',
                 caption : this.btnPrintCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14],
+                dataHintTitle: 'P'
             });
 
             this.miRename = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-rename'),
                 action  : 'rename',
                 caption : this.btnRenameCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             if ( !!this.options.miRename ) {
@@ -147,7 +170,10 @@ define([
                 el      : $markup.elementById('#fm-btn-protect'),
                 action  : 'protect',
                 caption : this.btnProtectCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             if ( !!this.options.miProtect ) {
@@ -159,35 +185,54 @@ define([
                 el      : $markup.elementById('#fm-btn-recent'),
                 action  : 'recent',
                 caption : this.btnRecentFilesCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miNew = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-create'),
                 action  : 'new',
                 caption : this.btnCreateNewCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miAccess = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-rights'),
                 action  : 'rights',
                 caption : this.btnRightsCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.miHistory = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-history'),
                 action  : 'history',
                 caption : this.btnHistoryCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
+            if ( !!this.options.miHistory ) {
+                this.miHistory.setDisabled(this.options.miHistory.isDisabled());
+                delete this.options.miHistory;
+            }
 
             this.miHelp = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-help'),
                 action  : 'help',
                 caption : this.btnHelpCaption,
-                canFocused: false
+                canFocused: false,
+                dataHint: 1,
+                dataHintDirection: 'left-top',
+                dataHintOffset: [2, 14]
             });
 
             this.items = [];
@@ -196,7 +241,10 @@ define([
                     el      : $markup.elementById('#fm-btn-return'),
                     action  : 'back',
                     caption : this.btnCloseMenuCaption,
-                    canFocused: false
+                    canFocused: false,
+                    dataHint: 1,
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 }),
                 this.miSave,
                 this.miEdit,
@@ -212,7 +260,10 @@ define([
                     el      : $markup.elementById('#fm-btn-info'),
                     action  : 'info',
                     caption : this.btnInfoCaption,
-                    canFocused: false
+                    canFocused: false,
+                    dataHint: 1,
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 }),
                 this.miAccess,
                 this.miHistory,
@@ -220,7 +271,10 @@ define([
                     el      : $markup.elementById('#fm-btn-settings'),
                     action  : 'opts',
                     caption : this.btnSettingsCaption,
-                    canFocused: false
+                    canFocused: false,
+                    dataHint: 1,
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 }),
                 this.miHelp,
                 new Common.UI.MenuItem({
@@ -228,7 +282,10 @@ define([
                     // el      : _get_el('fm-btn-back'),
                     action  : 'exit',
                     caption : this.btnBackCaption,
-                    canFocused: false
+                    canFocused: false,
+                    dataHint: 1,
+                    dataHintDirection: 'left-top',
+                    dataHintOffset: [2, 14]
                 })
             );
 
@@ -283,6 +340,8 @@ define([
         },
 
         applyMode: function() {
+            if (!this.rendered) return;
+
             if (!this.panels) {
                 this.panels = {
                     'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
@@ -332,7 +391,7 @@ define([
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
                     $('a',this.miNew.$el).text(this.btnCreateNewCaption + '...');
-                    !this.panels['new'] && (this.panels['new'] = ((new DE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render()));
+                    !this.panels['new'] && (this.panels['new'] = ((new DE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates, blank: this.mode.canRequestCreateNew || !!this.mode.createUrl})).render()));
                 }
             }
 
@@ -346,12 +405,12 @@ define([
             }
 
             if (this.mode.canDownload) {
-                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this})).render()));
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
             if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
-                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render()));
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
             }
 
             if (this.mode.canHelp && !this.panels['help']) {
@@ -360,6 +419,33 @@ define([
             }
 
             this.miHistory[this.mode.canUseHistory&&!this.mode.isDisconnected?'show':'hide']();
+
+            if ( Common.Controllers.Desktop.isActive() ) {
+                $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-local-open', this.$el),
+                        action  : 'file:open',
+                        caption : this.btnFileOpenCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
+
+                $('<li class="devider" />' +
+                    '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-exit', this.$el),
+                        action  : 'file:exit',
+                        caption : this.btnExitCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
+            }
         },
 
         setMode: function(mode, delay) {
@@ -375,8 +461,7 @@ define([
             }
 
             if (!delay) {
-                if ( this.rendered )
-                    this.applyMode();
+                this.applyMode();
             }
             return this;
         },
@@ -434,14 +519,12 @@ define([
             });
         },
 
-        SetDisabled: function(disable) {
-            var _btn_save = this.getButton('save'),
-                _btn_rename = this.getButton('rename'),
-                _btn_protect = this.getButton('protect');
+        SetDisabled: function(disable, options) {
+            var _btn_protect = this.getButton('protect'),
+                _btn_history = this.getButton('history');
 
-            _btn_save[(disable || !this.mode.isEdit)?'hide':'show']();
-            _btn_protect[(disable || !this.mode.isEdit)?'hide':'show']();
-            _btn_rename[(disable || !this.mode.canRename || this.mode.isDesktopApp) ?'hide':'show']();
+            options && options.protect && _btn_protect.setDisabled(disable);
+            options && options.history && _btn_history.setDisabled(disable);
         },
 
         isVisible: function () {
@@ -458,6 +541,9 @@ define([
                 } else
                 if (type == 'protect') {
                     return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
+                } else
+                if (type == 'history') {
+                    return this.options.miHistory ? this.options.miHistory : (this.options.miHistory = new Common.UI.MenuItem({}));
                 }
             } else {
                 if (type == 'save') {
@@ -468,6 +554,9 @@ define([
                 }else
                 if (type == 'protect') {
                     return this.miProtect;
+                }else
+                if (type == 'history') {
+                    return this.miHistory;
                 }
             }
         },
@@ -490,6 +579,8 @@ define([
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
         btnProtectCaption: 'Protect',
-        btnSaveCopyAsCaption    : 'Save Copy as...'
+        btnSaveCopyAsCaption    : 'Save Copy as...',
+        btnExitCaption          : 'Exit',
+        btnFileOpenCaption      : 'Open...'
     }, DE.Views.FileMenu || {}));
 });

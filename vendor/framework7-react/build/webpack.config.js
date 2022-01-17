@@ -231,8 +231,9 @@ module.exports = {
     }),
     new webpack.NormalModuleReplacementPlugin(
         /\.{2}\/lib\/patch/,
-        resource => fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
-                        resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
+        resource => (env == 'development' || /web-apps-mobile/.test(process.env.addon)) &&
+                        fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
+                            resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
         //resource => fs.existsSync(`${addonPath}/patch.jsx`) ?
                         //resource.request = `../../../${addonPath}/patch.jsx` : resource
     ),

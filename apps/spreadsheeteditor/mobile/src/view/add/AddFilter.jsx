@@ -6,6 +6,8 @@ const AddSortAndFilter = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const isFilter = props.isFilter;
+    const wsLock = props.wsLock;
+
     return (
         <Page>
             <Navbar title={_t.textSortAndFilter} backLink={_t.textBack}/>
@@ -21,14 +23,14 @@ const AddSortAndFilter = props => {
                     </Row>
                 </ListItem>
             </List>
-            <List>
-                <ListItem title={_t.textFilter}>
-                    <Toggle checked={isFilter}
-                            onToggleChange={(prev) => {
-                                props.onInsertFilter(!prev);
-                            }}/>
-                </ListItem>
-            </List>
+            {!wsLock && 
+                <List>
+                    <ListItem title={_t.textFilter}>
+                        <Toggle checked={isFilter}
+                                onToggleChange={() => props.onInsertFilter(!isFilter)}/>
+                    </ListItem>
+                </List>
+            }
         </Page>
     )
 };

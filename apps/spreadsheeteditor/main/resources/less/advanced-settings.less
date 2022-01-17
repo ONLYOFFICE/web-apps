@@ -30,10 +30,11 @@
 
 .advanced-settings-dlg {
     .div-category {
-        padding: 0 15px;
+        padding: 0 0 0 10px;
         text-align: right;
         font-weight: bold;
         font-size: 11px;
+        white-space: nowrap;
     }
 
     .range-tableview {
@@ -77,15 +78,21 @@
             display: inline-block;
             cursor: pointer;
         }
-        .sort-direction {
-            width: 7px;
-            height: 7px;
-            vertical-align: middle;
-            border: 0;
-            background-position: -85px -97px;
-        }
-        .sort-desc {
-            background-position: -85px -104px;
+        .caret {
+            width: 4px;
+            height: 4px;
+            border: solid 1px @icon-normal-ie;
+            border: solid 1px @icon-normal;
+            border-bottom: none;
+            border-right: none;
+            background-image: none;
+
+            transition: transform 0.2s ease;
+            transform: rotate(-135deg) translate(1px,1px);
+
+            &.sort-desc {
+                transform: rotate(45deg);
+            }
         }
     }
 }

@@ -65,6 +65,15 @@ define([
                     'spellcheck="<%= spellcheck %>" ',
                     'class="form-control <%= cls %>" ',
                     'placeholder="<%= placeHolder %>" ',
+                    '<% if (dataHint) {%>',
+                    'data-hint="<%= dataHint %>" ',
+                    '<% } %>',
+                    '<% if (dataHintDirection) {%>',
+                    'data-hint-direction="<%= dataHintDirection %>" ',
+                    '<% } %>',
+                    '<% if (dataHintOffset) {%>',
+                    'data-hint-offset="<%= dataHintOffset %>" ',
+                    '<% } %>',
                     '></textarea>',
                 '</div>'
             ].join('')),
@@ -101,6 +110,9 @@ define([
                         style       : this.style,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
+                        dataHint    : this.options.dataHint,
+                        dataHintDirection: this.options.dataHintDirection,
+                        dataHintOffset: this.options.dataHintOffset,
                         scope       : me
                     }));
 

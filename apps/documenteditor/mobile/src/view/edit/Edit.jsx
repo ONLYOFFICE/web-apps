@@ -14,7 +14,7 @@ import EditChartController from "../../controller/edit/EditChart";
 import EditHyperlinkController from "../../controller/edit/EditHyperlink";
 import EditHeaderController from "../../controller/edit/EditHeader";
 
-import {PageTextFonts, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextBackgroundColor, PageTextCustomBackColor} from "./EditText";
+import {PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextBackgroundColor, PageTextCustomBackColor} from "./EditText";
 import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor} from "./EditParagraph";
 import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
@@ -32,12 +32,8 @@ const routes = [
         component: PageTextAddFormatting,
     },
     {
-        path: '/edit-text-bullets/',
-        component: PageTextBullets,
-    },
-    {
-        path: '/edit-text-numbers/',
-        component: PageTextNumbers,
+        path: '/edit-bullets-and-numbers/',
+        component: PageTextBulletsAndNumbers,
     },
     {
         path: '/edit-text-line-spacing/',
@@ -322,7 +318,7 @@ const EditView = props => {
     const show_popover = props.usePopover;
     return (
         show_popover ?
-            <Popover id="edit-popover" className="popover__titled" onPopoverClosed={() => props.onClosed()}>
+            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
                 <EditTabsContainer inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
             </Popover> :
             <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
@@ -343,8 +339,9 @@ const EditOptions = props => {
     });
 
     const onviewclosed = () => {
-        if ( props.onclosed )
+        if ( props.onclosed ) {
             props.onclosed();
+        }
     };
 
     return (

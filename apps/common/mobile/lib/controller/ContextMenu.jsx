@@ -104,13 +104,15 @@ class ContextMenuController extends Component {
     }
 
     onApiOpenContextMenu(x, y) {
-        if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup').length < 1) {
+        if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup, .actions-modal.modal-in').length < 1) {
             this.setState({
                 items: this.initMenuItems(),
                 extraItems: this.initExtraItems()
             });
 
             if ( this.state.items.length > 0 ) {
+                const api = Common.EditorApi.get();
+
                 this.$targetEl.css({left: `${x}px`, top: `${y}px`});
                 const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
 
@@ -120,6 +122,8 @@ class ContextMenuController extends Component {
                 this.setState(state => {
                     return {opened: true}
                 });
+
+                api.asc_enableKeyEvents(true);
             }
         }
     }

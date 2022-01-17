@@ -83,7 +83,8 @@
 }
 
 .pivot-check-listview {
-    background-color: #fff;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
     width: 100%;
     height: 250px;
 
@@ -111,7 +112,8 @@
 }
 
 .pivot-listview {
-    background-color: #fff;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
     width: 95px;
     height: 130px;
 
@@ -188,18 +190,23 @@
         }
 
         .caret {
-            width: 23px;
-            height: 14px;
-            border: 0;
-            background-position: -43px -150px;
-            margin: 8px 15px;
+            margin: 9px;
             display: none;
             position: absolute;
-            right: 0;
+            right: 14px;
+            width: 8px;
+            height: 8px;
+            border: solid 1px @icon-normal-pressed-ie;
+            border: solid 1px @icon-normal-pressed;
+            opacity: 0.6;
+            border-bottom: none;
+            border-right: none;
+            background-image: none;
+            transform: rotate(-135deg);
 
             &.nomargin {
-                margin-top: 0;
-                margin-bottom: 0;
+                margin: 2px;
+                right: 26px;
             }
         }
     }

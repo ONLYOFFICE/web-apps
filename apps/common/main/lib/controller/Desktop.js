@@ -60,8 +60,10 @@ define([
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
 
+        var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
 
         if ( !!native ) {
+            native.features = native.features || {};
             window.on_native_message = function (cmd, param) {
                 if (/^style:change/.test(cmd)) {
                     var obj = JSON.parse(param);
@@ -88,7 +90,12 @@ define([
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
                     } else
                     if ( obj.lockthemes != undefined ) {
-                        Common.UI.Themes.setAvailable(!obj.lockthemes);
+                        // TODO: remove after 7.0.2. depricated. used is_win_xp variable instead
+                        // Common.UI.Themes.setAvailable(!obj.lockthemes);
+                    }
+                    if ( obj.singlewindow !== undefined ) {
+                        $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
+                        native.features.singlewindow = obj.singlewindow;
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -185,6 +192,7 @@ define([
                 _.extend(config, opts);
 
                 if ( config.isDesktopApp ) {
+                    Common.UI.Themes.setAvailable(!is_win_xp);
                     Common.NotificationCenter.on('app:ready', function (opts) {
                         _.extend(config, opts);
                         !!native && native.execCommand('doc:onready', '');
@@ -240,6 +248,10 @@ define([
                             config.callback_editorconfig();
                             delete config.callback_editorconfig;
                         }
+
+                        if ( native.features.singlewindow !== undefined ) {
+                            $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
+                        }
                     });
 
                     Common.NotificationCenter.on({
@@ -251,6 +263,21 @@ define([
                                 native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
                         }
                     });
+
+                    webapp.addListeners({
+                        'FileMenu': {
+                            'item:click': function (menu, action, isopts) {
+                                if ( action == 'file:exit' ) {
+                                    native.execCommand('editor:event', JSON.stringify({action: 'file:close'}));
+                                    menu.hide();
+                                } else
+                                if ( action == 'file:open' ) {
+                                    native.execCommand('editor:event', JSON.stringify({action: 'file:open'}));
+                                    menu.hide();
+                                }
+                            },
+                        },
+                    }, {id: 'desktop'});
                 }
             },
             process: function (opts) {
@@ -276,9 +303,16 @@ define([
             },
             requestClose: function () {
                 if ( config.isDesktopApp && !!native ) {
-                    native.execCommand('editor:event', JSON.stringify({action:'close', url: config.customization.goback.url}));
+                    native.execCommand('editor:event', JSON.stringify({action:'file:close', url: config.customization.goback.url}));
                 }
-            }
+            },
+            isActive: function () {
+                return !!native;
+            },
+            isOffline: function () {
+                // return webapp.getController('Main').api.asc_isOffline();
+                return webapp.getController('Main').appOptions.isOffline;
+            },
         };
     };
 

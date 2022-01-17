@@ -56,7 +56,8 @@
     "textStartAt": "Beginnen bij",
     "textTable": "Tabel",
     "textTableSize": "Tabelgrootte",
-    "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\""
+    "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -122,6 +123,7 @@
       "textNot": "Niet",
       "textNoWidow": "Zwevende eindregels niet voorkomen",
       "textNum": "Nummering wijzigen",
+      "textOk": "OK",
       "textOriginal": "Origineel",
       "textParaDeleted": "Alinea verwijderd",
       "textParaFormatted": "Alinea opgemaakt",
@@ -154,8 +156,7 @@
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
       "textUnderline": "Onderstrepen",
       "textUsers": "Gebruikers",
-      "textWidow": "Zwevende regels voorkomen",
-      "textOk": "Ok"
+      "textWidow": "Zwevende regels voorkomen"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",
@@ -168,19 +169,27 @@
     "menuAddComment": "Opmerking toevoegen",
     "menuAddLink": "Koppeling toevoegen",
     "menuCancel": "Annuleren",
+    "menuContinueNumbering": "Voortzetten nummering",
     "menuDelete": "Verwijderen",
     "menuDeleteTable": "Tabel verwijderen",
     "menuEdit": "Bewerken",
+    "menuJoinList": "Aan vorige lijst verbinden",
     "menuMerge": "Samenvoegen",
     "menuMore": "Meer",
     "menuOpenLink": "Koppeling openen",
     "menuReview": "Beoordeling",
     "menuReviewChange": "Bekijk de wijziging",
+    "menuSeparateList": "Afzonderlijke lijst",
     "menuSplit": "Splitsen",
+    "menuStartNewList": "Start nieuwe lijst",
+    "menuStartNumberingFrom": "Nummeringswaarde instellen",
     "menuViewComment": "Opmerking bekijken",
+    "textCancel": "Annuleren",
     "textColumns": "Kolommen",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
+    "textNumberingValue": "Nummeringswaarde",
+    "textOk": "OK",
     "textRows": "Rijen"
   },
   "Edit": {
@@ -296,7 +305,8 @@
     "textTopAndBottom": "Boven en onder",
     "textTotalRow": "Totaalrij",
     "textType": "Type",
-    "textWrap": "Wikkel"
+    "textWrap": "Wikkel",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Time-out voor conversie overschreden.",
@@ -315,6 +325,7 @@
     "errorFileSizeExceed": "De bestandsgrootte overschrijdt de limiet van uw server. <br>Neem contact op met uw beheerder.",
     "errorKeyEncrypt": "Onbekende sleutelbeschrijver",
     "errorKeyExpire": "Sleutelbeschrijver vervallen",
+    "errorLoadingFont": "Lettertypes zijn niet geladen.\nNeem alstublieft contact op met de beheerder van de documentserver.",
     "errorMailMergeLoadFile": "Laden mislukt",
     "errorMailMergeSaveFile": "Samenvoegen mislukt.",
     "errorSessionAbsolute": "De document bewerkingssessie is verlopen. Gelieve de pagina opnieuw te laden.",
@@ -324,7 +335,7 @@
     "errorUpdateVersionOnDisconnect": "De internetverbinding is hersteld en de bestandsversie is gewijzigd. <br>Voordat u verder kunt werken, moet u het bestand downloaden of de inhoud kopiëren om er zeker van te zijn dat er niets verloren gaat, en deze pagina vervolgens opnieuw laden.",
     "errorUserDrop": "Het bestand kan nu niet worden geopend.",
     "errorUsersExceed": "Het onder het prijsplan toegestane aantal gebruikers is overschreden",
-    "errorViewerDisconnect": "De verbinding is verbroken. U kunt het document nog steeds bekijken,<br>maar u zult het niet kunnen downloaden totdat de verbinding is hersteld en de pagina opnieuw is geladen.",
+    "errorViewerDisconnect": "De verbinding is verbroken. U kunt het document nog steeds bekijken,<br>maar u zult het niet kunnen downloaden of printen totdat de verbinding is hersteld en de pagina opnieuw is geladen.",
     "notcriticalErrorTitle": "Waarschuwing",
     "openErrorText": "Er is een fout opgetreden bij het openen van het bestand",
     "saveErrorText": "Er is een fout opgetreden bij het opslaan van het bestand",
@@ -335,8 +346,7 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grote is 25MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -466,7 +476,10 @@
     "warnLicenseUsersExceeded": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met uw beheerder voor meer informatie.",
     "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
     "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
-    "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken."
+    "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",
@@ -483,6 +496,8 @@
     "textCancel": "Annuleren",
     "textCaseSensitive": "Hoofdlettergevoelig",
     "textCentimeter": "Centimeter",
+    "textChooseEncoding": "Kies tekenset",
+    "textChooseTxtOptions": "Opties voor TXT-bestanden kiezen",
     "textCollaboration": "Samenwerking",
     "textColorSchemes": "Kleurschema's",
     "textComment": "Opmerking",
@@ -524,9 +539,12 @@
     "textMarginsW": "Linker- en rechtermarge zijn te breed voor opgegeven paginabreedte",
     "textNoCharacters": "Niet-afdrukbare tekens",
     "textNoTextFound": "Tekst niet gevonden",
+    "textOk": "OK",
     "textOpenFile": "Voer een wachtwoord in om dit bestand te openen",
     "textOrientation": "Oriëntatie ",
     "textOwner": "Eigenaar",
+    "textPages": "Pagina's",
+    "textParagraphs": "Alinea's",
     "textPoint": "Punt",
     "textPortrait": "Staand",
     "textPrint": "Afdrukken",
@@ -538,14 +556,19 @@
     "textSearch": "Zoeken",
     "textSettings": "Instellingen",
     "textShowNotification": "Notificatie weergeven",
+    "textSpaces": "Spaties",
     "textSpellcheck": "Spellingscontrole",
     "textStatistic": "Statistiek",
     "textSubject": "Onderwerp",
+    "textSymbols": "Symbolen",
     "textTitle": "Titel",
     "textTop": "Boven",
     "textUnitOfMeasurement": "Maateenheid",
     "textUploaded": "Geüpload",
+    "textWords": "Woorden",
+    "txtDownloadTxt": "TXT downloaden",
     "txtIncorrectPwd": "Wachtwoord is onjuist",
+    "txtOk": "OK",
     "txtProtected": "Zodra u het wachtwoord invoert en het bestand opent, zal het huidige wachtwoord worden gereset",
     "txtScheme1": "Kantoor",
     "txtScheme10": "Mediaan",
@@ -568,8 +591,7 @@
     "txtScheme6": "Concours",
     "txtScheme7": "Vermogen",
     "txtScheme8": "Stroom",
-    "txtScheme9": "Gieterij",
-    "textOk": "Ok"
+    "txtScheme9": "Gieterij"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

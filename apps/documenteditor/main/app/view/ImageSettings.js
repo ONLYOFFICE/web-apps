@@ -136,7 +136,11 @@ define([
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
                 store: new Common.UI.DataViewStore(viewData),
-                cls: 'combo-chart-style'
+                cls: 'combo-chart-style',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: '-10, 0',
+                delayRenderTips: true
             });
             this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
                 '<div class="item-icon-box" id="<%= id %>" style="">',
@@ -187,7 +191,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
-                hint: this.textHint270
+                hint: this.textHint270,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnRotate270.on('click', _.bind(this.onBtnRotateClick, this));
             this.lockedControls.push(this.btnRotate270);
@@ -197,7 +204,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
-                hint: this.textHint90
+                hint: this.textHint90,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnRotate90.on('click', _.bind(this.onBtnRotateClick, this));
             this.lockedControls.push(this.btnRotate90);
@@ -207,7 +217,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
-                hint: this.textHintFlipV
+                hint: this.textHintFlipV,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnFlipV.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipV);
@@ -217,7 +230,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
-                hint: this.textHintFlipH
+                hint: this.textHintFlipH,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
@@ -250,7 +266,10 @@ define([
                             caption: this.textCropFit,
                             value: 2
                         }]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
@@ -269,7 +288,10 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
@@ -316,7 +338,7 @@ define([
                 value = props.get_CanBeFlow() && !this._locked;
                 var fromgroup = props.get_FromGroup() || this._locked;
                 var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                    isPictureControl = !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) || this._locked;
+                    isPictureControl = !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr() || this._locked;
                 if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup || this._state.isPictureControl!==isPictureControl) {
                     this.cmbWrapType.setDisabled(!value || fromgroup || isPictureControl);
                     this._state.CanBeFlow=value;
@@ -474,8 +496,8 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='change') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='change') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 

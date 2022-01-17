@@ -99,7 +99,8 @@ define([
                     stretch: true
                 }, {
                     el: items[3],
-                    height: 25
+                    alias: 'statusbar',
+                    height: Common.localStorage.getBool('sse-compact-statusbar', true) ? 25 : 50
                 }]
             });
 
@@ -116,6 +117,15 @@ define([
                         min: 300,
                         max: 600,
                         offset: 4
+                    }
+                }, { // history versions
+                    el: items[3],
+                    rely: true,
+                    resize: {
+                        hidden: true,
+                        autohide: false,
+                        min: 300,
+                        max: 600
                     }
                 }, {
                     el: items[1],

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import IrregularStack from "../../../../common/mobile/utils/IrregularStack";
+import { Device } from '../../../../common/mobile/utils/device';
 
 const LongActionsController = () => {
     const {t} = useTranslation();
@@ -181,7 +182,9 @@ const LongActionsController = () => {
 
     };
 
-    const onConfirmAction = (id, apiCallback) => {
+    const onConfirmAction = (id, apiCallback, data) => {
+        const api = Common.EditorApi.get();
+
         if (id === Asc.c_oAscConfirm.ConfirmReplaceRange || id === Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
@@ -207,6 +210,30 @@ const LongActionsController = () => {
                             if (apiCallback) apiCallback();
                         }},
                 ],
+            }).open();
+        } else if (id == Asc.c_oAscConfirm.ConfirmChangeProtectRange) {
+            f7.dialog.create({
+                title: t('LongActions.textUnlockRange'),
+                text: t('LongActions.textUnlockRangeWarning'),
+                content: Device.ios ?
+                    '<div class="input-field"><input type="password" class="modal-text-input" name="modal-password" placeholder="' + _t.advDRMPassword + '" id="modal-password"></div>' : '<div class="input-field"><div class="inputs-list list inline-labels"><ul><li><div class="item-content item-input"><div class="item-inner"><div class="item-input-wrap"><input type="password" name="modal-password" id="modal-password" placeholder=' + _t.advDRMPassword + '></div></div></div></li></ul></div></div>',
+                buttons: [
+                    {
+                        text: t('LongActions.textOk'),
+                        onClick: () => {
+                            let password = document.getElementById('modal-password').value;
+                            if(apiCallback) {
+                                api.asc_checkProtectedRangesPassword(password, data, (res) => {
+                                    apiCallback(res, false);
+                                });
+                            }
+                        }
+                    }, 
+                    {
+                        text: t('LongActions.textCancel'),
+                        onClick: () => apiCallback(false, true)
+                    }
+                ]
             }).open();
         }
     };

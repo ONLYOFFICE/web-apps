@@ -130,7 +130,10 @@ define([
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnWidth);
             this.lockedControls.push(this.spnWidth);
@@ -142,7 +145,10 @@ define([
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnHeight);
             this.lockedControls.push(this.spnHeight);
@@ -153,7 +159,10 @@ define([
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
-                hint: this.textKeepRatio
+                hint: this.textKeepRatio,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.btnRatio);
 
@@ -186,7 +195,10 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
@@ -235,7 +247,10 @@ define([
                             caption: this.textCropFit,
                             value: 2
                         }]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
@@ -246,7 +261,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
-                hint: this.textHint270
+                hint: this.textHint270,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnRotate270.on('click', _.bind(this.onBtnRotateClick, this));
             this.lockedControls.push(this.btnRotate270);
@@ -256,7 +274,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
-                hint: this.textHint90
+                hint: this.textHint90,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnRotate90.on('click', _.bind(this.onBtnRotateClick, this));
             this.lockedControls.push(this.btnRotate90);
@@ -266,7 +287,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
-                hint: this.textHintFlipV
+                hint: this.textHintFlipV,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnFlipV.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipV);
@@ -276,7 +300,10 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
-                hint: this.textHintFlipH
+                hint: this.textHintFlipH,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
             });
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
@@ -441,8 +468,8 @@ define([
         },
         
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='change') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='change') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 

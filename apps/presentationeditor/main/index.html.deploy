@@ -247,22 +247,17 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-
-        if ( window.AscDesktopEditor ) {
-            window.desktop = window.AscDesktopEditor;
-            window.on_native_message = function (cmd, param) {
-                !window.native_message_cmd && (window.native_message_cmd = []);
-                window.native_message_cmd[cmd] = param;
-            }
-            window.desktop.execCommand('webapps:entry', '');
-        }
+        window.uitype = 'slide';
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/presentationeditor/main/resources/css/app.css">
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
@@ -315,7 +310,7 @@
         } else {
             var elem = document.querySelector('.loading-logo img');
             if (elem) {
-                logo && (elem.setAttribute('src', logo));
+                (logo || logoDark) && elem.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
                 elem.style.opacity = 1;
             }
         }
@@ -354,6 +349,9 @@
     <inline src="resources/img/doc-formats/pdfa.svg" />
     <inline src="resources/img/doc-formats/odp.svg" />
     <inline src="resources/img/doc-formats/otp.svg" />
+    <inline src="resources/img/doc-formats/pptm.svg" />
+    <inline src="resources/img/doc-formats/png.svg" />
+    <inline src="resources/img/doc-formats/jpg.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />

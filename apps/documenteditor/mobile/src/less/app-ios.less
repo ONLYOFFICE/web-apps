@@ -1,7 +1,43 @@
+.ios {
+    .view {
+        .bullets-numbers{
+            background: #fff;
+        }
+    }
 
-.device-ios {
+    // Stepper 
+    .content-block.stepper-block {
+        margin: 20px 0;
 
+        .stepper.stepper-large {
+            height: 35px;
+            border-radius: var(--f7-button-border-radius);
+            box-shadow: var(--f7-button-box-shadow);
+        }
 
+        .stepper-button-minus, .stepper-button-plus {
+            color: #446995;
+            border: 1px solid #446995;
+            
+            &:before, &:after{
+                display: none;
+            }
+        }
+
+        .stepper-button-minus.active-state, .stepper-button-plus.active-state {
+            background-color: var(--f7-list-link-pressed-bg-color);
+        }
+
+        .stepper-input-wrap {
+            border-top: 1px solid #446995;
+            border-bottom: 1px solid #446995;
+            input {
+                color: #000;
+                font-size: 17px;
+                font-weight: var(--f7-list-item-after-line-height);
+            }
+        }
+    }
 }
 
 // Color Schemes

@@ -11,6 +11,12 @@
     <!-- splash -->
 
     <style type="text/css">
+        .content-theme-dark {
+            --skeleton-canvas-content-background: #3a3a3a;
+            --skeleton-canvas-page-border: #2a2a2a;
+            --skeleton-canvas-line: rgba(255,255,255,.05);
+        }
+
         .loadmask {
             left: 0;
             top: 0;
@@ -108,12 +114,12 @@
 
         .loadmask > .placeholder {
             background: #fff;
-            background: var(--canvas-content-background, #fff);
+            background: var(--skeleton-canvas-content-background, var(--canvas-content-background, #fff));
             width: 794px;
             margin: 46px auto;
             height: 100%;
             border: 1px solid #bbbec2;
-            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #bbbec2);
+            border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, var(--canvas-page-border, #bbbec2));
             padding-top: 50px;
         }
 
@@ -121,6 +127,7 @@
             height: 15px;
             margin: 30px 80px;
             background: rgba(0,0,0,.05);
+            background: var(--skeleton-canvas-line, rgba(0,0,0,.05));
             overflow: hidden;
             position: relative;
 
@@ -205,22 +212,16 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-
-        if ( window.AscDesktopEditor ) {
-            window.desktop = window.AscDesktopEditor;
-            window.on_native_message = function (cmd, param) {
-                !window.native_message_cmd && (window.native_message_cmd = []);
-                window.native_message_cmd[cmd] = param;
-            }
-            window.desktop.execCommand('webapps:entry', '');
-        }
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css">
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
@@ -264,7 +265,7 @@
         } else {
             var elem = document.querySelector('.loading-logo img');
             if (elem) {
-                logo && (elem.setAttribute('src', logo));
+                (logo || logoDark) && elem.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
                 elem.style.opacity = 1;
             }
         }
@@ -308,6 +309,9 @@
     <inline src="resources/img/doc-formats/html.svg" />
     <inline src="resources/img/doc-formats/fb2.svg" />
     <inline src="resources/img/doc-formats/epub.svg" />
+    <inline src="resources/img/doc-formats/docm.svg" />
+    <inline src="resources/img/doc-formats/oform.svg" />
+    <inline src="resources/img/doc-formats/docxf.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />

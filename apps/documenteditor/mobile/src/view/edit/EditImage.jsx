@@ -91,10 +91,10 @@ const PageWrap = props => {
             }
             <List>
                 <ListItem title={_t.textMoveWithText} className={'inline' === wrapType ? 'disabled' : ''}>
-                    <Toggle checked={moveText} onChange={() => {props.onMoveText(!moveText)}}/>
+                    <Toggle checked={moveText} onToggleChange={() => {props.onMoveText(!moveText)}}/>
                 </ListItem>
                 <ListItem title={_t.textAllowOverlap}>
-                    <Toggle checked={overlap} onChange={() => {props.onOverlap(!overlap)}}/>
+                    <Toggle checked={overlap} onToggleChange={() => {props.onOverlap(!overlap)}}/>
                 </ListItem>
             </List>
             {
@@ -184,12 +184,12 @@ const PageReplace = props => {
             </Navbar>
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
-                    <Icon slot="media" icon="icon-link"></Icon>
+                    <Icon slot="media" icon="icon-image-library"></Icon>
                 </ListItem>
                 <ListItem title={_t.textPictureFromURL} link='/edit-image-link/' routeProps={{
                     onReplaceByUrl: props.onReplaceByUrl
                 }}>
-                    <Icon slot="media" icon="icon-image-library"></Icon>
+                    <Icon slot="media" icon="icon-link"></Icon>
                 </ListItem>
             </List>
         </Page>

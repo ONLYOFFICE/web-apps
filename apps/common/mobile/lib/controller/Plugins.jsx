@@ -182,7 +182,31 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
 
     const onPluginsInit = pluginsdata => {
         !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-        registerPlugins(pluginsdata)
+        parsePlugins(pluginsdata)
+    };
+
+    const parsePlugins = pluginsdata => {
+        let isEdit = storeAppOptions.isEdit;
+        
+        if ( pluginsdata instanceof Array ) { 
+            let lang = storeAppOptions.lang.split(/[\-_]/)[0];
+            pluginsdata.forEach((item) => {
+                item.variations.forEach( (itemVar) => { 
+                    let description = itemVar.description;
+                    if (typeof itemVar.descriptionLocale == 'object')
+                    description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
+
+                    if(itemVar.buttons !== undefined) {
+                        itemVar.buttons.forEach( (button) => {
+                            if (typeof button.textLocale == 'object')
+                                    button.text = button.textLocale[lang] || button.textLocale['en'] || button.text || '';
+                            button.visible = (isEdit || button.isViewer !== false);
+                        })
+                    }
+                })
+            });
+        } 
+        registerPlugins(pluginsdata);
     };
 
     const registerPlugins = plugins => {
@@ -190,39 +214,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
 
         plugins.forEach(item => {
             let plugin = new Asc.CPlugin();
-
-            plugin.set_Name(item['name']);
-            plugin.set_Guid(item['guid']);
-            plugin.set_BaseUrl(item['baseUrl']);
-
-            let variations = item['variations'],
-                variationsArr = [];
-
-            variations.forEach(itemVar => {
-                let variation = new Asc.CPluginVariation();
-
-                variation.set_Description(itemVar['description']);
-                variation.set_Url(itemVar['url']);
-                variation.set_Icons(itemVar['icons']);
-                variation.set_Visual(itemVar['isVisual']);
-                variation.set_CustomWindow(itemVar['isCustomWindow']);
-                variation.set_System(itemVar['isSystem']);
-                variation.set_Viewer(itemVar['isViewer']);
-                variation.set_EditorsSupport(itemVar['EditorsSupport']);
-                variation.set_Modal(itemVar['isModal']);
-                variation.set_InsideMode(itemVar['isInsideMode']);
-                variation.set_InitDataType(itemVar['initDataType']);
-                variation.set_InitData(itemVar['initData']);
-                variation.set_UpdateOleOnResize(itemVar['isUpdateOleOnResize']);
-                variation.set_Buttons(itemVar['buttons']);
-                variation.set_Size(itemVar['size']);
-                variation.set_InitOnSelectionChanged(itemVar['initOnSelectionChanged']);
-                variation.set_Events(itemVar['events']);
-
-                variationsArr.push(variation);
-            });
-
-            plugin["set_Variations"](variationsArr);
+            plugin.deserialize(item);
             arr.push(plugin);
         });
 
@@ -245,7 +237,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                 arr = arr.concat(plugins.plugins);
             }
 
-            registerPlugins(arr);
+            parsePlugins(arr);
         }
     };
 

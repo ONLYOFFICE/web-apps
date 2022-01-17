@@ -57,9 +57,12 @@ const routes = [
 ];
 
 
-const SettingsList = inject("storeAppOptions")(observer(props => {
+const SettingsList = inject("storeAppOptions", "storeToolbarSettings")(observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
+    const storeToolbarSettings = props.storeToolbarSettings;
+    const disabledPreview = storeToolbarSettings.countPages <= 0;
+
     const navbar = <Navbar title={_t.textSettings}>
         {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
     </Navbar>;
@@ -121,7 +124,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem disabled={appOptions.readerMode ? true : false} title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
+                        <ListItem disabled={appOptions.readerMode || disabledPreview ? true : false} title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
@@ -141,7 +144,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                     <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, '/download/')}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textPrint} onClick={onPrint}>
+                    <ListItem className={disabledPreview && 'disabled'} title={_t.textPrint} onClick={onPrint}>
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPresentationInfo} link="#" onClick={onoptionclick.bind(this, "/presentation-info/")}>
@@ -196,8 +199,9 @@ const Settings = props => {
     });
 
     const onviewclosed = () => {
-        if (props.onclosed)
+        if (props.onclosed) {
             props.onclosed();
+        }
     };
 
     return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} openOptions={props.openOptions} />

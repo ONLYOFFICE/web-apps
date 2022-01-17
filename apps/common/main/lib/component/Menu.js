@@ -171,6 +171,7 @@ define([
                 this.menuAlignEl    = this.options.menuAlignEl;
                 this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
                 this.search = this.options.search;
+                this.outerMenu      = this.options.outerMenu;
 
                 if (this.options.restoreHeight) {
                     this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
@@ -267,6 +268,8 @@ define([
                     this.parentEl.on('hide.bs.dropdown',    _.bind(me.onBeforeHideMenu, me));
                     this.parentEl.on('hidden.bs.dropdown',  _.bind(me.onAfterHideMenu, me));
                     this.parentEl.on('keydown.after.bs.dropdown', _.bind(me.onAfterKeydownMenu, me));
+                    this.parentEl.on('keydown.before.bs.dropdown', _.bind(me.onBeforeKeydownMenu, me));
+                    this.options.innerMenus && this.on('keydown:before', _.bind(me.onBeforeKeyDown, me));
 
                     menuRoot.hover(
                         function(e) { me.isOver = true;},
@@ -453,6 +456,21 @@ define([
                 }
             },
 
+            onBeforeKeydownMenu: function(e) {
+                if (e.isDefaultPrevented() || !(this.outerMenu && this.outerMenu.menu))
+                    return;
+
+                if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN)  {
+                    var $items = this.menuRoot.find('> li').find('> a'),
+                        index = $items.index($items.filter(':focus'));
+                    if (e.keyCode==Common.UI.Keys.UP && index==0 || e.keyCode == Common.UI.Keys.DOWN && index==$items.length-1) {
+                        this.outerMenu.menu.focusOuter(e, this.outerMenu.index);
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
+            },
+
             selectCandidate: function() {
                 var index = this._search.index || 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
@@ -488,6 +506,85 @@ define([
                         }
                     }
                     item.focus();
+                }
+            },
+
+            onBeforeKeyDown: function(menu, e) {
+                if (e.keyCode == Common.UI.Keys.RETURN) {
+                    var li = $(e.target).closest('li');
+                    if (li.length>0) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        li.click();
+                    }
+                    Common.UI.Menu.Manager.hideAll();
+                } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                    if ( this.menuRoot.length<1 || $(e.target).closest('ul[role=menu]').get(0) !== this.menuRoot.get(0)) return;
+
+                    var innerMenu = this.findInnerMenu(e.keyCode);
+                    if (innerMenu && innerMenu.focusInner) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        _.delay(function() {
+                            innerMenu.focusInner(e);
+                        }, 10);
+                    }
+                }
+            },
+
+            setInnerMenu: function(menus) {
+                if (this.options.innerMenus || !menus) return;
+
+                this.options.innerMenus = menus;
+                this.rendered && this.on('keydown:before', _.bind(this.onBeforeKeyDown, this));
+            },
+            
+            findInnerMenu: function(direction, index, findOuter) {
+                if (!this.options.innerMenus) return;
+
+                var $allItems = $('> li', this.menuRoot),
+                    $liItems = $('> li:not(.divider):not(.disabled):visible', this.menuRoot),
+                    length = $liItems.length;
+                if (!length) return;
+
+                var step = 0;
+                while (step<length) {
+                    var focusedIndex = (index!==undefined) ? $liItems.index($allItems.eq(index)) : $liItems.index($liItems.find('> a').filter(':focus').parent());
+                    var checkedIndex = (direction == Common.UI.Keys.DOWN) ? (focusedIndex<length-1 ? focusedIndex+1 : 0) : (focusedIndex>0 ? focusedIndex-1 : length-1),
+                        checkedItem = $liItems.eq(checkedIndex);
+                    index = $allItems.index(checkedItem);
+
+                    for (var i=0; i<this.options.innerMenus.length; i++) {
+                        var item = this.options.innerMenus[i];
+                        if (item && item.menu && item.index==index) {
+                            return item.menu;
+                        }
+                    }
+                    if (checkedItem.find('> a').length>0)
+                        return findOuter ? checkedItem : undefined;
+                    step++;
+                }
+            },
+
+            focusInner: function(e) {
+                if (e.keyCode == Common.UI.Keys.UP)
+                    this.items[this.items.length-1].cmpEl.find('> a').focus();
+                else
+                    this.items[0].cmpEl.find('> a').focus();
+            },
+
+            focusOuter: function(e, index) {
+                var innerMenu = this.findInnerMenu(e.keyCode, index, true);
+                if (innerMenu && innerMenu.focusInner) {
+                    _.delay(function() {
+                        innerMenu.focusInner(e);
+                    }, 10);
+                } else if (innerMenu) {
+                    innerMenu.find('> a').focus();
+                } else {
+                    var $items = $('> li:not(.divider):not(.disabled):visible', this.menuRoot).find('> a'),
+                        length = $items.length;
+                    length && $items.eq(e.keyCode == Common.UI.Keys.UP ? (index<0 ? length-1 : index) : (index>=length-1 ? 0 : index+1)).focus();
                 }
             },
 

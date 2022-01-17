@@ -98,8 +98,9 @@ Common.Locale = new(function() {
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     };
 
-    var _requireLang = function () {
-        var lang = (_getUrlParameterByName('lang') || defLang).split(/[\-_]/)[0];
+    var _requireLang = function (l) {
+        typeof l != 'string' && (l = null);
+        var lang = (l || _getUrlParameterByName('lang') || defLang).split(/[\-_]/)[0];
         currentLang = lang;
         fetch('locale/' + lang + '.json')
             .then(function(response) {
@@ -127,6 +128,12 @@ Common.Locale = new(function() {
                 l10n = json || {};
                 apply && _applyLocalization();
             }).catch(function(e) {
+                if ( !/loaded/.test(e) && currentLang != defLang && defLang && defLang.length < 3 ) {
+                    return setTimeout(function(){
+                        _requireLang(defLang)
+                    }, 0);
+                }
+
                 l10n = l10n || {};
                 apply && _applyLocalization();
                 if ( e.message == 'loaded' ) {

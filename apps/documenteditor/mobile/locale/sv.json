@@ -56,7 +56,8 @@
     "textStartAt": "Start At",
     "textTable": "Table",
     "textTableSize": "Table Size",
-    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -181,7 +182,15 @@
     "textColumns": "Columns",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "textRows": "Rows"
+    "textRows": "Rows",
+    "menuStartNewList": "Start new list",
+    "menuStartNumberingFrom": "Set numbering value",
+    "menuContinueNumbering": "Continue numbering",
+    "menuSeparateList": "Separate list",
+    "menuJoinList": "Join to previous list",
+    "textOk": "OK",
+    "textCancel": "Cancel",
+    "textNumberingValue": "Numbering Value"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
@@ -296,7 +305,8 @@
     "textTotalRow": "Total Row",
     "textType": "Type",
     "textWrap": "Wrap",
-    "textNumbers": "Numbers"
+    "textNumbers": "Numbers",
+    "textOk": "Ok"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -466,7 +476,10 @@
     "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
     "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
     "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-    "warnProcessRightsChange": "You don't have permission to edit this file."
+    "warnProcessRightsChange": "You don't have permission to edit this file.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textNoTextFound": "Text not found"
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -476,7 +489,7 @@
     "notcriticalErrorTitle": "Warning",
     "textAbout": "About",
     "textApplication": "Application",
-    "textApplicationSettings": "Application settings",
+    "textApplicationSettings": "Application Settings",
     "textAuthor": "Author",
     "textBack": "Back",
     "textBottom": "Bottom",
@@ -569,7 +582,16 @@
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
     "txtScheme9": "Foundry",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textChooseEncoding": "Choose Encoding",
+    "textChooseTxtOptions": "Choose TXT Options",
+    "txtDownloadTxt": "Download TXT",
+    "txtOk": "Ok",
+    "textPages": "Pages",
+    "textParagraphs": "Paragraphs",
+    "textSpaces": "Spaces",
+    "textSymbols": "Symbols",
+    "textWords": "Words"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

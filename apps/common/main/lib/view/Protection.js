@@ -121,7 +121,10 @@ define([
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-protect',
-                        caption: this.txtEncrypt
+                        caption: this.txtEncrypt,
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.btnsAddPwd.push(this.btnAddPwd);
 
@@ -130,7 +133,10 @@ define([
                         iconCls: 'toolbar__icon btn-ic-protect',
                         caption: this.txtEncrypt,
                         menu: true,
-                        visible: false
+                        visible: false,
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                 }
                 if (this.appConfig.isSignatureSupport) {
@@ -138,7 +144,10 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-signature',
                         caption: this.txtSignature,
-                        menu: (this.appPrefix !== 'pe-')
+                        menu: (this.appPrefix !== 'pe-'),
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     if (!this.btnSignature.menu)
                         this.btnsInvisibleSignature.push(this.btnSignature);
@@ -228,7 +237,10 @@ define([
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
                         caption: this.txtInvisibleSignature,
-                        disabled: this._state.invisibleSignDisabled
+                        disabled: this._state.invisibleSignDisabled,
+                        dataHint: '2',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'medium'
                     });
                     this.btnsInvisibleSignature.push(button);
                     if (this._isSetEvents) {
@@ -243,7 +255,10 @@ define([
                         style: 'width: 100%;',
                         caption: this.txtAddPwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
-                        visible: !this._state.hasPassword
+                        visible: !this._state.hasPassword,
+                        dataHint: '2',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'medium'
                     });
                     this.btnsAddPwd.push(button);
                     if (this._isSetEvents) {
@@ -258,7 +273,10 @@ define([
                         style: 'width: 100%;',
                         caption: this.txtDeletePwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
-                        visible: this._state.hasPassword
+                        visible: this._state.hasPassword,
+                        dataHint: '2',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'medium'
                     });
                     this.btnsDelPwd.push(button);
                     if (this._isSetEvents) {
@@ -273,7 +291,10 @@ define([
                         style: 'width: 100%;',
                         caption: this.txtChangePwd,
                         disabled: this._state.disabled || this._state.disabledPassword,
-                        visible: this._state.hasPassword
+                        visible: this._state.hasPassword,
+                        dataHint: '2',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'medium'
                     });
                     this.btnsChangePwd.push(button);
                     if (this._isSetEvents) {

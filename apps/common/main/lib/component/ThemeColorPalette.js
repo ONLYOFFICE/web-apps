@@ -55,26 +55,28 @@ define([
             effects: 5,
             allowReselect: true,
             transparent: false,
-            value: '000000'
+            value: '000000',
+            enableKeyEvents: true,
+            keyMoveDirection: 'both' // 'vertical', 'horizontal'
         },
 
         template    :
             _.template(
                 '<div style="padding: 8px 12px 12px;">' +
-                '<% var me = this; %>' +
+                '<% var me = this; var idx = 0; %>' +
                 '<% $(colors).each(function(num, item) { %>' +
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
                     '<% } else if (me.isSeparator(item)) { %> </div><div class="divider" style="width:100%;float:left;"></div><div style="padding: 12px;">' +
                     '<% } else if (me.isColor(item)) { %> ' +
-                        '<a class="palette-color color-<%=item%>" style="background:#<%=item%>" hidefocus="on">' +
+                        '<a class="palette-color color-<%=item%>" style="background:#<%=item%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isTransparent(item)) { %>' +
-                        '<a class="color-<%=item%>" hidefocus="on">' +
+                        '<a class="color-<%=item%>" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isEffect(item)) { %>' +
-                        '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" hidefocus="on">' +
+                        '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item.color%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isCaption(item)) { %>' +
@@ -85,7 +87,7 @@ define([
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
                 '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div><div style="padding: 12px;">' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
-                        '<a class="color-dynamic-<%=i%> dynamic-empty-color" color="" hidefocus="on">' +
+                        '<a class="color-dynamic-<%=i%> dynamic-empty-color" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
                     '<% } %>' +
                 '<% } %>' +
@@ -101,6 +103,18 @@ define([
                 el = me.$el || $(this.el);
 
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
+            this.enableKeyEvents= me.options.enableKeyEvents;
+            this.tabindex = me.options.tabindex || 0;
+            this.outerMenu = me.options.outerMenu;
+            this.lastSelectedIdx = -1;
+
+            me.colorItems = [];
+            if (me.options.keyMoveDirection=='vertical')
+                me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN];
+            else if (me.options.keyMoveDirection=='horizontal')
+                me.moveKeys = [Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
+            else
+                me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN, Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
 
             el.addClass('theme-colorpalette');
             this.render();
@@ -117,6 +131,12 @@ define([
 
         render: function () {
             this.$el.html(this.template({colors: this.colors}));
+
+            var me = this;
+            this.moveKeys && this.$el.find('a').each(function(num, item) {
+                me.colorItems.push({el: item, index: num});
+            });
+            this.attachKeyEvents();
             return this;
         },
 
@@ -146,7 +166,7 @@ define([
         updateCustomColors: function() {
             var el = this.$el || $(this.el);
             if (el) {
-                var selected = el.find('a.' + this.selectedCls),
+                var selected = (this.lastSelectedIdx>=0) ? $(this.colorItems[this.lastSelectedIdx].el) : el.find('a.' + this.selectedCls),
                     color = (selected.length>0 && /color-dynamic/.test(selected[0].className)) ? selected.attr('color') : undefined;
                 if (color) { // custom color was selected
                     color = color.toUpperCase();
@@ -165,6 +185,7 @@ define([
                     });
                     if (colors[i] == color) {
                         colorEl.addClass(this.selectedCls);
+                        this.lastSelectedIdx = parseInt(colorEl.attr('idx'));
                         color = undefined; //select only first found color
                     }
                 }
@@ -179,42 +200,55 @@ define([
             if (target.length==0) return;
 
             if (target.hasClass('color-transparent') ) {
-                $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                me.clearSelection(true);
                 target.addClass(me.selectedCls);
-                me.value = 'transparent';
-                me.trigger('select', me, 'transparent');
+                if (!e.suppressEvent) {
+                    me.lastSelectedIdx = parseInt(target.attr('idx'));
+                    me.value = 'transparent';
+                    me.trigger('select', me, 'transparent');
+                }
             } else if ( !(target[0].className.search('color-dynamic')<0) ) {
                 if (!/dynamic-empty-color/.test(target[0].className)) {
-                    $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                    me.clearSelection(true);
                     target.addClass(me.selectedCls);
-                    color = target.attr('color');
-                    if (color)  me.trigger('select', me, color);
-
-                    me.value = color.toUpperCase();
+                    if (!e.suppressEvent)  {
+                        me.lastSelectedIdx = parseInt(target.attr('idx'));
+                        color = target.attr('color');
+                        me.trigger('select', me, color);
+                        me.value = color.toUpperCase();
+                    }
                 } else {
-                    setTimeout(function(){
-                        me.addNewColor();
-                    }, 10);
+                    if (e.suppressEvent) {
+                        me.clearSelection(true);
+                        target.addClass(me.selectedCls);
+                    } else
+                        setTimeout(function(){
+                            me.addNewColor();
+                        }, 10);
                 }
             } else {
                 if (!/^[a-fA-F0-9]{6}$/.test(me.value) || _.indexOf(me.colors, me.value)<0 )
                     me.value = false;
 
-                $(me.el).find('a.' + me.selectedCls).removeClass(me.selectedCls);
+                me.clearSelection(true);
                 target.addClass(me.selectedCls);
 
                 color = target[0].className.match(me.colorRe)[1];
                 if ( target.hasClass('palette-color-effect') ) {
                     var effectId = parseInt(target.attr('effectid'));
-                    if (color)  {
+                    if (color && !e.suppressEvent)  {
                         me.value = color.toUpperCase();
                         me.trigger('select', me, {color: color, effectId: effectId});
+                        me.lastSelectedIdx = parseInt(target.attr('idx'));
                     }
                 } else {
                     if (/#?[a-fA-F0-9]{6}/.test(color)) {
                         color = /#?([a-fA-F0-9]{6})/.exec(color)[1].toUpperCase();
-                        me.value = color;
-                        me.trigger('select', me, color);
+                        if (color && !e.suppressEvent)  {
+                            me.value = color;
+                            me.trigger('select', me, color);
+                            me.lastSelectedIdx = parseInt(target.attr('idx'));
+                        }
                     }
                 }
             }
@@ -225,8 +259,7 @@ define([
             color = /#?([a-fA-F0-9]{6})/.exec(color);
             if (color) {
                 this.saveCustomColor(color[1]);
-
-                el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+                this.clearSelection(true);
 
                 var child = el.find('.dynamic-empty-color');
                 if (child.length==0) {
@@ -273,7 +306,7 @@ define([
 
         select: function(color, suppressEvent) {
             var el = this.$el || $(this.el);
-            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            this.clearSelection();
 
             if (typeof(color) == 'object' ) {
                 var effectEl;
@@ -281,6 +314,7 @@ define([
                     effectEl = el.find('a[effectid="'+color.effectId+'"]').first();
                     if (effectEl.length>0) {
                         effectEl.addClass(this.selectedCls);
+                        this.lastSelectedIdx = parseInt(effectEl.attr('idx'));
                         this.value = effectEl[0].className.match(this.colorRe)[1].toUpperCase();
                     } else
                         this.value = false;
@@ -288,6 +322,7 @@ define([
                     effectEl = el.find('a[effectvalue="'+color.effectValue+'"].color-' + color.color.toUpperCase()).first();
                     if (effectEl.length>0) {
                         effectEl.addClass(this.selectedCls);
+                        this.lastSelectedIdx = parseInt(effectEl.attr('idx'));
                         this.value = effectEl[0].className.match(this.colorRe)[1].toUpperCase();
                     } else
                         this.value = false;
@@ -302,8 +337,9 @@ define([
                     if (_.indexOf(this.colors, this.value)<0) this.value = false;
 
                     if (color != this.value || this.options.allowReselect) {
-                        (color == 'transparent') ? el.find('a.color-transparent').addClass(this.selectedCls) : el.find('a.palette-color.color-' + color).first().addClass(this.selectedCls);
+                        var co = (color == 'transparent') ? el.find('a.color-transparent').addClass(this.selectedCls) : el.find('a.palette-color.color-' + color).first().addClass(this.selectedCls);
                         this.value = color;
+                        this.lastSelectedIdx = parseInt(co.attr('idx'));
                         if (suppressEvent !== true) {
                             this.fireEvent('select', this, color);
                         }
@@ -314,6 +350,7 @@ define([
                         co = el.find('a[color="'+color+'"]').first();
                     if (co.length>0) {
                         co.addClass(this.selectedCls);
+                        this.lastSelectedIdx = parseInt(co.attr('idx'));
                         this.value = color.toUpperCase();
                     }
                 }
@@ -322,7 +359,7 @@ define([
 
         selectByRGB: function(rgb, suppressEvent) {
             var el = this.$el || $(this.el);
-            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            this.clearSelection(true);
 
             var color = (typeof(rgb) == 'object') ? rgb.color : rgb;
             if (/#?[a-fA-F0-9]{6}/.test(color)) {
@@ -338,6 +375,7 @@ define([
                         co = el.find('a[color="'+color+'"]').first();
                     if (co.length>0) {
                         co.addClass(this.selectedCls);
+                        this.lastSelectedIdx = parseInt(co.attr('idx'));
                         this.value = color;
                     }
                     if (suppressEvent !== true) {
@@ -417,7 +455,28 @@ define([
 
         clearSelection: function(suppressEvent) {
             this.$el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
-            this.value = undefined;
+            if (!suppressEvent) {
+                this.value = undefined;
+                this.lastSelectedIdx = -1;
+            }
+        },
+
+        showLastSelected: function() {
+            this.selectByIndex(this.lastSelectedIdx, true);
+        },
+
+        getSelectedColor: function() {
+            var el = this.$el || $(this.el);
+            var idx = el.find('a.' + this.selectedCls).attr('idx');
+            return (idx!==undefined) ? this.colorItems[parseInt(idx)] : null;
+        },
+
+        selectByIndex: function(index, suppressEvent) {
+            this.clearSelection(true);
+
+            if (index>=0 && index<this.colorItems.length) {
+                this.handleClick({target: this.colorItems[index].el, suppressEvent: suppressEvent});
+            }
         },
 
         generateColorData: function(themecolors, effects, standardcolors, transparent) {
@@ -447,6 +506,137 @@ define([
             if (this.options.dynamiccolors && (themecolors || standardcolors))
                 arr.push('-', '--');
             return arr;
+        },
+
+        onKeyDown: function (e, data) {
+            if (data===undefined) data = e;
+            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+                data.preventDefault();
+                data.stopPropagation();
+                var rec = this.getSelectedColor();
+                if (data.keyCode==Common.UI.Keys.RETURN) {
+                    rec && this.selectByIndex(rec.index);
+                    if (this.outerMenu && this.outerMenu.menu)
+                        this.outerMenu.menu.hide();
+                } else {
+                    var idx = rec ? rec.index : -1;
+                    if (idx<0) {
+                        idx = 0;
+                    } else if (this.options.keyMoveDirection == 'both') {
+                        if (this._layoutParams === undefined)
+                            this.fillIndexesArray();
+                        var topIdx = this.colorItems[idx].topIdx,
+                            leftIdx = this.colorItems[idx].leftIdx;
+
+                        idx = undefined;
+                        if (data.keyCode==Common.UI.Keys.LEFT) {
+                            while (idx===undefined) {
+                                leftIdx--;
+                                if (leftIdx<0) {
+                                    leftIdx = this._layoutParams.columns-1;
+                                }
+                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                            }
+                        } else if (data.keyCode==Common.UI.Keys.RIGHT) {
+                            while (idx===undefined) {
+                                leftIdx++;
+                                if (leftIdx>this._layoutParams.columns-1) leftIdx = 0;
+                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                            }
+                        } else if (data.keyCode==Common.UI.Keys.UP) {
+                            if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
+                                this.clearSelection(true);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx--;
+                                    if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
+                        } else {
+                            if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
+                                this.clearSelection(true);
+                                this.outerMenu.menu.focusOuter(data, this.outerMenu.index);
+                            } else
+                                while (idx===undefined) {
+                                    topIdx++;
+                                    if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                }
+                        }
+                    } else {
+                        idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
+                            ? Math.max(0, idx-1)
+                            : Math.min(this.colorItems.length - 1, idx + 1) ;
+                    }
+
+                    if (idx !== undefined && idx>=0) {
+                        this._fromKeyDown = true;
+                        this.selectByIndex(idx, true);
+                        this._fromKeyDown = false;
+                    }
+                }
+            }
+        },
+
+        fillIndexesArray: function() {
+            if (this.colorItems.length<=0) return;
+
+            this._layoutParams = {
+                itemsIndexes:   [],
+                columns:        0,
+                rows:           0
+            };
+
+            var el = $(this.colorItems[0].el),
+                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                offsetLeft = this.$el.offset().left,
+                offsetTop = el.offset().top,
+                prevtop = -1, topIdx = 0, leftIdx = 0;
+
+            for (var i=0; i<this.colorItems.length; i++) {
+                var top = $(this.colorItems[i].el).offset().top - offsetTop;
+                leftIdx = Math.floor(($(this.colorItems[i].el).offset().left - offsetLeft)/itemW);
+                if (top>prevtop) {
+                    prevtop = top;
+                    this._layoutParams.itemsIndexes.push([]);
+                    topIdx = this._layoutParams.itemsIndexes.length-1;
+                }
+                this._layoutParams.itemsIndexes[topIdx][leftIdx] = i;
+                this.colorItems[i].topIdx = topIdx;
+                this.colorItems[i].leftIdx = leftIdx;
+                if (this._layoutParams.columns<leftIdx) this._layoutParams.columns = leftIdx;
+            }
+            this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
+            this._layoutParams.columns++;
+        },
+
+        attachKeyEvents: function() {
+            if (this.enableKeyEvents) {
+                var el = this.$el || $(this.el);
+                el.addClass('canfocused');
+                el.attr('tabindex', this.tabindex.toString());
+                el.on('keydown', _.bind(this.onKeyDown, this));
+            }
+        },
+
+        focus: function(index) {
+            var el = this.$el || $(this.el);
+            el && el.focus();
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                this.selectByIndex(index, true);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         },
 
         textThemeColors         : 'Theme Colors',

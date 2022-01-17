@@ -55,7 +55,8 @@
                          view: ["Group1", ""] // current user can view comments made by users from Group1 and users without a group.
                          edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
-                    }
+                    },
+                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons
                 }
             },
             editorConfig: {
@@ -104,7 +105,8 @@
                 customization: {
                     logo: {
                         image: url,
-                        imageEmbedded: url,
+                        imageDark: url, // logo for dark theme
+                        imageEmbedded: url, // deprecated, use image instead
                         url: http://...
                     },
                     customer: {
@@ -113,7 +115,8 @@
                         mail: 'support@gmail.com',
                         www: 'www.superpuper.com',
                         info: 'Some info',
-                        logo: ''
+                        logo: '',
+                        logoDark: '', // logo for dark theme
                     },
                     about: true,
                     feedback: {
@@ -137,7 +140,10 @@
                     },
                     review: {
                         hideReviewDisplay: false, // hide button Review mode
-                        hoverMode: false // true - show review balloons on mouse move, not on click on text
+                        hoverMode: false, // true - show review balloons on mouse move, not on click on text
+                        showReviewChanges: false,
+                        reviewDisplay: 'original', // original for viewer, markup for editor
+                        trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
                     chat: true,
                     comments: true,
@@ -151,12 +157,12 @@
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
-                    showReviewChanges: false,
+                    showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original', // original for viewer, markup for editor
+                    reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true,
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
@@ -164,7 +170,7 @@
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
-                    trackChanges: undefined // true/false - open editor with track changes mode on/off,
+                    trackChanges: undefined // true/false - open editor with track changes mode on/off,  // must be deprecated. use customization.review.trackChanges instead
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
@@ -415,7 +421,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -865,22 +871,23 @@
             check = function(regex){ return regex.test(userAgent); },
             isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
             isChrome = !isIE && check(/\bchrome\b/),
-            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0);
+            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
+            path_type;
 
         path += app + "/";
-        path += (config.type === "mobile" || isSafari_mobile)
-            ? "mobile"
-            : (config.type === "embedded")
-                ? "embed"
-                : "main";
+        path_type = (config.type === "mobile" || isSafari_mobile)
+                    ? "mobile" : (config.type === "embedded")
+                    ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform')
+                    ? "forms" : "main";
 
+        path += path_type;
         var index = "/index.html";
-        if (config.editorConfig) {
+        if (config.editorConfig && path_type!=="forms") {
             var customization = config.editorConfig.customization;
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            } else if (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge')
+            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge')
                 index = "/index_internal.html";
 
         }
@@ -902,10 +909,12 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
-                if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
-                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.imageEmbedded);
-                else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
-                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image);
+                if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
+                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded);
+                else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
+                    config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
+                    config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
+                }
             }
         }
 

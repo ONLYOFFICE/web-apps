@@ -1,12 +1,13 @@
 .synch-tip-root {
-    position: absolute;
+    position: fixed;
     z-index: @zindex-navbar + 2;
+    @tip-width: 300px;
 
     &:not(.simple) {
-        width: 300px;
+        width: @tip-width;
 
         .tip-text {
-            width: 260px;
+            width: @tip-width - 40px;
         }
     }
 
@@ -39,6 +40,8 @@
             background-color: @header-background-color;
             color: @text-toolbar-header-ie;
             color: @text-toolbar-header;
+            border-color: @header-background-color-ie;
+            border-color: @header-background-color;
 
             .close {
                 &:before, &:after {
@@ -48,9 +51,15 @@
             }
         }
 
-        .tip-arrow:after {
+        .tip-arrow:before {
             background-color: @header-background-color-ie;
             background-color: @header-background-color;
+            border-color: @header-background-color-ie !important;
+            border-color: @header-background-color !important;
+        }
+        .tip-arrow:after {
+            border-color: @header-background-color-ie !important;
+            border-color: @header-background-color !important;
         }
     }
 
@@ -58,14 +67,95 @@
         .asc-synchronizetip {
             background-color: @background-toolbar-ie;
             background-color: @background-toolbar;
+            border-color: @background-toolbar-ie;
+            border-color: @background-toolbar;
         }
 
-        .tip-arrow:after {
+        .tip-arrow:before {
             background-color: @background-toolbar-ie;
             background-color: @background-toolbar;
+            border-color: @background-toolbar-ie !important;
+            border-color: @background-toolbar !important;
+        }
+        .tip-arrow:after {
+            border-color: @background-toolbar-ie !important;
+            border-color: @background-toolbar !important;
         }
     }
 
+    &.colored {
+        @tip-width: 270px;
+        width: @tip-width;
+        .tip-text {
+            width: @tip-width - 40px;
+        }
+
+        .asc-synchronizetip {
+            background-color: @background-contrast-popover-ie;
+            background-color: @background-contrast-popover;
+            color: @text-normal-ie;
+            color: @text-normal;
+            border-color: @border-contrast-popover-ie;
+            border-color: @border-contrast-popover;
+            .close {
+                &:before, &:after {
+                    background-color: @text-normal-ie;
+                    background-color: @text-normal;
+                }
+            }
+            .box-shadow(0 0 40px 0 @shadow-contrast-popover-ie);
+            .box-shadow(0 0 40px 0 @shadow-contrast-popover);
+        }
+
+        .tip-arrow:before {
+            background-color: @background-contrast-popover-ie;
+            background-color: @background-contrast-popover;
+            border-color: @border-contrast-popover-ie !important;
+            border-color: @border-contrast-popover !important;
+        }
+        .tip-arrow:after {
+            border-color: @border-contrast-popover-ie !important;
+            border-color: @border-contrast-popover !important;
+        }
+
+        .btn-div {
+            display: inline-block;
+            border: 1px solid @border-regular-control-ie;
+            border: 1px solid @border-regular-control;
+            border-radius: 2px;
+            padding: 3px 12px;
+            margin-top: 10px;
+            &:hover {
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
+
+            &:active {
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
+                color: @text-normal-pressed-ie;
+                color: @text-normal-pressed;
+            }
+        }
+
+        .show-link label {
+            border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
+            border-bottom: @scaled-one-px-value dotted @text-normal;
+            color: @text-normal-ie;
+            color: @text-normal;
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                color: @text-normal;
+                border-bottom-color: dotted @text-normal;
+            }
+
+            &:active {
+                color: @text-normal;
+                border-bottom-color: dotted @text-normal;
+            }
+        }
+    }
 
     &.inc-index {
         z-index: @zindex-navbar + 4;
@@ -107,14 +197,14 @@
 
     &.right {
         .tip-arrow {
-            left: -13px;
+            left: -12px;
             top: 50%;
             margin-top: -7px;
             width: 16px;
             height: 15px;
             .box-shadow(0 0 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: 0;
                 left: 8px;
                 width: 16px;
@@ -128,10 +218,10 @@
             top: 50%;
             margin-top: -7px;
             width: 16px;
-            height: 15px;
+            height: 16px;
             .box-shadow(0 0 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: 0;
                 left: -8px;
                 width: 16px;
@@ -148,7 +238,7 @@
             height: 16px;
             .box-shadow(0 0 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: -6px;
                 left: 0;
                 width: 16px;
@@ -158,13 +248,13 @@
     &.bottom {
         .tip-arrow {
             left: 50%;
-            top: -12px;
+            top: -11px;
             margin-left: -7px;
-            width: 16px;
+            width: 15px;
             height: 15px;
             .box-shadow(0 0 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: 7px;
                 left: 0;
                 width: 16px;
@@ -180,10 +270,16 @@
             height: 15px;
             .box-shadow(0 -5px 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: -7px;
                 left: 7px;
                 width: 16px;
+            }
+            &:after {
+                top: 0px;
+                left: 4px;
+                border-top: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-top: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
@@ -196,9 +292,15 @@
             height: 15px;
             .box-shadow(0 -5px 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: -7px;
                 left: -7px;
+            }
+            &:after {
+                top: 0px;
+                left: -4px;
+                border-top: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-top: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
@@ -206,14 +308,20 @@
     &.top-left {
         .tip-arrow {
             right: 0;
-            bottom: -15px;
+            bottom: -14px;
             width: 15px;
             height: 15px;
             .box-shadow(5px 0 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: -8px;
                 left: 8px;
+            }
+            &:after {
+                top: -6px;
+                left: 0px;
+                border-right: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-right: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
@@ -221,15 +329,21 @@
     &.top-right {
         .tip-arrow {
             left: 0;
-            bottom: -15px;
+            bottom: -14px;
             width: 15px;
             height: 15px;
             .box-shadow(-5px 0 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: -8px;
                 left: -8px;
                 .box-shadow(2px 2px 8px -1px rgba(0, 0, 0, 0.2));
+            }
+            &:after {
+                top: -6px;
+                left: 0px;
+                border-left: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-left: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
@@ -237,15 +351,21 @@
     &.bottom-left {
         .tip-arrow {
             right: 0;
-            top: -15px;
+            top: -14px;
             width: 15px;
             height: 15px;
             .box-shadow(8px 5px 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: 8px;
                 left: 8px;
                 .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
+            }
+            &:after {
+                top: 6px;
+                left: 0px;
+                border-right: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-right: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
@@ -253,48 +373,66 @@
     &.bottom-right {
         .tip-arrow {
             left: 0;
-            top: -15px;
+            top: -14px;
             width: 15px;
             height: 15px;
             .box-shadow(-8px 0 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: 8px;
                 left: -8px;
                 .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
+            }
+            &:after {
+                top: 6px;
+                left: 0px;
+                border-left: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-left: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
 
     &.right-top {
         .tip-arrow {
-            left: -15px;
+            left: -14px;
             bottom: 0;
             width: 15px;
             height: 15px;
             .box-shadow(0 5px 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 top: 7px;
                 left: 7px;
                 width: 16px;
+            }
+            &:after {
+                top: 0px;
+                left: 4px;
+                border-bottom: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-bottom: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
 
     &.left-top {
         .tip-arrow {
-            right: -15px;
+            right: -14px;
             bottom: 0;
             width: 15px;
             height: 13px;
             .box-shadow(-5px 8px 8px -5px rgba(0, 0, 0, 0.2));
 
-            &:after {
+            &:before {
                 bottom: -7px;
                 left: -7px;
                 //width: 15px;
                 .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
+            }
+            &:after {
+                top: -2px;
+                left: -4px;
+                border-bottom: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+                border-bottom: @scaled-one-px-value solid @background-notification-popover;
             }
         }
     }
@@ -306,6 +444,9 @@
     background-color: @background-notification-popover-ie;
     background-color: @background-notification-popover;
     overflow: visible;
+
+    border: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+    border: @scaled-one-px-value solid @background-notification-popover;
 
     .bottom-right &,
     .right-bottom & {
@@ -331,7 +472,7 @@
     font-size: 11px;
 }
 
-.asc-synchronizetip .tip-arrow:after {
+.asc-synchronizetip .tip-arrow:before {
     content: '';
     position: absolute;
     top: 5px;
@@ -348,6 +489,15 @@
     transform: rotate(45deg);
 
     .box-shadow(0 4px 8px -1px rgba(0, 0, 0, 0.2));
+    border: @scaled-one-px-value-ie solid @background-notification-popover-ie;
+    border: @scaled-one-px-value solid @background-notification-popover;
+}
+.asc-synchronizetip .tip-arrow:after {
+    content: '';
+    position: absolute;
+    background-color: transparent;
+    width: 15px;
+    height: 15px;
 }
 
 .asc-synchronizetip .show-link {

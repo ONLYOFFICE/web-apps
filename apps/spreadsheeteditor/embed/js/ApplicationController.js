@@ -37,6 +37,7 @@ SSE.ApplicationController = new(function(){
         docConfig = {},
         embedConfig = {},
         permissions = {},
+        appOptions = {},
         maxPages = 0,
         created = false,
         iframePrint = null;
@@ -118,6 +119,7 @@ SSE.ApplicationController = new(function(){
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
             docInfo.put_UserInfo(_user);
+            docInfo.put_CallbackUrl(config.callbackUrl);
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
@@ -179,8 +181,8 @@ SSE.ApplicationController = new(function(){
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
-    function onDownloadUrl(url) {
-        Common.Gateway.downloadAs(url);
+    function onDownloadUrl(url, fileType) {
+        Common.Gateway.downloadAs(url, fileType);
     }
 
     function onPrint() {
@@ -203,7 +205,7 @@ SSE.ApplicationController = new(function(){
         if ( permissions.print === false)
             $('#idt-print').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false)
+        if ( !embedConfig.saveUrl || permissions.download === false)
             $('#idt-download').hide();
 
         if ( !embedConfig.shareUrl )
@@ -218,7 +220,7 @@ SSE.ApplicationController = new(function(){
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
 
-        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        if ( (!embedConfig.saveUrl || permissions.download === false) && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
             $('#box-tools').addClass('hidden');
         else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
             $('#box-tools .divider').hide();
@@ -246,11 +248,8 @@ SSE.ApplicationController = new(function(){
 
         SSE.ApplicationView.tools.get('#idt-download')
             .on('click', function(){
-                if ( !!embedConfig.saveUrl ){
+                if ( !!embedConfig.saveUrl && permissions.download !== false){
                     common.utils.openLink(embedConfig.saveUrl);
-                } else
-                if (permissions.print!==false){
-                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                 }
 
                 Common.Analytics.trackEvent('Save');
@@ -267,8 +266,13 @@ SSE.ApplicationController = new(function(){
                 if (config.customization && config.customization.goback) {
                     if (config.customization.goback.requestClose && config.canRequestClose)
                         Common.Gateway.requestClose();
-                    else if (config.customization.goback.url)
-                        window.parent.location.href = config.customization.goback.url;
+                    else if (config.customization.goback.url) {
+                        if (config.customization.goback.blank!==false) {
+                            window.open(config.customization.goback.url, "_blank");
+                        } else {
+                            window.parent.location.href = config.customization.goback.url;
+                        }
+                    }
                 }
             });
 
@@ -276,7 +280,7 @@ SSE.ApplicationController = new(function(){
             if (api){
                 var f = Math.floor(api.asc_getZoom() * 10)/10;
                 f += .1;
-                f > 0 && !(f > 2.) && api.asc_setZoom(f);
+                f > 0 && !(f > 5.) && api.asc_setZoom(f);
             }
         });
         $('#id-btn-zoom-out').on('click', function () {
@@ -352,19 +356,8 @@ SSE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
-        if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
-            config.customization && config.customization.logo ) {
-
-            var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+config.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
-                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
-            }
-
-            if (config.customization.logo.url) {
-                logo.attr('href', config.customization.logo.url);
-            }
-        }
+        appOptions.canBranding  = params.asc_getCustomization();
+        appOptions.canBranding && setBranding(config.customization);
 
         var $parent = labelDocName.parent();
         var _left_width = $parent.position().left,
@@ -457,6 +450,10 @@ SSE.ApplicationController = new(function(){
                 message = me.convertationErrorText;
                 break;
 
+            case Asc.c_oAscError.ID.ConvertationOpenError:
+                message = me.openErrorText;
+                break;
+
             case Asc.c_oAscError.ID.DownloadError:
                 message = me.downloadErrorText;
                 break;
@@ -488,6 +485,10 @@ SSE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.LoadingFontError:
                 message = me.errorLoadingFont;
+                break;
+
+            case Asc.c_oAscError.ID.KeyExpire:
+                message = me.errorTokenExpire;
                 break;
 
             default:
@@ -607,6 +608,24 @@ SSE.ApplicationController = new(function(){
     function onBeforeUnload () {
         common.localStorage.save();
     }
+
+    function setBranding(value) {
+        if ( value && value.logo) {
+            var logo = $('#header-logo');
+            if (value.logo.image || value.logo.imageEmbedded) {
+                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
+                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
+
+                value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
+            }
+
+            if (value.logo.url) {
+                logo.attr('href', value.logo.url);
+            } else if (value.logo.url!==undefined) {
+                logo.removeAttr('href');logo.removeAttr('target');
+            }
+        }
+    }
     // Helpers
     // -------------------------
 
@@ -674,6 +693,8 @@ SSE.ApplicationController = new(function(){
         textGuest: 'Guest',
         textAnonymous: 'Anonymous',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+        openErrorText: 'An error has occurred while opening the file'
     }
 })();

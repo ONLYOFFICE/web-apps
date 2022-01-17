@@ -79,8 +79,6 @@ define([
 
             this._locked = {
                 background: false,
-                effects: false,
-                transition: false,
                 header: false
             };
             this._stateDisabled = {};
@@ -130,7 +128,10 @@ define([
                 menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrFillSrc,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_SOLID);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
@@ -140,7 +141,10 @@ define([
                 disabled: true,
                 transparent: true,
                 menu: true,
-                color: 'ffffff'
+                color: 'ffffff',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.btnBackColor);
 
@@ -152,7 +156,10 @@ define([
                 defaultUnit : "%",
                 maxValue: 100,
                 minValue: 0,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
             this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -179,134 +186,23 @@ define([
             this.FillGradientContainer = $('#slide-panel-gradient-fill');
             this.TransparencyContainer = $('#slide-panel-transparent-fill');
 
-            this._arrEffectName = [
-                {displayValue: this.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
-                {displayValue: this.textFade,    value: Asc.c_oAscSlideTransitionTypes.Fade},
-                {displayValue: this.textPush,    value: Asc.c_oAscSlideTransitionTypes.Push},
-                {displayValue: this.textWipe,    value: Asc.c_oAscSlideTransitionTypes.Wipe},
-                {displayValue: this.textSplit,   value: Asc.c_oAscSlideTransitionTypes.Split},
-                {displayValue: this.textUnCover, value: Asc.c_oAscSlideTransitionTypes.UnCover},
-                {displayValue: this.textCover,   value: Asc.c_oAscSlideTransitionTypes.Cover},
-                {displayValue: this.textClock,   value: Asc.c_oAscSlideTransitionTypes.Clock},
-                {displayValue: this.textZoom,    value: Asc.c_oAscSlideTransitionTypes.Zoom}
-            ];
-
-            this.cmbEffectName = new Common.UI.ComboBox({
-                el: $('#slide-combo-effect-name'),
-                cls: 'input-group-nr',
-                style: 'width: 100%;',
-                menuStyle: 'min-width: 100%;',
-                editable: false,
-                data: this._arrEffectName,
-                disabled: true
-            });
-            this.cmbEffectName.setValue('');
-            this.cmbEffectName.on('selected', _.bind(this.onEffectNameSelect, this));
-
-            this._arrEffectType = [
-                {displayValue: this.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
-                {displayValue: this.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
-                {displayValue: this.textLeft,               value: Asc.c_oAscSlideTransitionParams.Param_Left},
-                {displayValue: this.textTop,                value: Asc.c_oAscSlideTransitionParams.Param_Top},
-                {displayValue: this.textRight,              value: Asc.c_oAscSlideTransitionParams.Param_Right},
-                {displayValue: this.textBottom,             value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
-                {displayValue: this.textTopLeft,            value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
-                {displayValue: this.textTopRight,           value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
-                {displayValue: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
-                {displayValue: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
-                {displayValue: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
-                {displayValue: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
-                {displayValue: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
-                {displayValue: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
-                {displayValue: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
-                {displayValue: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
-                {displayValue: this.textWedge,              value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
-                {displayValue: this.textZoomIn,             value: Asc.c_oAscSlideTransitionParams.Zoom_In},
-                {displayValue: this.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
-                {displayValue: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
-            ];
-
-            this.cmbEffectType = new Common.UI.ComboBox({
-                el: $('#slide-combo-effect-type'),
-                cls: 'input-group-nr',
-                style: 'width: 100%;',
-                menuStyle: 'min-width: 100%;',
-                editable: false,
-                data: this._arrEffectType,
-                disabled: true
-            });
-            this.cmbEffectType.setValue('');
-            this.cmbEffectType.on('selected', _.bind(this.onEffectTypeSelect, this));
-
-            this.numDuration = new Common.UI.MetricSpinner({
-                el: $('#slide-spin-duration'),
-                step: 1,
-                width: 70,
-                value: '',
-                defaultUnit : this.textSec,
-                maxValue: 300,
-                minValue: 0,
-                disabled: true
-            });
-            this.numDuration.on('change', _.bind(this.onDurationChange, this));
-            this.numDuration.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
-
-            this.numDelay = new Common.UI.MetricSpinner({
-                el: $('#slide-spin-delay'),
-                step: 1,
-                width: 70,
-                value: '',
-                defaultUnit : this.textSec,
-                maxValue: 300,
-                minValue: 0,
-                disabled: true
-            });
-            this.numDelay.on('change', _.bind(this.onDelayChange, this));
-            this.numDelay.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
-
-            this.chStartOnClick = new Common.UI.CheckBox({
-                el: $('#slide-checkbox-start-click'),
-                labelText: this.strStartOnClick,
-                disabled: true
-            });
-            this.chStartOnClick.on('change', _.bind(this.onStartOnClickChange, this));
-
-            this.chDelay = new Common.UI.CheckBox({
-                el: $('#slide-checkbox-delay'),
-                labelText: this.strDelay,
-                disabled: true
-            });
-            this.chDelay.on('change', _.bind(this.onCheckDelayChange, this));
-
-            this.btnPreview = new Common.UI.Button({
-                el: $('#slide-button-preview'),
-                disabled: true
-            });
-            this.btnPreview.on('click', _.bind(function(btn){
-                if (this.api) this.api.SlideTransitionPlay();
-                this.fireEvent('editcomplete', this);
-            }, this));
-
-            this.btnApplyToAll = new Common.UI.Button({
-                el: $('#slide-button-apply-all'),
-                disabled: true
-            });
-            this.btnApplyToAll.on('click', _.bind(function(btn){
-                if (this.api) this.api.SlideTransitionApplyToAll();
-                this.fireEvent('editcomplete', this);
-            }, this));
-
             this.chSlideNum = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-slidenum'),
                 labelText: this.strSlideNum,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chSlideNum.on('change', _.bind(this.onHeaderChange, this, 'slidenum'));
 
             this.chDateTime = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-datetime'),
                 labelText: this.strDateTime,
-                disabled: true
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.chDateTime.on('change', _.bind(this.onHeaderChange, this, 'datetime'));
         },
@@ -743,8 +639,8 @@ define([
         },
 
         insertImageFromStorage: function(data) {
-            if (data && data.url && data.c=='slide') {
-                this.setImageUrl(data.url, data.token);
+            if (data && data._urls && data.c=='slide') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 
@@ -780,7 +676,10 @@ define([
                 itemHeight: 28,
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
-                cls: 'combo-pattern'
+                cls: 'combo-pattern',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
                 '<div class="style" id="<%= id %>">',
@@ -810,7 +709,10 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
@@ -826,7 +728,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
-                data: this._arrFillType
+                data: this._arrFillType,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbFillType.setValue(this._arrFillType[0].value);
             this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
@@ -842,7 +747,10 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 90px;',
                 editable: false,
-                data: this._arrGradType
+                data: this._arrGradType,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
@@ -872,7 +780,10 @@ define([
                     items: [
                         { template: _.template('<div id="id-slide-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
                     ]
-                })
+                }),
+                dataHint    : '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -947,7 +858,10 @@ define([
                 allowDecimal: false,
                 maxValue: 100,
                 minValue: 0,
-                disabled: this._locked.background
+                disabled: this._locked.background,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -958,7 +872,9 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-add-breakpoint',
                 disabled: this._locked.background,
-                hint: this.tipAddGradientPoint
+                hint: this.tipAddGradientPoint,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
             });
             this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
             this.FillItems.push(this.btnAddGradientStep);
@@ -968,7 +884,9 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-remove-breakpoint',
                 disabled: this._locked.background,
-                hint: this.tipRemoveGradientPoint
+                hint: this.tipRemoveGradientPoint,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
             });
             this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
             this.FillItems.push(this.btnRemoveGradientStep);
@@ -982,7 +900,10 @@ define([
                 allowDecimal: true,
                 maxValue: 359.9,
                 minValue: 0,
-                disabled: this._locked.background
+                disabled: this._locked.background,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.FillItems.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1049,7 +970,7 @@ define([
                     el: $('#slide-combo-fill-texture'),
                     template: _.template([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                        '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                        '<div class="form-control text" style="width: 90px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSelectTexture + '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
                             '<span class="caret"></span>',
@@ -1100,122 +1021,6 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        fillEffectTypeCombo: function (type) {
-            var arr = [];
-            switch (type) {
-                case Asc.c_oAscSlideTransitionTypes.Fade:
-                    arr.push(this._arrEffectType[0], this._arrEffectType[1]);
-                    break;
-                case Asc.c_oAscSlideTransitionTypes.Push:
-                    arr = this._arrEffectType.slice(2, 6);
-                    break;
-                case Asc.c_oAscSlideTransitionTypes.Wipe:
-                    arr = this._arrEffectType.slice(2, 10);
-                    break;
-                case Asc.c_oAscSlideTransitionTypes.Split:
-                    arr = this._arrEffectType.slice(10, 14);
-                    break;
-                case Asc.c_oAscSlideTransitionTypes.UnCover:
-                    arr = this._arrEffectType.slice(2, 10);
-                    break;
-                case Asc.c_oAscSlideTransitionTypes.Cover:
-                    arr = this._arrEffectType.slice(2, 10);
-                    break;
-                case Asc.c_oAscSlideTransitionTypes.Clock:
-                    arr = this._arrEffectType.slice(14, 17);
-                    break;
-                case Asc.c_oAscSlideTransitionTypes.Zoom:
-                    arr = this._arrEffectType.slice(17);
-                    break;
-            }
-            if (arr.length>0) {
-                this.cmbEffectType.store.reset(arr);
-                this.cmbEffectType.setValue(arr[0].value);
-                this.EffectType = arr[0].value;
-            } else {
-                this.cmbEffectType.store.reset();
-                this.EffectType = undefined;
-            }
-
-            this.cmbEffectType.setDisabled(arr.length<1 || this._locked.effects);
-            this.numDuration.setDisabled(arr.length<1 || this._locked.effects);
-            this.btnPreview.setDisabled(arr.length<1 || this._locked.effects);
-        },
-
-        onEffectNameSelect: function(combo, record) {
-            var type = record.value;
-            if (this.Effect !== type &&
-                !((this.Effect===Asc.c_oAscSlideTransitionTypes.Wipe || this.Effect===Asc.c_oAscSlideTransitionTypes.UnCover || this.Effect===Asc.c_oAscSlideTransitionTypes.Cover)&&
-                    (type===Asc.c_oAscSlideTransitionTypes.Wipe || type===Asc.c_oAscSlideTransitionTypes.UnCover || type===Asc.c_oAscSlideTransitionTypes.Cover))  )
-                this.fillEffectTypeCombo(type);
-            this.Effect = type;
-            if (this.api && !this._noApply) {
-                var props = new Asc.CAscSlideProps();
-                var transition = new Asc.CAscSlideTransition();
-                transition.put_TransitionType(type);
-                transition.put_TransitionOption(this.EffectType);
-                props.put_transition(transition);
-                this.api.SetSlideProps(props);
-            }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onEffectTypeSelect: function(combo, record) {
-            this.EffectType = record.value;
-            if (this.api && !this._noApply) {
-                var props = new Asc.CAscSlideProps();
-                var transition = new Asc.CAscSlideTransition();
-                transition.put_TransitionType(this.Effect);
-                transition.put_TransitionOption(this.EffectType);
-                props.put_transition(transition);
-                this.api.SetSlideProps(props);
-            }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onDurationChange: function(field, newValue, oldValue, eOpts){
-            if (this.api && !this._noApply)   {
-                var props = new Asc.CAscSlideProps();
-                var transition = new Asc.CAscSlideTransition();
-                transition.put_TransitionDuration(field.getNumberValue()*1000);
-                props.put_transition(transition);
-                this.api.SetSlideProps(props);
-            }
-        },
-
-        onDelayChange: function(field, newValue, oldValue, eOpts){
-            if (this.api && !this._noApply)   {
-                var props = new Asc.CAscSlideProps();
-                var transition = new Asc.CAscSlideTransition();
-                transition.put_SlideAdvanceDuration(field.getNumberValue()*1000);
-                props.put_transition(transition);
-                this.api.SetSlideProps(props);
-            }
-        },
-
-        onStartOnClickChange: function(field, newValue, oldValue, eOpts){
-            if (this.api && !this._noApply)   {
-                var props = new Asc.CAscSlideProps();
-                var transition = new Asc.CAscSlideTransition();
-                transition.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
-                props.put_transition(transition);
-                this.api.SetSlideProps(props);
-            }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onCheckDelayChange: function(field, newValue, oldValue, eOpts){
-            this.numDelay.setDisabled(field.getValue()!=='checked');
-            if (this.api && !this._noApply)   {
-                var props = new Asc.CAscSlideProps();
-                var transition = new Asc.CAscSlideTransition();
-                transition.put_SlideAdvanceAfter(field.getValue()=='checked');
-                props.put_transition(transition);
-                this.api.SetSlideProps(props);
-            }
-            this.fireEvent('editcomplete', this);
-        },
-
         onHeaderChange: function(type, field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = this.api.asc_getHeaderFooterProperties();
@@ -1234,7 +1039,10 @@ define([
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-foreground-color-btn'),
-                    color: '000000'
+                    color: '000000',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.FillItems.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
@@ -1242,7 +1050,10 @@ define([
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-background-color-btn'),
-                    color: 'ffffff'
+                    color: 'ffffff',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.FillItems.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
@@ -1250,7 +1061,10 @@ define([
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#slide-gradient-color-btn'),
-                    color: '000000'
+                    color: '000000',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
                 this.FillItems.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
@@ -1274,7 +1088,7 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this.SetSlideDisabled(this._locked.background, this._locked.effects, this._locked.transition, this._locked.header);
+            this.SetSlideDisabled(this._locked.background, this._locked.header);
 
             if (props)
             {
@@ -1471,65 +1285,6 @@ define([
                     this._state.SlideColor = this.SlideColor.Color;
                 }
 
-                var transition = props.get_transition();
-                if (transition) {
-                    var value = transition.get_TransitionType();
-                    var found = false;
-                    if (this._state.Effect !== value) {
-                        var item = this.cmbEffectName.store.findWhere({value: value});
-                        if (item) {
-                            found = true;
-                            this.cmbEffectName.setValue(item.get('value'));
-                        } else
-                            this.cmbEffectName.setValue('');
-
-                        this.fillEffectTypeCombo((found) ? value : undefined);
-                        this.Effect = value;
-                        this._state.Effect = value;
-                    }
-
-                    value = transition.get_TransitionOption();
-                    if (this._state.EffectType !== value || found) {
-                        found = false;
-                        item = this.cmbEffectType.store.findWhere({value: value});
-                        if (item) {
-                            found = true;
-                            this.cmbEffectType.setValue(item.get('value'));
-                        } else
-                            this.cmbEffectType.setValue('');
-
-                        this._state.EffectType = value;
-                    }
-
-                    value = transition.get_TransitionDuration();
-                    if ( Math.abs(this._state.Duration-value)>0.001 ||
-                        (this._state.Duration===null || value===null)&&(this._state.Duration!==value) ||
-                        (this._state.Duration===undefined || value===undefined)&&(this._state.Duration!==value) ) {
-                        this.numDuration.setValue((value !== null && value !== undefined) ? value/1000.  : '', true);
-                        this._state.Duration=value;
-                    }
-
-                    value = transition.get_SlideAdvanceDuration();
-                    if ( Math.abs(this._state.Delay-value)>0.001 ||
-                        (this._state.Delay===null || value===null)&&(this._state.Delay!==value) ||
-                        (this._state.Delay===undefined || value===undefined)&&(this._state.Delay!==value) ) {
-                        this.numDelay.setValue((value !== null && value !== undefined) ? value/1000.  : '', true);
-                        this._state.Delay=value;
-                    }
-
-                    value = transition.get_SlideAdvanceOnMouseClick();
-                    if ( this._state.OnMouseClick!==value ) {
-                        this.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                        this._state.OnMouseClick=value;
-                    }
-                    value = transition.get_SlideAdvanceAfter();
-                    if ( this._state.AdvanceAfter!==value ) {
-                        this.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                        this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
-                        this._state.AdvanceAfter=value;
-                    }
-                }
-
                 // pattern colors
                 type1 = typeof(this.FGColor.Color);
                 type2 = typeof(this._state.FGColor);
@@ -1616,15 +1371,15 @@ define([
             }
         },
 
-        setLocked: function (background, effects, transition, header) {
+        setLocked: function (background, header) {
             this._locked = {
-                background: background, effects: effects, transition: transition, header: header
+                background: background, header: header
             };
         },
 
-        SetSlideDisabled: function(background, effects, transition, header) {
+        SetSlideDisabled: function(background, header) {
             this._locked = {
-                background: background, effects: effects, transition: transition, header: header
+                background: background, header: header
             };
             if (this._initSettings) return;
             
@@ -1637,21 +1392,6 @@ define([
                 this.lblTransparencyEnd.toggleClass('disabled', background);
                 this.numGradientAngle.setDisabled(background || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
                 this._stateDisabled.background = background;
-            }
-            if (effects !== this._stateDisabled.effects) {
-                var length = this.cmbEffectType.store.length;
-                this.cmbEffectName.setDisabled(effects);
-                this.cmbEffectType.setDisabled(length<1 || effects);
-                this.numDuration.setDisabled(length<1 || effects);
-                this.btnPreview.setDisabled(length<1 || effects);
-                this._stateDisabled.effects = effects;
-            }
-            if (transition !== this._stateDisabled.transition) {
-                this.chStartOnClick.setDisabled(transition);
-                this.chDelay.setDisabled(transition);
-                this.numDelay.setDisabled(transition || this.chDelay.getValue()!=='checked');
-                this.btnApplyToAll.setDisabled(transition);
-                this._stateDisabled.transition = transition;
             }
             if (header !== this._stateDisabled.header) {
                 this.chSlideNum.setDisabled(header);
@@ -1754,41 +1494,6 @@ define([
         textAdvanced            : 'Show advanced settings',
         textNoFill              : 'No Fill',
         textSelectTexture       : 'Select',
-        textNone: 'None',
-        textFade: 'Fade',
-        textPush: 'Push',
-        textWipe: 'Wipe',
-        textSplit: 'Split',
-        textUnCover: 'UnCover',
-        textCover: 'Cover',
-        textClock: 'Clock',
-        textZoom: 'Zoom',
-        textSmoothly: 'Smoothly',
-        textBlack: 'Through Black',
-        textLeft: 'Left',
-        textTop: 'Top',
-        textRight: 'Right',
-        textBottom: 'Bottom',
-        textTopLeft: 'Top-Left',
-        textTopRight: 'Top-Right',
-        textBottomLeft: 'Bottom-Left',
-        textBottomRight: 'Bottom-Right',
-        textVerticalIn: 'Vertical In',
-        textVerticalOut: 'Vertical Out',
-        textHorizontalIn: 'Horizontal In',
-        textHorizontalOut: 'Horizontal Out',
-        textClockwise: 'Clockwise',
-        textCounterclockwise: 'Counterclockwise',
-        textWedge: 'Wedge',
-        textZoomIn: 'Zoom In',
-        textZoomOut: 'Zoom Out',
-        textZoomRotate: 'Zoom and Rotate',
-        strStartOnClick: 'Start On Click',
-        strDelay: 'Delay',
-        textApplyAll: 'Apply to All Slides',
-        textPreview: 'Preview',
-        strEffect: 'Effect',
-        strDuration: 'Duration',
         textGradientFill: 'Gradient Fill',
         textPatternFill: 'Pattern',
         strBackground: 'Background color',
@@ -1800,7 +1505,6 @@ define([
         textDirection: 'Direction',
         textStyle: 'Style',
         textGradient: 'Gradient Points',
-        textSec: 's',
         strSlideNum: 'Show Slide Number',
         strDateTime: 'Show Date and Time',
         textFromStorage: 'From Storage',

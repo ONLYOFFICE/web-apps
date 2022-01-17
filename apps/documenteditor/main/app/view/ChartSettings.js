@@ -232,7 +232,11 @@ define([
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
                 store: new Common.UI.DataViewStore(viewData),
-                cls: 'combo-chart-style'
+                cls: 'combo-chart-style',
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                delayRenderTips: true
             });
             this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
                 '<div class="item-icon-box" id="<%= id %>">',
@@ -259,7 +263,10 @@ define([
                     items: [
                         { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart" ></div>') }
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.btnChartType.on('render:after', function(btn) {
                 me.mnuChartTypePicker = new Common.UI.DataView({
@@ -268,7 +275,8 @@ define([
                     restoreHeight: 465,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                    delayRenderTips: true
                 });
             });
             this.btnChartType.render($('#chart-button-type'));
@@ -435,7 +443,11 @@ define([
                     itemHeight: 50,
                     menuMaxHeight: 270,
                     enableKeyEvents: true,
-                    cls: 'combo-chart-style'
+                    cls: 'combo-chart-style',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big',
+                    delayRenderTips: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({

@@ -102,6 +102,7 @@ div {
         var sendNotificationTimer;
         var sessionId;
         var fileInfo;
+        var insertImageType;
 
         var innerAlert = function (message) {
             if (console && console.log)
@@ -116,6 +117,12 @@ div {
             'Grab_Focus': function (data) {
                 innerAlert('Grab_Focus');
                 docEditor.grabFocus();
+            },
+            'Action_InsertGraphic': function (data) {
+                data && data.Values && docEditor.insertImage({
+                    "c": insertImageType,
+                    "images": [{ "url": data.Values.url }]
+                });
             },
             'Host_PostmessageReady': function (data) {
                 innerAlert('Host_PostmessageReady');
@@ -226,6 +233,11 @@ div {
                 window.open(fileInfo.FileVersionUrl, "_blank");
         };
 
+        var onRequestInsertImage = function (event) {
+            insertImageType = event.data.c;
+            _postMessage('UI_InsertGraphic', {});
+        };
+
         var onError = function (event) {
             if (event)
                 innerAlert(event.data);
@@ -305,7 +317,8 @@ div {
                     "onRequestClose": fileInfo.ClosePostMessage || fileInfo.CloseUrl ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                     "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,
-                    "onRequestHistory": fileInfo.FileVersionUrl || fileInfo.FileVersionPostMessage ? onRequestHistory : undefined
+                    "onRequestHistory": fileInfo.FileVersionUrl || fileInfo.FileVersionPostMessage ? onRequestHistory : undefined,
+                    "onRequestInsertImage": fileInfo.EnableInsertRemoteImage ? onRequestInsertImage : undefined
                 }
 			};
 

@@ -121,6 +121,7 @@ DE.ApplicationController = new(function(){
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
             docInfo.put_UserInfo(_user);
+            docInfo.put_CallbackUrl(config.callbackUrl);
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
@@ -266,8 +267,8 @@ DE.ApplicationController = new(function(){
         }
     }
 
-    function onDownloadUrl(url) {
-        Common.Gateway.downloadAs(url);
+    function onDownloadUrl(url, fileType) {
+        Common.Gateway.downloadAs(url, fileType);
     }
 
     function onPrint() {
@@ -401,7 +402,7 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        if ( !embedConfig.saveUrl && permissions.print === false || appOptions.canFillForms) {
+        if ( !embedConfig.saveUrl || permissions.download === false || appOptions.canFillForms) {
             $('#idt-download').hide();
             itemsCount--;
         }
@@ -437,7 +438,6 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        // if ( !embedConfig.saveUrl && permissions.print === false && (!embedConfig.shareUrl || appOptions.canFillForms) && (!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl && !config.canBackToFolder)
         if (itemsCount<1)
             $('#box-tools').addClass('hidden');
         else if ((!embedConfig.embedUrl || appOptions.canFillForms) && !embedConfig.fullscreenUrl)
@@ -475,11 +475,8 @@ DE.ApplicationController = new(function(){
 
         DE.ApplicationView.tools.get('#idt-download')
             .on('click', function(){
-                    if ( !!embedConfig.saveUrl ){
+                    if ( !!embedConfig.saveUrl && permissions.download !== false){
                         common.utils.openLink(embedConfig.saveUrl);
-                    } else
-                    if (api && permissions.print!==false){
-                        api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera || $.browser.mozilla && $.browser.versionNumber>86));
                     }
 
                     Common.Analytics.trackEvent('Save');
@@ -496,8 +493,13 @@ DE.ApplicationController = new(function(){
             if (config.customization && config.customization.goback) {
                 if (config.customization.goback.requestClose && config.canRequestClose)
                     Common.Gateway.requestClose();
-                else if (config.customization.goback.url)
-                    window.parent.location.href = config.customization.goback.url;
+                else if (config.customization.goback.url) {
+                    if (config.customization.goback.blank!==false) {
+                        window.open(config.customization.goback.url, "_blank");
+                    } else {
+                        window.parent.location.href = config.customization.goback.url;
+                    }
+                }
             }
         });
 
@@ -599,23 +601,12 @@ DE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
-        if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
-             config.customization && config.customization.logo ) {
-
-            var logo = $('#header-logo');
-            if (config.customization.logo.imageEmbedded) {
-                logo.html('<img src="'+config.customization.logo.imageEmbedded+'" style="max-width:124px; max-height:20px;"/>');
-                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
-            }
-
-            if (config.customization.logo.url) {
-                logo.attr('href', config.customization.logo.url);
-            }
-        }
         var licType = params.asc_getLicenseType();
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
+        appOptions.canFillForms   = false; // use forms editor for filling forms
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
+        appOptions.canBranding  = params.asc_getCustomization();
+        appOptions.canBranding && setBranding(config.customization);
 
         api.asc_setViewMode(!appOptions.canFillForms);
 
@@ -703,6 +694,10 @@ DE.ApplicationController = new(function(){
                 message = me.convertationErrorText;
                 break;
 
+            case Asc.c_oAscError.ID.ConvertationOpenError:
+                message = me.openErrorText;
+                break;
+
             case Asc.c_oAscError.ID.DownloadError:
                 message = me.downloadErrorText;
                 break;
@@ -744,6 +739,10 @@ DE.ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.LoadingFontError:
                 message = me.errorLoadingFont;
+                break;
+
+            case Asc.c_oAscError.ID.KeyExpire:
+                message = me.errorTokenExpire;
                 break;
 
             default:
@@ -820,6 +819,24 @@ DE.ApplicationController = new(function(){
 
     function onBeforeUnload () {
         common.localStorage.save();
+    }
+
+    function setBranding(value) {
+        if ( value && value.logo) {
+            var logo = $('#header-logo');
+            if (value.logo.image || value.logo.imageEmbedded) {
+                logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
+                logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
+
+                value.logo.imageEmbedded && console.log("Obsolete: The 'imageEmbedded' parameter of the 'customization.logo' section is deprecated. Please use 'image' parameter instead.");
+            }
+
+            if (value.logo.url) {
+                logo.attr('href', value.logo.url);
+            } else if (value.logo.url!==undefined) {
+                logo.removeAttr('href');logo.removeAttr('target');
+            }
+        }
     }
         // Helpers
     // -------------------------
@@ -932,6 +949,8 @@ DE.ApplicationController = new(function(){
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         txtEmpty: '(Empty)',
         txtPressLink: 'Press Ctrl and click link',
-        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+        errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+        errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
+        openErrorText: 'An error has occurred while opening the file'
     }
 })();

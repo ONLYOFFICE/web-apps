@@ -15,11 +15,15 @@ export class storeFocusObjects {
             imageObject: computed,
             chartObject: computed,
             isLocked: observable,
+            isLockedText: observable,
+            isLockedShape: observable,
             setIsLocked: action,
             editFormulaMode: observable,
             setEditFormulaMode: action,
             isEditCell: observable,
-            setEditCell: action
+            setEditCell: action,
+            functionsDisable: observable,
+            setFunctionsDisabled: action,
         });
     }
 
@@ -87,9 +91,14 @@ export class storeFocusObjects {
     }
 
     isLocked = false;
+    isLockedShape = false;
+    isLockedText = false;
 
     setIsLocked(info) {
-        let islocked = false;
+        let isLocked = false, 
+            isLockedShape = false,
+            isLockedText = false;
+
         switch (info.asc_getSelectionType()) {
             case Asc.c_oAscSelectionType.RangeChart:
             case Asc.c_oAscSelectionType.RangeImage:
@@ -99,15 +108,19 @@ export class storeFocusObjects {
                 const objects = Common.EditorApi.get().asc_getGraphicObjectProps();
                 for ( let i in objects ) {
                     if ( objects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image ) {
-                        if ((islocked = objects[i].asc_getObjectValue().asc_getLocked()))
-                            break;
+                        isLocked = objects[i].asc_getObjectValue().asc_getLocked();
+                        isLockedShape = objects[i].asc_getObjectValue().asc_getProtectionLocked();
+                        isLockedText = objects[i].asc_getObjectValue().asc_getProtectionLockText();
+                        break;
                     }
                 }
                 break;
             default:
-                islocked = info.asc_getLocked();
+                this.isLocked = info.asc_getLocked();
         }
-        this.isLocked = islocked;
+        this.isLocked = isLocked;
+        this.isLockedShape = isLockedShape;
+        this.isLockedText = isLockedText;
     }
 
     editFormulaMode = false;
@@ -120,6 +133,12 @@ export class storeFocusObjects {
 
     setEditCell(value) {
         this.isEditCell = value;
+    }
+
+    functionsDisable = false;
+
+    setFunctionsDisabled(value) {
+        this.functionsDisable = value;
     }
 
 }

@@ -34,9 +34,42 @@
             <div id="form-txt-help"></div>
         </td>
     </tr>
+    <tr class="form-list">
+        <td colspan="2" class="padding-small">
+            <label class="input-label"><%= scope.textValue %></label>
+        </td>
+    </tr>
+    <tr class="form-list" style="vertical-align: top;">
+        <td class="padding-small">
+            <div id="form-txt-new-value" style="margin-right: 5px;"></div>
+        </td>
+        <td class="padding-small">
+            <div id="form-list-add" style="margin-left: 5px;"></div>
+        </td>
+    </tr>
+    <tr class="form-list" style="vertical-align: top;">
+        <td class="padding-large">
+            <div id="form-list-list" style="width:162px; height: 95px;margin-right: 5px;"></div>
+        </td>
+        <td class="padding-large">
+            <div id="form-list-delete" style="margin-bottom: 5px;margin-left: 5px;"></div>
+            <div id="form-list-up" style="margin-bottom: 5px;margin-left: 5px;"></div>
+            <div id="form-list-down" style="margin-left: 5px;"></div>
+        </td>
+    </tr>
     <tr class="form-not-image">
         <td class="padding-small">
             <div id="form-chb-fixed"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-autofit"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-multiline"></div>
         </td>
     </tr>
     <tr class="form-textfield">
@@ -56,24 +89,8 @@
             <div id="form-spin-width" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
-        <td class="padding-small">
-            <label class="input-label" style="margin-left: 22px;margin-top: 4px;"><%= scope.textColor %></label>
-            <div id="form-color-btn" style="display: inline-block; float: right;"></div>
-        </td>
-    </tr>
-    <tr class="form-textfield">
-        <td class="padding-small">
-            <div id="form-chb-autofit"></div>
-        </td>
-    </tr>
-    <tr class="form-textfield">
-        <td class="padding-small">
-            <div id="form-chb-multiline"></div>
-        </td>
-    </tr>
     <tr class="form-image">
-        <td class="padding-large">
+        <td class="padding-small">
             <label class="input-label"><%= scope.textScale %></label>
             <div id="form-combo-scale" style="width: 100%;"></div>
         </td>
@@ -85,32 +102,37 @@
     </tr>
     <tr class="form-image">
         <td class="padding-large">
+            <div id="form-cnt-position" style="width: 100%;">
+                <div class="row">
+                    <div id="form-img-position-preview">
+                        <div id="form-img-example"><%= scope.textImage %></div>
+                    </div>
+                    <div id="form-img-slider-position-y"></div>
+                </div>
+                <div class="row">
+                    <div id="form-img-slider-position-x"></div>
+                    <label id="form-img-slider-value"></label>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
             <div id="form-button-replace" style="width:100%;"></div>
         </td>
     </tr>
 </table>
-<table cols="2" class="form-list" style="margin-top:5px;">
+<table cols="1">
     <tr>
-        <td colspan="2" class="padding-small">
-            <label class="input-label"><%= scope.textValue %></label>
+        <td class="padding-small">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textColor %></label>
+            <div id="form-color-btn" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
-    <tr style="vertical-align: top;">
-        <td class="padding-small">
-            <div id="form-txt-new-value" style="margin-right: 5px;"></div>
-        </td>
-        <td class="padding-small">
-            <div id="form-list-add" style="margin-left: 5px;"></div>
-        </td>
-    </tr>
-    <tr style="vertical-align: top;">
+    <tr>
         <td class="padding-large">
-            <div id="form-list-list" style="width:162px; height: 95px;margin-right: 5px;"></div>
-        </td>
-        <td class="padding-large">
-            <div id="form-list-delete" style="margin-bottom: 5px;margin-left: 5px;"></div>
-            <div id="form-list-up" style="margin-bottom: 5px;margin-left: 5px;"></div>
-            <div id="form-list-down" style="margin-left: 5px;"></div>
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
+            <div id="form-background-color-btn" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
 </table>

@@ -7,8 +7,8 @@
     </div>
     <div id="chat-options" class="layout-item">
         <div id="chat-options-ct">
-            <textarea id="chat-msg-text" class="user-select textarea-control" maxlength="<%=maxMsgLength%>"></textarea>
-            <button id="chat-msg-btn-add" class="btn normal dlg-btn primary"><%=scope.textSend%></button>
+            <textarea id="chat-msg-text" class="user-select textarea-control" maxlength="<%=maxMsgLength%>" data-hint="1" data-hint-direction="left-top"></textarea>
+            <button id="chat-msg-btn-add" class="btn normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=scope.textSend%></button>
         </div>
     </div>
 </div>

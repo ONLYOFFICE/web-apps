@@ -8,7 +8,7 @@ import {Device} from "../../../utils/device";
 import {ReviewController, ReviewChangeController} from "../../controller/collaboration/Review";
 import {PageDisplayMode} from "./Review";
 
-import {ViewCommentsController} from "../../controller/collaboration/Comments";
+import {ViewCommentsController, ViewCommentsSheetsController} from "../../controller/collaboration/Comments";
 
 const PageUsers = inject("users")(observer(props => {
     const { t } = useTranslation();
@@ -76,7 +76,7 @@ const routes = [
     },
     {
         path: '/comments/',
-        component: ViewCommentsController,
+        asyncComponent: () => window.editorType == 'sse' ? ViewCommentsSheetsController : ViewCommentsController,
         options: {
             props: {
                 allComments: true
@@ -123,7 +123,6 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     )
 
 }));
-
 class CollaborationView extends Component {
     constructor(props) {
         super(props);
@@ -161,7 +160,9 @@ const Collaboration = props => {
     });
 
     const onviewclosed = () => {
-        if ( props.onclosed ) props.onclosed();
+        if ( props.onclosed ) { 
+            props.onclosed();
+        }
     };
 
     return (

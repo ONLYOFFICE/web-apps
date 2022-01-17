@@ -252,7 +252,10 @@ define([
                         { caption: "125%", value: 125 },
                         { caption: "150%", value: 150 },
                         { caption: "175%", value: 175 },
-                        { caption: "200%", value: 200 }
+                        { caption: "200%", value: 200 },
+                        { caption: "300%", value: 300 },
+                        { caption: "400%", value: 400 },
+                        { caption: "500%", value: 500 }
                     ]
                 });
 
@@ -322,6 +325,7 @@ define([
                 if (this.api) {
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
+                    this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',      _.bind(this.onApiCoAuthoringDisconnect, this));
                 }
 

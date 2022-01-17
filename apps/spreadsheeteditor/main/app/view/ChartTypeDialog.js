@@ -178,7 +178,8 @@ define([
                             '<span class="title"><%= title %></span>',
                         '<% } %>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                delayRenderTips: true
             });
             this.stylesList.on('item:select', _.bind(this.onSelectStyles, this));
 

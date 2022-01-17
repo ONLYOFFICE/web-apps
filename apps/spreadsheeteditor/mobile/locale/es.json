@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "¿Realmente quiere eliminar este comentario?",
       "textMessageDeleteReply": "¿Realmente quiere eliminar esta respuesta?",
       "textNoComments": "Este documento no contiene comentarios",
+      "textOk": "OK",
       "textReopen": "Volver a abrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
-      "textUsers": "Usuarios",
-      "textOk": "Ok"
+      "textUsers": "Usuarios"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
@@ -41,6 +41,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual.",
+    "errorInvalidLink": "La referencia del enlace no existe. Por favor, corrija o elimine el enlace.",
     "menuAddComment": "Añadir comentario",
     "menuAddLink": "Añadir enlace ",
     "menuCancel": "Cancelar",
@@ -61,7 +62,7 @@
     "notcriticalErrorTitle": "Advertencia",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "warnMergeLostData": "La operación puede destruir los datos de las celdas seleccionadas. ¿Continuar?"
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -153,7 +154,10 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -169,6 +173,7 @@
     "errorAutoFilterHiddenRange": "La operación no puede realizarse porque el área contiene celdas filtradas.<br>Por favor, desoculte los elementos filtrados e inténtelo de nuevo.",
     "errorBadImageUrl": "URL de imagen es incorrecta",
     "errorChangeArray": "No se puede cambiar parte de una matriz.",
+    "errorChangeOnProtectedSheet": "La celda o el gráfico que usted está intentando cambiar está en una hoja protegida. Para hacer un cambio, desproteja la hoja. Es posible que le pidan que introduzca una contraseña.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
     "errorCopyMultiselectArea": "No se puede usar este comando con varias selecciones.<br>Seleccione un solo rango e inténtelo de nuevo.",
     "errorCountArg": "Un error en la fórmula.<br>Número de argumentos no válido.",
@@ -215,18 +220,20 @@
     "errorUsersExceed": "Se superó la cantidad de usuarios permitidos por el plan de precios",
     "errorViewerDisconnect": "Se ha perdido la conexión. Todavía puede ver el documento,<br>pero no podrá descargarlo ni imprimirlo hasta que se restablezca la conexión y se recargue la página.",
     "errorWrongBracketsCount": "Un error en la fórmula.<br>Número de corchetes incorrecto.",
-    "errorWrongOperator": "Un error en la fórmula introducida. Se ha utilizado el operador incorrecto.<br>Corrija el error o utilice el botón Esc para cancelar la edición de la fórmula.",
+    "errorWrongOperator": "Un error en la fórmula introducida. Se ha utilizado el operador incorrecto.<br>Por favor, corrija el error.",
     "notcriticalErrorTitle": "Advertencia",
     "openErrorText": "Se ha producido un error al abrir el archivo ",
     "pastInMergeAreaError": "No se puede modificar una parte de una celda combinada",
     "saveErrorText": "Se ha producido un error al guardar el archivo ",
     "scriptLoadError": "La conexión es demasiado lenta, algunos de los componentes no se han podido cargar. Por favor, vuelva a cargar la página.",
+    "textErrorPasswordIsNotCorrect": "La contraseña que ha proporcionado no es correcta.<br>Verifique que la tecla Bloq Mayús está desactivada y asegúrese de utilizar las mayúsculas correctas.",
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
+    "advDRMPassword": "Contraseña",
     "applyChangesTextText": "Cargando datos...",
     "applyChangesTitleText": "Cargando datos",
     "confirmMoveCellRange": "El rango de celdas de destino puede contener datos. ¿Continuar la operación?",
@@ -253,9 +260,13 @@
     "savePreparingTitle": "Preparando para guardar. Espere, por favor...",
     "saveTextText": "Guardando documento...",
     "saveTitleText": "Guardando documento",
+    "textCancel": "Cancelar",
+    "textErrorWrongPassword": "La contraseña que ha proporcionado no es correcta.",
     "textLoadingDocument": "Cargando documento",
     "textNo": "No",
     "textOk": "OK",
+    "textUnlockRange": "Desbloquear rango",
+    "textUnlockRangeWarning": "Un rango que está tratando de cambiar está protegido por contraseña.",
     "textYes": "Sí",
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Subiendo imagen...",
@@ -335,9 +346,13 @@
       "textSortAndFilter": "Ordenar y filtrar",
       "txtExpand": "Expandir y ordenar",
       "txtExpandSort": "Los datos al lado del rango seleccionado no serán ordenados. ¿Quiere Usted expandir el rango seleccionado para incluir datos de las celdas adyacentes o continuar la ordenación del rango seleccionado?",
+      "txtLockSort": "Se encuentran datos junto a su selección, pero no tiene permisos suficientes para modificar esas celdas.<br>¿Desea continuar con la selección actual?",
+      "txtNo": "No",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
-      "txtSortSelected": "Ordenar los objetos seleccionados"
+      "txtSortSelected": "Ordenar los objetos seleccionados",
+      "txtYes": "Sí",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -517,7 +532,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor "
+      "txtSortLow2High": "Ordenar de menor a mayor ",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -537,6 +553,9 @@
       "textByRows": "Por filas",
       "textCancel": "Cancelar",
       "textCentimeter": "Centímetro",
+      "textChooseCsvOptions": "Elegir opciones de CSV",
+      "textChooseDelimeter": "Elegir delimitador",
+      "textChooseEncoding": "Elegir codificación",
       "textCollaboration": "Colaboración",
       "textColorSchemes": "Esquemas de color",
       "textComment": "Comentario",
@@ -544,6 +563,7 @@
       "textComments": "Comentarios",
       "textCreated": "Creado",
       "textCustomSize": "Tamaño personalizado",
+      "textDelimeter": "Delimitador",
       "textDisableAll": "Deshabilitar todo",
       "textDisableAllMacrosWithNotification": "Deshabilitar todas las macros con notificación",
       "textDisableAllMacrosWithoutNotification": "Deshabilitar todas las macros sin notificación",
@@ -553,6 +573,8 @@
       "textEmail": "E-mail",
       "textEnableAll": "Habilitar todo",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación ",
+      "textEncoding": "Codificación",
+      "textExample": "Ejemplo",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
       "textFindAndReplaceAll": "Buscar y reemplazar todo",
@@ -608,9 +630,13 @@
       "textValues": "Valores",
       "textVersion": "Versión ",
       "textWorkbook": "Libro de trabajo",
+      "txtColon": "Dos puntos",
+      "txtComma": "Coma",
       "txtDelimiter": "Delimitador",
+      "txtDownloadCsv": "Descargar CSV",
       "txtEncoding": "Codificación",
       "txtIncorrectPwd": "La contraseña es incorrecta",
+      "txtOk": "OK",
       "txtProtected": "Una vez que se ha introducido la contraseña y abierto el archivo, la contraseña actual del archivo se restablecerá",
       "txtScheme1": "Oficina",
       "txtScheme10": "Medio",
@@ -634,6 +660,7 @@
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
       "txtScheme9": "Fundición",
+      "txtSemicolon": "Punto y coma",
       "txtSpace": "Espacio",
       "txtTab": "Pestaña",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"

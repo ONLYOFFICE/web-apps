@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Você quer realmente excluir este comentário?",
       "textMessageDeleteReply": "Você realmente quer apagar esta resposta?",
       "textNoComments": "O documento não contém comentários",
+      "textOk": "OK",
       "textReopen": "Reabrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários",
-      "textOk": "Ok"
+      "textUsers": "Usuários"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Cores personalizadas",
@@ -120,7 +120,10 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -140,6 +143,7 @@
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite do servidor. <br> Entre em contato com o administrador.",
     "errorKeyEncrypt": "Descritor de chave desconhecido",
     "errorKeyExpire": "Descritor de chave expirado",
+    "errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -158,8 +162,7 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -234,7 +237,8 @@
       "textSlideNumber": "Número do slide",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Atenção",
@@ -373,6 +377,7 @@
       "textTopRight": "Parte superior direita",
       "textTotalRow": "Linha total",
       "textTransition": "Transição",
+      "textTransitions": "Transições",
       "textType": "Tipo",
       "textUnCover": "Descobrir",
       "textVerticalIn": "Vertical para dentro",
@@ -382,7 +387,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Zoom e Rotação"
+      "textZoomRotate": "Zoom e Rotação",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",

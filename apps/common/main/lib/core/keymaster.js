@@ -71,6 +71,14 @@
     var key, handler, k, i, modifiersMatch, scope;
     key = event.keyCode;
 
+    if (Common.UI.HintManager && Common.UI.HintManager.isHintVisible()) {
+      if (key === 112) {
+        Common.UI.HintManager.clearHints();
+      } else if (key !== 27) {
+        return;
+      }
+    }
+
     if (index(_downKeys, key) == -1) {
         _downKeys.push(key);
     }

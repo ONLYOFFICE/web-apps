@@ -85,7 +85,7 @@ define([
                                 '<div class="hedset">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                     '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                        '<div class="btn-users">' +
+                                        '<div class="btn-users" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
                                             '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
                                             '<label class="caption">&plus;</label>' +
                                         '</div>' +
@@ -97,6 +97,7 @@ define([
                                     '</section>'+
                                 '</div>' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-mode"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
@@ -386,6 +387,9 @@ define([
             }
         }
 
+        function onContentThemeChangedToDark(isdark) {
+        }
+
         return {
             options: {
                 branding: {},
@@ -415,7 +419,10 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
-                    split: true
+                    split: true,
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 storeUsers = this.options.storeUsers;
@@ -428,7 +435,10 @@ define([
                 me.btnOptions = new Common.UI.Button({
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-ic-options',
-                    menu: true
+                    menu: true,
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 me.mnuZoom = {options: {value: 100}};
@@ -436,7 +446,10 @@ define([
                 me.btnFavorite = new Common.UI.Button({
                     id: 'btn-favorite',
                     cls: 'btn-header',
-                    iconCls: 'toolbar__icon icon--inverse btn-favorite'
+                    iconCls: 'toolbar__icon icon--inverse btn-favorite',
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
                 });
 
                 Common.NotificationCenter.on({
@@ -444,6 +457,8 @@ define([
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
+                Common.NotificationCenter.on('contenttheme:dark', onContentThemeChangedToDark.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
             },
 
             render: function (el, role) {
@@ -455,11 +470,15 @@ define([
             getPanel: function (role, config) {
                 var me = this;
 
-                function createTitleButton(iconid, slot, disabled) {
+                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
-                        disabled: disabled === true
+                        disabled: disabled === true,
+                        dataHint:'0',
+                        dataHintDirection: hintDirection ? hintDirection : (config.isDesktopApp ? 'right' : 'left'),
+                        dataHintOffset: hintOffset ? hintOffset : (config.isDesktopApp ? '10, -10' : '10, 10'),
+                        dataHintTitle: hintTitle
                     })).render(slot);
                 }
 
@@ -467,8 +486,9 @@ define([
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
 
-                    if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
-                        this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                    if (this.branding && this.branding.logo && (this.branding.logo.image || this.branding.logo.imageDark) && this.logo) {
+                        var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
+                        this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         this.logo.css({'background-image': 'none', width: 'auto'});
                         (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                     }
@@ -510,19 +530,19 @@ define([
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
-                            this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'));
+                            this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'));
+                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
 
                         if ( config.canEdit && config.canRequestEditRights )
-                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'));
+                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous)
-                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'), undefined, 'bottom', 'big' );
                         else {
                             me.elUserName = $html.find('.btn-current-user');
                             me.elUserName.removeClass('hidden');
@@ -535,7 +555,6 @@ define([
                     $btnUsers = $html.find('.btn-users');
 
                     $panelUsers.hide();
-
                     return $html;
                 } else
                 if ( role == 'title' ) {
@@ -549,12 +568,12 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true);
+                        me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
 
-                    me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true);
-                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true);
-                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true);
+                    me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z');
+                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y');
 
                     if ( me.btnSave.$icon.is('svg') ) {
                         me.btnSave.$icon.addClass('icon-save btn-save');
@@ -585,14 +604,23 @@ define([
                 this.branding = value;
 
                 if ( value ) {
-                    if ( value.logo && value.logo.image ) {
+                    if ( value.logo &&(value.logo.image || value.logo.imageDark)) {
+                        var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                         element = $('#header-logo');
                         if (element) {
-                            element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                             element.css({'background-image': 'none', width: 'auto'});
                             (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                         }
                     }
+                }
+            },
+
+            changeLogo: function () {
+                var value = this.branding;
+                if ( value && value.logo && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
+                    $('#header-logo img').attr('src', image);
                 }
             },
 
@@ -694,7 +722,7 @@ define([
                         this.btnUserName.updateHint(name);
                     } else if (this.elUserName) {
                         this.elUserName.tooltip({
-                            title: name,
+                            title: Common.Utils.String.htmlEncode(name),
                             placement: 'cursor',
                             html: true
                         });
@@ -716,7 +744,7 @@ define([
                 if ( alias == 'users' ) {
                     if ( lock )
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
-                        $btnUsers.removeClass('disabled').attr('disabled', '');
+                        $btnUsers.removeClass('disabled').removeAttr('disabled');
                 } else if ( alias == 'rename-user' ) {
                     if (me.labelUserName) {
                         if ( lock ) {
@@ -776,7 +804,7 @@ define([
             tipUndo: 'Undo',
             tipRedo: 'Redo',
             textCompactView: 'Hide Toolbar',
-            textHideStatusBar: 'Hide Status Bar',
+            textHideStatusBar: 'Combine sheet and status bars',
             textHideLines: 'Hide Rulers',
             textZoom: 'Zoom',
             textAdvSettings: 'Advanced Settings',

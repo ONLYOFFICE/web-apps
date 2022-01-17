@@ -4,7 +4,7 @@
         <div id="slot-status-btn-preview" style="display: inline-block;margin-left: 9px;"></div>
     </div>
     <div class="status-group dropup">
-        <label id="status-label-pages" class="status-label dropdown-toggle" style="margin-left: 7px; display: none;" data-toggle="dropdown"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
+        <label id="status-label-pages" class="status-label dropdown-toggle" style="margin-left: 7px; display: none;" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
         <div id="status-goto-box" class="dropdown-menu">
             <label style="float:left;line-height:22px;"><%= scope.goToPageText %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>
@@ -28,7 +28,7 @@
     </div>
     <div class="status-group" style="">
         <div class="cnt-lang el-edit">
-            <div class="dropdown-toggle" data-toggle="dropdown">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
                 <label id="status-label-lang" class="status-label">English (United States)</label>
                 <div class="caret"></div>
             </div>
@@ -36,11 +36,11 @@
         <span id="btn-doc-lang" class="el-edit"></span>
         <span id="btn-doc-spell" class="el-edit"></span>
         <div class="separator short el-edit"></div>
-        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-ic-zoomtoslide"></i></button>
-        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-ic-zoomtowidth"></i></button>
+        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtoslide"></i></button>
+        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth"></i></button>
         <button id="btn-zoom-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown"></i></button>
         <div class="cnt-zoom">
-            <div class="dropdown-toggle" data-toggle="dropdown">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>

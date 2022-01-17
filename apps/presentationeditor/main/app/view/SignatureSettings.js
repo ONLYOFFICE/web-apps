@@ -347,21 +347,20 @@ define([
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;
 
-                var rightMenuController = PE.getController('RightMenu');
-                if (disable && rightMenuController.rightmenu.GetActivePane() !== 'id-signature-settings')
-                    rightMenuController.rightmenu.clearSelection();
-                rightMenuController.SetDisabled(disable, true);
-                PE.getController('Toolbar').DisableToolbar(disable, disable);
-                PE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
-
-                // var leftMenu = PE.getController('LeftMenu').leftMenu;
-                // leftMenu.btnComments.setDisabled(disable);
-                PE.getController('LeftMenu').setPreviewMode(disable);
-                var comments = PE.getController('Common.Controllers.Comments');
-                if (comments)
-                    comments.setPreviewMode(disable);
+                Common.NotificationCenter.trigger('editing:disable', disable, {
+                    viewMode: disable,
+                    allowSignature: true,
+                    rightMenu: {clear: false, disable: true},
+                    statusBar: true,
+                    leftMenu: {disable: false, previewMode: true},
+                    fileMenu: false,
+                    comments: {disable: false, previewMode: true},
+                    chat: false,
+                    review: true,
+                    viewport: false,
+                    documentHolder: true,
+                    toolbar: true
+                }, 'signature');
             }
         },
 

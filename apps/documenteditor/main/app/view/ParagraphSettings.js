@@ -117,7 +117,10 @@ define([
                 menuStyle: 'min-width: 85px;',
                 editable: false,
                 data: this._arrLineRule,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbLineRule.setValue('');
             this.lockedControls.push(this.cmbLineRule);
@@ -130,7 +133,10 @@ define([
                 defaultUnit : "",
                 maxValue: 132,
                 minValue: 0.5,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.numLineHeight);
 
@@ -144,7 +150,10 @@ define([
                 minValue: 0,
                 allowAuto   : true,
                 autoText    : this.txtAutoText,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpacingBefore);
             this.lockedControls.push(this.numSpacingBefore);
@@ -159,7 +168,10 @@ define([
                 minValue: 0,
                 allowAuto   : true,
                 autoText    : this.txtAutoText,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpacingAfter);
             this.lockedControls.push(this.numSpacingAfter);
@@ -167,7 +179,10 @@ define([
             this.chAddInterval = new Common.UI.CheckBox({
                 el: $markup.findById('#paragraph-checkbox-add-interval'),
                 labelText: this.strSomeParagraphSpace,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.lockedControls.push(this.chAddInterval);
 
@@ -175,7 +190,10 @@ define([
                 parentEl: $markup.findById('#paragraph-color-btn'),
                 disabled: this._locked,
                 transparent: true,
-                menu        : true
+                menu: true,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'medium'
             });
             this.lockedControls.push(this.btnColor);
 
@@ -188,7 +206,10 @@ define([
                 value: '0 cm',
                 maxValue: 55.87,
                 minValue: -55.87,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numIndentsLeft);
             this.lockedControls.push(this.numIndentsLeft);
@@ -202,7 +223,10 @@ define([
                 value: '0 cm',
                 maxValue: 55.87,
                 minValue: -55.87,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numIndentsRight);
             this.lockedControls.push(this.numIndentsRight);
@@ -214,7 +238,10 @@ define([
                 data: this._arrSpecial,
                 style: 'width: 85px;',
                 menuStyle   : 'min-width: 85px;',
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.cmbSpecial.setValue('');
             this.lockedControls.push(this.cmbSpecial);
@@ -228,7 +255,10 @@ define([
                 value: '0 cm',
                 maxValue: 55.87,
                 minValue: 0,
-                disabled: this._locked
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.numSpecialBy);
             this.lockedControls.push(this.numSpecialBy);

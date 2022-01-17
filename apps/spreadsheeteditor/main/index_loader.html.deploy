@@ -244,6 +244,7 @@
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
+        window.uitype = "cell";
 
         if ( lang == 'de')      loading = 'Ladevorgang...';
         else if ( lang == 'es') loading = 'Cargando...';
@@ -285,6 +286,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="../../../apps/spreadsheeteditor/main/resources/css/app.css">
+    <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
@@ -322,6 +324,7 @@
     <inline src="resources/img/doc-formats/ods.svg" />
     <inline src="resources/img/doc-formats/ots.svg" />
     <inline src="resources/img/doc-formats/csv.svg" />
+    <inline src="resources/img/doc-formats/xlsm.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />

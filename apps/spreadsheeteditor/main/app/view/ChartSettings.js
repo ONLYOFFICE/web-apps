@@ -135,6 +135,11 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            if (this._isEditType) {
+                this._props = props;
+                return;
+            }
+
             this.ShowHideElem(!!(props && props.asc_getChartProperties && props.asc_getChartProperties()));
             this.disableControls(this._locked);
 
@@ -609,7 +614,10 @@ define([
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnWidth);
             this.lockedControls.push(this.spnWidth);
@@ -621,7 +629,10 @@ define([
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.spinners.push(this.spnHeight);
             this.lockedControls.push(this.spnHeight);
@@ -637,7 +648,10 @@ define([
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
-                hint: this.textKeepRatio
+                hint: this.textKeepRatio,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
             this.lockedControls.push(this.btnRatio);
 
@@ -671,7 +685,8 @@ define([
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                    delayRenderTips: true
                 });
             });
             this.btnSparkType.render($('#spark-button-type'));
@@ -738,7 +753,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-menu-chart',
                 caption     : this.textChangeType,
-                style       : 'width: 100%;text-align: left;'
+                style       : 'width: 100%;text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnChangeType.on('click', _.bind(this.onChangeType, this));
             this.lockedControls.push(this.btnChangeType);
@@ -748,7 +766,10 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-select-range',
                 caption     : this.textSelectData,
-                style       : 'width: 100%;text-align: left;'
+                style       : 'width: 100%;text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
             this.btnSelectData.on('click', _.bind(this.onSelectData, this));
             this.lockedControls.push(this.btnSelectData);
@@ -935,12 +956,14 @@ define([
                             if (result == 'ok') {
                                 props.endEdit();
                                 me._isEditType = false;
+                                me._props && me.ChangeSettings(me._props);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
                         }
                     }).on('close', function() {
                         me._isEditType && props.cancelEdit();
                         me._isEditType = false;
+                        me._props = null;
                     });
                     win.show();
                 }
@@ -976,7 +999,11 @@ define([
                     itemHeight: 50,
                     menuMaxHeight: 270,
                     enableKeyEvents: true,
-                    cls: 'combo-chart-style'
+                    cls: 'combo-chart-style',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big',
+                    delayRenderTips: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({
@@ -1028,7 +1055,8 @@ define([
                     itemHeight: 50,
                     menuMaxHeight: 272,
                     enableKeyEvents: true,
-                    cls: 'combo-spark-style'
+                    cls: 'combo-spark-style',
+                    delayRenderTips: true
                 });
                 this.cmbSparkStyle.render($('#spark-combo-style'));
                 this.cmbSparkStyle.openButton.menu.cmpEl.css({

@@ -27,11 +27,11 @@
       "textMessageDeleteComment": "Voulez-vous vraiment supprimer ce commentaire?",
       "textMessageDeleteReply": "Voulez-vous vraiment supprimer cette réponse?",
       "textNoComments": "Il n'y a pas de commentaires dans ce document",
+      "textOk": "Ok",
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs",
-      "textOk": "Ok"
+      "textUsers": "Utilisateurs"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -120,7 +120,10 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textNoTextFound": "Text not found"
     }
   },
   "Error": {
@@ -234,7 +237,8 @@
       "textSlideNumber": "Numéro de diapositive",
       "textTable": "Tableau",
       "textTableSize": "Taille du tableau",
-      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
+      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -373,6 +377,7 @@
       "textTopRight": "Haut à droite",
       "textTotalRow": "Ligne de total",
       "textTransition": "Transition",
+      "textTransitions": "Transitions",
       "textType": "Type",
       "textUnCover": "Découvrir",
       "textVerticalIn": "Vertical intérieur",
@@ -382,7 +387,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
-      "textZoomRotate": "Zoom et rotation"
+      "textZoomRotate": "Zoom et rotation",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

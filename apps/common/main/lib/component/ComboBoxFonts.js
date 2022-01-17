@@ -91,7 +91,7 @@ define([
         return {
             template: _.template([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false"> ',
+                    '<input type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>"> ',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
@@ -182,6 +182,7 @@ define([
             },
 
             onInputKeyUp: function(e) {
+                if (!this._isKeyDown) return;
                 if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode !== Common.UI.Keys.SHIFT &&
                     e.keyCode !== Common.UI.Keys.CTRL && e.keyCode !== Common.UI.Keys.ALT &&
                     e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT &&
@@ -213,9 +214,11 @@ define([
                             }, 10);
                     }
                 }
+                this._isKeyDown = false;
             },
 
             onInputKeyDown: function(e) {
+                this._isKeyDown = true;
                 this._inInputKeyDown = (new Date());
                 var me = this;
 
@@ -226,8 +229,10 @@ define([
                         me.onAfterHideMenu(e);
                     }, 10);
                 } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT && e.keyCode != Common.UI.Keys.TAB){
-                    if (!this.isMenuOpen() && !e.ctrlKey)
+                    if (!this.isMenuOpen() && !e.ctrlKey) {
                         this.openMenu();
+                        (this.recent > 0) && this.flushVisibleFontsTiles();
+                    }
 
                     if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                         _.delay(function() {

@@ -816,7 +816,7 @@ const PageVerticalAxis = props => {
                 <ListInput 
                     label={_t.textMinimumValue}
                     type="number"
-                    placeholder="Auto"
+                    placeholder={_t.textAuto}
                     value={minValue}
                     onChange={e => props.onVerAxisMinValue(e.target.value)}
                     onInput={e => setMinValue(e.target.value)}
@@ -826,7 +826,7 @@ const PageVerticalAxis = props => {
                 <ListInput 
                     label={_t.textMaximumValue}
                     type="number"
-                    placeholder="Auto"
+                    placeholder={_t.textAuto}
                     value={maxValue}
                     onChange={e => props.onVerAxisMaxValue(e.target.value)} 
                     onInput={e => setMaxValue(e.target.value)}
@@ -862,7 +862,7 @@ const PageVerticalAxis = props => {
                 <ListItem title={_t.textValuesInReverseOrder}>
                     <div slot="after">
                         <Toggle checked={valuesReverseOrder} 
-                            onChange={() => {
+                            onToggleChange={() => {
                                 toggleValuesReverseOrder(!valuesReverseOrder);
                                 props.onVerAxisReverse(!valuesReverseOrder);
                             }} />
@@ -1170,7 +1170,7 @@ const PageHorizontalAxis = props => {
                 <ListItem title={_t.textValuesInReverseOrder}>
                     <div slot="after">
                         <Toggle checked={valuesReverseOrder} 
-                            onChange={() => {
+                            onToggleChange={() => {
                                 toggleValuesReverseOrder(!valuesReverseOrder);
                                 props.onHorAxisReverse(!valuesReverseOrder);
                             }} />

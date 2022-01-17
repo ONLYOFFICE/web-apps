@@ -91,13 +91,15 @@ define([
 
             }, options);
 
+            this.txtOpenFile = options.txtOpenFile || this.txtOpenFile;
+
             this.template = options.template || [
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
                     '<% if (type == Common.Utils.importTextType.DRM) { %>',
                         '<% if (warning) { %>',
                         '<div>',
-                            '<div class="icon img-commonctrl warn"></div>',
+                            '<div class="icon warn"></div>',
                             '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
@@ -200,18 +202,10 @@ define([
                 if (this.type == Common.Utils.importTextType.DRM) {
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
-                        type: 'text',
+                        type: 'password',
                         validateOnBlur: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
-                        }
-                    });
-
-                    this.$window.find('input').on('input', function(){
-                        if ($(this).val() !== '') {
-                            ($(this).attr('type') !== 'password') && $(this).attr('type', 'password');
-                        } else {
-                            $(this).attr('type', 'text');
                         }
                     });
                 } else {

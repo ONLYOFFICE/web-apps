@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented, ListButton} from 'framework7-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -19,7 +19,7 @@ const EditSlide = props => {
                 <ListItem title={_t.textLayout} link="/layout/" routeProps={{
                     onLayoutClick: props.onLayoutClick
                 }}></ListItem>
-                <ListItem title={_t.textTransition} link="/transition/" routeProps={{
+                <ListItem title={t('View.Edit.textTransitions')} link="/transition/" routeProps={{
                     onEffectClick: props.onEffectClick,
                     onEffectTypeClick: props.onEffectTypeClick,
                     changeDuration: props.changeDuration,
@@ -208,24 +208,28 @@ const PageTransition = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const transitionObj = storeFocusObjects.slideObject.get_transition();
 
-    const [_effect, setEffect] = useState(transitionObj.get_TransitionType());
-    const valueEffectTypes = fillEffectTypes(_effect);
-    const [type, setType] = useState(valueEffectTypes);
-
     let _effectDelay = transitionObj.get_SlideAdvanceDuration();
 
     const [stateRange, changeRange] = useState((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
     const isDelay = transitionObj.get_SlideAdvanceAfter();
     const isStartOnClick = transitionObj.get_SlideAdvanceOnMouseClick();
+
+    const _effect = transitionObj.get_TransitionType();
     const nameEffect = getEffectName(_effect);
+    if(_effect != Asc.c_oAscSlideTransitionTypes.None) fillEffectTypes(_effect);
 
     const _effectType = transitionObj.get_TransitionOption();
     const nameEffectType = getEffectTypeName(_effectType);
+
     const _effectDuration = transitionObj.get_TransitionDuration();
+
+    useEffect(() => {
+        changeRange((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
+    }, [_effectDelay])
 
     return (
         <Page className="slide-transition">
-            <Navbar title={_t.textTransition} backLink={_t.textBack}>
+            <Navbar title={t('View.Edit.textTransitions')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -240,8 +244,6 @@ const PageTransition = props => {
                     onEffectClick: props.onEffectClick,
                     fillEffectTypes,
                     _effect,
-                    setEffect,
-                    setType
                 }}></ListItem>
                 <ListItem link="/type/" title={_t.textType} 
                     after={_effect != Asc.c_oAscSlideTransitionTypes.None ? nameEffectType : ''} 
@@ -249,8 +251,7 @@ const PageTransition = props => {
                         _arrCurrentEffectTypes, 
                         onEffectTypeClick: props.onEffectTypeClick,
                         _effect,
-                        type,
-                        setType
+                        _effectType,
                     }}>
                 </ListItem>
                 <ListItem title={_t.textDuration} disabled={_effect == Asc.c_oAscSlideTransitionTypes.None}>
@@ -281,11 +282,11 @@ const PageTransition = props => {
             <List>
                 <ListItem>
                     <span>{_t.textStartOnClick}</span>
-                    <Toggle checked={isStartOnClick} onChange={() => {props.onStartClick(!isStartOnClick)}} />
+                    <Toggle checked={isStartOnClick} onToggleChange={() => {props.onStartClick(!isStartOnClick)}} />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textDelay}</span>
-                    <Toggle checked={isDelay} onChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
+                    <Toggle checked={isDelay} onToggleChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
                 </ListItem>
                 <ListItem>
                     <div slot='inner' style={{width: '100%'}}>
@@ -296,7 +297,7 @@ const PageTransition = props => {
                                onRangeChanged={(value) => {props.onDelay(value)}}
                         ></Range>
                     </div>
-                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                    <div slot='inner-end' style={{minWidth: '75px', textAlign: 'right'}}>
                         {stateRange + ' ' + _t.textSec}
                     </div>
                 </ListItem>
@@ -312,8 +313,7 @@ const PageTransition = props => {
 const PageEffect = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
-    const _effect = props._effect;
-    const [currentEffect, setEffect] = useState(_effect);
+    const [currentEffect, setEffect] = useState(props._effect);
     const _arrEffect = props._arrEffect;
 
     return (
@@ -334,9 +334,7 @@ const PageEffect = props => {
                             <ListItem key={index} radio name="editslide-effect" title={elem.displayValue} value={elem.value} 
                                 checked={elem.value === currentEffect} onChange={() => {
                                     setEffect(elem.value);
-                                    props.setEffect(elem.value);
                                     let valueEffectTypes = props.fillEffectTypes(elem.value);
-                                    props.setType(valueEffectTypes);
                                     props.onEffectClick(elem.value, valueEffectTypes);
                                 }}></ListItem>
                         )
@@ -351,9 +349,7 @@ const PageType= props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
     const _arrCurrentEffectTypes = props._arrCurrentEffectTypes;
-    const _effect = props._effect;
-    const type = props.type;
-    const [currentType, setType] = useState(type);
+    const [currentType, setType] = useState(props._effectType);
 
     return (
         <Page className="style-type">
@@ -373,8 +369,7 @@ const PageType= props => {
                             <ListItem key={index} radio name="editslide-effect-type" title={elem.displayValue} value={elem.value}
                                 checked={elem.value === currentType} onChange={() => {
                                     setType(elem.value);
-                                    props.setType(elem.value);
-                                    props.onEffectTypeClick(elem.value, _effect);
+                                    props.onEffectTypeClick(elem.value, props._effect);
                                 }}>
                             </ListItem>
                         )
@@ -393,7 +388,7 @@ const PageFillColor = props => {
     const storePalette = props.storePalette;
     const storeSlideSettings = props.storeSlideSettings;
     const customColors = storePalette.customColors;
-    const fillColor =  storeSlideSettings.fillColor ? storeSlideSettings.fillColor : storeSlideSettings.getFillColor(slideObject);
+    const fillColor = storeSlideSettings.getFillColor(slideObject);
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {

@@ -106,6 +106,7 @@ define([
                     me.btnSpelling.render( me.statusbar.$el.find('#btn-doc-spell') );
                     me.btnDocLang = review.getButton('doclang', 'statusbar');
                     me.btnDocLang.render( me.statusbar.$el.find('#btn-doc-lang') );
+
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }

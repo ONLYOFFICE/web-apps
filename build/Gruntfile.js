@@ -11,6 +11,7 @@ module.exports = function(grunt) {
                     ' *\n' +
                     ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
                     ' */\n';
+    global.copyright = copyright;
 
     let iconv_lite, encoding = process.env.SYSTEM_ENCODING;
     grunt.log.writeln('platform: ' + process.platform.green);
@@ -90,6 +91,8 @@ module.exports = function(grunt) {
 
     addons.forEach((element,index,self) => self[index] = path.join('../..', element, '/build'));
     addons = addons.filter(element => grunt.file.isDir(element));
+
+    require('./appforms')(grunt);
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -187,6 +190,8 @@ module.exports = function(grunt) {
                 if ( !!_extConfig && _extConfig.name == packageFile.name ) {
                     _merge(packageFile, _extConfig);
                 }
+
+                global.packageFile = packageFile;
             } else grunt.log.error().writeln('Could not load config file'.red);
         });
     }
@@ -238,6 +243,33 @@ module.exports = function(grunt) {
                       }]
                   }
             }
+        }
+    });
+    doRegisterTask('apps-common', (defaultConfig, packageFile) => {
+        return {
+            imagemin: {
+                options: {
+                    optimizationLevel: 3
+                },
+                dynamic: {
+                    files: packageFile['apps-common']['imagemin']['images-common']
+                }
+            },
+            svgmin: {
+                options: {
+                    plugins: [{
+                        cleanupIDs: false
+                    },
+                    {
+                        convertPathData: {
+                            floatPrecision: 4
+                        }
+                    }]
+                },
+                dist: {
+                    files: packageFile['apps-common'].svgicons.common
+                }
+            },
         }
     });
     doRegisterTask('sockjs');
@@ -523,6 +555,7 @@ module.exports = function(grunt) {
                 webpack_app_build: {
                     options: {
                         cwd: '../vendor/framework7-react',
+                        env: {...process.env, ...{addon: grunt.option('addon')}},
                     },
                     cmd: function() {
                         const editor = packageFile.name == 'presentationeditor' ? 'slide' :
@@ -609,6 +642,7 @@ module.exports = function(grunt) {
     var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
     grunt.registerTask('deploy-api',                    ['api-init', 'clean', copyTask, 'replace:writeVersion']);
+    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'imagemin', 'svgmin']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);

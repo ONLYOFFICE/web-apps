@@ -96,7 +96,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnFinancial);
                 this.formulaControls.push(this.btnFinancial);
@@ -110,7 +113,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnLogical);
                 this.formulaControls.push(this.btnLogical);
@@ -124,7 +130,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnTextData);
                 this.formulaControls.push(this.btnTextData);
@@ -138,7 +147,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnDateTime);
                 this.formulaControls.push(this.btnDateTime);
@@ -152,7 +164,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnReference);
                 this.formulaControls.push(this.btnReference);
@@ -166,7 +181,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnMath);
                 this.formulaControls.push(this.btnMath);
@@ -180,7 +198,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnRecent);
                 this.formulaControls.push(this.btnRecent);
@@ -208,7 +229,10 @@ define([
                                 hint: me.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
-                    })
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnAutosum);
                 this.formulaControls.push(this.btnAutosum);
@@ -220,7 +244,10 @@ define([
                     caption: this.txtFormula,
                     hint: this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3'),
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnFormula);
                 this.formulaControls.push(this.btnFormula);
@@ -234,7 +261,10 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnMore);
                 this.formulaControls.push(this.btnMore);
@@ -247,7 +277,10 @@ define([
                     split: true,
                     menu: true,
                     disabled: true,
-                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnCalculate);
                 this.formulaControls.push(this.btnCalculate);
@@ -260,7 +293,7 @@ define([
                     hint: this.toolbar.txtNamedRange,
                     split: false,
                     disabled: true,
-                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
+                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit, _set.wsLock],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -278,7 +311,10 @@ define([
                                 value: 'paste'
                             }
                         ]
-                    })
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnNamedRange);
 
@@ -331,40 +367,6 @@ define([
                 }, this);
             },
 
-            focusInner: function(menu, e) {
-                if (e.keyCode == Common.UI.Keys.UP)
-                    menu.items[menu.items.length-1].cmpEl.find('> a').focus();
-                else
-                    menu.items[0].cmpEl.find('> a').focus();
-            },
-
-            focusOuter: function(menu, e) {
-                menu.items[2].cmpEl.find('> a').focus();
-            },
-
-            onBeforeKeyDown: function(menu, e) {
-                if (e.keyCode == Common.UI.Keys.RETURN) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var li = $(e.target).closest('li');
-                    (li.length>0) && li.click();
-                    Common.UI.Menu.Manager.hideAll();
-                } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
-                    var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', menu.$el).find('> a');
-                    if (!$items.length) return;
-                    var index = $items.index($items.filter(':focus')),
-                        me = this;
-                    if (menu._outerMenu && (e.keyCode == Common.UI.Keys.UP && index==0 || e.keyCode == Common.UI.Keys.DOWN && index==$items.length - 1) ||
-                        menu._innerMenu && (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) && index!==-1) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        _.delay(function() {
-                            menu._outerMenu ? me.focusOuter(menu._outerMenu, e) : me.focusInner(menu._innerMenu, e);
-                        }, 10);
-                    }
-                }
-            },
-
             setButtonMenu: function(btn, name) {
                 var me = this,
                     arr = [],
@@ -409,12 +411,13 @@ define([
                             _.delay(function() {
                                 menu._innerMenu && menu._innerMenu.cmpEl.focus();
                             }, 10);
-                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
+                        });
 
                         var menu = new Common.UI.Menu({
                             maxHeight: 300,
                             cls: 'internal-menu',
-                            items: arr
+                            items: arr,
+                            outerMenu:  {menu: btn.menu, index: 0}
                         });
                         menu.render(btn.menu.items[0].cmpEl.children(':first'));
                         menu.cmpEl.css({
@@ -426,9 +429,9 @@ define([
                         menu.cmpEl.attr({tabindex: "-1"});
                         menu.on('item:click', function (menu, item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
-                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
+                        });
                         btn.menu._innerMenu = menu;
-                        menu._outerMenu = btn.menu;
+                        btn.menu.setInnerMenu([{menu: menu, index: 0}]);
                     }
                 }
                 Common.Utils.lockControls(SSE.enumLock.noSubitems, arr.length<1, {array: [btn]});
@@ -473,8 +476,7 @@ define([
                             _.delay(function() {
                                 menu._innerMenu && menu._innerMenu.items[0].cmpEl.find('> a').focus();
                             }, 10);
-                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this))
-                          .on('keydown:before', function(menu, e) {
+                        }).on('keydown:before', function(menu, e) {
                                 if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
                                     var $parent = menu.cmpEl.parent();
                                     if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
@@ -488,13 +490,15 @@ define([
                         var menu = new Common.UI.Menu({
                             maxHeight: 300,
                             cls: 'internal-menu',
-                            items: arr
+                            items: arr,
+                            outerMenu:  {menu: mnu.menu, index: 0}
                         });
                         menu.on('item:click', function (menu, item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
-                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
+                        });
                         mnu.menu._innerMenu = menu;
-                        menu._outerMenu = mnu.menu;
+                        mnu.menu.setInnerMenu([{menu: menu, index: 0}]);
+
                         return mnu;
                     }
                 }
