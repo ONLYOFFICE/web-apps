@@ -137,6 +137,8 @@ define([
                 if (config.canUseSelectHandTools) {
                     me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
                     me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
+                    me.statusbar.btnHandTool.toggle(true, true);
+                    me.api.asc_setViewerTargetType('hand');
                 }
 
                 var statusbarIsHidden = Common.localStorage.getBool("de-hidden-status");
@@ -352,7 +354,9 @@ define([
         },
 
         onSelectTool: function (type, btn, e) {
-
+            if (this.api) {
+                this.api.asc_setViewerTargetType(type);
+            }
         },
 
         zoomText        : 'Zoom {0}%',
