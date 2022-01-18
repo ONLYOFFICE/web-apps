@@ -66,17 +66,18 @@
         <div class="padding-small">
             <label class="header"><%= scope.textReplaceText %></label>
         </div>
-        <div class="padding-large">
+        <div class="padding-small">
             <div class="padding-small" id="id-autocorrect-dialog-chk-quotes"></div>
             <div class="padding-small" id="id-autocorrect-dialog-chk-hyphens"></div>
-            <div id="id-autocorrect-dialog-chk-hyperlink"></div>
+            <div class="padding-small"  id="id-autocorrect-dialog-chk-hyperlink"></div>
+            <div class="padding-small" id="id-autocorrect-dialog-chk-double-space"></div>
         </div>
         <div class="padding-small">
             <label class="header"><%= scope.textApplyText %></label>
         </div>
-        <div class="padding-large">
+        <div class="padding-small">
             <div class="padding-small" id="id-autocorrect-dialog-chk-bulleted"></div>
-            <div id="id-autocorrect-dialog-chk-numbered"></div>
+            <div class="padding-small" id="id-autocorrect-dialog-chk-numbered"></div>
         </div>
     </div>
 </div>
@@ -85,14 +86,14 @@
         <div class="padding-small">
             <label class="header"><%= scope.textReplaceText %></label>
         </div>
-        <div class="padding-large">
-            <div id="id-autocorrect-dialog-chk-hyperlink"></div>
+        <div class="padding-small">
+            <div class="padding-small" id="id-autocorrect-dialog-chk-hyperlink"></div>
         </div>
         <div class="padding-small">
             <label class="header"><%= scope.textApplyAsWork %></label>
         </div>
-        <div class="padding-large">
-            <div id="id-autocorrect-dialog-chk-new-rows"></div>
+        <div class="padding-small">
+            <div class="padding-small" id="id-autocorrect-dialog-chk-new-rows"></div>
         </div>
     </div>
 </div>
@@ -101,7 +102,7 @@
         <div class="padding-small">
             <div id="id-autocorrect-dialog-chk-fl-sentence"></div>
         </div>
-        <div class="padding-large">
+        <div class="padding-small">
             <div id="id-autocorrect-dialog-chk-fl-cells"></div>
         </div>
     </div>
