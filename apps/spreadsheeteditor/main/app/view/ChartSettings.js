@@ -781,7 +781,7 @@ define([
             this.btnSwitch = new Common.UI.Button({
                 parentEl: $('#chart-btn-switch'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-select-range',
+                iconCls     : 'toolbar__icon switch_row_column',
                 caption     : this.textSwitch,
                 style       : 'width: 100%;text-align: left;',
                 dataHint    : '1',
