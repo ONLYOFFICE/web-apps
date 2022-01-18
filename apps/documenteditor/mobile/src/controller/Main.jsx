@@ -407,6 +407,7 @@ class MainController extends Component {
     onLicenseChanged (params) {
         const appOptions = this.props.storeAppOptions;
         const licType = params.asc_getLicenseType();
+    
         if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
             (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
@@ -557,28 +558,32 @@ class MainController extends Component {
             storeDocumentSettings.changeDocSize(w, h);
         });
 
-        this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
-            switch (obj.type) {
-                case Asc.c_oAscContentControlSpecificType.DateTime:
-                    this.onShowDateActions(obj, x, y);
-                    break;
-                case Asc.c_oAscContentControlSpecificType.Picture:
-                    if (obj.pr && obj.pr.get_Lock) {
-                        let lock = obj.pr.get_Lock();
-                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
-                            return;
-                    }
-                    this.api.asc_addImage(obj);
-                    setTimeout(() => {
-                        this.api.asc_UncheckContentControlButtons();
-                    }, 500);
-                    break;
-                case Asc.c_oAscContentControlSpecificType.DropDownList:
-                case Asc.c_oAscContentControlSpecificType.ComboBox:
-                    this.onShowListActions(obj, x, y);
-                    break;
-            }
-        });
+        const storeAppOptions = this.props.storeAppOptions;
+
+        if (storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) {
+            this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
+                switch (obj.type) {
+                    case Asc.c_oAscContentControlSpecificType.DateTime:
+                        this.onShowDateActions(obj, x, y);
+                        break;
+                    case Asc.c_oAscContentControlSpecificType.Picture:
+                        if (obj.pr && obj.pr.get_Lock) {
+                            let lock = obj.pr.get_Lock();
+                            if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
+                                return;
+                        }
+                        this.api.asc_addImage(obj);
+                        setTimeout(() => {
+                            this.api.asc_UncheckContentControlButtons();
+                        }, 500);
+                        break;
+                    case Asc.c_oAscContentControlSpecificType.DropDownList:
+                    case Asc.c_oAscContentControlSpecificType.ComboBox:
+                        this.onShowListActions(obj, x, y);
+                        break;
+                }
+            });
+        }
 
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
@@ -705,19 +710,20 @@ class MainController extends Component {
 
     onShowDateActions(obj, x, y) {
         const { t } = this.props;
+        const boxSdk = $$('#editor_sdk');
+
         let props = obj.pr,
             specProps = props.get_DateTimePr(),
-            isPhone = Device.isPhone;
+            isPhone = Device.isPhone,
+            controlsContainer = boxSdk.find('#calendar-target-element'),
+            _dateObj = props;
 
-        this.controlsContainer = this.boxSdk.find('#calendar-target-element');
-        this._dateObj = props;
-
-        if (this.controlsContainer.length < 1) {
-            this.controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
-            this.boxSdk.append(this.controlsContainer);
+        if (controlsContainer.length < 1) {
+            controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
+            boxSdk.append(controlsContainer);
         }
 
-        this.controlsContainer.css({left: `${x}px`, top: `${y}px`});
+        controlsContainer.css({left: `${x}px`, top: `${y}px`});
 
         this.cmpCalendar = f7.calendar.create({
             inputEl: '#calendar-target-element',
@@ -730,7 +736,7 @@ class MainController extends Component {
             on: {
                 change: (calendar, value) => {
                     if(calendar.initialized && value[0]) {
-                        let specProps = this._dateObj.get_DateTimePr();
+                        let specProps = _dateObj.get_DateTimePr();
                         specProps.put_FullDate(new Date(value[0]));
                         this.api.asc_SetContentControlDatePickerDate(specProps);
                         calendar.close();
@@ -747,14 +753,15 @@ class MainController extends Component {
 
     onShowListActions(obj, x, y) {
         if(!Device.isPhone) {
-            this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
+            const boxSdk = $$('#editor_sdk');
+            let dropdownListTarget = boxSdk.find('#dropdown-list-target');
         
-            if (this.dropdownListTarget.length < 1) {
-                this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
-                this.boxSdk.append(this.dropdownListTarget);
+            if (dropdownListTarget.length < 1) {
+                dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+                boxSdk.append(dropdownListTarget);
             }
         
-            this.dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+            dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
         }
 
         Common.Notifications.trigger('openDropdownList', obj);
