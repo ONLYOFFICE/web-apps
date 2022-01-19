@@ -162,11 +162,10 @@ class SearchView extends Component {
     }
 
     onReplaceClick() {
-        if (this.searchbar && this.state.replaceQuery) {
+        if (this.searchbar) {
             if (this.props.onReplaceQuery) {
                 let params = this.searchParams();
                 params.find = this.state.searchQuery;
-                // console.log(params);
 
                 this.props.onReplaceQuery(params);
             }   
@@ -174,11 +173,10 @@ class SearchView extends Component {
     }
 
     onReplaceAllClick() {
-        if (this.searchbar && this.state.replaceQuery) {
+        if (this.searchbar) {
             if (this.props.onReplaceAllQuery) {
                 let params = this.searchParams();
                 params.find = this.state.searchQuery;
-                // console.log(params);
 
                 this.props.onReplaceAllQuery(params);
             }   
@@ -281,10 +279,17 @@ class SearchView extends Component {
                         <div className="buttons-row buttons-row-replace">
                             {/* <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                             <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a> */}
-                            {isReplaceAll ? (
+
+                            {/* {isReplaceAll ? (
                                 <a id="replace-all-link" className={"link " + (replaceQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
                             ) : usereplace ? (
                                 <a id="replace-link" className={"link " + (replaceQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                            ) : null} */}
+
+                            {isReplaceAll ? (
+                                <a id="replace-all-link" className={"link "} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                            ) : usereplace ? (
+                                <a id="replace-link" className={"link "} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
                             ) : null}
                         </div>
                         <div className="buttons-row">
