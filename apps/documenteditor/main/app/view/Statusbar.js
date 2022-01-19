@@ -187,13 +187,15 @@ define([
                 this.btnSelectTool = new Common.UI.Button({
                     hintAnchor: 'top',
                     toggleGroup: 'select-tools',
-                    enableToggle: true
+                    enableToggle: true,
+                    allowDepress: false
                 });
 
                 this.btnHandTool = new Common.UI.Button({
                     hintAnchor: 'top',
                     toggleGroup: 'select-tools',
-                    enableToggle: true
+                    enableToggle: true,
+                    allowDepress: false
                 });
 
                 this.btnZoomToPage = new Common.UI.Button({
