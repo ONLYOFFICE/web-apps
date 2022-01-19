@@ -169,7 +169,6 @@ define([
                 this.$el = this.toolbar.toolbar.$el.find('#animation-panel');
                 var _set = PE.enumLock;
                 this.lockedControls = [];
-
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
                 _.forEach(this._arrEffectName,function (elm){
                     elm.tip = elm.displayValue;
@@ -504,44 +503,43 @@ define([
 
             setMenuParameters: function (effectId, effectGroup, option)
             {
-                var arrEffectOptions;
+                var arrEffectOptions,selectedElement;
                 var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
                 if(effect)
                     arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
-                if(!arrEffectOptions) {
+                if((this._effectId != effectId && this._familyEffect != effect.familyEffect) || (this._groupName != effectGroup)) {
                     this.btnParameters.menu.removeAll();
-                    this._effectId = effectId
-                    return undefined;
                 }
-                var selectedElement;
-                if (this._effectId != effectId) {
-                    this.btnParameters.menu.removeAll();
-                    arrEffectOptions.forEach(function (opt, index) {
-                        opt.checkable = true;
-                        opt.toggleGroup ='animateeffects';
-                        this.btnParameters.menu.addItem(opt);
-                        (opt.value==option) && (selectedElement = this.btnParameters.menu.items[index]);
-                    }, this);
-                    if(effect.familyEffect){
-                        this.btnParameters.menu.addItem({caption: '--'});
-                        var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup,effect.familyEffect);
-                        effectsArray.forEach(function (opt) {
+                if (arrEffectOptions){
+                    if (this.btnParameters.menu.items.length == 0) {
+                        arrEffectOptions.forEach(function (opt, index) {
                             opt.checkable = true;
-                            opt.toggleGroup = 'animatesimilareffects'
+                            opt.toggleGroup = 'animateeffects';
                             this.btnParameters.menu.addItem(opt);
-                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length-1].setChecked();
-                        },this);
+                            (opt.value == option) && (selectedElement = this.btnParameters.menu.items[index]);
+                        }, this);
+                        (effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
+                    } else {
+                        this.btnParameters.menu.items.forEach(function (opt) {
+                            (opt.value == option) && (selectedElement = opt);
+                        });
                     }
+                    (selectedElement == undefined) && (selectedElement = this.btnParameters.menu.items[0])
+                    selectedElement.setChecked(true);
                 }
-                else {
-                    this.btnParameters.menu.items.forEach(function (opt) {
-                        (opt.value == option) && (selectedElement = opt);
-                    });
+                if (effect.familyEffect &&  this._familyEffect != effect.familyEffect) {
+                    var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup, effect.familyEffect);
+                    effectsArray.forEach(function (opt) {
+                        opt.checkable = true;
+                        opt.toggleGroup = 'animatesimilareffects'
+                        this.btnParameters.menu.addItem(opt);
+                        (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked();
+                    }, this);
                 }
-                (selectedElement == undefined) && (selectedElement = this.btnParameters.menu.items[0])
-                selectedElement.setChecked(true);
                 this._effectId = effectId;
-                return selectedElement.value;
+                this._groupName = effectGroup;
+                this._familyEffect = effect.familyEffect;
+                return selectedElement ? selectedElement.value : undefined;
             },
 
 

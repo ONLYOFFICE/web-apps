@@ -186,7 +186,7 @@ define([
         },
 
         addNewEffect: function (type, group, groupName, replace, parametr) {
-            if (this._state.Effect == type) return;
+            if (this._state.Effect == type && this._state.EffectGroup == group && replace) return;
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
             this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace);
         },
@@ -345,8 +345,8 @@ define([
                     this._state.EffectGroup = group;
 
                     group = view.listEffects.groups.findWhere({value: this._state.EffectGroup});
-                    var familyEffect = _.findWhere(view.allEffects, group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect}).familyEffect;
-
+                    var effect =_.findWhere(view.allEffects, group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect});
+                    var familyEffect = (effect) ? effect.familyEffect : undefined;
                     item =   (!familyEffect) ? store.findWhere(group ? {group: group.get('id'), value: value} : {value: value})
                     : store.findWhere(group ? {group: group.get('id'), familyEffect: familyEffect} : {familyEffect: familyEffect});
                     if (item) {
@@ -400,8 +400,11 @@ define([
                 }
 
                 this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
-                if (this._state.EffectOption !== undefined && this._state.EffectOption !== null)
-                    this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, _.findWhere(this.EffectGroups,{value: this._state.EffectGroup}).id, this._state.EffectOption)===undefined;
+                if (this._state.EffectOption !== undefined && this._state.EffectOption !== null){
+                    view.setMenuParameters(this._state.Effect, _.findWhere(this.EffectGroups,{value: this._state.EffectGroup}).id, this._state.EffectOption)===undefined;
+                    this._state.noAnimationParam = view.btnParameters.menu.items.length === 0;
+                }
+
 
                 value = this.AnimationProperties.asc_getDuration();
                 if (Math.abs(this._state.Duration - value) > 0.001 ||

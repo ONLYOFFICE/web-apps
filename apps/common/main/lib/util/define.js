@@ -789,6 +789,11 @@ define(function(){ 'use strict';
             textOut: 'Out',
             textWedge: 'Wedge',
             textFlip: 'Flip',
+            textLines: 'Lines',
+            textArcs: 'Arcs',
+            textTurns: 'Turnes',
+            textShapes: 'Shapes',
+            textLoops: 'Loops',
 
             getEffectGroupData: function () {
                 return [
@@ -844,20 +849,20 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_ZOOM,                         iconCls: 'animation-exit-zoom',                     displayValue: this.textZoom},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BASIC_SWIVEL,                 iconCls: 'animation-exit-swivel',                   displayValue: this.textSwivel},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOUNCE,                       iconCls: 'animation-exit-bounce',                   displayValue: this.textBounce},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_DOWN,                       iconCls: 'animation-motion_paths-lines',              displayValue: this.textDown},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_LEFT,                       iconCls: 'animation-motion_paths-lines',              displayValue: this.textLeft},
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_DOWN,                       iconCls: 'animation-motion_paths-lines',              displayValue: this.textLines, familyEffect: 'pathlines'},
+                    /*{group: 'menu-effect-group-path',     value: AscFormat.MOTION_LEFT,                       iconCls: 'animation-motion_paths-lines',              displayValue: this.textLeft},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_RIGHT,                      iconCls: 'animation-motion_paths-lines',              displayValue: this.textRight},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_UP,                         iconCls: 'animation-motion_paths-lines',              displayValue: this.textUp},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_ARC_DOWN,                   iconCls: 'animation-motion_paths-arcs',               displayValue: this.textArcDown},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_ARC_LEFT,                   iconCls: 'animation-motion_paths-arcs',               displayValue: this.textArcLeft},
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_UP,                         iconCls: 'animation-motion_paths-lines',              displayValue: this.textUp},*/
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_ARC_DOWN,                   iconCls: 'animation-motion_paths-arcs',               displayValue: this.textArcs, familyEffect: 'patharcs'},
+                    /*{group: 'menu-effect-group-path',     value: AscFormat.MOTION_ARC_LEFT,                   iconCls: 'animation-motion_paths-arcs',               displayValue: this.textArcLeft},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_ARC_RIGHT,                  iconCls: 'animation-motion_paths-arcs',               displayValue: this.textArcRight},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_ARC_UP,                     iconCls: 'animation-motion_paths-arcs',               displayValue: this.textArcUp},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TURN_DOWN,                  iconCls: 'animation-motion_paths-turns',              displayValue: this.textTurnDown},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TURN_DOWN_RIGHT,            iconCls: 'animation-motion_paths-turns',              displayValue: this.textTurnDownRight},
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_ARC_UP,                     iconCls: 'animation-motion_paths-arcs',               displayValue: this.textArcUp},*/
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TURN_DOWN,                  iconCls: 'animation-motion_paths-turns',              displayValue: this.textTurns, familyEffect: 'pathturns'},
+                    /*{group: 'menu-effect-group-path',     value: AscFormat.MOTION_TURN_DOWN_RIGHT,            iconCls: 'animation-motion_paths-turns',              displayValue: this.textTurnDownRight},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TURN_UP,                    iconCls: 'animation-motion_paths-turns',              displayValue: this.textTurnUp},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TURN_UP_RIGHT,              iconCls: 'animation-motion_paths-turns',              displayValue: this.textTurnUpRight},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_CIRCLE,                     iconCls: 'animation-motion_paths-shapes',             displayValue: this.textCircle},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_DIAMOND,                    iconCls: 'animation-motion_paths-shapes',             displayValue: this.textDiamond},
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TURN_UP_RIGHT,              iconCls: 'animation-motion_paths-turns',              displayValue: this.textTurnUpRight},*/
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_CIRCLE,                     iconCls: 'animation-motion_paths-shapes',             displayValue: this.textShapes, familyEffect: 'pathshapes'},
+                    /*{group: 'menu-effect-group-path',     value: AscFormat.MOTION_DIAMOND,                    iconCls: 'animation-motion_paths-shapes',             displayValue: this.textDiamond},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_EQUAL_TRIANGLE,             iconCls: 'animation-motion_paths-shapes',             displayValue: this.textEqualTriangle},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_HEXAGON,                    iconCls: 'animation-motion_paths-shapes',             displayValue: this.textHexagon},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_OCTAGON,                    iconCls: 'animation-motion_paths-shapes',             displayValue: this.textOctagon},
@@ -865,10 +870,10 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_PENTAGON,                   iconCls: 'animation-motion_paths-shapes',             displayValue: this.textPentagon},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_RIGHT_TRIANGLE,             iconCls: 'animation-motion_paths-shapes',             displayValue: this.textRightTriangle},
                     {group: 'menu-effect-group-path',     value: AscFormat.MOTION_SQUARE,                     iconCls: 'animation-motion_paths-shapes',             displayValue: this.textSquare},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TRAPEZOID,                  iconCls: 'animation-motion_paths-shapes',             displayValue: this.textTrapezoid},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'animation-motion_paths-loops',              displayValue: this.textHorizontalFigure},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_VERTICAL_FIGURE_8,          iconCls: 'animation-motion_paths-loops',              displayValue: this.textVerticalFigure},
-                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_LOOP_DE_LOOP,               iconCls: 'animation-motion_paths-loops',              displayValue: this.textLoopDeLoop}//,
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_TRAPEZOID,                  iconCls: 'animation-motion_paths-shapes',             displayValue: this.textTrapezoid},*/
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'animation-motion_paths-loops',              displayValue: this.textLoops, familyEffect: 'pathloops'}//,
+                    /*{group: 'menu-effect-group-path',     value: AscFormat.MOTION_VERTICAL_FIGURE_8,          iconCls: 'animation-motion_paths-loops',              displayValue: this.textVerticalFigure},
+                    {group: 'menu-effect-group-path',     value: AscFormat.MOTION_LOOP_DE_LOOP,               iconCls: 'animation-motion_paths-loops',              displayValue: this.textLoopDeLoop}//,*/
                     //{group: 'menu-effect-group-path',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'animation-motion_paths-custom_path',        displayValue: this.textCustomPath}
                 ];
             },
@@ -994,24 +999,24 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_PATH_5_POINT_STAR,          displayValue: this.textPointStar5},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_PATH_6_POINT_STAR,          displayValue: this.textPointStar6},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_PATH_8_POINT_STAR,          displayValue: this.textPointStar8},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_CIRCLE,                     displayValue: this.textCircle},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_CIRCLE,                     displayValue: this.textCircle, familyEffect: 'pathshapes'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_CRESCENT_MOON,              displayValue: this.textCrescentMoon},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_DIAMOND,                    displayValue: this.textDiamond},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_EQUAL_TRIANGLE,             displayValue: this.textEqualTriangle},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_DIAMOND,                    displayValue: this.textDiamond, familyEffect: 'pathshapes'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_EQUAL_TRIANGLE,             displayValue: this.textEqualTriangle, familyEffect: 'pathshapes'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_FOOTBALL,                   displayValue: this.textFootball},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_HEART,                      displayValue: this.textHeart},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_HEXAGON,                    displayValue: this.textHexagon},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_OCTAGON,                    displayValue: this.textOctagon},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_PARALLELOGRAM,              displayValue: this.textParallelogram},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_PENTAGON,                   displayValue: this.textPentagon},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_RIGHT_TRIANGLE,             displayValue: this.textRightTriangle},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_SQUARE,                     displayValue: this.textSquare},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_HEXAGON,                    displayValue: this.textHexagon, familyEffect: 'pathshapes'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_OCTAGON,                    displayValue: this.textOctagon, familyEffect: 'pathshapes'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_PARALLELOGRAM,              displayValue: this.textParallelogram, familyEffect: 'pathshapes'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_PENTAGON,                   displayValue: this.textPentagon, familyEffect: 'pathshapes'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_RIGHT_TRIANGLE,             displayValue: this.textRightTriangle, familyEffect: 'pathshapes'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_SQUARE,                     displayValue: this.textSquare, familyEffect: 'pathshapes'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_TEARDROP,                   displayValue: this.textTeardrop},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_TRAPEZOID,                  displayValue: this.textTrapezoid},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_DOWN,                   displayValue: this.textArcDown},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_LEFT,                   displayValue: this.textArcLeft},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_RIGHT,                  displayValue: this.textArcRight},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_UP,                     displayValue: this.textArcUp},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-basic',           value: AscFormat.MOTION_TRAPEZOID,                  displayValue: this.textTrapezoid, familyEffect: 'pathshapes'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_DOWN,                   displayValue: this.textArcDown, familyEffect: 'patharcs'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_LEFT,                   displayValue: this.textArcLeft, familyEffect: 'patharcs'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_RIGHT,                  displayValue: this.textArcRight, familyEffect: 'patharcs'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ARC_UP,                     displayValue: this.textArcUp, familyEffect: 'patharcs'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_BOUNCE_LEFT,                displayValue: this.textBounceLeft},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_BOUNCE_RIGHT,               displayValue: this.textBounceRight},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_CURVY_LEFT,                 displayValue: this.textCurvyLeft},
@@ -1019,10 +1024,11 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_DECAYING_WAVE,              displayValue: this.textDecayingWave},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_DIAGONAL_DOWN_RIGHT,        displayValue: this.textDiagonalDownRight},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_DIAGONAL_UP_RIGHT,          displayValue: this.textDiagonalUpRight},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_DOWN,                       displayValue: this.textDown},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_DOWN,                       displayValue: this.textDown, familyEffect: 'pathlines'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_FUNNEL,                     displayValue: this.textFunnel},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_HEARTBEAT,                  displayValue: this.textHeartbeat},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_LEFT,                       displayValue: this.textLeft},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_LEFT,                       displayValue: this.textLeft, familyEffect: 'pathlines'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_RIGHT,                      displayValue: this.textRight, familyEffect: 'pathlines'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_S_CURVE_1,                  displayValue: this.textSCurve1},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_S_CURVE_2,                  displayValue: this.textSCurve2},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_SINE_WAVE,                  displayValue: this.textSineWave},
@@ -1030,11 +1036,11 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_SINE_SPIRAL_RIGHT,          displayValue: this.textSpiralRight},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_SPRING,                     displayValue: this.textSpring},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_STAIRS_DOWN,                displayValue: this.textStairsDown},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_DOWN,                  displayValue: this.textTurnDown},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_DOWN_RIGHT,            displayValue: this.textTurnDownRight},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_UP,                    displayValue: this.textTurnUp},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_UP_RIGHT,              displayValue: this.textTurnUpRight},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_UP,                         displayValue: this.textUp},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_DOWN,                  displayValue: this.textTurnDown, familyEffect: 'pathturns'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_DOWN_RIGHT,            displayValue: this.textTurnDownRight, familyEffect: 'pathturns'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_UP,                    displayValue: this.textTurnUp, familyEffect: 'pathturns'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_TURN_UP_RIGHT,              displayValue: this.textTurnUpRight, familyEffect: 'pathturns'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_UP,                         displayValue: this.textUp, familyEffect: 'pathlines'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_WAVE,                       displayValue: this.textWave},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-lines_curves',    value: AscFormat.MOTION_ZIGZAG,                     displayValue: this.textZigzag},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_BEAN,                       displayValue: this.textBean},
@@ -1042,15 +1048,15 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_CURVED_X,                   displayValue: this.textCurvedX},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_CURVY_STAR,                 displayValue: this.textCurvyStar},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_FIGURE_8_FOUR,              displayValue: this.textFigureFour},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   displayValue: this.textHorizontalFigure},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   displayValue: this.textHorizontalFigure, familyEffect: 'pathloops'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_INVERTED_SQUARE,            displayValue: this.textInvertedSquare},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_INVERTED_TRIANGLE,          displayValue: this.textInvertedTriangle},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_LOOP_DE_LOOP,               displayValue: this.textLoopDeLoop},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_LOOP_DE_LOOP,               displayValue: this.textLoopDeLoop, familyEffect: 'pathloops'},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_NEUTRON,                    displayValue: this.textNeutron},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_PEANUT,                     displayValue: this.textPeanut},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_POINTY_STAR,                displayValue: this.textPointStar},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_SWOOSH,                     displayValue: this.textSwoosh},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_VERTICAL_FIGURE_8,          displayValue: this.textVerticalFigure}
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_VERTICAL_FIGURE_8,          displayValue: this.textVerticalFigure, familyEffect: 'pathloops'}
 
                 ];
             },
@@ -1297,17 +1303,58 @@ define(function(){ 'use strict';
                 switch (familyEffect){
                     case 'shape':
                         return [
-                            {value: AscFormat.EXIT_BOX, caption: this.textBox},
-                            {value: AscFormat.EXIT_CIRCLE, caption: this.textCircle},
-                            {value: AscFormat.EXIT_PLUS,   caption: this.textPlus},
+                            {value: AscFormat.EXIT_BOX,     caption: this.textBox},
+                            {value: AscFormat.EXIT_CIRCLE,  caption: this.textCircle},
+                            {value: AscFormat.EXIT_PLUS,    caption: this.textPlus},
                             {value: AscFormat.EXIT_DIAMOND, caption: this.textDiamond}
                         ];
                     case 'entrshape':
                         return [
-                            {value: AscFormat.ENTRANCE_BOX, displayValue: this.textBox},
-                            {value: AscFormat.ENTRANCE_CIRCLE, displayValue: this.textCircle},
-                            {value: AscFormat.ENTRANCE_PLUS, displayValue: this.textPlus},
-                            {value: AscFormat.ENTRANCE_DIAMOND, displayValue: this.textDiamond},
+                            {value: AscFormat.ENTRANCE_BOX,     caption: this.textBox},
+                            {value: AscFormat.ENTRANCE_CIRCLE,  caption: this.textCircle},
+                            {value: AscFormat.ENTRANCE_PLUS,    caption: this.textPlus},
+                            {value: AscFormat.ENTRANCE_DIAMOND, caption: this.textDiamond}
+                        ];
+                    case 'pathlines':
+                        return[
+                            {value: AscFormat.MOTION_DOWN,  caption: this.textDown},
+                            {value: AscFormat.MOTION_LEFT,  caption: this.textLeft},
+                            {value: AscFormat.MOTION_RIGHT, caption: this.textRight},
+                            {value: AscFormat.MOTION_UP,    caption: this.textUp}
+                        ];
+                    case 'patharcs':
+                        return [
+                            {value: AscFormat.MOTION_ARC_DOWN,  caption: this.textArcDown},
+                            {value: AscFormat.MOTION_ARC_LEFT,  caption: this.textArcLeft},
+                            {value: AscFormat.MOTION_ARC_RIGHT, caption: this.textArcRight},
+                            {value: AscFormat.MOTION_ARC_UP,    caption: this.textArcUp}
+                        ];
+                    case 'pathturns':
+                        return [
+                            {value: AscFormat.MOTION_TURN_DOWN,       caption: this.textTurnDown},
+                            {value: AscFormat.MOTION_TURN_DOWN_RIGHT, caption: this.textTurnDownRight},
+                            {value: AscFormat.MOTION_TURN_UP,         caption: this.textTurnUp},
+                            {value: AscFormat.MOTION_TURN_UP_RIGHT,   caption: this.textTurnUpRight}
+                        ];
+                    case 'pathshapes':
+                        return [
+                            {value: AscFormat.MOTION_CIRCLE,         caption: this.textCircle},
+                            {value: AscFormat.MOTION_DIAMOND,        caption: this.textDiamond},
+                            {value: AscFormat.MOTION_EQUAL_TRIANGLE, caption: this.textEqualTriangle},
+                            {value: AscFormat.MOTION_HEXAGON,        caption: this.textHexagon},
+                            {value: AscFormat.MOTION_OCTAGON,        caption: this.textOctagon},
+                            {value: AscFormat.MOTION_PARALLELOGRAM,  caption: this.textParallelogram},
+                            {value: AscFormat.MOTION_PENTAGON,       caption: this.textPentagon},
+                            {value: AscFormat.MOTION_RIGHT_TRIANGLE, caption: this.textRightTriangle},
+                            {value: AscFormat.MOTION_SQUARE,         caption: this.textSquare},
+                            {value: AscFormat.MOTION_TRAPEZOID,      caption: this.textTrapezoid}
+
+                        ];
+                    case 'pathloops':
+                        return [
+                            {value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR, caption: this.textHorizontalFigure},
+                            {value: AscFormat.MOTION_VERTICAL_FIGURE_8,        caption: this.textVerticalFigure},
+                            {value: AscFormat.MOTION_LOOP_DE_LOOP,             caption: this.textLoopDeLoop}
                         ];
                     default:
                         return [];
