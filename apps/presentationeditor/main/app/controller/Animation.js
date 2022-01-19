@@ -182,7 +182,7 @@ define([
         },
 
         addNewEffect: function (type, group, groupName, replace) {
-            if (this._state.Effect == type && this._state.EffectGroup == group) return;
+            if (this._state.Effect == type && this._state.EffectGroup == group && replace) return;
             var parameter = this.view.setMenuParameters(type, groupName, undefined);
             this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace);
             this._state.EffectGroup = group;
