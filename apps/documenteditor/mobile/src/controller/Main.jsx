@@ -558,32 +558,31 @@ class MainController extends Component {
             storeDocumentSettings.changeDocSize(w, h);
         });
 
-        const storeAppOptions = this.props.storeAppOptions;
+        this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
+            const storeAppOptions = this.props.storeAppOptions;
+            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected) return;
 
-        if (storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) {
-            this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
-                switch (obj.type) {
-                    case Asc.c_oAscContentControlSpecificType.DateTime:
-                        this.onShowDateActions(obj, x, y);
-                        break;
-                    case Asc.c_oAscContentControlSpecificType.Picture:
-                        if (obj.pr && obj.pr.get_Lock) {
-                            let lock = obj.pr.get_Lock();
-                            if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
-                                return;
-                        }
-                        this.api.asc_addImage(obj);
-                        setTimeout(() => {
-                            this.api.asc_UncheckContentControlButtons();
-                        }, 500);
-                        break;
-                    case Asc.c_oAscContentControlSpecificType.DropDownList:
-                    case Asc.c_oAscContentControlSpecificType.ComboBox:
-                        this.onShowListActions(obj, x, y);
-                        break;
-                }
-            });
-        }
+            switch (obj.type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        let lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    this.api.asc_addImage(obj);
+                    setTimeout(() => {
+                        this.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
+        });
 
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));

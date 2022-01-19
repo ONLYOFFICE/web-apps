@@ -196,7 +196,7 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { isEdit } = this.props;
+        const { isEdit, isDisconnected } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -253,18 +253,20 @@ class ContextMenu extends ContextMenuController {
                     icon: 'icon-copy'
                 });
             }
-            if (canViewComments && this.isComments && !isEdit) {
-                itemsText.push({
-                    caption: _t.menuViewComment,
-                    event: 'viewcomment'
-                });
-            }
-
-            if (!isChart && api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked) {
-                itemsText.push({
-                    caption: _t.menuAddComment,
-                    event: 'addcomment'
-                });
+            if(!isDisconnected) {
+                if (canViewComments && this.isComments && !isEdit) {
+                    itemsText.push({
+                        caption: _t.menuViewComment,
+                        event: 'viewcomment'
+                    });
+                }
+    
+                if (!isChart && api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked) {
+                    itemsText.push({
+                        caption: _t.menuAddComment,
+                        event: 'addcomment'
+                    });
+                }
             }
 
             if (isLink) {
