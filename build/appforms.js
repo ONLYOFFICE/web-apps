@@ -65,6 +65,17 @@ module.exports = (grunt) => {
                 }
             },
 
+            replace: {
+                varsEnviroment: {
+                    src: ['<%= pkg.forms.js.requirejs.options.out %>'],
+                    overwrite: true,
+                    replacements: [{
+                        from: /\{\{PRODUCT_VERSION\}\}/g,
+                        to: packageFile.version
+                    }, ...global.jsreplacements]
+                },
+            },
+
             inline: {
                 dist: {
                     src: packageFile.forms.inline.src
@@ -76,5 +87,5 @@ module.exports = (grunt) => {
     
     grunt.registerTask('deploy-app-forms', ['forms-app-init', 'clean:prebuild', /*'imagemin',*/ 'less',
                                                             'requirejs', 'concat', 'copy', 'inline', /*'json-minify',*/
-                                                            /*'replace:writeVersion',*/ /*'replace:prepareHelp',*/ 'clean:postbuild']);
+                                                            'replace:varsEnviroment', /*'replace:prepareHelp',*/ 'clean:postbuild']);
 }

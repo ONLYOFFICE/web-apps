@@ -213,7 +213,7 @@ class ContextMenu extends ContextMenuController {
 
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
-        const { isEdit, canFillForms } = this.props;
+        const { isEdit, canFillForms, isDisconnected } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -259,32 +259,34 @@ class ContextMenu extends ContextMenuController {
                 });
             }
 
-            if ( canFillForms && canCopy && !locked ) {
-                itemsIcon.push({
-                    event: 'cut',
-                    icon: 'icon-cut'
-                });
-            }
+            if(!isDisconnected) {
+                if ( canFillForms && canCopy && !locked ) {
+                    itemsIcon.push({
+                        event: 'cut',
+                        icon: 'icon-cut'
+                    });
+                }
 
-            if ( canFillForms && !locked ) {
-                itemsIcon.push({
-                    event: 'paste',
-                    icon: 'icon-paste'
-                });
-            }
+                if ( canFillForms && !locked ) {
+                    itemsIcon.push({
+                        event: 'paste',
+                        icon: 'icon-paste'
+                    });
+                }
 
-            if ( canViewComments && this.isComments ) {
-                itemsText.push({
-                    caption: _t.menuViewComment,
-                    event: 'viewcomment'
-                });
-            }
+                if ( canViewComments && this.isComments ) {
+                    itemsText.push({
+                        caption: _t.menuViewComment,
+                        event: 'viewcomment'
+                    });
+                }
 
-            if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject)) {
-                itemsText.push({
-                    caption: _t.menuAddComment,
-                    event: 'addcomment'
-                });
+                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject)) {
+                    itemsText.push({
+                        caption: _t.menuAddComment,
+                        event: 'addcomment'
+                    });
+                }
             }
 
             if ( isLink ) {

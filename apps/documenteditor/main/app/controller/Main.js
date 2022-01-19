@@ -1464,7 +1464,7 @@ define([
                 var type = /^(?:(djvu))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
-                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType);
+                this.appOptions.canUseSelectHandTools = this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType);
                 this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload;
 
                 this.appOptions.fileKey = this.document.key;
@@ -2663,6 +2663,10 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-fl-cells", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-double-space", Common.Utils.isMac); // add period with double-space in MacOs by default
+                Common.Utils.InternalSettings.set("de-settings-autoformat-double-space", value);
+                me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(value);
             },
 
             showRenameUserDialog: function() {

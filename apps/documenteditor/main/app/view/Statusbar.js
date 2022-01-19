@@ -79,6 +79,11 @@ define([
             me.btnZoomDown.updateHint(me.tipZoomOut + Common.Utils.String.platformKey('Ctrl+-'));
             me.btnZoomUp.updateHint(me.tipZoomIn + Common.Utils.String.platformKey('Ctrl++'));
 
+            if (config.canUseSelectHandTools) {
+                me.btnSelectTool.updateHint(me.tipSelectTool);
+                me.btnHandTool.updateHint(me.tipHandTool);
+            }
+
             if (me.btnLanguage && me.btnLanguage.cmpEl) {
                 me.btnLanguage.updateHint(me.tipSetLang);
                 me.langMenu.on('item:click', _.bind(_clickLanguage, this));
@@ -178,6 +183,20 @@ define([
                     textGotoPage: this.goToPageText,
                     textPageNumber: Common.Utils.String.format(this.pageIndexText, 1, 1)
                 }));
+
+                this.btnSelectTool = new Common.UI.Button({
+                    hintAnchor: 'top',
+                    toggleGroup: 'select-tools',
+                    enableToggle: true,
+                    allowDepress: false
+                });
+
+                this.btnHandTool = new Common.UI.Button({
+                    hintAnchor: 'top',
+                    toggleGroup: 'select-tools',
+                    enableToggle: true,
+                    allowDepress: false
+                });
 
                 this.btnZoomToPage = new Common.UI.Button({
                     hintAnchor: 'top',
@@ -292,6 +311,11 @@ define([
                     me.langMenu.prevTip = 'en';
                 }
 
+                if (config.canUseSelectHandTools) {
+                    _btn_render(me.btnSelectTool, $('#btn-select-tool', me.$layout));
+                    _btn_render(me.btnHandTool, $('#btn-hand-tool', me.$layout));
+                }
+
                 me.zoomMenu.render($('.cnt-zoom',me.$layout));
                 me.zoomMenu.cmpEl.attr({tabindex: -1});
 
@@ -394,7 +418,9 @@ define([
             tipSetLang          : 'Set Text Language',
             txtPageNumInvalid   : 'Page number invalid',
             textTrackChanges    : 'Track Changes',
-            textChangesPanel    : 'Changes panel'
+            textChangesPanel    : 'Changes panel',
+            tipSelectTool       : 'Select tool',
+            tipHandTool         : 'Hand tool'
         }, DE.Views.Statusbar || {}));
     }
 );

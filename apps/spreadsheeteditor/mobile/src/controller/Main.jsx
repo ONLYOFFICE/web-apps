@@ -426,11 +426,16 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this)); 
         
         this.api.asc_registerCallback('asc_onRenameCellTextEnd', this.onRenameText.bind(this));
+
         this.api.asc_registerCallback('asc_onEntriesListMenu', this.onEntriesListMenu.bind(this, false));
         this.api.asc_registerCallback('asc_onValidationListMenu', this.onEntriesListMenu.bind(this, true));
     }
 
     onEntriesListMenu(validation, textArr, addArr) {
+        const storeAppOptions = this.props.storeAppOptions;
+       
+        if (!storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit || this.props.users.isDisconnected) return;
+
         const { t } = this.props;
         const boxSdk = $$('#editor_sdk');
     
@@ -606,7 +611,7 @@ class MainController extends Component {
         if (appOptions.isEditDiagram || appOptions.isEditMailMerge) return;
 
         const licType = params.asc_getLicenseType();
-        if (licType !== undefined && appOptions.canEdit && appOptions.config.mode !== 'view' &&
+        if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
             (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
