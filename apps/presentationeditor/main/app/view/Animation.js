@@ -88,7 +88,7 @@ define([
 
             if (me.btnParameters) {
                 me.btnParameters.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('animation:parameters', [item.value]);
+                    me.fireEvent('animation:parameters', [item.value, item.toggleGroup]);
                 });
             }
 
@@ -171,7 +171,9 @@ define([
                 this.lockedControls = [];
 
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
-                _.forEach(this._arrEffectName,function (elm){elm.tip = elm.displayValue;});
+                _.forEach(this._arrEffectName,function (elm){
+                    elm.tip = elm.displayValue;
+                });
                 this._arrEffectOptions = [];
                 var itemWidth = 88,
                     itemHeight = 40;
@@ -520,6 +522,16 @@ define([
                         this.btnParameters.menu.addItem(opt);
                         (opt.value==option) && (selectedElement = this.btnParameters.menu.items[index]);
                     }, this);
+                    if(effect.familyEffect){
+                        this.btnParameters.menu.addItem({caption: '--'});
+                        var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup,effect.familyEffect);
+                        effectsArray.forEach(function (opt) {
+                            opt.checkable = true;
+                            opt.toggleGroup = 'animatesimilareffects'
+                            this.btnParameters.menu.addItem(opt);
+                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length-1].setChecked();
+                        },this);
+                    }
                 }
                 else {
                     this.btnParameters.menu.items.forEach(function (opt) {

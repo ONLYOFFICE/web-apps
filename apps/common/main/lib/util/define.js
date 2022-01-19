@@ -807,10 +807,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_FLOAT,                    iconCls: 'animation-entrance-float_in',             displayValue: this.textFloatIn},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_SPLIT,                    iconCls: 'animation-entrance-split',                displayValue: this.textSplit},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_WIPE_FROM,                iconCls: 'animation-entrance-wipe',                 displayValue: this.textWipe},
-                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_BOX,                      iconCls: 'animation-entrance-shape',                displayValue: this.textBox},
-                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_CIRCLE,                   iconCls: 'animation-entrance-shape',                displayValue: this.textCircle},
-                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_PLUS,                     iconCls: 'animation-entrance-shape',                displayValue: this.textPlus},
-                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_DIAMOND,                  iconCls: 'animation-entrance-shape',                displayValue: this.textDiamond},
+                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_BOX,                      iconCls: 'animation-entrance-shape',                displayValue: this.textShape, familyEffect: 'entrshape'},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_WHEEL,                    iconCls: 'animation-entrance-wheel',                displayValue: this.textWheel},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_RANDOM_BARS,              iconCls: 'animation-entrance-random_bars',          displayValue: this.textRandomBars},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_GROW_AND_TURN,            iconCls: 'animation-entrance-grow_turn',            displayValue: this.textGrowTurn},
@@ -836,10 +833,11 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FLOAT,                        iconCls: 'animation-exit-float_out',                displayValue: this.textFloatOut},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_SPLIT,                        iconCls: 'animation-exit-split',                    displayValue: this.textSplit},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_WIPE_FROM,                    iconCls: 'animation-exit-wipe',                     displayValue: this.textWipe},
-                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOX,                          iconCls: 'animation-exit-shape',                    displayValue: this.textBox},
+                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOX,                          iconCls: 'animation-exit-shape',                    displayValue: this.textShape, familyEffect: 'shape'},
+                    /*{group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOX,                          iconCls: 'animation-exit-shape',                    displayValue: this.textBox},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_CIRCLE,                       iconCls: 'animation-exit-shape',                    displayValue: this.textCircle},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_PLUS,                         iconCls: 'animation-exit-shape',                    displayValue: this.textPlus},
-                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_DIAMOND,                      iconCls: 'animation-exit-shape',                    displayValue: this.textDiamond},
+                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_DIAMOND,                      iconCls: 'animation-exit-shape',                    displayValue: this.textDiamond},*/
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_WHEEL,                        iconCls: 'animation-exit-wheel',                    displayValue: this.textWheel},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_RANDOM_BARS,                  iconCls: 'animation-exit-random_bars',              displayValue: this.textRandomBars},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_SHRINK_AND_TURN,              iconCls: 'animation-exit-shrink_turn',              displayValue: this.textShrinkTurn},
@@ -896,14 +894,14 @@ define(function(){ 'use strict';
                 return [
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_APPEAR,                   displayValue: this.textAppear},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_BLINDS,                   displayValue: this.textBlinds},
-                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_BOX,                      displayValue: this.textBox},
+                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_BOX,                      displayValue: this.textBox, familyEffect: 'entrshape'},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_CHECKERBOARD,             displayValue: this.textCheckerboard},
-                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_CIRCLE,                   displayValue: this.textCircle},
-                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_DIAMOND,                  displayValue: this.textDiamond},
+                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_CIRCLE,                   displayValue: this.textCircle, familyEffect: 'entrshape'},
+                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_DIAMOND,                  displayValue: this.textDiamond, familyEffect: 'entrshape'},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_DISSOLVE_IN,              displayValue: this.textDissolveIn},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_FLY_IN_FROM,              displayValue: this.textFlyIn},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_PEEK_IN_FROM,             displayValue: this.textPeekIn},
-                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_PLUS,                     displayValue: this.textPlus},
+                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_PLUS,                     displayValue: this.textPlus, familyEffect: 'entrshape'},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_RANDOM_BARS,              displayValue: this.textRandomBars},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_SPLIT,                    displayValue: this.textSplit},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-basic',           value: AscFormat.ENTRANCE_STRIPS,                   displayValue: this.textStrips},
@@ -953,15 +951,15 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-moderate',        value: AscFormat.EMPHASIS_TEETER,                   displayValue: this.textTeeter},
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-exciting',        value: AscFormat.EMPHASIS_BLINK,                    displayValue: this.textBlink},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_BLINDS,                       displayValue: this.textBlinds},
-                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_BOX,                          displayValue: this.textBox},
+                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_BOX,                          displayValue: this.textBox, familyEffect: 'shape'},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_CHECKERBOARD,                 displayValue: this.textCheckerboard},
-                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_CIRCLE,                       displayValue: this.textCircle},
-                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_DIAMOND,                      displayValue: this.textDiamond},
+                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_CIRCLE,                       displayValue: this.textCircle, familyEffect: 'shape'},
+                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_DIAMOND,                      displayValue: this.textDiamond, familyEffect: 'shape'},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_DISAPPEAR,                    displayValue: this.textDisappear},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_DISSOLVE_OUT,                 displayValue: this.textDissolveOut},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_FLY_OUT_TO,                   displayValue: this.textFlyOut},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_PEEK_OUT_TO,                  displayValue: this.textPeekOut},
-                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_PLUS,                         displayValue: this.textPlus},
+                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_PLUS,                         displayValue: this.textPlus, familyEffect: 'shape'},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_RANDOM_BARS,                  displayValue: this.textRandomBars},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_SPLIT,                        displayValue: this.textSplit},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-basic',           value: AscFormat.EXIT_STRIPS,                       displayValue: this.textStrips},
@@ -1293,6 +1291,26 @@ define(function(){ 'use strict';
                         break;
                     default:
                         return undefined;
+                }
+            },
+            getSimilarEffectsArray: function (group, familyEffect) {
+                switch (familyEffect){
+                    case 'shape':
+                        return [
+                            {value: AscFormat.EXIT_BOX, caption: this.textBox},
+                            {value: AscFormat.EXIT_CIRCLE, caption: this.textCircle},
+                            {value: AscFormat.EXIT_PLUS,   caption: this.textPlus},
+                            {value: AscFormat.EXIT_DIAMOND, caption: this.textDiamond}
+                        ];
+                    case 'entrshape':
+                        return [
+                            {value: AscFormat.ENTRANCE_BOX, displayValue: this.textBox},
+                            {value: AscFormat.ENTRANCE_CIRCLE, displayValue: this.textCircle},
+                            {value: AscFormat.ENTRANCE_PLUS, displayValue: this.textPlus},
+                            {value: AscFormat.ENTRANCE_DIAMOND, displayValue: this.textDiamond},
+                        ];
+                    default:
+                        return [];
                 }
             }
         }

@@ -147,10 +147,16 @@ define([
             this.view.btnPreview.setIconCls('toolbar__icon transition-fade');
         },
 
-        onParameterClick: function (value) {
+        onParameterClick: function (value, toggleGroup) {
             if(this.api && this.AnimationProperties) {
-                this.AnimationProperties.asc_putSubtype(value);
-                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                if(toggleGroup=='animateeffects') {
+                    this.AnimationProperties.asc_putSubtype(value);
+                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                }
+                else {
+                    var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
+                    this.addNewEffect(value, this._state.EffectGroup, groupName,true, this._state.EffectOption);
+                }
             }
         },
 
@@ -179,12 +185,10 @@ define([
             this.addNewEffect(type, group, record.get('group'), false);
         },
 
-        addNewEffect: function (type, group, groupName, replace) {
+        addNewEffect: function (type, group, groupName, replace, parametr) {
             if (this._state.Effect == type) return;
-            var parameter = this.view.setMenuParameters(type, groupName, undefined);
+            var parameter = this.view.setMenuParameters(type, groupName, parametr);
             this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace);
-            this._state.EffectGroups = group;
-            this._state.Effect = type;
         },
 
         onDurationChange: function(field, newValue, oldValue, eOpts) {
@@ -341,7 +345,10 @@ define([
                     this._state.EffectGroup = group;
 
                     group = view.listEffects.groups.findWhere({value: this._state.EffectGroup});
-                    item = store.findWhere(group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect});
+                    var familyEffect = _.findWhere(view.allEffects, group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect}).familyEffect;
+
+                    item =   (!familyEffect) ? store.findWhere(group ? {group: group.get('id'), value: value} : {value: value})
+                    : store.findWhere(group ? {group: group.get('id'), familyEffect: familyEffect} : {familyEffect: familyEffect});
                     if (item) {
                         var forceFill = false;
                         if (!item.get('isCustom')) { // remove custom effect from list if not-custom is selected
