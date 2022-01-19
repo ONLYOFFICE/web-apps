@@ -335,7 +335,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-double-space", checked);
                     me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(checked);
                 });
-                this.chDoubleSpaces.setVisible(this.appPrefix=='de-');
                 // AutoCorrect
                 this.chFLSentence = new Common.UI.CheckBox({
                     el: $window.find('#id-autocorrect-dialog-chk-fl-sentence'),
