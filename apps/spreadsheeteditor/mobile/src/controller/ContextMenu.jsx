@@ -209,7 +209,7 @@ class ContextMenu extends ContextMenuController {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
 
-        const { isEdit } = this.props;
+        const { isEdit, isDisconnected } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -249,18 +249,20 @@ class ContextMenu extends ContextMenuController {
                     event: 'openlink'
                 });
             }
-            if (canViewComments && hasComments && hasComments.length>0) {
-                itemsText.push({
-                    caption: _t.menuViewComment,
-                    event: 'viewcomment'
-                });
-            }
-
-            if (iscellmenu && !api.isCellEdited && canCoAuthoring && canComments && hasComments && hasComments.length<1) {
-                itemsText.push({
-                    caption: _t.menuAddComment,
-                    event: 'addcomment'
-                });
+            if(!isDisconnected) {
+                if (canViewComments && hasComments && hasComments.length>0) {
+                    itemsText.push({
+                        caption: _t.menuViewComment,
+                        event: 'viewcomment'
+                    });
+                }
+    
+                if (iscellmenu && !api.isCellEdited && canCoAuthoring && canComments && hasComments && hasComments.length<1) {
+                    itemsText.push({
+                        caption: _t.menuAddComment,
+                        event: 'addcomment'
+                    });
+                }
             }
 
             return itemsIcon.concat(itemsText);
