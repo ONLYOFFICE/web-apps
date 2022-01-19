@@ -250,7 +250,7 @@
                 <div class="group small">
                     <div class="elset font-normal">
                         <label id="animation-duration"></label>
-                        <span id="animation-spin-duration" class="btn-slot text spinner" ></span>
+                        <span id="animation-spin-duration"  style="width: 96px; " class="btn-slot"></span>
                     </div>
                     <div class="elset font-normal">
                         <div class="btn-slot text"  id="animation-trigger"></div>

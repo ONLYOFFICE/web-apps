@@ -65,7 +65,6 @@ define([
                 'PE.Views.Animation': {
                     'animation:preview':            _.bind(this.onPreviewClick, this),
                     'animation:parameters':         _.bind(this.onParameterClick, this),
-                    'animation:duration':           _.bind(this.onDurationChange, this),
                     'animation:selecteffect':       _.bind(this.onEffectSelect, this),
                     'animation:delay':              _.bind(this.onDelayChange, this),
                     'animation:animationpane':      _.bind(this.onAnimationPane, this),
@@ -79,7 +78,10 @@ define([
                     'animation:movelater':          _.bind(this.onMoveLater, this),
                     'animation:repeatchange':       _.bind(this.onRepeatChange, this),
                     'animation:repeatfocusin':      _.bind(this.onRepeatComboOpen, this),
-                    'animation:repeatselected':     _.bind(this.onRepeatSelected, this)
+                    'animation:repeatselected':     _.bind(this.onRepeatSelected, this),
+                    'animation:durationchange':       _.bind(this.onDurationChange, this),
+                    'animation:durationfocusin':      _.bind(this.onRepeatComboOpen, this),
+                    'animation:durationselected':     _.bind(this.onDurationSelected, this)
 
                 },
                 'Toolbar': {
@@ -180,16 +182,50 @@ define([
         },
 
         addNewEffect: function (type, group, groupName, replace) {
-            if (this._state.Effect == type) return;
+            if (this._state.Effect == type && this._state.EffectGroup == group && replace) return;
             var parameter = this.view.setMenuParameters(type, groupName, undefined);
-            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace);
-            this._state.EffectGroups = group;
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-preview"));
+            this._state.EffectGroup = group;
             this._state.Effect = type;
         },
 
-        onDurationChange: function(field, newValue, oldValue, eOpts) {
+        onDurationChange: function(before,combo, record, e) {
+            var value,
+                me = this;
+            if(before)
+            {
+                var item = combo.store.findWhere({
+                    displayValue: record.value
+                });
+
+                if (!item) {
+                    var expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.view.txtSec + ')?\\s*$');
+                    if (!expr.exec(record.value)) {
+                        combo.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+            } else {
+                value = Common.Utils.String.parseFloat(record.value);
+                if(!record.displayValue)
+                    value = value > 600  ? 600 :
+                        value < 0 ? 0.01 : parseFloat(value.toFixed(2));
+
+                combo.setValue(value);
+                this.setDuration(value);
+            }
+        },
+
+        onDurationSelected: function (combo, record) {
+            this.setDuration(record.value);
+        },
+
+        setDuration: function(valueRecord) {
             if (this.api) {
-                this.AnimationProperties.asc_putDuration(field.getNumberValue() * 1000);
+                var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
+                this.AnimationProperties.asc_putDuration(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
@@ -200,6 +236,7 @@ define([
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
+
         onRepeatChange: function (before,combo, record, e){
             var value,
                 me = this;
@@ -211,15 +248,9 @@ define([
 
                 if (!item) {
                     value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
-
                     if (!value) {
-                        value = this._state.Repeat;
-                        combo.setRawValue(value);
-                        if(isNaN(record.value)) {
-                            record.value = value;
-                            if(value < 0)
-                                record.displayValue = combo.store.findWhere({value: value}).get('displayValue');
-                        }
+                        combo.setValue(this._state.Repeat, this._state.Repeat>=0 ? this._state.Repeat : 1);
+                        e.preventDefault();
                         return false;
                     }
                 }
@@ -231,17 +262,18 @@ define([
                         value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
 
                 combo.setValue(value);
-
-                if (this.api) {
-                    this.AnimationProperties.asc_putRepeatCount(value);
-                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
-                }
+                this.setRepeat(value);
             }
         },
 
         onRepeatSelected: function (combo, record) {
+            this.setRepeat(record.value);
+        },
+
+        setRepeat: function(valueRecord) {
             if (this.api) {
-                this.AnimationProperties.asc_putRepeatCount(record.value);
+                var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
+                this.AnimationProperties.asc_putRepeatCount(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
@@ -339,7 +371,7 @@ define([
                 if (this._state.Effect !== value || this._state.EffectGroup !== group) {
                     this._state.Effect = value;
                     this._state.EffectGroup = group;
-
+                    this.setViewRepeatAndDuration(this._state.EffectGroup, this._state.Effect);
                     group = view.listEffects.groups.findWhere({value: this._state.EffectGroup});
                     item = store.findWhere(group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect});
                     if (item) {
@@ -397,12 +429,12 @@ define([
                     this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, _.findWhere(this.EffectGroups,{value: this._state.EffectGroup}).id, this._state.EffectOption)===undefined;
 
                 value = this.AnimationProperties.asc_getDuration();
-                if (Math.abs(this._state.Duration - value) > 0.001 ||
-                    (this._state.Duration === null || value === null) && (this._state.Duration !== value) ||
-                    (this._state.Duration === undefined || value === undefined) && (this._state.Duration !== value)) {
-                    this._state.Duration = value;
-                    view.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);
-                }
+                this._state.Duration = (value>=0) ? value/1000 : value ; // undefined or <0
+                if (this._state.noAnimationDuration)
+                    view.cmbDuration.setValue('');
+                else
+                    view.cmbDuration.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
+
                 value = this.AnimationProperties.asc_getDelay();
                 if (Math.abs(this._state.Delay - value) > 0.001 ||
                     (this._state.Delay === null || value === null) && (this._state.Delay !== value) ||
@@ -410,8 +442,12 @@ define([
                     this._state.Delay = value;
                     view.numDelay.setValue((this._state.Delay !== null && this._state.Delay !== undefined) ? this._state.Delay / 1000. : '', true);
                 }
-                this._state.Repeat = this.AnimationProperties.asc_getRepeatCount();
-                view.cmbRepeat.setValue( this._state.Repeat !== undefined ? this._state.Repeat : 1);
+                value =this.AnimationProperties.asc_getRepeatCount();
+                this._state.Repeat = (value<0) ? value : value/1000;
+                if (this._state.noAnimationRepeat)
+                    view.cmbRepeat.setValue('');
+                else
+                    view.cmbRepeat.setValue( this._state.Repeat, this._state.Repeat>=0 ? this._state.Repeat : 1);
 
                 this._state.StartSelect = this.AnimationProperties.asc_getStartType();
                 view.cmbStart.setValue(this._state.StartSelect!==undefined ? this._state.StartSelect : AscFormat.NODE_TYPE_CLICKEFFECT);
@@ -429,6 +465,7 @@ define([
                 this.setTriggerList();
             }
             this.setLocked();
+
         },
 
         setTriggerList: function (){
@@ -442,6 +479,32 @@ define([
                 btnMemnu.addItem({ caption: item, checkable: true, toggleGroup: 'animtrigger', checked: item===me._state.TriggerValue});
             });
             this.view.cmbTrigger.menu.items[0].setChecked(this._state.trigger == this.view.triggers.ClickSequence);
+        },
+
+        setViewRepeatAndDuration: function(group, type) {
+            if(type == AscFormat.ANIM_PRESET_NONE) return;
+
+            this._state.noAnimationDuration = this._state.noAnimationRepeat = false;
+            if((group == AscFormat.PRESET_CLASS_ENTR && type == AscFormat.ENTRANCE_APPEAR) || (group == AscFormat.PRESET_CLASS_EXIT && type == AscFormat.EXIT_DISAPPEAR)) {
+                this._state.noAnimationDuration = this._state.noAnimationRepeat = true;
+            }
+            else if((group == AscFormat.PRESET_CLASS_EMPH) &&
+                (type == AscFormat.EMPHASIS_BOLD_REVEAL || type == AscFormat.EMPHASIS_TRANSPARENCY)) {
+                this._state.noAnimationRepeat = true;
+                if(this.view.cmbDuration.store.length == 6) {
+                    this.view.cmbDuration.store.add([{value: AscFormat.untilNextClick, displayValue: this.view.textUntilNextClick},
+                                                    {value: AscFormat.untilNextSlide, displayValue: this.view.textUntilEndOfSlide}]);
+                    this.view.cmbDuration.setData(this.view.cmbDuration.store.models);
+                }
+            }
+
+            if((this.view.cmbDuration.store.length == 8) && ((this._state.EffectGroup !=  AscFormat.PRESET_CLASS_EMPH) ||
+                ((this._state.EffectGroup == AscFormat.PRESET_CLASS_EMPH) && (this._state.Effect != AscFormat.EMPHASIS_BOLD_REVEAL) && (this._state.Effect != AscFormat.EMPHASIS_TRANSPARENCY)))) {
+                this.view.cmbDuration.store.pop();
+                this.view.cmbDuration.store.pop();
+                this.view.cmbDuration.setData(this.view.cmbDuration.store.models);
+            }
+
         },
 
         onActiveTab: function(tab) {
@@ -472,7 +535,10 @@ define([
                 this.lockToolbar(PE.enumLock.noMoveAnimationEarlier, this._state.noMoveAnimationEarlier);
             if (PE.enumLock.noAnimationPreview != undefined)
                 this.lockToolbar(PE.enumLock.noAnimationPreview, this._state.noAnimationPreview);
-
+            if (PE.enumLock.noAnimationRepeat != undefined)
+                this.lockToolbar(PE.enumLock.noAnimationRepeat, this._state.noAnimationRepeat);
+            if (PE.enumLock.noAnimationDuration != undefined)
+                this.lockToolbar(PE.enumLock.noAnimationDuration, this._state.noAnimationDuration);
         }
 
     }, PE.Controllers.Animation || {}));

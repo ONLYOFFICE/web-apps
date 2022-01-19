@@ -98,9 +98,21 @@ define([
                 }, me));
             }
 
-            if (me.numDuration) {
-                me.numDuration.on('change', function(bth) {
-                    me.fireEvent('animation:duration', [me.numDuration]);
+            if (me.cmbDuration) {
+                me.cmbDuration.on('changed:before', function (combo, record, e) {
+                    me.fireEvent('animation:durationchange', [true, combo, record, e]);
+                }, me);
+                me.cmbDuration.on('changed:after', function (combo, record, e) {
+                    me.fireEvent('animation:durationchange', [false, combo, record, e]);
+                }, me);
+                me.cmbDuration.on('selected', function (combo, record) {
+                    me.fireEvent('animation:durationselected', [combo, record]);
+                }, me);
+                me.cmbDuration.on('show:after', function (combo) {
+                    me.fireEvent('animation:durationfocusin', [true, combo]);
+                }, me);
+                me.cmbDuration.on('combo:focusin', function (combo) {
+                    me.fireEvent('animation:durationfocusin', [false, combo]);
                 }, me);
             }
 
@@ -118,11 +130,11 @@ define([
             }
 
             if (me.cmbRepeat) {
-                me.cmbRepeat.on('changed:before', function (combo, record) {
-                    me.fireEvent('animation:repeatchange', [true, combo, record]);
+                me.cmbRepeat.on('changed:before', function (combo, record, e) {
+                    me.fireEvent('animation:repeatchange', [true, combo, record, e]);
                 }, me);
-                me.cmbRepeat.on('changed:after', function (combo, record) {
-                    me.fireEvent('animation:repeatchange', [false, combo, record]);
+                me.cmbRepeat.on('changed:after', function (combo, record, e) {
+                    me.fireEvent('animation:repeatchange', [false, combo, record, e]);
                 }, me);
                 me.cmbRepeat.on('selected', function (combo, record) {
                     me.fireEvent('animation:repeatselected', [combo, record]);
@@ -270,20 +282,25 @@ define([
 
                 this.lockedControls.push(this.btnAddAnimation);
 
-                this.numDuration = new Common.UI.MetricSpinner({
+                this.cmbDuration = new Common.UI.ComboBox({
                     el: this.$el.find('#animation-spin-duration'),
-                    step: 1,
-                    width: 55,
-                    value: '',
-                    defaultUnit: this.txtSec,
-                    maxValue: 300,
-                    minValue: 0,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100%;',
+                    editable: true,
+                    data: [
+                        {value: 20, displayValue: this.str20},
+                        {value: 5, displayValue: this.str5},
+                        {value: 3, displayValue: this.str3},
+                        {value: 2, displayValue: this.str2},
+                        {value: 1, displayValue: this.str1},
+                        {value: 0.5, displayValue: this.str0_5}
+                    ],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration],
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.numDuration);
+                this.lockedControls.push(this.cmbDuration);
 
                 this.cmbTrigger = new Common.UI.Button({
                     parentEl: $('#animation-trigger'),
@@ -361,7 +378,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;',
                     editable: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat],
                     data: [
                         {value: 1, displayValue: this.textNoRepeat},
                         {value: 2, displayValue: "2"},
@@ -474,9 +491,9 @@ define([
                 this.btnAnimationPane && this.btnAnimationPane.render(this.$el.find('#animation-button-pane'));
                 this.btnAddAnimation && this.btnAddAnimation.render(this.$el.find('#animation-button-add-effect'));
                 this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'));
-                this.renderComponent('#animation-spin-duration', this.numDuration);
+                //this.renderComponent('#animation-spin-duration', this.cmbDuration);
                 this.renderComponent('#animation-spin-delay', this.numDelay);
-                this.renderComponent('#animation-spin-repeat', this.cmbRepeat);
+                //this.renderComponent('#animation-spin-repeat', this.cmbRepeat);
                 this.$el.find("#animation-duration").innerText = this.strDuration;
                 this.$el.find("#animation-delay").innerText = this.strDelay;
                 this.$el.find("#animation-label-start").innerText = this.strStart;
@@ -488,8 +505,6 @@ define([
                 var element = this.$el.find(compid);
                 element.parent().append(obj.el);
             },
-
-
 
             show: function () {
                 Common.UI.BaseView.prototype.show.call(this);
@@ -556,7 +571,13 @@ define([
             textMoveLater:  'Move Later',
             textNoRepeat: '(none)',
             textUntilNextClick: 'Until Next Click',
-            textUntilEndOfSlide: 'Until End of Slide'
+            textUntilEndOfSlide: 'Until End of Slide',
+            str20: '20 s (Extremely Slow)',
+            str5: '5 s (Very Slow)',
+            str3: '3 s (Slow)',
+            str2: '2 s (Medium)',
+            str1: '1 s (Fast)',
+            str0_5: '0.5 s (Very Fast)'
         }
     }()), PE.Views.Animation || {}));
 

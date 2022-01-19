@@ -119,19 +119,29 @@ define([
             this.lstEffectList = new Common.UI.ListView({
                 el      : $('#animation-list'),
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= displayValue %></div>'),
-                scroll  : true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
 
             this.chPreview = new  Common.UI.CheckBox({
                 el      : $('#animation-setpreview'),
-                labelText : this.textPreviewEffect
-            });
+                labelText : this.textPreviewEffect,
+                value: !Common.Utils.InternalSettings.get("pe-animation-no-preview")
+            }).on('change', _.bind(this.onPreviewChange, this));
 
             this.cmbGroup.setValue(this._state.activeGroupValue);
             this.fillLevel();
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+        },
+
+        getFocusedComponents: function() {
+            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList, this.chPreview];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.lstEffectList;
         },
 
         onGroupSelect: function (combo, record) {
@@ -164,6 +174,7 @@ define([
             if(!item)
                 item = this.lstEffectList.store.at(0);
             this.lstEffectList.selectRecord(item);
+            this.lstEffectList.scrollToRecord(item, true);
             this._state.activeEffect = item.get('value');
         },
 
@@ -171,6 +182,10 @@ define([
             if (record) {
                 this._state.activeEffect = record.get('value');
             }
+        },
+
+        onPreviewChange: function (field, newValue, oldValue, eOpts) {
+            Common.Utils.InternalSettings.set("pe-animation-no-preview", field.getValue()!=='checked');
         },
 
         onBtnClick: function (event)
