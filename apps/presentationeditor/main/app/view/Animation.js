@@ -99,11 +99,11 @@ define([
             }
 
             if (me.cmbDuration) {
-                me.cmbDuration.on('changed:before', function (combo, record) {
-                    me.fireEvent('animation:durationchange', [true, combo, record]);
+                me.cmbDuration.on('changed:before', function (combo, record, e) {
+                    me.fireEvent('animation:durationchange', [true, combo, record, e]);
                 }, me);
-                me.cmbDuration.on('changed:after', function (combo, record) {
-                    me.fireEvent('animation:durationchange', [false, combo, record]);
+                me.cmbDuration.on('changed:after', function (combo, record, e) {
+                    me.fireEvent('animation:durationchange', [false, combo, record, e]);
                 }, me);
                 me.cmbDuration.on('selected', function (combo, record) {
                     me.fireEvent('animation:durationselected', [combo, record]);
@@ -130,11 +130,11 @@ define([
             }
 
             if (me.cmbRepeat) {
-                me.cmbRepeat.on('changed:before', function (combo, record) {
-                    me.fireEvent('animation:repeatchange', [true, combo, record]);
+                me.cmbRepeat.on('changed:before', function (combo, record, e) {
+                    me.fireEvent('animation:repeatchange', [true, combo, record, e]);
                 }, me);
-                me.cmbRepeat.on('changed:after', function (combo, record) {
-                    me.fireEvent('animation:repeatchange', [false, combo, record]);
+                me.cmbRepeat.on('changed:after', function (combo, record, e) {
+                    me.fireEvent('animation:repeatchange', [false, combo, record, e]);
                 }, me);
                 me.cmbRepeat.on('selected', function (combo, record) {
                     me.fireEvent('animation:repeatselected', [combo, record]);
@@ -288,12 +288,12 @@ define([
                     menuStyle: 'min-width: 100%;',
                     editable: true,
                     data: [
-                        {value: 20, displayValue: 20},
-                        {value: 5, displayValue: 5},
-                        {value: 3, displayValue: 3},
-                        {value: 2, displayValue: 2},
-                        {value: 1, displayValue: 1},
-                        {value: 0.5, displayValue: 0.5}
+                        {value: 20, displayValue: this.str20},
+                        {value: 5, displayValue: this.str5},
+                        {value: 3, displayValue: this.str3},
+                        {value: 2, displayValue: this.str2},
+                        {value: 1, displayValue: this.str1},
+                        {value: 0.5, displayValue: this.str0_5}
                     ],
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration],
                     dataHint: '1',
@@ -571,7 +571,13 @@ define([
             textMoveLater:  'Move Later',
             textNoRepeat: '(none)',
             textUntilNextClick: 'Until Next Click',
-            textUntilEndOfSlide: 'Until End of Slide'
+            textUntilEndOfSlide: 'Until End of Slide',
+            str20: '20 s (Extremely Slow)',
+            str5: '5 s (Very Slow)',
+            str3: '3 s (Slow)',
+            str2: '2 s (Medium)',
+            str1: '1 s (Fast)',
+            str0_5: '0.5 s (Very Fast)'
         }
     }()), PE.Views.Animation || {}));
 

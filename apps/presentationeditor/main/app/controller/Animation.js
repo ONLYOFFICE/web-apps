@@ -199,16 +199,10 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
-
-                    if (!value) {
-                        value = this._state.Duration;
-                        combo.setRawValue(value);
-                        if(isNaN(record.value)) {
-                            record.value = value;
-                            if(value < 0)
-                                record.displayValue = combo.store.findWhere({value: value}).get('displayValue');
-                        }
+                    var expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.view.txtSec + ')?\\s*$');
+                    if (!expr.exec(record.value)) {
+                        combo.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
+                        e.preventDefault();
                         return false;
                     }
                 }
@@ -217,7 +211,7 @@ define([
                 value = Common.Utils.String.parseFloat(record.value);
                 if(!record.displayValue)
                     value = value > 600  ? 600 :
-                        value < 0 ? 0.01 : value.toFixed(2);
+                        value < 0 ? 0.01 : parseFloat(value.toFixed(2));
 
                 combo.setValue(value);
                 this.setDuration(value);
@@ -254,15 +248,9 @@ define([
 
                 if (!item) {
                     value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
-
                     if (!value) {
-                        value = this._state.Repeat;
-                        combo.setRawValue(value);
-                        if(isNaN(record.value)) {
-                            record.value = value;
-                            if(value < 0)
-                                record.displayValue = combo.store.findWhere({value: value}).get('displayValue');
-                        }
+                        combo.setValue(this._state.Repeat, this._state.Repeat>=0 ? this._state.Repeat : 1);
+                        e.preventDefault();
                         return false;
                     }
                 }
@@ -441,8 +429,11 @@ define([
                     this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, _.findWhere(this.EffectGroups,{value: this._state.EffectGroup}).id, this._state.EffectOption)===undefined;
 
                 value = this.AnimationProperties.asc_getDuration();
-                this._state.Duration = (value<0) ? value : value/1000;
-                view.cmbDuration.setValue( this._state.Duration !== undefined ? this._state.Duration : 1);
+                this._state.Duration = (value>=0) ? value/1000 : value ; // undefined or <0
+                if (this._state.noAnimationDuration)
+                    view.cmbDuration.setValue('');
+                else
+                    view.cmbDuration.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
 
                 value = this.AnimationProperties.asc_getDelay();
                 if (Math.abs(this._state.Delay - value) > 0.001 ||
@@ -453,7 +444,10 @@ define([
                 }
                 value =this.AnimationProperties.asc_getRepeatCount();
                 this._state.Repeat = (value<0) ? value : value/1000;
-                view.cmbRepeat.setValue( this._state.Repeat !== undefined ? this._state.Repeat : 1);
+                if (this._state.noAnimationRepeat)
+                    view.cmbRepeat.setValue('');
+                else
+                    view.cmbRepeat.setValue( this._state.Repeat, this._state.Repeat>=0 ? this._state.Repeat : 1);
 
                 this._state.StartSelect = this.AnimationProperties.asc_getStartType();
                 view.cmbStart.setValue(this._state.StartSelect!==undefined ? this._state.StartSelect : AscFormat.NODE_TYPE_CLICKEFFECT);
@@ -498,26 +492,17 @@ define([
                 (type == AscFormat.EMPHASIS_BOLD_REVEAL || type == AscFormat.EMPHASIS_TRANSPARENCY)) {
                 this._state.noAnimationRepeat = true;
                 if(this.view.cmbDuration.store.length == 6) {
-
-                    this.view.cmbDuration.setData([{value: 20, displayValue: 20},
-                        {value: 5, displayValue: 5},
-                        {value: 3, displayValue: 3},
-                        {value: 2, displayValue: 2},
-                        {value: 1, displayValue: 1},
-                        {value: 0.5, displayValue: 0.5},
-                        {value: AscFormat.untilNextClick, displayValue: this.view.textUntilNextClick},
-                        {value: AscFormat.untilNextSlide, displayValue: this.view.textUntilEndOfSlide}]);
+                    this.view.cmbDuration.store.add([{value: AscFormat.untilNextClick, displayValue: this.view.textUntilNextClick},
+                                                    {value: AscFormat.untilNextSlide, displayValue: this.view.textUntilEndOfSlide}]);
+                    this.view.cmbDuration.setData(this.view.cmbDuration.store.models);
                 }
             }
 
             if((this.view.cmbDuration.store.length == 8) && ((this._state.EffectGroup !=  AscFormat.PRESET_CLASS_EMPH) ||
                 ((this._state.EffectGroup == AscFormat.PRESET_CLASS_EMPH) && (this._state.Effect != AscFormat.EMPHASIS_BOLD_REVEAL) && (this._state.Effect != AscFormat.EMPHASIS_TRANSPARENCY)))) {
-                this.view.cmbDuration.setData([{value: 20, displayValue: 20},
-                    {value: 5, displayValue: 5},
-                    {value: 3, displayValue: 3},
-                    {value: 2, displayValue: 2},
-                    {value: 1, displayValue: 1},
-                    {value: 0.5, displayValue: 0.5}]);
+                this.view.cmbDuration.store.pop();
+                this.view.cmbDuration.store.pop();
+                this.view.cmbDuration.setData(this.view.cmbDuration.store.models);
             }
 
         },
@@ -554,8 +539,6 @@ define([
                 this.lockToolbar(PE.enumLock.noAnimationRepeat, this._state.noAnimationRepeat);
             if (PE.enumLock.noAnimationDuration != undefined)
                 this.lockToolbar(PE.enumLock.noAnimationDuration, this._state.noAnimationDuration);
-
-
         }
 
     }, PE.Controllers.Animation || {}));
