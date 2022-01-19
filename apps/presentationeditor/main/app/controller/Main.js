@@ -2271,6 +2271,10 @@ define([
                 value = Common.localStorage.getBool("pe-settings-autoformat-fl-cells", true);
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-cells", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-double-space", Common.Utils.isMac); // add period with double-space in MacOs by default
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-double-space", value);
+                me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(value);
             },
 
             showRenameUserDialog: function() {
