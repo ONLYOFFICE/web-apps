@@ -515,7 +515,7 @@ define([
                 return this.lockedControls;
             },
 
-            setMenuParameters: function (effectId, effectGroup, option)
+            setMenuParameters: function (effectId, effectGroup, option) // option = undefined - for add new effect or when selected 2 equal effects with different option (subtype)
             {
                 var arrEffectOptions;
                 var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
@@ -537,14 +537,14 @@ define([
                     }, this);
                 }
                 else {
+                    this.btnParameters.menu.clearAll();
                     this.btnParameters.menu.items.forEach(function (opt) {
                         (opt.value == option) && (selectedElement = opt);
                     });
                 }
-                (selectedElement == undefined) && (selectedElement = this.btnParameters.menu.items[0])
-                selectedElement.setChecked(true);
+                selectedElement && selectedElement.setChecked(true);
                 this._effectId = effectId;
-                return selectedElement.value;
+                return selectedElement ? selectedElement.value : this.btnParameters.menu.items[0].value;
             },
 
 
