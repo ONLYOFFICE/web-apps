@@ -425,8 +425,10 @@ define([
                 }
 
                 this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
-                if (this._state.EffectOption !== undefined && this._state.EffectOption !== null)
-                    this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, _.findWhere(this.EffectGroups,{value: this._state.EffectGroup}).id, this._state.EffectOption)===undefined;
+                if (this._state.EffectOption !== null && this._state.Effect !== AscFormat.ANIM_PRESET_MULTIPLE && this._state.Effect !== AscFormat.ANIM_PRESET_NONE) {
+                    var rec = _.findWhere(this.EffectGroups,{value: this._state.EffectGroup});
+                    this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption)===undefined;
+                }
 
                 value = this.AnimationProperties.asc_getDuration();
                 this._state.Duration = (value>=0) ? value/1000 : value ; // undefined or <0

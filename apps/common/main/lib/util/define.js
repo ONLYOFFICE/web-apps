@@ -1142,7 +1142,7 @@ define(function(){ 'use strict';
                                     {value: AscFormat.ENTRANCE_WIPE_FROM_BOTTOM,        caption: this.textFromBottom},
                                     {value: AscFormat.ENTRANCE_WIPE_FROM_LEFT,          caption: this.textFromLeft},
                                     {value: AscFormat.ENTRANCE_WIPE_FROM_RIGHT,         caption: this.textFromRight},
-                                    {value: AscFormat.ENTRANCE_WIPE_FROM_FROM_TOP,      caption: this.textFromTop}
+                                    {value: AscFormat.ENTRANCE_WIPE_FROM_TOP,           caption: this.textFromTop}
                                 ];
                             case AscFormat.ENTRANCE_ZOOM:
                                 return [
