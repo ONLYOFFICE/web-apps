@@ -179,10 +179,10 @@ define([
             });
         },
 
-        isSelectedChangesLocked: function(changes, fromSelection) {
+        isSelectedChangesLocked: function(changes, isShow) {
             if (!changes || changes.length<1) return true;
 
-            if (!fromSelection)
+            if (isShow)
                 return changes[0].get('lock') || !changes[0].get('editable');
 
             for (var i=0; i<changes.length; i++) {
@@ -193,13 +193,13 @@ define([
             return false;
         },
 
-        onApiShowChange: function (sdkchange, fromSelection) {
+        onApiShowChange: function (sdkchange, isShow) {
             var btnlock = true,
                 changes;
             if (this.appConfig.canReview && !this.appConfig.isReviewOnly) {
                 if (sdkchange && sdkchange.length>0) {
                     changes = this.readSDKChange(sdkchange);
-                    btnlock = this.isSelectedChangesLocked(changes, fromSelection);
+                    btnlock = this.isSelectedChangesLocked(changes, isShow);
                 }
                 if (this._state.lock !== btnlock) {
                     this.view.btnAccept.setDisabled(btnlock);
@@ -214,7 +214,7 @@ define([
             }
 
             if (this.getPopover()) {
-                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0 && !fromSelection) { // show changes balloon only for current position, not selection
+                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0 && isShow) { // show changes balloon only for current position, not selection
                     var i = 0,
                         posX = sdkchange[0].get_X(),
                         posY = sdkchange[0].get_Y(),
