@@ -242,8 +242,7 @@
                         <div class="btn-slot" style="width: 96px; " id="animation-start"></div>
                     </div>
                     <div class="elset font-normal">
-                         <label id="animation-delay"></label>
-                         <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
+                        <div class="btn-slot text"  id="animation-trigger"></div>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -253,7 +252,8 @@
                         <span id="animation-spin-duration"  style="width: 96px; " class="btn-slot"></span>
                     </div>
                     <div class="elset font-normal">
-                        <div class="btn-slot text"  id="animation-trigger"></div>
+                        <label id="animation-delay"></label>
+                        <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
                     </div>
                 </div>
                 <div class="separator long"></div>

@@ -237,7 +237,7 @@ define([
                     cls: 'btn-toolbar   x-huge  icon-top', // x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon transition-fade',
+                    iconCls: 'toolbar__icon animation-preview',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -248,7 +248,7 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon transition-none',
+                    iconCls: 'toolbar__icon icon animation-none',
                     menu: new Common.UI.Menu({items: []}),
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam],
                     dataHint: '1',
@@ -272,7 +272,7 @@ define([
                 this.btnAddAnimation = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge  icon-top',
                     caption: this.txtAddEffect,
-                    iconCls: 'toolbar__icon icon btn-addslide',
+                    iconCls: 'toolbar__icon icon add-animation',
                     menu: true,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic],
                     dataHint: '1',
@@ -305,7 +305,7 @@ define([
                 this.cmbTrigger = new Common.UI.Button({
                     parentEl: $('#animation-trigger'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-contents',
+                    iconCls: 'toolbar__icon btn-trigger',
                     caption: this.strTrigger,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
                     menu        : new Common.UI.Menu({
