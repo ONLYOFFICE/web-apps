@@ -50,6 +50,7 @@ define([
     'common/main/lib/component/Layout',
     'presentationeditor/main/app/view/SlideSettings',
     'common/main/lib/component/MetricSpinner',
+    'common/main/lib/component/Label',
     'common/main/lib/component/Window'
 ], function () {
     'use strict';
@@ -302,6 +303,14 @@ define([
                 });
                 this.lockedControls.push(this.cmbDuration);
 
+                this.lblDuration = new Common.UI.Label({
+                    el: this.$el.find('#animation-duration'),
+                    iconCls: 'toolbar__icon animation-duration',
+                    caption: this.strDuration,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration]
+                });
+                this.lockedControls.push(this.lblDuration);
+
                 this.cmbTrigger = new Common.UI.Button({
                     parentEl: $('#animation-trigger'),
                     cls: 'btn-toolbar',
@@ -347,6 +356,14 @@ define([
                 });
                 this.lockedControls.push(this.numDelay);
 
+                this.lblDelay = new Common.UI.Label({
+                    el: this.$el.find('#animation-delay'),
+                    iconCls: 'toolbar__icon animation-delay',
+                    caption: this.strDelay,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation]
+                });
+                this.lockedControls.push(this.lblDelay);
+
                 this.cmbStart = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;',
@@ -362,6 +379,14 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.cmbStart);
+
+                this.lblStart = new Common.UI.Label({
+                    el: this.$el.find('#animation-label-start'),
+                    iconCls: 'toolbar__icon btn-preview-start',
+                    caption: this.strStart,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation]
+                });
+                this.lockedControls.push(this.lblStart);
 
                 this.chRewind = new Common.UI.CheckBox({
                     el: this.$el.find('#animation-checkbox-rewind'),
@@ -395,6 +420,14 @@ define([
                 });
                 this.lockedControls.push(this.cmbRepeat);
 
+                this.lblRepeat = new Common.UI.Label({
+                    el: this.$el.find('#animation-repeat'),
+                    iconCls: 'toolbar__icon animation-repeat',
+                    caption: this.strRepeat,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat]
+                });
+                this.lockedControls.push(this.lblRepeat);
+
                 this.btnMoveEarlier = new Common.UI.Button({
                     parentEl: $('#animation-moveearlier'),
                     cls: 'btn-toolbar',
@@ -421,10 +454,6 @@ define([
                 });
                 this.lockedControls.push(this.btnMoveLater);
 
-                this.$el.find('#animation-duration').text(this.strDuration);
-                this.$el.find('#animation-delay').text(this.strDelay);
-                this.$el.find('#animation-label-start').text(this.strStart);
-                this.$el.find('#animation-repeat').text(this.strRepeat);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -491,13 +520,6 @@ define([
                 this.btnAnimationPane && this.btnAnimationPane.render(this.$el.find('#animation-button-pane'));
                 this.btnAddAnimation && this.btnAddAnimation.render(this.$el.find('#animation-button-add-effect'));
                 this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'));
-                //this.renderComponent('#animation-spin-duration', this.cmbDuration);
-                this.renderComponent('#animation-spin-delay', this.numDelay);
-                //this.renderComponent('#animation-spin-repeat', this.cmbRepeat);
-                this.$el.find("#animation-duration").innerText = this.strDuration;
-                this.$el.find("#animation-delay").innerText = this.strDelay;
-                this.$el.find("#animation-label-start").innerText = this.strStart;
-                this.$el.find("#animation-repeat").innerText = this.strRepeat;
                 return this.$el;
             },
 

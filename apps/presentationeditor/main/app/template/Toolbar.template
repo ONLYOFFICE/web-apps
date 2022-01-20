@@ -238,7 +238,7 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label id="animation-label-start"></label>
+                        <span class="btn-slot text" id="animation-label-start"></span>
                         <div class="btn-slot" style="width: 96px; " id="animation-start"></div>
                     </div>
                     <div class="elset font-normal">
@@ -248,18 +248,18 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label id="animation-duration"></label>
+                        <span class="btn-slot text" id="animation-duration"></span>
                         <span id="animation-spin-duration"  style="width: 96px; " class="btn-slot"></span>
                     </div>
                     <div class="elset font-normal">
-                        <label id="animation-delay"></label>
+                        <span class="btn-slot text" id="animation-delay"></span>
                         <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label id="animation-repeat"></label>
+                        <span class="btn-slot text" id="animation-repeat"></span>
                         <div id="animation-spin-repeat" style="width: 96px; " class="btn-slot" ></div>
                     </div>
                     <div class="elset font-normal">
