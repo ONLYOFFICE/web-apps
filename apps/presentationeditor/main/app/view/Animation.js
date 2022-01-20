@@ -521,7 +521,7 @@ define([
                         (effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
                     } else {
                         this.btnParameters.menu.items.forEach(function (opt,index) {
-                            if(index<arrEffectOptions.length && opt.value == option)
+                            if(opt.toggleGroup == 'animateeffects' && opt.value == option)
                                 selectedElement = opt;
                         },this);
                     }
@@ -535,12 +535,12 @@ define([
                             opt.checkable = true;
                             opt.toggleGroup = 'animatesimilareffects'
                             this.btnParameters.menu.addItem(opt);
-                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked();
+                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked(true);
                         }, this);
                     }
                     else {
                         this.btnParameters.menu.items.forEach(function (opt,index) {
-                            if(index>=arrEffectOptions.length && opt.value == effectId)
+                            if(opt.toggleGroup == 'animatesimilareffects' && opt.value == effectId)
                                 opt.setChecked(true);
                         });
                     }

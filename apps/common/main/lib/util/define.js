@@ -922,7 +922,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_COMPLEMENTARY_COLOR_2,    displayValue: this.textComplementaryColor2},
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_CONTRASTING_COLOR,        displayValue: this.textContrastingColor},
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_CONTRASTING_DARKEN,       displayValue: this.textDarken},
-                    {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_DESATURAT,                displayValue: this.textDesaturate},
+                    {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_DESATURATE,                displayValue: this.textDesaturate},
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_LIGHTEN,                  displayValue: this.textLighten},
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_OBJECT_COLOR,             displayValue: this.textObjectColor},
                     {group: 'menu-effect-group-emphasis',   level: 'menu-effect-level-subtle',          value: AscFormat.EMPHASIS_PULSE,                    displayValue: this.textPulse},
