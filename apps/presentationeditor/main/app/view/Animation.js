@@ -520,22 +520,32 @@ define([
                         }, this);
                         (effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
                     } else {
-                        this.btnParameters.menu.items.forEach(function (opt) {
-                            (opt.value == option) && (selectedElement = opt);
-                        });
+                        this.btnParameters.menu.items.forEach(function (opt,index) {
+                            if(index<arrEffectOptions.length && opt.value == option)
+                                selectedElement = opt;
+                        },this);
                     }
                     (selectedElement == undefined) && (selectedElement = this.btnParameters.menu.items[0])
                     selectedElement.setChecked(true);
                 }
-                if (effect.familyEffect &&  this._familyEffect != effect.familyEffect) {
-                    var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup, effect.familyEffect);
-                    effectsArray.forEach(function (opt) {
-                        opt.checkable = true;
-                        opt.toggleGroup = 'animatesimilareffects'
-                        this.btnParameters.menu.addItem(opt);
-                        (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked();
-                    }, this);
+                if (effect.familyEffect){
+                    if (this._familyEffect != effect.familyEffect) {
+                        var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup, effect.familyEffect);
+                        effectsArray.forEach(function (opt) {
+                            opt.checkable = true;
+                            opt.toggleGroup = 'animatesimilareffects'
+                            this.btnParameters.menu.addItem(opt);
+                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked();
+                        }, this);
+                    }
+                    else {
+                        this.btnParameters.menu.items.forEach(function (opt,index) {
+                            if(index>=arrEffectOptions.length && opt.value == effectId)
+                                opt.setChecked(true);
+                        });
+                    }
                 }
+
                 this._effectId = effectId;
                 this._groupName = effectGroup;
                 this._familyEffect = effect.familyEffect;
