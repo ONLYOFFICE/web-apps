@@ -507,7 +507,8 @@ define([
                 var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
                 if(effect)
                     arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
-                if((this._effectId != effectId && this._familyEffect != effect.familyEffect) || (this._groupName != effectGroup)) {
+                var updateFamilyEffect = (!this._familyEffect && !effect.familyEffect) ? true : (this._familyEffect != effect.familyEffect);
+                if((this._effectId != effectId && updateFamilyEffect) || (this._groupName != effectGroup)) {
                     this.btnParameters.menu.removeAll();
                 }
                 if (arrEffectOptions){
@@ -520,7 +521,7 @@ define([
                         }, this);
                         (effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
                     } else {
-                        this.btnParameters.menu.items.forEach(function (opt,index) {
+                        this.btnParameters.menu.items.forEach(function (opt) {
                             if(opt.toggleGroup == 'animateeffects' && opt.value == option)
                                 selectedElement = opt;
                         },this);
@@ -539,7 +540,7 @@ define([
                         }, this);
                     }
                     else {
-                        this.btnParameters.menu.items.forEach(function (opt,index) {
+                        this.btnParameters.menu.items.forEach(function (opt) {
                             if(opt.toggleGroup == 'animatesimilareffects' && opt.value == effectId)
                                 opt.setChecked(true);
                         });
