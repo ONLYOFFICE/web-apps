@@ -3237,6 +3237,7 @@ define([
 
             this.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                // maxHeight: 610,
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
@@ -3244,7 +3245,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 8; i < 27; i++) {
+                    for (var i = 11; i < 30; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -3285,8 +3286,8 @@ define([
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
 
                     var disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
-                    me.tableMenu.items[11].setDisabled(disabled);
-                    me.tableMenu.items[12].setDisabled(disabled);
+                    me.tableMenu.items[14].setDisabled(disabled);
+                    me.tableMenu.items[15].setDisabled(disabled);
 
                     if (me.api) {
                         mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
@@ -3305,6 +3306,11 @@ define([
                     menuTablePaste.setDisabled(disabled);
                     menuTablePrint.setVisible(me.mode.canPrint);
                     menuTablePrint.setDisabled(!cancopy);
+
+                    var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
+                    menuTableAccept.setVisible(!lockreview);
+                    menuTableReject.setVisible(!lockreview);
+                    menuTableReviewSeparator.setVisible(!lockreview);
 
                     // bullets & numbering
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -3383,9 +3389,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(false, 7);
+                        eqlen = me.addEquationMenu(false, 10);
                     } else
-                        me.clearEquationMenu(false, 7);
+                        me.clearEquationMenu(false, 10);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -3429,6 +3435,9 @@ define([
                     menuTablePaste,
                     menuTablePrint,
                     { caption: '--' },
+                    menuTableAccept,
+                    menuTableReject,
+                    menuTableReviewSeparator,
                     menuEquationSeparatorInTable,
                     menuTableRefreshField,
                     menuTableFieldSeparator,
