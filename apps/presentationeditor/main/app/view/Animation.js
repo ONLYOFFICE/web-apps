@@ -504,10 +504,12 @@ define([
             setMenuParameters: function (effectId, effectGroup, option)
             {
                 var arrEffectOptions,selectedElement;
-                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
-                if(effect)
+                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId}),
+                    updateFamilyEffect = true;
+                if (effect) {
                     arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
-                var updateFamilyEffect = (!this._familyEffect && !effect.familyEffect) ? true : (this._familyEffect != effect.familyEffect);
+                    updateFamilyEffect = this._familyEffect !== effect.familyEffect || !this._familyEffect; // family of effects are different or both of them = undefined (null)
+                }
                 if((this._effectId != effectId && updateFamilyEffect) || (this._groupName != effectGroup)) {
                     this.btnParameters.menu.removeAll();
                 }
@@ -519,7 +521,7 @@ define([
                             this.btnParameters.menu.addItem(opt);
                             (opt.value == option) && (selectedElement = this.btnParameters.menu.items[index]);
                         }, this);
-                        (effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
+                        (effect && effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
                     } else {
                         this.btnParameters.menu.items.forEach(function (opt) {
                             if(opt.toggleGroup == 'animateeffects' && opt.value == option)
@@ -529,7 +531,7 @@ define([
                     (selectedElement == undefined) && (selectedElement = this.btnParameters.menu.items[0])
                     selectedElement.setChecked(true);
                 }
-                if (effect.familyEffect){
+                if (effect && effect.familyEffect){
                     if (this._familyEffect != effect.familyEffect) {
                         var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup, effect.familyEffect);
                         effectsArray.forEach(function (opt) {
@@ -549,7 +551,7 @@ define([
 
                 this._effectId = effectId;
                 this._groupName = effectGroup;
-                this._familyEffect = effect.familyEffect;
+                this._familyEffect = effect ? effect.familyEffect : undefined;
                 return selectedElement ? selectedElement.value : undefined;
             },
 
