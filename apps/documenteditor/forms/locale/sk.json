@@ -28,6 +28,7 @@
   "DE.Controllers.ApplicationController.textNoLicenseTitle": "Bol dosiahnutý limit licencie",
   "DE.Controllers.ApplicationController.textOf": "z",
   "DE.Controllers.ApplicationController.textRequired": "Vyplňte všetky požadované polia, aby ste formulár mohli odoslať.",
+  "DE.Controllers.ApplicationController.textSaveAs": "Uložiť ako PDF",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Formulár bol úspešne predložený</b><br>Kliknite, aby ste tip zatvorili",
   "DE.Controllers.ApplicationController.titleServerVersion": "Editor bol aktualizovaný",
   "DE.Controllers.ApplicationController.titleUpdateVersion": "Verzia bola zmenená",
