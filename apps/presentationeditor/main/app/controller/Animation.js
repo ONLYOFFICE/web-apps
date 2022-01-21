@@ -149,10 +149,16 @@ define([
             this.view.btnPreview.setIconCls('toolbar__icon animation-preview-start');
         },
 
-        onParameterClick: function (value) {
+        onParameterClick: function (value, toggleGroup) {
             if(this.api && this.AnimationProperties) {
-                this.AnimationProperties.asc_putSubtype(value);
-                this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                if(toggleGroup=='animateeffects') {
+                    this.AnimationProperties.asc_putSubtype(value);
+                    this.api.asc_SetAnimationProperties(this.AnimationProperties);
+                }
+                else {
+                    var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
+                    this.addNewEffect(value, this._state.EffectGroup, groupName,true, this._state.EffectOption);
+                }
             }
         },
 
@@ -181,12 +187,10 @@ define([
             this.addNewEffect(type, group, record.get('group'), false);
         },
 
-        addNewEffect: function (type, group, groupName, replace) {
+        addNewEffect: function (type, group, groupName, replace, parametr) {
             if (this._state.Effect == type && this._state.EffectGroup == group && replace) return;
-            var parameter = this.view.setMenuParameters(type, groupName, undefined);
+            var parameter = this.view.setMenuParameters(type, groupName, parametr);
             this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-preview"));
-            this._state.EffectGroup = group;
-            this._state.Effect = type;
         },
 
         onDurationChange: function(before,combo, record, e) {
@@ -374,18 +378,21 @@ define([
                     this._state.EffectGroup = group;
                     this.setViewRepeatAndDuration(this._state.EffectGroup, this._state.Effect);
                     group = view.listEffects.groups.findWhere({value: this._state.EffectGroup});
-                    item = store.findWhere(group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect});
+                    var effect =_.findWhere(view.allEffects, group ? {group: group.get('id'), value: this._state.Effect} : {value: this._state.Effect});
+                    var familyEffect = (effect) ? effect.familyEffect : undefined;
+                    item =   (!familyEffect) ? store.findWhere(group ? {group: group.get('id'), value: value} : {value: value})
+                    : store.findWhere(group ? {group: group.get('id'), familyEffect: familyEffect} : {familyEffect: familyEffect});
                     if (item) {
                         var forceFill = false;
                         if (!item.get('isCustom')) { // remove custom effect from list if not-custom is selected
                             var rec = store.findWhere({isCustom: true});
                             forceFill = !!rec;
-                            store.remove(rec);
+                            rec && store.remove(rec);
                         }
                         if (this._state.Effect!==AscFormat.ANIM_PRESET_MULTIPLE) { // remove "multiple" item if one effect is selected
                             var rec = fieldStore.findWhere({value: AscFormat.ANIM_PRESET_MULTIPLE});
                             forceFill = forceFill || !!rec;
-                            fieldStore.remove(rec);
+                            rec && fieldStore.remove(rec);
                         }
                         view.listEffects.selectRecord(item);
                         view.listEffects.fillComboView(item, true, forceFill);
@@ -394,7 +401,7 @@ define([
                         store.remove(store.findWhere({isCustom: true})); // remove custom effects
                         if (this._state.Effect==AscFormat.ANIM_PRESET_MULTIPLE) { // add and select "multiple" item
                             view.listEffects.fillComboView(store.at(0), false, true);
-                            fieldStore.remove(fieldStore.at(fieldStore.length-1));
+                            fieldStore.reset(fieldStore.slice(0, fieldStore.length-1));
                             view.listEffects.fieldPicker.selectRecord(fieldStore.add(new Common.UI.DataViewModel({
                                 group: 'none',
                                 value: AscFormat.ANIM_PRESET_MULTIPLE,
@@ -402,6 +409,7 @@ define([
                                 displayValue: view.textMultiple
                             }), {at:1}));
                             view.listEffects.menuPicker.deselectAll();
+                            view.btnParameters.setIconCls('toolbar__icon icon animation-none');
                         } else { // add custom effect to appropriate group
                             if (group) {
                                 var items = store.where({group: group.get('id')});
@@ -420,6 +428,7 @@ define([
                             } else {
                                 view.listEffects.fieldPicker.deselectAll();
                                 view.listEffects.menuPicker.deselectAll();
+                                view.btnParameters.setIconCls('toolbar__icon icon animation-none');
                             }
                         }
                     }
@@ -428,7 +437,8 @@ define([
                 this._state.EffectOption = this.AnimationProperties.asc_getSubtype();
                 if (this._state.EffectOption !== null && this._state.Effect !== AscFormat.ANIM_PRESET_MULTIPLE && this._state.Effect !== AscFormat.ANIM_PRESET_NONE) {
                     var rec = _.findWhere(this.EffectGroups,{value: this._state.EffectGroup});
-                    this._state.noAnimationParam = view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption)===undefined;
+                    view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption);
+                    this._state.noAnimationParam = view.btnParameters.menu.items.length === 0;
                 }
 
                 value = this.AnimationProperties.asc_getDuration();

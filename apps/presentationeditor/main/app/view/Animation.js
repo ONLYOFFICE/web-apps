@@ -89,7 +89,7 @@ define([
 
             if (me.btnParameters) {
                 me.btnParameters.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('animation:parameters', [item.value]);
+                    me.fireEvent('animation:parameters', [item.value, item.toggleGroup]);
                 });
             }
 
@@ -182,9 +182,10 @@ define([
                 this.$el = this.toolbar.toolbar.$el.find('#animation-panel');
                 var _set = PE.enumLock;
                 this.lockedControls = [];
-
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
-                _.forEach(this._arrEffectName,function (elm){elm.tip = elm.displayValue;});
+                _.forEach(this._arrEffectName,function (elm){
+                    elm.tip = elm.displayValue;
+                });
                 this._arrEffectOptions = [];
                 var itemWidth = 88,
                     itemHeight = 40;
@@ -541,34 +542,56 @@ define([
 
             setMenuParameters: function (effectId, effectGroup, option) // option = undefined - for add new effect or when selected 2 equal effects with different option (subtype)
             {
-                var arrEffectOptions;
-                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
-                if(effect)
+                var arrEffectOptions,selectedElement;
+                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId}),
+                    updateFamilyEffect = true;
+                if (effect) {
                     arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
-                if(!arrEffectOptions) {
+                    updateFamilyEffect = this._familyEffect !== effect.familyEffect || !this._familyEffect; // family of effects are different or both of them = undefined (null)
+                }
+                if((this._effectId != effectId && updateFamilyEffect) || (this._groupName != effectGroup)) {
                     this.btnParameters.menu.removeAll();
-                    this._effectId = effectId
-                    return undefined;
                 }
-                var selectedElement;
-                if (this._effectId != effectId) {
-                    this.btnParameters.menu.removeAll();
-                    arrEffectOptions.forEach(function (opt, index) {
-                        opt.checkable = true;
-                        opt.toggleGroup ='animateeffects';
-                        this.btnParameters.menu.addItem(opt);
-                        (opt.value==option) && (selectedElement = this.btnParameters.menu.items[index]);
-                    }, this);
+                if (arrEffectOptions){
+                    if (this.btnParameters.menu.items.length == 0) {
+                        arrEffectOptions.forEach(function (opt, index) {
+                            opt.checkable = true;
+                            opt.toggleGroup = 'animateeffects';
+                            this.btnParameters.menu.addItem(opt);
+                            (opt.value == option) && (selectedElement = this.btnParameters.menu.items[index]);
+                        }, this);
+                        (effect && effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
+                    } else {
+                        this.btnParameters.menu.clearAll();
+                        this.btnParameters.menu.items.forEach(function (opt) {
+                            if(opt.toggleGroup == 'animateeffects' && opt.value == option)
+                                selectedElement = opt;
+                        },this);
+                    }
+                    selectedElement && selectedElement.setChecked(true);
                 }
-                else {
-                    this.btnParameters.menu.clearAll();
-                    this.btnParameters.menu.items.forEach(function (opt) {
-                        (opt.value == option) && (selectedElement = opt);
-                    });
+                if (effect && effect.familyEffect){
+                    if (this._familyEffect != effect.familyEffect) {
+                        var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup, effect.familyEffect);
+                        effectsArray.forEach(function (opt) {
+                            opt.checkable = true;
+                            opt.toggleGroup = 'animatesimilareffects'
+                            this.btnParameters.menu.addItem(opt);
+                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked(true);
+                        }, this);
+                    }
+                    else {
+                        this.btnParameters.menu.items.forEach(function (opt) {
+                            if(opt.toggleGroup == 'animatesimilareffects' && opt.value == effectId)
+                                opt.setChecked(true);
+                        });
+                    }
                 }
-                selectedElement && selectedElement.setChecked(true);
+
                 this._effectId = effectId;
-                return selectedElement ? selectedElement.value : this.btnParameters.menu.items[0].value;
+                this._groupName = effectGroup;
+                this._familyEffect = effect ? effect.familyEffect : undefined;
+                return selectedElement ? selectedElement.value : undefined;
             },
 
 
