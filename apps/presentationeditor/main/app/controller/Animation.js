@@ -319,7 +319,10 @@ define([
         onEffectSelect: function (combo, record) {
             if (this.api) {
                 var type = record.get('value');
-                var group = (type != AscFormat.ANIM_PRESET_NONE) ? _.findWhere(this.EffectGroups, {id: record.get('group')}).value : undefined;
+                if (type===AscFormat.ANIM_PRESET_MULTIPLE) return;
+
+                var group = _.findWhere(this.EffectGroups, {id: record.get('group')});
+                group = group ? group.value : undefined;
                 this.addNewEffect(type, group, record.get('group'),this._state.Effect != AscFormat.ANIM_PRESET_NONE);
             }
         },
@@ -330,8 +333,6 @@ define([
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
         },
-
-
 
         onCheckRewindChange: function (field, newValue, oldValue, eOpts) {
             if (this.api && this.AnimationProperties) {
