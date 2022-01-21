@@ -354,12 +354,12 @@ define([
                         if (!item.get('isCustom')) { // remove custom effect from list if not-custom is selected
                             var rec = store.findWhere({isCustom: true});
                             forceFill = !!rec;
-                            store.remove(rec);
+                            rec && store.remove(rec);
                         }
                         if (this._state.Effect!==AscFormat.ANIM_PRESET_MULTIPLE) { // remove "multiple" item if one effect is selected
                             var rec = fieldStore.findWhere({value: AscFormat.ANIM_PRESET_MULTIPLE});
                             forceFill = forceFill || !!rec;
-                            fieldStore.remove(rec);
+                            rec && fieldStore.remove(rec);
                         }
                         view.listEffects.selectRecord(item);
                         view.listEffects.fillComboView(item, true, forceFill);
@@ -368,7 +368,7 @@ define([
                         store.remove(store.findWhere({isCustom: true})); // remove custom effects
                         if (this._state.Effect==AscFormat.ANIM_PRESET_MULTIPLE) { // add and select "multiple" item
                             view.listEffects.fillComboView(store.at(0), false, true);
-                            fieldStore.remove(fieldStore.at(fieldStore.length-1));
+                            fieldStore.reset(fieldStore.slice(0, fieldStore.length-1));
                             view.listEffects.fieldPicker.selectRecord(fieldStore.add(new Common.UI.DataViewModel({
                                 group: 'none',
                                 value: AscFormat.ANIM_PRESET_MULTIPLE,
