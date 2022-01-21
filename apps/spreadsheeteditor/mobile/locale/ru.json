@@ -145,6 +145,7 @@
       "textNoChoices": "Нет вариантов для заполнения ячейки.<br>Для замены можно выбрать только текстовые значения из столбца.",
       "textNoLicenseTitle": "Лицензионное ограничение",
       "textNoTextFound": "Текст не найден",
+      "textOk": "Ok",
       "textPaidFeature": "Платная функция",
       "textRemember": "Запомнить мой выбор",
       "textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
@@ -159,7 +160,7 @@
       "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
-      "textOk": "Ok"
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -174,6 +175,7 @@
     "errorAutoFilterDataRange": "Операция не может быть произведена для выбранного диапазона ячеек.<br>Выделите однородный диапазон данных внутри или за пределами таблицы и повторите попытку.",
     "errorAutoFilterHiddenRange": "Операция не может быть произведена, так как область содержит отфильтрованные ячейки.<br>Выведите на экран скрытые фильтром элементы и повторите попытку.",
     "errorBadImageUrl": "Неправильный URL-адрес рисунка",
+    "errorCannotUseCommandProtectedSheet": "Данную команду нельзя использовать на защищенном листе. Необходимо сначала снять защиту листа.<br>Возможно, потребуется ввести пароль.",
     "errorChangeArray": "Нельзя изменить часть массива.",
     "errorChangeOnProtectedSheet": "Ячейка или диаграмма, которую вы пытаетесь изменить, находится на защищенном листе. Чтобы внести изменения, снимите защиту листа. Может потребоваться пароль.",
     "errorConnectToServer": "Не удается сохранить документ. Проверьте параметры подключения или обратитесь к вашему администратору.<br>Когда вы нажмете на кнопку 'OK', вам будет предложено скачать документ.",
@@ -232,8 +234,7 @@
     "unknownErrorText": "Неизвестная ошибка.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",
@@ -288,16 +289,16 @@
     "textErrorRemoveSheet": "Не удалось удалить лист.",
     "textHide": "Скрыть",
     "textMore": "Ещё",
+    "textMove": "Переместить",
+    "textMoveBack": "Переместить назад",
+    "textMoveForward": "Переместить вперед",
     "textOk": "Ok",
     "textRename": "Переименовать",
     "textRenameSheet": "Переименовать лист",
     "textSheet": "Лист",
     "textSheetName": "Имя листа",
     "textUnhide": "Показать",
-    "textWarnDeleteSheet": "Лист может содержать данные. Продолжить операцию?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "Лист может содержать данные. Продолжить операцию?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
@@ -340,6 +341,7 @@
       "textLink": "Ссылка",
       "textLinkSettings": "Настройки ссылки",
       "textLinkType": "Тип ссылки",
+      "textOk": "Ok",
       "textOther": "Другое",
       "textPictureFromLibrary": "Рисунок из библиотеки",
       "textPictureFromURL": "Рисунок по URL",
@@ -357,8 +359,7 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
       "txtSortSelected": "Сортировать выделенное",
-      "txtYes": "Да",
-      "textOk": "Ok"
+      "txtYes": "Да"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
@@ -377,6 +378,7 @@
       "textAngleClockwise": "Текст по часовой стрелке",
       "textAngleCounterclockwise": "Текст против часовой стрелки",
       "textAuto": "Авто",
+      "textAutomatic": "Автоматический",
       "textAxisCrosses": "Пересечение с осью",
       "textAxisOptions": "Параметры оси",
       "textAxisPosition": "Положение оси",
@@ -477,6 +479,7 @@
       "textNoOverlay": "Без наложения",
       "textNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "textNumber": "Числовой",
+      "textOk": "Ok",
       "textOnTickMarks": "Деления",
       "textOpacity": "Непрозрачность",
       "textOut": "Снаружи",
@@ -538,9 +541,7 @@
       "textYen": "Йена",
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSortHigh2Low": "Сортировка по убыванию",
-      "txtSortLow2High": "Сортировка по возрастанию",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Сортировка по возрастанию"
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",

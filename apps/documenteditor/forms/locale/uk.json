@@ -1,6 +1,6 @@
 {
-  "DE.Controllers.ApplicationController.convertationErrorText": "Не вдалося поспілкуватися.",
-  "DE.Controllers.ApplicationController.convertationTimeoutText": "Термін переходу перевищено.",
+  "DE.Controllers.ApplicationController.convertationErrorText": "Не вдалося конвертувати",
+  "DE.Controllers.ApplicationController.convertationTimeoutText": "Перевищено час очікування конверсії.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Помилка",
   "DE.Controllers.ApplicationController.downloadErrorText": "Завантаження не вдалося",
   "DE.Controllers.ApplicationController.downloadTextText": "Завантаження документу...",

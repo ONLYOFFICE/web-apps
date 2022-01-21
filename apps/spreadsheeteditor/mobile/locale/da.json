@@ -141,6 +141,7 @@
       "warnLicenseLimitedRenewed": "\nLicensen skal fornyes. Du har begrænset adgang til dokumentredigeringsfunktioner.<br>Kontakt din administrator for at få fuld adgang",
       "warnLicenseUsersExceeded": "Det tilladte antal af samtidige brugere er oversteget, og dokumentet vil blive åbnet i visningstilstand.<br>Kontakt venligst din administrator for mere information. ",
       "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
       "errorProcessSaveResult": "Saving is failed.",
       "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",

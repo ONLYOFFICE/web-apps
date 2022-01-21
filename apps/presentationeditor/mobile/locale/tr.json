@@ -391,9 +391,9 @@
       "textZoomRotate": "Büyüt ve Döndür",
       "textAutomatic": "Automatic",
       "textDesign": "Design",
+      "textOk": "Tamam",
       "textPush": "Push",
-      "textWedge": "Wedge",
-      "textOk": "Tamam"
+      "textWedge": "Wedge"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
