@@ -141,12 +141,12 @@ define([
         onAnimPreviewStarted: function () {
 
             this._state.playPreview = true;
-            this.view.btnPreview.setIconCls('toolbar__icon transition-zoom');
+            this.view.btnPreview.setIconCls('toolbar__icon animation-preview-stop');
         },
         onAnimPreviewFinished: function ()
         {
             this._state.playPreview = false;
-            this.view.btnPreview.setIconCls('toolbar__icon transition-fade');
+            this.view.btnPreview.setIconCls('toolbar__icon animation-preview-start');
         },
 
         onParameterClick: function (value) {

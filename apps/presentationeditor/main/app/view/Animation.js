@@ -238,7 +238,7 @@ define([
                     cls: 'btn-toolbar   x-huge  icon-top', // x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon animation-preview',
+                    iconCls: 'toolbar__icon animation-preview-start',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
