@@ -505,10 +505,12 @@ define([
                                 me.fireEvent('animation:addanimation', [picker, record]);
                         });
                         menu.off('show:before', onShowBefore);
+                        menu.on('show:after', function () {
+                            picker.scroller.update({alwaysVisibleY: true});
+                        });
                         me.btnAddAnimation.menu.setInnerMenu([{menu: picker, index: 0}]);
                     };
                     me.btnAddAnimation.menu.on('show:before', onShowBefore);
-
                     setEvents.call(me);
                 });
             },
