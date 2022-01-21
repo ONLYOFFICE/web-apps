@@ -63,8 +63,8 @@ class ContextMenu extends ContextMenuController {
         this.isComments = false;
     }
 
-    onApiShowChange(sdkchange) {
-        this.inRevisionChange = sdkchange && sdkchange.length>0;
+    onApiShowChange(sdkchange, isShow) {
+        this.inRevisionChange = isShow && sdkchange && sdkchange.length>0;
     }
 
     // onMenuClosed() {
