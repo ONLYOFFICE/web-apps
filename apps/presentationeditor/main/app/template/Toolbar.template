@@ -151,8 +151,8 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label id="transit-duration"></label>
-                        <span id="transit-spin-duration" class="btn-slot text spinner" style="margin-left: 10px;"></span>
+                        <span class="btn-slot text" id="transit-duration"></span>
+                        <span id="transit-spin-duration" class="btn-slot text spinner"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot text" id="transit-button-preview"></span>
@@ -165,7 +165,7 @@
                     </div>
                     <div class="elset font-normal">
                         <span class="btn-slot text"  id="transit-checkbox-delay"></span>
-                        <div id="transit-spin-delay" class="btn-slot text spinner" style="margin-left: 10px;"></div>
+                        <div id="transit-spin-delay" class="btn-slot text spinner" style="margin-left: 5px;"></div>
                    </div>
                 </div>
                 <div class="separator long"></div>
