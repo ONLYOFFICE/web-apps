@@ -484,16 +484,18 @@ define([
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
                 var maxlength = 0;
                 for (var i=0; i<data.length; i++) {
-                    if (data[i].length>maxlength)
-                        maxlength = data[i].length;
+                    var str = data[i] || '';
+                    if (str.length>maxlength)
+                        maxlength = str.length;
                 }
                 var tpl = '<table>';
                 for (var i=0; i<data.length; i++) {
+                    var str = data[i] || '';
                     tpl += '<tr style="vertical-align: top;">';
-                    for (var j=0; j<data[i].length; j++) {
-                        tpl += '<td>' + Common.Utils.String.htmlEncode(data[i][j]) + '</td>';
+                    for (var j=0; j<str.length; j++) {
+                        tpl += '<td>' + Common.Utils.String.htmlEncode(str[j]) + '</td>';
                     }
-                    for (j=data[i].length; j<maxlength; j++) {
+                    for (j=str.length; j<maxlength; j++) {
                         tpl += '<td></td>';
                     }
                     tpl += '</tr>';
@@ -502,7 +504,8 @@ define([
             } else {
                 var tpl = '<table>';
                 for (var i=0; i<data.length; i++) {
-                    tpl += '<tr style="vertical-align: top;"><td>' + Common.Utils.String.htmlEncode(data[i]) + '</td></tr>';
+                    var str = data[i] || '';
+                    tpl += '<tr style="vertical-align: top;"><td>' + Common.Utils.String.htmlEncode(str) + '</td></tr>';
                 }
                 tpl += '</table>';
             }
