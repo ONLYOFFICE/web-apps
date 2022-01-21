@@ -424,9 +424,9 @@ define([
             case 'toolbar': me.header.fireEvent('toolbar:setcompact', [menu, item.isChecked()]); break;
             case 'statusbar': me.header.fireEvent('statusbar:hide', [item, item.isChecked()]); break;
             case 'rulers':
-                me.api.asc_SetViewRulers(!item.isChecked());
                 Common.localStorage.setBool('de-hidden-rulers', item.isChecked());
                 Common.Utils.InternalSettings.set("de-hidden-rulers", item.isChecked());
+                me.api.asc_SetViewRulers(!item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 me.header.fireEvent('rulers:hide', [item.isChecked()]);

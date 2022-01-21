@@ -226,9 +226,9 @@ define([
         },
 
         onChangeRulers: function (btn, checked) {
-            this.api.asc_SetViewRulers(checked);
             Common.localStorage.setBool('de-hidden-rulers', !checked);
             Common.Utils.InternalSettings.set("de-hidden-rulers", !checked);
+            this.api.asc_SetViewRulers(checked);
             this.view.fireEvent('rulers:hide', [!checked]);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
