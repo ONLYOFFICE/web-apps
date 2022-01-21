@@ -57,7 +57,10 @@
     "textStartAt": "Start At",
     "textTable": "Table",
     "textTableSize": "Table Size",
-    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
