@@ -220,7 +220,6 @@
             </section>
             <section id="animation-panel" class="panel" data-tab="animate">
                 <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 140px;" data-group-width="700px"></div>
-
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
                 </div>
@@ -245,7 +244,6 @@
                         <div class="btn-slot text"  id="animation-trigger"></div>
                     </div>
                 </div>
-                <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-duration"></span>
@@ -256,7 +254,6 @@
                         <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
                     </div>
                 </div>
-                <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-repeat"></span>
