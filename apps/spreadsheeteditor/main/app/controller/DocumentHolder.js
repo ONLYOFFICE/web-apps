@@ -172,6 +172,9 @@ define([
                     me.hideCoAuthTips();
                     me.hideForeignSelectTips();
                     me.onDocumentResize();
+                    if (me.api && !me.tooltips.input_msg.isHidden && me.tooltips.input_msg.text) {
+                        me.changeInputMessagePosition(me.tooltips.input_msg);
+                    }
                 },
                 'cells:range': function(status){
                     me.onCellsRange(status);
@@ -2674,6 +2677,24 @@ define([
             }
         },
 
+        changeInputMessagePosition: function (inputTip) {
+            var pos = [
+                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                ],
+                coord  = this.api.asc_getActiveCellCoord(),
+                showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputTip.ref.getBSTip().$tip.height() - 5];
+            var tipwidth = inputTip.ref.getBSTip().$tip.width();
+            if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+            inputTip.ref.getBSTip().$tip.css({
+                top : showPoint[1] + 'px',
+                left: showPoint[0] + 'px',
+                'z-index': 900
+            });
+        },
+
         onInputMessage: function(title, message) {
             var inputtip = this.tooltips.input_msg;
 
@@ -2700,28 +2721,15 @@ define([
                     inputtip.ref = new Common.UI.Tooltip({
                         owner   : inputtip.parentEl,
                         html    : true,
-                        title   : hint
+                        title   : hint,
+                        keepvisible: true
                     });
 
                     inputtip.ref.show([-10000, -10000]);
                     inputtip.isHidden = false;
                 }
 
-                var pos = [
-                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ],
-                    coord  = this.api.asc_getActiveCellCoord(),
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputtip.ref.getBSTip().$tip.height() - 5];
-                var tipwidth = inputtip.ref.getBSTip().$tip.width();
-                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
-                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
-
-                inputtip.ref.getBSTip().$tip.css({
-                    top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px',
-                    'z-index': 900
-                });
+                this.changeInputMessagePosition(inputtip);
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {
                     inputtip.ref.hide();
