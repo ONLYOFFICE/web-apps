@@ -90,7 +90,7 @@ const PageTabColor =  inject("storePalette")(observer(props =>  {
     useEffect(() => {
         if (allSheets.length !== 0) {
             let color = sheets.at(activeIndex).color;
-            if(sheets.at(activeIndex).color !== null) {
+            if(color !== null) {
                 sheets.changeTabColor('' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
             } else {
                 sheets.changeTabColor('transparent');
@@ -112,7 +112,7 @@ const PageTabColor =  inject("storePalette")(observer(props =>  {
         Device.isPhone ? f7.sheet.close('.tab-color-sheet') : f7.popover.close('#idx-tab-color-popover');
 
         } else {
-            f7.views.current.router.navigate('/sheet-tab-custom-color/', {props:{onSetWorkSheetColor: props.onSetWorkSheetColor, sheets}});
+            f7.views.tabColorView.router.navigate('/sheet-tab-custom-color/', {props:{onSetWorkSheetColor: props.onSetWorkSheetColor, sheets}});
         }
     };
 
@@ -240,13 +240,13 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                         f7.navbar.show('.main-navbar');
                         $$('.statusbar').css('top', '0%');
                     }}>
-                        <View routes={routes}>
+                        <View routes={routes} name='tabColorView'>
                             <PageTabColor sheets={sheets} onSetWorkSheetColor={props.onSetWorkSheetColor}/>
                         </View>
                 </Sheet>
                 : 
                 <Popover id="idx-tab-color-popover" backdrop={false}>
-                    <View style={{height: '450px'}} routes={routes}> 
+                    <View style={{height: '450px'}} routes={routes} name='tabColorView'> 
                         <PageTabColor sheets={sheets} onSetWorkSheetColor={props.onSetWorkSheetColor}/>
                     </View>
                 </Popover>
