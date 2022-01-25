@@ -108,12 +108,13 @@ const Search = withTranslation()(props => {
         f7.popover.close('.document-menu.modal-in', false);
 
         if (params.find && params.find.length) {
-            
-            if(params.highlight) api.asc_selectSearchingResults(true);
 
-            api.asc_findText(params.find, params.forward, params.caseSensitive, function(resultCount) {
+            if (params.highlight) api.asc_selectSearchingResults(true);
+
+            api.asc_findText(params.find, params.forward, params.caseSensitive, function (resultCount) {
                 !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
             });
+        }
     };
 
     const onchangeSearchQuery = params => {
