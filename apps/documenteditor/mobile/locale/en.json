@@ -350,7 +350,10 @@
     "textCentered": "Centered",
     "textFormal": "Formal",
     "textStandard": "Standard",
-    "textModern": "Modern"
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

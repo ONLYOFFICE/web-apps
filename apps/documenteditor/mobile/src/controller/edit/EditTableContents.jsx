@@ -10,18 +10,38 @@ class EditTableContentsController extends Component {
         super(props);
     }
 
-    onStyle(value, type) {
+    onStyle(value) {
         const api = Common.EditorApi.get();
         const propsTableContents = api.asc_GetTableOfContentsPr();
+    
         propsTableContents.put_StylesType(value);
-
-        if (type === 1) {
-            let checked = (value !== Asc.c_oAscTOFStylesType.Centered);
-            propsTableContents.put_RightAlignTab(checked);
-            // checked && properties.put_TabLeader(this.cmbLeader.getValue());
-        }
-        console.log(propsTableContents);
         api.asc_SetTableOfContentsPr(propsTableContents);
+    }
+
+    onPageNumbers(value) {
+        const api = Common.EditorApi.get();
+        const propsTableContents = api.asc_GetTableOfContentsPr();
+
+        propsTableContents.put_ShowPageNumbers(value);
+        propsTableContents.put_RightAlignTab(value);
+        api.asc_SetTableOfContentsPr(propsTableContents);
+    }
+
+    onRightAlign(value) {
+        const api = Common.EditorApi.get();
+        const propsTableContents = api.asc_GetTableOfContentsPr();
+
+        propsTableContents.put_RightAlignTab(value);
+        api.asc_SetTableOfContentsPr(propsTableContents);
+    }
+
+    onLeader(value) {
+        const api = Common.EditorApi.get();
+        const propsTableContents = api.asc_GetTableOfContentsPr();
+
+        propsTableContents.put_TabLeader(value);
+        api.asc_SetTableOfContentsPr(propsTableContents);
+
     }
 
     onTableContentsUpdate(type, currentTOC) {
@@ -48,6 +68,11 @@ class EditTableContentsController extends Component {
         return (
             <EditTableContents 
                 onStyle={this.onStyle} 
+                onTableContentsUpdate={this.onTableContentsUpdate}
+                onRemoveTableContents={this.onRemoveTableContents}
+                onPageNumbers={this.onPageNumbers}
+                onRightAlign={this.onRightAlign}
+                onLeader={this.onLeader}
             />
         )
     }
