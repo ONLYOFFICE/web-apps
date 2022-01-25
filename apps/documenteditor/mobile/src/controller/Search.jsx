@@ -110,11 +110,10 @@ const Search = withTranslation()(props => {
         if (params.find && params.find.length) {
             
             if(params.highlight) api.asc_selectSearchingResults(true);
-            
-            if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
-                f7.dialog.alert(null, _t.textNoTextFound);
-            }
-        }
+
+            api.asc_findText(params.find, params.forward, params.caseSensitive, function(resultCount) {
+                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
+            });
     };
 
     const onchangeSearchQuery = params => {
