@@ -438,15 +438,15 @@ define([
 
         onQuerySearch: function(d, w, opts) {
             if (opts.textsearch && opts.textsearch.length) {
-                if (!this.api.findText(opts.textsearch, d != 'back', opts.matchcase)) {
-                    var me = this;
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
+                var me = this;
+                this.api.asc_findText(opts.textsearch, d != 'back', opts.matchcase, function(resultCount) {
+                    !resultCount && Common.UI.info({
+                        msg: me.textNoTextFound,
                         callback: function() {
                             me.dlgSearch.focus();
                         }
                     });
-                }
+                });
             }
         },
 
