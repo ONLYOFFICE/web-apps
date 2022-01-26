@@ -34,12 +34,22 @@
             </tr>
             <tr>
                 <td class="padding-small" width="115px">
-                    <label class="input-label">X</label>
+                    <label class="input-label"><%= scope.textHorizontal %></label>
                     <div id="image-advanced-spin-x"></div>
                 </td>
                 <td class="padding-small">
-                    <label class="input-label">Y</label>
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="image-advanced-combo-from-x"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textVertical %></label>
                     <div id="image-advanced-spin-y"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="image-advanced-combo-from-y"></div>
                 </td>
             </tr>
         </table>
