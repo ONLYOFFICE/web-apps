@@ -64,9 +64,8 @@
 
         .name {
             font-size: 12px;
-            font-weight: bold;
+            .font-weight-bold();
             display: block;
-            letter-spacing: 0.01em;
             padding: 0 10px 0 0;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -97,7 +96,7 @@
                 word-wrap: break-word;
 
                 .user {
-                    font-weight: bold;
+                    .font-weight-bold();
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -107,8 +106,7 @@
                     color: @text-normal-ie;
                     color: @text-normal;
                     font-size: 12px;
-                    font-weight: bold;
-                    letter-spacing: 0.01em;
+                    .font-weight-bold();
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
