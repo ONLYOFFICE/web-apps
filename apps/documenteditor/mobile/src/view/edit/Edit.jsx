@@ -21,7 +21,7 @@ import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShap
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
 import {PageTableOptions, PageTableWrap, PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor} from "./EditTable";
 import {PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartWrap, PageChartReorder} from "./EditChart";
-import { PageEditLeaderTableContents, PageEditStylesTableContents } from './EditTableContents';
+import { PageEditLeaderTableContents, PageEditStylesTableContents, PageEditStructureTableContents } from './EditTableContents';
 
 const routes = [
     //Edit text
@@ -196,6 +196,10 @@ const routes = [
     {
         path: '/edit-leader-table-contents/',
         component: PageEditLeaderTableContents
+    },
+    {
+        path: '/edit-structure-table-contents/',
+        component: PageEditStructureTableContents
     }
 ];
 

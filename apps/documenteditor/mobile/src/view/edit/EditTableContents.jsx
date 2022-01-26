@@ -9,12 +9,14 @@ const EditTableContents = props => {
     const _t = t('Edit', {returnObjects: true});
     const api = Common.EditorApi.get();
     const propsTableContents = api.asc_GetTableOfContentsPr();
+    const count = propsTableContents.get_StylesCount();
     console.log(propsTableContents);
     const [type, setType] = useState(0);
     const [styleValue, setStyleValue] = useState(propsTableContents.get_StylesType());
     const [pageNumbers, setPageNumbers] = useState(propsTableContents.get_ShowPageNumbers());
     const [rightAlign, setRightAlign] = useState(propsTableContents.get_RightAlignTab());
     const [leaderValue, setLeaderValue] = useState(propsTableContents.get_TabLeader() ? propsTableContents.get_TabLeader() : Asc.c_oAscTabLeader.Dot);
+
     const arrStyles = (type === 1) ? [
         { displayValue: t('Edit.textCurrent'),     value: Asc.c_oAscTOFStylesType.Current },
         { displayValue: t('Edit.textSimple'),     value: Asc.c_oAscTOFStylesType.Simple },
@@ -31,6 +33,7 @@ const EditTableContents = props => {
         { displayValue: t('Edit.textModern'),     value: Asc.c_oAscTOCStylesType.Modern },
         { displayValue: t('Edit.textClassic'),     value: Asc.c_oAscTOCStylesType.Classic }
     ];
+
     const arrLeaders = [
         { value: Asc.c_oAscTabLeader.None,      displayValue: t('Edit.textNone') },
         { value: Asc.c_oAscTabLeader.Dot,       displayValue: '....................' },
@@ -61,7 +64,7 @@ const EditTableContents = props => {
                   }
                 ]
               ]
-        }).open()
+        }).open();
     }
 
     return (
@@ -100,7 +103,11 @@ const EditTableContents = props => {
                         setLeaderValue
                     }}></ListItem>
                 }
-                <ListItem title={t('Edit.textStructure')} link="/edit-table-contents-structure/" after={t('Edit.textLevels')}></ListItem>
+                <ListItem title={t('Edit.textStructure')} link="/edit-structure-table-contents/" after={count ? t('Edit.textStyles') : t('Edit.textLevels')} routeProps={{
+                    onLevelsChange: props.onLevelsChange,
+                    fillTOCProps: props.fillTOCProps,
+                    addStyles: props.addStyles
+                }}></ListItem>
             </List>
             <List className="buttons-list">
                 <ListButton className={'button-fill button-raised'} title={t('Edit.textRefresh')} 
@@ -173,8 +180,97 @@ const PageEditLeaderTableContents = props => {
     )
 }
 
+const PageEditStructureTableContents = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const isAndroid = Device.android;
+    const api = Common.EditorApi.get();
+    const propsTableContents = api.asc_GetTableOfContentsPr();
+    const {styles, start, end, count, disableOutlines, checkStyles} = props.fillTOCProps(propsTableContents);
+    console.log(styles, start, end, count, disableOutlines, checkStyles);
+
+    const [structure, setStructure] = useState(count ? 1 : 0);
+    const [amountLevels, setAmountLevels] = useState(end);
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textStructure')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem radio checked={structure === 0} title={t('Edit.textLevels')} onClick={() => setStructure(0)}></ListItem>
+                <ListItem radio checked={structure === 1} title={t('Edit.textStyles')} onClick={() => setStructure(1)}></ListItem>
+            </List>
+            {structure === 0 ?
+                <List>
+                    <ListItem title={t('Edit.textAmountOfLevels')}>
+                        {!isAndroid && <div slot='after-start'>{amountLevels}</div>}
+                        <div slot='after'>
+                            <Segmented>
+                                <Button outline className='decrement item-link' onClick={() => {
+                                    if(amountLevels > 1) {
+                                        setAmountLevels(amountLevels - 1); 
+                                        props.onLevelsChange(amountLevels - 1);
+                                    }
+                                }}>
+                                    {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                </Button>
+                                {isAndroid && <label>{amountLevels}</label>}
+                                <Button outline className='increment item-link' onClick={() => {
+                                    if(amountLevels < 9) {
+                                        setAmountLevels(amountLevels + 1); 
+                                        props.onLevelsChange(amountLevels + 1);
+                                    }
+                                }}>
+                                    {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                </Button>
+                            </Segmented>
+                        </div>
+                    </ListItem>
+                </List>
+            : 
+                <List>
+                    {styles.map((style, index) => {
+                        return (
+                            <ListItem checkbox key={index} title={style.displayValue} checked={style.checked}>
+                                {!isAndroid && <div slot='after-start'>{style.value}</div>}
+                                <div slot='after'>
+                                    <Segmented>
+                                        <Button outline className='decrement item-link' onClick={() => {
+                                            if(style.value > 1) {
+                                                props.addStyles(style.name, style.value - 1);
+                                            }
+                                        }}>
+                                            {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                        </Button>
+                                        {isAndroid && <label>{style.value}</label>}
+                                        <Button outline className='increment item-link' onClick={() => {
+                                            if(style.value < 9) {
+                                                props.addStyles(style.name, style.value + 1);
+                                            }
+                                        }}>
+                                            {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                        </Button>
+                                    </Segmented>
+                                </div>
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            }
+        </Page>
+    )
+}
+
 export {
     EditTableContents,
     PageEditStylesTableContents,
-    PageEditLeaderTableContents
+    PageEditLeaderTableContents,
+    PageEditStructureTableContents
 };

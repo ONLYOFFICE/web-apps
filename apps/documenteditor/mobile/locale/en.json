@@ -353,7 +353,9 @@
     "textModern": "Modern",
     "textCancel": "Cancel",
     "textRefreshEntireTable": "Refresh entire table",
-    "textRefreshPageNumbersOnly": "Refresh page numbers only"
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
