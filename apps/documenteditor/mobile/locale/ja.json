@@ -56,7 +56,8 @@
     "textStartAt": "から始まる",
     "textTable": "表",
     "textTableSize": "表のサイズ",
-    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。"
+    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -308,27 +309,28 @@
     "textTotalRow": "合計行",
     "textType": "タイプ",
     "textWrap": "折り返す",
-    "textDesign": "Design",
-    "textSu": "Su",
-    "textMo": "Mo",
-    "textTu": "Tu",
-    "textWe": "We",
-    "textTh": "Th",
-    "textFr": "Fr",
-    "textSa": "Sa",
-    "textJanuary": "January",
-    "textFebruary": "February",
-    "textMarch": "March",
     "textApril": "April",
-    "textMay": "May",
-    "textJune": "June",
-    "textJuly": "July",
     "textAugust": "August",
-    "textSeptember": "September",
-    "textOctober": "October",
-    "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textDesign": "Design",
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textOk": "Ok",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
     "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-    "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+    "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+    "textNoTextFound": "Text not found",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "保護されたファイル",

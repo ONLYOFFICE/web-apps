@@ -1,4 +1,4 @@
-@x-huge-btn-height: 46px;
+@x-huge-btn-height: 52px;
 @x-huge-btn-icon-size: 28px;
 
 .btn {
@@ -70,6 +70,9 @@
 
         transition: transform 0.2s ease;
         transform: rotate(-135deg) translate(1px,1px);
+        &.compact-caret {
+            display: none;
+        }
     }
 
     //&:active,
@@ -229,14 +232,24 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 0 2px;
+            padding: 1px 3px;
             display: flex;
-            align-items: center;
+            //align-items: center;
+            align-items: start;
+            height: 24px;
 
             .caption {
-                max-width: 107px;
+                max-width: 85px;
+                max-height: 24px;
                 text-overflow: ellipsis;
-                overflow: hidden;
+
+                white-space: pre;
+                line-height: 11px;
+                padding: 0 2px;
+
+                .caret {
+                    margin: 0 1px 0 4px;
+                }
             }
         }
 
@@ -267,9 +280,10 @@
 
         &.dropdown-toggle {
             .caption {
-                max-width: 100px;
+                //max-width: 100px;
             }
         }
+
     }
 
     .inner-box-icon {
@@ -295,7 +309,7 @@
 
     .inner-box-caption {
         margin: 0;
-        height: 18px;
+        height: 20px;
     }
 
     div.inner-box-icon {

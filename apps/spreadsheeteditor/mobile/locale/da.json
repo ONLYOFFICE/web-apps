@@ -149,14 +149,17 @@
       "textBuyNow": "Visit website",
       "textCustomLoader": "Sorry, you are not entitled to change the loader. Please, contact our sales department to get a quote.",
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textNoTextFound": "Text not found",
+      "textOk": "Ok",
       "textRemember": "Remember my choice",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "titleUpdateVersion": "Version changed",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -200,6 +203,7 @@
     "errorAutoFilterChangeFormatTable": "The operation could not be done for the selected cells as you cannot move a part of a table.<br>Select another data range so that the whole table is shifted and try again.",
     "errorAutoFilterDataRange": "The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.",
     "errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please, unhide the filtered elements and try again.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.",
     "errorChangeArray": "You cannot change part of an array.",
     "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
     "errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again.",
@@ -285,14 +289,14 @@
     "textErrNameExists": "Worksheet with this name already exists.",
     "textErrNotEmpty": "Sheet name must not be empty",
     "textErrorLastSheet": "The workbook must have at least one visible worksheet.",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward",
     "textRename": "Rename",
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
@@ -344,6 +348,7 @@
       "sCatStatistical": "Statistical",
       "sCatTextAndData": "Text and data",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textOk": "Ok",
       "textRequired": "Required",
       "textScreenTip": "Screen Tip",
       "textSelectedRange": "Selected Range",
@@ -493,6 +498,7 @@
       "textErrorMsg": "You must choose at least one value",
       "textErrorTitle": "Warning",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "textOk": "Ok",
       "textReorder": "Reorder",
       "textReplace": "Replace",
       "textReplaceImage": "Replace Image",
@@ -633,6 +639,7 @@
       "warnDownloadAs": "Hvis du fortsætter med at gemme i dette format, vil alle funktioner på nær teksten blive tabt.<br> Er du sikker på at du vil fortsætte?",
       "advDRMEnterPassword": "Your password, please:",
       "notcriticalErrorTitle": "Warning",
+      "textDarkTheme": "Dark Theme",
       "textNoTextFound": "Text not found",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
@@ -664,8 +671,7 @@
       "txtScheme21": "Verve",
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
-      "txtTab": "Tab",
-      "textDarkTheme": "Dark Theme"
+      "txtTab": "Tab"
     }
   }
 }

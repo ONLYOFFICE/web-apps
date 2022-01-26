@@ -162,7 +162,7 @@
 
     .box-controls {
         //height: @height-controls;         // button has strange offset in IE when odd height
-        padding: 10px 0;
+        padding: 7px 0;
         display: flex;
 
         //background-color: #F2CBBF;
@@ -177,13 +177,14 @@
     .box-panels {
         flex-grow: 1;
         -ms-flex: 1;
+        padding-right: 6px;
 
         .panel:not(.active) {
             display: none;
         }
 
         /* ##adopt-panel-width */
-        .panel:not(#plugns-panel) .compactwidth {
+        .panel .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -192,11 +193,50 @@
 
                     .inner-box-caption {
                         justify-content: center;
+                        align-items: center;
+                    }
+
+                    .compact-caret {
+                        display: block;
                     }
                 }
             }
         }
         /**/
+    }
+
+    .more-container {
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
+        min-width:auto;
+        padding: 12px 10px 7px 0;
+        border-radius: 0;
+        z-index:999;
+        .compactwidth {
+            .btn-group, .btn-toolbar {
+                &.x-huge {
+                    .caption {
+                        display: none;
+                    }
+
+                    .inner-box-caption {
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .compact-caret {
+                        display: block;
+                    }
+                }
+            }
+        }
+        &[data-tab=pivot] {
+            padding: 5px 10px 0 0;
+        }
+    }
+
+    .more-box {
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
     }
 
     background-color: @background-toolbar-ie;
@@ -213,10 +253,6 @@
         padding-left: 6px;
         font-size: 0;
 
-        &:last-child {
-            padding-right: 6px;
-        }
-
         &.small {
             padding-left: 10px;
 
@@ -225,11 +261,11 @@
             }
         }
 
-        &.no-group-mask {
-            .elset {
-                position: relative;
-            }
-        }
+        //&.no-group-mask {
+        //    .elset {
+        //        position: relative;
+        //    }
+        //}
     }
 
     .elset {
@@ -237,7 +273,7 @@
         font-size: 0;
 
         &:not(:first-child) {
-            margin-top: 6px;
+            margin-top: 8px;
         }
 
         &.font-normal {
@@ -253,7 +289,7 @@
         }
 
         &.long {
-            height: 46px;
+            height: 52px;
         }
 
         &.short {
@@ -764,3 +800,6 @@
     min-width: 46px;
 }
 
+section .field-styles {
+    width: 100%;
+}

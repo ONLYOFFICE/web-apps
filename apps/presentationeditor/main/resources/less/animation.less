@@ -1,26 +1,3 @@
-#animation-panel  {
-  label {
-    margin-right: 10px;
-  }
-
-}
-.a-table{
-  display: table;
-  width: 100%;
-}
-.a-tr{
-  display: table-row;
-  height: 20px;
-  border-top: 2px solid transparent;
-  &.bottom {
-    border-top: 4px solid transparent;
-  }
-  .a-td
-  {
-    display: table-cell;
-  }
-}
-
 .combo-animation {
   .menu-picker-container .dataview {
     padding: 10px 0 0 2px;
@@ -38,14 +15,24 @@
     font-weight: bold;
   }
 
-  .group-items-container {
+  .grouped-data .group-items-container {
     float: left;
     position: relative;
     .item {
         box-shadow: none;
-        margin: @scaled-two-px-value 0 0 @scaled-two-px-value;
+        margin: @scaled-two-px-value;
         &:last-child {
           margin-bottom: @scaled-two-px-value;
+        }
+
+        &:hover {
+          .box-shadow(0 0 0 2px @border-preview-hover-ie);
+          .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+        }
+
+        &.selected {
+          .box-shadow(0 0 0 2px @border-preview-select-ie);
+          .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
         }
       }
   }

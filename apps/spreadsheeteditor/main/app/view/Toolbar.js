@@ -58,7 +58,10 @@ define([
     ,'common/main/lib/component/Mixtbar'
 ], function (Backbone, template, simple, template_view) { 'use strict';
 
-    SSE.enumLock = {
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    var enumLock = {
         editCell:       'cell-editing',
         editFormula:    'is-formula',
         editText:       'is-text',
@@ -108,6 +111,11 @@ define([
         inSmartartInternal: 'in-smartart-internal',
         wsLockFormatFill: 'worksheet-lock-format-fill'
     };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
         el: '#toolbar',
@@ -182,7 +190,7 @@ define([
                 }
             }
 
-            var _set = SSE.enumLock;
+            var _set = Common.enumLock;
 
             me.btnCopy = new Common.UI.Button({
                 id          : 'id-toolbar-btn-copy',
@@ -935,6 +943,7 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 112,
                     itemHeight      : 40,
+                    style: 'min-width:158px;',
                     menuMaxHeight   : 226,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
@@ -985,6 +994,7 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBox({
                     cls         : 'input-group-nr',
+                    style       : 'width: 113px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells']],
@@ -1689,7 +1699,7 @@ define([
                     if (cmp && _.isFunction(cmp.setDisabled))
                         cmp.setDisabled(true);
                 });
-                this.lockToolbar(SSE.enumLock.disableOnStart, true, {array: [me.btnPrint]});
+                this.lockToolbar(Common.enumLock.disableOnStart, true, {array: [me.btnPrint]});
 
                 this.on('render:after', _.bind(this.onToolbarAfterRender, this));
             }
@@ -1898,7 +1908,7 @@ define([
             _injectComponent('#slot-btn-scale',         this.btnScale);
             _injectComponent('#slot-btn-condformat',    this.btnCondFormat);
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
-                                [SSE.enumLock.editCell, SSE.enumLock.selRangeEdit, SSE.enumLock.headerLock, SSE.enumLock.lostConnect, SSE.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
+                                [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
 
             return $host;
@@ -2414,16 +2424,16 @@ define([
 
         setMode: function(mode) {
             if (mode.isDisconnected) {
-                this.lockToolbar( SSE.enumLock.lostConnect, true );
-                this.lockToolbar( SSE.enumLock.lostConnect, true,
+                this.lockToolbar( Common.enumLock.lostConnect, true );
+                this.lockToolbar( Common.enumLock.lostConnect, true,
                     {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo,this.btnSave]} );
                 if ( this.synchTooltip )
                     this.synchTooltip.hide();
                 if (!mode.enableDownload)
-                    this.lockToolbar(SSE.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                    this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
-                this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+                this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
 
             return this;

@@ -107,7 +107,7 @@ define([
 
                 this.appConfig = options.mode;
 
-                var _set = SSE.enumLock;
+                var _set = Common.enumLock;
                 this.lockedControls = [];
                 this._state = {disabled: false};
 

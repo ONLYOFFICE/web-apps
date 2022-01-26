@@ -56,7 +56,8 @@
     "textStartAt": "Empezar con",
     "textTable": "Tabla",
     "textTableSize": "Tamaño de tabla",
-    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -308,27 +309,28 @@
     "textTotalRow": "Fila total",
     "textType": "Tipo",
     "textWrap": "Ajuste",
-    "textDesign": "Design",
-    "textSu": "Su",
-    "textMo": "Mo",
-    "textTu": "Tu",
-    "textWe": "We",
-    "textTh": "Th",
-    "textFr": "Fr",
-    "textSa": "Sa",
-    "textJanuary": "January",
-    "textFebruary": "February",
-    "textMarch": "March",
     "textApril": "April",
-    "textMay": "May",
-    "textJune": "June",
-    "textJuly": "July",
     "textAugust": "August",
-    "textSeptember": "September",
-    "textOctober": "October",
-    "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textDesign": "Design",
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textOk": "Ok",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
     "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
     "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-    "warnProcessRightsChange": "No tiene permiso para editar este archivo."
+    "warnProcessRightsChange": "No tiene permiso para editar este archivo.",
+    "textNoTextFound": "Text not found",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "Archivo protegido",

@@ -56,7 +56,8 @@
     "textStartAt": "Başlayın",
     "textTable": "Cədvəl",
     "textTableSize": "Cədvəl Ölçüsü",
-    "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır"
+    "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -308,27 +309,28 @@
     "textTotalRow": "Yekun Sətir",
     "textType": "Növ",
     "textWrap": "Keçirin",
-    "textDesign": "Design",
-    "textSu": "Su",
-    "textMo": "Mo",
-    "textTu": "Tu",
-    "textWe": "We",
-    "textTh": "Th",
-    "textFr": "Fr",
-    "textSa": "Sa",
-    "textJanuary": "January",
-    "textFebruary": "February",
-    "textMarch": "March",
     "textApril": "April",
-    "textMay": "May",
-    "textJune": "June",
-    "textJuly": "July",
     "textAugust": "August",
-    "textSeptember": "September",
-    "textOctober": "October",
-    "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textDesign": "Design",
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textOk": "Ok",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We"
   },
   "Error": {
     "convertationTimeoutText": "Çevrilmə vaxtı maksimumu keçdi.",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "1% redaktor üçün istifadəçi limitinə çatdınız. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
     "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
     "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
-    "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur."
+    "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur.",
+    "textNoTextFound": "Text not found",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "Qorunan Fayl",

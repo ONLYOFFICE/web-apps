@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textNoTextFound": "Text not found",
+      "textOk": "Ok",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -229,7 +232,8 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -353,7 +357,8 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
       "txtSortSelected": "Sortarea selecției",
-      "txtYes": "Da"
+      "txtYes": "Da",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -534,7 +539,8 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
       "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",

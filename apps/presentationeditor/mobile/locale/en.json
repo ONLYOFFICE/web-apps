@@ -33,13 +33,13 @@
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
       "textUsers": "Users"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -107,9 +107,12 @@
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
       "textNo": "No",
       "textNoLicenseTitle": "License limit reached",
+      "textNoTextFound": "Text not found",
       "textOpenFile": "Enter a password to open the file",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textYes": "Yes",
       "titleLicenseExp": "License expired",
       "titleServerVersion": "Editor updated",
@@ -225,6 +228,7 @@
       "textLinkTo": "Link to",
       "textLinkType": "Link Type",
       "textNextSlide": "Next Slide",
+      "textOk": "Ok",
       "textOther": "Other",
       "textPictureFromLibrary": "Picture from Library",
       "textPictureFromURL": "Picture from URL",
@@ -282,6 +286,7 @@
       "textDefault": "Selected text",
       "textDelay": "Delay",
       "textDeleteSlide": "Delete Slide",
+      "textDesign": "Design",
       "textDisplay": "Display",
       "textDistanceFromText": "Distance From Text",
       "textDistributeHorizontally": "Distribute Horizontally",
@@ -290,7 +295,6 @@
       "textDoubleStrikethrough": "Double Strikethrough",
       "textDuplicateSlide": "Duplicate Slide",
       "textDuration": "Duration",
-      "textDesign": "Design",
       "textEditLink": "Edit Link",
       "textEffect": "Effect",
       "textEffects": "Effects",
@@ -334,6 +338,7 @@
       "textNoTextFound": "Text not found",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "textNumbers": "Numbers",
+      "textOk": "Ok",
       "textOpacity": "Opacity",
       "textOptions": "Options",
       "textPictureFromLibrary": "Picture from Library",
@@ -404,6 +409,7 @@
       "textColorSchemes": "Color Schemes",
       "textComment": "Comment",
       "textCreated": "Created",
+      "textDarkTheme": "Dark Theme",
       "textDisableAll": "Disable All",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
@@ -466,8 +472,7 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry",
-      "textDarkTheme": "Dark Theme"
+      "txtScheme9": "Foundry"
     }
   }
 }

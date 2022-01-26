@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textNoTextFound": "Text not found",
+      "textOk": "Ok",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -229,7 +232,8 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "advDRMPassword": "Wachtwoord",
@@ -353,7 +357,8 @@
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "txtSorting": "Sorteren",
       "txtSortSelected": "Geselecteerde sorteren",
-      "txtYes": "Ja"
+      "txtYes": "Ja",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",
@@ -534,7 +539,8 @@
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "txtSortHigh2Low": "Sorteren van hoogste naar laagste",
       "txtSortLow2High": "Sorteren van laagste naar hoogste",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "CSV-opties kiezen",

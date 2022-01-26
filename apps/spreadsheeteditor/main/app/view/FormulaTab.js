@@ -83,7 +83,7 @@ define([
 
                 var me = this,
                     $host = me.toolbar.$el,
-                    _set = SSE.enumLock;
+                    _set = Common.enumLock;
 
                 var formulaDialog = SSE.getController('FormulaDialog');
 
@@ -434,7 +434,7 @@ define([
                         btn.menu.setInnerMenu([{menu: menu, index: 0}]);
                     }
                 }
-                Common.Utils.lockControls(SSE.enumLock.noSubitems, arr.length<1, {array: [btn]});
+                Common.Utils.lockControls(Common.enumLock.noSubitems, arr.length<1, {array: [btn]});
             },
 
             setMenuItemMenu: function(name) {
@@ -552,7 +552,7 @@ define([
                             menu.cmpEl.attr({tabindex: "-1"});
                         });
                     }
-                    Common.Utils.lockControls(SSE.enumLock.noSubitems, morearr.length<1, {array: [btn]});
+                    Common.Utils.lockControls(Common.enumLock.noSubitems, morearr.length<1, {array: [btn]});
                 }
             },
 

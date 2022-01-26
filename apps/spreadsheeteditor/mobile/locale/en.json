@@ -142,9 +142,14 @@
       "textGuest": "Guest",
       "textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
       "textNo": "No",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textNoLicenseTitle": "License limit reached",
+      "textNoTextFound": "Text not found",
+      "textOk": "Ok",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textYes": "Yes",
       "titleServerVersion": "Editor updated",
       "titleUpdateVersion": "Version changed",
@@ -154,9 +159,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -171,6 +174,7 @@
     "errorAutoFilterDataRange": "The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.",
     "errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please, unhide the filtered elements and try again.",
     "errorBadImageUrl": "Image URL is incorrect",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.",
     "errorChangeArray": "You cannot change part of an array.",
     "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
@@ -284,6 +288,9 @@
     "textErrorRemoveSheet": "Can't delete the worksheet.",
     "textHide": "Hide",
     "textMore": "More",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward",
     "textOk": "Ok",
     "textRename": "Rename",
     "textRenameSheet": "Rename Sheet",
@@ -337,6 +344,7 @@
       "textLink": "Link",
       "textLinkSettings": "Link Settings",
       "textLinkType": "Link Type",
+      "textOk": "Ok",
       "textOther": "Other",
       "textPictureFromLibrary": "Picture from library",
       "textPictureFromURL": "Picture from URL",
@@ -474,6 +482,7 @@
       "textNoOverlay": "No Overlay",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "textNumber": "Number",
+      "textOk": "Ok",
       "textOnTickMarks": "On Tick Marks",
       "textOpacity": "Opacity",
       "textOut": "Out",
@@ -565,6 +574,7 @@
       "textComments": "Comments",
       "textCreated": "Created",
       "textCustomSize": "Custom Size",
+      "textDarkTheme": "Dark Theme",
       "textDelimeter": "Delimiter",
       "textDisableAll": "Disable All",
       "textDisableAllMacrosWithNotification": "Disable all macros with a notification",
@@ -665,8 +675,7 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }

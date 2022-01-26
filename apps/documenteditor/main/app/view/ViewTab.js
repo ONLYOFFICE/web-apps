@@ -85,14 +85,15 @@ define([
 
                 var me = this,
                     $host = me.toolbar.$el;
+                var _set = Common.enumLock;
 
                 this.btnNavigation = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-navigation'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-menu-navigation',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textNavigation,
                     enableToggle: true,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -102,9 +103,9 @@ define([
                 this.cmbZoom = new Common.UI.ComboBox({
                     el: $host.find('#slot-field-zoom'),
                     cls: 'input-group-nr',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     menuStyle: 'min-width: 55px;',
                     editable: true,
-                    disabled: true,
                     data: [
                         { displayValue: "50%", value: 50 },
                         { displayValue: "75%", value: 75 },
@@ -130,10 +131,10 @@ define([
                     parentEl: $host.find('#slot-btn-ftp'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtopage',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textFitToPage,
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -144,10 +145,10 @@ define([
                     parentEl: $host.find('#slot-btn-ftw'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textFitToWidth,
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -158,9 +159,9 @@ define([
                     parentEl: $host.find('#slot-btn-interface-theme'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon day',
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textInterfaceTheme,
                     menu: true,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -171,9 +172,9 @@ define([
                     parentEl: $host.find('#slot-btn-dark-document'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon dark-mode',
+                    lock: [_set.inLightTheme, _set.lostConnect, _set.disableOnStart],
                     caption: this.textDarkDocument,
                     enableToggle: true,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -182,9 +183,9 @@ define([
 
                 this.chStatusbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-statusbar'),
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textStatusBar,
                     value: !Common.localStorage.getBool("de-hidden-status"),
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -193,9 +194,9 @@ define([
 
                 this.chToolbar = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-toolbar'),
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textAlwaysShowToolbar,
                     value: !options.compactToolbar,
-                    disabled: true,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -204,14 +205,17 @@ define([
 
                 this.chRulers = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-rulers'),
+                    lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textRulers,
                     value: !Common.Utils.InternalSettings.get("de-hidden-rulers"),
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chRulers);
+
+                this.cmpEl = $host;
+                Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
             },
 
             render: function (el) {

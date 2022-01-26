@@ -123,7 +123,10 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+      "textNoTextFound": "Text not found",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -237,7 +240,8 @@
       "textSlideNumber": "Număr diapozitiv",
       "textTable": "Tabel",
       "textTableSize": "Dimensiune tabel",
-      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -388,7 +392,8 @@
       "textZoomOut": "Micșorare",
       "textZoomRotate": "Zoom și rotire",
       "textAutomatic": "Automatic",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

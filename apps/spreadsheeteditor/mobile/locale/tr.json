@@ -142,9 +142,14 @@
       "textGuest": "Misafir",
       "textHasMacros": "Dosya otomatik makrolar içeriyor.<br>Makroları çalıştırmak istiyor musunuz?",
       "textNo": "Hayır",
+      "textNoChoices": "Hücreyi doldurmak için seçenek bulunmuyor.<br>Yalnızca sütundaki metin değerleri ile değiştirilebilir.",
       "textNoLicenseTitle": "Lisans limitine ulaşıldı.",
+      "textNoTextFound": "Metin bulunamadı",
+      "textOk": "Tamam",
       "textPaidFeature": "Ücretli Özellik",
       "textRemember": "Seçimimi hatırla",
+      "textReplaceSkipped": "Değiştirme yapıldı. {0} olay atlandı.",
+      "textReplaceSuccess": "Arama yapıldı. {0} olay değiştirildi.",
       "textYes": "Evet",
       "titleServerVersion": "Editör güncellendi",
       "titleUpdateVersion": "Sürüm değiştirildi",
@@ -154,9 +159,7 @@
       "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok."
     }
   },
   "Error": {
@@ -229,7 +232,8 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "advDRMPassword": "Şifre",
@@ -284,16 +288,16 @@
     "textErrorRemoveSheet": "Çalışma sayfası silinemiyor.",
     "textHide": "Gizle",
     "textMore": "Daha fazla",
+    "textMove": "Taşı",
+    "textMoveBack": "Geriye taşı",
+    "textMoveForward": "İleri Taşı",
     "textOk": "Tamam",
     "textRename": "Yeniden adlandır",
     "textRenameSheet": "Sayfayı Yeniden Adlandır",
     "textSheet": "Sayfa",
     "textSheetName": "Sayfa ismi",
     "textUnhide": "Gizlemeyi kaldır",
-    "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
@@ -336,6 +340,7 @@
       "textLink": "Bağlantı",
       "textLinkSettings": "Bağlantı Ayarları",
       "textLinkType": "Bağlantı tipi",
+      "textOk": "Tamam",
       "textOther": "Diğer",
       "textPictureFromLibrary": "Kütüphaneden Resim",
       "textPictureFromURL": "URL'den resim",
@@ -372,6 +377,7 @@
       "textAngleClockwise": "Saat yönünde açı",
       "textAngleCounterclockwise": "Saat yönü tersi açı",
       "textAuto": "Otomatik",
+      "textAutomatic": "Otomatik",
       "textAxisCrosses": "Eksen kesişmeleri",
       "textAxisOptions": "Eksen Seçenekleri",
       "textAxisPosition": "Eksen Pozisyonu",
@@ -472,6 +478,7 @@
       "textNoOverlay": "Bindirme yok",
       "textNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textNumber": "Sayı",
+      "textOk": "Tamam",
       "textOnTickMarks": "Onay İşaretlerinde",
       "textOpacity": "Opaklık",
       "textOut": "Dışarı",
@@ -533,8 +540,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "txtSortHigh2Low": "Büyükten Küçüğe Sırala",
-      "txtSortLow2High": "Küçükten Büyüğe Sırala",
-      "textAutomatic": "Automatic"
+      "txtSortLow2High": "Küçükten Büyüğe Sırala"
     },
     "Settings": {
       "advCSVOptions": "CSV Seçenekleri Belirle",
@@ -564,6 +570,7 @@
       "textComments": "Yorumlar",
       "textCreated": "Olusturuldu",
       "textCustomSize": "Özel Boyut",
+      "textDarkTheme": "Koyu Tema",
       "textDelimeter": "Sınırlayıcı",
       "textDisableAll": "Tümünü Devre Dışı Bırak",
       "textDisableAllMacrosWithNotification": "Bütün macroları uyarı vererek devre dışı bırak",
@@ -664,8 +671,7 @@
       "txtSemicolon": "Noktalı virgül",
       "txtSpace": "Boşluk",
       "txtTab": "Sekme",
-      "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?"
     }
   }
 }

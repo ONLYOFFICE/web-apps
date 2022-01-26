@@ -156,7 +156,10 @@
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "textNoTextFound": "Text not found",
+      "textOk": "Ok",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -229,7 +232,8 @@
     "unknownErrorText": "Naməlum xəta.",
     "uploadImageExtMessage": "Naməlum təsvir formatı.",
     "uploadImageFileCountMessage": "Heç bir təsvir yüklənməyib.",
-    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır."
+    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "advDRMPassword": "Parol",
@@ -353,7 +357,8 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "txtSorting": "Sıralama",
       "txtSortSelected": "Seçilmiş sıralama",
-      "txtYes": "Bəli"
+      "txtYes": "Bəli",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Xəbərdarlıq",
@@ -534,7 +539,8 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "txtSortHigh2Low": "Ən Böyükdən ən Kiçiyə doğru Çeşidləyin.",
       "txtSortLow2High": "Ən Kiçikdən ən Böyüyə doğru Çeşidləyin.",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",

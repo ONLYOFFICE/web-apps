@@ -72,12 +72,22 @@ define([
         },
 
         setConfig: function(config) {
+            var mode = config.mode;
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode,
+                mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                this.view.chStatusbar.$el.remove();
+                var slotChkRulers = this.view.chRulers.$el,
+                    groupRulers = slotChkRulers.closest('.group'),
+                    groupToolbar = this.view.chToolbar.$el.closest('.group');
+                groupToolbar.find('.elset')[1].append(slotChkRulers[0]);
+                groupRulers.remove();
+                this.view.cmpEl.find('.separator-rulers').remove();
+            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
@@ -151,12 +161,12 @@ define([
                         me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                             var value = item.value;
                             Common.UI.Themes.setTheme(value);
-                            me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                            Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
                         }, me));
 
                         setTimeout(function () {
                             me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
-                            me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                            Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
                         }, 0);
                     }
                 });
@@ -216,9 +226,9 @@ define([
         },
 
         onChangeRulers: function (btn, checked) {
-            this.api.asc_SetViewRulers(checked);
             Common.localStorage.setBool('de-hidden-rulers', !checked);
             Common.Utils.InternalSettings.set("de-hidden-rulers", !checked);
+            this.api.asc_SetViewRulers(checked);
             this.view.fireEvent('rulers:hide', [!checked]);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -238,7 +248,7 @@ define([
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
                 this.view.btnInterfaceTheme.menu.clearAll();
                 menu_item.setChecked(true, true);
-                this.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [this.view.btnDarkDocument]});
             }
         },
 

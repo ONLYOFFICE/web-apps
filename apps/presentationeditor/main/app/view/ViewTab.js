@@ -77,7 +77,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
 
                 this.lockedControls = [];
 

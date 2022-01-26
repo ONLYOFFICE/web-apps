@@ -326,7 +326,7 @@ Common.UI.HintManager = new(function() {
             if (!_isItemDisabled(item)) {
                 var leftBorder = 0,
                     rightBorder = docW;
-                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || item.closest('.group').find('.toolbar-group-mask').length > 0)
+                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0)
                     || ($('#about-menu-panel').is(':visible') && item.closest('.hint-section').prop('id') === 'right-menu')) { // don't show right menu hints when about is visible
                     return;
                 }
@@ -535,7 +535,7 @@ Common.UI.HintManager = new(function() {
                             } else {
                                 _isComplete = false;
                                 _hideHints();
-                                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || curr.closest('.group').find('.toolbar-group-mask').length > 0)) {
+                                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0)) {
                                     _resetToDefault();
                                     return;
                                 }

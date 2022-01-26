@@ -123,7 +123,10 @@
       "warnLicenseUsersExceeded": "Usted ha alcanzado el límite de usuarios para los editores de %1. Por favor, contacte con su administrador para recibir más información.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Usted ha alcanzado el límite de usuarios para los editores de %1.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
+      "textNoTextFound": "Text not found",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -237,7 +240,8 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Tabla",
       "textTableSize": "Tamaño de tabla",
-      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
+      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -388,7 +392,8 @@
       "textZoomOut": "Alejar",
       "textZoomRotate": "Zoom y giro",
       "textAutomatic": "Automatic",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",

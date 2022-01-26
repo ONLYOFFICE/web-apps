@@ -840,7 +840,7 @@ define([
             Common.NotificationCenter.trigger('editing:disable', disable, {
                 viewMode: disable,
                 reviewMode: false,
-                fillFormwMode: false,
+                fillFormMode: false,
                 allowMerge: true,
                 allowSignature: false,
                 allowProtect: false,
@@ -855,7 +855,8 @@ define([
                 viewport: false,
                 documentHolder: true,
                 toolbar: true,
-                plugins: false
+                plugins: false,
+                protect: false
             }, 'mailmerge');
 
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});

@@ -142,9 +142,13 @@
       "textGuest": "Гость",
       "textHasMacros": "Файл содержит автозапускаемые макросы.<br>Хотите запустить макросы?",
       "textNo": "Нет",
+      "textNoChoices": "Нет вариантов для заполнения ячейки.<br>Для замены можно выбрать только текстовые значения из столбца.",
       "textNoLicenseTitle": "Лицензионное ограничение",
+      "textNoTextFound": "Текст не найден",
       "textPaidFeature": "Платная функция",
       "textRemember": "Запомнить мой выбор",
+      "textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
+      "textReplaceSuccess": "Поиск выполнен. Заменено вхождений: {0}",
       "textYes": "Да",
       "titleServerVersion": "Редактор обновлен",
       "titleUpdateVersion": "Версия изменилась",
@@ -155,7 +159,6 @@
       "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textOk": "Ok"
     }
   },
@@ -229,7 +232,8 @@
     "unknownErrorText": "Неизвестная ошибка.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",
@@ -353,7 +357,8 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
       "txtSortSelected": "Сортировать выделенное",
-      "txtYes": "Да"
+      "txtYes": "Да",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
@@ -534,7 +539,8 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSortHigh2Low": "Сортировка по убыванию",
       "txtSortLow2High": "Сортировка по возрастанию",
-      "textAutomatic": "Automatic"
+      "textAutomatic": "Automatic",
+      "textOk": "Ok"
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",
@@ -564,6 +570,7 @@
       "textComments": "Комментарии",
       "textCreated": "Создана",
       "textCustomSize": "Особый размер",
+      "textDarkTheme": "Темная тема",
       "textDelimeter": "Разделитель",
       "textDisableAll": "Отключить все",
       "textDisableAllMacrosWithNotification": "Отключить все макросы с уведомлением",
@@ -664,8 +671,7 @@
       "txtSemicolon": "Точка с запятой",
       "txtSpace": "Пробел",
       "txtTab": "Табуляция",
-      "warnDownloadAs": "Если вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Если вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?"
     }
   }
 }

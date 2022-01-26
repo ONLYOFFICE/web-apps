@@ -118,7 +118,7 @@ define([
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
                 this.$el = this.toolbar.toolbar.$el.find('#transitions-panel');
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
                 this.lockedControls = [];
 
                 this._arrEffectName = [
@@ -136,12 +136,13 @@ define([
                     item.tip = item.title;
                 });
 
-                var itemWidth = 87,
+                var itemWidth = 88,
                     itemHeight = 40;
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-transitions',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
+                    style: 'min-width:110px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
@@ -268,7 +269,7 @@ define([
                 });
                 this.lockedControls.push(this.chDelay);
 
-                Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 this.$el.find('#transit-duration').text(this.strDuration);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));

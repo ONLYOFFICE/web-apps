@@ -123,7 +123,10 @@
       "warnLicenseUsersExceeded": "1% redaktor üçün istifadəçi limitinə çatdınız. Ətraflı öyrənmək üçün inzibatçınızla əlaqə saxlayın.",
       "warnNoLicense": "Siz 1% redaktorlarına eyni vaxtda qoşulma limitinə çatdınız. Bu sənəd yalnız baxmaq üçün açılacaq. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
       "warnNoLicenseUsers": "1% redaktor üçün istifadəçi limitinə çatdınız. Şəxsi təkmilləşdirmə şərtləri üçün 1% satış komandası ilə əlaqə saxlayın.",
-      "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur."
+      "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
+      "textNoTextFound": "Text not found",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -237,7 +240,8 @@
       "textSlideNumber": "Slayd nömrəsi",
       "textTable": "Cədvəl",
       "textTableSize": "Cədvəl Ölçüsü",
-      "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır"
+      "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Xəbərdarlıq",
@@ -388,7 +392,8 @@
       "textZoomOut": "Kiçilt",
       "textZoomRotate": "Miqyası dəyiş və Fırlat",
       "textAutomatic": "Automatic",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",

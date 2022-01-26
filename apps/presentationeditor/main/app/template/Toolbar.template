@@ -101,7 +101,7 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
-                <div class="group flex small" id="slot-field-styles" style="width: 100%; min-width: 145px;" data-group-width="100%"></div>
+                <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 140px;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -143,7 +143,7 @@
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit">
-                <div class="group flex small" id="transit-field-effects" style="width: 900px; max-width: 900px; min-width: 140px;" data-group-width="900px"></div>
+                <div class="group flex small" id="transit-field-effects" style="width: 900px; max-width: 900px; min-width: 120px;" data-group-width="900px"></div>
 
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="transit-button-parameters"></span>
@@ -211,16 +211,15 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
+                        <span class="btn-slot text" id="slot-chk-toolbar"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-toolbar"></span>
+                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
                     </div>
                 </div>
             </section>
             <section id="animation-panel" class="panel" data-tab="animate">
-                <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 140px;" data-group-width="700px"></div>
-
+                <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 210px;" data-group-width="700px"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
                 </div>
@@ -238,18 +237,18 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label id="animation-label-start"></label>
+                        <label id="animation-label-start" style="margin-right: 10px;"></label>
                         <div class="btn-slot" style="width: 96px; " id="animation-start"></div>
                     </div>
                     <div class="elset font-normal">
-                         <label id="animation-delay"></label>
+                         <label id="animation-delay" style="margin-right: 10px;"></label>
                          <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label id="animation-duration"></label>
+                        <label id="animation-duration" style="margin-right: 10px;"></label>
                         <span id="animation-spin-duration" class="btn-slot text spinner" ></span>
                     </div>
                     <div class="elset font-normal">
@@ -259,7 +258,7 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset font-normal">
-                        <label id="animation-repeat"></label>
+                        <label id="animation-repeat" style="margin-right: 10px;"></label>
                         <span id="animation-spin-repeat" class="btn-slot text spinner" ></span>
                     </div>
                     <div class="elset font-normal">

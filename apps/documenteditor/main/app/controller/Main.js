@@ -736,7 +736,7 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     reviewMode: false,
-                    fillFormwMode: false,
+                    fillFormMode: false,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
@@ -751,7 +751,8 @@ define([
                     viewport: true,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false
+                    plugins: false,
+                    protect: false
                 }, temp ? 'reconnect' : 'disconnect');
             },
 
@@ -772,16 +773,16 @@ define([
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
                 if (options.review) {
-                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable, options.reviewMode, options.fillFormMode);
                 }
                 if (options.viewport) {
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormwMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect, options.fillFormwMode);
+                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)
@@ -804,6 +805,9 @@ define([
                 }
                 if (options.plugins) {
                     app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+                }
+                if (options.protect) {
+                    app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
                 }
 
                 if (prev_options) {
@@ -2084,6 +2088,10 @@ define([
                                 console.log("Obsolete: The 'leftMenu' parameter of the 'customization' section is deprecated. Please use 'leftMenu' parameter in the 'customization.layout' section instead.");
                             if (this.appOptions.customization.rightMenu!==undefined)
                                 console.log("Obsolete: The 'rightMenu' parameter of the 'customization' section is deprecated. Please use 'rightMenu' parameter in the 'customization.layout' section instead.");
+                            if (this.appOptions.customization.statusBar!==undefined)
+                                console.log("Obsolete: The 'statusBar' parameter of the 'customization' section is deprecated. Please use 'statusBar' parameter in the 'customization.layout' section instead.");
+                            if (this.appOptions.customization.toolbar!==undefined)
+                                console.log("Obsolete: The 'toolbar' parameter of the 'customization' section is deprecated. Please use 'toolbar' parameter in the 'customization.layout' section instead.");
                         }
                         promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }

@@ -56,7 +56,8 @@
     "textStartAt": "Comença a",
     "textTable": "Taula",
     "textTableSize": "Mida de la taula",
-    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -308,27 +309,28 @@
     "textTotalRow": "Fila de total",
     "textType": "Tipus",
     "textWrap": "Ajustament",
-    "textDesign": "Design",
-    "textSu": "Su",
-    "textMo": "Mo",
-    "textTu": "Tu",
-    "textWe": "We",
-    "textTh": "Th",
-    "textFr": "Fr",
-    "textSa": "Sa",
-    "textJanuary": "January",
-    "textFebruary": "February",
-    "textMarch": "March",
     "textApril": "April",
-    "textMay": "May",
-    "textJune": "June",
-    "textJuly": "July",
     "textAugust": "August",
-    "textSeptember": "September",
-    "textOctober": "October",
-    "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textDesign": "Design",
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textOk": "Ok",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We"
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Contacta amb el teu administrador per a més informació.",
     "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacta amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
     "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-    "warnProcessRightsChange": "No tens permís per editar aquest fitxer."
+    "warnProcessRightsChange": "No tens permís per editar aquest fitxer.",
+    "textNoTextFound": "Text not found",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "El fitxer està protegit",

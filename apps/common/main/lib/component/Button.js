@@ -210,8 +210,10 @@ define([
                     templateBtnIcon +
                 '</div>' +
                 '<div class="inner-box-caption">' +
-                    '<span class="caption"><%= caption %></span>' +
-                    '<i class="caret"></i>' +
+                    '<span class="caption"><%= caption %>' +
+                        '<i class="caret"></i>' +
+                    '</span>' +
+                    '<i class="caret compact-caret"></i>' +
                 '</div>' +
             '</button>' +
         '</div>';
@@ -225,11 +227,37 @@ define([
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>' +
                 '<span class="btn-fixflex-vcenter">' +
-                    '<span class="caption"><%= caption %></span>' +
-                    '<i class="caret"></i>' +
+                    '<span class="caption"><%= caption %>' +
+                        '<i class="caret"></i>' +
+                    '</span>' +
+                    '<i class="caret compact-caret"></i>' +
                 '</span>' +
             '</button>' +
         '</div>';
+
+    var getWidthOfCaption = function (txt) {
+        var el = document.createElement('span');
+        el.style.fontSize = '11px';
+        el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+        el.style.position = "absolute";
+        el.style.top = '-1000px';
+        el.style.left = '-1000px';
+        el.innerHTML = txt;
+        document.body.appendChild(el);
+        var result = el.offsetWidth;
+        document.body.removeChild(el);
+        return result;
+    };
+
+    var getShortText = function (txt, max) {
+        var lastIndex = txt.length - 1,
+            word = txt;
+        while (getWidthOfCaption(word) > max) {
+            word = txt.slice(0, lastIndex).trim() + '...';
+            lastIndex--;
+        }
+        return word;
+    };
 
     Common.UI.Button = Common.UI.BaseView.extend({
         options : {
@@ -320,6 +348,37 @@ define([
                 me.render(me.options.parentEl);
         },
 
+        getCaptionWithBreaks: function (caption) {
+            var words = caption.split(' '),
+                newCaption = null,
+                maxWidth = 85 - 4;
+            if (words.length > 1) {
+                maxWidth = !!this.menu || this.split === true ? maxWidth - 10 : maxWidth;
+                if (words.length < 3) {
+                    words[1] = getShortText(words[1], maxWidth);
+                    newCaption = words[0] + '<br>' + words[1];
+                } else {
+                    if (getWidthOfCaption(words[0] + ' ' + words[1]) < maxWidth) { // first and second words in first line
+                        words[2] = getShortText(words[2], maxWidth);
+                        newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
+                    } else if (getWidthOfCaption(words[1] + ' ' + words[2]) < maxWidth) { // second and third words in second line
+                        words[2] = getShortText(words[2], maxWidth);
+                        newCaption = words[0] + '<br>' + words[1] + ' ' + words[2];
+                    } else {
+                        words[1] = getShortText(words[1] + ' ' + words[2], maxWidth);
+                        newCaption = words[0] + '<br>' + words[1];
+                    }
+                }
+            } else {
+                var width = getWidthOfCaption(caption);
+                newCaption = width < maxWidth ? caption : getShortText(caption, maxWidth);
+                if (!!this.menu || this.split === true) {
+                    newCaption += '<br>';
+                }
+            }
+            return newCaption;
+        },
+
         render: function(parentEl) {
             var me = this;
 
@@ -340,6 +399,10 @@ define([
                             this.template = _.template(templateHugeMenuCaption);
                         } else {
                             this.template = _.template(templateHugeCaption);
+                        }
+                        var newCaption = this.getCaptionWithBreaks(this.caption);
+                        if (newCaption) {
+                            me.caption = newCaption;
                         }
                     }
 
@@ -748,15 +811,19 @@ define([
 
         setCaption: function(caption) {
             if (this.caption != caption) {
-                this.caption = caption;
+                if ( /icon-top/.test(this.cls) && !!this.caption && /huge/.test(this.cls) ) {
+                    var newCaption = this.getCaptionWithBreaks(caption);
+                    this.caption = newCaption || caption;
+                } else
+                    this.caption = caption;
 
                 if (this.rendered) {
                     var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
-                        captionNode.text(caption);
+                        captionNode.html(this.caption);
                     } else {
-                        this.cmpEl.find('button:first').addBack().filter('button').text(caption);
+                        this.cmpEl.find('button:first').addBack().filter('button').html(this.caption);
                     }
                 }
             }

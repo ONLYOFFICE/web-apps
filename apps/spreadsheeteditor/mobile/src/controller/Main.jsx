@@ -402,11 +402,18 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onEditCell', (state) => {
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 const isEditCell = state === Asc.c_oAscCellEditorState.editStart;
+                const isEditEnd = state === Asc.c_oAscCellEditorState.editEnd;
+               
                 if (storeFocusObjects.isEditCell !== isEditCell) {
                     storeFocusObjects.setEditCell(isEditCell);
                 }
+
+                if(isEditEnd) {
+                    storeFocusObjects.setEditFormulaMode(false);
+                }
             } else {
                 const isFormula = state === Asc.c_oAscCellEditorState.editFormula;
+               
                 if (storeFocusObjects.editFormulaMode !== isFormula) {
                     storeFocusObjects.setEditFormulaMode(isFormula);
                 }
@@ -418,6 +425,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
         this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this)); 
         
+        this.api.asc_registerCallback('asc_onRenameCellTextEnd', this.onRenameText.bind(this));
         this.api.asc_registerCallback('asc_onEntriesListMenu', this.onEntriesListMenu.bind(this, false));
         this.api.asc_registerCallback('asc_onValidationListMenu', this.onEntriesListMenu.bind(this, true));
     }
@@ -453,6 +461,14 @@ class MainController extends Component {
                     }
                 ]
             });
+        }
+    }
+
+    onRenameText(found, replaced) {
+        const { t } = this.props;
+
+        if (this.api.isReplaceAll) { 
+            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoTextFound'));
         }
     }
 

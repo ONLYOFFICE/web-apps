@@ -107,12 +107,12 @@ define([
 
                 switch ( type ) {
                 case Asc.c_oAscWrapStyle2.Inline:       menu.items[0].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Square:       menu.items[1].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Tight:        menu.items[2].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Through:      menu.items[3].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.TopAndBottom: menu.items[4].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.Behind:       menu.items[6].setChecked(true); break;
-                case Asc.c_oAscWrapStyle2.InFront:      menu.items[5].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Square:       menu.items[2].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Tight:        menu.items[3].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Through:      menu.items[4].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.TopAndBottom: menu.items[5].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.Behind:       menu.items[8].setChecked(true); break;
+                case Asc.c_oAscWrapStyle2.InFront:      menu.items[7].setChecked(true); break;
                 default:
                     for (var i in menu.items) {
                         menu.items[i].setChecked( false );
@@ -124,66 +124,60 @@ define([
                 if (!this.editMode) return;
 
                 var me = this;
-                var disable = [], type;
+                var disable = {}, type,
+                    islocked = false,
+                    shapeProps,
+                    canGroupUngroup = false,
+                    wrapping,
+                    content_locked = false,
+                    no_object = true;
 
                 for (var i in objects) {
                     type = objects[i].get_ObjectType();
                     if ( type === Asc.c_oAscTypeSelectElement.Image ) {
                         var props = objects[i].get_ObjectValue(),
-                            shapeProps = props.get_ShapeProperties();
-                        var islocked = props.get_Locked();
-                        var notflow = !props.get_CanBeFlow();
-
-                        var wrapping = props.get_WrappingStyle();
+                            notflow = !props.get_CanBeFlow();
+                        shapeProps = props.get_ShapeProperties();
+                        islocked = props.get_Locked();
+                        wrapping = props.get_WrappingStyle();
+                        no_object = false;
                         me.onApiWrappingStyleChanged(notflow ? -1 : wrapping);
 
                         _.each(me.toolbar.btnImgWrapping.menu.items, function(item) {
                             item.setDisabled(notflow);
                         });
-                        me.toolbar.btnImgWrapping.menu.items[8].setDisabled(!me.api.CanChangeWrapPolygon());
+                        me.toolbar.btnImgWrapping.menu.items[10].setDisabled(!me.api.CanChangeWrapPolygon());
 
                         var control_props = me.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-                            content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
 
-                        disable.align       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
-                        disable.group       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
-                        disable.arrange     = (wrapping == Asc.c_oAscWrapStyle2.Inline) && !props.get_FromGroup() || shapeProps && shapeProps.asc_getFromSmartArtInternal() || content_locked;
-                        disable.wrapping    = islocked || props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) || content_locked ||
+                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                        disable.arrange     = (wrapping == Asc.c_oAscWrapStyle2.Inline) && !props.get_FromGroup();
+                        disable.wrapping    = props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) ||
                                             (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture && !control_props.get_FormPr());
-
-                        if ( !disable.group ) {
-                            if (me.api.CanGroup() || me.api.CanUnGroup()) {
-                                var mnuGroup = me.toolbar.btnImgGroup.menu.items[0],
-                                    mnuUnGroup = me.toolbar.btnImgGroup.menu.items[1];
-
-                                mnuGroup.setDisabled(!me.api.CanGroup());
-                                mnuUnGroup.setDisabled(!me.api.CanUnGroup());
-                            } else
-                                disable.group = true;
+                        disable.group   = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
+                        canGroupUngroup = me.api.CanGroup() || me.api.CanUnGroup();
+                        if (!disable.group && canGroupUngroup) {
+                            me.toolbar.btnImgGroup.menu.items[0].setDisabled(!me.api.CanGroup());
+                            me.toolbar.btnImgGroup.menu.items[1].setDisabled(!me.api.CanUnGroup());
                         }
 
                         _imgOriginalProps = props;
                         break;
                     }
                 }
-
-                me.toolbar.btnImgAlign.setDisabled(disable.align !== false);
-                me.toolbar.btnImgGroup.setDisabled(disable.group !== false);
-                me.toolbar.btnImgForward.setDisabled(disable.arrange !== false);
-                me.toolbar.btnImgBackward.setDisabled(disable.arrange !== false);
-                me.toolbar.btnImgWrapping.setDisabled(disable.wrapping !== false);
+                me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping]});
+                me.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.inImageInline, wrapping == Asc.c_oAscWrapStyle2.Inline, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup]});
+                me.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, shapeProps && shapeProps.asc_getFromSmartArtInternal(), {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.cantGroup, !canGroupUngroup, {array: [me.toolbar.btnImgGroup]});
+                me.toolbar.lockToolbar(Common.enumLock.cantWrap, disable.wrapping, {array: [me.toolbar.btnImgWrapping]});
+                me.toolbar.lockToolbar(Common.enumLock.cantArrange, disable.arrange, {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
             },
 
             onApiCoAuthoringDisconnect: function() {
-                var me = this;
-                me.editMode = false;
-
-                me.toolbar.btnImgAlign.setDisabled(true);
-                me.toolbar.btnImgGroup.setDisabled(true);
-                me.toolbar.btnImgForward.setDisabled(true);
-                me.toolbar.btnImgBackward.setDisabled(true);
-                me.toolbar.btnImgWrapping.setDisabled(true);
+                this.editMode = false;
             },
 
             onBeforeShapeAlign: function() {

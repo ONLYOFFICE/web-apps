@@ -503,12 +503,12 @@ define([
         onApiCanRevert: function(which, can) {
             if (which=='undo') {
                 if (this._state.can_undo !== can) {
-                    this.toolbar.btnUndo.setDisabled(!can);
+                    this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
                     this._state.can_undo = can;
                 }
             } else {
                 if (this._state.can_redo !== can) {
-                    this.toolbar.btnRedo.setDisabled(!can);
+                    this.toolbar.lockToolbar(Common.enumLock.redoLock, !can, {array: [this.toolbar.btnRedo]});
                     this._state.can_redo = can;
                 }
             }
@@ -516,7 +516,7 @@ define([
 
         onApiCanCopyCut: function(can) {
             if (this._state.can_copycut !== can) {
-                this.toolbar.btnCopy.setDisabled(!can);
+                this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy]});
                 this._state.can_copycut = can;
             }
         },
@@ -725,18 +725,21 @@ define([
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
                 plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
 
-            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked || rich_del_lock || rich_edit_lock || plain_del_lock || plain_edit_lock;
-            if (this.mode.compatibleFeatures) {
-                need_disable = need_disable || in_image;
-            }
+            this.toolbar.lockToolbar(Common.enumLock.cantAddQuotedComment, !this.api.can_AddQuotedComment(), {array: this.btnsComment});
+            this.toolbar.lockToolbar(Common.enumLock.imageLock, image_locked, {array: this.btnsComment});
+            this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
             if (this.api.asc_IsContentControl()) {
                 var control_props = this.api.asc_GetContentControlProperties(),
                     spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
-                need_disable = need_disable || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
-                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
+                this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,   {array: this.btnsComment});
             }
-            if ( this.btnsComment && this.btnsComment.length > 0 )
-                this.btnsComment.setDisabled(need_disable);
+            this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.btnsComment});
+            this.toolbar.lockToolbar(Common.enumLock.headerLock,    header_locked,      {array: this.btnsComment});
+            this.toolbar.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.btnsComment});
+            this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.btnsComment});
+            this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: this.btnsComment});
+            this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: this.btnsComment});
         },
 
         onApiFocusObject: function(selectedObjects) {
@@ -759,7 +762,8 @@ define([
                 btn_eq_state = false,
                 in_image = false,
                 in_control = false,
-                in_para = false;
+                in_para = false,
+                in_footnote = this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote();
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -802,17 +806,25 @@ define([
             var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
                 rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
-                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
-            var need_disable = paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock;
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false,
+                in_smart_art = shape_pr && shape_pr.asc_getFromSmartArt(),
+                in_smart_art_internal = shape_pr && shape_pr.asc_getFromSmartArtInternal();
 
-            if (this._state.prcontrolsdisable != need_disable) {
-                if (this._state.activated) this._state.prcontrolsdisable = need_disable;
-                _.each (toolbar.paragraphControls, function(item){
-                    item.setDisabled(need_disable);
-                }, this);
-            }
-            toolbar.btnDecLeftOffset.setDisabled(need_disable || shape_pr && shape_pr.asc_getFromSmartArtInternal());
-            toolbar.btnIncLeftOffset.setDisabled(need_disable || shape_pr && shape_pr.asc_getFromSmartArtInternal());
+            this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.toolbar.paragraphControls.concat([toolbar.btnContentControls, toolbar.btnClearStyle])});
+            this.toolbar.lockToolbar(Common.enumLock.headerLock,    header_locked,      {array: this.toolbar.paragraphControls.concat([toolbar.btnContentControls, toolbar.btnClearStyle, toolbar.btnWatermark])});
+            this.toolbar.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
+            this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
+
+            this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: this.btnsComment.concat(toolbar.btnsPageBreak).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
+                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
+            this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: this.btnsComment.concat(toolbar.btnsPageBreak).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
+                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
+
+            this.toolbar.lockToolbar(Common.enumLock.inChart,       in_chart,           {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnInsertEquation])});
+            this.toolbar.lockToolbar(Common.enumLock.inSmartart,    in_smart_art,       {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle])});
+            this.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smart_art_internal,    {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset])});
+            this.toolbar.lockToolbar(Common.enumLock.inEquation,    in_equation,        {array: toolbar.btnsPageBreak.concat([toolbar.btnDropCap, toolbar.btnInsertTable, toolbar.btnBlankPage, toolbar.btnInsertShape,
+                    toolbar.btnInsertText, toolbar.btnInsertTextArt, toolbar.btnInsertImage, toolbar.btnSuperscript, toolbar.btnSubscript, toolbar.btnEditHeader])});
 
             in_control = this.api.asc_IsContentControl();
             var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
@@ -821,8 +833,7 @@ define([
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
 
-            toolbar.btnContentControls.setDisabled(paragraph_locked || header_locked);
-            if (!(paragraph_locked || header_locked)) {
+            if (!toolbar.btnContentControls.isDisabled()) {
                 var control_disable = control_plain || content_locked,
                     if_form = control_props && control_props.get_FormPr();
                 for (var i=0; i<7; i++)
@@ -831,18 +842,8 @@ define([
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
-            var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock || shape_pr && (shape_pr.asc_getFromSmartArt() || shape_pr.asc_getFromSmartArtInternal());
-            if (this._state.textonlycontrolsdisable != need_text_disable) {
-                if (this._state.activated) this._state.textonlycontrolsdisable = need_text_disable;
-                if (!need_disable) {
-                    _.each (toolbar.textOnlyControls, function(item){
-                        item.setDisabled(need_text_disable);
-                    }, this);
-                }
-                // toolbar.btnCopyStyle.setDisabled(need_text_disable);
-                toolbar.btnClearStyle.setDisabled(need_text_disable);
-            }
-
+            this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
+                                                                                toolbar.btnInsertShape, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
             if (enable_dropcap && frame_pr) {
                 var value = frame_pr.get_FramePr(),
                     drop_value = Asc.c_oAscDropCap.None;
@@ -858,79 +859,49 @@ define([
                 if (enable_dropcap)
                     this.onDropCap(drop_value);
             }
-
-            need_disable = need_disable || !enable_dropcap || in_equation || control_plain;
-            toolbar.btnDropCap.setDisabled(need_disable);
-
+            this.toolbar.lockToolbar(Common.enumLock.dropcapLock, !enable_dropcap, {array: [toolbar.btnDropCap]});
             if ( !toolbar.btnDropCap.isDisabled() )
                 toolbar.mnuDropCapAdvanced.setDisabled(disable_dropcapadv);
 
-            need_disable = !can_add_table || header_locked || in_equation || control_plain || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
-            toolbar.btnInsertTable.setDisabled(need_disable);
-
-            need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled() || control_plain;
-            toolbar.mnuInsertPageNum.setDisabled(need_disable);
-
-            var in_footnote = this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote();
-            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
-            toolbar.btnsPageBreak.setDisabled(need_disable);
-            toolbar.btnBlankPage.setDisabled(need_disable);
-
-            need_disable = paragraph_locked || header_locked || in_equation || control_plain || content_locked || in_footnote;
-            toolbar.btnInsertShape.setDisabled(need_disable);
-            toolbar.btnInsertText.setDisabled(need_disable);
-
-            need_disable = paragraph_locked || header_locked  || in_para && !can_add_image || in_equation || control_plain || rich_del_lock || plain_del_lock || content_locked;
-            toolbar.btnInsertImage.setDisabled(need_disable);
-            toolbar.btnInsertTextArt.setDisabled(need_disable || in_footnote);
+            this.toolbar.lockToolbar(Common.enumLock.cantAddTable, !can_add_table, {array: [toolbar.btnInsertTable]});
+            this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled(), {array: [toolbar.mnuInsertPageNum]});
+            this.toolbar.lockToolbar(Common.enumLock.inHeader, in_header, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
+            this.toolbar.lockToolbar(Common.enumLock.inControl, in_control, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
+            this.toolbar.lockToolbar(Common.enumLock.cantPageBreak, in_image && !btn_eq_state, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
+            this.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertImage, toolbar.btnInsertTextArt, toolbar.btnInsertChart ]});
+            this.toolbar.lockToolbar(Common.enumLock.inFootnote, in_footnote, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage, toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertTextArt ])});
+            this.toolbar.lockToolbar(Common.enumLock.cantAddImagePara, in_para && !can_add_image, {array: [toolbar.btnInsertImage, toolbar.btnInsertTextArt]});
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
                 this._state.in_chart = in_chart;
             }
+            var need_disable = paragraph_locked || header_locked || in_equation || control_plain || rich_del_lock || plain_del_lock  || content_locked || in_para && !can_add_image;
+            need_disable = !in_chart && need_disable;
+            this.toolbar.lockToolbar(Common.enumLock.cantAddChart, need_disable, {array: [toolbar.btnInsertChart]});
+            this.toolbar.lockToolbar(Common.enumLock.chartLock, in_chart && image_locked, {array: [toolbar.btnInsertChart]});
 
-            need_disable = in_chart && image_locked || !in_chart && need_disable || control_plain || rich_del_lock || plain_del_lock || content_locked;
-            toolbar.btnInsertChart.setDisabled(need_disable);
-
-            need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
-            toolbar.btnInsertEquation.setDisabled(need_disable);
-
-            toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock);
-            toolbar.btnInsDateTime.setDisabled(!in_para || paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock);
-
-            need_disable = paragraph_locked || header_locked || in_equation || rich_edit_lock || plain_edit_lock;
-            toolbar.btnSuperscript.setDisabled(need_disable);
-            toolbar.btnSubscript.setDisabled(need_disable);
-
-            toolbar.btnEditHeader.setDisabled(in_equation);
-
-            need_disable = paragraph_locked || header_locked || in_image || control_plain || rich_edit_lock || plain_edit_lock || this._state.lock_doc;
-            if (need_disable != toolbar.btnColumns.isDisabled())
-                toolbar.btnColumns.setDisabled(need_disable);
-
-            toolbar.btnLineNumbers.setDisabled(in_image && in_para || this._state.lock_doc);
+            this.toolbar.lockToolbar(Common.enumLock.cantAddEquation, !can_add_image&&!in_equation, {array: [toolbar.btnInsertEquation]});
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime]});
+            this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
+            this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
 
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
-            need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked || rich_del_lock || rich_edit_lock || plain_del_lock || plain_edit_lock;
-            if (this.mode.compatibleFeatures) {
-                need_disable = need_disable || in_image;
-            }
+            // comments
+            this.toolbar.lockToolbar(Common.enumLock.cantAddQuotedComment, !this.api.can_AddQuotedComment(), {array: this.btnsComment});
+            this.toolbar.lockToolbar(Common.enumLock.imageLock, image_locked, {array: this.btnsComment});
+            this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
             if (control_props) {
                 var spectype = control_props.get_SpecificType();
-                need_disable = need_disable || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
-                                spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
+                this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,
+                                        {array: this.btnsComment});
             }
-            if ( this.btnsComment && this.btnsComment.length > 0 )
-                this.btnsComment.setDisabled(need_disable);
-
-            toolbar.btnWatermark.setDisabled(header_locked);
-
             if (frame_pr) {
                 this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
             }
-
             this._state.in_equation = in_equation;
         },
 
@@ -973,38 +944,34 @@ define([
 
         onApiLockDocumentProps: function() {
             if (this._state.lock_doc!==true) {
-                this.toolbar.btnPageOrient.setDisabled(true);
-                this.toolbar.btnPageSize.setDisabled(true);
-                this.toolbar.btnPageMargins.setDisabled(true);
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers]});
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function() {
             if (this._state.lock_doc!==false) {
-                this.toolbar.btnPageOrient.setDisabled(false);
-                this.toolbar.btnPageSize.setDisabled(false);
-                this.toolbar.btnPageMargins.setDisabled(false);
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers]});
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
 
         onApiLockDocumentSchema: function() {
-            this.toolbar.btnColorSchemas.setDisabled(true);
+            this.toolbar.lockToolbar(Common.enumLock.docSchemaLock, true, {array: [this.toolbar.btnColorSchemas]});
         },
 
         onApiUnLockDocumentSchema: function() {
-            this.toolbar.btnColorSchemas.setDisabled(false);
+            this.toolbar.lockToolbar(Common.enumLock.docSchemaLock, false, {array: [this.toolbar.btnColorSchemas]});
         },
 
         onApiLockHeaderFooters: function() {
-            this.toolbar.mnuPageNumberPosPicker.setDisabled(true);
-            this.toolbar.mnuInsertPageNum.setDisabled(this.toolbar.mnuPageNumCurrentPos.isDisabled());
+            this.toolbar.lockToolbar(Common.enumLock.headerFooterLock, true, {array: [this.toolbar.mnuPageNumberPosPicker]});
+            this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, this.toolbar.mnuPageNumCurrentPos.isDisabled(), {array: [this.toolbar.mnuInsertPageNum]});
         },
 
         onApiUnLockHeaderFooters: function() {
-            this.toolbar.mnuPageNumberPosPicker.setDisabled(false);
-            this.toolbar.mnuInsertPageNum.setDisabled(false);
+            this.toolbar.lockToolbar(Common.enumLock.headerFooterLock, false, {array: [this.toolbar.mnuPageNumberPosPicker]});
+            this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, false, {array: [this.toolbar.mnuInsertPageNum]});
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -2903,15 +2870,12 @@ define([
         },
 
         activateControls: function() {
-            _.each(this.toolbar.toolbarControls, function(item){
-                item.setDisabled(false);
-            }, this);
-            this.toolbar.btnUndo.setDisabled(this._state.can_undo!==true);
-            this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
-            this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
-            this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
+            this.toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+            this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
+            this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
+            this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy]});
+            this.toolbar.lockToolbar(Common.enumLock.mmergeLock, !!this._state.mmdisable, {array: [this.toolbar.btnMailRecepients]});
             if (!this._state.mmdisable) {
-                this.toolbar.btnMailRecepients.setDisabled(false);
                 this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients);
             }
             this._state.activated = true;
@@ -2922,7 +2886,7 @@ define([
 
         DisableMailMerge: function() {
             this._state.mmdisable = true;
-            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.btnMailRecepients.setDisabled(true);
+            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.lockToolbar(Common.enumLock.mmergeLock, true, {array: [this.toolbar.btnMailRecepients]});
         },
 
         updateThemeColors: function() {
@@ -3082,38 +3046,22 @@ define([
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
+            toolbar.hideMoreBtns();
+            if (reviewmode)
+                toolbar.lockToolbar(Common.enumLock.previewReviewMode, disable);
+            else if (fillformmode)
+                toolbar.lockToolbar(Common.enumLock.viewFormMode, disable);
+
             if(disable) {
-                if (reviewmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review):not(.no-group-mask.inner-elset)'));
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset'));
-                } else if (fillformmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view):not(.no-group-mask.inner-elset)'));
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group.no-group-mask.inner-elset .elset:not(.no-group-mask.form-view)'));
-                } else
+                if (reviewmode || fillformmode)
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
+                else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
                 mask.remove();
             }
-            $('.no-group-mask').each(function(index, item){
-                var $el = $(item);
-                if ($el.find('> .toolbar-group-mask').length>0)
-                    $el.css('opacity', 0.4);
-                else {
-                    $el.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
-                    $el.find('.elset').each(function(index, elitem){
-                        var $elset = $(elitem);
-                        if ($elset.find('> .toolbar-group-mask').length>0) {
-                            $elset.css('opacity', 0.4);
-                        } else {
-                            $elset.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
-                        }
-                        $el.css('opacity', 1);
-                    });
-                }
-            });
-
+            toolbar.$el.find('.toolbar').toggleClass('masked', $('.toolbar-mask').length>0);
             disable = disable || ((reviewmode || fillformmode) ? toolbar_mask.length>0 : group_mask.length>0);
-            toolbar.$el.find('.toolbar').toggleClass('masked', disable);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
 
@@ -3235,11 +3183,11 @@ define([
 
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
-                Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+                Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
 
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                Array.prototype.push.apply(me.toolbar.toolbarControls, viewtab.getView('ViewTab').getButtons());
+                Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
             }
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {
@@ -3250,7 +3198,7 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 4);
                         me.toolbar.setVisible('forms', true);
-                        config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
                         !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }
@@ -3263,7 +3211,11 @@ define([
             me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment, undefined, undefined, undefined, undefined, '1', 'bottom');
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
+                            [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
+                                    Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
+                                    Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode ],
+                                 undefined, undefined, undefined, '1', 'bottom');
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
                     this.btnsComment.forEach(function (btn) {
@@ -3275,6 +3227,8 @@ define([
                             btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
                 }
+                Array.prototype.push.apply(this.toolbar.paragraphControls, this.btnsComment);
+                Array.prototype.push.apply(this.toolbar.lockControls, this.btnsComment);
             }
 
             (new Promise(function(accept) {

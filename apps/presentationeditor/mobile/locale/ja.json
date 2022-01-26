@@ -123,7 +123,10 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+      "textNoTextFound": "Text not found",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -237,7 +240,8 @@
       "textSlideNumber": "スライド番号",
       "textTable": "表",
       "textTableSize": "表のサイズ",
-      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある"
+      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
@@ -388,7 +392,8 @@
       "textZoomOut": "縮小",
       "textZoomRotate": "ズームと回転",
       "textAutomatic": "Automatic",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",

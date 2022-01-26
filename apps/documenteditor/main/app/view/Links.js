@@ -157,23 +157,29 @@ define([
                 this.btnsPrevEndNote = [];
                 this.btnsNextEndNote = [];
                 this.paragraphControls = [];
-
+                var _set = Common.enumLock;
                 var me = this,
                     $host = me.toolbar.$el;
 
-                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents, undefined, true, true, undefined, '1', 'bottom', 'small');
-                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote, undefined, true, true, undefined, '1', 'bottom', 'small');
-                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink, undefined, undefined, undefined, undefined, '1', 'bottom', 'small');
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents,
+                    [_set.inHeader, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                    true, true, undefined, '1', 'bottom', 'small');
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote,
+                    [_set.paragraphLock, _set.inEquation, _set.inImage, _set.inHeader, _set.controlPlain, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                    true, true, undefined, '1', 'bottom', 'small');
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink,
+                    [_set.paragraphLock, _set.headerLock, _set.hyperlinkLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                    undefined, undefined, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-contents-update'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-update',
+                    lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnContentsUpdate,
                     split: true,
                     menu: true,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -184,8 +190,8 @@ define([
                     parentEl: $host.find('#slot-btn-bookmarks'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-bookmarks',
+                    lock: [_set.paragraphLock, _set.inHeader, _set.headerLock, _set.controlPlain, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnBookmarks,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -196,8 +202,8 @@ define([
                     parentEl: $host.find('#slot-btn-caption'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-caption',
+                    lock: [_set.inHeader, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnCaption,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -208,8 +214,8 @@ define([
                     parentEl: $host.find('#slot-btn-crossref'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-cross-reference',
+                    lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.richEditLock, _set.plainEditLock, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnCrossRef,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -220,8 +226,8 @@ define([
                     parentEl: $host.find('#slot-btn-tof'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-contents',
+                    lock: [_set.inHeader, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnTOF,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -232,14 +238,14 @@ define([
                     parentEl: $host.find('#slot-btn-tof-update'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-update',
+                    lock: [_set.paragraphLock, _set.inHeader, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.cantUpdateTOF, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnContentsUpdate,
-                    disabled: true,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
                 });
                 this.paragraphControls.push(this.btnTableFiguresUpdate);
-
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },

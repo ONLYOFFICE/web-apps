@@ -78,11 +78,15 @@ define([
 
         setConfig: function(config) {
             this.toolbar = config.toolbar;
+            var mode = config.mode;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode,
+                mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                this.view.chStatusbar.$el.remove();
+            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
@@ -136,7 +140,7 @@ define([
         onSelectionChanged: function(info) {
             if (!this.toolbar.editMode || !this.view) return;
 
-            Common.Utils.lockControls(SSE.enumLock.sheetView, this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(this.api.asc_getActiveWorksheetIndex()),
+            Common.Utils.lockControls(Common.enumLock.sheetView, this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(this.api.asc_getActiveWorksheetIndex()),
                                       {array: [this.view.btnCloseView]});
         },
 
@@ -247,7 +251,7 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros]});
+                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros]});
             }
         },
 
@@ -271,7 +275,6 @@ define([
         },
 
         onApiZoomChange: function(zf, type){
-            console.log('zoom');
             var value = Math.floor((zf + .005) * 100);
             this.view.cmbZoom.setValue(value, value + '%');
             this._state.zoomValue = value;

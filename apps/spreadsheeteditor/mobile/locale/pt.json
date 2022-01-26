@@ -142,9 +142,14 @@
       "textGuest": "Convidado(a)",
       "textHasMacros": "O arquivo contém macros automáticas.<br> Você quer executar macros?",
       "textNo": "Não",
+      "textNoChoices": "Não há escolhas para preenchimento de célula.<br>Apenas valores de texto da coluna podem ser selecionados para substituição.",
       "textNoLicenseTitle": "Limite de licença atingido",
+      "textNoTextFound": "Texto não encontrado",
+      "textOk": "OK",
       "textPaidFeature": "Recurso pago",
       "textRemember": "Lembrar minha escolha",
+      "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
+      "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
       "textYes": "Sim",
       "titleServerVersion": "Editor atualizado",
       "titleUpdateVersion": "Versão alterada",
@@ -154,9 +159,7 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
   "Error": {
@@ -171,6 +174,7 @@
     "errorAutoFilterDataRange": "A operação não poderia ser feita para o intervalo de células selecionado.<br>Selecionar um intervalo de dados uniforme dentro ou fora da tabela e tentar novamente.",
     "errorAutoFilterHiddenRange": "A operação não pode ser realizada porque a área contém células filtradas.<br>Por favor, desamarre os elementos filtrados e tente novamente.",
     "errorBadImageUrl": "URL de imagem está incorreta",
+    "errorCannotUseCommandProtectedSheet": "Você não pode usar este comando em uma planilha protegida. Para usar este comando, desproteja a planilha.<br>Você pode ser solicitado a inserir uma senha.",
     "errorChangeArray": "Você não pode mudar parte de uma matriz.",
     "errorChangeOnProtectedSheet": "A célula ou gráfico que você está tentando alterar está em uma folha protegida. Para fazer uma alteração, desproteja a folha. Você pode ser solicitado a inserir a senha.",
     "errorConnectToServer": "Não é possível salvar este documento. Verifique as configurações de conexão ou entre em contato com o administrador. <br> Ao clicar no botão 'OK', você será solicitado a baixar o documento.",
@@ -284,16 +288,16 @@
     "textErrorRemoveSheet": "Não é possível excluir a folha de trabalho.",
     "textHide": "Ocultar",
     "textMore": "Mais",
+    "textMove": "Mover",
+    "textMoveBack": "Voltar",
+    "textMoveForward": "Mover para frente",
     "textOk": "OK",
     "textRename": "Renomear",
     "textRenameSheet": "Renomear Folha",
     "textSheet": "Folha",
     "textSheetName": "Nome da folha",
     "textUnhide": "Reexibir",
-    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -336,6 +340,7 @@
       "textLink": "Link",
       "textLinkSettings": "Configurações de link",
       "textLinkType": "Tipo de link",
+      "textOk": "OK",
       "textOther": "Outro",
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
@@ -372,6 +377,7 @@
       "textAngleClockwise": "Ângulo no sentido horário",
       "textAngleCounterclockwise": "Ângulo no sentido antihorário",
       "textAuto": "Automático",
+      "textAutomatic": "Automático",
       "textAxisCrosses": "Eixos cruzam",
       "textAxisOptions": "Opções de eixo",
       "textAxisPosition": "Posição de eixo",
@@ -472,6 +478,7 @@
       "textNoOverlay": "Sem sobreposição",
       "textNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "textNumber": "Número",
+      "textOk": "OK",
       "textOnTickMarks": "Nas marcas de escala",
       "textOpacity": "Opacidade",
       "textOut": "Fora",
@@ -533,8 +540,7 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior",
-      "textAutomatic": "Automatic"
+      "txtSortLow2High": "Classificar do menor para o maior"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -564,6 +570,7 @@
       "textComments": "Comentários",
       "textCreated": "Criado",
       "textCustomSize": "Tamanho personalizado",
+      "textDarkTheme": "Tema Escuro",
       "textDelimeter": "Delimitador",
       "textDisableAll": "Desabilitar tudo",
       "textDisableAllMacrosWithNotification": "Desativar todas as macros com uma notificação",
@@ -664,8 +671,7 @@
       "txtSemicolon": "Ponto e vírgula ",
       "txtSpace": "Espaço",
       "txtTab": "Aba",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }

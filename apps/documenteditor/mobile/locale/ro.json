@@ -56,7 +56,8 @@
     "textStartAt": "Pornire de la",
     "textTable": "Tabel",
     "textTableSize": "Dimensiune tabel",
-    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+    "textOk": "Ok"
   },
   "Common": {
     "Collaboration": {
@@ -308,27 +309,28 @@
     "textTotalRow": "Rând total",
     "textType": "Tip",
     "textWrap": "Încadrare",
-    "textDesign": "Design",
-    "textSu": "Su",
-    "textMo": "Mo",
-    "textTu": "Tu",
-    "textWe": "We",
-    "textTh": "Th",
-    "textFr": "Fr",
-    "textSa": "Sa",
-    "textJanuary": "January",
-    "textFebruary": "February",
-    "textMarch": "March",
     "textApril": "April",
-    "textMay": "May",
-    "textJune": "June",
-    "textJuly": "July",
     "textAugust": "August",
-    "textSeptember": "September",
-    "textOctober": "October",
-    "textNovember": "November",
     "textDecember": "December",
-    "textEmpty": "Empty"
+    "textDesign": "Design",
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textOk": "Ok",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -498,7 +500,10 @@
     "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
     "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+    "textNoTextFound": "Text not found",
+    "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",

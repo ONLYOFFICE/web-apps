@@ -33,13 +33,13 @@
       "textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
       "textUsers": "Пользователи"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Без заливки"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Пользовательские цвета",
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -107,9 +107,12 @@
       "textHasMacros": "Файл содержит автозапускаемые макросы.<br>Хотите запустить макросы?",
       "textNo": "Нет",
       "textNoLicenseTitle": "Лицензионное ограничение",
+      "textNoTextFound": "Текст не найден",
       "textOpenFile": "Введите пароль для открытия файла",
       "textPaidFeature": "Платная функция",
       "textRemember": "Запомнить мой выбор",
+      "textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
+      "textReplaceSuccess": "Поиск выполнен. Заменено вхождений: {0}",
       "textYes": "Да",
       "titleLicenseExp": "Истек срок действия лицензии",
       "titleServerVersion": "Редактор обновлен",
@@ -237,7 +240,8 @@
       "textSlideNumber": "Номер слайда",
       "textTable": "Таблица",
       "textTableSize": "Размер таблицы",
-      "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\""
+      "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
@@ -388,7 +392,8 @@
       "textZoomOut": "Уменьшение",
       "textZoomRotate": "Увеличение с поворотом",
       "textAutomatic": "Automatic",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",
@@ -405,6 +410,7 @@
       "textColorSchemes": "Цветовые схемы",
       "textComment": "Комментарий",
       "textCreated": "Создана",
+      "textDarkTheme": "Темная тема",
       "textDisableAll": "Отключить все",
       "textDisableAllMacrosWithNotification": "Отключить все макросы с уведомлением",
       "textDisableAllMacrosWithoutNotification": "Отключить все макросы без уведомления",
@@ -467,8 +473,7 @@
       "txtScheme6": "Открытая",
       "txtScheme7": "Справедливость",
       "txtScheme8": "Поток",
-      "txtScheme9": "Литейная",
-      "textDarkTheme": "Dark Theme"
+      "txtScheme9": "Литейная"
     }
   }
 }

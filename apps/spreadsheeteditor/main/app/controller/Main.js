@@ -1894,6 +1894,10 @@ define([
                         config.maxwidth = 400;
                         break;
 
+                    case Asc.c_oAscError.ID.CannotUseCommandProtectedSheet:
+                        config.msg = this.errorCannotUseCommandProtectedSheet;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2086,6 +2090,10 @@ define([
                                 console.log("Obsolete: The 'leftMenu' parameter of the 'customization' section is deprecated. Please use 'leftMenu' parameter in the 'customization.layout' section instead.");
                             if (this.appOptions.customization.rightMenu!==undefined)
                                 console.log("Obsolete: The 'rightMenu' parameter of the 'customization' section is deprecated. Please use 'rightMenu' parameter in the 'customization.layout' section instead.");
+                            if (this.appOptions.customization.statusBar!==undefined)
+                                console.log("Obsolete: The 'statusBar' parameter of the 'customization' section is deprecated. Please use 'statusBar' parameter in the 'customization.layout' section instead.");
+                            if (this.appOptions.customization.toolbar!==undefined)
+                                console.log("Obsolete: The 'toolbar' parameter of the 'customization' section is deprecated. Please use 'toolbar' parameter in the 'customization.layout' section instead.");
                         }
                         promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
@@ -2552,7 +2560,6 @@ define([
                     this.getApplication().getController('RightMenu').updateMetricUnit();
                     this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
                 }
-                //this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
                 this.getApplication().getController('Print').getView('PrintWithPreview').updateMetricUnit();
             },
 
@@ -3448,7 +3455,8 @@ define([
             textFormulaFilledAllRowsWithEmpty: 'Formula filled first {0} rows. Filling other empty rows may take a few minutes.',
             textFormulaFilledFirstRowsOtherIsEmpty: 'Formula filled only first {0} rows by memory save reason. Other rows in this sheet don\'t have data.',
             textFormulaFilledFirstRowsOtherHaveData: 'Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.',
-            textReconnect: 'Connection is restored'
+            textReconnect: 'Connection is restored',
+            errorCannotUseCommandProtectedSheet: 'You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.'
         }
     })(), SSE.Controllers.Main || {}))
 });

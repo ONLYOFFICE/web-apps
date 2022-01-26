@@ -191,7 +191,6 @@ define([
                 '<div id="id-settings-menu" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
                 '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
                     '<div id="panel-settings-general" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel active"></div>',
-                    '<div id="panel-settings-print" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
                     '<div id="panel-settings-spellcheck" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
                 '</div>',
             '</div>'
@@ -210,10 +209,6 @@ define([
             this.generalSettings.options = {alias:'MainSettingsGeneral'};
             this.generalSettings.render($markup.findById('#panel-settings-general'));
 
-            //this.printSettings = SSE.getController('Print').getView('MainSettingsPrint');
-            //this.printSettings.menu = this.menu;
-            //this.printSettings.render($markup.findById('#panel-settings-print'));
-
             this.spellcheckSettings = new SSE.Views.FileMenuPanels.MainSpellCheckSettings({menu: this.menu});
             this.spellcheckSettings.render($markup.findById('#panel-settings-spellcheck'));
 
@@ -221,7 +216,6 @@ define([
                 el: $markup.findById('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
                     {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', contentTarget: 'panel-settings-general', selected: true},
-                    //{name: this.txtPageSettings, panel: this.printSettings, iconCls:'toolbar__icon btn-print', contentTarget: 'panel-settings-print'},
                     {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell', contentTarget: 'panel-settings-spellcheck'}
                 ]),
                 itemTemplate: _.template([
@@ -253,15 +247,10 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (!this.mode.canPrint) {
-                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
-                if (this.printSettings && this.printSettings.$el && this.printSettings.$el.hasClass('active'))
-                    this.viewSettingsPicker.selectByIndex(0);
-            }
             this.generalSettings && this.generalSettings.setMode(this.mode);
             this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
             if (!this.mode.isEdit) {
-                $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
                 if (this.spellcheckSettings && this.spellcheckSettings.$el && this.spellcheckSettings.$el.hasClass('active'))
                     this.viewSettingsPicker.selectByIndex(0);
             }
@@ -275,14 +264,10 @@ define([
         SetDisabled: function(disabled) {
             if ( disabled ) {
                 $(this.viewSettingsPicker.dataViewItems[1].el).hide();
-                $(this.viewSettingsPicker.dataViewItems[2].el).hide();
                 this.viewSettingsPicker.selectByIndex(0, true);
             } else {
-                if ( this.mode.canPrint )
-                    $(this.viewSettingsPicker.dataViewItems[1].el).show();
-
                 if ( this.mode.isEdit ) {
-                    $(this.viewSettingsPicker.dataViewItems[2].el).show();
+                    $(this.viewSettingsPicker.dataViewItems[1].el).show();
                 }
             }
         },
@@ -291,423 +276,6 @@ define([
         txtPageSettings: 'Page Settings',
         txtSpellChecking: 'Spell checking'
     }, SSE.Views.FileMenuPanels.Settings || {}));
-
-    SSE.Views.MainSettingsPrint = Common.UI.BaseView.extend(_.extend({
-        menu: undefined,
-
-        template: _.template([
-            '<div>',
-            '<div class="flex-settings">',
-            '<table class="main" style="margin: 30px 0 0;"><tbody>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.textSettings %></label></td>',
-                    '<td class="right"><div id="advsettings-print-combo-sheets" class="input-group-nr"></div></td>',
-                '</tr>','<tr class="divider"></tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.textPageSize %></label></td>',
-                    '<td class="right"><div id="advsettings-print-combo-pages" class="input-group-nr"></div></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.textPageOrientation %></label></td>',
-                    '<td class="right"><span id="advsettings-print-combo-orient"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.textPageScaling %></label></td>',
-                    '<td class="right"><span id="advsettings-print-combo-layout"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left" style="vertical-align: top;"><label><%= scope.strPrintTitles %></label></td>',
-                    '<td class="right" style="vertical-align: top;"><div id="advsettings-print-titles">',
-                        '<table cols="2" class="no-padding">',
-                            '<tr>',
-                                '<td colspan="2" ><label><%= scope.textRepeatTop %></label></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-top"></div></td>',
-                                '<td class="padding-small"><div id="advsettings-presets-top"></div></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td colspan="2" ><label><%= scope.textRepeatLeft %></label></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-left"></div></td>',
-                                '<td class="padding-small"><div id="advsettings-presets-left"></div></td>',
-                            '</tr>',
-                        '</table>',
-                    '</div></td>',
-                '</tr>',
-                '<tr>',
-                    '<td class="left" style="vertical-align: top;"><label><%= scope.strMargins %></label></td>',
-                    '<td class="right" style="vertical-align: top;"><div id="advsettings-margins">',
-                        '<table cols="2" class="no-padding">',
-                            '<tr>',
-                                '<td><label><%= scope.strTop %></label></td>',
-                                '<td><label><%= scope.strBottom %></label></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td><div id="advsettings-spin-margin-top"></div></td>',
-                                '<td><div id="advsettings-spin-margin-bottom"></div></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td><label><%= scope.strLeft %></label></td>',
-                                '<td><label><%= scope.strRight %></label></td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td><div id="advsettings-spin-margin-left"></div></td>',
-                                '<td><div id="advsettings-spin-margin-right"></div></td>',
-                            '</tr>',
-                        '</table>',
-                    '</div></td>',
-                '</tr>',
-                '<tr>',
-                '<td class="left" style="vertical-align: top;"><label><%= scope.strPrint %></label></td>',
-                '<td class="right" style="vertical-align: top;"><div id="advsettings-print">',
-                    '<div id="advsettings-print-chb-grid" style="margin-bottom: 10px;"></div>',
-                    '<div id="advsettings-print-chb-rows"></div>',
-                '</div></td>',
-                '</tr>','<tr class="divider"></tr>',
-            '</tbody></table>',
-        '</div>',
-        '<div>',
-            '<table class="main" style="margin: 10px 0;"><tbody>',
-                '<tr>',
-                '<td class="left"></td>',
-                '<td class="right"><button id="advsettings-print-button-save" class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
-                '</tr>',
-            '</tbody></table>',
-        '</div>',
-        '</div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-            this.spinners = [];
-            this._initSettings = true;
-        },
-
-        render: function(parentEl) {
-            var $markup = $(this.template({scope: this}));
-
-            this.cmbSheet = new Common.UI.ComboBox({
-                el          : $markup.findById('#advsettings-print-combo-sheets'),
-                style       : 'width: 242px;',
-                menuStyle   : 'min-width: 242px;max-height: 280px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [],
-                dataHint    : '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.cmbPaperSize = new Common.UI.ComboBox({
-                el          : $markup.findById('#advsettings-print-combo-pages'),
-                style       : 'width: 242px;',
-                menuStyle   : 'max-height: 280px; min-width: 242px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data : [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
-                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
-                    {value:'148|210',        displayValue:'A5 (14,8cm x 21cm)', caption: 'A5'},
-                    {value:'176|250',        displayValue:'B5 (17,6cm x 25cm)', caption: 'B5'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
-                    {value:'110|220',        displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL'},
-                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94cm x 43,178m)', caption: 'Tabloid'},
-                    {value:'297|420',        displayValue:'A3 (29,7cm x 42cm)', caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
-                ],
-                dataHint    : '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.cmbPaperOrientation = new Common.UI.ComboBox({
-                el          : $markup.findById('#advsettings-print-combo-orient'),
-                style       : 'width: 132px;',
-                menuStyle   : 'min-width: 132px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
-                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
-                ],
-                dataHint    : '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            var itemsTemplate =
-                _.template([
-                    '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
-                    '<%= scope.getDisplayValue(item) %>',
-                    '</a></li>',
-                    '<% }); %>'
-                ].join(''));
-            this.cmbLayout = new Common.UI.ComboBox({
-                el          : $markup.findById('#advsettings-print-combo-layout'),
-                style       : 'width: 242px;',
-                menuStyle   : 'min-width: 242px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 0, displayValue: this.textActualSize },
-                    { value: 1, displayValue: this.textFitPage },
-                    { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows },
-                    { value: 'customoptions', displayValue: this.textCustomOptions }
-                ],
-                itemsTemplate: itemsTemplate,
-                dataHint    : '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.chPrintGrid = new Common.UI.CheckBox({
-                el: $markup.findById('#advsettings-print-chb-grid'),
-                labelText: this.textPrintGrid,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.chPrintRows = new Common.UI.CheckBox({
-                el: $markup.findById('#advsettings-print-chb-rows'),
-                labelText: this.textPrintHeadings,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $markup.findById('#advsettings-spin-margin-top'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginTop);
-
-            this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $markup.findById('#advsettings-spin-margin-bottom'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginBottom);
-
-            this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $markup.findById('#advsettings-spin-margin-left'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginLeft);
-
-            this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $markup.findById('#advsettings-spin-margin-right'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginRight);
-
-            this.txtRangeTop = new Common.UI.InputField({
-                el          : $markup.findById('#advsettings-txt-top'),
-                style       : 'width: 147px',
-                allowBlank  : true,
-                validateOnChange: true,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.btnPresetsTop = new Common.UI.Button({
-                parentEl: $markup.findById('#advsettings-presets-top'),
-                cls: 'btn-text-menu-default',
-                caption: this.textRepeat,
-                style: 'width: 85px;',
-                menu: true,
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.txtRangeLeft = new Common.UI.InputField({
-                el          : $markup.findById('#advsettings-txt-left'),
-                style       : 'width: 147px',
-                allowBlank  : true,
-                validateOnChange: true,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.btnPresetsLeft = new Common.UI.Button({
-                parentEl: $markup.findById('#advsettings-presets-left'),
-                cls: 'btn-text-menu-default',
-                caption: this.textRepeat,
-                style: 'width: 85px;',
-                menu: true,
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.btnOk = new Common.UI.Button({
-                el: $markup.findById('#advsettings-print-button-save')
-            });
-
-            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
-
-            // if (parentEl)
-            //     this.setElement(parentEl, false);
-            this.$el = $(parentEl).html($markup);
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.pnlSettings,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            var me = this;
-            Common.NotificationCenter.on({
-                'window:resize': function() {
-                    me.isVisible() && me.updateScroller();
-                }
-            });
-
-            this.fireEvent('render:after', this);
-            return this;
-        },
-
-        addCustomScale: function (add) {
-            if (add) {
-                this.cmbLayout.setData([
-                    { value: 0, displayValue: this.textActualSize },
-                    { value: 1, displayValue: this.textFitPage },
-                    { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows },
-                    { value: 4, displayValue: this.textCustom },
-                    { value: 'customoptions', displayValue: this.textCustomOptions }
-                ]);
-            } else {
-                this.cmbLayout.setData([
-                    { value: 0, displayValue: this.textActualSize },
-                    { value: 1, displayValue: this.textFitPage },
-                    { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows },
-                    { value: 'customoptions', displayValue: this.textCustomOptions }
-                ]);
-            }
-        },
-
-        updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
-            var store = this.cmbPaperSize.store;
-            for (var i=0; i<store.length; i++) {
-                var item = store.at(i),
-                    value = item.get('value'),
-                    pagewidth = /^\d{3}\.?\d*/.exec(value),
-                    pageheight = /\d{3}\.?\d*$/.exec(value);
-
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
-            }
-            this.cmbPaperSize.onResetItems();
-        },
-
-        applySettings: function() {
-            if (this.menu) {
-                this.menu.fireEvent('settings:apply', [this.menu]);
-            }
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            if (this._initSettings) {
-                this.updateMetricUnit();
-                this._initSettings = false;
-            }
-            this.updateScroller();
-            this.fireEvent('show', this);
-        },
-
-        isVisible: function() {
-            return (this.$el || $(this.el)).is(":visible");
-        },
-
-        updateScroller: function() {
-            if (this.scroller) {
-                this.scroller.update();
-                this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
-            }
-        },
-
-        okButtonText:           'Save',
-        strPortrait:            'Portrait',
-        strLandscape:           'Landscape',
-        textPrintGrid:          'Print Gridlines',
-        textPrintHeadings:      'Print Rows and Columns Headings',
-        strLeft:                'Left',
-        strRight:               'Right',
-        strTop:                 'Top',
-        strBottom:              'Bottom',
-        strMargins:             'Margins',
-        textPageSize:           'Page Size',
-        textPageOrientation:    'Page Orientation',
-        strPrint:               'Print',
-        textSettings:           'Settings for',
-        textPageScaling:        'Scaling',
-        textActualSize:         'Actual Size',
-        textFitPage:            'Fit Sheet on One Page',
-        textFitCols:            'Fit All Columns on One Page',
-        textFitRows:            'Fit All Rows on One Page',
-        textCustomOptions:      'Custom Options',
-        textCustom:             'Custom',
-        strPrintTitles:         'Print Titles',
-        textRepeatTop:          'Repeat rows at top',
-        textRepeatLeft:         'Repeat columns at left',
-        textRepeat:             'Repeat...'
-    }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings-general',
@@ -767,24 +335,24 @@ define([
                         '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-func-locale" style="vertical-align: middle;"><%= scope.strFuncLocaleEx %></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit">',
+                '<tr class="">',
                     '<td class="left"><label><%= scope.strRegSettings %></label></td>',
                     '<td class="right">',
                         '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit">',
+                '</tr>','<tr class="divider "></tr>',
+                '<tr class="">',
                     '<td class="left"><label><%= scope.strSeparator %></label></td>',
                     '<td class="right"><div id="fms-chb-separator-settings"></div></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="">',
                     '<td class="left"></td>',
                     '<td class="right"><div id="fms-decimal-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="">',
                     '<td class="left"></td>',
                     '<td class="right"><div id="fms-thousands-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider "></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strPaste %></label></td>',
                     '<td class="right"><div id="fms-chb-paste-settings"></div></td>',

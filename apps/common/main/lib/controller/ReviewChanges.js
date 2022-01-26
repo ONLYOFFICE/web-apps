@@ -100,6 +100,7 @@ define([
         onLaunch: function () {
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
+            this.viewmode = false;
 
             this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: []};
 
@@ -160,11 +161,21 @@ define([
             this.document = data.doc;
         },
 
-        SetDisabled: function(state) {
+        SetDisabled: function(state, reviewMode, fillFormMode) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(state, this.langs, {comments: !!this._state.wsProps['Objects']});
+            if (reviewMode)
+                this.lockToolbar(Common.enumLock.previewReviewMode, state);
+            else if (fillFormMode)
+                this.lockToolbar(Common.enumLock.viewFormMode, state);
+            else
+                this.lockToolbar(Common.enumLock.viewMode, state);
+
             this.setPreviewMode(state);
+        },
+
+        lockToolbar: function (causes, lock, opts) {
+            Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
         },
 
         setPreviewMode: function(mode) { //disable accept/reject in popover
@@ -203,8 +214,7 @@ define([
 
                     var btnlock = lock || !editable;
                     if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== btnlock) {
-                        this.view.btnAccept.setDisabled(btnlock);
-                        this.view.btnReject.setDisabled(btnlock);
+                        Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.view.btnAccept, this.view.btnReject]});
                         if (this.dlgChanges) {
                             this.dlgChanges.btnAccept.setDisabled(btnlock);
                             this.dlgChanges.btnReject.setDisabled(btnlock);
@@ -765,7 +775,7 @@ define([
             Common.NotificationCenter.trigger('editing:disable', disable, {
                 viewMode: false,
                 reviewMode: true,
-                fillFormwMode: false,
+                fillFormMode: false,
                 allowMerge: false,
                 allowSignature: false,
                 allowProtect: false,
@@ -776,22 +786,13 @@ define([
                 navigation: {disable: false, previewMode: true},
                 comments: {disable: false, previewMode: true},
                 chat: false,
-                review: false,
+                review: true,
                 viewport: false,
                 documentHolder: true,
                 toolbar: true,
-                plugins: true
+                plugins: true,
+                protect: true
             }, 'review');
-
-            if (this.view) {
-                this.view.$el.find('.no-group-mask.review').css('opacity', 1);
-
-                this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(disable || !this.langs || this.langs.length<1);
-                    }
-                }, this);
-            }
         },
 
         createToolbarPanel: function() {
@@ -867,8 +868,8 @@ define([
             }
             me.onChangeProtectSheet();
             if (me.view) {
-                me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
-                me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
+                me.lockToolbar(Common.enumLock.hideComments, !Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true), {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
+                me.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
             }
 
             var val = Common.localStorage.getItem(me.view.appPrefix + "settings-review-hover-mode");
@@ -930,11 +931,7 @@ define([
 
         setLanguages: function (array) {
             this.langs = array;
-            this.view && this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
-                if ( button ) {
-                    button.setDisabled(this.langs.length<1);
-                }
-            }, this);
+            this.lockToolbar(Common.enumLock.noSpellcheckLangs, this.langs.length<1, {array: this.view.btnsDocLang});
         },
 
         onDocLanguage: function() {
@@ -954,6 +951,7 @@ define([
         onLostEditRights: function() {
             this._readonlyRights = true;
             this.view && this.view.onLostEditRights();
+            this.view && this.lockToolbar(Common.enumLock.cantShare, true, {array: [this.view.btnSharing]});
         },
 
         changeAccessRights: function(btn,event,opts) {
@@ -985,7 +983,7 @@ define([
         },
 
         onCoAuthoringDisconnect: function() {
-            this.SetDisabled(true);
+            this.lockToolbar(Common.enumLock.lostConnect, true)
         },
 
         onUpdateUsers: function() {
@@ -1003,15 +1001,14 @@ define([
                     if (!item.asc_getView())
                         length++;
                 });
-                this.view.btnCompare.setDisabled(length>1 || this.viewmode);
+                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare]});
             }
         },
 
         commentsShowHide: function(mode) {
             if (!this.view) return;
             var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
-            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
-            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
+            (value!==undefined) && this.lockToolbar(Common.enumLock.hideComments, mode != 'show' && !value, {array: [this.view.btnCommentRemove, this.view.btnCommentResolve]});
         },
 
         onChangeProtectSheet: function(props) {
@@ -1023,11 +1020,7 @@ define([
             this._state.wsLock = props ? props.wsLock : false;
 
             if (!this.view) return;
-            var leftmenu = this.getApplication().getController('LeftMenu'),
-                isCommentsVisible = leftmenu && leftmenu.isCommentsVisible();
-            var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
-            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
-            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
+            this.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [this.view.btnCommentRemove, this.view.btnCommentResolve]});
         },
 
         textInserted: '<b>Inserted:</b>',

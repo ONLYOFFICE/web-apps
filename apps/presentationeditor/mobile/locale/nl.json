@@ -123,7 +123,10 @@
       "warnLicenseUsersExceeded": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met uw beheerder voor meer informatie.",
       "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
-      "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken."
+      "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
+      "textNoTextFound": "Text not found",
+      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -237,7 +240,8 @@
       "textSlideNumber": "Dianummer",
       "textTable": "Tabel",
       "textTableSize": "Tabelgrootte",
-      "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\""
+      "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
+      "textOk": "Ok"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",
@@ -388,7 +392,8 @@
       "textZoomOut": "Uitzoomen",
       "textZoomRotate": "Zoomen en draaien",
       "textAutomatic": "Automatic",
-      "textDesign": "Design"
+      "textDesign": "Design",
+      "textOk": "Ok"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",

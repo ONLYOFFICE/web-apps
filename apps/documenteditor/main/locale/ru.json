@@ -121,6 +121,7 @@
   "Common.define.chartData.textScatterSmoothMarker": "Точечная с гладкими кривыми и маркерами",
   "Common.define.chartData.textStock": "Биржевая",
   "Common.define.chartData.textSurface": "Поверхность",
+  "Common.Translation.textMoreButton": "Больше",
   "Common.Translation.warnFileLocked": "Вы не можете редактировать этот файл, потому что он уже редактируется в другом приложении.",
   "Common.Translation.warnFileLockedBtnEdit": "Создать копию",
   "Common.Translation.warnFileLockedBtnView": "Открыть на просмотр",
