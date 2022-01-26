@@ -73,7 +73,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                 {isEdit &&
                     <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled' : ''}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
-                            <Icon className="icon icon-plus" />
+                            <Icon className={`icon icon-plus ${isAndroid ? 'bold' : ''}`}/>
                         </Link>
                     </div>
                 }

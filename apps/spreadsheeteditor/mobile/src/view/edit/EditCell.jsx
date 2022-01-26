@@ -44,6 +44,7 @@ const EditCell = props => {
                     onFontSize: props.onFontSize,
                     onFontClick: props.onFontClick
                 }}/>
+            </List>
                 {!wsProps.FormatCells && 
                 <>
                     <List>
@@ -127,8 +128,7 @@ const EditCell = props => {
                             )})}
                         </Swiper>
                     ) : null}
-                </>}
-            </List>    
+                </>}    
         </Fragment>
     )
 };
