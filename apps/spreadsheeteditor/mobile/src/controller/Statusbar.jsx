@@ -63,8 +63,7 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
         }
 
         sheets.resetSheets(items);
-
-        updateTabsColors();
+        setTimeout(() => updateTabsColors());
     };
 
     const onApiActiveSheetChanged = (index) => {
@@ -72,6 +71,7 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
             sheets.setActiveWorksheet(index);
             Common.Notifications.trigger('sheet:active', index);
         }
+        onApiSheetsChanged();
     };
 
     const onApiHideTabContextMenu = () => {
@@ -103,14 +103,13 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
 
             if (color.length) {
                 if (!tab.active) {
-                    color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                    color = '0px 3px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
                 } else {
-                    color = '0px 4px 0 ' + color + ' inset';
+                    color = '0px 3px 0 ' + color + ' inset';
                 }
-                
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
+                $$(`.sheet-tabs .tab a.tab-color-${tab.index}`).css('box-shadow', color);
             } else {
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
+                $$(`.sheet-tabs .tab a.tab-color-${tab.index}`).css('box-shadow', '');
             }
         }
     };
@@ -337,6 +336,15 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
             case 'move': 
                 Device.phone ? f7.sheet.open('.move-sheet') : f7.popover.open('#idx-move-sheet-popover', targetRef.current); 
                 break;
+            case 'tab-color':
+                if( Device.phone ) {
+                    f7.sheet.open('.tab-color-sheet');
+                    f7.navbar.hide('.main-navbar');
+                    $$('.statusbar').css('top', '-50%');
+                } else {
+                    f7.popover.open('#idx-tab-color-popover',targetRef.current);
+                }
+                break;
             case 'unhide':
                 f7.popover.open('#idx-hidden-sheets-popover', '.active');
                 break;
@@ -365,6 +373,28 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
         api.asc_moveWorksheet(activeIndex === undefined ? api.asc_getWorksheetsCount() : activeIndex, [api.asc_getActiveWorksheetIndex()]);
     }
 
+    const onSetWorkSheetColor = (color) => {
+        const api = Common.EditorApi.get();
+        let arrIndex = [];
+
+        if (api) {
+            arrIndex.push(api.asc_getActiveWorksheetIndex());
+            if (arrIndex) {
+                if(color === 'transparent') {
+                    api.asc_setWorksheetTabColor(null, arrIndex);
+                    sheets.sheets.forEach(tab => {
+                        if(tab.active) $$(`.sheet-tabs .tab a.tab-color-${tab.index}`).css('box-shadow', '');
+                    })
+                } else {
+                    let asc_clr = Common.Utils.ThemeColor.getRgbColor(color);
+                    if (asc_clr) {
+                        api.asc_setWorksheetTabColor(asc_clr, arrIndex);
+                    }
+                }
+            }
+        }
+    }
+
     return (
         <StatusbarView 
             onTabClick={onTabClick}
@@ -372,6 +402,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
             onAddTabClicked={onAddTabClicked}
             onTabMenu={onTabMenu}
             onMenuMoveClick = {onMenuMoveClick}
+            onSetWorkSheetColor={onSetWorkSheetColor}
         />
     )
 }));
