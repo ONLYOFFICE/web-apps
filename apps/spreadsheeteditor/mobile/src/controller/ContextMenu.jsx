@@ -214,7 +214,7 @@ class ContextMenu extends ContextMenuController {
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
-            const {canViewComments, canCoAuthoring, canComments } = this.props;
+            const {canViewComments} = this.props;
 
             const api = Common.EditorApi.get();
             const cellinfo = api.asc_getCellInfo();
@@ -238,32 +238,25 @@ class ContextMenu extends ContextMenuController {
                 case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
             }
 
-            itemsIcon.push({
-                event: 'copy',
-                icon: 'icon-copy'
-            });
-
-            if (iscellmenu && cellinfo.asc_getHyperlink()) {
-                itemsText.push({
-                    caption: _t.menuOpenLink,
-                    event: 'openlink'
+                itemsIcon.push({
+                    event: 'copy',
+                    icon: 'icon-copy'
                 });
-            }
-            if(!isDisconnected) {
-                if (canViewComments && hasComments && hasComments.length>0) {
-                    itemsText.push({
-                        caption: _t.menuViewComment,
-                        event: 'viewcomment'
-                    });
-                }
     
-                if (iscellmenu && !api.isCellEdited && canCoAuthoring && canComments && hasComments && hasComments.length<1) {
+                if (iscellmenu && cellinfo.asc_getHyperlink()) {
                     itemsText.push({
-                        caption: _t.menuAddComment,
-                        event: 'addcomment'
+                        caption: _t.menuOpenLink,
+                        event: 'openlink'
                     });
                 }
-            }
+                if(!isDisconnected) {
+                    if (canViewComments && hasComments && hasComments.length>0) {
+                        itemsText.push({
+                            caption: _t.menuViewComment,
+                            event: 'viewcomment'
+                        });
+                    }
+                }
 
             return itemsIcon.concat(itemsText);
         }
