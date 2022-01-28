@@ -2561,6 +2561,7 @@ define([
                                 (new PE.Views.ShapeSettingsAdvanced(
                                     {
                                         shapeProps: elValue,
+                                        slideSize: PE.getController('Toolbar').currentPageSize,
                                         handler: function(result, value) {
                                             if (result == 'ok') {
                                                 if (me.api) {

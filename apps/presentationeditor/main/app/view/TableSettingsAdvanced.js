@@ -618,7 +618,8 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         textTopLeftCorner: 'Top Left Corner',
         textCenter: 'Center',
         textWidth: 'Width',
-        textHeight: 'Height'
+        textHeight: 'Height',
+        textKeepRatio: 'Constant Proportions'
 
     }, PE.Views.TableSettingsAdvanced || {}));
 });
