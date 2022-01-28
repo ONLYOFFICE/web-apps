@@ -49,13 +49,15 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             alias: 'TableSettingsAdvanced',
             contentWidth: 280,
             height: 385,
-            storageName: 'pe-table-settings-adv-category'
+            storageName: 'pe-table-settings-adv-category',
+            sizeMax: {width: 142.24, height: 142.24},
         },
 
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
+                    {panelId: 'id-adv-table-placement',  panelCaption: this.textPlacement},
                     {panelId: 'id-adv-table-cell-props', panelCaption: this.textWidthSpaces},
                     {panelId: 'id-adv-table-alttext',    panelCaption: this.textAlt}
                 ],
@@ -86,12 +88,120 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
 
             this._initialMarginsDefault = false;  // если для всех выделенных ячеек пришло одинаковое значение Flag=0 (Use Default Margins)
             this._originalProps = new Asc.CTableProp(this.options.tableProps);
+            this.slideSize = this.options.slideSize;
         },
 
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var me = this;
+
+            // Placement
+            this.spnWidth = new Common.UI.MetricSpinner({
+                el: $('#tableadv-spin-width'),
+                step: .1,
+                width: 100,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 142.24,
+                minValue: 0
+            });
+            this.spnWidth.on('change', _.bind(function(field){
+                if (this.btnRatio.pressed) {
+                    var w = field.getNumberValue();
+                    var h = w/this._nRatio;
+                    if (h>this.sizeMax.height) {
+                        h = this.sizeMax.height;
+                        w = h * this._nRatio;
+                        this.spnWidth.setValue(w, true);
+                    }
+                    this.spnHeight.setValue(h, true);
+                }
+            }, this));
+            this.spinners.push(this.spnWidth);
+
+            this.spnHeight = new Common.UI.MetricSpinner({
+                el: $('#tableadv-spin-height'),
+                step: .1,
+                width: 100,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 142.24,
+                minValue: 0
+            });
+            this.spnHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var h = field.getNumberValue(), w = null;
+                if (this.btnRatio.pressed) {
+                    w = h * this._nRatio;
+                    if (w>this.sizeMax.width) {
+                        w = this.sizeMax.width;
+                        h = w/this._nRatio;
+                        this.spnHeight.setValue(h, true);
+                    }
+                    this.spnWidth.setValue(w, true);
+                }
+            }, this));
+            this.spinners.push(this.spnHeight);
+
+            this.btnRatio = new Common.UI.Button({
+                parentEl: $('#tableadv-button-ratio'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon advanced-btn-ratio',
+                style: 'margin-bottom: 1px;',
+                enableToggle: true,
+                hint: this.textKeepRatio
+            });
+            this.btnRatio.on('click', _.bind(function(btn, e) {
+                if (btn.pressed && this.spnHeight.getNumberValue()>0) {
+                    this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
+                }
+            }, this));
+
+            this.spnX = new Common.UI.MetricSpinner({
+                el: $('#tableadv-spin-x'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: -55.87
+            });
+            this.spinners.push(this.spnX);
+
+            this.spnY = new Common.UI.MetricSpinner({
+                el: $('#tableadv-spin-y'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: -55.87
+            });
+            this.spinners.push(this.spnY);
+
+            this.cmbFromX = new Common.UI.ComboBox({
+                el: $('#tableadv-combo-from-x'),
+                cls: 'input-group-nr',
+                style: "width: 100px;",
+                menuStyle: 'min-width: 100px;',
+                data: [
+                    { value: 'left', displayValue: this.textTopLeftCorner },
+                    { value: 'center', displayValue: this.textCenter }
+                ]
+            });
+
+            this.cmbFromY = new Common.UI.ComboBox({
+                el: $('#tableadv-combo-from-y'),
+                cls: 'input-group-nr',
+                style: "width: 100px;",
+                menuStyle: 'min-width: 100px;',
+                data: [
+                    { value: 'left', displayValue: this.textTopLeftCorner },
+                    { value: 'center', displayValue: this.textCenter }
+                ]
+            });
 
             this._marginsChange = function(field, newValue, oldValue, eOpts, source, property){
                 if (source=='table')
@@ -352,6 +462,27 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         },
 
         getSettings: function() {
+            if (this.spnHeight.getValue()!=='')
+                this._changedProps.put_FrameHeight(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
+            if (this.spnWidth.getValue()!=='')
+                this._changedProps.put_FrameWidth(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
+            //properties.asc_putLockAspect(this.btnRatio.pressed);
+
+            if (this.spnX.getValue() !== '') {
+                var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
+                if (this.cmbFromX.getValue() === 'center') {
+                    x = (this.slideSize.width/36000)/2 + x;
+                }
+                this._changedProps.put_FrameX(x);
+            }
+            if (this.spnY.getValue() !== '') {
+                var y = Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue());
+                if (this.cmbFromY.getValue() === 'center') {
+                    y = (this.slideSize.height/36000)/2 + y;
+                }
+                this._changedProps.put_FrameY(y);
+            }
+
             if (this.isAltTitleChanged)
                 this._changedProps.put_TableCaption(this.inputAltTitle.getValue());
 
@@ -364,6 +495,23 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         _setDefaults: function(props) {
             if (props ){
                 this._allTable = !props.get_CellSelect();
+
+                // placement
+                this.spnWidth.setMaxValue(this.sizeMax.width);
+                this.spnHeight.setMaxValue(this.sizeMax.height);
+                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_FrameWidth()).toFixed(2), true);
+                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_FrameHeight()).toFixed(2), true);
+
+                this.btnRatio.toggle(false); // to do
+                if (props.get_FrameHeight()>0)
+                    this._nRatio = props.get_FrameWidth()/props.get_FrameHeight();
+
+                this.cmbFromX.setValue('left');
+                this.cmbFromY.setValue('left');
+
+                var position = {x: props.get_FrameX(), y: props.get_FrameY()};
+                this.spnX.setValue((position.x !== null && position.x !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(position.x) : '', true);
+                this.spnY.setValue((position.y !== null && position.y !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(position.y) : '', true);
 
                 // margins
                 var margins = props.get_DefaultMargins();
@@ -442,6 +590,10 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
+            this.sizeMax = {
+                width: Common.Utils.Metric.fnRecalcFromMM(this.options.sizeMax.width*10),
+                height: Common.Utils.Metric.fnRecalcFromMM(this.options.sizeMax.height*10)
+            };
         },
 
         textWidthSpaces:    'Margins',
@@ -456,7 +608,17 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',
-        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
+        textPlacement: 'Placement',
+        textSize: 'Size',
+        textPosition: 'Position',
+        textHorizontal: 'Horizontal',
+        textVertical: 'Vertical',
+        textFrom: 'From',
+        textTopLeftCorner: 'Top Left Corner',
+        textCenter: 'Center',
+        textWidth: 'Width',
+        textHeight: 'Height'
 
     }, PE.Views.TableSettingsAdvanced || {}));
 });
