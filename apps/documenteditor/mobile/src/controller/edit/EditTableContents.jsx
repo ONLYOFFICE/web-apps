@@ -27,7 +27,6 @@ class EditTableContentsController extends Component {
         const propsTableContents = api.asc_GetTableOfContentsPr();
 
         propsTableContents.put_ShowPageNumbers(value);
-        propsTableContents.put_RightAlignTab(value);
         api.asc_SetTableOfContentsPr(propsTableContents);
     }
 
@@ -79,6 +78,8 @@ class EditTableContentsController extends Component {
                 })
             }
         });
+
+        console.log(styles);
 
         if(props) {
             let start = props.get_OutlineStart(),
@@ -190,42 +191,21 @@ class EditTableContentsController extends Component {
             disableOutlines,
             checkStyles
         }
-
-        // this.stylesLevels.reset(styles);
-        // if (checkStyles) {
-        //     this._forceUpdateOutlineLevels = true;
-        //     this.radioStyles.setValue(true);
-        //     this.stylesList.scroller.update({alwaysVisibleY: true});
-        //     var rec = this.stylesLevels.findWhere({checked: true});
-        //     if (rec)
-        //         this.stylesList.scrollToRecord(rec);
-        // }
     }
 
     addStyles(styleName, value) {
         const api = Common.EditorApi.get();
         const propsTableContents = api.asc_GetTableOfContentsPr();
 
+        // propsTableContents.clear_Styles();
         propsTableContents.add_Style(styleName, value);
 
-        if (propsTableContents.get_StylesCount() > 0) {
-            propsTableContents.put_OutlineRange(-1, -1);
-        } else {
-            propsTableContents.put_OutlineRange(1, 9);
-        }
+        // if (propsTableContents.get_StylesCount() > 0)
+        //     propsTableContents.put_OutlineRange(-1, -1);
+        // else
+        //     propsTableContents.put_OutlineRange(1, 9);
 
-        // api.asc_SetTableOfContentsPr(propsTableContents);     
-    }
-
-    changeCaption(value) {
-        const api = Common.EditorApi.get();
-        const propsTableContents = api.asc_GetTableOfContentsPr();
-        
-        if(record) {
-            propsTableContents.put_Caption(value);
-            properties.clear_Styles();
-            api.asc_SetTableOfContentsPr(propsTableContents);  
-        }
+        api.asc_SetTableOfContentsPr(propsTableContents);
     }
 
     onTableContentsUpdate(type, currentTOC) {
@@ -259,7 +239,6 @@ class EditTableContentsController extends Component {
                 onLeader={this.onLeader}
                 onLevelsChange={this.onLevelsChange}
                 fillTOCProps={this.fillTOCProps}
-                changeCaption={this.changeCaption}
                 addStyles={this.addStyles}
             />
         )

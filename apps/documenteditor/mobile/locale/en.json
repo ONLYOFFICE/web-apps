@@ -640,7 +640,10 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

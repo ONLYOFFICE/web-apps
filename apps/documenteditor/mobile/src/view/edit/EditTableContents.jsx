@@ -9,7 +9,7 @@ const EditTableContents = props => {
     const _t = t('Edit', {returnObjects: true});
     const api = Common.EditorApi.get();
     const propsTableContents = api.asc_GetTableOfContentsPr();
-    const count = propsTableContents.get_StylesCount();
+    const stylesCount = propsTableContents.get_StylesCount();
     console.log(propsTableContents);
     const [type, setType] = useState(0);
     const [styleValue, setStyleValue] = useState(propsTableContents.get_StylesType());
@@ -103,7 +103,7 @@ const EditTableContents = props => {
                         setLeaderValue
                     }}></ListItem>
                 }
-                <ListItem title={t('Edit.textStructure')} link="/edit-structure-table-contents/" after={count ? t('Edit.textStyles') : t('Edit.textLevels')} routeProps={{
+                <ListItem title={t('Edit.textStructure')} link="/edit-structure-table-contents/" after={stylesCount ? t('Edit.textStyles') : t('Edit.textLevels')} routeProps={{
                     onLevelsChange: props.onLevelsChange,
                     fillTOCProps: props.fillTOCProps,
                     addStyles: props.addStyles
