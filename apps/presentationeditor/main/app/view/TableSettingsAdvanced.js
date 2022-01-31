@@ -50,7 +50,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             contentWidth: 280,
             height: 385,
             storageName: 'pe-table-settings-adv-category',
-            sizeMax: {width: 142.24, height: 142.24},
+            sizeMax: {width: 55.88, height: 55.88},
         },
 
         initialize : function(options) {
@@ -103,7 +103,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 width: 100,
                 defaultUnit : "cm",
                 value: '3 cm',
-                maxValue: 142.24,
+                maxValue: 55.88,
                 minValue: 0
             });
             this.spnWidth.on('change', _.bind(function(field){
@@ -126,7 +126,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 width: 100,
                 defaultUnit : "cm",
                 value: '3 cm',
-                maxValue: 142.24,
+                maxValue: 55.88,
                 minValue: 0
             });
             this.spnHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -466,7 +466,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._changedProps.put_FrameHeight(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
             if (this.spnWidth.getValue()!=='')
                 this._changedProps.put_FrameWidth(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
-            //properties.asc_putLockAspect(this.btnRatio.pressed);
+            this._changedProps.put_FrameLockAspect(this.btnRatio.pressed);
 
             if (this.spnX.getValue() !== '') {
                 var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
@@ -502,7 +502,8 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_FrameWidth()).toFixed(2), true);
                 this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_FrameHeight()).toFixed(2), true);
 
-                this.btnRatio.toggle(false); // to do
+                var value = props.get_FrameLockAspect();
+                this.btnRatio.toggle(value);
                 if (props.get_FrameHeight()>0)
                     this._nRatio = props.get_FrameWidth()/props.get_FrameHeight();
 

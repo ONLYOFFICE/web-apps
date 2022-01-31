@@ -625,11 +625,11 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this.radioFit.setDisabled(true);
                 }
 
-                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
-                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Height()).toFixed(2), true);
+                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getWidth()).toFixed(2), true);
+                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getHeight()).toFixed(2), true);
 
-                if (props.get_Height()>0)
-                    this._nRatio = props.get_Width()/props.get_Height();
+                if (props.asc_getHeight()>0)
+                    this._nRatio = props.asc_getWidth()/props.asc_getHeight();
 
                 var value = props.asc_getLockAspect();
                 this.btnRatio.toggle(value);
@@ -637,14 +637,14 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 this.cmbFromX.setValue('left');
                 this.cmbFromY.setValue('left');
 
-                /*if (props.get_Position()) {
-                    var Position = {X: props.get_Position().get_X(), Y: props.get_Position().get_Y()};
+                if (props.asc_getPosition()) {
+                    var Position = {X: props.asc_getPosition().get_X(), Y: props.asc_getPosition().get_Y()};
                     this.spnX.setValue((Position.X !== null && Position.X !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.X) : '', true);
                     this.spnY.setValue((Position.Y !== null && Position.Y !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.Y) : '', true);
-                } else {*/
-                this.spnX.setValue('', true);
-                this.spnY.setValue('', true);
-                /*}*/
+                } else {
+                    this.spnX.setValue('', true);
+                    this.spnY.setValue('', true);
+                }
 
                 this._setShapeDefaults(props);
 
@@ -702,7 +702,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         },
 
         getSettings: function() {
-            /*var Position = new Asc.CPosition();
+            var Position = new Asc.CPosition();
             if (this.spnX.getValue() !== '') {
                 var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
                 if (this.cmbFromX.getValue() === 'center') {
@@ -717,7 +717,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 }
                 Position.put_Y(y);
             }
-            this._changedProps.put_Position(Position);*/
+            this._changedProps.asc_putPosition(Position);
 
             if (this.isAltTitleChanged)
                 this._changedProps.asc_putTitle(this.inputAltTitle.getValue());
