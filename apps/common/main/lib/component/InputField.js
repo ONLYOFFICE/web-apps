@@ -54,7 +54,8 @@ if (Common === undefined)
 define([
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Tooltip',
-    'common/main/lib/component/Button'
+    'common/main/lib/component/Button',
+    'common/main/lib/component/CalendarDialog'
 ], function () { 'use strict';
 
     Common.UI.InputField = Common.UI.BaseView.extend((function() {
@@ -548,7 +549,7 @@ define([
         }
     })());
 
-    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend(_.extend((function() {
+    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend( (function() {
         return {
             options: {
                 id: null,
@@ -648,5 +649,58 @@ define([
             textHintShowPwd: 'Show password',
             textHintHidePwd: 'Hide password'
         }
-    })(), Common.UI.InputFieldBtnPassword || {}));
+    })(), Common.UI.InputFieldBtnPassword || {});
+
+    Common.UI.InputFieldBtnCalendar = Common.UI.InputFieldBtn.extend((function (){
+        return {
+            options: {
+                id: null,
+                cls: '',
+                style: '',
+                value: '',
+                type: 'date',
+                name: '',
+                validation: null,
+                allowBlank: true,
+                placeHolder: '',
+                blankError: null,
+                spellcheck: false,
+                maskExp: '',
+                validateOnChange: false,
+                validateOnBlur: true,
+                disabled: false,
+                editable: true,
+                iconCls: 'btn-datetime',
+                btnHint: '',
+                repeatInput: null,
+                showPwdOnClick: true,
+                date: null
+            },
+            initialize : function(options) {
+                options = options || {};
+                Common.UI.InputField.prototype.initialize.call(this, options);
+                this.date = this.options.date;
+
+            },
+
+            render: function (parentEl) {
+                Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
+                this._button.on('click', _.bind(this.calendarClick, this));
+            },
+
+            calendarClick: function (e){
+                var me = this;
+                (new Common.UI.CalendarDialog({
+                    date   : this.date,
+                    handler     : function(result, value) {
+                        if (result == 'ok') {
+                            me.date = value.date;
+                            me.setValue(value.date.toLocaleDateString());
+                        }
+                    }
+                })).show();
+            }
+
+        }
+    })());
 });
