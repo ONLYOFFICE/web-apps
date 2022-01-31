@@ -90,7 +90,7 @@ export class storeAppOptions {
         this.canEdit = permissions.edit !== false  && // can edit or review
             (this.config.canRequestEditRights || this.config.mode !== 'view') && isSupportEditFeature; // if mode=="view" -> canRequestEditRights must be defined
             // (!this.isReviewOnly || this.canLicense) && // if isReviewOnly==true -> canLicense must be true
-        this.isEdit = (this.canLicense || this.isEditDiagram || this.isEditMailMerge) && permissions.edit !== false && this.config.mode !== 'view' && isSupportEditFeature && true;
+        this.isEdit = (this.canLicense || this.isEditDiagram || this.isEditMailMerge) && permissions.edit !== false && this.config.mode !== 'view' && isSupportEditFeature;
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
