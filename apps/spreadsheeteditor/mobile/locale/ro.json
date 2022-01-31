@@ -142,9 +142,14 @@
       "textGuest": "Invitat",
       "textHasMacros": "Fișierul conține macrocomenzi.<br>Doriți să le rulați?",
       "textNo": "Nu",
+      "textNoChoices": "Opțiunele de completare datelor în celulă<br>Pentru înlocuire puteți selecta numai valori de text în coloană.",
       "textNoLicenseTitle": "Ați atins limita stabilită de licență",
+      "textNoTextFound": "Textul nu a fost găsit",
+      "textOk": "OK",
       "textPaidFeature": "Funcția contra plată",
       "textRemember": "Reține opțiunea mea",
+      "textReplaceSkipped": "A avut loc o înlocuire. {0} apariții ignorate.",
+      "textReplaceSuccess": "Căutarea a fost finalizată. Înlocuiri: {0}",
       "textYes": "Da",
       "titleServerVersion": "Editorul a fost actualizat",
       "titleUpdateVersion": "Versiunea s-a modificat",
@@ -155,12 +160,7 @@
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -175,6 +175,7 @@
     "errorAutoFilterDataRange": "Operațiunea nu poare fi efectuată pentru celulele selectate.<br>Selectați o altă zonă de date uniformă din tabel sau în afara tabelului și încercați din nou.",
     "errorAutoFilterHiddenRange": "Operațiunea nu poate fi efectuată deoarece zonă conține celule filtrate.<br>Reafișați elementele filtrate și încercați din nou.",
     "errorBadImageUrl": "URL-ul imaginii incorectă",
+    "errorCannotUseCommandProtectedSheet": "Nu puteți folosi această comandă într-o foaie de calcul protejată. Ca să o folosiți, protejarea foii trebuie anulată.<br> Introducerea parolei poate fi necesară.",
     "errorChangeArray": "Nu puteți modifica parte dintr-o matrice.",
     "errorChangeOnProtectedSheet": "Celula sau diagrama pe care încercați să schimbați este din foaia de calcul protejată. Dezactivați protejarea foii de calcul dacă doriți s-o schimați.Este posibil să fie necesară introducerea parolei.",
     "errorConnectToServer": "Salvarea documentului nu este posibilă. Verificați configurarea conexeunii sau contactaţi administratorul dumneavoastră de reţea<br>Când faceți clic pe OK, vi se va solicita să descărcați documentul.",
@@ -233,8 +234,7 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -289,16 +289,16 @@
     "textErrorRemoveSheet": "Foaia de calcul nu poate fi ștearsă.",
     "textHide": "Ascunde",
     "textMore": "Mai multe",
+    "textMove": "Mutare",
+    "textMoveBack": "Mutare înapoi",
+    "textMoveForward": "Mutare înainte",
     "textOk": "OK",
     "textRename": "Redenumire",
     "textRenameSheet": "Redenumire foaie",
     "textSheet": "Foaie",
     "textSheetName": "Numele foii",
     "textUnhide": "Reafișare",
-    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -341,6 +341,7 @@
       "textLink": "Link",
       "textLinkSettings": "Configurarea link",
       "textLinkType": "Tip link",
+      "textOk": "OK",
       "textOther": "Altele",
       "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
       "textPictureFromURL": "Imaginea prin URL",
@@ -358,8 +359,7 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
       "txtSortSelected": "Sortarea selecției",
-      "txtYes": "Da",
-      "textOk": "Ok"
+      "txtYes": "Da"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -378,6 +378,7 @@
       "textAngleClockwise": "Unghi de rotație în sens orar",
       "textAngleCounterclockwise": "Unghi de rotație în sens antiorar",
       "textAuto": "Auto",
+      "textAutomatic": "Automat",
       "textAxisCrosses": "Intersecția cu axă",
       "textAxisOptions": "Opțiuni axă",
       "textAxisPosition": "Poziție axă",
@@ -478,6 +479,7 @@
       "textNoOverlay": "Fără suprapunere",
       "textNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "textNumber": "Număr",
+      "textOk": "OK",
       "textOnTickMarks": "Pe gradații",
       "textOpacity": "Transparență",
       "textOut": "Din",
@@ -539,9 +541,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
-      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
@@ -571,6 +571,7 @@
       "textComments": "Comentarii",
       "textCreated": "A fost creat la",
       "textCustomSize": "Dimensiunea particularizată",
+      "textDarkTheme": "Tema întunecată",
       "textDelimeter": "Delimitator",
       "textDisableAll": "Se dezactivează toate",
       "textDisableAllMacrosWithNotification": "Se dezactivează toate macrocomenzile, cu notificare   ",
@@ -671,8 +672,7 @@
       "txtSemicolon": "Punct și virgulă",
       "txtSpace": "Spațiu",
       "txtTab": "Tabulator",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
     }
   }
 }

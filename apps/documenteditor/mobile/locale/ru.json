@@ -229,6 +229,7 @@
     "textContinueFromPreviousSection": "Продолжить",
     "textCustomColor": "Пользовательский цвет",
     "textDecember": "Декабрь",
+    "textDesign": "Дизайн",
     "textDifferentFirstPage": "Особый для первой страницы",
     "textDifferentOddAndEvenPages": "Разные для четных и нечетных",
     "textDisplay": "Отобразить",
@@ -236,6 +237,7 @@
     "textDoubleStrikethrough": "Двойное зачёркивание",
     "textEditLink": "Редактировать ссылку",
     "textEffects": "Эффекты",
+    "textEmpty": "Пусто",
     "textEmptyImgUrl": "Необходимо указать URL рисунка.",
     "textFebruary": "Февраль",
     "textFill": "Заливка",
@@ -328,9 +330,7 @@
     "textTu": "Вт",
     "textType": "Тип",
     "textWe": "Ср",
-    "textWrap": "Стиль обтекания",
-    "textDesign": "Design",
-    "textEmpty": "Empty"
+    "textWrap": "Стиль обтекания"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",

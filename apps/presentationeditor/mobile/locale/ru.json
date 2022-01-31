@@ -286,6 +286,7 @@
       "textDefault": "Выделенный текст",
       "textDelay": "Задержка",
       "textDeleteSlide": "Удалить слайд",
+      "textDesign": "Дизайн",
       "textDisplay": "Отображать",
       "textDistanceFromText": "Расстояние до текста",
       "textDistributeHorizontally": "Распределить по горизонтали",
@@ -392,8 +393,7 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом",
-      "textDesign": "Design"
+      "textZoomRotate": "Увеличение с поворотом"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",

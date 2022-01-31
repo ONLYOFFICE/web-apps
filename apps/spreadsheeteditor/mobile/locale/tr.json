@@ -165,7 +165,7 @@
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
-    "criticalErrorExtText": "Belge listesine geri dönmek için 'Tamam'a basın.",
+    "criticalErrorExtText": "Belge listesine geri dönmek için 'OK'a basın.",
     "criticalErrorTitle": "Hata",
     "downloadErrorText": "İndirme başarısız oldu.",
     "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",
@@ -177,7 +177,7 @@
     "errorBadImageUrl": "Resim URL'si yanlış",
     "errorChangeArray": "Bir dizinin bir bölümünü değiştiremezsiniz.",
     "errorChangeOnProtectedSheet": "Değiştirmeye çalıştığınız hücre veya grafik korumalı bir sayfada. Değişiklik yapmak için sayfanın korumasını kaldırın. Bir şifre girmeniz istenebilir.",
-    "errorConnectToServer": "Bu doküman kaydedilemiyor. Bağlantı ayarlarınızı kontrol edin veya yöneticinizle iletişime geçin.<br>'Tamam' düğmesini tıkladığınızda, belgeyi indirmeniz istenecektir.",
+    "errorConnectToServer": "Bu doküman kaydedilemiyor. Bağlantı ayarlarınızı kontrol edin veya yöneticinizle iletişime geçin.<br>'OK' düğmesini tıkladığınızda, belgeyi indirmeniz istenecektir.",
     "errorCopyMultiselectArea": "Bu komut çoklu seçimlerle kullanılamaz.<br>Tek bir aralık seçin ve tekrar deneyin.",
     "errorCountArg": "Formülde bir hata var.<br>Geçersiz sayıda bağımsız değişken.",
     "errorCountArgExceed": "Formülde bir hata var.<br>Maksimum bağımsız değişken sayısı aşıldı.",
