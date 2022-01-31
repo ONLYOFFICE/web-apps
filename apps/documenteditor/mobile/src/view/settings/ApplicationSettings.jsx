@@ -50,11 +50,6 @@ const PageApplicationSettings = props => {
                                     }}
                             />
                         </ListItem>
-                        <ListItem title={'Dark theme'}>
-                            <Toggle checked={isThemeDark}
-                                onToggleChange={toggle => {Themes.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
-                            </Toggle>
-                        </ListItem>
                     </List>
                     <List>
                         <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
@@ -95,6 +90,15 @@ const PageApplicationSettings = props => {
                     />
                 </ListItem>
             </List>
+            
+            <List>
+                <ListItem title={'Dark theme'}>
+                    <Toggle checked={isThemeDark}
+                        onToggleChange={toggle => {Themes.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
+                    </Toggle>
+                </ListItem>
+            </List>
+
             {_isShowMacros &&
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
