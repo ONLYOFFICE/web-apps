@@ -10,7 +10,6 @@ const EditTableContents = props => {
     const api = Common.EditorApi.get();
     const propsTableContents = api.asc_GetTableOfContentsPr();
     const stylesCount = propsTableContents.get_StylesCount();
-    console.log(propsTableContents);
     const [type, setType] = useState(0);
     const [styleValue, setStyleValue] = useState(propsTableContents.get_StylesType());
     const [pageNumbers, setPageNumbers] = useState(propsTableContents.get_ShowPageNumbers());
@@ -186,11 +185,19 @@ const PageEditStructureTableContents = props => {
     const isAndroid = Device.android;
     const api = Common.EditorApi.get();
     const propsTableContents = api.asc_GetTableOfContentsPr();
-    const {styles, start, end, count, disableOutlines, checkStyles} = props.fillTOCProps(propsTableContents);
-    console.log(styles, start, end, count, disableOutlines, checkStyles);
-
+    const {styles, end, count} = props.fillTOCProps(propsTableContents);
+    const chosenStyles = styles.filter(style => style.checked);
+    
     const [structure, setStructure] = useState(count ? 1 : 0);
     const [amountLevels, setAmountLevels] = useState(end);
+
+    const addNewStyle = (style) => {
+        let indexStyle = chosenStyles.findIndex(currentStyle => currentStyle.name === style.name);
+
+        if(indexStyle === -1) { 
+            chosenStyles.push(style); 
+        }
+    }
 
     return (
         <Page>
@@ -210,7 +217,7 @@ const PageEditStructureTableContents = props => {
             {structure === 0 ?
                 <List>
                     <ListItem title={t('Edit.textAmountOfLevels')}>
-                        {!isAndroid && <div slot='after-start'>{amountLevels}</div>}
+                        {!isAndroid && <div slot='after-start'>{amountLevels === -1 ? '-' : amountLevels}</div>}
                         <div slot='after'>
                             <Segmented>
                                 <Button outline className='decrement item-link' onClick={() => {
@@ -221,11 +228,16 @@ const PageEditStructureTableContents = props => {
                                 }}>
                                     {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                                 </Button>
-                                {isAndroid && <label>{amountLevels}</label>}
+                                {isAndroid && <label>{amountLevels === -1 ? '-' : amountLevels}</label>}
                                 <Button outline className='increment item-link' onClick={() => {
                                     if(amountLevels < 9) {
-                                        setAmountLevels(amountLevels + 1); 
-                                        props.onLevelsChange(amountLevels + 1);
+                                        if(amountLevels === -1) {
+                                            setAmountLevels(9); 
+                                            props.onLevelsChange(9);
+                                        } else {
+                                            setAmountLevels(amountLevels + 1); 
+                                            props.onLevelsChange(amountLevels + 1);
+                                        }
                                     }
                                 }}>
                                     {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
@@ -244,7 +256,9 @@ const PageEditStructureTableContents = props => {
                                     <Segmented>
                                         <Button outline className='decrement item-link' onClick={() => {
                                             if(style.value > 1) {
-                                                props.addStyles(style.name, style.value - 1);
+                                                setAmountLevels(-1);
+                                                addNewStyle(style);
+                                                props.addStyles(chosenStyles, style.name, style.value - 1);
                                             }
                                         }}>
                                             {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
@@ -252,7 +266,9 @@ const PageEditStructureTableContents = props => {
                                         {isAndroid && <label>{style.value}</label>}
                                         <Button outline className='increment item-link' onClick={() => {
                                             if(style.value < 9) {
-                                                props.addStyles(style.name, style.value + 1);
+                                                setAmountLevels(-1);
+                                                addNewStyle(style);
+                                                props.addStyles(chosenStyles, style.name, style.value + 1);
                                             }
                                         }}>
                                             {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}

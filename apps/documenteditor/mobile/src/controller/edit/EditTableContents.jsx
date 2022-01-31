@@ -79,8 +79,6 @@ class EditTableContentsController extends Component {
             }
         });
 
-        console.log(styles);
-
         if(props) {
             let start = props.get_OutlineStart(),
                 end = props.get_OutlineEnd(),
@@ -93,7 +91,6 @@ class EditTableContentsController extends Component {
             if ((start < 0 || end < 0) && count < 1) {
                 start = 1;
                 end = 9;
-                // this.spnLevels.setValue(end, true);
             }
 
             for (let i = 0; i < count; i++) {
@@ -162,7 +159,6 @@ class EditTableContentsController extends Component {
                 }
             }
 
-            // this.spnLevels.setValue(newEnd > 0 ? newEnd : '', true);
             checkStyles = (disableOutlines || newStart > 1);
         } else {
             for (let i = this.startLevel; i <= this.endLevel; i++) {
@@ -185,25 +181,33 @@ class EditTableContentsController extends Component {
 
         return {
             styles, 
-            start: this.startLevel,
+            // start: this.startLevel,
             end: this.endLevel,
             count: this.count,
-            disableOutlines,
-            checkStyles
+            // disableOutlines,
+            // checkStyles
         }
     }
 
-    addStyles(styleName, value) {
+    addStyles(styles, styleName, value) {
         const api = Common.EditorApi.get();
         const propsTableContents = api.asc_GetTableOfContentsPr();
 
-        // propsTableContents.clear_Styles();
-        propsTableContents.add_Style(styleName, value);
+        propsTableContents.clear_Styles();
 
-        // if (propsTableContents.get_StylesCount() > 0)
-        //     propsTableContents.put_OutlineRange(-1, -1);
-        // else
-        //     propsTableContents.put_OutlineRange(1, 9);
+        styles.forEach(style => {
+            if(style.name === styleName) {
+                propsTableContents.add_Style(styleName, value);
+            } else {
+                propsTableContents.add_Style(style.name, style.value);
+            }
+        });
+
+        if (propsTableContents.get_StylesCount() > 0) {
+            propsTableContents.put_OutlineRange(-1, -1);
+        } else {
+            propsTableContents.put_OutlineRange(1, 9);
+        }
 
         api.asc_SetTableOfContentsPr(propsTableContents);
     }
