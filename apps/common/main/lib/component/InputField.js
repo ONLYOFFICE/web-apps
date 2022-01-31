@@ -676,29 +676,103 @@ define([
                 showPwdOnClick: true,
                 date: null
             },
+
             initialize : function(options) {
                 options = options || {};
                 Common.UI.InputField.prototype.initialize.call(this, options);
                 this.date = this.options.date;
 
+
+
             },
 
             render: function (parentEl) {
+                var me = this;
+                this.boxCalendar = this.$el.parent();
                 Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
+                
                 this._button.on('click', _.bind(this.calendarClick, this));
+
+                this.boxCalendar.on('click', function(e) {
+                    if (e.target.localName == 'canvas') {
+                        if (me._preventClick)
+                            me._preventClick = false;
+                        else
+                            me.boxCalendar.focus();
+                    }
+                });
+
+                this.boxCalendar.on('mousedown', function(e){
+                    if (e.target.localName == 'canvas')
+                        Common.UI.Menu.Manager.hideAll();
+                });
             },
 
             calendarClick: function (e){
                 var me = this;
-                (new Common.UI.CalendarDialog({
-                    date   : this.date,
-                    handler     : function(result, value) {
-                        if (result == 'ok') {
-                            me.date = value.date;
-                            me.setValue(value.date.toLocaleDateString());
+                this.onShowDateActions(this.el.getBoundingClientRect());
+            },
+
+            onShowDateActions: function(position) {
+                var controlsContainer = this.boxCalendar.find('#calendar-control-container'),
+                    me = this;
+
+                if (controlsContainer.length < 1) {
+                    controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                    this.boxCalendar.append(controlsContainer);
+                }
+
+                controlsContainer.css({left: position.left, top : position.top});
+                controlsContainer.show();
+
+                if (!this.cmpCalendar) {
+                    this.cmpCalendar = new Common.UI.Calendar({
+                        el: this.boxCalendar.find('#id-document-calendar-control'),
+                        enableKeyEvents: true,
+                        firstday: 1
+                    });
+                    this.cmpCalendar.setDate(this.date);
+                    this.cmpCalendar.on('date:click', function (cmp, date) {
+
+                        me.date = this.selectedDate;
+                        me.setValue(this.selectedDate.toLocaleDateString());
+                        controlsContainer.hide();
+
+                    });
+                    this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                        if (e.keyCode==Common.UI.Keys.ESC) {
+                            controlsContainer.hide();
                         }
-                    }
-                })).show();
+                    });
+                    $(document).on('mousedown', function(e) {
+                        if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                            controlsContainer.hide();
+                        }
+                    });
+
+                }
+                this.cmpCalendar.setDate(this.date);
+
+                // align
+                var offset  = controlsContainer.offset(),
+                    docW    = Common.Utils.innerWidth(),
+                    docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                    menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                    menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                    buttonOffset = 22,
+                    left = offset.left - menuW,
+                    top  = offset.top - 1.5*menuH;
+                if (top + menuH > docH) {
+                    top = docH - menuH;
+                    left -= buttonOffset;
+                }
+                if (top < 0)
+                    top = 0;
+                if (left + menuW > docW)
+                    left = docW - menuW;
+                this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+                this._preventClick = true;
             }
 
         }
