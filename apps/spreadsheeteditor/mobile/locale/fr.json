@@ -142,9 +142,14 @@
       "textGuest": "Invité",
       "textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros?",
       "textNo": "Non",
+      "textNoChoices": "Il n'y a pas de choix pour remplir la cellule.<br>Seules les valeurs de texte de la colonne peuvent être sélectionnées pour le remplacement.",
       "textNoLicenseTitle": "La limite de la licence est atteinte",
+      "textNoTextFound": "Texte non trouvé",
+      "textOk": "Accepter",
       "textPaidFeature": "Fonction payante",
       "textRemember": "Se souvenir de mon choix",
+      "textReplaceSkipped": "Le remplacement a été effectué. {0} occurrences ont été sautées.",
+      "textReplaceSuccess": "La recherche a été effectuée. Occurrences remplacées : {0}",
       "textYes": "Oui",
       "titleServerVersion": "L'éditeur est mis à jour",
       "titleUpdateVersion": "La version a été modifiée",
@@ -155,12 +160,7 @@
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -175,6 +175,7 @@
     "errorAutoFilterDataRange": "Impossible de réaliser l'opération sur la plage de cellules spécifiée.<br>Sélectionnez une plage uniforme de données dans le tableau ou hors du tableau différente et réessayez.",
     "errorAutoFilterHiddenRange": "L'opération ne peut pas être effectuée car la zone contient des cellules filtrées.<br>Veuillez supprimer les filtres et réessayez.",
     "errorBadImageUrl": "L'URL de l'image est incorrecte",
+    "errorCannotUseCommandProtectedSheet": "Vous ne pouvez pas utiliser cette commande sur une feuille protégée. Pour utiliser cette commande, retirez la protection de la feuille.<br>Il peut vous être demandé de saisir un mot de passe.",
     "errorChangeArray": "Impossible de modifier une partie de matrice.",
     "errorChangeOnProtectedSheet": "La cellule ou le graphique que vous essayé de changer est sur une feuille protégée. Pour effectuer le changement, retirer al protection de la feuille. Un mot de passe pourrait vous être demandé.",
     "errorConnectToServer": "Impossible d'enregistrer ce document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.",
@@ -233,8 +234,7 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
@@ -289,16 +289,16 @@
     "textErrorRemoveSheet": "Impossible de supprimer la feuille de calcul.",
     "textHide": "Masquer",
     "textMore": "Plus",
+    "textMove": "Déplacer",
+    "textMoveBack": "Déplacer vers l’arrière",
+    "textMoveForward": "Déplacer vers l'avant",
     "textOk": "OK",
     "textRename": "Renommer",
     "textRenameSheet": "Renommer la feuille",
     "textSheet": "Feuille",
     "textSheetName": "Nom de la feuille",
     "textUnhide": "Afficher",
-    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
@@ -341,6 +341,7 @@
       "textLink": "Lien",
       "textLinkSettings": "Paramètres de lien",
       "textLinkType": "Type de lien",
+      "textOk": "Accepter",
       "textOther": "Autre",
       "textPictureFromLibrary": "Image depuis la bibliothèque",
       "textPictureFromURL": "Image à partir d'une URL",
@@ -358,8 +359,7 @@
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "txtYes": "Oui",
-      "textOk": "Ok"
+      "txtYes": "Oui"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -378,6 +378,7 @@
       "textAngleClockwise": "Rotation dans le sens des aiguilles d'une montre",
       "textAngleCounterclockwise": "Rotation dans le sens inverse des aiguilles d'une montre",
       "textAuto": "Auto",
+      "textAutomatic": "Automatique",
       "textAxisCrosses": "Intersection de l'axe",
       "textAxisOptions": "Options de l'axe",
       "textAxisPosition": "Position de l'axe",
@@ -478,6 +479,7 @@
       "textNoOverlay": "Sans superposition",
       "textNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "textNumber": "Nombre",
+      "textOk": "Accepter",
       "textOnTickMarks": "Graduations",
       "textOpacity": "Opacité",
       "textOut": "À l'extérieur",
@@ -539,9 +541,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSortHigh2Low": "Trier du plus élevé au plus bas",
-      "txtSortLow2High": "Trier le plus bas au plus élevé",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Trier le plus bas au plus élevé"
     },
     "Settings": {
       "advCSVOptions": "Choisir les options CSV",
@@ -571,6 +571,7 @@
       "textComments": "Commentaires",
       "textCreated": "Créé",
       "textCustomSize": "Taille personnalisée",
+      "textDarkTheme": "Thème sombre",
       "textDelimeter": "Délimiteur",
       "textDisableAll": "Désactiver tout",
       "textDisableAllMacrosWithNotification": "Désactiver toutes les macros avec notification",
@@ -671,8 +672,7 @@
       "txtSemicolon": "Point-virgule",
       "txtSpace": "Espace",
       "txtTab": "Tabulation",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
   }
 }

@@ -142,9 +142,14 @@
       "textGuest": "Convidat",
       "textHasMacros": "El fitxer conté macros automàtiques. <br>Les vols executar?",
       "textNo": "No",
+      "textNoChoices": "No hi ha opcions per omplir la cel·la. <br>Només es poden seleccionar valors de text de la columna per substituir-los.",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
+      "textNoTextFound": "No s'ha trobat el text",
+      "textOk": "D'acord",
       "textPaidFeature": "Funció de pagament",
       "textRemember": "Recorda la meva elecció",
+      "textReplaceSkipped": "S'ha realitzat la substitució. S'han omès {0} ocurrències.",
+      "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
       "textYes": "Sí",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
@@ -155,12 +160,7 @@
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacta amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
       "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -175,6 +175,7 @@
     "errorAutoFilterDataRange": "Aquesta operació no es pot fer per a l'interval de cel·les seleccionat. <br>Selecciona un interval de dades uniforme dins o fora de la taula i torna-ho a provar.",
     "errorAutoFilterHiddenRange": "Aquesta operació no es pot fer perquè l'àrea conté cel·les filtrades. <br>Mostra els elements filtrats i torna-ho a provar.",
     "errorBadImageUrl": "L'URL de la imatge no és correcte",
+    "errorCannotUseCommandProtectedSheet": "No podeu utilitzar aquesta ordre en un full protegit. Per utilitzar aquesta ordre, cal desprotegir el full.<br>És possible que se us demani que introduïu una contrasenya.",
     "errorChangeArray": "No pots canviar part d'una matriu.",
     "errorChangeOnProtectedSheet": "La cel·la o el gràfic que intentes canviar es troba en un full protegit. Per fer un canvi, desprotegeix el full. És possible que et demani que introdueixis una contrasenya.",
     "errorConnectToServer": "No es pot desar aquest document. Comprova la configuració de la vostra connexió o contacta amb el teu administrador. <br>Quan facis clic al botó «D'acord», et demanarà que baixis el document.",
@@ -233,8 +234,7 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contrasenya",
@@ -261,7 +261,7 @@
     "printTextText": "S'està imprimint el document...",
     "printTitleText": "S'està imprimint el document",
     "savePreparingText": "S'està preparant per desar",
-    "savePreparingTitle": "S'està preparant per desar. Espera...",
+    "savePreparingTitle": "S'està preparant per desar. Espereu...",
     "saveTextText": "S'està desant el document...",
     "saveTitleText": "S'està desant el document",
     "textCancel": "Cancel·la",
@@ -289,16 +289,16 @@
     "textErrorRemoveSheet": "No es pot suprimir el full de càlcul.",
     "textHide": "Amaga",
     "textMore": "Més",
+    "textMove": "Desplaça",
+    "textMoveBack": "Ves endarrere",
+    "textMoveForward": "Ves endavant",
     "textOk": "D'acord",
     "textRename": "Canvia el nom",
     "textRenameSheet": "Canvia el nom del full",
     "textSheet": "Full",
     "textSheetName": "Nom del full",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -341,6 +341,7 @@
       "textLink": "Enllaç",
       "textLinkSettings": "Configuració de l'enllaç",
       "textLinkType": "Tipus d'enllaç",
+      "textOk": "D'acord",
       "textOther": "Altre",
       "textPictureFromLibrary": "Imatge de la biblioteca",
       "textPictureFromURL": "Imatge de l'URL",
@@ -358,8 +359,7 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordena els objectes seleccionats",
-      "txtYes": "Sí",
-      "textOk": "Ok"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -378,6 +378,7 @@
       "textAngleClockwise": "Angle en sentit horari",
       "textAngleCounterclockwise": "Angle en sentit antihorari",
       "textAuto": "Automàtic",
+      "textAutomatic": "Automàtic",
       "textAxisCrosses": "Creus de l'eix",
       "textAxisOptions": "Opcions de l’eix",
       "textAxisPosition": "Posició de l’eix",
@@ -478,6 +479,7 @@
       "textNoOverlay": "Sense superposició",
       "textNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "textNumber": "Número",
+      "textOk": "D'acord",
       "textOnTickMarks": "A les marques de graduació",
       "textOpacity": "Opacitat",
       "textOut": "Fora",
@@ -539,9 +541,7 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
-      "txtSortLow2High": "Ordena de menor a major",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Ordena de menor a major"
     },
     "Settings": {
       "advCSVOptions": "Tria les opcions CSV",
@@ -571,6 +571,7 @@
       "textComments": "Comentaris",
       "textCreated": "S'ha creat",
       "textCustomSize": "Mida personalitzada",
+      "textDarkTheme": "Tema fosc",
       "textDelimeter": "Separador",
       "textDisableAll": "Inhabilita-ho tot",
       "textDisableAllMacrosWithNotification": "Inhabilita totes les macros amb una notificació",
@@ -671,8 +672,7 @@
       "txtSemicolon": "Punt i coma",
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?"
     }
   }
 }

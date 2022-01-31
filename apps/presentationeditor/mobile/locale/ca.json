@@ -33,13 +33,13 @@
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
       "textUsers": "Usuaris"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Sense emplenament"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Colors personalitzats",
       "textStandartColors": "Colors estàndard",
       "textThemeColors": "Colors del tema"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -107,9 +107,12 @@
       "textHasMacros": "El fitxer conté macros automàtiques. <br>Les vols executar?",
       "textNo": "No",
       "textNoLicenseTitle": "S'ha assolit el límit de llicència",
+      "textNoTextFound": "No s'ha trobat el text",
       "textOpenFile": "Introdueix una contrasenya per obrir el fitxer",
       "textPaidFeature": "Funció de pagament",
       "textRemember": "Recorda la meva elecció",
+      "textReplaceSkipped": "S'ha realitzat la substitució. S'han omès {0} ocurrències.",
+      "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
       "textYes": "Sí",
       "titleLicenseExp": "La llicència ha caducat",
       "titleServerVersion": "S'ha actualitzat l'editor",
@@ -123,10 +126,7 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Contacta amb el teu administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacta amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "textNoTextFound": "Text not found",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -189,7 +189,7 @@
     "printTextText": "S'està imprimint el document...",
     "printTitleText": "S'està imprimint el document",
     "savePreparingText": "S'està preparant per desar",
-    "savePreparingTitle": "S'està preparant per desar. Espera...",
+    "savePreparingTitle": "S'està preparant per desar. Espereu...",
     "saveTextText": "S'està desant el document...",
     "saveTitleText": "S'està desant el document",
     "textLoadingDocument": "S'està carregant el document",
@@ -228,6 +228,7 @@
       "textLinkTo": "Enllaç a",
       "textLinkType": "Tipus d'enllaç",
       "textNextSlide": "Diapositiva següent",
+      "textOk": "D'acord",
       "textOther": "Altre",
       "textPictureFromLibrary": "Imatge de la biblioteca",
       "textPictureFromURL": "Imatge de l'URL",
@@ -240,8 +241,7 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Taula",
       "textTableSize": "Mida de la taula",
-      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
-      "textOk": "Ok"
+      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -261,6 +261,7 @@
       "textAllCaps": "Tot en majúscules",
       "textApplyAll": "Aplica-ho a totes les diapositives",
       "textAuto": "Automàtic",
+      "textAutomatic": "Automàtic",
       "textBack": "Enrere",
       "textBandedColumn": "Columna en bandes",
       "textBandedRow": "Fila en bandes",
@@ -285,6 +286,7 @@
       "textDefault": "Text seleccionat",
       "textDelay": "Retard",
       "textDeleteSlide": "Suprimeix la diapositiva",
+      "textDesign": "Disseny",
       "textDisplay": "Visualització",
       "textDistanceFromText": "Distància del text",
       "textDistributeHorizontally": "Distribueix horitzontalment",
@@ -336,6 +338,7 @@
       "textNoTextFound": "No s'ha trobat el text",
       "textNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "textNumbers": "Nombres",
+      "textOk": "D'acord",
       "textOpacity": "Opacitat",
       "textOptions": "Opcions",
       "textPictureFromLibrary": "Imatge de la biblioteca",
@@ -390,10 +393,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Amplia",
       "textZoomOut": "Redueix",
-      "textZoomRotate": "Amplia i gira",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "Amplia i gira"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",
@@ -410,6 +410,7 @@
       "textColorSchemes": "Combinacions de colors",
       "textComment": "Comentari",
       "textCreated": "S'ha creat",
+      "textDarkTheme": "Tema fosc",
       "textDisableAll": "Inhabilita-ho tot",
       "textDisableAllMacrosWithNotification": "Inhabilita totes les macros amb notificació",
       "textDisableAllMacrosWithoutNotification": "Inhabilita totes les macros sense notificació",
@@ -472,8 +473,7 @@
       "txtScheme6": "Esplanada",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
-      "txtScheme9": "Foneria",
-      "textDarkTheme": "Dark Theme"
+      "txtScheme9": "Foneria"
     }
   }
 }

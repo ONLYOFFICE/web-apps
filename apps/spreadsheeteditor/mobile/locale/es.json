@@ -3,7 +3,7 @@
     "textAbout": "Acerca de",
     "textAddress": "Dirección",
     "textBack": "Atrás",
-    "textEmail": "E-mail",
+    "textEmail": "Correo",
     "textPoweredBy": "Con tecnología de",
     "textTel": "Tel",
     "textVersion": "Versión "
@@ -142,9 +142,14 @@
       "textGuest": "Invitado",
       "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
       "textNo": "No",
+      "textNoChoices": "No hay opciones para rellenar la celda.<br>Sólo se pueden seleccionar valores de texto de la columna para su sustitución.",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
+      "textNoTextFound": "Texto no encontrado",
+      "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
+      "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
+      "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
       "textYes": "Sí",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
@@ -155,12 +160,7 @@
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -175,6 +175,7 @@
     "errorAutoFilterDataRange": "La operación no se puede realizar para el rango de celdas seleccionado.<br>Seleccione un rango de datos uniforme dentro o fuera de la tabla y vuelva a intentarlo.",
     "errorAutoFilterHiddenRange": "La operación no puede realizarse porque el área contiene celdas filtradas.<br>Por favor, desoculte los elementos filtrados e inténtelo de nuevo.",
     "errorBadImageUrl": "URL de imagen es incorrecta",
+    "errorCannotUseCommandProtectedSheet": "No puede utilizar esta orden en una hoja protegida. Para usar esta orden, desproteja la hoja. <br> Es posible que le pidan una contraseña.",
     "errorChangeArray": "No se puede cambiar parte de una matriz.",
     "errorChangeOnProtectedSheet": "La celda o el gráfico que usted está intentando cambiar está en una hoja protegida. Para hacer un cambio, desproteja la hoja. Es posible que le pidan que introduzca una contraseña.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
@@ -233,8 +234,7 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
@@ -289,16 +289,16 @@
     "textErrorRemoveSheet": "No se puede eliminar la hoja de cálculo.",
     "textHide": "Ocultar",
     "textMore": "Más",
+    "textMove": "Mover",
+    "textMoveBack": "Retroceder",
+    "textMoveForward": "Avanzar",
     "textOk": "OK",
     "textRename": "Renombrar",
     "textRenameSheet": "Renombrar hoja",
     "textSheet": "Hoja",
     "textSheetName": "Nombre de hoja",
     "textUnhide": "Volver a mostrar",
-    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -341,6 +341,7 @@
       "textLink": "Enlace",
       "textLinkSettings": "Ajustes de enlace",
       "textLinkType": "Tipo de enlace",
+      "textOk": "Aceptar",
       "textOther": "Otro",
       "textPictureFromLibrary": "Imagen desde biblioteca",
       "textPictureFromURL": "Imagen desde URL",
@@ -358,8 +359,7 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí",
-      "textOk": "Ok"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -378,6 +378,7 @@
       "textAngleClockwise": "Ángulo descendente",
       "textAngleCounterclockwise": "Ángulo ascendente",
       "textAuto": "Auto",
+      "textAutomatic": "Automático",
       "textAxisCrosses": "Cruces de eje",
       "textAxisOptions": "Opciones de eje",
       "textAxisPosition": "Posición de eje",
@@ -478,6 +479,7 @@
       "textNoOverlay": "Sin superposición",
       "textNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "textNumber": "Número",
+      "textOk": "Aceptar",
       "textOnTickMarks": "Marcas de graduación",
       "textOpacity": "Opacidad ",
       "textOut": "Fuera",
@@ -539,9 +541,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Ordenar de menor a mayor "
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -571,6 +571,7 @@
       "textComments": "Comentarios",
       "textCreated": "Creado",
       "textCustomSize": "Tamaño personalizado",
+      "textDarkTheme": "Tema oscuro",
       "textDelimeter": "Delimitador",
       "textDisableAll": "Deshabilitar todo",
       "textDisableAllMacrosWithNotification": "Deshabilitar todas las macros con notificación",
@@ -578,7 +579,7 @@
       "textDone": "Listo",
       "textDownload": "Descargar",
       "textDownloadAs": "Descargar como",
-      "textEmail": "E-mail",
+      "textEmail": "Correo",
       "textEnableAll": "Habilitar todo",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación ",
       "textEncoding": "Codificación",
@@ -671,8 +672,7 @@
       "txtSemicolon": "Punto y coma",
       "txtSpace": "Espacio",
       "txtTab": "Pestaña",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
   }
 }
