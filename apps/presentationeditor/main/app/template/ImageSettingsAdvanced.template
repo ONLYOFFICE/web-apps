@@ -32,7 +32,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small" width="115px">
+                <td class="padding-small" width="106px">
                     <label class="input-label"><%= scope.textHorizontal %></label>
                     <div id="image-advanced-spin-x"></div>
                 </td>

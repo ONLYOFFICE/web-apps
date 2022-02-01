@@ -92,7 +92,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#shape-advanced-spin-width'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -119,7 +119,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#shape-advanced-spin-height'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -187,23 +187,25 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.cmbFromX = new Common.UI.ComboBox({
                 el: $('#shape-advanced-combo-from-x'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             this.cmbFromY = new Common.UI.ComboBox({
                 el: $('#shape-advanced-combo-from-y'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             // Margins
@@ -568,7 +570,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, // 0 tab
+                this.spnWidth, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.cmbCapType, this.cmbJoinType, // 2 tab
                 this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab

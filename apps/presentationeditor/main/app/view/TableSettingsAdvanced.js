@@ -100,7 +100,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#tableadv-spin-width'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -123,7 +123,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#tableadv-spin-height'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -184,23 +184,25 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             this.cmbFromX = new Common.UI.ComboBox({
                 el: $('#tableadv-combo-from-x'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             this.cmbFromY = new Common.UI.ComboBox({
                 el: $('#tableadv-combo-from-y'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             this._marginsChange = function(field, newValue, oldValue, eOpts, source, property){
@@ -427,9 +429,10 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
+                this.spnWidth, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
                 this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight,
-                this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 0 tab
-                this.inputAltTitle, this.textareaAltDescription  // 1 tab
+                this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 1 tab
+                this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ];
         },
 
@@ -440,12 +443,15 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             setTimeout(function(){
                 switch (index) {
                     case 0:
+                        me.spnWidth.focus();
+                        break;
+                    case 1:
                         if (!me.spnMarginTop.isDisabled())
                             me.spnMarginTop.focus();
                         else
                             me.spnTableMarginTop.focus();
                         break;
-                    case 1:
+                    case 2:
                         me.inputAltTitle.focus();
                         break;
                 }

@@ -84,7 +84,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#chart-advanced-spin-width'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -111,7 +111,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#chart-advanced-spin-height'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -179,23 +179,25 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             this.cmbFromX = new Common.UI.ComboBox({
                 el: $('#chart-advanced-combo-from-x'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             this.cmbFromY = new Common.UI.ComboBox({
                 el: $('#chart-advanced-combo-from-y'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             // Alt Text
@@ -231,7 +233,8 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.inputAltTitle, this.textareaAltDescription  // 0 tab
+                this.spnWidth, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
+                this.inputAltTitle, this.textareaAltDescription  // 1 tab
             ];
         },
 
@@ -242,6 +245,9 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             setTimeout(function(){
                 switch (index) {
                     case 0:
+                        me.spnWidth.focus();
+                        break;
+                    case 1:
                         me.inputAltTitle.focus();
                         break;
                 }

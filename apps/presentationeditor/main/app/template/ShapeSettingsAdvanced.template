@@ -7,14 +7,14 @@
                 </td>
             </tr>
             <tr>
-                <td width="108px">
+                <td width="93px">
                     <label class="input-label"><%= scope.textWidth %></label>
                     <div id="shape-advanced-spin-width"></div>
                 </td>
                 <td width="28px" style="vertical-align: bottom;">
                     <div id="shape-advanced-button-ratio"></div>
                 </td>
-                <td width="108px">
+                <td width="93px">
                     <label class="input-label"><%= scope.textHeight %></label>
                     <div id="shape-advanced-spin-height"></div>
                 </td>
@@ -30,7 +30,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small" width="115px">
+                <td class="padding-small" width="121px">
                     <label class="input-label"><%= scope.textHorizontal %></label>
                     <div id="shape-advanced-spin-x"></div>
                 </td>

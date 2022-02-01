@@ -182,23 +182,25 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.cmbFromX = new Common.UI.ComboBox({
                 el: $('#image-advanced-combo-from-x'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             this.cmbFromY = new Common.UI.ComboBox({
                 el: $('#image-advanced-combo-from-y'),
                 cls: 'input-group-nr',
-                style: "width: 100px;",
-                menuStyle: 'min-width: 100px;',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
-                ]
+                ],
+                editable: false
             });
 
             // Rotation
