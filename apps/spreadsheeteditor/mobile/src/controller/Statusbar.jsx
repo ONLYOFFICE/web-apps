@@ -365,12 +365,21 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
         api.asc_moveWorksheet(activeIndex === undefined ? api.asc_getWorksheetsCount() : activeIndex, [api.asc_getActiveWorksheetIndex()]);
     }
 
+    const onTabListClick = (sheetIndex) => {
+        const api = Common.EditorApi.get();
+        if(api && api.asc_getActiveWorksheetIndex() !== sheetIndex) {
+            api.asc_showWorksheet(sheetIndex);
+            f7.popover.close('#idx-all-list');
+        }
+    }
+
     return (
         <StatusbarView 
             onTabClick={onTabClick}
             onTabClicked={onTabClicked}
             onAddTabClicked={onAddTabClicked}
             onTabMenu={onTabMenu}
+            onTabListClick={onTabListClick}
             onMenuMoveClick = {onMenuMoveClick}
         />
     )

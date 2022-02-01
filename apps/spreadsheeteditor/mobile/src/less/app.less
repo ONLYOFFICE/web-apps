@@ -142,3 +142,26 @@
 .actions-move-sheet {
     background-color: @background-secondary;
 }
+
+// All-list sheet
+.all-list {
+    --f7-popover-width: 190px;
+    .item-checkbox{
+        padding-left: 8px;
+        .icon-checkbox{
+            border-color: transparent;
+            margin-right: 8px;
+            &::after{
+                color: @brandColor;
+            }
+        }
+        .item-after div {
+            color: @text-secondary;
+            font-style: italic;
+        }
+        input[type='checkbox']:checked ~ .icon-checkbox {
+            background-color: unset;
+            border-color: transparent;
+        }
+    }
+}

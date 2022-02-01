@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { View, Link, Icon, Popover, List, ListItem, ListButton, Actions, ActionsGroup, ActionsButton, Sheet, Page } from 'framework7-react';
+import {f7, View, Link, Icon, Popover, List, ListItem, ListButton, Actions, ActionsGroup, ActionsButton, Sheet, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
@@ -53,6 +53,28 @@ const PageListMove = props => {
     )
 };
 
+const PageAllList = (props) => {
+    const { t } = useTranslation();
+    const { sheets, onTabListClick } = props;
+    const allSheets = sheets.sheets;
+
+    return (
+        <Page>
+            <List>
+                { allSheets.map( (model,sheetIndex) => 
+                    <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
+                        {model.hidden ?     
+                            <div slot='after'>
+                                {t('Statusbar.textHidden')}
+                            </div>
+                        : null}
+                    </ListItem>)
+                }
+            </List>
+        </Page>
+    )
+};
+
 const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
@@ -71,9 +93,12 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
                 {isEdit &&
-                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled' : ''}`}>
+                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled box-tab' : 'box-tab'}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
                             <Icon className={`icon icon-plus ${isAndroid ? 'bold' : ''}`}/>
+                        </Link>
+                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
+                            <Icon className={`icon icon-list ${isAndroid ? 'bold' : ''}`}/>
                         </Link>
                     </div>
                 }
@@ -131,6 +156,11 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                     </ActionsGroup> 
                 </Actions>
             ) : null}
+            {
+                <Popover style={{height: '240px'}} id="idx-all-list" className="all-list">
+                    <PageAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
+                </Popover>
+            }
             {isPhone ? 
                 <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true} backdrop={false}>
                     <div className='swipe-container'>
