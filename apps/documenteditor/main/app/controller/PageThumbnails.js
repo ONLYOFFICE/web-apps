@@ -112,7 +112,7 @@ define([
         },
 
         updateSize: function (size) {
-            this.thumbnailsSize = size * 100;
+            this.thumbnailsSize = Math.min(size * 100, 100);
         },
 
         onChangeSize: function(field, newValue) {
