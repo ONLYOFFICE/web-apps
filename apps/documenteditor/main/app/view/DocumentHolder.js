@@ -221,6 +221,12 @@ define([
                         menu_props.paraProps.value = elValue;
                         menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
                         noobject = false;
+                    } else if (Asc.c_oAscTypeSelectElement.Text == elType)
+                    {
+                        if (!me.viewPDFModeMenu)
+                            me.createDelayedElementsPDFViewer();
+                        menu_to_show = me.viewPDFModeMenu;
+                        noobject = false;
                     }
                 }
                 return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
@@ -2126,6 +2132,35 @@ define([
                     menuSignatureRemove,
                     menuViewSignSeparator,
                     menuViewAddComment
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+                me.currentMenu = null;
+            });
+
+        },
+
+        createDelayedElementsPDFViewer: function() {
+            var me = this;
+
+            var menuPDFViewCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            this.viewPDFModeMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
+                },
+                items: [
+                    menuPDFViewCopy
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
