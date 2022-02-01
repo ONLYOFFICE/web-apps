@@ -1442,7 +1442,7 @@ define([
                 var models = group.groupStore.models;
                 if (index > 0) {
                     for (var i = 0; i < models.length; i++) {
-                        models.at(i).set({groupName: group.groupName})
+                        models[i].set({groupName: group.groupName});
                     }
                 }
                 store.add(models);
