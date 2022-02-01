@@ -196,7 +196,9 @@
     "textDoNotShowAgain": "Don't show again",
     "textNumberingValue": "Numbering Value",
     "textOk": "OK",
-    "textRows": "Rows"
+    "textRows": "Rows",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
