@@ -242,6 +242,11 @@ define([
             var onContextMenu = function(event){
                 if (Common.UI.HintManager.isHintVisible())
                     Common.UI.HintManager.clearHints();
+                if (!event) {
+                    Common.UI.Menu.Manager.hideAll();
+                    return;
+                }
+
                 _.delay(function(){
                     if (event.get_Type() == 0) {
                         showObjectMenu.call(me, event);
