@@ -592,9 +592,8 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            var isAlt = e.altKey;
-            _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
-            if (isAlt && e.keyCode !== 115) {
+            _needShow = (e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            if (e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });
