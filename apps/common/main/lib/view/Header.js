@@ -141,7 +141,7 @@ define([
         function onResetUsers(collection, opts) {
             var usercount = collection.getVisibleEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit) {
+                if (usercount > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) {
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
@@ -172,7 +172,7 @@ define([
         function applyUsers(count, originalCount) {
             if (!$btnUsers) return;
 
-            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
+            var has_edit_users = count > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit); // has other user(s) who edit document
             if ( has_edit_users ) {
                 // $btnUsers
                 //     .attr('data-toggle', 'dropdown')
@@ -300,7 +300,7 @@ define([
                 //
                 // $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
                 $panelShare[(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings)) ? 'show' : 'hide']();
-                $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? 'show' : 'hide']();
+                $panelUsers[(editingUsers > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) ? 'show' : 'hide']();
             }
 
 
