@@ -477,6 +477,13 @@
                 color: @text-normal;
             }
 
+            .inner-box-icon {
+                > svg {
+                    fill: @text-normal-ie;
+                    fill: @text-normal;
+                }
+            }
+
             &:hover:not(.disabled) {
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
@@ -497,17 +504,16 @@
                     }
 
                     .caption {
-                        color: @text-inverse-ie;
-                        color: @text-inverse;
+                        color: @text-normal-pressed-ie;
+                        color: @text-normal-pressed;
                     }
-                }
-            }
-        }
-        .btn-users {
-            .inner-box-icon {
-                > svg {
-                    fill: @text-normal-ie;
-                    fill: @text-normal;
+
+                    .inner-box-icon {
+                        > svg {
+                            fill: @text-normal-pressed-ie;
+                            fill: @text-normal-pressed;
+                        }
+                    }
                 }
             }
         }
