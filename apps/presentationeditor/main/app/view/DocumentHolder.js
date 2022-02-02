@@ -2484,6 +2484,7 @@ define([
                                 (new PE.Views.TableSettingsAdvanced(
                                     {
                                         tableProps: elValue,
+                                        slideSize: PE.getController('Toolbar').currentPageSize,
                                         handler: function(result, value) {
                                             if (result == 'ok') {
                                                 if (me.api) {
@@ -2527,6 +2528,7 @@ define([
                                     {
                                         imageProps: elValue,
                                         sizeOriginal: imgsizeOriginal,
+                                        slideSize: PE.getController('Toolbar').currentPageSize,
                                         handler: function(result, value) {
                                             if (result == 'ok') {
                                                 if (me.api) {
@@ -2559,6 +2561,7 @@ define([
                                 (new PE.Views.ShapeSettingsAdvanced(
                                     {
                                         shapeProps: elValue,
+                                        slideSize: PE.getController('Toolbar').currentPageSize,
                                         handler: function(result, value) {
                                             if (result == 'ok') {
                                                 if (me.api) {

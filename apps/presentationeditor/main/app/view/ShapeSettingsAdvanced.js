@@ -61,7 +61,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-adv-shape-width',      panelCaption: this.textSize},
+                    {panelId: 'id-adv-shape-width',      panelCaption: this.textPlacement},
                     {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
                     {panelId: 'id-adv-shape-margins',    panelCaption: this.textTextBox},
@@ -80,6 +80,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this._nRatio = 1;
 
             this._originalProps = this.options.shapeProps;
+            this.slideSize = this.options.slideSize;
             this._changedProps = null;
         },
 
@@ -91,7 +92,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#shape-advanced-spin-width'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -118,7 +119,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#shape-advanced-spin-height'),
                 step: .1,
-                width: 100,
+                width: 85,
                 defaultUnit : "cm",
                 value: '3 cm',
                 maxValue: 55.88,
@@ -158,6 +159,56 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this._changedProps.asc_putLockAspect(btn.pressed);
                 }
             }, this));
+
+            this.spnX = new Common.UI.MetricSpinner({
+                el: $('#shape-advanced-spin-x'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: -55.87
+            });
+            this.spinners.push(this.spnX);
+
+            this.spnY = new Common.UI.MetricSpinner({
+                el: $('#shape-advanced-spin-y'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: -55.87
+            });
+            this.spinners.push(this.spnY);
+
+            this.cmbFromX = new Common.UI.ComboBox({
+                el: $('#shape-advanced-combo-from-x'),
+                cls: 'input-group-nr',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
+                data: [
+                    { value: 'left', displayValue: this.textTopLeftCorner },
+                    { value: 'center', displayValue: this.textCenter }
+                ],
+                editable: false,
+                takeFocusOnClose: true
+            });
+
+            this.cmbFromY = new Common.UI.ComboBox({
+                el: $('#shape-advanced-combo-from-y'),
+                cls: 'input-group-nr',
+                style: "width: 115px;",
+                menuStyle: 'min-width: 115px;',
+                data: [
+                    { value: 'left', displayValue: this.textTopLeftCorner },
+                    { value: 'center', displayValue: this.textCenter }
+                ],
+                editable: false,
+                takeFocusOnClose: true
+            });
 
             // Margins
             this.spnMarginTop = new Common.UI.MetricSpinner({
@@ -521,7 +572,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, // 0 tab
+                this.spnWidth, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.cmbCapType, this.cmbJoinType, // 2 tab
                 this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 3 tab
@@ -578,14 +629,26 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this.radioFit.setDisabled(true);
                 }
 
-                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
-                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Height()).toFixed(2), true);
+                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getWidth()).toFixed(2), true);
+                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getHeight()).toFixed(2), true);
 
-                if (props.get_Height()>0)
-                    this._nRatio = props.get_Width()/props.get_Height();
+                if (props.asc_getHeight()>0)
+                    this._nRatio = props.asc_getWidth()/props.asc_getHeight();
 
                 var value = props.asc_getLockAspect();
                 this.btnRatio.toggle(value);
+
+                this.cmbFromX.setValue('left');
+                this.cmbFromY.setValue('left');
+
+                if (props.asc_getPosition()) {
+                    var Position = {X: props.asc_getPosition().get_X(), Y: props.asc_getPosition().get_Y()};
+                    this.spnX.setValue((Position.X !== null && Position.X !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.X) : '', true);
+                    this.spnY.setValue((Position.Y !== null && Position.Y !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.Y) : '', true);
+                } else {
+                    this.spnX.setValue('', true);
+                    this.spnY.setValue('', true);
+                }
 
                 this._setShapeDefaults(props);
 
@@ -643,6 +706,23 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         },
 
         getSettings: function() {
+            var Position = new Asc.CPosition();
+            if (this.spnX.getValue() !== '') {
+                var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
+                if (this.cmbFromX.getValue() === 'center') {
+                    x = (this.slideSize.width/36000)/2 + x;
+                }
+                Position.put_X(x);
+            }
+            if (this.spnY.getValue() !== '') {
+                var y = Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue());
+                if (this.cmbFromY.getValue() === 'center') {
+                    y = (this.slideSize.height/36000)/2 + y;
+                }
+                Position.put_Y(y);
+            }
+            this._changedProps.asc_putPosition(Position);
+
             if (this.isAltTitleChanged)
                 this._changedProps.asc_putTitle(this.inputAltTitle.getValue());
 
@@ -868,7 +948,14 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textAutofit: 'AutoFit',
         textNofit: 'Do not Autofit',
         textShrink: 'Shrink text on overflow',
-        textResizeFit: 'Resize shape to fit text'
+        textResizeFit: 'Resize shape to fit text',
+        textPlacement: 'Placement',
+        textPosition: 'Position',
+        textHorizontal: 'Horizontal',
+        textFrom: 'From',
+        textVertical: 'Vertical',
+        textTopLeftCorner: 'Top Left Corner',
+        textCenter: 'Center'
 
     }, PE.Views.ShapeSettingsAdvanced || {}));
 });
