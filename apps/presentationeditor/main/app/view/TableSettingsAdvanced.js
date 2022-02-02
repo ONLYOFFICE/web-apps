@@ -190,7 +190,8 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
                 ],
-                editable: false
+                editable: false,
+                takeFocusOnClose: true
             });
 
             this.cmbFromY = new Common.UI.ComboBox({
@@ -202,7 +203,8 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
                 ],
-                editable: false
+                editable: false,
+                takeFocusOnClose: true
             });
 
             this._marginsChange = function(field, newValue, oldValue, eOpts, source, property){

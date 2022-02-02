@@ -188,7 +188,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
                 ],
-                editable: false
+                editable: false,
+                takeFocusOnClose: true
             });
 
             this.cmbFromY = new Common.UI.ComboBox({
@@ -200,7 +201,8 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
                 ],
-                editable: false
+                editable: false,
+                takeFocusOnClose: true
             });
 
             // Rotation

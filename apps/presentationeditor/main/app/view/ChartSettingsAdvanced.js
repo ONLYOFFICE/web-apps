@@ -185,7 +185,8 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
                 ],
-                editable: false
+                editable: false,
+                takeFocusOnClose: true
             });
 
             this.cmbFromY = new Common.UI.ComboBox({
@@ -197,7 +198,8 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
                 ],
-                editable: false
+                editable: false,
+                takeFocusOnClose: true
             });
 
             // Alt Text
