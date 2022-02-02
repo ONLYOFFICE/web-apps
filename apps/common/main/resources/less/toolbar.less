@@ -461,7 +461,7 @@
         }
 
         // TODO: move to appropriate module
-        .btn-header, .btn-users {
+        .btn-header, .btn-users, .btn-users-share {
             &:not(:active) .icon--inverse {
                 background-position-x: 0;
                 background-position-x: @button-small-normal-icon-offset-x;
@@ -500,6 +500,14 @@
                         color: @text-inverse-ie;
                         color: @text-inverse;
                     }
+                }
+            }
+        }
+        .btn-users {
+            .inner-box-icon {
+                > svg {
+                    fill: @text-normal-ie;
+                    fill: @text-normal;
                 }
             }
         }

@@ -52,7 +52,7 @@ define([
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
-        var $userList, $panelUsers, $btnUsers;
+        var $userList, $panelUsers, $btnUsers, $panelShare, $btnShare;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -84,17 +84,25 @@ define([
                                 '</div>' +
                                 '<div class="hedset" data-layout-name="header-users">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
-                                    '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                        '<div class="btn-users" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
-                                            '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
-                                            '<label class="caption">&plus;</label>' +
+                                    '<section id="tlb-box-users" class="box-cousers dropdown">' +
+                                        '<div class="btn-users dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
+                                            '<div class="inner-box-icon">' +
+                                                '<svg class=""><use xlink:href="#svg-icon-users"></use></svg>' +
+                                            '</div>' +
+                                            // '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
+                                            '<label class="caption"></label>' +
                                         '</div>' +
                                         '<div class="cousers-menu dropdown-menu">' +
                                             '<label id="tlb-users-menu-descr"><%= tipUsers %></label>' +
                                             '<div class="cousers-list"></div>' +
-                                            '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
                                         '</div>' +
                                     '</section>'+
+                                    '<section id="tlb-box-share" class="box-share">' +
+                                        '<div class="btn-users-share" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
+                                            '<i class="icon toolbar__icon icon--inverse btn-users-share"></i>' +
+                                            '<label class="caption"><%= textShare %></label>' +
+                                        '</div>' +
+                                     '</section>'+
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
@@ -166,52 +174,47 @@ define([
 
             var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
             if ( has_edit_users ) {
-                $btnUsers
-                    .attr('data-toggle', 'dropdown')
-                    .addClass('dropdown-toggle')
-                    .menu = true;
+                // $btnUsers
+                //     .attr('data-toggle', 'dropdown')
+                //     .addClass('dropdown-toggle')
+                //     .menu = true;
 
                 $panelUsers['show']();
+
+                $btnUsers.find('.caption')
+                    // .css({'font-size': '12px',
+                    //     'margin-top': '0'})
+                    .html(originalCount);
             } else {
-                $btnUsers
-                    .removeAttr('data-toggle')
-                    .removeClass('dropdown-toggle')
-                    .menu = false;
-
-                $panelUsers[(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings)) ? 'show' : 'hide']();
+                // $btnUsers
+                //     .removeAttr('data-toggle')
+                //     .removeClass('dropdown-toggle')
+                //     .menu = false;
+                $panelUsers['hide']();
             }
 
-            $btnUsers.find('.caption')
-                .css({'font-size': ((has_edit_users) ? '12px' : '14px'),
-                    'margin-top': ((has_edit_users) ? '0' : '-1px')})
-                .html((has_edit_users) ? originalCount : '&plus;');
-
-            var usertip = $btnUsers.data('bs.tooltip');
-            if ( usertip ) {
-                usertip.options.title = (has_edit_users) ? usertip.options.titleExt : usertip.options.titleNorm;
-                usertip.setContent();
-            }
         }
 
         function onLostEditRights() {
             _readonlyRights = true;
-            $panelUsers && $panelUsers.find('#tlb-change-rights').hide();
-            $btnUsers && !$btnUsers.menu && $panelUsers.hide();
+            // $panelUsers && $panelUsers.find('#tlb-change-rights').hide();
+            // $btnUsers && !$btnUsers.menu && $panelUsers.hide();
+            $panelShare && $panelShare.hide();
         }
 
         function onUsersClick(e) {
-            if ( !$btnUsers.menu ) {
-                $panelUsers.removeClass('open');
-                Common.NotificationCenter.trigger('collaboration:sharing');
-            } else {
-                var usertip = $btnUsers.data('bs.tooltip');
-                if ( usertip ) {
-                    if ( usertip.dontShow===undefined)
-                        usertip.dontShow = true;
+            var usertip = $btnUsers.data('bs.tooltip');
+            if ( usertip ) {
+                if ( usertip.dontShow===undefined)
+                    usertip.dontShow = true;
 
-                    usertip.hide();
-                }
+                usertip.hide();
             }
+        }
+
+        function onShareClick(e) {
+            $panelUsers.removeClass('open');
+            Common.NotificationCenter.trigger('collaboration:sharing');
         }
 
         function onAppShowed(config) {
@@ -276,23 +279,28 @@ define([
 
                 var editingUsers = storeUsers.getVisibleEditingCount();
                 $btnUsers.tooltip({
-                    title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
-                    titleNorm: me.tipAccessRights,
-                    titleExt: me.tipViewUsers,
+                    title: me.tipViewUsers,
                     placement: 'bottom',
                     html: true
                 });
-
                 $btnUsers.on('click', onUsersClick.bind(me));
 
-                var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-                $labelChangeRights.on('click', function(e) {
-                    $panelUsers.removeClass('open');
-                    Common.NotificationCenter.trigger('collaboration:sharing');
+                $btnShare.tooltip({
+                    title: me.tipAccessRights,
+                    placement: 'bottom',
+                    html: true
                 });
+                $btnShare.on('click', onShareClick.bind(me));
 
-                $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
-                $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+                // var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
+                // $labelChangeRights.on('click', function(e) {
+                //     $panelUsers.removeClass('open');
+                //     Common.NotificationCenter.trigger('collaboration:sharing');
+                // });
+                //
+                // $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
+                $panelShare[(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings)) ? 'show' : 'hide']();
+                $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? 'show' : 'hide']();
             }
 
 
@@ -444,7 +452,7 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
-                    split: true,
+                    // split: true,
                     dataHint: '0',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -523,7 +531,7 @@ define([
                 if ( role == 'right' ) {
                     var $html = $(_.template(templateRightBox)({
                         tipUsers: this.labelCoUsersDescr,
-                        txtAccessRights: this.txtAccessRights
+                        textShare: this.textShare
                     }));
 
                     if ( !me.labelDocName ) {
@@ -577,9 +585,12 @@ define([
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
-                    $btnUsers = $html.find('.btn-users');
+                    $btnUsers = $panelUsers.find('> .btn-users');
+                    $panelShare = $html.find('.box-share');
+                    $btnShare = $panelShare.find('> .btn-users-share');
 
                     $panelUsers.hide();
+                    $panelShare.hide();
                     return $html;
                 } else
                 if ( role == 'title' ) {
@@ -785,14 +796,20 @@ define([
                     return this.btnSave;
                 else if (type == 'users')
                     return $panelUsers;
+                else if (type == 'share')
+                    return $panelShare;
             },
 
             lockHeaderBtns: function (alias, lock) {
                 var me = this;
                 if ( alias == 'users' ) {
-                    if ( lock )
-                        $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
+                    if ( lock ) {
+                        $btnUsers.addClass('disabled').attr('disabled', 'disabled');
+                        $btnShare.addClass('disabled').attr('disabled', 'disabled');
+                    } else {
                         $btnUsers.removeClass('disabled').removeAttr('disabled');
+                        $btnShare.removeClass('disabled').removeAttr('disabled');
+                    }
                 } else if ( alias == 'rename-user' ) {
                     if (me.labelUserName) {
                         if ( lock ) {
@@ -844,7 +861,7 @@ define([
             txtAccessRights: 'Change access rights',
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
-            tipViewUsers: 'View users and manage document access rights',
+            tipViewUsers: 'View users',
             tipDownload: 'Download file',
             tipPrint: 'Print file',
             tipGoEdit: 'Edit current file',
@@ -859,7 +876,8 @@ define([
             tipViewSettings: 'View Settings',
             textRemoveFavorite: 'Remove from Favorites',
             textAddFavorite: 'Mark as favorite',
-            textHideNotes: 'Hide Notes'
+            textHideNotes: 'Hide Notes',
+            textShare: 'Share'
         }
     }(), Common.Views.Header || {}))
 });
