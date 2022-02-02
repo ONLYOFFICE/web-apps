@@ -56,6 +56,7 @@ define([
             this.editMode = true;
             this._state = {no_slides: undefined};
             this._initSettings = true;
+            this._priorityArr = [];
 
             this.addListeners({
                 'RightMenu': {
@@ -95,8 +96,15 @@ define([
             this.editMode = mode.isEdit;
         },
 
-        onRightMenuClick: function(menu, type, minimized) {
+        onRightMenuClick: function(menu, type, minimized, event) {
             if (!minimized && this.editMode) {
+                if (event) { // user click event
+                    var idx = this._priorityArr.indexOf(type);
+                    if (idx>=0)
+                        this._priorityArr.splice(idx, 1);
+                    this._priorityArr.unshift(type);
+                }
+
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
@@ -191,6 +199,16 @@ define([
             if (!this.rightmenu.minimizedMode || open) {
                 var active;
 
+                if (priorityactive<0 && this._priorityArr.length>0) {
+                    for (i=0; i<this._priorityArr.length; i++) {
+                        var type = this._priorityArr[i],
+                            pnl = this._settings[type];
+                        if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined || pnl.hidden) continue;
+                        priorityactive = type;
+                        break;
+                    }
+                }
+
                 if (priorityactive>-1) active = priorityactive;
                 else if (currentactive>=0) active = currentactive;
                 else if (lastactive>=0) active = lastactive;
@@ -249,23 +267,23 @@ define([
         },
 
         onInsertTable:  function() {
-            this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+            // this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
         },
 
         onInsertImage:  function() {
-            this._settings[Common.Utils.documentSettingsType.Image].needShow = true;
+            // this._settings[Common.Utils.documentSettingsType.Image].needShow = true;
         },
 
         onInsertChart:  function() {
-            this._settings[Common.Utils.documentSettingsType.Chart].needShow = true;
+            // this._settings[Common.Utils.documentSettingsType.Chart].needShow = true;
         },
 
         onInsertShape:  function() {
-            this._settings[Common.Utils.documentSettingsType.Shape].needShow = true;
+            // this._settings[Common.Utils.documentSettingsType.Shape].needShow = true;
         },
 
         onInsertTextArt:  function() {
-            this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
+            // this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
         },
 
         UpdateThemeColors:  function() {
