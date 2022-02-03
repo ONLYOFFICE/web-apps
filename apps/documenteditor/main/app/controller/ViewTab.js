@@ -88,6 +88,19 @@ define([
                 groupRulers.remove();
                 this.view.cmpEl.find('.separator-rulers').remove();
             }
+
+            if (!mode.isEdit) { // if view tab will be visible in view/restricted-editing mode
+                this.view.chToolbar.hide();
+                var me = this;
+                Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                    if ((action=='plugins' || action=='review' || action=='forms') && visible) {
+                        me.view.chToolbar.show();
+                    }
+                }, this));
+
+                this.view.chRulers.hide();
+            }
+
             this.addListeners({
                 'ViewTab': {
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
@@ -103,11 +116,6 @@ define([
                 'Statusbar': {
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
-                    }, this)
-                },
-                'Common.Views.Header': {
-                    'rulers:hide': _.bind(function (isChecked) {
-                        this.view.chRulers.setValue(!isChecked, true);
                     }, this)
                 }
             });
@@ -229,7 +237,6 @@ define([
             Common.localStorage.setBool('de-hidden-rulers', !checked);
             Common.Utils.InternalSettings.set("de-hidden-rulers", !checked);
             this.api.asc_SetViewRulers(checked);
-            this.view.fireEvent('rulers:hide', [!checked]);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },

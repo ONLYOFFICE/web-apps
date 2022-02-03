@@ -109,7 +109,6 @@ define([
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
-                                    '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-user-name"></div>' +
@@ -337,9 +336,6 @@ define([
                     });
                 }
             }
-
-            if ( me.btnOptions )
-                me.btnOptions.updateHint(me.tipViewSettings);
         }
 
         function onFocusDocName(e){
@@ -397,9 +393,6 @@ define([
             }
         }
 
-        function onContentThemeChangedToDark(isdark) {
-        }
-
         return {
             options: {
                 branding: {},
@@ -441,17 +434,6 @@ define([
                     reset   : onResetUsers
                 });
 
-                me.btnOptions = new Common.UI.Button({
-                    cls: 'btn-header no-caret',
-                    iconCls: 'toolbar__icon icon--inverse btn-ic-options',
-                    menu: true,
-                    dataHint: '0',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
-                });
-
-                me.mnuZoom = {options: {value: 100}};
-
                 me.btnFavorite = new Common.UI.Button({
                     id: 'btn-favorite',
                     cls: 'btn-header',
@@ -466,7 +448,6 @@ define([
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
-                Common.NotificationCenter.on('contenttheme:dark', onContentThemeChangedToDark.bind(this));
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
             },
 
@@ -547,7 +528,6 @@ define([
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
-                    me.btnOptions.render($html.find('#slot-btn-options'));
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous)
@@ -816,20 +796,9 @@ define([
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
                     case 'redo': _lockButton(me.btnRedo); break;
-                    case 'opts': _lockButton(me.btnOptions); break;
                     default: break;
                     }
                 }
-            },
-
-            fakeMenuItem: function() {
-                return {
-                    conf: {checked: false, disabled: false},
-                    setChecked: function (val) { this.conf.checked = val; },
-                    isChecked: function () { return this.conf.checked; },
-                    setDisabled: function (val) { this.conf.disabled = val; },
-                    isDisabled: function () { return this.conf.disabled; }
-                };
             },
 
             textBack: 'Go to Documents',
