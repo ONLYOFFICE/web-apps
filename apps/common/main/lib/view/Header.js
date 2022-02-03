@@ -89,7 +89,6 @@ define([
                                             '<div class="inner-box-icon">' +
                                                 '<svg class=""><use xlink:href="#svg-icon-users"></use></svg>' +
                                             '</div>' +
-                                            // '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
                                             '<label class="caption"></label>' +
                                         '</div>' +
                                         '<div class="cousers-menu dropdown-menu">' +
@@ -174,31 +173,15 @@ define([
 
             var has_edit_users = count > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit); // has other user(s) who edit document
             if ( has_edit_users ) {
-                // $btnUsers
-                //     .attr('data-toggle', 'dropdown')
-                //     .addClass('dropdown-toggle')
-                //     .menu = true;
-
                 $panelUsers['show']();
-
-                $btnUsers.find('.caption')
-                    // .css({'font-size': '12px',
-                    //     'margin-top': '0'})
-                    .html(originalCount);
+                $btnUsers.find('.caption').html(originalCount);
             } else {
-                // $btnUsers
-                //     .removeAttr('data-toggle')
-                //     .removeClass('dropdown-toggle')
-                //     .menu = false;
                 $panelUsers['hide']();
             }
-
         }
 
         function onLostEditRights() {
             _readonlyRights = true;
-            // $panelUsers && $panelUsers.find('#tlb-change-rights').hide();
-            // $btnUsers && !$btnUsers.menu && $panelUsers.hide();
             $panelShare && $panelShare.hide();
         }
 
@@ -213,7 +196,6 @@ define([
         }
 
         function onShareClick(e) {
-            $panelUsers.removeClass('open');
             Common.NotificationCenter.trigger('collaboration:sharing');
         }
 
@@ -292,13 +274,6 @@ define([
                 });
                 $btnShare.on('click', onShareClick.bind(me));
 
-                // var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-                // $labelChangeRights.on('click', function(e) {
-                //     $panelUsers.removeClass('open');
-                //     Common.NotificationCenter.trigger('collaboration:sharing');
-                // });
-                //
-                // $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
                 $panelShare[(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings)) ? 'show' : 'hide']();
                 $panelUsers[(editingUsers > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) ? 'show' : 'hide']();
             }
@@ -452,7 +427,6 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
-                    // split: true,
                     dataHint: '0',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
