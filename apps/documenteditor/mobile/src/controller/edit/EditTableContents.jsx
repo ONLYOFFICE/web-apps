@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
-
 import { EditTableContents } from '../../view/edit/EditTableContents';
 
 class EditTableContentsController extends Component {
@@ -12,6 +11,21 @@ class EditTableContentsController extends Component {
         this.startLevel = 1;
         this.endLevel = 3;
         this.fillTOCProps = this.fillTOCProps.bind(this);
+        // this.getStylesImages = this.getStylesImages.bind(this);
+    }
+
+    getStylesImages(id, value) {
+        const api = Common.EditorApi.get();
+        const propsTableContents = api.asc_GetTableOfContentsPr();
+        // const arrValuesStyles = [Asc.c_oAscTOCStylesType.Current, Asc.c_oAscTOCStylesType.Simple, Asc.c_oAscTOCStylesType.Web, Asc.c_oAscTOCStylesType.Standard, Asc.c_oAscTOCStylesType.Modern, Asc.c_oAscTOCStylesType.Classic];
+
+        propsTableContents.put_StylesType(value);
+        api.SetDrawImagePlaceContents(id, propsTableContents);
+
+        // arrValuesStyles.forEach((value, index) => {
+        //     propsTableContents.put_StylesType(value);
+        //     api.SetDrawImagePlaceContents(`image-style${index}`, propsTableContents);
+        // });
     }
 
     onStyle(value) {
@@ -244,6 +258,7 @@ class EditTableContentsController extends Component {
                 onLevelsChange={this.onLevelsChange}
                 fillTOCProps={this.fillTOCProps}
                 addStyles={this.addStyles}
+                getStylesImages={this.getStylesImages}
             />
         )
     }
