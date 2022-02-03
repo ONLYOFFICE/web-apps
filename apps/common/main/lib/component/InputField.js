@@ -54,8 +54,7 @@ if (Common === undefined)
 define([
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Tooltip',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/CalendarDialog'
+    'common/main/lib/component/Button'
 ], function () { 'use strict';
 
     Common.UI.InputField = Common.UI.BaseView.extend((function() {
@@ -732,18 +731,19 @@ define([
                         firstday: 1
                     });
                     this.cmpCalendar.setDate(this.date);
+
                     this.cmpCalendar.on('date:click', function (cmp, date) {
-
-                        me.date = this.selectedDate;
-                        me.setValue(this.selectedDate.toLocaleDateString());
+                        me.date = date;
+                        me.trigger('date:click', me, date);
                         controlsContainer.hide();
-
                     });
+
                     this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
                         if (e.keyCode==Common.UI.Keys.ESC) {
                             controlsContainer.hide();
                         }
                     });
+
                     $(document).on('mousedown', function(e) {
                         if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
                             controlsContainer.hide();
