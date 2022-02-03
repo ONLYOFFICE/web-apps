@@ -194,6 +194,24 @@
         overflow: hidden;
     }
 
+    &:not(:disabled) {
+        .inner-box-icon, .caption {
+            opacity: @header-component-normal-icon-opacity;
+        }
+    }
+
+    &:active, &.active {
+        .inner-box-icon, .caption {
+            opacity: @header-component-active-icon-opacity;
+        }
+    }
+
+    &:hover:not(:disabled)  {
+        .inner-box-icon, .caption {
+            opacity: @header-component-hover-icon-opacity;
+        }
+    }
+
     &.disabled {
         opacity: @component-disabled-opacity;
         pointer-events: none;
@@ -224,6 +242,24 @@
         cursor: pointer;
         font-size: 11px;
         margin: 2px 0 0 2px;
+    }
+
+    &:not(:disabled) {
+        .icon, .caption {
+            opacity: @header-component-normal-icon-opacity;
+        }
+    }
+
+    &:active, &.active {
+        .icon, .caption {
+            opacity: @header-component-active-icon-opacity;
+        }
+    }
+
+    &:hover:not(:disabled)  {
+        .icon, .caption {
+            opacity: @header-component-hover-icon-opacity;
+        }
     }
 
     &.disabled {
@@ -261,6 +297,18 @@
             width:calc(~"28px/1.5");
             height:calc(~"28px/1.5");
         }
+    }
+
+    &:not(:disabled) .icon {
+        opacity: @header-component-normal-icon-opacity;
+    }
+
+    &:active, &.active .icon {
+        opacity: @header-component-active-icon-opacity;
+    }
+
+    &:hover:not(:disabled) .icon {
+        opacity: @header-component-hover-icon-opacity;
     }
 }
 
@@ -477,22 +525,6 @@
         background-color: transparent;
         border: 0 none;
         cursor: default;
-   }
-    #title-user-name {
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        text-align: right;
-        font-size: 11px;
-        width: 200px;
-        height: 100%;
-        padding: 0 12px;
-        line-height: @height-title;
-        pointer-events: none;
-        &.clickable {
-            cursor: pointer;
-            pointer-events: auto;
-        }
    }
 
     .lr-separator {

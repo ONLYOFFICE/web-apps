@@ -111,7 +111,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" id="slot-btn-user-name"></div>' +
+                                    '<div class="btn-slot slot-btn-user-name"></div>' +
                                     '<div class="btn-current-user btn-header hidden">' +
                                         '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
                                     '</div>' +
@@ -135,7 +135,12 @@ define([
                                     // '<label id="title-doc-name" /></label>' +
                                     '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
-                                '<label id="title-user-name"></label>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot slot-btn-user-name"></div>' +
+                                    '<div class="btn-current-user btn-header hidden">' +
+                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                    '</div>' +
+                                '</div>' +
                             '</section>';
 
         function onResetUsers(collection, opts) {
@@ -281,12 +286,7 @@ define([
 
 
             if (appConfig.user.guest && appConfig.canRenameAnonymous) {
-                if (me.labelUserName) {
-                    me.labelUserName.addClass('clickable');
-                    me.labelUserName.on('click', function (e) {
-                        Common.NotificationCenter.trigger('user:rename');
-                    });
-                } else if (me.btnUserName) {
+                if (me.btnUserName) {
                     me.btnUserName.on('click', function (e) {
                         Common.NotificationCenter.trigger('user:rename');
                     });
@@ -531,7 +531,7 @@ define([
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous)
-                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'), undefined, 'bottom', 'big' );
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('.slot-btn-user-name'), undefined, 'bottom', 'big' );
                         else {
                             me.elUserName = $html.find('.btn-current-user');
                             me.elUserName.removeClass('hidden');
@@ -557,7 +557,12 @@ define([
                     me.labelDocName.val( me.documentCaption );
                     me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
-                    me.labelUserName = $('> #title-user-name', $html);
+                    if (config.user.guest && config.canRenameAnonymous)
+                        me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('.slot-btn-user-name'), undefined, 'bottom', 'big' );
+                    else {
+                        me.elUserName = $html.find('.btn-current-user');
+                        me.elUserName.removeClass('hidden');
+                    }
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
@@ -727,21 +732,15 @@ define([
             },
 
             setUserName: function(name) {
-                if ( !!this.labelUserName ) {
-                    if ( !!name ) {
-                        this.labelUserName.text(name).show();
-                    } else this.labelUserName.hide();
-                } else {
-                    this.options.userName = name;
-                    if ( this.btnUserName ) {
-                        this.btnUserName.updateHint(name);
-                    } else if (this.elUserName) {
-                        this.elUserName.tooltip({
-                            title: Common.Utils.String.htmlEncode(name),
-                            placement: 'cursor',
-                            html: true
-                        });
-                    }
+                this.options.userName = name;
+                if ( this.btnUserName ) {
+                    this.btnUserName.updateHint(name);
+                } else if (this.elUserName) {
+                    this.elUserName.tooltip({
+                        title: Common.Utils.String.htmlEncode(name),
+                        placement: 'cursor',
+                        html: true
+                    });
                 }
 
                 return this;
@@ -767,15 +766,7 @@ define([
                         $btnShare.removeClass('disabled').removeAttr('disabled');
                     }
                 } else if ( alias == 'rename-user' ) {
-                    if (me.labelUserName) {
-                        if ( lock ) {
-                            me.labelUserName.removeClass('clickable');
-                            me.labelUserName.addClass('disabled');
-                        } else {
-                            me.labelUserName.addClass('clickable');
-                            me.labelUserName.removeClass('disabled');
-                        }
-                    } else if (me.btnUserName) {
+                    if (me.btnUserName) {
                         me.btnUserName.setDisabled(lock);
                     }
                 } else {
