@@ -96,6 +96,8 @@ define([
                                             '<div class="cousers-list"></div>' +
                                         '</div>' +
                                     '</section>'+
+                                '</div>' +
+                                '<div class="hedset">' +
                                     '<section id="tlb-box-share" class="box-share">' +
                                         '<div class="btn-users-share" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
                                             '<i class="icon toolbar__icon icon--inverse btn-users-share"></i>' +
