@@ -276,6 +276,7 @@ define([
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
+            me.delaySelect = me.options.delaySelect || false;
             me.rendered       = false;
             me.dataViewItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -396,10 +397,10 @@ define([
                 });
 
                 if (record) {
-                    if (Common.Utils.isSafari) {
+                    if (this.delaySelect) {
                         setTimeout(function () {
                             record.set({selected: true});
-                        }, 200);
+                        }, 300);
                     } else {
                         record.set({selected: true});
                     }
