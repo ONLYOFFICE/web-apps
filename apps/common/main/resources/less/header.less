@@ -340,7 +340,10 @@
     height: 100%;
     width: 40px;
     padding: 1px 3px;
+    border: var(--scaled-one-pixel, 1px) solid transparent;
+}
 
+.btn-current-user, .btn-header {
     &:not(:disabled) .color-user-name {
         opacity: @header-component-normal-icon-opacity;
     }
@@ -352,17 +355,15 @@
     &:hover:not(:disabled) .color-user-name {
         opacity: @header-component-hover-icon-opacity;
     }
-}
 
-.btn-current-user, .btn-header {
     .color-user-name {
         width: 20px;
         height: 20px;
         border-radius: 20px;
         background-color: @icon-toolbar-header-ie;
         background-color: @icon-toolbar-header;
-        color: @header-background-color-ie;
-        color: @header-background-color;
+        color: @toolbar-header-text-on-background-document-ie;
+        color: @toolbar-header-text-on-background-document;
         font-size: 10px;
         line-height: 20px;
         overflow: hidden;

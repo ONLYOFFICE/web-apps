@@ -110,7 +110,7 @@ define([
                                     '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                         '<div class="color-user-name"></div>' +
                                     '</button>' +
-                                    '<div class="btn-current-user btn-header hidden">' +
+                                    '<div class="btn-current-user hidden">' +
                                         '<div class="color-user-name"></div>' +
                                     '</div>' +
                                 '</div>' +
@@ -138,7 +138,7 @@ define([
                                     '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                         '<div class="color-user-name"></div>' +
                                     '</button>' +
-                                    '<div class="btn-current-user btn-header hidden">' +
+                                    '<div class="btn-current-user hidden">' +
                                         '<div class="color-user-name"></div>' +
                                     '</div>' +
                                 '</div>' +

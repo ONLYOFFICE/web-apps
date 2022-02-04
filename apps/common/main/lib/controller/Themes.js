@@ -43,6 +43,10 @@ define([
             "toolbar-header-spreadsheet",
             "toolbar-header-presentation",
 
+            "text-toolbar-header-on-background-document",
+            "text-toolbar-header-on-background-spreadsheet",
+            "text-toolbar-header-on-background-presentation",
+
             "background-normal",
             "background-toolbar",
             "background-toolbar-additional",
