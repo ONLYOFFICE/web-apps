@@ -52,7 +52,7 @@ define([
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
-        var $userList, $panelUsers, $btnUsers, $panelShare, $btnShare;
+        var $userList, $panelUsers, $btnUsers, $panelShare, $btnShare, $btnUserName;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -111,9 +111,12 @@ define([
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot slot-btn-user-name"></div>' +
+                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
+                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                        '<div class="color-user-name"></div>' +
+                                    '</button>' +
                                     '<div class="btn-current-user btn-header hidden">' +
-                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                        '<div class="color-user-name"></div>' +
                                     '</div>' +
                                 '</div>' +
                             '</section>' +
@@ -136,9 +139,12 @@ define([
                                     '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot slot-btn-user-name"></div>' +
+                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
+                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                        '<div class="color-user-name"></div>' +
+                                    '</button>' +
                                     '<div class="btn-current-user btn-header hidden">' +
-                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                        '<div class="color-user-name"></div>' +
                                     '</div>' +
                                 '</div>' +
                             '</section>';
@@ -530,12 +536,21 @@ define([
                     }
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
-                        if (config.user.guest && config.canRenameAnonymous)
-                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('.slot-btn-user-name'), undefined, 'bottom', 'big' );
-                        else {
+                        if (config.user.guest && config.canRenameAnonymous) {
+                            me.btnUserName = new Common.UI.Button({
+                                el: $html.findById('.slot-btn-user-name'),
+                                cls: 'btn-header',
+                                dataHint:'0',
+                                dataHintDirection: 'bottom',
+                                dataHintOffset: 'big',
+                                visible: true
+                            });
+                            me.btnUserName.cmpEl.removeClass('hidden');
+                        } else {
                             me.elUserName = $html.find('.btn-current-user');
                             me.elUserName.removeClass('hidden');
                         }
+                        $btnUserName = $html.find('.color-user-name');
                         me.setUserName(me.options.userName);
                     }
 
@@ -557,12 +572,22 @@ define([
                     me.labelDocName.val( me.documentCaption );
                     me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
-                    if (config.user.guest && config.canRenameAnonymous)
-                        me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('.slot-btn-user-name'), undefined, 'bottom', 'big' );
+                    if (config.user.guest && config.canRenameAnonymous) {
+                        me.btnUserName = new Common.UI.Button({
+                            el: $html.findById('.slot-btn-user-name'),
+                            cls: 'btn-header',
+                            dataHint:'0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big',
+                            visible: true
+                        });
+                        me.btnUserName.cmpEl.removeClass('hidden');
+                    }
                     else {
                         me.elUserName = $html.find('.btn-current-user');
                         me.elUserName.removeClass('hidden');
                     }
+                    $btnUserName = $html.find('.color-user-name');
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
@@ -742,7 +767,7 @@ define([
                         html: true
                     });
                 }
-
+                $btnUserName && $btnUserName.text(this.getInitials(name));
                 return this;
             },
 
@@ -790,6 +815,18 @@ define([
                     default: break;
                     }
                 }
+            },
+
+            getInitials: function(name) {
+                var fio = name.split(' ');
+                var initials = fio[0].substring(0, 1).toUpperCase();
+                for (var i = fio.length-1; i>0; i--) {
+                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
+                        initials += fio[i].substring(0, 1).toUpperCase();
+                        break;
+                    }
+                }
+                return initials;
             },
 
             textBack: 'Go to Documents',
