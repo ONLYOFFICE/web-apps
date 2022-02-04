@@ -1,18 +1,19 @@
 import React, { Component } from "react";
-import NavigationView from "../../view/settings/Navigation";
+import Navigation from "../../view/settings/Navigation";
 import { Device } from '../../../../../common/mobile/utils/device';
-import { f7, Sheet } from 'framework7-react';
+import { f7, Sheet, Page, Popup } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 
 class NavigationController extends Component {
     constructor(props) {
         super(props);
         this.updateNavigation = this.updateNavigation.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     closeModal() {
         if (Device.phone) {
-            f7.sheet.close('.settings-popup', false);
+            f7.popup.close('.settings-popup', true);
         } else {
             f7.popover.close('#settings-popover');
         }
@@ -72,13 +73,30 @@ class NavigationController extends Component {
         }
     };
 
+    componentDidMount() {
+        if(Device.phone) {
+            f7.sheet.open('#view-navigation-sheet', true);
+            this.closeModal();
+        }
+    }
+
     render() {
         return (
-            <NavigationView 
-                onSelectItem={this.onSelectItem} 
-                updateNavigation={this.updateNavigation}
-                closeModal={this.closeModal}
-            />
+            !Device.phone ? 
+                <Navigation
+                    onSelectItem={this.onSelectItem} 
+                    updateNavigation={this.updateNavigation}
+                    closeModal={this.closeModal}
+                />
+            :
+                <Sheet id="view-navigation-sheet" push>
+                    <Navigation
+                        onSelectItem={this.onSelectItem} 
+                        updateNavigation={this.updateNavigation}
+                        closeModal={this.closeModal}
+                    /> 
+                </Sheet>
+
         );
     }
 }

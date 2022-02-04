@@ -13,6 +13,7 @@ import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./Docume
 import { MacrosSettings } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
+// import { NavigationSheetView } from './Navigation';
 
 const routes = [
     {
