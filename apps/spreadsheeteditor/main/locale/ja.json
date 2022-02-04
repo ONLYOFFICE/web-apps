@@ -2002,7 +2002,7 @@
   "SSE.Views.FileMenu.btnBackCaption": "ファイルの場所を開く",
   "SSE.Views.FileMenu.btnCloseMenuCaption": "（←戻る）",
   "SSE.Views.FileMenu.btnCreateNewCaption": "新規作成",
-  "SSE.Views.FileMenu.btnDownloadCaption": "ダウンロード...",
+  "SSE.Views.FileMenu.btnDownloadCaption": "名前を付けてダウンロード",
   "SSE.Views.FileMenu.btnExitCaption": "終了",
   "SSE.Views.FileMenu.btnFileOpenCaption": "開く",
   "SSE.Views.FileMenu.btnHelpCaption": "ヘルプ...",

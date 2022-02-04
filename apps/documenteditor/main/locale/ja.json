@@ -1667,7 +1667,7 @@
   "DE.Views.FileMenu.btnBackCaption": "ファイルのURLを開く",
   "DE.Views.FileMenu.btnCloseMenuCaption": "（←戻る）",
   "DE.Views.FileMenu.btnCreateNewCaption": "新規作成",
-  "DE.Views.FileMenu.btnDownloadCaption": "としてダウンロード",
+  "DE.Views.FileMenu.btnDownloadCaption": "名前を付けてダウンロード",
   "DE.Views.FileMenu.btnExitCaption": "終了",
   "DE.Views.FileMenu.btnFileOpenCaption": "開く",
   "DE.Views.FileMenu.btnHelpCaption": "ヘルプ...",

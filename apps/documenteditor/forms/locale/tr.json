@@ -80,7 +80,7 @@
   "DE.Controllers.ApplicationController.downloadTextText": "Döküman yükleniyor...",
   "DE.Controllers.ApplicationController.errorAccessDeny": "Hakkınız olmayan bir eylem gerçekleştirmeye çalışıyorsunuz.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "DE.Controllers.ApplicationController.errorBadImageUrl": "Resim URL'si yanlış",
-  "DE.Controllers.ApplicationController.errorConnectToServer": "Belge kaydedilemedi. Lütfen internet bağlantınızı kontrol edin veya yöneticiniz ile iletişime geçin. <br>'OK' tuşuna tıkladığınızda belgeyi indirebileceksiniz.",
+  "DE.Controllers.ApplicationController.errorConnectToServer": "Belge kaydedilemedi. Lütfen internet bağlantınızı kontrol edin veya yöneticiniz ile iletişime geçin. <br>'Tamam' tuşuna tıkladığınızda belgeyi indirebileceksiniz.",
   "DE.Controllers.ApplicationController.errorDataEncrypted": "Şifreli değişiklikler alındı, deşifre edilemezler.",
   "DE.Controllers.ApplicationController.errorDefaultMessage": "Hata kodu: %1",
   "DE.Controllers.ApplicationController.errorEditingDownloadas": "Dosyayla çalışırken hata meydana geldi. 'Farklı Kaydet...' seçeneğini kullanarak dosyayı bilgisayarınıza yedekleyin.",
