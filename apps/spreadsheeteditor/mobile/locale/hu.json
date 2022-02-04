@@ -142,9 +142,14 @@
       "textGuest": "Vendég",
       "textHasMacros": "A fájl automatikus makrókat tartalmaz.<br>Szeretne makrókat futtatni?",
       "textNo": "Nem",
+      "textNoChoices": "Nincs lehetőség a cellának kitöltésére.<br>Csak az oszlopból származó szövegértékek választhatók ki cserére.",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
+      "textNoTextFound": "A szöveg nem található",
+      "textOk": "OK",
       "textPaidFeature": "Fizetett funkció",
       "textRemember": "Választás megjegyzése",
+      "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
+      "textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
       "textYes": "Igen",
       "titleServerVersion": "Szerkesztő frissítve",
       "titleUpdateVersion": "A verzió megváltozott",
@@ -155,12 +160,7 @@
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a személyes frissítés feltételekért.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -175,6 +175,7 @@
     "errorAutoFilterDataRange": "A művelet nem hajtható végre a kiválasztott cellatartományban.<br>Válasszon egységes adattartományt a táblázaton belül vagy kívül és próbálkozzon újra.",
     "errorAutoFilterHiddenRange": "A művelet nem hajtható végre, mert a terület szűrt cellákat tartalmaz.<br>Kérjük, jelenítse meg a szűrt elemeket, és próbálja újra.",
     "errorBadImageUrl": "Hibás kép URL",
+    "errorCannotUseCommandProtectedSheet": "Ez a parancs nem használható védett munkalapon. A parancs használatához szüntesse meg a munkalap védelmét.<br>Előfordulhat, hogy jelszót kell megadnia.",
     "errorChangeArray": "Nem módosíthatja a tömb egy részét.",
     "errorChangeOnProtectedSheet": "A módosítani kívánt cella vagy diagram egy védett lapon található. A módosításhoz szüntesse meg a lap védelmét. Előfordulhat, hogy jelszót kell megadnia.",
     "errorConnectToServer": "Ezt a dokumentumot nem lehet menteni. Ellenőrizze a kapcsolat beállításait, vagy forduljon a rendszergazdához.<br>Ha az \"OK\" gombra kattint, a rendszer felkéri a dokumentum letöltésére.",
@@ -233,8 +234,7 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Jelszó",
@@ -289,16 +289,16 @@
     "textErrorRemoveSheet": "Nem törölhető a munkalap.",
     "textHide": "Elrejt",
     "textMore": "Több",
+    "textMove": "Áthelyezés",
+    "textMoveBack": "Mozgatás hátra",
+    "textMoveForward": "Előre mozgat",
     "textOk": "OK",
     "textRename": "Átnevezés",
     "textRenameSheet": "Munkalap átnevezése",
     "textSheet": "Munkalap",
     "textSheetName": "Munkalap neve",
     "textUnhide": "Megmutat",
-    "textWarnDeleteSheet": "A munkalap lehet hogy tartalmaz adatok. Folytatja a műveletet?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "A munkalap lehet hogy tartalmaz adatok. Folytatja a műveletet?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
@@ -341,6 +341,7 @@
       "textLink": "Hivatkozás",
       "textLinkSettings": "Hivatkozás beállítások",
       "textLinkType": "Hivatkozás típusa",
+      "textOk": "OK",
       "textOther": "Egyéb",
       "textPictureFromLibrary": "Kép a könyvtárból",
       "textPictureFromURL": "Kép URL-en keresztül",
@@ -358,8 +359,7 @@
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak renezése",
-      "txtYes": "Igen",
-      "textOk": "Ok"
+      "txtYes": "Igen"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -378,6 +378,7 @@
       "textAngleClockwise": "Óramutató járásával megegyező irányba",
       "textAngleCounterclockwise": "Óramutató járásával ellentétes irányba",
       "textAuto": "Auto",
+      "textAutomatic": "Automatikus",
       "textAxisCrosses": "Tengelykeresztek",
       "textAxisOptions": "Tengely beállítások",
       "textAxisPosition": "Tengelypozíció",
@@ -478,6 +479,7 @@
       "textNoOverlay": "Nincs átfedés",
       "textNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "textNumber": "Szám",
+      "textOk": "OK",
       "textOnTickMarks": "Pipákon",
       "textOpacity": "Áttetszőség",
       "textOut": "Ki",
@@ -539,9 +541,7 @@
       "textYen": "Jen",
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSortHigh2Low": "A legnagyobbtól a legkisebbig rendez",
-      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez"
     },
     "Settings": {
       "advCSVOptions": "Válasszon a CSV beállítások közül",
@@ -571,6 +571,7 @@
       "textComments": "Megjegyzések",
       "textCreated": "Létrehozva",
       "textCustomSize": "Egyéni méret",
+      "textDarkTheme": "Sötét téma",
       "textDelimeter": "Elválasztó",
       "textDisableAll": "Összes letiltása",
       "textDisableAllMacrosWithNotification": "Minden értesítéssel rendelkező makró letiltása",
@@ -671,8 +672,7 @@
       "txtSemicolon": "Pontosvessző",
       "txtSpace": "Szóköz",
       "txtTab": "Lap",
-      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?"
     }
   }
 }

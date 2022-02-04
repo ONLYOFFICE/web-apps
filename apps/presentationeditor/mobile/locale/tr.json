@@ -131,12 +131,12 @@
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
-    "criticalErrorExtText": "Belge listesine geri dönmek için 'OK'a basın.",
+    "criticalErrorExtText": "Belge listesine geri dönmek için 'Tamam'a basın.",
     "criticalErrorTitle": "Hata",
     "downloadErrorText": "İndirme başarısız oldu.",
     "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",
     "errorBadImageUrl": "Resim URL'si yanlış",
-    "errorConnectToServer": "Bu doküman kaydedilemiyor. Bağlantı ayarlarınızı kontrol edin veya yöneticinizle iletişime geçin.<br>'OK' düğmesini tıkladığınızda, belgeyi indirmeniz istenecektir.",
+    "errorConnectToServer": "Bu doküman kaydedilemiyor. Bağlantı ayarlarınızı kontrol edin veya yöneticinizle iletişime geçin.<br>'Tamam' düğmesini tıkladığınızda, belgeyi indirmeniz istenecektir.",
     "errorDatabaseConnection": "Dışsal hata.<br>Veritabanı bağlantı hatası. Lütfen destek ile iletişime geçin.",
     "errorDataEncrypted": "Şifreli değişiklikler algılandı, çözülemiyor.",
     "errorDataRange": "Yanlış veri aralığı.",
@@ -228,6 +228,7 @@
       "textLinkTo": "Şuna bağlantıla:",
       "textLinkType": "Link Tipi",
       "textNextSlide": "Sonraki slayt",
+      "textOk": "Tamam",
       "textOther": "Diğer",
       "textPictureFromLibrary": "Kütüphaneden Resim",
       "textPictureFromURL": "URL'den resim",
@@ -240,8 +241,7 @@
       "textSlideNumber": "Slayt numarası",
       "textTable": "Tablo",
       "textTableSize": "Tablo Boyutu",
-      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
-      "textOk": "Tamam"
+      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır."
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -336,6 +336,7 @@
       "textNoTextFound": "Metin Bulunamadı",
       "textNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textNumbers": "Sayılar",
+      "textOk": "Tamam",
       "textOpacity": "Opaklık",
       "textOptions": "Seçenekler",
       "textPictureFromLibrary": "Kütüphaneden Resim",
@@ -391,7 +392,6 @@
       "textZoomRotate": "Büyüt ve Döndür",
       "textAutomatic": "Automatic",
       "textDesign": "Design",
-      "textOk": "Tamam",
       "textPush": "Push",
       "textWedge": "Wedge"
     },
