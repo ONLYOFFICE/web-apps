@@ -537,7 +537,7 @@
     "textDocumentTitle": "文書名",
     "textDone": "完了",
     "textDownload": "ダウンロード",
-    "textDownloadAs": "としてダウンロード",
+    "textDownloadAs": "名前を付けてダウンロード",
     "textDownloadRtf": "この形式で保存する続けば、フォーマットするの一部が失われる可能性があります。続けてもよろしいですか？",
     "textDownloadTxt": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
     "textEnableAll": "全てを有効にする",

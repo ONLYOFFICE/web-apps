@@ -41,6 +41,7 @@
     "textLocation": "Konum",
     "textNextPage": "Sonraki Sayfa",
     "textOddPage": "Tek Sayfa",
+    "textOk": "Tamam",
     "textOther": "Diğer",
     "textPageBreak": "Sayfa Sonu",
     "textPageNumber": "Sayfa Numarası",
@@ -56,8 +57,7 @@
     "textStartAt": "Başlangıç",
     "textTable": "Tablo",
     "textTableSize": "Tablo Boyutu",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
-    "textOk": "Tamam"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
   },
   "Common": {
     "Collaboration": {
@@ -269,6 +269,7 @@
     "textNoStyles": "Bu tip çizelge için stil yok!",
     "textNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
     "textNumbers": "Sayılar",
+    "textOk": "Tamam",
     "textOpacity": "Opaklık",
     "textOptions": "Seçenekler",
     "textOrphanControl": "Tek satır denetimi",
@@ -323,7 +324,6 @@
     "textMay": "May",
     "textMo": "Mo",
     "textNovember": "November",
-    "textOk": "Tamam",
     "textOctober": "October",
     "textSa": "Sa",
     "textSeptember": "September",
@@ -334,7 +334,7 @@
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
-    "criticalErrorExtText": "Belge listesine geri dönmek için 'OK'a basın.",
+    "criticalErrorExtText": "Belge listesine geri dönmek için 'Tamam'a basın.",
     "criticalErrorTitle": "Hata",
     "downloadErrorText": "İndirme başarısız oldu.",
     "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",

@@ -11,8 +11,8 @@
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": "Advertencia",
-      "textAddComment": "Añadir comentario",
-      "textAddReply": "Añadir respuesta",
+      "textAddComment": "Agregar comentario",
+      "textAddReply": "Agregar respuesta",
       "textBack": "Atrás",
       "textCancel": "Cancelar",
       "textCollaboration": "Colaboración",
@@ -44,8 +44,8 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual.",
-    "menuAddComment": "Añadir comentario",
-    "menuAddLink": "Añadir enlace ",
+    "menuAddComment": "Agregar comentario",
+    "menuAddLink": "Agregar enlace ",
     "menuCancel": "Cancelar",
     "menuDelete": "Eliminar",
     "menuDeleteTable": "Eliminar tabla",
@@ -75,8 +75,8 @@
       "notcriticalErrorTitle": "Advertencia",
       "SDK": {
         "Chart": "Gráfico",
-        "Click to add first slide": "Haga clic para añadir la primera diapositiva",
-        "Click to add notes": "Haga clic para añadir notas",
+        "Click to add first slide": "Haga clic para agregar la primera diapositiva",
+        "Click to add notes": "Haga clic para agregar notas",
         "ClipArt": "Imagen prediseñada",
         "Date and time": "Fecha y hora",
         "Diagram": "Diagrama",
@@ -207,7 +207,7 @@
   "View": {
     "Add": {
       "notcriticalErrorTitle": "Advertencia",
-      "textAddLink": "Añadir enlace ",
+      "textAddLink": "Agregar enlace ",
       "textAddress": "Dirección",
       "textBack": "Atrás",
       "textCancel": "Cancelar",
@@ -246,9 +246,9 @@
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
       "textActualSize": "Tamaño actual",
-      "textAddCustomColor": "Añadir color personalizado",
+      "textAddCustomColor": "Agregar color personalizado",
       "textAdditional": "Adicional",
-      "textAdditionalFormatting": "Formateo adicional",
+      "textAdditionalFormatting": "Formato adicional",
       "textAddress": "Dirección",
       "textAfter": "Después",
       "textAlign": "Alinear",

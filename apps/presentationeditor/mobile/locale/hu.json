@@ -33,13 +33,13 @@
       "textTryUndoRedo": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
       "textUsers": "Felhasználók"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Nincs kitöltés"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Egyéni színek",
       "textStandartColors": "Alapértelmezett színek",
       "textThemeColors": "Téma színek"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -107,9 +107,12 @@
       "textHasMacros": "A fájl automatikus makrókat tartalmaz.<br>Szeretne makrókat futtatni?",
       "textNo": "Nem",
       "textNoLicenseTitle": "Elérte a licenckorlátot",
+      "textNoTextFound": "A szöveg nem található",
       "textOpenFile": "Írja be a megnyitáshoz szükséges jelszót",
       "textPaidFeature": "Fizetett funkció",
       "textRemember": "Választás megjegyzése",
+      "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
+      "textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
       "textYes": "Igen",
       "titleLicenseExp": "Lejárt licenc",
       "titleServerVersion": "Szerkesztő frissítve",
@@ -123,10 +126,7 @@
       "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. További információért forduljon rendszergazdájához.",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a személyes frissítés feltételekért.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
-      "textNoTextFound": "Text not found",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
     }
   },
   "Error": {
@@ -228,6 +228,7 @@
       "textLinkTo": "Hivatkozás erre",
       "textLinkType": "Hivatkozás típusa",
       "textNextSlide": "Következő dia",
+      "textOk": "OK",
       "textOther": "Egyéb",
       "textPictureFromLibrary": "Kép a könyvtárból",
       "textPictureFromURL": "Kép URL-en keresztül",
@@ -240,8 +241,7 @@
       "textSlideNumber": "Dia száma",
       "textTable": "Táblázat",
       "textTableSize": "Táblázat mérete",
-      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
-      "textOk": "Ok"
+      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -261,6 +261,7 @@
       "textAllCaps": "Csupa nagybetűs",
       "textApplyAll": "Minden diára alkalmaz",
       "textAuto": "Automatikus",
+      "textAutomatic": "Automatikus",
       "textBack": "Vissza",
       "textBandedColumn": "Sávos oszlop",
       "textBandedRow": "Sávos sor",
@@ -285,6 +286,7 @@
       "textDefault": "Kiválasztott szöveg",
       "textDelay": "Késleltetés",
       "textDeleteSlide": "Dia törlése",
+      "textDesign": "Dizájn",
       "textDisplay": "Megjelenít",
       "textDistanceFromText": "Távolság a szövegtől",
       "textDistributeHorizontally": "Eloszlás vízszintesen",
@@ -336,6 +338,7 @@
       "textNoTextFound": "A szöveg nem található",
       "textNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "textNumbers": "Számok",
+      "textOk": "OK",
       "textOpacity": "Áttetszőség",
       "textOptions": "Beállítások",
       "textPictureFromLibrary": "Kép a könyvtárból",
@@ -390,10 +393,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
-      "textZoomRotate": "Zoom és elforgatás",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "Zoom és elforgatás"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",
@@ -410,6 +410,7 @@
       "textColorSchemes": "Szín sémák",
       "textComment": "Megjegyzés",
       "textCreated": "Létrehozva",
+      "textDarkTheme": "Sötét téma",
       "textDisableAll": "Összes letiltása",
       "textDisableAllMacrosWithNotification": "Tiltsa le az összes makrót értesítéssel",
       "textDisableAllMacrosWithoutNotification": "Tiltsa le az összes makrót értesítés nélkül",
@@ -472,8 +473,7 @@
       "txtScheme6": "Előcsarnok",
       "txtScheme7": "Saját tőke",
       "txtScheme8": "Folyam",
-      "txtScheme9": "Öntöde",
-      "textDarkTheme": "Dark Theme"
+      "txtScheme9": "Öntöde"
     }
   }
 }
