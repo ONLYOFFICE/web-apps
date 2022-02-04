@@ -462,9 +462,19 @@
 
         // TODO: move to appropriate module
         .btn-header, .btn-users, .btn-header-share {
-            &:not(:active) .icon--inverse {
-                background-position-x: 0;
-                background-position-x: @button-small-normal-icon-offset-x;
+            .icon {
+                &.icon--inverse {
+                    background-position-x: 0 !important;
+                    background-position-x: @button-small-normal-icon-offset-x !important;
+                }
+            }
+
+            &:active, &.active {
+                &:not(.disabled) .icon.toolbar__icon {
+                    &.icon--inverse {
+                        background-position-x: @button-small-active-icon-offset-x !important;
+                    }
+                }
             }
 
             svg.icon {
@@ -493,10 +503,6 @@
                 &:not(.disabled) {
                     background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
-
-                    .icon--inverse {
-                        background-position-x: @button-small-active-icon-offset-x;
-                    }
 
                     svg.icon {
                         fill: @icon-toolbar-header-ie;

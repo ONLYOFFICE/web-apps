@@ -285,15 +285,15 @@
         }
     }
 
-    &:active, &.active {
-        .inner-box-icon, .caption {
-            opacity: @header-component-active-icon-opacity;
-        }
-    }
-
     &:hover:not(:disabled)  {
         .inner-box-icon, .caption {
             opacity: @header-component-hover-icon-opacity;
+        }
+    }
+
+    &:active:not(:disabled), &.active:not(:disabled) {
+        .inner-box-icon, .caption {
+            opacity: @header-component-active-icon-opacity;
         }
     }
 
