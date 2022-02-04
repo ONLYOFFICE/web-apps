@@ -376,9 +376,9 @@ define([
                         title: this.titleConvertOptions,
                         label: this.textGroup,
                         items: [
-                            {caption: this.textChar, value: Asc.c_oAscTextAssociation.Char, checked: true},
-                            {caption: this.textLine, value: Asc.c_oAscTextAssociation.Line, checked: false},
-                            {caption: this.textParagraph, value: Asc.c_oAscTextAssociation.Block, checked: false}
+                            {caption: this.textChar, value: Asc.c_oAscTextAssociation.BlockChar, checked: true},
+                            {caption: this.textLine, value: Asc.c_oAscTextAssociation.BlockLine, checked: false},
+                            {caption: this.textParagraph, value: Asc.c_oAscTextAssociation.PlainLine, checked: false}
                         ],
                         handler: function (dlg, result) {
                             if (result=='ok') {
