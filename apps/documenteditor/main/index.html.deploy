@@ -70,6 +70,16 @@
             background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
         }
 
+        .loadmask > .brendpanel .circle {
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            margin: 0 10px;
+            background: rgba(255,255,255,.2);
+            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+        }
+
         .loadmask > .sktoolbar {
             background: #f1f1f1;
             background: var(--background-toolbar, #f1f1f1);
@@ -226,7 +236,7 @@
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
 
-    <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="loading-logo"><img src="../../../apps/documenteditor/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li><li class="fat"></li></ul><ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li></ul></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+    <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="loading-logo"><img src="../../../apps/documenteditor/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li><li class="fat"></li></ul><ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li></ul></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
     <div id="viewport"></div>
 
     <script>
