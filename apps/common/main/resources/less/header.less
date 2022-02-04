@@ -70,7 +70,6 @@
     }
 
     .btn-users,
-    .btn-users-share,
     .btn-header {
         &:hover {
             &:not(.disabled):not(.icon) {
@@ -163,6 +162,92 @@
     margin-top: 15px;
 }
 
+.hedset {
+    font-size: 0;
+    display: flex;
+
+    .btn-group {
+        height: 100%;
+    }
+
+}
+
+.btn-header {
+    height: 100%;
+    background-color: transparent;
+    width: 40px;
+
+    .icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        position: relative;
+
+        &.icon--inverse {
+            background-position-x: @button-header-normal-icon-offset-x-ie;
+            background-position-x: @button-header-normal-icon-offset-x;
+        }
+    }
+
+    .btn& {
+        &:not(:disabled) .icon {
+            opacity: @header-component-normal-icon-opacity;
+        }
+
+        &:active, &.active {
+            .icon.toolbar__icon {
+                &.icon--inverse {
+                    background-position-x: @button-header-active-icon-offset-x-ie;
+                    opacity: @header-component-active-icon-opacity;
+                }
+            }
+        }
+
+        &:hover:not(:disabled) {
+            .icon {
+                opacity: @header-component-hover-icon-opacity;
+            }
+        }
+    }
+
+    svg.icon {
+        vertical-align: middle;
+
+        @media
+        only screen and (-webkit-min-device-pixel-ratio: 1.5),
+        only screen and (min-resolution: 1.5dppx),
+        only screen and (min-resolution: 144dpi) {
+            width:calc(~"28px/1.5");
+            height:calc(~"28px/1.5");
+        }
+    }
+
+    .btn&[disabled],
+    &.disabled {
+        opacity: @component-disabled-opacity;
+    }
+
+    &:hover {
+        &:not(.disabled) {
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
+        }
+    }
+
+    &:active {
+        &:not(.disabled) {
+            background-color: @highlight-header-button-pressed-ie;
+            background-color: @highlight-header-button-pressed;
+        }
+    }
+
+    &.no-caret {
+        .inner-box-caret {
+            display: none;
+        }
+    }
+}
+
 .btn-users {
     display: flex;
     align-items: center;
@@ -218,53 +303,34 @@
     }
 }
 
-.btn-users-share {
+.btn-header-share {
     display: flex;
     align-items: center;
-    cursor: pointer;
     padding: 0 12px;
-    height: 100%;
-
-    .icon {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-repeat: no-repeat;
-        padding: 0;
-
-        &.icon--inverse {
-            background-position-x: @button-header-normal-icon-offset-x-ie;
-            background-position-x: @button-header-normal-icon-offset-x;
-        }
-    }
+    width: auto;
 
     .caption {
-        cursor: pointer;
-        font-size: 11px;
         margin: 2px 0 0 2px;
+        color: @text-toolbar-header-ie;
+        color: @text-toolbar-header;
     }
 
     &:not(:disabled) {
-        .icon, .caption {
+        .caption {
             opacity: @header-component-normal-icon-opacity;
         }
     }
 
-    &:active, &.active {
-        .icon, .caption {
-            opacity: @header-component-active-icon-opacity;
-        }
-    }
-
     &:hover:not(:disabled)  {
-        .icon, .caption {
+        .caption {
             opacity: @header-component-hover-icon-opacity;
         }
     }
 
-    &.disabled {
-        opacity: @component-disabled-opacity;
-        pointer-events: none;
+    &:active:not(:disabled), &.active:not(:disabled) {
+        .caption {
+            opacity: @header-component-active-icon-opacity;
+        }
     }
 }
 
@@ -375,92 +441,6 @@
                 max-width: 200px;
                 .font-weight-bold();
             }
-        }
-    }
-}
-
-.hedset {
-    font-size: 0;
-    display: flex;
-
-    .btn-group {
-        height: 100%;
-    }
-
-}
-
-.btn-header {
-    height: 100%;
-    background-color: transparent;
-    width: 40px;
-
-    .icon {
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-        position: relative;
-
-        &.icon--inverse {
-            background-position-x: @button-header-normal-icon-offset-x-ie;
-            background-position-x: @button-header-normal-icon-offset-x;
-        }
-    }
-
-    .btn& {
-        &:not(:disabled) .icon {
-            opacity: @header-component-normal-icon-opacity;
-        }
-
-        &:active, &.active {
-            .icon.toolbar__icon {
-                &.icon--inverse {
-                    background-position-x: @button-header-active-icon-offset-x-ie;
-                    opacity: @header-component-active-icon-opacity;
-                }
-            }
-        }
-
-        &:hover:not(:disabled) {
-            .icon {
-                opacity: @header-component-hover-icon-opacity;
-            }
-        }
-    }
-
-    svg.icon {
-        vertical-align: middle;
-
-        @media
-        only screen and (-webkit-min-device-pixel-ratio: 1.5),
-        only screen and (min-resolution: 1.5dppx),
-        only screen and (min-resolution: 144dpi) {
-            width:calc(~"28px/1.5");
-            height:calc(~"28px/1.5");
-        }
-    }
-
-    .btn&[disabled],
-    &.disabled {
-        opacity: @component-disabled-opacity;
-    }
-
-    &:hover {
-        &:not(.disabled) {
-            background-color: @highlight-header-button-hover-ie;
-            background-color: @highlight-header-button-hover;
-        }
-    }
-
-    &:active {
-        &:not(.disabled) {
-            background-color: @highlight-header-button-pressed-ie;
-            background-color: @highlight-header-button-pressed;
-        }
-    }
-
-    &.no-caret {
-        .inner-box-caret {
-            display: none;
         }
     }
 }

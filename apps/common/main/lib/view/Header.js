@@ -52,7 +52,7 @@ define([
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
-        var $userList, $panelUsers, $btnUsers, $panelShare, $btnShare, $btnUserName;
+        var $userList, $panelUsers, $btnUsers, $btnUserName;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -98,12 +98,7 @@ define([
                                     '</section>'+
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<section id="tlb-box-share" class="box-share">' +
-                                        '<div class="btn-users-share" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
-                                            '<i class="icon toolbar__icon icon--inverse btn-users-share"></i>' +
-                                            '<label class="caption"><%= textShare %></label>' +
-                                        '</div>' +
-                                     '</section>'+
+                                    '<div class="btn-slot" id="slot-btn-share"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
@@ -194,7 +189,7 @@ define([
 
         function onLostEditRights() {
             _readonlyRights = true;
-            $panelShare && $panelShare.hide();
+            this.btnShare && this.btnShare.setVisible(false);
         }
 
         function onUsersClick(e) {
@@ -205,10 +200,6 @@ define([
 
                 usertip.hide();
             }
-        }
-
-        function onShareClick(e) {
-            Common.NotificationCenter.trigger('collaboration:sharing');
         }
 
         function onAppShowed(config) {
@@ -251,6 +242,14 @@ define([
                 Common.NotificationCenter.trigger('markfavorite', !me.options.favorite);
             });
 
+            if (me.btnShare) {
+                me.btnShare.on('click', function (e) {
+                    Common.NotificationCenter.trigger('collaboration:sharing');
+                });
+                me.btnShare.updateHint(me.tipAccessRights);
+                me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
+            }
+
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
                     var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
@@ -278,18 +277,8 @@ define([
                     html: true
                 });
                 $btnUsers.on('click', onUsersClick.bind(me));
-
-                $btnShare.tooltip({
-                    title: me.tipAccessRights,
-                    placement: 'bottom',
-                    html: true
-                });
-                $btnShare.on('click', onShareClick.bind(me));
-
-                $panelShare[(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings)) ? 'show' : 'hide']();
                 $panelUsers[(editingUsers > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) ? 'show' : 'hide']();
             }
-
 
             if (appConfig.user.guest && appConfig.canRenameAnonymous) {
                 if (me.btnUserName) {
@@ -451,9 +440,9 @@ define([
 
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
-                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
+                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
+                    'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
-                Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
             },
 
@@ -554,14 +543,24 @@ define([
                         me.setUserName(me.options.userName);
                     }
 
+                    if (!_readonlyRights && config && (config.sharingSettingsUrl && config.sharingSettingsUrl.length || config.canRequestSharingSettings)) {
+                        me.btnShare = new Common.UI.Button({
+                            cls: 'btn-header btn-header-share',
+                            iconCls: 'toolbar__icon icon--inverse btn-users-share',
+                            caption: me.textShare,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnShare.render($html.find('#slot-btn-share'));
+                    } else {
+                        $html.find('#slot-btn-share').hide();
+                    }
+
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $panelUsers.find('> .btn-users');
-                    $panelShare = $html.find('.box-share');
-                    $btnShare = $panelShare.find('> .btn-users-share');
-
                     $panelUsers.hide();
-                    $panelShare.hide();
                     return $html;
                 } else
                 if ( role == 'title' ) {
@@ -777,7 +776,7 @@ define([
                 else if (type == 'users')
                     return $panelUsers;
                 else if (type == 'share')
-                    return $panelShare;
+                    return this.btnShare;
             },
 
             lockHeaderBtns: function (alias, lock) {
@@ -785,10 +784,11 @@ define([
                 if ( alias == 'users' ) {
                     if ( lock ) {
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled');
-                        $btnShare.addClass('disabled').attr('disabled', 'disabled');
                     } else {
                         $btnUsers.removeClass('disabled').removeAttr('disabled');
-                        $btnShare.removeClass('disabled').removeAttr('disabled');
+                    }
+                    if (me.btnShare) {
+                        me.btnShare.setDisabled(lock);
                     }
                 } else if ( alias == 'rename-user' ) {
                     if (me.btnUserName) {
