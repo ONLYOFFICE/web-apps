@@ -69,6 +69,7 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onZoomChange, this));
+                this.api.asc_registerCallback('asc_onNotesShow', _.bind(this.onNotesShow, this));
             }
             return this;
         },
@@ -84,12 +85,25 @@ define([
             if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
                 this.view.chStatusbar.$el.remove();
             }
+
+            if (!mode.isEdit) { // if view tab will be visible in view/restricted-editing mode
+                this.view.chToolbar.hide();
+                var me = this;
+                Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                    if ((action=='plugins' || action=='review') && visible) {
+                        me.view.chToolbar.show();
+                    }
+                }, this));
+
+                this.view.chRulers.hide();
+            }
+
             this.addListeners({
                 'ViewTab': {
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
                     'rulers:change': _.bind(this.onChangeRulers, this),
-                    'notes:change': _.bind(this.onChangeNotes, this),
+                    'notes:change': _.bind(this.onChangeNotes, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -100,14 +114,6 @@ define([
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
                     }, this)
-                },
-                'Common.Views.Header': {
-                    'rulers:hide': _.bind(function (isChecked) {
-                        this.view.chRulers.setValue(!isChecked, true);
-                    }, this),
-                    'notes:hide': _.bind(function (isChecked) {
-                        this.view.chNotes.setValue(!isChecked, true);
-                    }, this),
                 }
             });
         },
@@ -135,6 +141,11 @@ define([
                 this.view.cmbZoom.setValue(percent, percent + '%');
                 this._state.zoom_percent = percent;
             }
+        },
+
+        onNotesShow: function(bIsShow) {
+            this.view.chNotes.setValue(bIsShow, true);
+            Common.localStorage.setBool('pe-hidden-notes', !bIsShow);
         },
 
         onAppReady: function (config) {
@@ -186,7 +197,6 @@ define([
             this.api.asc_SetViewRulers(checked);
             Common.localStorage.setBool('pe-hidden-rulers', !checked);
             Common.Utils.InternalSettings.set("pe-hidden-rulers", !checked);
-            this.view.fireEvent('rulers:hide', [!checked]);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -194,7 +204,6 @@ define([
         onChangeNotes: function (btn, checked) {
             this.api.asc_ShowNotes(checked);
             Common.localStorage.setBool('pe-hidden-notes', !checked);
-            this.view.fireEvent('notes:hide', [!checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
