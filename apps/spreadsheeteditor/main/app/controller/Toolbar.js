@@ -94,7 +94,6 @@ define([
                     'sheet:changed': _.bind(this.onApiSheetChanged, this)
                 },
                 'Common.Views.Header': {
-                    'toolbar:setcompact': this.onChangeViewMode.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();

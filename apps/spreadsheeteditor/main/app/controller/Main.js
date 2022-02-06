@@ -2849,6 +2849,7 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     this.headerView.setCanRename(false);
                     this.headerView.getButton('users') && this.headerView.getButton('users').hide();
+                    this.headerView.getButton('share') && this.headerView.getButton('share').setVisible(false);
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
                     this.disableEditing(true);
                     this._renameDialog && this._renameDialog.close();

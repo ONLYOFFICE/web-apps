@@ -87,6 +87,24 @@ define([
             if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
                 this.view.chStatusbar.$el.remove();
             }
+
+            if (!mode.isEdit && !mode.isEditDiagram && !mode.isEditMailMerge) { // if view tab will be visible in view/restricted-editing mode
+                this.view.chToolbar.hide();
+                var me = this;
+                Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                    if ((action=='plugins' || action=='review') && visible) {
+                        me.view.chToolbar.show();
+                    }
+                }, this));
+            }
+
+            if (!mode.isEdit) {
+                this.view.chHeadings.hide();
+                this.view.chGridlines.hide();
+                this.view.btnFreezePanes.hide();
+                this.view.btnFreezePanes.$el.parents('.group').hide().prev().hide();
+            }
+
             this.addListeners({
                 'ViewTab': {
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
@@ -113,11 +131,6 @@ define([
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
-                    }, this)
-                },
-                'Common.Views.Header': {
-                    'toolbar:freezeshadow': _.bind(function (isChecked) {
-                        this.view.btnFreezePanes.menu.items[4].setChecked(isChecked, true);
                     }, this)
                 }
             });
@@ -154,7 +167,6 @@ define([
         onFreezeShadow: function (checked) {
             this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
             Common.localStorage.setBool('sse-freeze-shadow', checked);
-            this.view.fireEvent('freeze:shadow', [checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -191,10 +203,9 @@ define([
         onViewSettings: function(type, value){
             if (this.api) {
                 switch (type) {
-                    case 0: this.getApplication().getController('Viewport').header.fireEvent('formulabar:hide', [ value!=='checked']); break;
-                    case 1: this.api.asc_setDisplayHeadings(value=='checked'); break;
-                    case 2: this.api.asc_setDisplayGridlines( value=='checked'); break;
-                    case 3: this.api.asc_setShowZeros( value=='checked'); break;
+                    case 1: this.api.asc_setDisplayHeadings(value); break;
+                    case 2: this.api.asc_setDisplayGridlines(value); break;
+                    case 3: this.api.asc_setShowZeros(value); break;
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);

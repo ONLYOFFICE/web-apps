@@ -65,16 +65,16 @@ define([
                 }
             });
             this.chFormula.on('change', function (field, value) {
-                me.fireEvent('viewtab:formula', [0, value]);
+                me.fireEvent('viewtab:formula', [0, value=='checked']);
             });
             this.chHeadings.on('change', function (field, value) {
-                me.fireEvent('viewtab:headings', [1, value]);
+                me.fireEvent('viewtab:headings', [1, value=='checked']);
             });
             this.chGridlines.on('change', function (field, value) {
-                me.fireEvent('viewtab:gridlines', [2, value]);
+                me.fireEvent('viewtab:gridlines', [2, value=='checked']);
             });
             this.chZeros.on('change', function (field, value) {
-                me.fireEvent('viewtab:zeros', [3, value]);
+                me.fireEvent('viewtab:zeros', [3, value=='checked']);
             });
             this.chToolbar.on('change', function (field, value) {
                 me.fireEvent('viewtab:showtoolbar', [field, value !== 'checked']);
