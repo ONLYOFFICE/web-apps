@@ -81,8 +81,7 @@ const PageCustomTabColor =  inject("storePalette")(observer (props => {
 
 const PageTabColor =  inject("storePalette")(observer(props =>  {
     const { t } = useTranslation();
-    const {sheets} = props;
-    const allSheets = sheets.sheets;
+    const {sheets, allSheets = sheets.sheets} = props;
     const storePalette = props.storePalette;
     const customColors = storePalette.customColors;
     const activeIndex = sheets.activeWorksheet;
@@ -96,7 +95,7 @@ const PageTabColor =  inject("storePalette")(observer(props =>  {
                 sheets.changeTabColor('transparent');
             }
         }
-    }, [allSheets])
+    }, [activeIndex]);
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {

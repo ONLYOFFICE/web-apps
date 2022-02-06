@@ -71,7 +71,6 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
             sheets.setActiveWorksheet(index);
             Common.Notifications.trigger('sheet:active', index);
         }
-        onApiSheetsChanged();
     };
 
     const onApiHideTabContextMenu = () => {
@@ -375,10 +374,11 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
 
     const onSetWorkSheetColor = (color) => {
         const api = Common.EditorApi.get();
-        let arrIndex = [];
+        const active_index = api.asc_getActiveWorksheetIndex();
+        const arrIndex = [];
 
         if (api) {
-            arrIndex.push(api.asc_getActiveWorksheetIndex());
+            arrIndex.push(active_index);
             if (arrIndex) {
                 if(color === 'transparent') {
                     api.asc_setWorksheetTabColor(null, arrIndex);
@@ -392,6 +392,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
                     }
                 }
             }
+            sheets.sheets[active_index].color = api.asc_getWorksheetTabColor(active_index);
         }
     }
 
