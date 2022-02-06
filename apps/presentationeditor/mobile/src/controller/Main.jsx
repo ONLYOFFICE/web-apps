@@ -148,13 +148,10 @@ class MainController extends Component {
             };
 
             const onEditorPermissions = params => {
-                const licType = params.asc_getLicenseType();
-
-                this.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-
-                const storeAppOptions = this.props.storeAppOptions;
-                storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
-                this.applyMode(storeAppOptions);
+                // The GNU Affero License prohibits "SaaSS" denial of service to any user of a copy of this AGPL-licensed version of this "covered work"
+                // A developer who has a private license to this "covered work" may insert any license restrictions they wish into this function.
+                // See: https://www.gnu.org/licenses/why-affero-gpl.html
+                // AGPL 3.0 License: https://github.com/ONLYOFFICE/web-apps/blob/master/LICENSE.txt
 
                 this.api.asc_LoadDocument();
                 this.api.Resize();
@@ -482,106 +479,17 @@ class MainController extends Component {
     }
 
     onLicenseChanged (params) {
-        const appOptions = this.props.storeAppOptions;
-        const licType = params.asc_getLicenseType();
-        if (licType !== undefined && appOptions.canEdit && appOptions.config.mode !== 'view' &&
-            (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
-                || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
-            this._state.licenseType = licType;
-        if (this._isDocReady && this._state.licenseType)
-            this.applyLicense();
+        // The GNU Affero License prohibits "SaaSS" denial of service to any user of a copy of this AGPL-licensed version of this "covered work"
+        // A developer who has a private license to this "covered work" may insert any license restrictions they wish into this function.
+        // See: https://www.gnu.org/licenses/why-affero-gpl.html
+        // AGPL 3.0 License: https://github.com/ONLYOFFICE/web-apps/blob/master/LICENSE.txt
     }
 
     applyLicense () {
-        const _t = this._t;
-        const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
-        const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
-        const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseExceeded = _t.warnLicenseExceeded.replace(/%1/g, __COMPANY_NAME__);
-        const warnLicenseUsersExceeded = _t.warnLicenseUsersExceeded.replace(/%1/g, __COMPANY_NAME__);
-
-        const appOptions = this.props.storeAppOptions;
-        if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
-            let value = LocalStorage.getItem("pe-opensource-warning");
-            value = (value !== null) ? parseInt(value) : 0;
-            const now = (new Date).getTime();
-            if (now - value > 86400000) {
-                LocalStorage.setItem("pe-opensource-warning", now);
-                f7.dialog.create({
-                    title: _t.notcriticalErrorTitle,
-                    text : _t.errorOpensource,
-                    buttons: [{text: 'OK'}]
-                }).open();
-            }
-            Common.Notifications.trigger('toolbar:activatecontrols');
-            return;
-        }
-
-        if (this._state.licenseType) {
-            let license = this._state.licenseType;
-            let buttons = [{text: 'OK'}];
-            if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                (license === Asc.c_oLicenseResult.SuccessLimit ||
-                    license === Asc.c_oLicenseResult.ExpiredLimited ||
-                    appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
-            ) {
-                license = (license === Asc.c_oLicenseResult.ExpiredLimited) ? _t.warnLicenseLimitedNoAccess : _t.warnLicenseLimitedRenewed;
-            } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
-                license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
-            } else {
-                license = (license === Asc.c_oLicenseResult.ConnectionsOS) ? warnNoLicense : warnNoLicenseUsers;
-                buttons = [{
-                    text: _t.textBuyNow,
-                    bold: true,
-                    onClick: function() {
-                        window.open(`${__PUBLISHER_URL__}`, "_blank");
-                    }
-                },
-                    {
-                        text: _t.textContactUs,
-                        onClick: function() {
-                            window.open(`mailto:${__SALES_EMAIL__}`, "_blank");
-                        }
-                    }];
-            }
-            if (this._state.licenseType === Asc.c_oLicenseResult.SuccessLimit) {
-                Common.Notifications.trigger('toolbar:activatecontrols');
-            } else {
-                Common.Notifications.trigger('toolbar:activatecontrols');
-                Common.Notifications.trigger('toolbar:deactivateeditcontrols');
-                Common.Notifications.trigger('api:disconnect');
-            }
-
-            let value = LocalStorage.getItem("pe-license-warning");
-            value = (value !== null) ? parseInt(value) : 0;
-            const now = (new Date).getTime();
-
-            if (now - value > 86400000) {
-                LocalStorage.setItem("pe-license-warning", now);
-                f7.dialog.create({
-                    title: textNoLicenseTitle,
-                    text : license,
-                    buttons: buttons
-                }).open();
-            }
-        } else {
-            if (!appOptions.isDesktopApp && !appOptions.canBrandingExt &&
-                appOptions.config && appOptions.config.customization && (appOptions.config.customization.loaderName || appOptions.config.customization.loaderLogo)) {
-                f7.dialog.create({
-                    title: _t.textPaidFeature,
-                    text  : _t.textCustomLoader,
-                    buttons: [{
-                        text: _t.textContactUs,
-                        bold: true,
-                        onClick: () => {
-                            window.open(`mailto:${__SALES_EMAIL__}`, "_blank");
-                        }
-                    },
-                        { text: _t.textClose }]
-                }).open();
-            }
-            Common.Notifications.trigger('toolbar:activatecontrols');
-        }
+        // The GNU Affero License prohibits "SaaSS" denial of service to any user of a copy of this AGPL-licensed version of this "covered work"
+        // A developer who has a private license to this "covered work" may insert any license restrictions they wish into this function.
+        // See: https://www.gnu.org/licenses/why-affero-gpl.html
+        // AGPL 3.0 License: https://github.com/ONLYOFFICE/web-apps/blob/master/LICENSE.txt
     }
 
     onUpdateVersion (callback) {
@@ -802,22 +710,10 @@ class MainController extends Component {
     }
 
     onProcessRightsChange (data) {
-        if (data && data.enabled === false) {
-            const appOptions = this.props.storeAppOptions;
-            const old_rights = appOptions.lostEditingRights;
-            appOptions.changeEditingRights(!old_rights);
-            this.api.asc_coAuthoringDisconnect();
-            Common.Notifications.trigger('api:disconnect');
-
-            if (!old_rights) {
-                const _t = this._t;
-                f7.dialog.alert(
-                    (!data.message) ? _t.warnProcessRightsChange : data.message,
-                    _t.notcriticalErrorTitle,
-                    () => { appOptions.changeEditingRights(false); }
-                );
-            }
-        }
+        // The GNU Affero License prohibits "SaaSS" denial of service to any user of a copy of this AGPL-licensed version of this "covered work"
+        // A developer who has a private license to this "covered work" may insert any license restrictions they wish into this function.
+        // See: https://www.gnu.org/licenses/why-affero-gpl.html
+        // AGPL 3.0 License: https://github.com/ONLYOFFICE/web-apps/blob/master/LICENSE.txt
     }
 
     onDownloadAs () {
