@@ -288,6 +288,7 @@
     "textErrorLastSheet": "The workbook must have at least one visible worksheet.",
     "textErrorRemoveSheet": "Can't delete the worksheet.",
     "textHide": "Hide",
+    "textHidden": "Hidden",
     "textMore": "More",
     "textMove": "Move",
     "textMoveBack": "Move back",
