@@ -46,7 +46,7 @@ define([
     'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/ViewTab',
+    'documenteditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 
