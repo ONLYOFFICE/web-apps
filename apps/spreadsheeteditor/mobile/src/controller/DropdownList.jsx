@@ -13,16 +13,16 @@ class DropdownListController extends Component {
             isOpen: false
         };
 
-        Common.Notifications.on('openDropdownList', addArr => {
-            this.initDropdownList(addArr);
+        Common.Notifications.on('openDropdownList', (textArr, addArr) => {
+            this.initDropdownList(textArr, addArr);
         });
     }
 
-    initDropdownList(addArr) {
-        this.listItems = addArr.map(item => {
+    initDropdownList(textArr, addArr) {
+        this.listItems = textArr.map((item, index) => {
             return {
-                caption: item.getTextValue(), 
-                value: item
+                caption: item, 
+                value: addArr ? addArr[index] : item
             };
         });
 

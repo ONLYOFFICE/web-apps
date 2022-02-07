@@ -455,7 +455,7 @@ class MainController extends Component {
                 dropdownListTarget.css({left: `${showPoint[0]}px`, top: `${showPoint[1]}px`});
             }
 
-            Common.Notifications.trigger('openDropdownList', addArr);
+            Common.Notifications.trigger('openDropdownList', textArr, addArr);
         } else {
             !validation && f7.dialog.create({
                 title: t('Controller.Main.notcriticalErrorTitle'),
