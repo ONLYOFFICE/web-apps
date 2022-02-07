@@ -2983,9 +2983,15 @@ define([
                 })
             });
 
-            var menuTableRemoveControl = new Common.UI.MenuItem({
+            var menuTableRemoveForm = new Common.UI.MenuItem({
                 iconCls: 'menu__icon cc-remove',
                 caption: me.textRemove,
+                value: 'remove'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuTableRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
+                caption: me.textRemoveControl,
                 value: 'remove'
             }).on('click', _.bind(me.onControlsSelect, me));
 
@@ -3438,18 +3444,25 @@ define([
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl();
-                    menuTableControl.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
                             is_form = control_props && control_props.get_FormPr();
-                        menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                        menuTableRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
-                        menuTableControlSettings.setVisible(me.mode.canEditContentControl && !is_form);
-
+                        menuTableRemoveForm.setVisible(is_form);
+                        menuTableControl.setVisible(!is_form);
+                        if (is_form) {
+                            menuTableRemoveForm.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                            menuTableRemoveForm.setCaption(me.getControlLabel(control_props));
+                        } else {
+                            menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                            menuTableControlSettings.setVisible(me.mode.canEditContentControl);
+                        }
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
+                    } else {
+                        menuTableControl.setVisible(in_control);
+                        menuTableRemoveForm.setVisible(in_control);
                     }
                     menuTableTOC.setVisible(in_toc);
 
@@ -3610,6 +3623,7 @@ define([
                     menuHyperlinkTable,
                     menuTableFollow,
                     menuHyperlinkSeparator,
+                    menuTableRemoveForm,
                     menuTableControl,
                     menuTableTOC,
                     menuParagraphAdvancedInTable
