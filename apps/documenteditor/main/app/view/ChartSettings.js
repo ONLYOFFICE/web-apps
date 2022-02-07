@@ -276,7 +276,8 @@ define([
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
-                    delayRenderTips: true
+                    delayRenderTips: true,
+                    delaySelect: Common.Utils.isSafari
                 });
             });
             this.btnChartType.render($('#chart-button-type'));

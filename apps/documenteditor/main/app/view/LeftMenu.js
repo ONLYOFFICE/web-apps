@@ -329,6 +329,10 @@ define([
                     this.panelNavigation['hide']();
                     this.btnNavigation.toggle(false, true);
                 }
+                if (this.panelThumbnails) {
+                    this.panelThumbnails['hide']();
+                    this.btnThumbnails.toggle(false, true);
+                }
             }
         },
 

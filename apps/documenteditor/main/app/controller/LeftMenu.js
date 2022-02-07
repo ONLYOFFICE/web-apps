@@ -775,6 +775,7 @@ define([
                         this.api.asc_enableKeyEvents(true);
                     } else if (this.leftMenu.btnThumbnails.isActive()) {
                         this.leftMenu.btnThumbnails.toggle(false);
+                        this.leftMenu.panelThumbnails.hide();
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnThumbnails);
                     }
                 }
