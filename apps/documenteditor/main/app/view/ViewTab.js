@@ -82,6 +82,7 @@ define([
                     '<span class="btn-slot text" id="slot-chk-statusbar"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="separator long separator-rulers"></div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-rulers"></span>' +
@@ -127,8 +128,7 @@ define([
 
                 this.lockedControls = [];
 
-                var me = this,
-                    $host = me.toolbar.$el;
+                var me = this;
                 var _set = Common.enumLock;
 
                 this.btnNavigation = new Common.UI.Button({
@@ -247,7 +247,6 @@ define([
                 });
                 this.lockedControls.push(this.chRulers);
 
-                this.cmpEl = $host;
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
             },
 

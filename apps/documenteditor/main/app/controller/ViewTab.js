@@ -135,10 +135,12 @@ define([
                             groupToolbar = me.view.chToolbar.$el.closest('.group');
                         groupToolbar.find('.elset')[1].append(slotChkRulers[0]);
                         groupRulers.remove();
+                        me.view.$el.find('.separator-rulers').remove();
                     }
 
                     if (!config.isEdit) { // if view tab will be visible in view/restricted-editing mode
                         me.view.chRulers.hide();
+                        me.view.$el.find('.separator-rulers').remove();
                     }
 
                     me.view.cmbZoom.on('selected', _.bind(me.onSelectedZoomValue, me))
