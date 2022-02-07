@@ -297,6 +297,7 @@ define([
 
         onShowMainSettingsPrint: function() {
             this._changedProps = [];
+            this.printSettings.$previewBox.removeClass('hidden');
 
             if (!this.isFillSheets) {
                 this.isFillSheets = true;
@@ -306,10 +307,15 @@ define([
             this.fillPrintOptions(this.adjPrintParams, false);
 
             var pageCount = this.api.asc_initPrintPreview('print-preview');
-            this.updateNavigationButtons(0, pageCount);
-            this.printSettings.txtNumberPage.checkValidate();
 
-            this._isPreviewVisible = true;
+            this.printSettings.$previewBox.toggleClass('hidden', !pageCount);
+            this.printSettings.$previewEmpty.toggleClass('hidden', !!pageCount);
+            if (!!pageCount) {
+                this.updateNavigationButtons(0, pageCount);
+                this.printSettings.txtNumberPage.checkValidate();
+
+                this._isPreviewVisible = true;
+            }
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {

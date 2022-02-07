@@ -2349,6 +2349,9 @@ define([
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
                     '</div>',
                 '</div>',
+                '<div id="print-preview-empty" class="hidden">',
+                    '<div><%= scope.txtEmptyTable %></div>',
+                '</div>',
             '</div>'
         ].join('')),
 
@@ -2648,6 +2651,9 @@ define([
             this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             this.$headerSettings = $('#print-header-footer-settings');
 
+            this.$previewBox = $('#print-preview-box');
+            this.$previewEmpty = $('#print-preview-empty');
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.pnlSettings,
@@ -2828,7 +2834,8 @@ define([
         txtPage: 'Page',
         txtOf: 'of {0}',
         txtSheet: 'Sheet: {0}',
-        txtPageNumInvalid: 'Page number invalid'
+        txtPageNumInvalid: 'Page number invalid',
+        txtEmptyTable: 'There is nothing to print because the table is empty'
     }, SSE.Views.PrintWithPreview || {}));
 
 });
