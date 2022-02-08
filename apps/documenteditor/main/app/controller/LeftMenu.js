@@ -46,7 +46,7 @@ define([
     'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/ViewTab',
+    'documenteditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 
@@ -64,7 +64,6 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
