@@ -272,7 +272,7 @@ define([
 
                 var editingUsers = storeUsers.getVisibleEditingCount();
                 $btnUsers.tooltip({
-                    title: me.tipViewUsers,
+                    title: me.tipUsers,
                     placement: 'bottom',
                     html: true
                 });
@@ -834,7 +834,8 @@ define([
             txtAccessRights: 'Change access rights',
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
-            tipViewUsers: 'View users',
+            tipViewUsers: 'View users and manage document access rights',
+            tipUsers: 'View users',
             tipDownload: 'Download file',
             tipPrint: 'Print file',
             tipGoEdit: 'Edit current file',
