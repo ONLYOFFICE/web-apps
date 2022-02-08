@@ -24,6 +24,9 @@
       color: @text-normal;
     }
   }
+  .reply-date {
+    color: @text-secondary;
+  }
 }
 #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
   .dialog {
@@ -221,6 +224,10 @@
   z-index: 14000;
   max-height: 100%;
   overflow: auto;
+
+  .item-content .item-input-wrap::after {
+    background-color: @text-normal;
+  }
 }
 
 .dialog-backdrop.backdrop-in {
