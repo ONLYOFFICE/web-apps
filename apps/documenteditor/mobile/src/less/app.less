@@ -163,6 +163,23 @@
     padding: 0 16px;
 }
 
+.style-toc {
+    &__image {
+        margin: 0 15px;
+        max-height: 180px;
+        overflow: hidden;
+        &_active {
+            border: 1.5px solid @brandColor;
+        }
+    }
+}
+
+.block > .block-title:first-child, .list > .block-title:first-child {
+    margin-top: var(--f7-block-margin-vertical);
+    margin-left: calc(var(--f7-block-padding-horizontal) + var(--f7-safe-area-left)); 
+    margin-right: calc(var(--f7-block-padding-horizontal) + var(--f7-safe-area-right));
+}
+
 // Navigation 
 
 .empty-screens {

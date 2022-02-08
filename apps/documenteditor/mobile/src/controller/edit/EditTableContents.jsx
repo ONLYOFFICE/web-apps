@@ -11,21 +11,19 @@ class EditTableContentsController extends Component {
         this.startLevel = 1;
         this.endLevel = 3;
         this.fillTOCProps = this.fillTOCProps.bind(this);
-        // this.getStylesImages = this.getStylesImages.bind(this);
     }
 
-    getStylesImages(id, value) {
+    getStylesImages() {
         const api = Common.EditorApi.get();
         const propsTableContents = api.asc_GetTableOfContentsPr();
-        // const arrValuesStyles = [Asc.c_oAscTOCStylesType.Current, Asc.c_oAscTOCStylesType.Simple, Asc.c_oAscTOCStylesType.Web, Asc.c_oAscTOCStylesType.Standard, Asc.c_oAscTOCStylesType.Modern, Asc.c_oAscTOCStylesType.Classic];
+        const arrValuesStyles = [Asc.c_oAscTOCStylesType.Simple, Asc.c_oAscTOCStylesType.Web, Asc.c_oAscTOCStylesType.Standard, Asc.c_oAscTOCStylesType.Modern, Asc.c_oAscTOCStylesType.Classic];
 
-        propsTableContents.put_StylesType(value);
-        api.SetDrawImagePlaceContents(id, propsTableContents);
-
-        // arrValuesStyles.forEach((value, index) => {
-        //     propsTableContents.put_StylesType(value);
-        //     api.SetDrawImagePlaceContents(`image-style${index}`, propsTableContents);
-        // });
+        arrValuesStyles.forEach((value, index) => {
+            let canvasElem = document.querySelector(`#image-toc-style${index}`);
+           
+            propsTableContents.put_StylesType(value);
+            api.SetDrawImagePlaceContents(canvasElem, propsTableContents);
+        });
     }
 
     onStyle(value) {

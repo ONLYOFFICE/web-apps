@@ -22,7 +22,6 @@ import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} fro
 import {PageTableOptions, PageTableWrap, PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor} from "./EditTable";
 import {PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartWrap, PageChartReorder} from "./EditChart";
 import { PageEditLeaderTableContents, PageEditStylesTableContents, PageEditStructureTableContents } from './EditTableContents';
-import StylesImagesController from '../../controller/edit/StylesImages';
 
 const routes = [
     //Edit text
@@ -190,13 +189,9 @@ const routes = [
 
     // Table Contents 
 
-    // {
-    //     path: '/edit-style-table-contents/',
-    //     component: PageEditStylesTableContents
-    // },
     {
         path: '/edit-style-table-contents/',
-        component: StylesImagesController
+        component: PageEditStylesTableContents
     },
     {
         path: '/edit-leader-table-contents/',

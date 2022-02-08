@@ -10,7 +10,6 @@ const EditTableContents = props => {
     const api = Common.EditorApi.get();
     const propsTableContents = api.asc_GetTableOfContentsPr();
     const stylesCount = propsTableContents.get_StylesCount();
-    console.log(propsTableContents);
     const [type, setType] = useState(0);
     const [styleValue, setStyleValue] = useState(propsTableContents.get_StylesType());
     const [pageNumbers, setPageNumbers] = useState(propsTableContents.get_ShowPageNumbers());
@@ -26,7 +25,6 @@ const EditTableContents = props => {
         { displayValue: t('Edit.textCentered'),     value: Asc.c_oAscTOFStylesType.Centered },
         { displayValue: t('Edit.textFormal'),     value: Asc.c_oAscTOFStylesType.Formal }
     ] : [
-        { displayValue: t('Edit.textCurrent'),     value: Asc.c_oAscTOCStylesType.Current },
         { displayValue: t('Edit.textSimple'),     value: Asc.c_oAscTOCStylesType.Simple },
         { displayValue: t('Edit.textOnline'),     value: Asc.c_oAscTOCStylesType.Web },
         { displayValue: t('Edit.textStandard'),     value: Asc.c_oAscTOCStylesType.Standard },
@@ -122,18 +120,11 @@ const EditTableContents = props => {
 const PageEditStylesTableContents = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
-    const arrValuesStyles = [Asc.c_oAscTOCStylesType.Current, Asc.c_oAscTOCStylesType.Simple, Asc.c_oAscTOCStylesType.Web, Asc.c_oAscTOCStylesType.Standard, Asc.c_oAscTOCStylesType.Modern, Asc.c_oAscTOCStylesType.Classic];
     const [styleValue, setStyleValue] = useState(props.styleValue);
-    // const arrStylesImages = [$$('#image-style0')[0], $$('#image-style1')[0], $$('#image-style2')[0], $$('#image-style3')[0], $$('#image-style4')[0], $$('#image-style5')[0]];
-    // console.log('render');
+    const widthImage = !Device.phone ? '330px' :  window.innerWidth - 30 + 'px';
 
     useEffect(() => {
-        setTimeout(() => {
-            console.log('ready');
-            arrValuesStyles.forEach((value, index) => {
-                props.getStylesImages(`image-style${index}`, value);
-            });
-        }, 1000);
+        props.getStylesImages();
     }, []);
 
     return (
@@ -150,21 +141,21 @@ const PageEditStylesTableContents = props => {
             <List>
                 {props.arrStyles.map((style, index) => {
                     return (
-                        <Fragment key={index}>
+                        <div className='style-toc' key={index} onClick={() => {
+                            setStyleValue(style.value); 
+                            props.setStyleValue(style.value);
+                            props.onStyle(style.value)
+                        }}>
                             <BlockTitle>{style.displayValue}</BlockTitle>
-                            <div id={`image-style${index}`}></div>
-                        </Fragment>
+                            <div className={'style-toc__image ' + (style.value === styleValue ? 'style-toc__image_active' : '')}> 
+                                <canvas style={{width: widthImage, height: '10px'}} id={`image-toc-style${index}`}></canvas>
+                            </div>
+                        </div>
                     )
                 })}
             </List>
         </Page>
     )
-
-       {/* <ListItem key={index} radio title={style.displayValue} value={style.value} checked={style.value === styleValue} onClick={() => {
-                            setStyleValue(style.value); 
-                            props.setStyleValue(style.value);
-                            props.onStyle(style.value)
-                        }}></ListItem> */}
 }
 
 const PageEditLeaderTableContents = props => {
