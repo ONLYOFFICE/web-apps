@@ -84,26 +84,6 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                this.view.chStatusbar.$el.remove();
-            }
-
-            if (!mode.isEdit && !mode.isEditDiagram && !mode.isEditMailMerge) { // if view tab will be visible in view/restricted-editing mode
-                this.view.chToolbar.hide();
-                var me = this;
-                Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                    if ((action=='plugins' || action=='review') && visible) {
-                        me.view.chToolbar.show();
-                    }
-                }, this));
-            }
-
-            if (!mode.isEdit) {
-                this.view.chHeadings.hide();
-                this.view.chGridlines.hide();
-                this.view.btnFreezePanes.hide();
-                this.view.btnFreezePanes.$el.parents('.group').hide().prev().hide();
-            }
 
             this.addListeners({
                 'ViewTab': {
@@ -139,6 +119,10 @@ define([
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
         },
 
         getView: function(name) {

@@ -3810,11 +3810,18 @@ define([
                         me.toolbar.addTab(tab, $panel, 7);
                         Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                     }
-
-                    var viewtab = me.getApplication().getController('ViewTab');
-                    viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                    Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
                 }
+            }
+            if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+                var viewtab = me.getApplication().getController('ViewTab');
+                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                $panel = viewtab.createToolbarPanel();
+                if ($panel) {
+                    me.toolbar.addTab(tab, $panel, 8);
+                    me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
+                }
+                config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
             }
         },
 
