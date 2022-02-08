@@ -74,7 +74,8 @@ define([
         var templateRightBox = '<section>' +
                             '<section id="box-doc-name">' +
                                 // '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
-                                '<label id="rib-doc-name" />' +
+                                //'<label id="rib-doc-name" />' +
+                                '<input id="rib-doc-name" autofill="off" autocomplete="off"/></input>' +
                             '</section>' +
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
@@ -708,7 +709,7 @@ define([
             },
 
             setCanRename: function (rename) {
-               // rename = true;      //for merge rename = false; ??
+                //rename = true;      //comment out for merge
 
                 var me = this;
                 me.options.canRename = rename;
