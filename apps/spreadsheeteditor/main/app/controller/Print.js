@@ -306,7 +306,9 @@ define([
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
-            var pageCount = this.api.asc_initPrintPreview('print-preview');
+            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+            opts.asc_setAdvancedOptions(this.adjPrintParams);
+            var pageCount = this.api.asc_initPrintPreview('print-preview', opts);
 
             this.printSettings.$previewBox.toggleClass('hidden', !pageCount);
             this.printSettings.$previewEmpty.toggleClass('hidden', !!pageCount);
