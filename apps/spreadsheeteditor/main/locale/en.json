@@ -2783,6 +2783,7 @@
   "SSE.Views.PrintWithPreview.txtSettingsOfSheet": "Settings of sheet",
   "SSE.Views.PrintWithPreview.txtSheet": "Sheet: {0}",
   "SSE.Views.PrintWithPreview.txtTop": "Top",
+  "SSE.Views.PrintWithPreview.txtEmptyTable": "There is nothing to print because the table is empty",
   "SSE.Views.ProtectDialog.textExistName": "ERROR! Range with such a title already exists",
   "SSE.Views.ProtectDialog.textInvalidName": "The range title must begin with a letter and may only contain letters, numbers, and spaces.",
   "SSE.Views.ProtectDialog.textInvalidRange": "ERROR! Invalid cells range",
