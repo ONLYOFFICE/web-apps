@@ -100,6 +100,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-search"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
@@ -457,6 +458,14 @@ define([
                     reset   : onResetUsers
                 });
 
+                me.btnSearch = new Common.UI.Button({
+                    cls: 'btn-header no-caret',
+                    iconCls: 'toolbar__icon icon--inverse btn-menu-search',
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+
                 me.btnOptions = new Common.UI.Button({
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-ic-options',
@@ -563,6 +572,7 @@ define([
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
+                    me.btnSearch.render($html.find('#slot-btn-search'));
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {

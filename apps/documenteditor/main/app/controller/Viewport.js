@@ -44,6 +44,7 @@
 define([
     'core',
     'common/main/lib/view/Header',
+    'common/main/lib/view/SearchBar',
     'documenteditor/main/app/view/Viewport',
     'documenteditor/main/app/view/LeftMenu'
 ], function (Viewport) {
@@ -332,6 +333,7 @@ define([
                     cls     : 'btn-toolbar'
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
+                me.header.btnSearch.on('click', me.onSearchClick.bind(this));
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
                 if ( !Common.UI.Themes.isDarkTheme() ) {
                     me.header.menuItemsDarkMode.hide();
@@ -458,6 +460,18 @@ define([
 
         SetDisabled: function(disable) {
             this.header && this.header.lockHeaderBtns( 'rename-user', disable);
+        },
+
+        onSearchClick: function () {
+            if ( !this.searchBar ) {
+                this.searchBar = (new Common.UI.SearchBar({
+                }));
+            }
+
+            var top = $('#app-title').height() + $('#toolbar').height() + 2,
+                left = Common.Utils.innerWidth() - $('#right-menu').width() - this.searchBar.options.width - 32;
+
+            this.searchBar.show(left, top);
         },
 
         textFitPage: 'Fit to Page',
