@@ -178,6 +178,7 @@ define([
                 value: '10',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
