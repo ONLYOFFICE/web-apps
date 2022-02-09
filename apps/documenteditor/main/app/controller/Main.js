@@ -1195,7 +1195,9 @@ define([
                     leftmenuController          = application.getController('LeftMenu'),
                     chatController              = application.getController('Common.Controllers.Chat'),
                     pluginsController           = application.getController('Common.Controllers.Plugins'),
-                    navigationController        = application.getController('Navigation');
+                    navigationController        = application.getController('Navigation'),
+                    searchController            = application.getController('Search');
+
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
@@ -1218,6 +1220,8 @@ define([
                     me.getApplication().getController('LeftMenu').leftMenu.getMenu('about').setLicInfo(me.editorConfig.customization);
 
                 documentHolderController.getView().setApi(me.api).on('editcomplete', _.bind(me.onEditComplete, me));
+
+                searchController.setApi(me.api);
 
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true

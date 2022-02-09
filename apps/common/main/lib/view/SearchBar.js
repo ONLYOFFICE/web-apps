@@ -49,7 +49,8 @@ define([
             width: 328,
             height: 54,
             header: false,
-            cls: 'search-bar'
+            cls: 'search-bar',
+            alias: 'SearchBar'
         },
 
         initialize : function(options) {
@@ -57,28 +58,59 @@ define([
 
             this.template = [
                 '<div class="box">',
-                'jghjgj',
+                    '<input type="text" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
+                    '<div class="tools">',
+                        '<div id="search-bar-back"></div>',
+                        '<div id="search-bar-next"></div>',
+                        '<div id="search-bar-close"></div>',
+                    '</div>',
                 '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
+
+            Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
         },
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
+            this.inputSearch = this.$window.find('#search-bar-text');
 
+            this.btnBack = new Common.UI.Button({
+                parentEl: $('#search-bar-back'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-arrow-up'
+            });
+            this.btnBack.on('click', _.bind(this.onBtnClick, this, 'back'));
+
+            this.btnNext = new Common.UI.Button({
+                parentEl: $('#search-bar-next'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-arrow-down'
+            });
+            this.btnNext.on('click', _.bind(this.onBtnClick, this, 'next'));
+
+            this.btnClose = new Common.UI.Button({
+                parentEl: $('#search-bar-close'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-close'
+            });
+            this.btnClose.on('click', _.bind(function () {
+                this.hide();
+            }, this))
 
             this.on('animate:before', _.bind(this.focus, this));
 
             return this;
         },
 
-        show: function(x, y) {
-            Common.UI.Window.prototype.show.call(this, x, y);
-
+        show: function() {
+            var top = $('#app-title').height() + $('#toolbar').height() + 2,
+                left = Common.Utils.innerWidth() - $('#right-menu').width() - this.options.width - 32;
+            Common.UI.Window.prototype.show.call(this, left, top);
 
             this.focus();
         },
@@ -86,7 +118,8 @@ define([
         focus: function() {
             var me  = this;
             setTimeout(function(){
-
+                me.inputSearch.focus();
+                me.inputSearch.select();
             }, 10);
         },
 
@@ -95,6 +128,22 @@ define([
 
             };
         },
+
+        onLayoutChanged: function () {
+            var top = $('#app-title').height() + $('#toolbar').height() + 2,
+                left = Common.Utils.innerWidth() - $('#right-menu').width() - this.options.width - 32;
+            this.$window.css({left: left, top: top});
+        },
+
+        onBtnClick: function(action, event) {
+            if ( $('.asc-loadmask').length ) return;
+            var opts = {
+                textsearch  : this.inputSearch.val()
+            };
+            this.fireEvent('search:'+action, [this, opts]);
+        },
+
+        textFind: 'Find'
 
     }, Common.UI.SearchBar || {}));
 });

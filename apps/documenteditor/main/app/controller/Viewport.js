@@ -463,15 +463,21 @@ define([
         },
 
         onSearchClick: function () {
-            if ( !this.searchBar ) {
-                this.searchBar = (new Common.UI.SearchBar({
-                }));
+            if (!this.searchBar) {
+                this.searchBar = new Common.UI.SearchBar({});
             }
-
-            var top = $('#app-title').height() + $('#toolbar').height() + 2,
-                left = Common.Utils.innerWidth() - $('#right-menu').width() - this.searchBar.options.width - 32;
-
-            this.searchBar.show(left, top);
+            if (this.header.btnSearch.pressed) {
+                if (this.searchBar.isVisible()) {
+                    this.searchBar.focus();
+                } else {
+                    this.searchBar.show();
+                }
+            } else {
+                this.searchBar.hide();
+            }
+            this.searchBar.on('hide', _.bind(function () {
+                this.header.btnSearch.toggle(false);
+            }, this));
         },
 
         textFitPage: 'Fit to Page',

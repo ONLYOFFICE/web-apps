@@ -461,6 +461,7 @@ define([
                 me.btnSearch = new Common.UI.Button({
                     cls: 'btn-header no-caret',
                     iconCls: 'toolbar__icon icon--inverse btn-menu-search',
+                    enableToggle: true,
                     dataHint: '0',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
