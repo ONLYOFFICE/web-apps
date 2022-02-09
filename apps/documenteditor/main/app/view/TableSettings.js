@@ -74,7 +74,7 @@ define([
             this._initSettings = true;
 
             this._state = {
-                TemplateId: 0,
+                TemplateId: undefined,
                 CheckHeader: false,
                 CheckTotal: false,
                 CheckBanded: false,
@@ -532,6 +532,9 @@ define([
                value = props.get_TableStyle();
                 if (this._state.TemplateId!==value || this._isTemplatesChanged) {
                     this._state.TemplateId = value;
+                    var template = this.api.asc_getTableStylesPreviews(false, [this._state.TemplateId]);
+                    if (template && template.length>0)
+                        this.$el.find('.icon-template-table').css({'background-image': 'url(' + template[0].asc_getImage() + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 52px'});
                     this._state.currentStyleFound = false;
                     this.selectCurrentTableStyle();
                 }
