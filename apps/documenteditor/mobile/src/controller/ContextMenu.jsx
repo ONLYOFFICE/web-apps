@@ -267,7 +267,7 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                if ( canFillForms && !locked ) {
+                if ( canFillForms && canCopy && !locked ) {
                     itemsIcon.push({
                         event: 'paste',
                         icon: 'icon-paste'
