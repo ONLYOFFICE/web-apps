@@ -268,14 +268,26 @@ define([
 
         onInsertTable:  function() {
             // this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+            var idx = this._priorityArr.indexOf(Common.Utils.documentSettingsType.Table);
+            if (idx>=0)
+                this._priorityArr.splice(idx, 1);
+            this._priorityArr.unshift(Common.Utils.documentSettingsType.Table);
         },
 
         onInsertImage:  function() {
             // this._settings[Common.Utils.documentSettingsType.Image].needShow = true;
+            var idx = this._priorityArr.indexOf(Common.Utils.documentSettingsType.Image);
+            if (idx>=0)
+                this._priorityArr.splice(idx, 1);
+            this._priorityArr.unshift(Common.Utils.documentSettingsType.Image);
         },
 
         onInsertChart:  function() {
             // this._settings[Common.Utils.documentSettingsType.Chart].needShow = true;
+            var idx = this._priorityArr.indexOf(Common.Utils.documentSettingsType.Chart);
+            if (idx>=0)
+                this._priorityArr.splice(idx, 1);
+            this._priorityArr.unshift(Common.Utils.documentSettingsType.Chart);
         },
 
         onInsertShape:  function() {
