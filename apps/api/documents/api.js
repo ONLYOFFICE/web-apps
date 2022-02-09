@@ -56,6 +56,7 @@
                          edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
                     },
+                    userInfo: ["Group1", ""], // show tooltips/cursors/info in header only for users in userInfo groups. [""] - means users without group, [] - don't show any users, null/undefined/"" - show all users
                     protect: <can protect document> // default = true. show/hide protect tab or protect buttons
                 }
             },
