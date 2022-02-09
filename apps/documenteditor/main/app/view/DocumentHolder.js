@@ -2671,6 +2671,7 @@ define([
 
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                restoreHeightAndTop: true,
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
                         return;
@@ -3283,7 +3284,7 @@ define([
 
             this.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
-                // maxHeight: 610,
+                restoreHeightAndTop: true,
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
@@ -4004,6 +4005,7 @@ define([
 
             this.textMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                restoreHeightAndTop: true,
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
