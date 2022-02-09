@@ -148,7 +148,7 @@ class MainPage extends Component {
                     </Fragment>
                 }
                 
-                <Statusbar />
+                <Statusbar key='statusbar'/>
 
                 <FunctionGroups /> {/* hidden component*/}
             </Page>
