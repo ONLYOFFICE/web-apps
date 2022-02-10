@@ -135,11 +135,11 @@ define([
             this.onFocusObject(SelectedObjects);
         },
 
-        onFocusObject: function(SelectedObjects, forceSignature) {
+        onFocusObject: function(SelectedObjects, forceSignature, forceOpen) {
             if (!this.editMode && !forceSignature)
                 return;
 
-            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
+            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : !!forceOpen;
             this._initSettings = false;
 
             var can_add_table = false, 
@@ -447,7 +447,7 @@ define([
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
-                        this.onFocusObject(selectedElements);
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
                 }
             }
         },
