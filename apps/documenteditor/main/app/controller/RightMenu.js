@@ -131,6 +131,10 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
+        onApiFocusObject: function(SelectedObjects) {
+            this.onFocusObject(SelectedObjects);
+        },
+
         onFocusObject: function(SelectedObjects, forceSignature) {
             if (!this.editMode && !forceSignature)
                 return;
@@ -339,7 +343,7 @@ define([
         createDelayedElements: function() {
             var me = this;
             if (this.api) {
-                this.api.asc_registerCallback('asc_onFocusObject',       _.bind(this.onFocusObject, this));
+                this.api.asc_registerCallback('asc_onFocusObject',       _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
                 if (this.rightmenu.mergeSettings) {
                     this.rightmenu.mergeSettings.setDocumentName(this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption());
