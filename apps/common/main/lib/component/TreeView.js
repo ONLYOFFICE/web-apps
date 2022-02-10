@@ -212,19 +212,7 @@ define([
                             this.dataViewItems.push(view);
                         }
 
-                        var name = record.get('name');
-                        if (name.length > 37 - record.get('level')*2)
-                            record.set('tip', name);
-                        if (record.get('tip')) {
-                            var view_el = $(view.el);
-                            view_el.attr('data-toggle', 'tooltip');
-                            view_el.tooltip({
-                                title       : record.get('tip'),
-                                placement   : 'cursor',
-                                zIndex : this.tipZIndex
-                            });
-                        }
-
+                        this.updateTip(view);
                         this.listenTo(view, 'change',      this.onChangeItem);
                         this.listenTo(view, 'remove',      this.onRemoveItem);
                         this.listenTo(view, 'click',       this.onClickItem);
@@ -361,6 +349,51 @@ define([
 
             focus: function() {
                 this.cmpEl && this.cmpEl.find('.treeview').focus();
+            },
+
+            updateTip: function(item) {
+                var record = item.model,
+                    name = record.get('name'),
+                    me = this;
+
+                if (name.length > 37 - record.get('level')*2)
+                    record.set('tip', name);
+                else
+                    record.set('tip', '');
+
+                var el = item.$el || $(item.el);
+                var tip = el.data('bs.tooltip');
+                if (tip) {
+                    if (tip.dontShow===undefined)
+                        tip.dontShow = true;
+                    el.removeData('bs.tooltip');
+                }
+                if (record.get('tip')) {
+                    el.attr('data-toggle', 'tooltip');
+                    el.tooltip({
+                        title       : record.get('tip'),
+                        placement   : 'cursor',
+                        zIndex : this.tipZIndex
+                    });
+                    if (this.delayRenderTips)
+                        el.one('mouseenter', function(){
+                            el.attr('data-toggle', 'tooltip');
+                            el.tooltip({
+                                title       : record.get('tip'),
+                                placement   : 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                            el.mouseenter();
+                        });
+                    else {
+                        el.attr('data-toggle', 'tooltip');
+                        el.tooltip({
+                            title       : record.get('tip'),
+                            placement   : 'cursor',
+                            zIndex : me.tipZIndex
+                        });
+                    }
+                }
             }
         }
     })());

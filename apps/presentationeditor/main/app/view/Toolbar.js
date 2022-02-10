@@ -1029,6 +1029,7 @@ define([
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, -4',
+                        delayRenderTips: true,
                         itemTemplate: _.template([
                             '<div class="style" id="<%= id %>">',
                             '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',

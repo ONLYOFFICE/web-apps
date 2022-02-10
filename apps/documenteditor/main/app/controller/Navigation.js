@@ -106,6 +106,7 @@ define([
         onAfterRender: function(panelNavigation) {
             panelNavigation.viewNavigationList.on('item:click', _.bind(this.onSelectItem, this));
             panelNavigation.viewNavigationList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
+            panelNavigation.viewNavigationList.on('item:add', _.bind(this.onItemAdd, this));
             panelNavigation.navigationMenu.on('item:click',           _.bind(this.onMenuItemClick, this));
             panelNavigation.navigationMenu.items[11].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
         },
@@ -157,6 +158,7 @@ define([
             } else {
                 item.set('name', this._navigationObject.get_Text(index));
                 item.set('isEmptyItem', this._navigationObject.isEmptyItem(index));
+                this.panelNavigation.viewNavigationList.updateTip(item.get('dataItem'));
             }
         },
 
@@ -220,6 +222,10 @@ define([
                 this.api.asc_viewerNavigateTo(record.get('index'));
             }
             Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
+        },
+
+        onItemAdd: function(picker, item, record, e){
+            record.set('dataItem', item);
         },
 
         onMenuItemClick: function (menu, item) {
