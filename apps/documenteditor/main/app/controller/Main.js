@@ -541,33 +541,41 @@ define([
                 }
 
                 this._state.isFromGatewayDownloadAs = true;
+                var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
+                    _defaultFormat = null,
+                    _supported = [
+                        Asc.c_oAscFileType.TXT,
+                        Asc.c_oAscFileType.RTF,
+                        Asc.c_oAscFileType.ODT,
+                        Asc.c_oAscFileType.DOCX,
+                        Asc.c_oAscFileType.HTML,
+                        Asc.c_oAscFileType.DOTX,
+                        Asc.c_oAscFileType.OTT,
+                        Asc.c_oAscFileType.FB2,
+                        Asc.c_oAscFileType.EPUB,
+                        Asc.c_oAscFileType.DOCM
+                    ];
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
-                if (type && typeof type[1] === 'string')
-                    this.api.asc_DownloadOrigin(true);
-                else {
-                    var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
-                        _supported = [
-                            Asc.c_oAscFileType.TXT,
-                            Asc.c_oAscFileType.RTF,
-                            Asc.c_oAscFileType.ODT,
-                            Asc.c_oAscFileType.DOCX,
-                            Asc.c_oAscFileType.HTML,
-                            Asc.c_oAscFileType.PDF,
-                            Asc.c_oAscFileType.PDFA,
-                            Asc.c_oAscFileType.DOTX,
-                            Asc.c_oAscFileType.OTT,
-                            Asc.c_oAscFileType.FB2,
-                            Asc.c_oAscFileType.EPUB,
-                            Asc.c_oAscFileType.DOCM
-                        ];
-                    if (this.appOptions.canFeatureForms) {
-                        _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                if (type && typeof type[1] === 'string') {
+                    if (!(format && (typeof format == 'string')) || type[1]===format.toLowerCase()) {
+                        this.api.asc_DownloadOrigin(true);
+                        return;
                     }
-
-                    if ( !_format || _supported.indexOf(_format) < 0 )
-                        _format = Asc.c_oAscFileType.DOCX;
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
+                    if (/^xps|oxps$/.test(this.document.fileType))
+                        _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+                    else if (/^djvu$/.test(this.document.fileType)) {
+                        _supported = [Asc.c_oAscFileType.PDF];
+                    }
+                } else {
+                    _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+                    _defaultFormat = Asc.c_oAscFileType.DOCX;
                 }
+                if (this.appOptions.canFeatureForms && !/^djvu$/.test(this.document.fileType)) {
+                    _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                }
+                if ( !_format || _supported.indexOf(_format) < 0 )
+                    _format = _defaultFormat;
+                _format ? this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true)) : this.api.asc_DownloadOrigin(true);
             },
 
             onProcessMouse: function(data) {
