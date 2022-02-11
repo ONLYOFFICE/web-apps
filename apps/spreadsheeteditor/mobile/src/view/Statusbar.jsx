@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import {f7, View, Link, Icon, Popover, List, ListItem, ListButton, Actions, ActionsGroup, ActionsButton, Sheet, Page } from 'framework7-react';
+import {f7, View, Link, Icon, Navbar, Popover, List, ListGroup, ListItem, ListButton, Actions, ActionsGroup, ActionsButton, Sheet, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
@@ -8,47 +8,28 @@ const viewStyle = {
     height: 30
 };
 
-const MoveMenuActions = (props) => {
-    const { t } = useTranslation();
-    let { opened, setOpenActions, onMenuMoveClick, visibleSheets } = props;
-
-    return (
-        <Actions className="actions-move-sheet" opened={opened} onActionsClosed={() => setOpenActions(false)}>
-            <ActionsGroup>
-                <ActionsButton className={visibleSheets[0]?.active ? 'disabled' : ''} onClick={() => onMenuMoveClick("back")}>
-                    {t('Statusbar.textMoveBack')}
-                </ActionsButton>
-                <ActionsButton className={visibleSheets[visibleSheets.length - 1]?.active ? 'disabled' : ''} onClick={() => onMenuMoveClick("forward")}> 
-                    {t('Statusbar.textMoveForward')}
-                </ActionsButton>
-            </ActionsGroup>
-            <ActionsGroup>
-                <ActionsButton>{t('Statusbar.textCancel')}</ActionsButton>
-            </ActionsGroup>
-        </Actions>
-    )
-}
-
 const PageListMove = props => {
+    const { t } = useTranslation();
     const { sheets, onMenuMoveClick } = props;
     const allSheets = sheets.sheets;
-    const visibleSheets = sheets.visibleWorksheets();
-    const [stateActionsOpened, setOpenActions] = useState(false);
 
     return (
         <Page>
+            <Navbar title={t('Statusbar.textMoveBefore')}/>
             <List>
-                { allSheets.map(model => 
-                    model.hidden ? null : 
-                    <ListItem className={model.active ? '' : 'disabled'} key={model.name} title={model.name}>
-                        <div slot='after'
-                        onClick={() => setOpenActions(true) }>
-                            <Icon icon='icon-menu-comment'/>
-                        </div>
-                    </ListItem>)
-                }
+                <ListGroup>
+                    { allSheets.map((model, index) => 
+                        model.hidden ? null : 
+                        <ListItem 
+                        key={model.name} 
+                        title={model.name} 
+                        onClick={() => onMenuMoveClick(index)} />)
+                    }
+                    <ListItem 
+                    title={t('Statusbar.textMoveToEnd')} 
+                    onClick={() => onMenuMoveClick(-255)}/>
+                </ListGroup>
             </List>
-            <MoveMenuActions opened={stateActionsOpened} setOpenActions={setOpenActions} onMenuMoveClick={onMenuMoveClick} visibleSheets={visibleSheets}/>
         </Page>
     )
 };
@@ -162,7 +143,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                 </Popover>
             }
             {isPhone ? 
-                <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true} backdrop={false}>
+                <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true}>
                     <div className='swipe-container'>
                         <Icon icon='icon-swipe'/>
                     </div>
