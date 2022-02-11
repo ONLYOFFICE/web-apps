@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Erreur",
       "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
+      "errorOpensource": "Sous version gratuite Community, le document est disponible en lecture seule. Pour accéder aux éditeurs mobiles web, vous avez besoin d'une licence payante.",
       "errorProcessSaveResult": "Échec de l‘enregistrement.",
       "errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
       "errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
@@ -159,8 +160,7 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
   "Error": {
@@ -287,6 +287,7 @@
     "textErrNotEmpty": "Le nom de feuille ne peut pas être vide. ",
     "textErrorLastSheet": "Un classeur doit avoir au moins une feuille de calcul visible.",
     "textErrorRemoveSheet": "Impossible de supprimer la feuille de calcul.",
+    "textHidden": "Masquée",
     "textHide": "Masquer",
     "textMore": "Plus",
     "textMove": "Déplacer",

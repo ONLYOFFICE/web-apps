@@ -149,7 +149,7 @@
       "titleServerVersion": "編集者が更新された",
       "titleUpdateVersion": "バージョンが変更されました",
       "warnLicenseExceeded": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。詳細についてはアドミニストレータを連絡してください。",
-      "warnLicenseLimitedNoAccess": "ライセンスが満期しました。編集の汎関数にアクセスがありません。アドミンに連絡してください。",
+      "warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。ドキュメント編集機能にアクセスできません。管理者にご連絡ください。",
       "warnLicenseLimitedRenewed": "ライセンスを書き換えが必要です。編集の汎関数にアクセスの制限があります。<br> フル アクセスを受けてようにアドミニストレータを連絡してください。",
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
@@ -296,6 +296,7 @@
     "textSheetName": "シートの名",
     "textUnhide": "表示する",
     "textWarnDeleteSheet": "ワークシートはデータがあるそうです。操作を続けてもよろしいですか？",
+    "textHidden": "Hidden",
     "textMove": "Move",
     "textMoveBack": "Move back",
     "textMoveForward": "Move forward"

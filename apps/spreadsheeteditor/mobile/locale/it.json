@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Errore",
       "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
+      "errorOpensource": "Usando la versione gratuita Community, puoi aprire i documenti solo per visualizzarli. Per accedere agli editor mobili sul web è richiesta una licenza commerciale.",
       "errorProcessSaveResult": "Salvataggio è fallito.",
       "errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare i cambiamenti.",
       "errorUpdateVersion": "La versione del file è stata cambiata. La pagina verrà ricaricata.",
@@ -159,8 +160,7 @@
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
   "Error": {
@@ -287,6 +287,7 @@
     "textErrNotEmpty": "Il nome del foglio non può essere lasciato vuoto",
     "textErrorLastSheet": "Il libro di lavoro deve avere almeno un foglio di calcolo visibile.",
     "textErrorRemoveSheet": "Impossibile cancellare il foglio di calcolo",
+    "textHidden": "Nascosto",
     "textHide": "Nascondere",
     "textMore": "Di più",
     "textMove": "Sposta",

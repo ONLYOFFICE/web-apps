@@ -290,6 +290,7 @@
     "textErrNameExists": "Worksheet with this name already exists.",
     "textErrNotEmpty": "Sheet name must not be empty",
     "textErrorLastSheet": "The workbook must have at least one visible worksheet.",
+    "textHidden": "Hidden",
     "textMove": "Move",
     "textMoveBack": "Move back",
     "textMoveForward": "Move forward",

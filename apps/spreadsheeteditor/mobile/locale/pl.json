@@ -298,7 +298,8 @@
     "textOk": "Ok",
     "textMove": "Move",
     "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textMoveForward": "Move forward",
+    "textHidden": "Hidden"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

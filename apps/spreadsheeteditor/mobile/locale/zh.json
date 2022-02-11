@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "错误",
       "errorAccessDeny": "你正要执行一个你没有权限的操作<br>恳请你联系你的管理员。",
+      "errorOpensource": "在使用免费社区版本的情况下，您只能查看打开的文件。要想使用移动网上编辑器功能，您需要持有付费许可证。",
       "errorProcessSaveResult": "保存失败",
       "errorServerVersion": "编辑器版本已完成更新。为应用这些更改，该页将要刷新。",
       "errorUpdateVersion": "文件版本发生改变。该页将要刷新。",
@@ -159,8 +160,7 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
   },
   "Error": {
@@ -287,6 +287,7 @@
     "textErrNotEmpty": "工作表名称不能为空",
     "textErrorLastSheet": "该工作簿必须带有至少一个可见的工作表。",
     "textErrorRemoveSheet": "不能删除工作表。",
+    "textHidden": "隐蔽",
     "textHide": "隐藏",
     "textMore": "更多",
     "textMove": "移动",

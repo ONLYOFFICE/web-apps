@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "No tens permís per realitzar aquesta acció. <br>Contacta amb el teu administrador.",
+      "errorOpensource": "Mitjançant la versió gratuïta de la comunitat, només podeu obrir documents en mode lectura. Per accedir als editors de web per a mòbils, cal una llicència comercial.",
       "errorProcessSaveResult": "No s'ha pogut desar.",
       "errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
       "errorUpdateVersion": "S'ha canviat la versió del fitxer. La pàgina es tornarà a carregar.",
@@ -159,8 +160,7 @@
       "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Contacta amb el teu administrador per a més informació.",
       "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacta amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-      "warnProcessRightsChange": "No tens permís per editar el fitxer.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "warnProcessRightsChange": "No tens permís per editar el fitxer."
     }
   },
   "Error": {
@@ -287,6 +287,7 @@
     "textErrNotEmpty": "El nom del full no pot estar en blanc",
     "textErrorLastSheet": "El llibre de treball ha de tenir com a mínim un full de càlcul visible.",
     "textErrorRemoveSheet": "No es pot suprimir el full de càlcul.",
+    "textHidden": "Amagat",
     "textHide": "Amaga",
     "textMore": "Més",
     "textMove": "Desplaça",
