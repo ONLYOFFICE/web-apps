@@ -1463,9 +1463,9 @@ define([
                     this.appOptions.canChat = false;
                 }
 
-                var type = /^(?:(djvu))$/.exec(this.document.fileType);
-                this.appOptions.canDownloadOrigin = this.permissions.download !== false && (type && typeof type[1] === 'string');
-                this.appOptions.canDownload       = this.permissions.download !== false && (!type || typeof type[1] !== 'string');
+                // var type = /^(?:(djvu))$/.exec(this.document.fileType);
+                this.appOptions.canDownloadOrigin = false;
+                this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.canUseSelectHandTools = this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = isPDFViewer;
                 this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload;
 

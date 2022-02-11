@@ -313,6 +313,9 @@
     <inline src="resources/img/doc-formats/docm.svg" />
     <inline src="resources/img/doc-formats/oform.svg" />
     <inline src="resources/img/doc-formats/docxf.svg" />
+    <inline src="resources/img/doc-formats/djvu.svg" />
+    <inline src="resources/img/doc-formats/xps.svg" />
+    <inline src="resources/img/doc-formats/oxps.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />
