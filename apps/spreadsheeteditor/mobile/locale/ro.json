@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Eroare",
       "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
+      "errorOpensource": "În versiunea Community documentul este disponibil numai pentru vizualizare. Aveți nevoie de o licență comercială pentru accesarea editorului mobil web.",
       "errorProcessSaveResult": "Salvarea a eșuat.",
       "errorServerVersion": "Editorul a fost actualizat. Pagina va fi reîmprospătată pentru a aplica această actualizare.",
       "errorUpdateVersion": "Versiunea fișierului s-a modificat. Pagina va fi reîmprospătată.",
@@ -159,8 +160,7 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
   "Error": {
@@ -287,6 +287,7 @@
     "textErrNotEmpty": "Nu lăsați numele foii necompletat",
     "textErrorLastSheet": "În registrul de calcul trebuie să fie vizibilă cel puțin o foie de lucru. ",
     "textErrorRemoveSheet": "Foaia de calcul nu poate fi ștearsă.",
+    "textHidden": "Ascuns",
     "textHide": "Ascunde",
     "textMore": "Mai multe",
     "textMove": "Mutare",

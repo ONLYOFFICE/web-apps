@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
+      "errorOpensource": "Utilizando la versión gratuita Community, puede abrir documentos sólo para visualizarlos. Para acceder a los editores web móviles, se requiere una licencia comercial.",
       "errorProcessSaveResult": "Error al guardar",
       "errorServerVersion": "La versión del editor ha sido actualizada. La página será recargada para aplicar los cambios.",
       "errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",
@@ -159,8 +160,7 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
   "Error": {
@@ -287,6 +287,7 @@
     "textErrNotEmpty": "Nombre de hoja no debe ser vacío",
     "textErrorLastSheet": "El libro debe tener al menos una hoja de cálculo visible.",
     "textErrorRemoveSheet": "No se puede eliminar la hoja de cálculo.",
+    "textHidden": "Ocultado",
     "textHide": "Ocultar",
     "textMore": "Más",
     "textMove": "Mover",

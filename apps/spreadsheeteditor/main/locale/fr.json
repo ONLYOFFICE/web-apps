@@ -2753,6 +2753,7 @@
   "SSE.Views.PrintWithPreview.txtCurrentSheet": "Feuille actuelle",
   "SSE.Views.PrintWithPreview.txtCustom": "Personnalisé",
   "SSE.Views.PrintWithPreview.txtCustomOptions": "Options personnalisées",
+  "SSE.Views.PrintWithPreview.txtEmptyTable": "Il n'y a rien à imprimer, car le tableau est vide",
   "SSE.Views.PrintWithPreview.txtFitCols": "Ajuster toutes les colonnes à une page",
   "SSE.Views.PrintWithPreview.txtFitPage": "Ajuster la feuille à une page",
   "SSE.Views.PrintWithPreview.txtFitRows": "Ajuster toutes les lignes à une page",

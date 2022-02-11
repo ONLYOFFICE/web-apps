@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Σφάλμα",
       "errorAccessDeny": "Προσπαθείτε να εκτελέσετε μια ενέργεια για την οποία δεν έχετε δικαιώματα.<br>Παρακαλούμε, επικοινωνήστε με τον διαχειριστή σας.",
+      "errorOpensource": "Με τη δωρεάν έκδοση Κοινότητας μπορείτε να ανοίξετε έγγραφα μόνο για ανάγνωση. Για να αποκτήσετε πρόσβαση στους συντάκτες κινητού μέσω δικτύου, απαιτείται εμπορική άδεια.",
       "errorProcessSaveResult": "Αποτυχία αποθήκευσης.",
       "errorServerVersion": "Αναβαθμίστηκε η έκδοση του συντάκτη. Η σελίδα θα φορτωθεί ξανά για να εφαρμοστούν οι αλλαγές.",
       "errorUpdateVersion": "Η έκδοση του αρχείου έχει αλλάξει. Η σελίδα θα φορτωθεί ξανά.",
@@ -142,9 +143,14 @@
       "textGuest": "Επισκέπτης",
       "textHasMacros": "Το αρχείο περιέχει αυτόματες μακροεντολές.<br>Θέλετε να εκτελέσετε μακροεντολές;",
       "textNo": "Όχι",
+      "textNoChoices": "Δεν υπάρχουν επιλογές για το γέμισμα του κελιού.<br>Μόνο τιμές κειμένου από την στήλη μπορούν να επιλεγούν για αντικατάσταση.",
       "textNoLicenseTitle": "Το όριο της άδειας προσεγγίσθηκε",
+      "textNoTextFound": "Δεν βρέθηκε το κείμενο",
+      "textOk": "Εντάξει",
       "textPaidFeature": "Δυνατότητα επί πληρωμή",
       "textRemember": "Απομνημόνευση επιλογής",
+      "textReplaceSkipped": "Η αντικατάσταση έγινε. {0} εμφανίσεις προσπεράστηκαν.",
+      "textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
       "textYes": "Ναι",
       "titleServerVersion": "Ο συντάκτης ενημερώθηκε",
       "titleUpdateVersion": "Η έκδοση άλλαξε",
@@ -154,13 +160,7 @@
       "warnLicenseUsersExceeded": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με τον διαχειριστή σας για περισσότερες πληροφορίες.",
       "warnNoLicense": "Φτάσατε το όριο ταυτόχρονων συνδέσεων σε %1 συντάκτες. Το έγγραφο θα ανοίξει μόνο για ανάγνωση. Επικοινωνήστε με την ομάδα πωλήσεων %1 για τους όρους αναβάθμισης.",
       "warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
-      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
   "Error": {
@@ -175,6 +175,7 @@
     "errorAutoFilterDataRange": "Η λειτουργία δεν πραγματοποιήθηκε για το επιλεγμένο εύρος κελιών.<br>Επιλέξτε ένα ομοιόμορφο εύρος δεδομένων μέσα ή έξω από το πίνακα και δοκιμάστε ξανά.",
     "errorAutoFilterHiddenRange": "Η λειτουργία δεν μπορεί να πραγματοποιηθεί επειδή η περιοχή περιέχει φιλτραρισμένα κελιά.<br>Παρακαλούμε, εμφανίστε τα φιλτραρισμένα στοιχεία και προσπαθήστε ξανά.",
     "errorBadImageUrl": "Εσφαλμένη διεύθυνση URL εικόνας",
+    "errorCannotUseCommandProtectedSheet": "Δεν μπορείτε να χρησιμοποιήσετε αυτή την εντολή σε προστατευμένο φύλλο. Πρέπει να αφαιρέσετε την προστασία.<br>Ενδέχεται να σας ζητηθεί συνθηματικό.",
     "errorChangeArray": "Δεν μπορείτε να αλλάξετε μέρος ενός πίνακα.",
     "errorChangeOnProtectedSheet": "Το κελί ή γράφημα που προσπαθείτε να αλλάξετε βρίσκεται σε προστατευμένο φύλλο.<br>Για να κάνετε αλλαγή, αφαιρέστε την προστασία. Ίσως σας ζητηθεί συνθηματικό.",
     "errorConnectToServer": "Αδύνατη η αποθήκευση του εγγράφου. Ελέγξτε τις ρυθμίσεις σύνδεσης ή επικοινωνήστε με τον διαχειριστή.<br>Όταν κάνετε κλικ στο κουμπί \"Εντάξει\", θα σας προταθεί να κατεβάσετε το έγγραφο.",
@@ -233,8 +234,7 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
   },
   "LongActions": {
     "advDRMPassword": "Συνθηματικό",
@@ -287,18 +287,19 @@
     "textErrNotEmpty": "Το όνομα του φύλλου δεν πρέπει να είναι κενό",
     "textErrorLastSheet": "Το βιβλίο εργασίας πρέπει να έχει τουλάχιστον ένα ορατό φύλλο εργασίας.",
     "textErrorRemoveSheet": "Δεν είναι δυνατή η διαγραφή του φύλλου εργασίας.",
+    "textHidden": "Κρυφό",
     "textHide": "Απόκρυψη",
     "textMore": "Περισσότερα",
+    "textMove": "Μετακίνηση",
+    "textMoveBack": "Μετακίνηση πίσω",
+    "textMoveForward": "Μετακίνηση εμπρός",
     "textOk": "Εντάξει",
     "textRename": "Μετονομασία",
     "textRenameSheet": "Μετονομασία Φύλλου",
     "textSheet": "Φύλλο",
     "textSheetName": "Όνομα Φύλλου",
     "textUnhide": "Αναίρεση απόκρυψης",
-    "textWarnDeleteSheet": "Το φύλλο εργασίας ίσως περιέχει δεδομένα. Να συνεχιστεί η λειτουργία;",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textWarnDeleteSheet": "Το φύλλο εργασίας ίσως περιέχει δεδομένα. Να συνεχιστεί η λειτουργία;"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές στο έγγραφο. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
@@ -341,6 +342,7 @@
       "textLink": "Σύνδεσμος",
       "textLinkSettings": "Ρυθμίσεις Συνδέσμου",
       "textLinkType": "Τύπος Συνδέσμου",
+      "textOk": "Εντάξει",
       "textOther": "Άλλο",
       "textPictureFromLibrary": "Εικόνα από βιβλιοθήκη",
       "textPictureFromURL": "Εικόνα από σύνδεσμο",
@@ -358,8 +360,7 @@
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSorting": "Ταξινόμηση",
       "txtSortSelected": "Ταξινόμηση επιλεγμένων",
-      "txtYes": "Ναι",
-      "textOk": "Ok"
+      "txtYes": "Ναι"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",
@@ -378,6 +379,7 @@
       "textAngleClockwise": "Γωνία Δεξιόστροφα",
       "textAngleCounterclockwise": "Γωνία Αριστερόστροφα",
       "textAuto": "Αυτόματα",
+      "textAutomatic": "Αυτόματο",
       "textAxisCrosses": "Διασχίσεις Άξονα",
       "textAxisOptions": "Επιλογές Άξονα",
       "textAxisPosition": "Θέση Άξονα",
@@ -478,6 +480,7 @@
       "textNoOverlay": "Χωρίς Επικάλυψη",
       "textNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "textNumber": "Αριθμός",
+      "textOk": "Εντάξει",
       "textOnTickMarks": "Επί των Διαβαθμίσεων",
       "textOpacity": "Αδιαφάνεια",
       "textOut": "Έξω",
@@ -539,9 +542,7 @@
       "textYen": "Γιέν",
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSortHigh2Low": "Ταξινόμηση από το Υψηλότερο στο Χαμηλότερο",
-      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο"
     },
     "Settings": {
       "advCSVOptions": "Επιλέξτε CSV επιλογές",
@@ -571,6 +572,7 @@
       "textComments": "Σχόλια",
       "textCreated": "Δημιουργήθηκε",
       "textCustomSize": "Προσαρμοσμένο Μέγεθος",
+      "textDarkTheme": "Σκούρο θέμα",
       "textDelimeter": "Διαχωριστικό",
       "textDisableAll": "Απενεργοποίηση Όλων",
       "textDisableAllMacrosWithNotification": "Απενεργοποίηση όλων των μακροεντολών με ειδοποίηση",
@@ -671,8 +673,7 @@
       "txtSemicolon": "Ανω τελεία",
       "txtSpace": "Κενό διάστημα",
       "txtTab": "Καρτέλα",
-      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;"
     }
   }
 }

@@ -296,6 +296,7 @@
     "textSheetName": "시트 이름",
     "textUnhide": "숨기기 해제",
     "textWarnDeleteSheet": "워크시트에 데이터가 포함될 수 있습니다. 진행 하시겠습니까?",
+    "textHidden": "Hidden",
     "textMove": "Move",
     "textMoveBack": "Move back",
     "textMoveForward": "Move forward"

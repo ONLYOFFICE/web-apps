@@ -2753,6 +2753,7 @@
   "SSE.Views.PrintWithPreview.txtCurrentSheet": "Full de càlcul actual",
   "SSE.Views.PrintWithPreview.txtCustom": "Personalització",
   "SSE.Views.PrintWithPreview.txtCustomOptions": "Opcions personalitzades",
+  "SSE.Views.PrintWithPreview.txtEmptyTable": "No hi ha res per imprimir perquè la taula és buida",
   "SSE.Views.PrintWithPreview.txtFitCols": "Ajusta totes les columnes en una pàgina",
   "SSE.Views.PrintWithPreview.txtFitPage": "Ajusta el full en una pàgina",
   "SSE.Views.PrintWithPreview.txtFitRows": "Ajusta totes les files en una pàgina",
