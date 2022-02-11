@@ -166,7 +166,7 @@
 .style-toc {
     &__image {
         margin: 0 15px;
-        max-height: 180px;
+        max-height: 150px;
         overflow: hidden;
         &_active {
             border: 1.5px solid @brandColor;
@@ -194,6 +194,20 @@
     &__text {
         margin: 0 32px;
         text-align: center;
+    }
+}
+
+.swipe-container {
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    background-color: @background-primary;
+    .icon-swipe {
+      margin-top: 8px;
+      width: 40px;
+      height: 4px;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
     }
 }
 
