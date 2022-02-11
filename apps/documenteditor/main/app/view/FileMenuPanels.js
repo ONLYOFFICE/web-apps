@@ -98,12 +98,20 @@ define([
         },
 
         render: function() {
-            if (/^pdf|xps|oxps$/.test(this.fileType)) {
+            if (/^pdf$/.test(this.fileType)) {
                 this.formats[0].splice(1, 1); // remove pdf
                 this.formats[1].splice(1, 1); // remove pdfa
-                this.formats[3].push({name: 'Original',  imgCls: 'pdf', type: ''});
+                this.formats[3].push({name: 'PDF',  imgCls: 'pdf', type: ''}); // original pdf
+            } else if (/^xps|oxps$/.test(this.fileType)) {
+                this.formats[3].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
+            } else if (/^djvu$/.test(this.fileType)) {
+                this.formats = [[
+                    {name: 'DJVU',  imgCls: 'djvu',  type: ''}, // original djvu
+                    {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF}
+                ]];
             }
-            if (this.mode && !this.mode.canFeatureForms) {
+
+            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
                 this.formats[3] = undefined;
@@ -186,12 +194,20 @@ define([
         },
 
         render: function() {
-            if (/^pdf|xps|oxps$/.test(this.fileType)) {
+            if (/^pdf$/.test(this.fileType)) {
                 this.formats[0].splice(1, 1); // remove pdf
                 this.formats[1].splice(1, 1); // remove pdfa
-                this.formats[3].push({name: 'Original',  imgCls: 'pdf', type: '', ext: true});
+                this.formats[3].push({name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // original pdf
+            } else if (/^xps|oxps$/.test(this.fileType)) {
+                this.formats[3].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
+            } else if (/^djvu$/.test(this.fileType)) {
+                this.formats = [[
+                    {name: 'DJVU',  imgCls: 'djvu',  type: '', ext: true}, // original djvu
+                    {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
+                ]];
             }
-            if (this.mode && !this.mode.canFeatureForms) {
+
+            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
                 this.formats[3] = undefined;

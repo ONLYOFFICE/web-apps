@@ -494,7 +494,7 @@ define([
                 enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                 docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                 if (type && typeof type[1] === 'string') {
                     this.permissions.edit = this.permissions.review = false;
                 }

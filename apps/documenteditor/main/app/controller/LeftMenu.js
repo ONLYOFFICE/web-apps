@@ -367,9 +367,12 @@ define([
         clickSaveAsFormat: function(menu, format, ext) { // ext isn't undefined for save copy as
             var me = this,
                 fileType = this.getApplication().getController('Main').document.fileType;
-            if ( /^pdf|xps|oxps$/.test(fileType)) {
-                if (format===undefined || format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA || format == Asc.c_oAscFileType.XPS)
+            if ( /^pdf|xps|oxps|djvu$/.test(fileType)) {
+                if (format===undefined) {
                     this._saveAsFormat(undefined, format, ext); // download original
+                    menu && menu.hide();
+                } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA)
+                    this._saveAsFormat(menu, format, ext);
                 else {
                     (new Common.Views.OptionsDialog({
                         width: 300,
