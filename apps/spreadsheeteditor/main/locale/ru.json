@@ -2753,6 +2753,7 @@
   "SSE.Views.PrintWithPreview.txtCurrentSheet": "Текущий лист",
   "SSE.Views.PrintWithPreview.txtCustom": "Особый",
   "SSE.Views.PrintWithPreview.txtCustomOptions": "Настраиваемые параметры",
+  "SSE.Views.PrintWithPreview.txtEmptyTable": "Нечего печатать, так как таблица пуста",
   "SSE.Views.PrintWithPreview.txtFitCols": "Вписать все столбцы на одну страницу",
   "SSE.Views.PrintWithPreview.txtFitPage": "Вписать лист на одну страницу",
   "SSE.Views.PrintWithPreview.txtFitRows": "Вписать все строки на одну страницу",

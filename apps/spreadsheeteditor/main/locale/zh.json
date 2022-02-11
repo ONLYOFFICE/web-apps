@@ -2753,6 +2753,7 @@
   "SSE.Views.PrintWithPreview.txtCurrentSheet": "当前工作表",
   "SSE.Views.PrintWithPreview.txtCustom": "自定义",
   "SSE.Views.PrintWithPreview.txtCustomOptions": "自定义选项",
+  "SSE.Views.PrintWithPreview.txtEmptyTable": "没有什么可打印的，表为空",
   "SSE.Views.PrintWithPreview.txtFitCols": "将所有列适合一页",
   "SSE.Views.PrintWithPreview.txtFitPage": "在一页上安装工作表",
   "SSE.Views.PrintWithPreview.txtFitRows": "适合一页上的所有行",

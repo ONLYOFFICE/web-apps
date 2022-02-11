@@ -2753,6 +2753,7 @@
   "SSE.Views.PrintWithPreview.txtCurrentSheet": "Aktuelles Blatt",
   "SSE.Views.PrintWithPreview.txtCustom": "Benutzerdefiniert",
   "SSE.Views.PrintWithPreview.txtCustomOptions": "Benutzerdefinierte Optionen",
+  "SSE.Views.PrintWithPreview.txtEmptyTable": "Es gibt nichts zu drucken",
   "SSE.Views.PrintWithPreview.txtFitCols": "Alle Spalten auf einer Seite darstellen",
   "SSE.Views.PrintWithPreview.txtFitPage": "Blatt auf einer Seite darstellen",
   "SSE.Views.PrintWithPreview.txtFitRows": "Alle Zeilen auf einer Seite darstellen",

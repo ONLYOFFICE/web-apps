@@ -615,7 +615,7 @@
   "DE.Controllers.Main.textStrict": "厳格モード",
   "DE.Controllers.Main.textTryUndoRedo": "ファスト共同編集モードに元に戻す/やり直しの機能は無効になります。<br>他のユーザーの干渉なし編集するために「厳密なモード」をクリックして、厳密な共同編集モードに切り替えてください。保存した後にのみ、変更を送信してください。編集の詳細設定を使用して共同編集モードを切り替えることができます。",
   "DE.Controllers.Main.textTryUndoRedoWarn": "ファスト共同編集モードでは、元に戻す/やり直し機能が無効になります。",
-  "DE.Controllers.Main.titleLicenseExp": "ライセンス期限を過ぎました",
+  "DE.Controllers.Main.titleLicenseExp": "ライセンスの有効期限が切れています",
   "DE.Controllers.Main.titleServerVersion": "エディターが更新された",
   "DE.Controllers.Main.titleUpdateVersion": "バージョンを変更しました。",
   "DE.Controllers.Main.txtAbove": "上",
