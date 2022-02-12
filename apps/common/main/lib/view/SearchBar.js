@@ -62,6 +62,7 @@ define([
                     '<div class="tools">',
                         '<div id="search-bar-back"></div>',
                         '<div id="search-bar-next"></div>',
+                        '<div id="search-bar-open-panel"></div>',
                         '<div id="search-bar-close"></div>',
                     '</div>',
                 '</div>'
@@ -92,6 +93,13 @@ define([
                 iconCls: 'toolbar__icon btn-arrow-down'
             });
             this.btnNext.on('click', _.bind(this.onBtnClick, this, 'next'));
+
+            this.btnOpenPanel = new Common.UI.Button({
+                parentEl: $('#search-bar-open-panel'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon more-vertical'
+            });
+            this.btnOpenPanel.on('click', _.bind(this.onOpenPanel, this));
 
             this.btnClose = new Common.UI.Button({
                 parentEl: $('#search-bar-close'),
@@ -141,6 +149,10 @@ define([
                 textsearch  : this.inputSearch.val()
             };
             this.fireEvent('search:'+action, [this, opts]);
+        },
+
+        onOpenPanel: function () {
+
         },
 
         textFind: 'Find'

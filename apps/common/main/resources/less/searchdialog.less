@@ -95,7 +95,34 @@
             align-items: center;
             div {
                 margin-left: 5px;
+                &:first-of-type {
+                    margin-left: 7px;
+                }
             }
+        }
+    }
+}
+
+#search-box {
+    position: relative;
+    border-collapse: collapse;
+
+    #search-header {
+        position: relative;
+        height: 45px;
+        padding: 12px;
+        overflow: hidden;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
+
+        label {
+            font-size: 12px;
+            .font-weight-bold();
+            margin-top: 2px;
+        }
+
+        #search-btn-close {
+            float: right;
         }
     }
 }

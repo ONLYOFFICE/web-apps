@@ -76,6 +76,7 @@ define([
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-navigation': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-thumbnails': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-searchbar': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -99,6 +100,15 @@ define([
                 hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
                 disabled: true,
                 enableToggle: true
+            });
+
+            this.btnSearchBar = new Common.UI.Button({
+                action: 'searchbar',
+                el: $markup.elementById('#left-btn-searchbar'),
+                hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
+                disabled: true,
+                enableToggle: true,
+                toggleGroup: 'leftMenuGroup'
             });
 
             this.btnAbout = new Common.UI.Button({
@@ -162,6 +172,7 @@ define([
             this.btnNavigation.on('click',         this.onBtnMenuClick.bind(this));
 
             this.btnSearch.on('click',          this.onBtnMenuClick.bind(this));
+            this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
             this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
 
             this.menuFile = new DE.Views.FileMenu();
@@ -257,6 +268,13 @@ define([
                     this.panelThumbnails.hide();
                 }
             }
+            if (this.panelSearch) {
+                if (this.btnSearchBar.pressed) {
+                    this.panelSearch.show();
+                } else {
+                    this.panelSearch.hide();
+                }
+            }
             /** coauthoring end **/
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
@@ -284,6 +302,9 @@ define([
             } else
             if (name == 'thumbnails') {
                 this.panelThumbnails = panel.render('#left-panel-thumbnails');
+            }
+            if (name == 'searchbar') {
+                this.panelSearch = panel.render('#left-panel-search');
             }
         },
 
@@ -329,11 +350,15 @@ define([
                     this.panelNavigation['hide']();
                     this.btnNavigation.toggle(false, true);
                 }
+                if (this.panelSearch) {
+                    this.panelSearch['hide']();
+                    this.btnSearchBar.toggle(false, true);
+                }
             }
         },
 
         isOpened: function() {
-            var isopened = this.btnSearch.pressed;
+            var isopened = this.btnSearchBar.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
             /** coauthoring end **/
@@ -342,6 +367,7 @@ define([
 
         disableMenu: function(menu, disable) {
             this.btnSearch.setDisabled(false);
+            this.btnSearchBar.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
             /** coauthoring begin **/

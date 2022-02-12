@@ -192,6 +192,8 @@ define([
         },
 
         createDelayedElements: function() {
+            this.leftMenu.setOptionsPanel('searchbar', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
+
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
                 this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
@@ -776,6 +778,9 @@ define([
                     } else if (this.leftMenu.btnThumbnails.isActive()) {
                         this.leftMenu.btnThumbnails.toggle(false);
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnThumbnails);
+                    } else if (this.leftMenu.btnSearchBar.isActive()) {
+                        this.leftMenu.btnSearchBar.toggle(false);
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
                     }
                 }
             }

@@ -40,12 +40,17 @@
  */
 
 define([
-    'core'
+    'core',
+    'common/main/lib/view/SearchPanel'
 ], function () {
     'use strict';
 
     DE.Controllers.Search = Backbone.Controller.extend(_.extend({
         sdkViewName : '#id_main',
+
+        views: [
+            'Common.Views.SearchPanel'
+        ],
 
         initialize: function () {
             console.log('init');
@@ -58,6 +63,8 @@ define([
         },
         onLaunch: function () {
             this._state = {};
+
+            this.view = this.createView('Common.Views.SearchPanel');
         },
 
         setApi: function (api) {
@@ -65,6 +72,11 @@ define([
                 this.api = api;
             }
             return this;
+        },
+
+        getView: function(name) {
+            return !name && this.view ?
+                this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
 
         onQuerySearch: function (d, w, opts) {

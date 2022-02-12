@@ -1,0 +1,8 @@
+<div id="search-box" class="layout-ct vbox">
+    <div id="search-header">
+        <label><%= scope.textFind %></label>
+        <div id="search-btn-close"></div>
+    </div>
+    <div id="search-results">
+    </div>
+</div>
