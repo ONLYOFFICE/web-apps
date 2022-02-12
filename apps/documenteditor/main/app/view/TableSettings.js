@@ -741,7 +741,7 @@ define([
         },
 
         selectCurrentTableStyle: function() {
-            if (!this.mnuTableTemplatePicker) return;
+            if (!this.mnuTableTemplatePicker || this._state.beginPreviewStyles) return;
 
             var rec = this.mnuTableTemplatePicker.store.findWhere({
                 templateId: this._state.TemplateId
@@ -766,6 +766,7 @@ define([
 
         onEndTableStylesPreview: function(){
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
+            this.mnuTableTemplatePicker && this.mnuTableTemplatePicker.scroller.update({alwaysVisibleY: true});
         },
 
         onAddTableStylesPreview: function(Templates){
