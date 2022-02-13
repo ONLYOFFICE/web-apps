@@ -299,6 +299,14 @@ define([
                     }
                 });
 
+                Common.Utils.isChrome && $(document.body).on('keydown', 'textarea', function(e) {// chromium bug890248 (Bug 39614)
+                    if (e.keyCode===Common.UI.Keys.PAGEUP || e.keyCode===Common.UI.Keys.PAGEDOWN) {
+                        setTimeout(function(){
+                            $('#viewport').scrollLeft(0);
+                            $('#viewport').scrollTop(0);
+                        }, 0);
+                    }
+                });
                 Common.NotificationCenter.on({
                     'modal:show': function(e){
                         Common.Utils.ModalWindow.show();
