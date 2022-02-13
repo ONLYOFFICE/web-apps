@@ -1156,7 +1156,6 @@ define([
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
-            this.inProgress = false;
             this.menu = options.menu;
             this.coreProps = null;
             this.authors = [];
@@ -1466,11 +1465,8 @@ define([
 
         _onGetDocInfoStart: function() {
             var me = this;
-            this.inProgress = true;
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
-            _.defer(function(){
-                if (!me.inProgress) return;
-
+            this.timerLoading = setTimeout(function(){
                 me.lblStatPages.text(me.txtLoading);
                 me.lblStatWords.text(me.txtLoading);
                 me.lblStatParagraphs.text(me.txtLoading);
@@ -1481,6 +1477,7 @@ define([
 
         _onDocInfo: function(obj) {
             if (obj) {
+                clearTimeout(this.timerLoading);
                 if (obj.get_PageCount()>-1)
                     this.infoObj.PageCount = obj.get_PageCount();
                 if (obj.get_WordsCount()>-1)
@@ -1491,11 +1488,24 @@ define([
                     this.infoObj.SymbolsCount = obj.get_SymbolsCount();
                 if (obj.get_SymbolsWSCount()>-1)
                     this.infoObj.SymbolsWSCount = obj.get_SymbolsWSCount();
+                if (!this.timerDocInfo) { // start timer for filling info
+                    var me = this;
+                    this.timerDocInfo = setInterval(function(){
+                        me.fillDocInfo();
+                    }, 300);
+                    this.fillDocInfo();
+                }
             }
         },
 
         _onGetDocInfoEnd: function() {
-            this.inProgress = false;
+            clearTimeout(this.timerLoading);
+            clearInterval(this.timerDocInfo);
+            this.timerLoading = this.timerDocInfo = undefined;
+            this.fillDocInfo();
+        },
+
+        fillDocInfo:  function() {
             this.lblStatPages.text(this.infoObj.PageCount);
             this.lblStatWords.text(this.infoObj.WordsCount);
             this.lblStatParagraphs.text(this.infoObj.ParagraphCount);
