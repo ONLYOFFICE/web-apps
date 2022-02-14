@@ -123,30 +123,46 @@
 
 #panel-settings {
   table {
-    width: 100%;
+    width: 500px;
     tr {
-
       td {
-        padding: 5px 10px;
-
-        &.left {
-          //text-align: right;
-          width: 30%;
-
+        padding: 6px 10px;
+        &.group-name {
+          padding-top: 22px;
+          &.top{padding-top: 5px}
           label {
+            font-size: 14px;
             .font-weight-bold();
-            font-size: 12px;
           }
         }
 
-        &.right {
-          width: 70%;
+        &.subgroup-name label{
+          font-size: 11px;
+          .font-weight-bold();
         }
+
+        .comment-text{
+          opacity: 0.45;
+        }
+      }
+
+      &.left {
+         text-align: right;
+         width: 30%;
+         label {
+           .font-weight-bold();
+           font-size: 12px;
+         }
+      }
+
+      &.right {
+        width: 70%;
       }
 
       &.divider {
         height: 10px;
       }
+
     }
   }
 }
