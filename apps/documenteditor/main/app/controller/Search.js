@@ -63,8 +63,10 @@ define([
         },
         onLaunch: function () {
             this._state = {};
+        },
 
-            this.view = this.createView('Common.Views.SearchPanel');
+        setMode: function (mode) {
+            this.view = this.createView('Common.Views.SearchPanel', { mode: mode });
         },
 
         setApi: function (api) {

@@ -103,7 +103,7 @@ define([
             });
 
             this.btnSearchBar = new Common.UI.Button({
-                action: 'searchbar',
+                action: 'advancedsearch',
                 el: $markup.elementById('#left-btn-searchbar'),
                 hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
                 disabled: true,
@@ -303,7 +303,7 @@ define([
             if (name == 'thumbnails') {
                 this.panelThumbnails = panel.render('#left-panel-thumbnails');
             }
-            if (name == 'searchbar') {
+            if (name == 'advancedsearch') {
                 this.panelSearch = panel.render('#left-panel-search');
             }
         },
@@ -409,6 +409,13 @@ define([
                         !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
                         this.btnNavigation.toggle(true);
                         this.onBtnMenuClick(this.btnNavigation);
+                        this.onCoauthOptions();
+                    }
+                } else if (menu == 'advancedsearch') {
+                    if (this.btnSearchBar.isVisible() &&
+                        !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
+                        this.btnSearchBar.toggle(true);
+                        this.onBtnMenuClick(this.btnSearchBar);
                         this.onCoauthOptions();
                     }
                 }

@@ -152,7 +152,8 @@ define([
         },
 
         onOpenPanel: function () {
-
+            this.hide();
+            this.fireEvent('search:show', [true]);
         },
 
         textFind: 'Find'

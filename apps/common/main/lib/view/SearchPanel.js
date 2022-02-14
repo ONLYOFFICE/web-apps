@@ -50,12 +50,17 @@ define([
         initialize: function(options) {
             _.extend(this, options);
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
+
+            this.isEdit = options.mode.isEdit;
         },
 
         render: function(el) {
             if (!this.rendered) {
                 el = el || this.el;
-                $(el).html(this.template({scope: this}));
+                $(el).html(this.template({
+                    scope: this,
+                    headerText: this.isEdit ? this.textFindAndReplace : this.textFind
+                }));
                 this.$el = $(el);
 
                 this.buttonClose = new Common.UI.Button({
@@ -90,6 +95,7 @@ define([
         },
 
         textFind: 'Find',
+        textFindAndReplace: 'Find and replace',
         textCloseSearch: 'Close search'
 
     }, Common.Views.SearchPanel || {}));

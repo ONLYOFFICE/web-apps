@@ -110,6 +110,9 @@ define([
                 },
                 'ViewTab': {
                     'viewtab:navigation': _.bind(this.onShowHideNavigation, this)
+                },
+                'SearchBar': {
+                    'search:show': _.bind(this.onShowHideSearch, this)
                 }
             });
 
@@ -172,6 +175,8 @@ define([
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('PageThumbnails').setApi(this.api).setMode(this.mode);
+            this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
+            this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
         },
 
@@ -192,8 +197,6 @@ define([
         },
 
         createDelayedElements: function() {
-            this.leftMenu.setOptionsPanel('searchbar', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
-
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
                 this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
@@ -912,6 +915,16 @@ define([
             } else {
                 this.leftMenu.btnNavigation.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnNavigation);
+            }
+        },
+
+        onShowHideSearch: function (state) {
+            if (state) {
+                Common.UI.Menu.Manager.hideAll();
+                this.leftMenu.showMenu('advancedsearch');
+            } else {
+                this.leftMenu.btnSearchBar.toggle(false, true);
+                this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
             }
         },
 
