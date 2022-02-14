@@ -12,6 +12,7 @@ import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
+import NavigationController from '../controller/settings/Navigation';
 
 class MainPage extends Component {
     constructor(props) {
@@ -21,7 +22,8 @@ class MainPage extends Component {
             addOptionsVisible: false,
             addShowOptions: null,
             settingsVisible: false,
-            collaborationVisible: false
+            collaborationVisible: false,
+            navigationVisible: false
         };
     }
 
@@ -44,6 +46,9 @@ class MainPage extends Component {
             } else if ( opts === 'coauth' ) {
                 this.state.collaborationVisible && (opened = true);
                 newState.collaborationVisible = true;
+            } else if( opts === 'navigation') {
+                this.state.navigationVisible && (opened = true);
+                newState.navigationVisible = true;
             }
 
             for (let key in this.state) {
@@ -75,6 +80,8 @@ class MainPage extends Component {
                     return {settingsVisible: false};
                 else if ( opts == 'coauth' )
                     return {collaborationVisible: false};
+                else if( opts == 'navigation') 
+                    return {navigationVisible: false}
             });
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
@@ -142,24 +149,28 @@ class MainPage extends Component {
               {/* {
                   Device.phone ? null : <SearchSettings />
               } */}
-              <SearchSettings useSuspense={false} />
-              {
-                  !this.state.editOptionsVisible ? null :
-                      <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
-              }
-              {
-                  !this.state.addOptionsVisible ? null :
-                      <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
-              }
-              {
-                  !this.state.settingsVisible ? null :
-                      <Settings openOptions={this.handleClickToOpenOptions.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
-              }
-              {
-                  !this.state.collaborationVisible ? null :
-                      <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
-              }
-              {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} /> }  
+                <SearchSettings useSuspense={false} />
+                {
+                    !this.state.editOptionsVisible ? null :
+                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+                }
+                {
+                    !this.state.addOptionsVisible ? null :
+                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                }
+                {
+                    !this.state.settingsVisible ? null :
+                        <Settings openOptions={this.handleClickToOpenOptions.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
+                }
+                {
+                    !this.state.collaborationVisible ? null :
+                        <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
+                }
+                {
+                    !this.state.navigationVisible ? null : 
+                        <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')} />
+                }
+                {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}  
           </Page>
       )
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Navigation, NavigationSheet} from "../../view/settings/Navigation";
+import { NavigationPopover, NavigationSheet } from "../../view/settings/Navigation";
 import { Device } from '../../../../../common/mobile/utils/device';
 import { f7, Sheet, Page, Popup } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
@@ -8,14 +8,6 @@ class NavigationController extends Component {
     constructor(props) {
         super(props);
         this.updateNavigation = this.updateNavigation.bind(this);
-    }
-
-    closeModal() {
-        if (Device.phone) {
-            f7.popup.close('.settings-popup');
-        } else {
-            f7.popover.close('#settings-popover');
-        }
     }
 
     updateNavigation() {
@@ -75,7 +67,7 @@ class NavigationController extends Component {
     render() {
         return (
             !Device.phone ? 
-                <Navigation
+                <NavigationPopover
                     onSelectItem={this.onSelectItem} 
                     updateNavigation={this.updateNavigation}
                 />
@@ -83,7 +75,7 @@ class NavigationController extends Component {
                 <NavigationSheet
                     onSelectItem={this.onSelectItem} 
                     updateNavigation={this.updateNavigation}
-                    closeModal={this.closeModal}
+                    onclosed={this.props.onclosed}
                 /> 
         );
     }

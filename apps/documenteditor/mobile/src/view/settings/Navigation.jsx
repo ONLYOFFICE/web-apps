@@ -3,7 +3,7 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import {f7, View, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link, ListButton, Toggle, Actions, ActionsButton, ActionsGroup, Sheet} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
-const Navigation = props => {
+const NavigationPopover = props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const api = Common.EditorApi.get();
@@ -16,20 +16,20 @@ const Navigation = props => {
             <Navbar title={t('Settings.textNavigation')} backLink={_t.textBack} />
             {!arrHeaders.length 
                 ?
-                <div className="empty-screens">
-                    <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
-                </div>
+                    <div className="empty-screens">
+                        <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
+                    </div>
                 :
-                <List>
-                    {arrHeaders.map((header, index) => {
-                        return (
-                            <ListItem radio key={index} title={header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
-                                setCurrentPosition(header.index);
-                                props.onSelectItem(header.index);
-                            }}></ListItem>
-                        )
-                    })}
-                </List>
+                    <List>
+                        {arrHeaders.map((header, index) => {
+                            return (
+                                <ListItem radio key={index} title={header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
+                                    setCurrentPosition(header.index);
+                                    props.onSelectItem(header.index);
+                                }}></ListItem>
+                            )
+                        })}
+                    </List>
             }
         </Page>
     )
@@ -84,37 +84,36 @@ const NavigationSheet = props => {
     };
 
     useEffect(() => {
-        props.closeModal();
         f7.sheet.open('#view-navigation-sheet', true);
     }, []);
 
     return (
-        <Sheet id="view-navigation-sheet" style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
+        <Sheet id="view-navigation-sheet" closeByOutsideClick={true} onSheetClosed={() => props.onclosed()} style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon-swipe'/>
             </div>
             {!arrHeaders.length 
                 ?
-                <div className="empty-screens">
-                    <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
-                </div>
+                    <div className="empty-screens">
+                        <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
+                    </div>
                 :
-                <List>
-                    {arrHeaders.map((header, index) => {
-                        return (
-                            <ListItem radio key={index} title={header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
-                                setCurrentPosition(header.index);
-                                props.onSelectItem(header.index);
-                            }}></ListItem>
-                        )
-                    })}
-                </List>
+                    <List>
+                        {arrHeaders.map((header, index) => {
+                            return (
+                                <ListItem radio key={index} title={header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
+                                    setCurrentPosition(header.index);
+                                    props.onSelectItem(header.index);
+                                }}></ListItem>
+                            )
+                        })}
+                    </List>
             }
         </Sheet>
     )
 }
 
 export {
-    Navigation,
+    NavigationPopover,
     NavigationSheet
 };

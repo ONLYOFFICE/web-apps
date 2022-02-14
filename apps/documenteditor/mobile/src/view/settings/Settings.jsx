@@ -13,7 +13,6 @@ import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./Docume
 import { MacrosSettings } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
-// import { NavigationSheetView } from './Navigation';
 
 const routes = [
     {
@@ -88,9 +87,14 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         }
     };
 
-    const onOpenCollaboration = async () => {
-        await closeModal();
-        await props.openOptions('coauth');
+    const onOpenCollaboration = () => {
+        closeModal();
+        props.openOptions('coauth');
+    }
+
+    const onOpenNavigation = () => {
+        closeModal();
+        props.openOptions('navigation');
     }
 
     // set mode
@@ -130,7 +134,12 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    <ListItem title={t('Settings.textNavigation')} link="#" onClick={onoptionclick.bind(this, "/navigation/")}>
+                    <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
+                        if(Device.phone) {
+                            onOpenNavigation();
+                        } else {
+                            onoptionclick.bind(this, "/navigation/")();
+                        }}}>
                         <Icon slot="media" icon="icon-navigation"></Icon>
                     </ListItem>
                     {window.matchMedia("(max-width: 359px)").matches ?
