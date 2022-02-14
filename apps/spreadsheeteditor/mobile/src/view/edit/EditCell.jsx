@@ -111,22 +111,24 @@ const EditCell = props => {
                     </List>
                     <BlockTitle>{_t.textCellStyles}</BlockTitle>
                     {cellStyles.length ? (
-                        <Swiper pagination>
-                            {arraySlides.map((_, indexSlide) => {
-                                let stylesSlide = cellStyles.slice(indexSlide * 9, (indexSlide * 9) + 9);
-                                
-                                return (
-                                    <SwiperSlide key={indexSlide}>
-                                        <List className="cell-styles-list">
-                                            {stylesSlide.map((elem, index) => (
-                                                <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
-                                                    <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
-                                                </ListItem> 
-                                            ))}
-                                        </List>
-                                    </SwiperSlide>
-                            )})}
-                        </Swiper>
+                        <div className="swiper-container swiper-init demo-swiper">
+                            <div className="swiper-wrapper">
+                                {arraySlides.map((_, indexSlide) => {
+                                    let stylesSlide = cellStyles.slice(indexSlide * 9, (indexSlide * 9) + 9);
+                                    
+                                    return (
+                                        <div className="swiper-slide" key={indexSlide}>
+                                            <List className="cell-styles-list">
+                                                {stylesSlide.map((elem, index) => (
+                                                    <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                                        <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
+                                                    </ListItem> 
+                                                ))}
+                                            </List>
+                                        </div>
+                                )})}
+                            </div>
+                        </div>
                     ) : null}
                 </>}    
         </Fragment>
