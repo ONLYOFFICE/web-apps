@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { NavigationPopover, NavigationSheet } from "../../view/settings/Navigation";
 import { Device } from '../../../../../common/mobile/utils/device';
-import { f7, Sheet, Page, Popup } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 
 class NavigationController extends Component {
@@ -37,9 +36,9 @@ class NavigationController extends Component {
 
             arrHeaders.push({
                 name: navigationObject.get_Text(i),
-                level: level,
+                level,
                 index: i,
-                hasParent: hasParent,
+                hasParent,
                 isEmptyItem: navigationObject.isEmptyItem(i)
             });
 
