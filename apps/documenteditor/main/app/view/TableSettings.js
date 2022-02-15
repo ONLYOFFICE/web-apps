@@ -239,7 +239,6 @@ define([
                 this.api.asc_registerCallback('asc_onBeginTableStylesPreview', _.bind(this.onBeginTableStylesPreview, this));
                 this.api.asc_registerCallback('asc_onAddTableStylesPreview', _.bind(this.onAddTableStylesPreview, this));
                 this.api.asc_registerCallback('asc_onEndTableStylesPreview', _.bind(this.onEndTableStylesPreview, this));
-
             }
             return this;
         },
@@ -766,7 +765,11 @@ define([
 
         onEndTableStylesPreview: function(){
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
-            this.mnuTableTemplatePicker && this.mnuTableTemplatePicker.scroller.update({alwaysVisibleY: true});
+            if (this.mnuTableTemplatePicker) {
+                this.mnuTableTemplatePicker.scroller.update({alwaysVisibleY: true});
+                if (this.mnuTableTemplatePicker.isVisible())
+                    this.mnuTableTemplatePicker.scrollToRecord(this.mnuTableTemplatePicker.getSelectedRec());
+            }
         },
 
         onAddTableStylesPreview: function(Templates){
