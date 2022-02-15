@@ -116,6 +116,15 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
         window.open(url, "_blank");
     };
 
+    const showFeedback = () => {
+        let config = props.storeAppOptions.config;
+
+        closeModal();
+        if(config && !!config.feedback && !!config.feedback.url) {
+            window.open(config.feedback.url, "_blank");
+        } else window.open('{{__SUPPORT_URL__}}', "_blank");
+    };
+
     const appOptions = props.storeAppOptions;
     let _isEdit = false;
 
@@ -155,11 +164,14 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                     <ListItem title={_t.textSpreadsheetInfo} link="#" onClick={onoptionclick.bind(this, "/spreadsheet-info/")}>
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textHelp} link="#" onClick={showHelp}>
+                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                     <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
                         <Icon slot="media" icon="icon-about"></Icon>
+                    </ListItem>
+                    <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={showFeedback}>
+                            <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
                 </List>
             </Page>

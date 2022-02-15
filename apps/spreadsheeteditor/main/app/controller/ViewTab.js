@@ -84,9 +84,7 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                this.view.chStatusbar.$el.remove();
-            }
+
             this.addListeners({
                 'ViewTab': {
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
@@ -114,11 +112,6 @@ define([
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
                     }, this)
-                },
-                'Common.Views.Header': {
-                    'toolbar:freezeshadow': _.bind(function (isChecked) {
-                        this.view.btnFreezePanes.menu.items[4].setChecked(isChecked, true);
-                    }, this)
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
@@ -126,6 +119,10 @@ define([
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
         },
 
         getView: function(name) {
@@ -154,7 +151,6 @@ define([
         onFreezeShadow: function (checked) {
             this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
             Common.localStorage.setBool('sse-freeze-shadow', checked);
-            this.view.fireEvent('freeze:shadow', [checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -191,10 +187,9 @@ define([
         onViewSettings: function(type, value){
             if (this.api) {
                 switch (type) {
-                    case 0: this.getApplication().getController('Viewport').header.fireEvent('formulabar:hide', [ value!=='checked']); break;
-                    case 1: this.api.asc_setDisplayHeadings(value=='checked'); break;
-                    case 2: this.api.asc_setDisplayGridlines( value=='checked'); break;
-                    case 3: this.api.asc_setShowZeros( value=='checked'); break;
+                    case 1: this.api.asc_setDisplayHeadings(value); break;
+                    case 2: this.api.asc_setDisplayGridlines(value); break;
+                    case 3: this.api.asc_setShowZeros(value); break;
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);

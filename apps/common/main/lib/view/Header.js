@@ -52,7 +52,7 @@ define([
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
-        var $userList, $panelUsers, $btnUsers;
+        var $userList, $panelUsers, $btnUsers, $btnUserName;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -74,7 +74,8 @@ define([
         var templateRightBox = '<section>' +
                             '<section id="box-doc-name">' +
                                 // '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
-                                '<label id="rib-doc-name" />' +
+                                //'<label id="rib-doc-name" />' +
+                                '<input id="rib-doc-name" autofill="off" autocomplete="off"/></input>' +
                             '</section>' +
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
@@ -84,28 +85,34 @@ define([
                                 '</div>' +
                                 '<div class="hedset" data-layout-name="header-users">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
-                                    '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                        '<div class="btn-users" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
-                                            '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
-                                            '<label class="caption">&plus;</label>' +
+                                    '<section id="tlb-box-users" class="box-cousers dropdown">' +
+                                        '<div class="btn-users dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
+                                            '<div class="inner-box-icon">' +
+                                                '<svg class=""><use xlink:href="#svg-icon-users"></use></svg>' +
+                                            '</div>' +
+                                            '<label class="caption"></label>' +
                                         '</div>' +
                                         '<div class="cousers-menu dropdown-menu">' +
                                             '<label id="tlb-users-menu-descr"><%= tipUsers %></label>' +
                                             '<div class="cousers-list"></div>' +
-                                            '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
                                         '</div>' +
                                     '</section>'+
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-share"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
-                                    '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" id="slot-btn-user-name"></div>' +
-                                    '<div class="btn-current-user btn-header hidden">' +
-                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
+                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                        '<div class="color-user-name"></div>' +
+                                    '</button>' +
+                                    '<div class="btn-current-user hidden">' +
+                                        '<div class="color-user-name"></div>' +
                                     '</div>' +
                                 '</div>' +
                             '</section>' +
@@ -127,13 +134,21 @@ define([
                                     // '<label id="title-doc-name" /></label>' +
                                     '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
-                                '<label id="title-user-name"></label>' +
+                                '<div class="hedset">' +
+                                    // '<div class="btn-slot slot-btn-user-name"></div>' +
+                                    '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
+                                        '<div class="color-user-name"></div>' +
+                                    '</button>' +
+                                    '<div class="btn-current-user hidden">' +
+                                        '<div class="color-user-name"></div>' +
+                                    '</div>' +
+                                '</div>' +
                             '</section>';
 
         function onResetUsers(collection, opts) {
             var usercount = collection.getVisibleEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit) {
+                if (usercount > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) {
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
@@ -164,53 +179,27 @@ define([
         function applyUsers(count, originalCount) {
             if (!$btnUsers) return;
 
-            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
+            var has_edit_users = count > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit); // has other user(s) who edit document
             if ( has_edit_users ) {
-                $btnUsers
-                    .attr('data-toggle', 'dropdown')
-                    .addClass('dropdown-toggle')
-                    .menu = true;
-
                 $panelUsers['show']();
+                $btnUsers.find('.caption').html(originalCount);
             } else {
-                $btnUsers
-                    .removeAttr('data-toggle')
-                    .removeClass('dropdown-toggle')
-                    .menu = false;
-
-                $panelUsers[(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings)) ? 'show' : 'hide']();
-            }
-
-            $btnUsers.find('.caption')
-                .css({'font-size': ((has_edit_users) ? '12px' : '14px'),
-                    'margin-top': ((has_edit_users) ? '0' : '-1px')})
-                .html((has_edit_users) ? originalCount : '&plus;');
-
-            var usertip = $btnUsers.data('bs.tooltip');
-            if ( usertip ) {
-                usertip.options.title = (has_edit_users) ? usertip.options.titleExt : usertip.options.titleNorm;
-                usertip.setContent();
+                $panelUsers['hide']();
             }
         }
 
         function onLostEditRights() {
             _readonlyRights = true;
-            $panelUsers && $panelUsers.find('#tlb-change-rights').hide();
-            $btnUsers && !$btnUsers.menu && $panelUsers.hide();
+            this.btnShare && this.btnShare.setVisible(false);
         }
 
         function onUsersClick(e) {
-            if ( !$btnUsers.menu ) {
-                $panelUsers.removeClass('open');
-                Common.NotificationCenter.trigger('collaboration:sharing');
-            } else {
-                var usertip = $btnUsers.data('bs.tooltip');
-                if ( usertip ) {
-                    if ( usertip.dontShow===undefined)
-                        usertip.dontShow = true;
+            var usertip = $btnUsers.data('bs.tooltip');
+            if ( usertip ) {
+                if ( usertip.dontShow===undefined)
+                    usertip.dontShow = true;
 
-                    usertip.hide();
-                }
+                usertip.hide();
             }
         }
 
@@ -254,6 +243,14 @@ define([
                 Common.NotificationCenter.trigger('markfavorite', !me.options.favorite);
             });
 
+            if (me.btnShare) {
+                me.btnShare.on('click', function (e) {
+                    Common.NotificationCenter.trigger('collaboration:sharing');
+                });
+                me.btnShare.updateHint(me.tipAccessRights);
+                me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
+            }
+
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
                     var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
@@ -276,33 +273,16 @@ define([
 
                 var editingUsers = storeUsers.getVisibleEditingCount();
                 $btnUsers.tooltip({
-                    title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
-                    titleNorm: me.tipAccessRights,
-                    titleExt: me.tipViewUsers,
+                    title: me.tipUsers,
                     placement: 'bottom',
                     html: true
                 });
-
                 $btnUsers.on('click', onUsersClick.bind(me));
-
-                var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-                $labelChangeRights.on('click', function(e) {
-                    $panelUsers.removeClass('open');
-                    Common.NotificationCenter.trigger('collaboration:sharing');
-                });
-
-                $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
-                $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+                $panelUsers[(editingUsers > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) ? 'show' : 'hide']();
             }
 
-
             if (appConfig.user.guest && appConfig.canRenameAnonymous) {
-                if (me.labelUserName) {
-                    me.labelUserName.addClass('clickable');
-                    me.labelUserName.on('click', function (e) {
-                        Common.NotificationCenter.trigger('user:rename');
-                    });
-                } else if (me.btnUserName) {
+                if (me.btnUserName) {
                     me.btnUserName.on('click', function (e) {
                         Common.NotificationCenter.trigger('user:rename');
                     });
@@ -352,9 +332,6 @@ define([
                     });
                 }
             }
-
-            if ( me.btnOptions )
-                me.btnOptions.updateHint(me.tipViewSettings);
         }
 
         function onFocusDocName(e){
@@ -412,9 +389,6 @@ define([
             }
         }
 
-        function onContentThemeChangedToDark(isdark) {
-        }
-
         return {
             options: {
                 branding: {},
@@ -444,7 +418,6 @@ define([
                     id: 'btn-goback',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-goback',
-                    split: true,
                     dataHint: '0',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -457,17 +430,6 @@ define([
                     reset   : onResetUsers
                 });
 
-                me.btnOptions = new Common.UI.Button({
-                    cls: 'btn-header no-caret',
-                    iconCls: 'toolbar__icon icon--inverse btn-ic-options',
-                    menu: true,
-                    dataHint: '0',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
-                });
-
-                me.mnuZoom = {options: {value: 100}};
-
                 me.btnFavorite = new Common.UI.Button({
                     id: 'btn-favorite',
                     cls: 'btn-header',
@@ -479,10 +441,9 @@ define([
 
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
-                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
+                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
+                    'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
-                Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
-                Common.NotificationCenter.on('contenttheme:dark', onContentThemeChangedToDark.bind(this));
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
             },
 
@@ -523,7 +484,7 @@ define([
                 if ( role == 'right' ) {
                     var $html = $(_.template(templateRightBox)({
                         tipUsers: this.labelCoUsersDescr,
-                        txtAccessRights: this.txtAccessRights
+                        textShare: this.textShare
                     }));
 
                     if ( !me.labelDocName ) {
@@ -563,22 +524,43 @@ define([
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
-                    me.btnOptions.render($html.find('#slot-btn-options'));
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
-                        if (config.user.guest && config.canRenameAnonymous)
-                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'), undefined, 'bottom', 'big' );
-                        else {
+                        if (config.user.guest && config.canRenameAnonymous) {
+                            me.btnUserName = new Common.UI.Button({
+                                el: $html.findById('.slot-btn-user-name'),
+                                cls: 'btn-header',
+                                dataHint:'0',
+                                dataHintDirection: 'bottom',
+                                dataHintOffset: 'big',
+                                visible: true
+                            });
+                            me.btnUserName.cmpEl.removeClass('hidden');
+                        } else {
                             me.elUserName = $html.find('.btn-current-user');
                             me.elUserName.removeClass('hidden');
                         }
+                        $btnUserName = $html.find('.color-user-name');
                         me.setUserName(me.options.userName);
+                    }
+
+                    if (!_readonlyRights && config && (config.sharingSettingsUrl && config.sharingSettingsUrl.length || config.canRequestSharingSettings)) {
+                        me.btnShare = new Common.UI.Button({
+                            cls: 'btn-header btn-header-share',
+                            iconCls: 'toolbar__icon icon--inverse btn-users-share',
+                            caption: me.textShare,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnShare.render($html.find('#slot-btn-share'));
+                    } else {
+                        $html.find('#slot-btn-share').hide();
                     }
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
-                    $btnUsers = $html.find('.btn-users');
-
+                    $btnUsers = $panelUsers.find('> .btn-users');
                     $panelUsers.hide();
                     return $html;
                 } else
@@ -590,7 +572,22 @@ define([
                     me.labelDocName.val( me.documentCaption );
                     me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
-                    me.labelUserName = $('> #title-user-name', $html);
+                    if (config.user.guest && config.canRenameAnonymous) {
+                        me.btnUserName = new Common.UI.Button({
+                            el: $html.findById('.slot-btn-user-name'),
+                            cls: 'btn-header',
+                            dataHint:'0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big',
+                            visible: true
+                        });
+                        me.btnUserName.cmpEl.removeClass('hidden');
+                    }
+                    else {
+                        me.elUserName = $html.find('.btn-current-user');
+                        me.elUserName.removeClass('hidden');
+                    }
+                    $btnUserName = $html.find('.color-user-name');
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
@@ -708,7 +705,7 @@ define([
             },
 
             setCanRename: function (rename) {
-               // rename = true;      //for merge rename = false; ??
+                //rename = true;      //comment out for merge
 
                 var me = this;
                 me.options.canRename = rename;
@@ -760,23 +757,17 @@ define([
             },
 
             setUserName: function(name) {
-                if ( !!this.labelUserName ) {
-                    if ( !!name ) {
-                        this.labelUserName.text(name).show();
-                    } else this.labelUserName.hide();
-                } else {
-                    this.options.userName = name;
-                    if ( this.btnUserName ) {
-                        this.btnUserName.updateHint(name);
-                    } else if (this.elUserName) {
-                        this.elUserName.tooltip({
-                            title: Common.Utils.String.htmlEncode(name),
-                            placement: 'cursor',
-                            html: true
-                        });
-                    }
+                this.options.userName = name;
+                if ( this.btnUserName ) {
+                    this.btnUserName.updateHint(name);
+                } else if (this.elUserName) {
+                    this.elUserName.tooltip({
+                        title: Common.Utils.String.htmlEncode(name),
+                        placement: 'cursor',
+                        html: true
+                    });
                 }
-
+                $btnUserName && $btnUserName.text(this.getInitials(name));
                 return this;
             },
 
@@ -785,24 +776,23 @@ define([
                     return this.btnSave;
                 else if (type == 'users')
                     return $panelUsers;
+                else if (type == 'share')
+                    return this.btnShare;
             },
 
             lockHeaderBtns: function (alias, lock) {
                 var me = this;
                 if ( alias == 'users' ) {
-                    if ( lock )
-                        $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
+                    if ( lock ) {
+                        $btnUsers.addClass('disabled').attr('disabled', 'disabled');
+                    } else {
                         $btnUsers.removeClass('disabled').removeAttr('disabled');
+                    }
+                    if (me.btnShare) {
+                        me.btnShare.setDisabled(lock);
+                    }
                 } else if ( alias == 'rename-user' ) {
-                    if (me.labelUserName) {
-                        if ( lock ) {
-                            me.labelUserName.removeClass('clickable');
-                            me.labelUserName.addClass('disabled');
-                        } else {
-                            me.labelUserName.addClass('clickable');
-                            me.labelUserName.removeClass('disabled');
-                        }
-                    } else if (me.btnUserName) {
+                    if (me.btnUserName) {
                         me.btnUserName.setDisabled(lock);
                     }
                 } else {
@@ -823,20 +813,21 @@ define([
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
                     case 'redo': _lockButton(me.btnRedo); break;
-                    case 'opts': _lockButton(me.btnOptions); break;
                     default: break;
                     }
                 }
             },
 
-            fakeMenuItem: function() {
-                return {
-                    conf: {checked: false, disabled: false},
-                    setChecked: function (val) { this.conf.checked = val; },
-                    isChecked: function () { return this.conf.checked; },
-                    setDisabled: function (val) { this.conf.disabled = val; },
-                    isDisabled: function () { return this.conf.disabled; }
-                };
+            getInitials: function(name) {
+                var fio = name.split(' ');
+                var initials = fio[0].substring(0, 1).toUpperCase();
+                for (var i = fio.length-1; i>0; i--) {
+                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
+                        initials += fio[i].substring(0, 1).toUpperCase();
+                        break;
+                    }
+                }
+                return initials;
             },
 
             textBack: 'Go to Documents',
@@ -845,6 +836,7 @@ define([
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
             tipViewUsers: 'View users and manage document access rights',
+            tipUsers: 'View users',
             tipDownload: 'Download file',
             tipPrint: 'Print file',
             tipGoEdit: 'Edit current file',
@@ -859,7 +851,8 @@ define([
             tipViewSettings: 'View Settings',
             textRemoveFavorite: 'Remove from Favorites',
             textAddFavorite: 'Mark as favorite',
-            textHideNotes: 'Hide Notes'
+            textHideNotes: 'Hide Notes',
+            textShare: 'Share'
         }
     }(), Common.Views.Header || {}))
 });

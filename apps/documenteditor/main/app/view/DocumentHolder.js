@@ -683,7 +683,7 @@ define([
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
-                    me.cmpEl.append(pasteContainer);
+                    me.cmpEl.find('#id_main_view').append(pasteContainer);
 
                     me.btnSpecialPaste = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-special-paste'),
@@ -719,6 +719,9 @@ define([
                     if (pasteContainer.is(':visible')) pasteContainer.hide();
                 } else {
                     var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                    if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
+                        showPoint = [showPoint[0] - 19, showPoint[1] - 26];
+                    }
                     pasteContainer.css({left: showPoint[0], top : showPoint[1]});
                     pasteContainer.show();
                 }

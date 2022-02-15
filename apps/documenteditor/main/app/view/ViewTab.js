@@ -46,6 +46,51 @@ define([
     'use strict';
 
     DE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
+        var template =
+        '<section class="panel" data-tab="view">' +
+            '<div class="group" data-layout-name="toolbar-view-navigation">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-navigation"></span>' +
+            '</div>' +
+            '<div class="separator long" data-layout-name="toolbar-view-navigation"></div>' +
+            '<div class="group small">' +
+                '<div class="elset" style="display: flex;">' +
+                    '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
+                '</div>' +
+                '<div class="elset" style="text-align: center;">' +
+                    '<span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-ftp" style="font-size: 11px;text-align: center;"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-dark-document"></span>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-toolbar"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-statusbar"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="separator long separator-rulers"></div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-rulers"></span>' +
+                '</div>' +
+                '<div class="elset"></div>' +
+            '</div>' +
+        '</section>';
+
         return {
             options: {},
 
@@ -83,12 +128,10 @@ define([
 
                 this.lockedControls = [];
 
-                var me = this,
-                    $host = me.toolbar.$el;
+                var me = this;
                 var _set = Common.enumLock;
 
                 this.btnNavigation = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-navigation'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-menu-navigation',
                     lock: [_set.lostConnect, _set.disableOnStart],
@@ -101,7 +144,6 @@ define([
                 this.lockedControls.push(this.btnNavigation);
 
                 this.cmbZoom = new Common.UI.ComboBox({
-                    el: $host.find('#slot-field-zoom'),
                     cls: 'input-group-nr',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     menuStyle: 'min-width: 55px;',
@@ -125,10 +167,7 @@ define([
                 this.cmbZoom.setValue(100);
                 this.lockedControls.push(this.cmbZoom);
 
-                $host.find('#slot-lbl-zoom').text(this.textZoom);
-
                 this.btnFitToPage = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-ftp'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtopage',
                     lock: [_set.lostConnect, _set.disableOnStart],
@@ -142,7 +181,6 @@ define([
                 this.lockedControls.push(this.btnFitToPage);
 
                 this.btnFitToWidth = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-ftw'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
                     lock: [_set.lostConnect, _set.disableOnStart],
@@ -156,7 +194,6 @@ define([
                 this.lockedControls.push(this.btnFitToWidth);
 
                 this.btnInterfaceTheme = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-interface-theme'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon day',
                     lock: [_set.lostConnect, _set.disableOnStart],
@@ -169,7 +206,6 @@ define([
                 this.lockedControls.push(this.btnInterfaceTheme);
 
                 this.btnDarkDocument = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-dark-document'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon dark-mode',
                     lock: [_set.inLightTheme, _set.lostConnect, _set.disableOnStart],
@@ -182,7 +218,6 @@ define([
                 this.lockedControls.push(this.btnDarkDocument);
 
                 this.chStatusbar = new Common.UI.CheckBox({
-                    el: $host.findById('#slot-chk-statusbar'),
                     lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textStatusBar,
                     value: !Common.localStorage.getBool("de-hidden-status"),
@@ -193,7 +228,6 @@ define([
                 this.lockedControls.push(this.chStatusbar);
 
                 this.chToolbar = new Common.UI.CheckBox({
-                    el: $host.findById('#slot-chk-toolbar'),
                     lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textAlwaysShowToolbar,
                     value: !options.compactToolbar,
@@ -204,7 +238,6 @@ define([
                 this.lockedControls.push(this.chToolbar);
 
                 this.chRulers = new Common.UI.CheckBox({
-                    el: $host.findById('#slot-chk-rulers'),
                     lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textRulers,
                     value: !Common.Utils.InternalSettings.get("de-hidden-rulers"),
@@ -214,12 +247,30 @@ define([
                 });
                 this.lockedControls.push(this.chRulers);
 
-                this.cmpEl = $host;
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
             },
 
             render: function (el) {
+                if ( el ) el.html( this.getPanel() );
+
                 return this;
+            },
+
+            getPanel: function () {
+                this.$el = $(_.template(template)( {} ));
+                var $host = this.$el;
+
+                this.btnNavigation.render($host.find('#slot-btn-navigation'));
+                this.cmbZoom.render($host.find('#slot-field-zoom'));
+                $host.find('#slot-lbl-zoom').text(this.textZoom);
+                this.btnFitToPage.render($host.find('#slot-btn-ftp'));
+                this.btnFitToWidth.render($host.find('#slot-btn-ftw'));
+                this.btnInterfaceTheme.render($host.find('#slot-btn-interface-theme'));
+                this.btnDarkDocument.render($host.find('#slot-btn-dark-document'));
+                this.chStatusbar.render($host.find('#slot-chk-statusbar'));
+                this.chToolbar.render($host.find('#slot-chk-toolbar'));
+                this.chRulers.render($host.find('#slot-chk-rulers'));
+                return this.$el;
             },
 
             show: function () {
