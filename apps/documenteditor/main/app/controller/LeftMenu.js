@@ -457,6 +457,10 @@ define([
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
+            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("de-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
 
             value = Common.localStorage.getBool("de-settings-livecomment", true);

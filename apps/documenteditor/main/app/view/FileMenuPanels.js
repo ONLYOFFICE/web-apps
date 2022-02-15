@@ -285,6 +285,10 @@ define([
                     '<td class="left"><label><%= scope.strShowChanges %></label></td>',
                     '<td class="right"><span id="fms-cmb-show-changes"></span></td>',
                 '</tr>','<tr class="divider coauth changes-show"></tr>',
+                '<tr class="live-viewer">',
+                    '<td class="left"><label><%= scope.txtLiveViewer %></label></td>',
+                    '<td class="right"><div id="fms-chb-live-viewer"></div></td>',
+                '</tr>','<tr class="divider live-viewer"></tr>',
                 /** coauthoring end **/
                 '<tr class="themes">',
                     '<td class="left"><label><%= scope.strTheme %></label></td>',
@@ -480,6 +484,14 @@ define([
             this.lblCoAuthMode = $markup.findById('#fms-lbl-coauth-mode');
             /** coauthoring end **/
 
+            this.chLiveViewer = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-live-viewer'),
+                labelText: this.strShowOthersChanges,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
@@ -650,6 +662,8 @@ define([
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.live-viewer', this.el)[!mode.isEdit && !mode.isRestrictedEdit && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
+
             $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
@@ -682,8 +696,9 @@ define([
             item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
-
             this.fillShowChanges(fast_coauth);
+
+            this.chLiveViewer.setValue(Common.Utils.InternalSettings.get("de-settings-coauthmode"));
 
             value = Common.Utils.InternalSettings.get((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
             item = this.cmbShowChanges.store.findWhere({value: value});
@@ -756,6 +771,8 @@ define([
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 this.mode.canChangeCoAuthoring && Common.localStorage.setItem("de-settings-coauthmode", this.cmbCoAuthMode.getValue());
                 Common.localStorage.setItem(this.cmbCoAuthMode.getValue() ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", this.cmbShowChanges.getValue());
+            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                Common.localStorage.setItem("de-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
             /** coauthoring end **/
             Common.localStorage.setItem("de-settings-fontrender", this.cmbFontRender.getValue());
@@ -882,7 +899,9 @@ define([
         strReviewHover: 'Track Changes Display',
         txtChangesTip: 'Show by hover in tooltips',
         txtChangesBalloons: 'Show by click in balloons',
-        txtDarkMode: 'Turn on document dark mode'
+        txtDarkMode: 'Turn on document dark mode',
+        strShowOthersChanges: 'Show changes from other users',
+        txtLiveViewer: 'Real-time Collaboration Changes'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
