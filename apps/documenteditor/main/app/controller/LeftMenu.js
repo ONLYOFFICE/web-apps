@@ -314,7 +314,6 @@ define([
                 options.asc_setTextParams(textParams);
                 if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                     Common.UI.warning({
-                        closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
                         buttons: ['ok', 'cancel'],

@@ -1289,7 +1289,6 @@ define([
                     !Common.Utils.ModalWindow.isVisible() &&
                     Common.UI.warning({
                         width: 500,
-                        closable: false,
                         msg: this.confirmAddFontName,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
