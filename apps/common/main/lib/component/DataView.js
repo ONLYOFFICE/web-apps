@@ -1579,11 +1579,8 @@ define([
                     selected: false,
                     groupName: groupName
                 };
-            me.recentShapes.unshift(model);
-            if (me.recentShapes.length > 12) {
-                me.recentShapes.splice(12, 1);
-            }
-            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+            var arr = [model].concat(me.recentShapes.slice(0, 11));
+            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(arr));
             me.recentShapes = undefined;
         },
         updateRecents: function () {
