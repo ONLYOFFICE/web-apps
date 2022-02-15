@@ -284,93 +284,133 @@ define([
         template: _.template([
         '<div>',
         '<div class="flex-settings">',
-            '<table class="main" style="margin: 30px 0 0;"><tbody>',
-                /** coauthoring begin **/
-                '<tr class="comments">',
-                    '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
-                    '<td class="right"><div id="fms-chb-live-comment"></div></td>',
-                '</tr>','<tr class="divider comments"></tr>',
-                '<tr class="comments">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-resolved-comment"></div></td>',
-                '</tr>','<tr class="divider comments"></tr>',
+            '<table class="main tb-menu" style="margin: 10px 18px auto;"><tbody>',
+                '<tr className="autosave edit">',
+                    '<td class="group-name top" colspan="2"><label><%= scope.txtEditingSaving %></label></td>',
+                '</tr>',
                 '<tr class="autosave">',
-                    '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-autosave"></span></td>',
-                '</tr>','<tr class="divider autosave"></tr>',
-                '<tr class="forcesave">',
-                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-forcesave"></span></td>',
-                '</tr>','<tr class="divider forcesave"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.textRefStyle %></label></td>',
-                    '<td class="right"><div id="fms-chb-r1c1-style"></div></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr class="coauth changes">',
-                    '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
-                    '<td class="right">',
-                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
-                        '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
-                '</tr>','<tr class="divider coauth changes"></tr>',
-                /** coauthoring end **/
-                '<tr class="themes">',
-                    '<td class="left"><label><%= scope.strTheme %></label></td>',
-                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.strZoom %></label></td>',
-                    '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.strFontRender %></label></td>',
-                    '<td class="right"><span id="fms-cmb-font-render"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.strUnit %></label></td>',
-                    '<td class="right"><span id="fms-cmb-unit"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
+                    '<td colspan = "2"><span id="fms-chb-autosave"></span></td>',
+                '</tr>',
                 '<tr class="edit">',
-                    '<td class="left"><label><%= scope.strFuncLocale %></label></td>',
-                    '<td class="right">',
+                    '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
+                '</tr>',
+            /** coauthoring begin **/
+                '<tr class="coauth changes comments" >',
+                    '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
+                '</tr>',
+                '<tr class="coauth changes">',
+                    '<td class="subgroup-name" colspan="2"><label><%= scope.strCoAuthMode %></label></td>',
+                '</tr>',
+                '<tr class="coauth changes">',
+                    '<td colspan="2"><div style="display: flex;">',
+                        '<div id="fms-rb-coauth-mode-fast"></div>',
+                        '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
+                        '<label class="comment-text">Real-time co-editing. All changes are saved automatically</label></span>',
+                    '</div></td>',
+                '</tr>',
+                '<tr class="coauth changes">',
+                    '<td colspan="2"><div style="display: flex; ">',
+                        '<div id="fms-rb-coauth-mode-strict"></div>',
+                        '<span style ="display: flex; flex-direction: column;"><label><%= scope.strStrict %></label>',
+                        '<label class="comment-text">Use the \'Save\' button to sync the changes you and others make</label></span>',
+                    '</div></td>',
+                '</div></tr>',
+                '<tr class="comments">',
+                    '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
+                '</tr>',
+                '<tr class="comments">',
+                    '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
+                '</tr>',
+            /** coauthoring end **/
+                '<tr >',
+                    '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
+                '</tr>',
+                '<tr>',
+                    //'<td class="left"><label><%= scope.textRefStyle %></label></td>',
+                    '<td colspan="2"><div id="fms-chb-r1c1-style"></div></td>',
+                '</tr>',
+                '<tr class="themes">',
+                    '<td><label><%= scope.strTheme %></label></td>',
+                    '<td><span id="fms-cmb-theme"></span></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strUnit %></label></td>',
+                    '<td><span id="fms-cmb-unit"></span></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strZoom %></label></td>',
+                    '<td><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strFontRender %></label></td>',
+                    '<td><span id="fms-cmb-font-render"></span></td>',
+                '</tr>',
+                '<tr class="macros">',
+                    '<td><label><%= scope.strMacrosSettings %></label></td>',
+                    '<td>',
+                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                    '</td>',
+                '</tr>',
+                '<tr>',
+                    '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td><label><%= scope.strFuncLocale %></label></td>',
+                    '<td>',
                         '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-func-locale" style="vertical-align: middle;"><%= scope.strFuncLocaleEx %></label></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="">',
-                    '<td class="left"><label><%= scope.strRegSettings %></label></td>',
-                    '<td class="right">',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.txtRegion %></label></td>',
+                    '<td>',
                         '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
-                '</tr>','<tr class="divider "></tr>',
-                '<tr class="">',
-                    '<td class="left"><label><%= scope.strSeparator %></label></td>',
-                    '<td class="right"><div id="fms-chb-separator-settings"></div></td>',
                 '</tr>',
-                '<tr class="">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-decimal-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-separator-settings"></div></td>',
                 '</tr>',
-                '<tr class="">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-thousands-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
-                '</tr>','<tr class="divider "></tr>',
-                '<tr class="edit">',
-                    '<td class="left"><label><%= scope.strPaste %></label></td>',
-                    '<td class="right"><div id="fms-chb-paste-settings"></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="macros">',
-                    '<td class="left"><label><%= scope.strMacrosSettings %></label></td>',
-                    '<td class="right">',
-                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
-                        '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
-                '</tr>','<tr class="divider macros"></tr>',
+                '<tr>',
+                    '<td><label><%= scope.strDecimalSeparator %></label></td>',
+                    '<td><div id="fms-decimal-separator"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strThousandsSeparator %></label></td>',
+                    '<td><div id="fms-thousands-separator"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
+                '</tr>',
+                '<tr class="spellcheck">',
+                    '<td><label><%= scope.strDictionaryLanguage %></label></td>',
+                    '<td><span id="fms-cmb-dictionary-language"></span></td>',
+                '</tr>',
+                '<tr class="spellcheck">',
+
+                    '<td colspan="2"><span id="fms-chb-ignore-uppercase-words"></span></td>',
+                '</tr>',
+                '<tr class="spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
+                '</tr>',
+                /** coauthoring begin **/
+
+
+
+                '<tr class="forcesave">',
+                    '<td><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
+                    '<td><span id="fms-chb-forcesave"></span></td>',
+                '</tr>',
+
                 '<tr class="fms-btn-apply">',
-                    '<td class="left"></td>',
-                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
+                    '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table class="main" style="margin: 10px 0;"><tbody>',
+            '<table class="main" style="margin: 10px 0; width: 100%"><tbody>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
@@ -390,10 +430,10 @@ define([
             var me = this;
             var $markup = $(this.template({scope: this}));
 
-            /** coauthoring begin **/
+
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-live-comment'),
-                labelText: this.strLiveComment,
+                labelText: this.strShowComments,
                 dataHint: '3',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -403,7 +443,7 @@ define([
 
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-resolved-comment'),
-                labelText: this.strResolvedComment,
+                labelText: this.strShowResolvedComments,
                 dataHint: '3',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -411,31 +451,28 @@ define([
 
             this.chR1C1Style = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-r1c1-style'),
-                labelText: this.strR1C1,
+                labelText: this.strReferenceStyle,
                 dataHint: '3',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
 
-            this.cmbCoAuthMode = new Common.UI.ComboBox({
-                el          : $markup.findById('#fms-cmb-coauth-mode'),
-                style       : 'width: 160px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 1, displayValue: this.strFast, descValue: this.strCoAuthModeDescFast},
-                    { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
-                ],
+            this.rbCoAuthModeFast = new Common.UI.RadioBox({
+                el          : $markup.findById('#fms-rb-coauth-mode-fast'),
+                name        : 'coauth-mode',
                 dataHint    : '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            }).on('selected', function(combo, record) {
-                if (record.value == 1 && (me.chAutosave.getValue()!=='checked'))
-                    me.chAutosave.setValue(1);
-                me.lblCoAuthMode.text(record.descValue);
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('change', function () {
+                me.chAutosave.setValue(1);
             });
-
-            this.lblCoAuthMode = $markup.findById('#fms-lbl-coauth-mode');
+            this.rbCoAuthModeStrict = new Common.UI.RadioBox({
+                el          : $markup.findById('#fms-rb-coauth-mode-strict'),
+                name        : 'coauth-mode',
+                dataHint    : '3',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
             /** coauthoring end **/
 
             this.cmbZoom = new Common.UI.ComboBox({
@@ -491,14 +528,14 @@ define([
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
-                labelText: this.strAutosave,
+                labelText: this.textAutoSave,
                 dataHint    : '3',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
-                if (field.getValue()!=='checked' && me.cmbCoAuthMode.getValue()) {
-                    me.cmbCoAuthMode.setValue(0);
-                    me.lblCoAuthMode.text(me.strCoAuthModeDescStrict);
+                if (field.getValue()!=='checked' && me.rbCoAuthModeFast.getValue()) {
+                    me.rbCoAuthModeStrict.setValue(true);
+                    //me.lblCoAuthMode.text(me.strCoAuthModeDescStrict);
                 }
             });
             this.lblAutosave = $markup.findById('#fms-lbl-autosave');
@@ -663,13 +700,17 @@ define([
                     { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
                     { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
                 ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                        '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<% }); %>'
+                ].join('')),
+
                 dataHint    : '3',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
-            }).on('selected', function(combo, record) {
-                me.lblMacrosDesc.text(record.descValue);
             });
-            this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
 
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
@@ -688,6 +729,38 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+                el:  $markup.findById('#fms-cmb-dictionary-language'),
+                cls: 'input-group-nr',
+                style: 'width: 267px;',
+                editable: false,
+                menuStyle: 'min-width: 267px; max-height: 209px;',
+                dataHint: '3',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE,
+                dataHint: '3',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers,
+                dataHint: '3',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.btnAutoCorrect = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-auto-correct')
+            });
+            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
@@ -761,6 +834,7 @@ define([
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
+            $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -779,9 +853,11 @@ define([
             this.chR1C1Style.setValue(Common.Utils.InternalSettings.get("sse-settings-r1c1"));
 
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
-            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
-            this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
-            this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
+            this.rbCoAuthModeFast.setValue(fast_coauth);
+            this.rbCoAuthModeStrict.setValue(!fast_coauth);
+            /*item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
+            this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);*/
+            //this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
             value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
@@ -848,7 +924,6 @@ define([
 
             item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("sse-macros-mode")});
             this.cmbMacros.setValue(item ? item.get('value') : 0);
-            this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
 
@@ -862,6 +937,43 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+
+            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
+
+                var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                    allLangs = arrLang[0],
+                    langs = arrLang[1],
+                    change = arrLang[2];
+                var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
+                    value;
+                if (sessionValue)
+                    value = parseInt(sessionValue);
+                else
+                    value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+                if (langs && langs.length > 0) {
+                    if (this.cmbDictionaryLanguage.store.length === 0 || change) {
+                        this.cmbDictionaryLanguage.setData(langs);
+                    }
+                    var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
+                    if (!item && allLangs[value]) {
+                        value = allLangs[value][0].split(/[\-\_]/)[0];
+                        item = this.cmbDictionaryLanguage.store.find(function (model) {
+                            return model.get('shortName').indexOf(value) == 0;
+                        });
+                    }
+                    this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
+                    value = this.cmbDictionaryLanguage.getValue();
+                    if (value !== parseInt(sessionValue)) {
+                        Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                    }
+                } else {
+                    this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                    this.cmbDictionaryLanguage.setDisabled(true);
+                }
+
+                this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
+                this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
+            }
         },
 
         applySettings: function() {
@@ -872,7 +984,7 @@ define([
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && this.mode.canChangeCoAuthoring)
-                Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
+                Common.localStorage.setItem("sse-settings-coauthmode", this.rbCoAuthModeFast.getValue()? 1 : 0);
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
@@ -916,6 +1028,27 @@ define([
                 if (this._oldUnits !== this.cmbUnit.getValue())
                     Common.NotificationCenter.trigger('settings:unitschanged', this);
             }
+
+            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
+
+                var value = this.chIgnoreUppercase.isChecked();
+                Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);
+                value = this.chIgnoreNumbers.isChecked();
+                Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
+
+                if (!this.cmbDictionaryLanguage.isDisabled()) {
+                    value = this.cmbDictionaryLanguage.getValue();
+                    Common.localStorage.setItem("sse-spellcheck-locale", value);
+                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                }
+
+                Common.localStorage.save();
+                if (this.menu) {
+                    this.menu.fireEvent('spellcheck:apply', [this.menu]);
+                }
+            }
         },
 
         updateRegionalExample: function(landId) {
@@ -951,6 +1084,14 @@ define([
                 combo.setValue(this._fontRender);
             }
             this._fontRender = combo.getValue();
+        },
+
+        autoCorrect: function() {
+            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
+            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
+                api: this.api
+            });
+            this.dlgAutoCorrect.show();
         },
 
         strLiveComment: 'Turn on option',
@@ -1052,7 +1193,19 @@ define([
         txtExamplePt: 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
         txtExamplePtbr: 'SOMA; MÍNIMO; MÁXIMO; CONT.NÚM',
         txtExampleSv: 'SUMMA; MIN; MAX; ANTAL',
-        txtExampleTr: 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
+        txtExampleTr: 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY',
+        txtEditingSaving: 'Editing and saving',
+        txtCollaboration: 'Collaboration',
+        strShowComments: 'Show comments in sheet',
+        strShowResolvedComments: 'Show resolved comments',
+        txtWorkspace: 'Workspace',
+        strReferenceStyle: 'R1C1 reference style',
+        txtRegion: 'Region',
+        txtProofing: 'Proofing',
+        strDictionaryLanguage: 'Dictionary language',
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
+        txtAutoCorrect: 'AutoCorrect options...'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -1062,22 +1215,8 @@ define([
 
         template: _.template([
             '<table class="main" style="margin: 30px 0;"><tbody>',
-            '<tr class="spellcheck">',
-                '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
-                '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language"></span></td>',
-            '</tr>',
-            '<tr class="spellcheck">',
-                '<td class="left" style="padding-bottom: 8px;"></td>',
-                '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words"></span></td>',
-            '</tr>',
-            '<tr class="spellcheck">',
-                '<td class="left"></td>',
-                '<td class="right"><span id="fms-chb-ignore-numbers-words"></span></td>',
-            '</tr>','<tr class="divider spellcheck"></tr>',
-            '<tr>',
-                '<td class="left"><label><%= scope.txtProofing %></label></td>',
-                '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
-            '</tr>','<tr class="divider"></tr>',
+
+            '<tr class="divider"></tr>',
             '<tr>',
                 '<td class="left"></td>',
                 '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
@@ -1095,37 +1234,13 @@ define([
             var me = this;
             var $markup = $(this.template({scope: this}));
 
-            this.chIgnoreUppercase = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
-                labelText: this.strIgnoreWordsInUPPERCASE,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
 
-            this.chIgnoreNumbers = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-ignore-numbers-words'),
-                labelText: this.strIgnoreWordsWithNumbers,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
 
-            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
-                el:  $markup.findById('#fms-cmb-dictionary-language'),
-                cls: 'input-group-nr',
-                style: 'width: 267px;',
-                editable: false,
-                menuStyle: 'min-width: 267px; max-height: 209px;',
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
 
-            this.btnAutoCorrect = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-auto-correct')
-            });
-            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
+
+
+
+
 
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-spellcheck-btn-apply')
@@ -1155,7 +1270,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
+
         },
 
         setApi: function(api) {
@@ -1163,79 +1278,20 @@ define([
         },
 
         updateSettings: function() {
-            if (!Common.UI.FeaturesManager.canChange('spellcheck')) return;
 
-            var arrLang = SSE.getController('Spellcheck').loadLanguages(),
-                allLangs = arrLang[0],
-                langs = arrLang[1],
-                change = arrLang[2];
-            var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
-                value;
-            if (sessionValue)
-                value = parseInt(sessionValue);
-            else
-                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
-            if (langs && langs.length > 0) {
-                if (this.cmbDictionaryLanguage.store.length === 0 || change) {
-                    this.cmbDictionaryLanguage.setData(langs);
-                }
-                var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
-                if (!item && allLangs[value]) {
-                    value = allLangs[value][0].split(/[\-\_]/)[0];
-                    item = this.cmbDictionaryLanguage.store.find(function(model){
-                        return model.get('shortName').indexOf(value)==0;
-                    });
-                }
-                this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
-                value = this.cmbDictionaryLanguage.getValue();
-                if (value !== parseInt(sessionValue)) {
-                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
-                }
-            } else {
-                this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
-                this.cmbDictionaryLanguage.setDisabled(true);
-            }
-
-            this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
-            this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
         },
 
         applySettings: function() {
-            if (!Common.UI.FeaturesManager.canChange('spellcheck')) return;
 
-            var value = this.chIgnoreUppercase.isChecked();
-            Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
-            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);
-            value = this.chIgnoreNumbers.isChecked();
-            Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
-            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
-
-            if (!this.cmbDictionaryLanguage.isDisabled()) {
-                value = this.cmbDictionaryLanguage.getValue();
-                Common.localStorage.setItem("sse-spellcheck-locale", value);
-                Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
-            }
-
-            Common.localStorage.save();
-            if (this.menu) {
-                this.menu.fireEvent('spellcheck:apply', [this.menu]);
-            }
         },
 
-        autoCorrect: function() {
-            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
-            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
-                api: this.api
-            });
-            this.dlgAutoCorrect.show();
-        },
 
-        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
-        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
-        strDictionaryLanguage: 'Dictionary language',
+
+
+
         okButtonText: 'Apply',
-        txtProofing: 'Proofing',
-        txtAutoCorrect: 'AutoCorrect options...'
+
+
     }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
