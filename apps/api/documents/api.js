@@ -971,6 +971,25 @@
         return params;
     }
 
+    function getFrameTitle(config) {
+        var title = 'Powerful online editor for text documents, spreadsheets, and presentations';
+        var appMap = {
+            'text': 'text documents',
+            'spreadsheet': 'spreadsheets',
+            'presentation': 'presentations',
+            'word': 'text documents',
+            'cell': 'spreadsheets',
+            'slide': 'presentations'
+        };
+
+        if (typeof config.documentType === 'string') {
+            var app = appMap[config.documentType.toLowerCase()];
+            if (app)
+                title = 'Powerful online editor for ' + app;
+        }
+        return title;
+    }
+
     function createIframe(config) {
         var iframe = document.createElement("iframe");
 
@@ -980,6 +999,7 @@
         iframe.align = "top";
         iframe.frameBorder = 0;
         iframe.name = "frameEditor";
+        iframe.title = getFrameTitle(config);
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
