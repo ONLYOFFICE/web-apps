@@ -374,22 +374,16 @@ define([
                 } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA)
                     this._saveAsFormat(menu, format, ext);
                 else {
-                    (new Common.Views.OptionsDialog({
-                        width: 300,
-                        title: this.titleConvertOptions,
-                        label: this.textGroup,
-                        items: [
-                            {caption: this.textChar, value: Asc.c_oAscTextAssociation.BlockChar, checked: true},
-                            {caption: this.textLine, value: Asc.c_oAscTextAssociation.BlockLine, checked: false},
-                            {caption: this.textParagraph, value: Asc.c_oAscTextAssociation.PlainLine, checked: false}
-                        ],
-                        handler: function (dlg, result) {
-                            if (result=='ok') {
-                                me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(dlg.getSettings()));
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.warnDownloadAsPdf,
+                        buttons: ['ok', 'cancel'],
+                        callback: _.bind(function(btn){
+                            if (btn == 'ok') {
+                                me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
                             }
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        }
-                    })).show();
+                        }, this)
+                    });
                 }
             } else
                 this._saveAsFormat(menu, format, ext);
@@ -930,11 +924,7 @@ define([
         warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
-        titleConvertOptions: 'Grouping options',
-        textGroup: 'Group by',
-        textChar: 'Char',
-        textLine: 'Line',
-        textParagraph: 'Paragraph'
+        warnDownloadAsPdf: 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
 
     }, DE.Controllers.LeftMenu || {}));
 });
