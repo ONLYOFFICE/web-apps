@@ -233,83 +233,84 @@ define([
         '<div class="flex-settings">',
             '<table style="margin: 11px 0 0;"><tbody>',
                 '<tr class="edit">',
-                    '<td class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
+                    '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
                 '<tr class="autosave">',
-                    '<td><span id="fms-chb-autosave"></span></td>',
+                    '<td colspan="2"><span id="fms-chb-autosave"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td><div id="fms-chb-paste-settings"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td><span id="fms-chb-compatible"></span></td>',
+                    '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td class="group-name"><label><%= scope.txtCollaboration %></label></td>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
-                    '<td class="subgroup-name"><label><%= scope.strCoAuthMode %></label></td>',
+                    '<td colspan="2" class="subgroup-name"><label><%= scope.strCoAuthMode %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
-                    '<td style="display: flex;"><div id="fms-rb-coauth-mode-fast"></div>',
+                    '<td colspan="2"><div style="display: flex;"><div id="fms-rb-coauth-mode-fast"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
-                    '<label class="comment-text">Real-time co-editing. All changes are saved automatically</label></span></div></div>',
+                    '<label class="comment-text">Real-time co-editing. All changes are saved automatically</label></span></div>',
                     '</td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
-                    '<td style="display: flex;"><div id="fms-rb-coauth-mode-strict"></div>',
+                    '<td colspan="2"><div style="display: flex;"><div id="fms-rb-coauth-mode-strict"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.strStrict %></label>',
                     '<label class="comment-text">Use the \'Save\' button to sync the changes you and others make</label></span>',
                     '</div></td>',
                 '</tr>',
                 '<tr class="view-review">',
-                    '<td class="subgroup-name"><label><%= scope.txtShowTrackChanges %></label></td>',
+                    '<td colspan="2" class="subgroup-name"><label><%= scope.txtShowTrackChanges %></label></td>',
                 '</tr>',
                 '<tr class="view-review">',
-                    '<td><div id="fms-rb-show-track-ballons"></div></td>',
+                    '<td colspan="2"><div id="fms-rb-show-track-ballons"></div></td>',
                 '</tr>',
                 '<tr class="view-review">',
-                    '<td><div id="fms-rb-show-track-tooltips"></div></td>',
+                    '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
+                    '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
                 '<tr class="edit show-changes">',
-                    '<td><div id="fms-rb-show-changes-none"></div></td>',
+                    '<td colspan="2"><div id="fms-rb-show-changes-none"></div></td>',
                 '</tr>',
                 '<tr class="edit show-changes">',
-                    '<td><div id="fms-rb-show-changes-all"></div></td>',
+                    '<td colspan="2"><div id="fms-rb-show-changes-all"></div></td>',
                 '</tr>',
                 '<tr class="edit show-changes">',
-                    '<td><div id="fms-rb-show-changes-last"></div></td>',
+                    '<td colspan="2"><div id="fms-rb-show-changes-last"></div></td>',
                 '</tr>',
                 '<tr class="comments">',
-                    '<td><div id="fms-chb-live-comment"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>',
                 '<tr class="comments">',
-                    '<td><div id="fms-chb-resolved-comment"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td class="group-name"><label><%= scope.txtProofing %></label></td>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
                 '<tr class="edit spellcheck">',
-                    '<td><div id="fms-chb-spell-check"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-spell-check"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td class="group-name"><label><%= scope.txtWorkspace %></label></td>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td><span id="fms-chb-align-guides"></span></td>',
+                    '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td><div id="fms-chb-input-mode"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
                 '</tr>',
-
-            '</tbody></table>',
-            '<table style="margin: 16px 0 0;"><tbody>',
+                '<tr class="forcesave">',
+                    '<td><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
+                    '<td><span id="fms-chb-forcesave"></span></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td>',
@@ -367,7 +368,7 @@ define([
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-live-comment'),
-                labelText: this.strLiveComment,
+                labelText: this.strShowComments,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -377,7 +378,7 @@ define([
 
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-resolved-comment'),
-                labelText: this.strResolvedComment,
+                labelText: this.strShowResolvedComments,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -412,7 +413,6 @@ define([
                     me.onChangeCoAuthMode(me.rbCoAuthModeFast.getValue()?1:0);
                 }
             });
-            this.lblAutosave = $markup.findById('#fms-lbl-autosave');
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
@@ -458,10 +458,6 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-
-            /** coauthoring begin **/
-
-
 
             this.rbCoAuthModeFast = new Common.UI.RadioBox({
                 el          :$markup.findById('#fms-rb-coauth-mode-fast'),
@@ -622,20 +618,6 @@ define([
                 dataHintOffset: 'small'
             });
 
-            this.cmbReviewHover = new Common.UI.ComboBox({
-                el          : $markup.findById('#fms-cmb-review-hover'),
-                style       : 'width: 160px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: false, displayValue: this.txtChangesBalloons },
-                    { value: true, displayValue: this.txtChangesTip }
-                ],
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
@@ -695,7 +677,6 @@ define([
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
-                this.lblAutosave.text(this.textAutoRecover);
             }
             /** coauthoring begin **/
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
@@ -936,7 +917,9 @@ define([
         txtCollaboration: 'Collaboration',
         txtShowTrackChanges: 'Show track changes',
         txtWorkspace: 'Workspace',
-        txtHieroglyphs: 'Hieroglyphs'
+        txtHieroglyphs: 'Hieroglyphs',
+        strShowComments: 'Show comments in text',
+        strShowResolvedComments: 'Show resolved comments'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

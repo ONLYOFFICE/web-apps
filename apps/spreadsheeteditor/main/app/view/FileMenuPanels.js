@@ -294,7 +294,6 @@ define([
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
-            /** coauthoring begin **/
                 '<tr class="coauth changes comments" >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
@@ -321,7 +320,6 @@ define([
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
-            /** coauthoring end **/
                 '<tr >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
@@ -434,7 +432,7 @@ define([
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-live-comment'),
                 labelText: this.strShowComments,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
@@ -444,7 +442,7 @@ define([
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-resolved-comment'),
                 labelText: this.strShowResolvedComments,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -452,7 +450,7 @@ define([
             this.chR1C1Style = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-r1c1-style'),
                 labelText: this.strReferenceStyle,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -460,7 +458,7 @@ define([
             this.rbCoAuthModeFast = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-fast'),
                 name        : 'coauth-mode',
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', function () {
@@ -469,7 +467,7 @@ define([
             this.rbCoAuthModeStrict = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-strict'),
                 name        : 'coauth-mode',
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -497,7 +495,7 @@ define([
                     { value: 400, displayValue: "400%" },
                     { value: 500, displayValue: "500%" }
                 ],
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -520,7 +518,7 @@ define([
                     { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative },
                     { value: 'custom', displayValue: this.txtCacheMode }
                 ],
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -529,7 +527,7 @@ define([
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
                 labelText: this.textAutoSave,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
@@ -543,7 +541,7 @@ define([
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
                 labelText: this.strForcesave,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -558,7 +556,7 @@ define([
                     { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
                     { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
                 ],
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -582,7 +580,7 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : formula_arr,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
@@ -636,7 +634,7 @@ define([
             this.chSeparator = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-separator-settings'),
                 labelText: this.strUseSeparatorsBasedOnRegionalSettings,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -671,7 +669,7 @@ define([
                 el: $markup.findById('#fms-decimal-separator'),
                 style: 'width: 35px;',
                 validateOnBlur: false,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -682,7 +680,7 @@ define([
                 el: $markup.findById('#fms-thousands-separator'),
                 style: 'width: 35px;',
                 validateOnBlur: false,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -707,7 +705,7 @@ define([
                     '<% }); %>'
                 ].join('')),
 
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -715,7 +713,7 @@ define([
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
                 labelText: this.strPasteButton,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -725,7 +723,7 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -736,7 +734,7 @@ define([
                 style: 'width: 267px;',
                 editable: false,
                 menuStyle: 'min-width: 267px; max-height: 209px;',
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -744,7 +742,7 @@ define([
             this.chIgnoreUppercase = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-ignore-uppercase-words'),
                 labelText: this.strIgnoreWordsInUPPERCASE,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -752,7 +750,7 @@ define([
             this.chIgnoreNumbers = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-ignore-numbers-words'),
                 labelText: this.strIgnoreWordsWithNumbers,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
