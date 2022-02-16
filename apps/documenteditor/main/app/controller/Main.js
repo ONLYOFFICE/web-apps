@@ -552,6 +552,7 @@ define([
                 this._state.isFromGatewayDownloadAs = true;
                 var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
                     _defaultFormat = null,
+                    textParams,
                     _supported = [
                         Asc.c_oAscFileType.TXT,
                         Asc.c_oAscFileType.RTF,
@@ -575,6 +576,7 @@ define([
                     else if (/^djvu$/.test(this.document.fileType)) {
                         _supported = [Asc.c_oAscFileType.PDF];
                     }
+                    textParams = new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine);
                 } else {
                     _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
                     _defaultFormat = Asc.c_oAscFileType.DOCX;
@@ -584,7 +586,13 @@ define([
                 }
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = _defaultFormat;
-                _format ? this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true)) : this.api.asc_DownloadOrigin(true);
+                if (_format) {
+                    var options = new Asc.asc_CDownloadOptions(_format, true);
+                    textParams && options.asc_setTextParams(textParams);
+                    this.api.asc_DownloadAs(options);
+                } else {
+                    this.api.asc_DownloadOrigin(true);
+                }
             },
 
             onProcessMouse: function(data) {

@@ -513,6 +513,7 @@
   "DE.Controllers.LeftMenu.txtUntitled": "Untitled",
   "DE.Controllers.LeftMenu.warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
   "DE.Controllers.LeftMenu.warnDownloadAsRTF": "If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?",
+  "DE.Controllers.LeftMenu.warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
   "DE.Controllers.Main.applyChangesTextText": "Loading the changes...",
   "DE.Controllers.Main.applyChangesTitleText": "Loading the Changes",
   "DE.Controllers.Main.convertationTimeoutText": "Conversion timeout exceeded.",
