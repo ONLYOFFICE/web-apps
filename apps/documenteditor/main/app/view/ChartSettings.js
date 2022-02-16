@@ -172,8 +172,8 @@ define([
                         value = this.chartProps.getStyle();
                         if (this._state.ChartStyle !== value || this._isChartStylesChanged) {
                             this._state.ChartStyle = value;
-                            this.selectCurrentChartStyle();
-                            this._isChartStylesChanged && this.api.asc_generateChartPreviews(this._state.ChartType);
+                            var arr = this.selectCurrentChartStyle();
+                            this._isChartStylesChanged && this.api.asc_generateChartPreviews(this._state.ChartType, arr);
                         }
                     }
                     this._isChartStylesChanged = false;
@@ -443,10 +443,7 @@ define([
                     _.each(currentRecords, function(style, index){
                         arr.push(style.get('data'));
                     });
-                    arr = this.api.asc_getChartPreviews(this._state.ChartType, arr);
-                    _.each(arr, function(style, index){
-                        currentRecords[index].set('imageUrl', style.asc_getImage());
-                    });
+                    return arr;
                 }
             }
         },
@@ -492,8 +489,7 @@ define([
                 !(this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                 this._state.ChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboCustom)) {
                 this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType, undefined, true));
-                this.selectCurrentChartStyle();
-                this.api.asc_generateChartPreviews(this._state.ChartType);
+                this.api.asc_generateChartPreviews(this._state.ChartType, this.selectCurrentChartStyle());
             }
         },
 
