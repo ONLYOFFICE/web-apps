@@ -199,12 +199,15 @@ define([
 
         template: _.template([
         '<div class="flex-settings">',
-            '<table style="margin: 10px 0 0;"><tbody>',
+            '<table style="margin: 10px 14px auto;"><tbody>',
                 '<tr class="autosave edit">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
                 '<tr class="autosave">',
                     '<td colspan="2"><span id="fms-chb-autosave"></span></td>',
+                '</tr>',
+                '<tr class="forcesave">',
+                    '<td colspan="2" class="right"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
@@ -219,14 +222,14 @@ define([
                     '<td colspan="2"><div style="display: flex;">',
                         '<div id="fms-rb-coauth-mode-fast"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
-                        '<label class="comment-text">Real-time co-editing. All changes are saved automatically</label></span>',
+                        '<label class="comment-text"><%= scope.strFastTip %></label></span>',
                     '</div></td>',
                 '</tr>',
                 '<tr class="coauth changes">',
                     '<td colspan="2"><div style="display: flex;">',
                         '<div id="fms-rb-coauth-mode-strict"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strStrict %></label>',
-                        '<label class="comment-text">Use the \'Save\' button to sync the changes you and others make</label></span>',
+                        '<label class="comment-text"><%= scope.strStrictTip %></label></span>',
                     '</div></td>',
                 '</tr>',
                 '<tr class="edit spellcheck">',
@@ -242,10 +245,10 @@ define([
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                     '</tr>',
                 '<tr class="edit">',
-                    '<td><span id="fms-chb-align-guides"></span></td>',
+                    '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td><div id="fms-chb-input-mode"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
                 '</tr>',
 
                 '<tr class="themes">',
@@ -268,24 +271,17 @@ define([
                     '<td><label><%= scope.strMacrosSettings %></label></td>',
                     '<td><div><div id="fms-cmb-macros"></div></div></td>',
                 '</tr>',
-
-                '<tr class="forcesave">',
-                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-forcesave"></span></td>',
-                '</tr>','<tr class="divider forcesave"></tr>',
-
-
                 '<tr class="fms-btn-apply">',
-                    '<td class="left"></td>',
-                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
+                    '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table style="margin: 10px 0;"><tbody>',
+            '<table style="margin: 10px 14px;"><tbody>',
                 '<tr>',
-                    '<td class="left"></td>',
-                    '<td class="right"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>'
@@ -400,7 +396,7 @@ define([
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
-                labelText: this.strForcesave,
+                labelText: this.textForceSave,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -744,7 +740,9 @@ define([
         txtEditingSaving: 'Editing and saving',
         txtCollaboration: 'Collaboration',
         txtWorkspace: 'Workspace',
-        txtHieroglyphs: 'Hieroglyphs'
+        txtHieroglyphs: 'Hieroglyphs',
+        txtFastTip: 'Real-time co-editing. All changes are saved automatically',
+        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

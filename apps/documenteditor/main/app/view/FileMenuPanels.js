@@ -231,12 +231,15 @@ define([
 
         template: _.template([
         '<div class="flex-settings">',
-            '<table style="margin: 11px 0 0;"><tbody>',
-                '<tr class="edit">',
+            '<table style="margin: 10px 14px 0;"><tbody>',
+                '<tr class="autosave edit forcesave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
                 '<tr class="autosave">',
                     '<td colspan="2"><span id="fms-chb-autosave"></span></td>',
+                '</tr>',
+                '<tr class="forcesave">',
+                    '<td colspan="2"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
@@ -244,7 +247,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="edit view-review coauth changes-mode">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
@@ -253,13 +256,13 @@ define([
                 '<tr class="coauth changes-mode">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-rb-coauth-mode-fast"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
-                    '<label class="comment-text">Real-time co-editing. All changes are saved automatically</label></span></div>',
+                    '<label class="comment-text"><%= scope.strFastTip %></label></span></div>',
                     '</td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-rb-coauth-mode-strict"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.strStrict %></label>',
-                    '<label class="comment-text">Use the \'Save\' button to sync the changes you and others make</label></span>',
+                    '<label class="comment-text"><%= scope.strStrictTip %></label></span>',
                     '</div></td>',
                 '</tr>',
                 '<tr class="view-review">',
@@ -271,7 +274,7 @@ define([
                 '<tr class="view-review">',
                     '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="edit show-changes comments">',
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
                 '<tr class="edit show-changes">',
@@ -289,7 +292,7 @@ define([
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
                 '<tr class="edit spellcheck">',
@@ -306,10 +309,6 @@ define([
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
-                '</tr>',
-                '<tr class="forcesave">',
-                    '<td><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
-                    '<td><span id="fms-chb-forcesave"></span></td>',
                 '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
@@ -338,10 +337,10 @@ define([
 
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table style="margin: 10px 0;"><tbody>',
+            '<table style="margin: 10px 14px;"><tbody>',
                 '<tr>',
-                '<td class="left"></td>',
-                '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>'
@@ -416,7 +415,7 @@ define([
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
-                labelText: this.strForcesave,
+                labelText: this.textForceSave,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -830,8 +829,6 @@ define([
             this.rbShowChangesLast.setVisible(!fastmode);
         },
 
-
-
         onChangeCoAuthMode: function (val){
             this.fillShowChanges(val == 1);
             this.rbShowChangesNone.setValue(val == 1);
@@ -919,7 +916,9 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         strShowComments: 'Show comments in text',
-        strShowResolvedComments: 'Show resolved comments'
+        strShowResolvedComments: 'Show resolved comments',
+        txtFastTip: 'Real-time co-editing. All changes are saved automatically',
+        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

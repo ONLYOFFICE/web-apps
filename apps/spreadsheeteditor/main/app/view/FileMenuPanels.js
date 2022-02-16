@@ -182,101 +182,6 @@ define([
         }
     });
 
-    SSE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
-        el: '#panel-settings',
-        menu: undefined,
-
-        template: _.template([
-            '<div style="width:100%; height:100%; position: relative;">',
-                '<div id="id-settings-menu" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
-                '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
-                    '<div id="panel-settings-general" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel active"></div>',
-                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
-                '</div>',
-            '</div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-        },
-
-        render: function(node) {
-            var $markup = $(this.template({scope: this}));
-
-            this.generalSettings = new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu: this.menu});
-            this.generalSettings.options = {alias:'MainSettingsGeneral'};
-            this.generalSettings.render($markup.findById('#panel-settings-general'));
-
-            this.spellcheckSettings = new SSE.Views.FileMenuPanels.MainSpellCheckSettings({menu: this.menu});
-            this.spellcheckSettings.render($markup.findById('#panel-settings-spellcheck'));
-
-            this.viewSettingsPicker = new Common.UI.DataView({
-                el: $markup.findById('#id-settings-menu'),
-                store: new Common.UI.DataViewStore([
-                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', contentTarget: 'panel-settings-general', selected: true},
-                    {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell', contentTarget: 'panel-settings-spellcheck'}
-                ]),
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="settings-item-wrap">',
-                        '<div class="settings-icon <%= iconCls %>" style="display: inline-block;" >',
-                        '</div><%= name %>',
-                    '</div>'
-                ].join('')),
-                itemDataHint: '2',
-                itemDataHintDirection: 'left',
-                itemDataHintOffset: [-2, 20]
-            });
-            this.viewSettingsPicker.on('item:select', _.bind(function(dataview, itemview, record) {
-                var panel = record.get('panel');
-                $('#id-settings-content > div').removeClass('active');
-                panel.$el.addClass('active');
-                panel.show();
-            }, this));
-
-            this.$el = $(node).html($markup);
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            var item = this.viewSettingsPicker.getSelectedRec();
-            item && item.get('panel').show();
-        },
-
-        setMode: function(mode) {
-            this.mode = mode;
-            this.generalSettings && this.generalSettings.setMode(this.mode);
-            this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
-            if (!this.mode.isEdit) {
-                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
-                if (this.spellcheckSettings && this.spellcheckSettings.$el && this.spellcheckSettings.$el.hasClass('active'))
-                    this.viewSettingsPicker.selectByIndex(0);
-            }
-        },
-
-        setApi: function(api) {
-            this.generalSettings && this.generalSettings.setApi(api);
-            this.spellcheckSettings && this.spellcheckSettings.setApi(api);
-        },
-
-        SetDisabled: function(disabled) {
-            if ( disabled ) {
-                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
-                this.viewSettingsPicker.selectByIndex(0, true);
-            } else {
-                if ( this.mode.isEdit ) {
-                    $(this.viewSettingsPicker.dataViewItems[1].el).show();
-                }
-            }
-        },
-
-        txtGeneral: 'General',
-        txtPageSettings: 'Page Settings',
-        txtSpellChecking: 'Spell checking'
-    }, SSE.Views.FileMenuPanels.Settings || {}));
-
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings-general',
         menu: undefined,
@@ -284,12 +189,15 @@ define([
         template: _.template([
         '<div>',
         '<div class="flex-settings">',
-            '<table class="main tb-menu" style="margin: 10px 18px auto;"><tbody>',
-                '<tr className="autosave edit">',
+            '<table class="main" style="margin: 10px 18px auto;"><tbody>',
+                '<tr className="autosave edit forcesave">',
                     '<td class="group-name top" colspan="2"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
                 '<tr class="autosave">',
                     '<td colspan = "2"><span id="fms-chb-autosave"></span></td>',
+                '</tr>',
+                '<tr class="forcesave">',
+                    '<td colspan="2"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
@@ -304,14 +212,14 @@ define([
                     '<td colspan="2"><div style="display: flex;">',
                         '<div id="fms-rb-coauth-mode-fast"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
-                        '<label class="comment-text">Real-time co-editing. All changes are saved automatically</label></span>',
+                        '<label class="comment-text"><%= scope.txtFastTip %></label></span>',
                     '</div></td>',
                 '</tr>',
                 '<tr class="coauth changes">',
                     '<td colspan="2"><div style="display: flex; ">',
                         '<div id="fms-rb-coauth-mode-strict"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strStrict %></label>',
-                        '<label class="comment-text">Use the \'Save\' button to sync the changes you and others make</label></span>',
+                        '<label class="comment-text"><%= scope.txtStrictTip %></label></span>',
                     '</div></td>',
                 '</div></tr>',
                 '<tr class="comments">',
@@ -392,26 +300,18 @@ define([
                 '<tr>',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
-                /** coauthoring begin **/
 
-
-
-                '<tr class="forcesave">',
-                    '<td><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
-                    '<td><span id="fms-chb-forcesave"></span></td>',
-                '</tr>',
-
-                '<tr class="fms-btn-apply">',
-                    '<td></td>',
+                 '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table class="main" style="margin: 10px 0; width: 100%"><tbody>',
+            '<table class="main" style="margin: 10px 18px; width: 100%"><tbody>',
                 '<tr>',
-                    '<td class="left"></td>',
-                    '<td class="right"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
@@ -540,7 +440,7 @@ define([
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
-                labelText: this.strForcesave,
+                labelText: this.textForceSave,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -1092,6 +992,16 @@ define([
             this.dlgAutoCorrect.show();
         },
 
+        SetDisabled: function(disabled) {
+            if ( disabled ) {
+                this.$el.hide();
+            } else {
+                if ( this.mode.isEdit ) {
+                    this.$el.show();
+                }
+            }
+        },
+
         strLiveComment: 'Turn on option',
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
@@ -1203,94 +1113,11 @@ define([
         strDictionaryLanguage: 'Dictionary language',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
         strIgnoreWordsWithNumbers: 'Ignore words with numbers',
-        txtAutoCorrect: 'AutoCorrect options...'
+        txtAutoCorrect: 'AutoCorrect options...',
+        txtFastTip: 'Real-time co-editing. All changes are saved automatically',
+        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
-
-    SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
-        el: '#panel-settings-spellcheck',
-        menu: undefined,
-
-        template: _.template([
-            '<table class="main" style="margin: 30px 0;"><tbody>',
-
-            '<tr class="divider"></tr>',
-            '<tr>',
-                '<td class="left"></td>',
-                '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
-            '</tr>',
-            '</tbody></table>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-        },
-
-        render: function(node) {
-            var me = this;
-            var $markup = $(this.template({scope: this}));
-
-
-
-
-
-
-
-
-
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fms-spellcheck-btn-apply')
-            });
-
-            this.btnApply.on('click', _.bind(this.applySettings, this));
-
-            this.$el = $(node).html($markup);
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-
-            this.updateSettings();
-            this.scroller && this.scroller.update();
-        },
-
-        setMode: function(mode) {
-            this.mode = mode;
-
-        },
-
-        setApi: function(api) {
-            this.api = api;
-        },
-
-        updateSettings: function() {
-
-        },
-
-        applySettings: function() {
-
-        },
-
-
-
-
-
-        okButtonText: 'Apply',
-
-
-    }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         el: '#panel-recentfiles',
