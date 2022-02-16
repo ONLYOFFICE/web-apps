@@ -75,10 +75,7 @@ define([
                 ChartStyle: 1,
                 ChartType: -1,
                 SeveralCharts: false,
-                DisabledControls: false,
-                // beginPreviewStyles: true,
-                // previewStylesCount: -1,
-                // currentStyleFound: false
+                DisabledControls: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -105,9 +102,7 @@ define([
             if (this.api) {
                 this.api.asc_registerCallback('asc_onImgWrapStyleChanged', _.bind(this._ChartWrapStyleChanged, this));
                 this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
-                this.api.asc_registerCallback('asc_onBeginChartStylesPreview', _.bind(this.onBeginChartStylesPreview, this));
                 this.api.asc_registerCallback('asc_onAddChartStylesPreview', _.bind(this.onAddChartStylesPreview, this));
-                this.api.asc_registerCallback('asc_onEndChartStylesPreview', _.bind(this.onEndChartStylesPreview, this));
             }
             return this;
         },
@@ -448,26 +443,6 @@ define([
             }
         },
 
-        onBeginChartStylesPreview: function(count){
-            // this._state.beginPreviewStyles = true;
-            // this._state.currentStyleFound = false;
-            // this._state.previewStylesCount = count;
-        },
-
-        onEndChartStylesPreview: function(){
-            // if (this.cmbChartStyle) {
-                // if (this.cmbChartStyle.menuPicker.store.length>0) {
-                //     // !this._state.currentStyleFound && this.selectCurrentChartStyle();
-                //     this.cmbChartStyle.menuPicker.scroller.update({alwaysVisibleY: true});
-                // }
-                // else {
-                //     this.cmbChartStyle.menuPicker.store.reset();
-                //     this.cmbChartStyle.clearComboView();
-                // }
-                // this.cmbChartStyle.setDisabled(this.cmbChartStyle.menuPicker.store.length<1 || this._locked);
-            // }
-        },
-
         onAddChartStylesPreview: function(styles){
             var me = this;
             if (styles && styles.length>0){
@@ -477,8 +452,7 @@ define([
                         var rec = stylesStore.findWhere({
                             data: item.asc_getName()
                         });
-                        if (rec)
-                            rec.set('imageUrl', item.asc_getImage());
+                        rec && rec.set('imageUrl', item.asc_getImage());
                     });
                 }
             }
