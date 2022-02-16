@@ -994,7 +994,8 @@ define([
         },
 
         onAddChartStylesPreview: function(styles){
-            var me = this;
+            if (this._isEditType) return;
+
             if (styles && styles.length>0){
                 var stylesStore = this.cmbChartStyle.menuPicker.store;
                 if (stylesStore) {
