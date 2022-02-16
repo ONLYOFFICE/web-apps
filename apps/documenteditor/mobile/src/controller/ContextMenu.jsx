@@ -114,8 +114,25 @@ class ContextMenu extends ContextMenuController {
                     this.props.openOptions('coauth', 'cm-review-change');
                 }, 400);
                 break;
+            case 'refreshEntireTable':
+                this.onTableContentsUpdate('all');
+                break;
+            case 'refreshPageNumbers':
+                this.onTableContentsUpdate('pages');
+                break;
         }
     }
+
+    onTableContentsUpdate(type, currentTOC) {
+        const api = Common.EditorApi.get();
+        let props = api.asc_GetTableOfContentsPr(currentTOC);
+
+        if (props) {
+            if (currentTOC && props)
+                currentTOC = props.get_InternalClass();
+            api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+        }
+    };
 
     showCopyCutPasteModal() {
         const { t } = this.props;
@@ -223,6 +240,7 @@ class ContextMenu extends ContextMenuController {
             const { canViewComments, canCoAuthoring, canComments } = this.props;
 
             const api = Common.EditorApi.get();
+            const inToc = api.asc_GetTableOfContentsPr(true);
             const stack = api.getSelectedElements();
             const canCopy = api.can_CopyCut();
 
@@ -291,6 +309,17 @@ class ContextMenu extends ContextMenuController {
                 itemsText.push({
                     caption: _t.menuOpenLink,
                     event: 'openlink'
+                });
+            }
+
+            if(inToc) {
+                itemsText.push({
+                    caption: t('ContextMenu.textRefreshEntireTable'),
+                    event: 'refreshEntireTable'
+                });
+                itemsText.push({
+                    caption: t('ContextMenu.textRefreshPageNumbersOnly'),
+                    event: 'refreshPageNumbers'
                 });
             }
 

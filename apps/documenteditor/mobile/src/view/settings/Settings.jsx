@@ -12,6 +12,7 @@ import ApplicationSettingsController from "../../controller/settings/Application
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
+import NavigationController from '../../controller/settings/Navigation';
 
 const routes = [
     {
@@ -53,6 +54,13 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+
+    // Navigation
+
+    {
+        path: '/navigation/',
+        component: NavigationController
     }
 ];
 
@@ -79,9 +87,14 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         }
     };
 
-    const onOpenCollaboration = async () => {
-        await closeModal();
-        await props.openOptions('coauth');
+    const onOpenCollaboration = () => {
+        closeModal();
+        props.openOptions('coauth');
+    }
+
+    const onOpenNavigation = () => {
+        closeModal();
+        props.openOptions('navigation');
     }
 
     // set mode
@@ -121,6 +134,14 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
+                    <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
+                        if(Device.phone) {
+                            onOpenNavigation();
+                        } else {
+                            onoptionclick.bind(this, "/navigation/")();
+                        }}}>
+                        <Icon slot="media" icon="icon-navigation"></Icon>
+                    </ListItem>
                     {window.matchMedia("(max-width: 359px)").matches ?
                         <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration} className='no-indicator'>
                             <Icon slot="media" icon="icon-collaboration"></Icon>
