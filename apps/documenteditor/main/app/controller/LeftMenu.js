@@ -374,6 +374,7 @@ define([
                     this._saveAsFormat(menu, format, ext);
                 else {
                     Common.UI.warning({
+                        width: 600,
                         title: this.notcriticalErrorTitle,
                         msg: this.warnDownloadAsPdf,
                         buttons: ['ok', 'cancel'],
@@ -923,7 +924,7 @@ define([
         warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
-        warnDownloadAsPdf: 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
+        warnDownloadAsPdf: 'Your PDF will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original PDF, especially if the original file contained lots of graphics.'
 
     }, DE.Controllers.LeftMenu || {}));
 });
