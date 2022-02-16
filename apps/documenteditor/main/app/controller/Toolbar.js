@@ -1341,18 +1341,17 @@ define([
 
                     if (!value) {
                         value = this._getApiTextSize();
-
-                        Common.UI.warning({
-                            msg: this.textFontSizeErr,
-                            callback: function() {
-                                _.defer(function(btn) {
-                                    $('input', combo.cmpEl).focus();
-                                })
-                            }
-                        });
-
+                        setTimeout(function(){
+                            Common.UI.warning({
+                                msg: me.textFontSizeErr,
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        $('input', combo.cmpEl).focus();
+                                    })
+                                }
+                            });
+                        }, 1);
                         combo.setRawValue(value);
-
                         e.preventDefault();
                         return false;
                     }
