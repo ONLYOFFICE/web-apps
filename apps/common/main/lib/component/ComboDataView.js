@@ -456,6 +456,7 @@ define([
                             me.resumeEvents();
                         }
                     }
+                    return me.fieldPicker.store.models; // return list of visible items
                 }
             }
         },

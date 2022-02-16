@@ -75,7 +75,10 @@ define([
                 ChartStyle: 1,
                 ChartType: -1,
                 SeveralCharts: false,
-                DisabledControls: false
+                DisabledControls: false,
+                // beginPreviewStyles: true,
+                // previewStylesCount: -1,
+                // currentStyleFound: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -102,6 +105,9 @@ define([
             if (this.api) {
                 this.api.asc_registerCallback('asc_onImgWrapStyleChanged', _.bind(this._ChartWrapStyleChanged, this));
                 this.api.asc_registerCallback('asc_onUpdateChartStyles', _.bind(this._onUpdateChartStyles, this));
+                this.api.asc_registerCallback('asc_onBeginChartStylesPreview', _.bind(this.onBeginChartStylesPreview, this));
+                this.api.asc_registerCallback('asc_onAddChartStylesPreview', _.bind(this.onAddChartStylesPreview, this));
+                this.api.asc_registerCallback('asc_onEndChartStylesPreview', _.bind(this.onEndChartStylesPreview, this));
             }
             return this;
         },
@@ -150,7 +156,7 @@ define([
                             this.btnChartType.setIconCls('svgicon');
                         this.ShowCombinedProps(type);
                         !(type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
-                        type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom) && this.updateChartStyles(this.api.asc_getChartPreviews(type));
+                        type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom) && this.updateChartStyles(this.api.asc_getChartPreviews(type, undefined, true));
                         this._state.ChartType = type;
                     }
                 }
@@ -165,18 +171,9 @@ define([
                     } else {
                         value = this.chartProps.getStyle();
                         if (this._state.ChartStyle !== value || this._isChartStylesChanged) {
-                            this.cmbChartStyle.suspendEvents();
-                            var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: value});
-                            this.cmbChartStyle.menuPicker.selectRecord(rec);
-                            this.cmbChartStyle.resumeEvents();
-
-                            if (this._isChartStylesChanged) {
-                                if (rec)
-                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(), true);
-                                else
-                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
-                            }
                             this._state.ChartStyle = value;
+                            this.selectCurrentChartStyle();
+                            this._isChartStylesChanged && this.api.asc_generateChartPreviews(this._state.ChartType);
                         }
                     }
                     this._isChartStylesChanged = false;
@@ -427,11 +424,77 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        selectCurrentChartStyle: function() {
+            if (!this.cmbChartStyle) return;
+
+            this.cmbChartStyle.suspendEvents();
+            var rec = this.cmbChartStyle.menuPicker.store.findWhere({data: this._state.ChartStyle});
+            this.cmbChartStyle.menuPicker.selectRecord(rec);
+            this.cmbChartStyle.resumeEvents();
+
+            if (this._isChartStylesChanged) {
+                var currentRecords;
+                if (rec)
+                    currentRecords = this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(), true);
+                else
+                    currentRecords = this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
+                if (currentRecords && currentRecords.length>0) {
+                    var arr = [];
+                    _.each(currentRecords, function(style, index){
+                        arr.push(style.get('data'));
+                    });
+                    arr = this.api.asc_getChartPreviews(this._state.ChartType, arr);
+                    _.each(arr, function(style, index){
+                        currentRecords[index].set('imageUrl', style.asc_getImage());
+                    });
+                }
+            }
+        },
+
+        onBeginChartStylesPreview: function(count){
+            // this._state.beginPreviewStyles = true;
+            // this._state.currentStyleFound = false;
+            // this._state.previewStylesCount = count;
+        },
+
+        onEndChartStylesPreview: function(){
+            // if (this.cmbChartStyle) {
+                // if (this.cmbChartStyle.menuPicker.store.length>0) {
+                //     // !this._state.currentStyleFound && this.selectCurrentChartStyle();
+                //     this.cmbChartStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+                // }
+                // else {
+                //     this.cmbChartStyle.menuPicker.store.reset();
+                //     this.cmbChartStyle.clearComboView();
+                // }
+                // this.cmbChartStyle.setDisabled(this.cmbChartStyle.menuPicker.store.length<1 || this._locked);
+            // }
+        },
+
+        onAddChartStylesPreview: function(styles){
+            var me = this;
+            if (styles && styles.length>0){
+                var stylesStore = this.cmbChartStyle.menuPicker.store;
+                if (stylesStore) {
+                    _.each(styles, function(item, index){
+                        var rec = stylesStore.findWhere({
+                            data: item.asc_getName()
+                        });
+                        if (rec)
+                            rec.set('imageUrl', item.asc_getImage());
+                    });
+                }
+            }
+        },
+
         _onUpdateChartStyles: function() {
             if (this.api && this._state.ChartType!==null && this._state.ChartType>-1 &&
                 !(this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
-                this._state.ChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboCustom))
-                this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType));
+                this._state.ChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this._state.ChartType==Asc.c_oAscChartTypeSettings.comboCustom)) {
+                this.updateChartStyles(this.api.asc_getChartPreviews(this._state.ChartType, undefined, true));
+                this.selectCurrentChartStyle();
+                this.api.asc_generateChartPreviews(this._state.ChartType);
+            }
         },
 
         updateChartStyles: function(styles) {
@@ -465,24 +528,15 @@ define([
             if (styles && styles.length>0){
                 var stylesStore = this.cmbChartStyle.menuPicker.store;
                 if (stylesStore) {
-                    var count = stylesStore.length;
-                    if (count>0 && count==styles.length) {
-                        var data = stylesStore.models;
-                        _.each(styles, function(style, index){
-                            data[index].set('imageUrl', style.asc_getImage());
+                    var stylearray = [];
+                    _.each(styles, function(item, index){
+                        stylearray.push({
+                            imageUrl: item.asc_getImage(),
+                            data    : item.asc_getName(),
+                            tip     : me.textStyle + ' ' + item.asc_getName()
                         });
-                    } else {
-                        var stylearray = [],
-                            selectedIdx = -1;
-                        _.each(styles, function(item, index){
-                            stylearray.push({
-                                imageUrl: item.asc_getImage(),
-                                data    : item.asc_getName(),
-                                tip     : me.textStyle + ' ' + item.asc_getName()
-                            });
-                        });
-                        stylesStore.reset(stylearray, {silent: false});
-                    }
+                    });
+                    stylesStore.reset(stylearray, {silent: false});
                 }
             } else {
                 this.cmbChartStyle.menuPicker.store.reset();
