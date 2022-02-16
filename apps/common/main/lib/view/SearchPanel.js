@@ -63,6 +63,64 @@ define([
                 }));
                 this.$el = $(el);
 
+                this.inputText = new Common.UI.InputField({
+                    el: $('#search-adv-text'),
+                    placeHolder: this.textFind,
+                    allowBlank: true,
+                    validateOnBlur: false,
+                    style: 'width: 100%;'
+                });
+
+                this.inputReplace = new Common.UI.InputField({
+                    el: $('#search-adv-replace-text'),
+                    placeHolder: this.textReplaceWith,
+                    allowBlank: true,
+                    validateOnBlur: false,
+                    style: 'width: 100%;'
+                });
+
+                this.$reaultsNumber = $('#search-adv-results-number');
+
+                this.btnBack = new Common.UI.Button({
+                    parentEl: $('#search-adv-back'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-arrow-up',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+
+                this.btnNext = new Common.UI.Button({
+                    parentEl: $('#search-adv-next'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-arrow-down',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+
+                this.btnReplace = new Common.UI.Button({
+                    el: $('#search-adv-replace')
+                });
+
+                this.btnReplaceAll = new Common.UI.Button({
+                    el: $('#search-adv-replace-all')
+                });
+
+                this.chCaseSensitive = new Common.UI.CheckBox({
+                    el: $('#search-adv-case-sensitive'),
+                    labelText: this.textCaseSensitive,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+
+                this.chUseRegExp = new Common.UI.CheckBox({
+                    el: $('#search-adv-use-regexp'),
+                    labelText: this.textMatchUsingRegExp,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+
                 this.buttonClose = new Common.UI.Button({
                     parentEl: $('#search-btn-close', this.$el),
                     cls: 'btn-toolbar',
@@ -90,13 +148,23 @@ define([
         ChangeSettings: function(props) {
         },
 
+        updateResultsNumber: function (current, count) {
+            this.$reaultsNumber.text(Common.Utils.String.format(current, count));
+        },
+
         onClickClosePanel: function() {
             Common.NotificationCenter.trigger('leftmenu:change', 'hide');
         },
 
         textFind: 'Find',
         textFindAndReplace: 'Find and replace',
-        textCloseSearch: 'Close search'
+        textCloseSearch: 'Close search',
+        textReplace: 'Replace',
+        textReplaceAll: 'Replace All',
+        textSearchResults: 'Search results: {0}/{1}',
+        textReplaceWith: 'Replace with',
+        textCaseSensitive: 'Case sensitive',
+        textMatchUsingRegExp: 'Match using regular expressions'
 
     }, Common.Views.SearchPanel || {}));
 });

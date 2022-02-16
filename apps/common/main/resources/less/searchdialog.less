@@ -103,9 +103,10 @@
     }
 }
 
-#search-box {
+.search-panel {
     position: relative;
     border-collapse: collapse;
+    line-height: 15px;
 
     #search-header {
         position: relative;
@@ -123,6 +124,26 @@
 
         #search-btn-close {
             float: right;
+        }
+    }
+
+    #search-adv-settings {
+        padding: 10px 15px 0 15px;
+
+        table {
+            width: 100%;
+        }
+
+        .padding-small {
+            padding-bottom: 8px;
+        }
+
+        .padding-large {
+            padding-bottom: 14px;
+        }
+
+        #search-adv-results-number {
+            padding-top: 2px;
         }
     }
 }
