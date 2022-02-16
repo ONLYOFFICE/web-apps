@@ -373,17 +373,21 @@ define([
                 } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA)
                     this._saveAsFormat(menu, format, ext);
                 else {
-                    Common.UI.warning({
-                        width: 600,
-                        title: this.notcriticalErrorTitle,
-                        msg: Common.Utils.String.format(this.warnDownloadAsPdf, fileType.toUpperCase()),
-                        buttons: ['ok', 'cancel'],
-                        callback: _.bind(function(btn){
-                            if (btn == 'ok') {
-                                me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
-                            }
-                        }, this)
-                    });
+                    if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) // don't show message about pdf/xps/oxps
+                        me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                    else {
+                        Common.UI.warning({
+                            width: 600,
+                            title: this.notcriticalErrorTitle,
+                            msg: Common.Utils.String.format(this.warnDownloadAsPdf, fileType.toUpperCase()),
+                            buttons: ['ok', 'cancel'],
+                            callback: _.bind(function(btn){
+                                if (btn == 'ok') {
+                                    me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                                }
+                            }, this)
+                        });
+                    }
                 }
             } else
                 this._saveAsFormat(menu, format, ext);
