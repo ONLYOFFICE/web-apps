@@ -6,6 +6,7 @@ import {AddTableContents} from '../../view/add/AddTableContents';
 class AddTableContentsController extends Component {
     constructor (props) {
         super(props);
+        this.onTableContents = this.onTableContents.bind(this);
     }
 
     closeModal () {
@@ -18,7 +19,8 @@ class AddTableContentsController extends Component {
 
     componentDidMount () {
         const api = Common.EditorApi.get();
-        api.asc_getButtonsTOC('toc1', 'toc2');
+        const widthImage = !Device.phone ? 330 : window.innerWidth - 30;
+        api.asc_getButtonsTOC('toc1', 'toc2', widthImage);
     }
 
     onTableContents(type, currentTOC) {
@@ -49,6 +51,8 @@ class AddTableContentsController extends Component {
                 api.asc_AddTableOfContents(null, props);
                 break;
         }
+
+        this.closeModal();
     }
 
     render () {

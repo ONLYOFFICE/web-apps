@@ -11,6 +11,16 @@ class EditTableContentsController extends Component {
         this.startLevel = 1;
         this.endLevel = 3;
         this.fillTOCProps = this.fillTOCProps.bind(this);
+        this.onRemoveTableContents = this.onRemoveTableContents.bind(this);
+        this.onUpdateTableContents = this.onUpdateTableContents.bind(this);
+    }
+
+    closeModal() {
+        if (Device.phone) {
+            f7.sheet.close('#edit-sheet', true);
+        } else {
+            f7.popover.close('#edit-popover');
+        }
     }
 
     getStylesImages() {
@@ -224,7 +234,7 @@ class EditTableContentsController extends Component {
         api.asc_SetTableOfContentsPr(propsTableContents);
     }
 
-    onTableContentsUpdate(type, currentTOC) {
+    onUpdateTableContents(type, currentTOC) {
         const api = Common.EditorApi.get();
         let props = api.asc_GetTableOfContentsPr(currentTOC);
 
@@ -242,13 +252,15 @@ class EditTableContentsController extends Component {
 
         currentTOC = (currentTOC && props) ? props.get_InternalClass() : undefined;
         api.asc_RemoveTableOfContents(currentTOC);
+
+        this.closeModal();
     }
 
     render () {
         return (
             <EditTableContents 
                 onStyle={this.onStyle} 
-                onTableContentsUpdate={this.onTableContentsUpdate}
+                onUpdateTableContents={this.onUpdateTableContents}
                 onRemoveTableContents={this.onRemoveTableContents}
                 onPageNumbers={this.onPageNumbers}
                 onRightAlign={this.onRightAlign}

@@ -48,11 +48,11 @@ const EditTableContents = props => {
                 [
                   {
                     text: t('Edit.textRefreshEntireTable'),
-                    onClick: () => props.onTableContentsUpdate('all')
+                    onClick: () => props.onUpdateTableContents('all')
                   },
                   {
                     text: t('Edit.textRefreshPageNumbersOnly'),
-                    onClick: () => props.onTableContentsUpdate('pages')
+                    onClick: () => props.onUpdateTableContents('pages')
                   }
                 ],
                 [
