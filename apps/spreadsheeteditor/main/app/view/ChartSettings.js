@@ -222,6 +222,10 @@ define([
                         this.btnRatio.toggle(value);
                         this._state.keepRatio=value;
                     }
+
+                    var chartSettings = this.api.asc_getChartObject(),
+                        series = chartSettings ? chartSettings.getSeries() : null;
+                    this.btnSwitch.setDisabled(!series || series.length<1 || !chartSettings || !chartSettings.getRange());
                 } else { //sparkline
                     this._originalProps = props;
                     this.isChart = false;
@@ -774,6 +778,19 @@ define([
             this.btnSelectData.on('click', _.bind(this.onSelectData, this));
             this.lockedControls.push(this.btnSelectData);
 
+            this.btnSwitch = new Common.UI.Button({
+                parentEl: $('#chart-btn-switch'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon switch_row_column',
+                caption     : this.textSwitch,
+                style       : 'width: 100%;text-align: left;',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.btnSwitch.on('click', _.bind(this.onSwitch, this));
+            this.lockedControls.push(this.btnSwitch);
+
             this.linkAdvanced = $('#chart-advanced-link');
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -1247,7 +1264,22 @@ define([
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
-        
+
+        onSwitch:   function() {
+            if (this.api){
+                var props = this.api.asc_getChartObject();
+                if (props) {
+                    props.startEdit();
+                    var res = props.switchRowCol();
+                    if (res === Asc.c_oAscError.ID.MaxDataSeriesError) {
+                        props.cancelEdit();
+                        Common.UI.warning({msg: this.errorMaxRows, maxwidth: 600});
+                    } else
+                        props.endEdit();
+                }
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -1286,7 +1318,9 @@ define([
         textSelectData: 'Select Data',
         textRanges: 'Data Range',
         textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
-        textChangeType: 'Change type'
+        textChangeType: 'Change type',
+        textSwitch: 'Switch Row/Column',
+        errorMaxRows: 'The maximum number of data series per chart is 255.'
 
     }, SSE.Views.ChartSettings || {}));
 });

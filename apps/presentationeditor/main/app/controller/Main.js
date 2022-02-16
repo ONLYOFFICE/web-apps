@@ -1255,12 +1255,10 @@ define([
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
-                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode)
-                    var toolbarController   = application.getController('Toolbar');
-                    toolbarController   && toolbarController.setApi(me.api);
+                var toolbarController   = application.getController('Toolbar');
+                toolbarController   && toolbarController.setApi(me.api);
 
-                    if (!this.appOptions.isEdit) return;
-
+                if (this.appOptions.isEdit) { // set api events for toolbar in the Restricted Editing mode)
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
 
@@ -2338,6 +2336,7 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     appHeader.setCanRename(false);
                     appHeader.getButton('users') && appHeader.getButton('users').hide();
+                    appHeader.getButton('share') && appHeader.getButton('share').setVisible(false);
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
                     this.disableEditing(true);
                     this._renameDialog && this._renameDialog.close();

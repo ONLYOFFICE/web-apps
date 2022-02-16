@@ -141,7 +141,6 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
-                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
@@ -1425,6 +1424,7 @@ define([
                                 var win = new PE.Views.ShapeSettingsAdvanced(
                                     {
                                         shapeProps: elValue,
+                                        slideSize: PE.getController('Toolbar').currentPageSize,
                                         handler: function(result, value) {
                                             if (result == 'ok') {
                                                 if (me.api) {
@@ -2502,10 +2502,6 @@ define([
                 Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,transitController.getView().getButtons());
 
-                var viewtab = me.getApplication().getController('ViewTab');
-                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
-
                 var animationController = me.getApplication().getController('Animation');
                 animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
 
@@ -2532,6 +2528,15 @@ define([
                             me.toolbar.addTab(tab, $panel, 5);
                     }
                 }
+            }
+
+            tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+            var viewtab = me.getApplication().getController('ViewTab');
+            viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+            $panel = viewtab.createToolbarPanel();
+            if ($panel) {
+                me.toolbar.addTab(tab, $panel, 6);
+                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
             }
         },
 

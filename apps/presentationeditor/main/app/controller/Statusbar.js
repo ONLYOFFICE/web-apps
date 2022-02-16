@@ -61,9 +61,6 @@ define([
                 'Statusbar': {
                     'langchanged': this.onLangMenu
                 },
-                'Common.Views.Header': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
-                },
                 'ViewTab': {
                     'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }

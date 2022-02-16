@@ -461,10 +461,29 @@
         }
 
         // TODO: move to appropriate module
-        .btn-header, .btn-users {
-            &:not(:active) .icon--inverse {
-                background-position-x: 0;
-                background-position-x: @button-small-normal-icon-offset-x;
+        .btn-current-user, .btn-header  {
+            .color-user-name {
+                background-color: @text-normal-ie;
+                background-color: @text-normal;
+                color: @text-inverse-ie;
+                color: @text-inverse;
+            }
+        }
+
+        .btn-header, .btn-users, .btn-header-share {
+            .icon {
+                &.icon--inverse {
+                    background-position-x: 0 !important;
+                    background-position-x: @button-small-normal-icon-offset-x !important;
+                }
+            }
+
+            &:active, &.active {
+                &:not(.disabled) .icon.toolbar__icon {
+                    &.icon--inverse {
+                        background-position-x: @button-small-active-icon-offset-x !important;
+                    }
+                }
             }
 
             svg.icon {
@@ -477,6 +496,13 @@
                 color: @text-normal;
             }
 
+            .inner-box-icon {
+                > svg {
+                    fill: @text-normal-ie;
+                    fill: @text-normal;
+                }
+            }
+
             &:hover:not(.disabled) {
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
@@ -487,31 +513,30 @@
                     background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
 
-                    .icon--inverse {
-                        background-position-x: @button-small-active-icon-offset-x;
-                    }
-
                     svg.icon {
                         fill: @icon-toolbar-header-ie;
                         fill: @icon-toolbar-header;
                     }
 
                     .caption {
-                        color: @text-inverse-ie;
-                        color: @text-inverse;
+                        color: @text-normal-pressed-ie;
+                        color: @text-normal-pressed;
+                    }
+
+                    .inner-box-icon {
+                        > svg {
+                            fill: @text-normal-pressed-ie;
+                            fill: @text-normal-pressed;
+                        }
+                    }
+
+                    .color-user-name {
+                        background-color: @text-normal-pressed-ie;
+                        background-color: @text-normal-pressed;
+                        color: @highlight-button-pressed-ie;
+                        color: @highlight-button-pressed;
                     }
                 }
-            }
-        }
-
-        .btn-current-user {
-            .icon--inverse {
-                background-position-x: 0;
-            }
-
-            svg.icon {
-                fill: @icon-toolbar-header-ie;
-                fill: @icon-toolbar-header;
             }
         }
 

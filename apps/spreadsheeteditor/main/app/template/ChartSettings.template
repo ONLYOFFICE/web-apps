@@ -40,6 +40,11 @@
             <div id="chart-btn-select-data" style="width:100%;"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="chart-btn-switch" style="width:100%;"></div>
+        </td>
+    </tr>
 </table>
 <table cols="1" id="spark-panel-types">
     <tr>

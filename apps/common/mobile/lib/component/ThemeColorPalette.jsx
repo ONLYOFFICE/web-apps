@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { f7, ListItem, List, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
-const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeCustomColors }) => {
+const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeColors, isTypeCustomColors }) => {
     return (
         <div className='palette'>
             {themeColors.map((row, rowIndex) => {
@@ -11,7 +11,7 @@ const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeCustomColors }
                         {row.map((effect, index) => {
                             return(
                                 <a key={`tc-${rowIndex}-${index}`}
-                                   className={(curColor && !isTypeCustomColors && ((curColor.color === effect.color && curColor.effectValue === effect.effectValue) || (curColor === effect.color)))  ? 'active' : ''}
+                                   className={(curColor && !isTypeCustomColors && !isTypeColors && ((curColor.color === effect.color && curColor.effectValue === effect.effectValue) || (curColor === effect.color)))  ? 'active' : ''}
                                    style={{ background: `#${effect.color}`}}
                                    onClick={() => {onColorClick(effect.color, effect.effectId, effect.effectValue)}}
                                 ></a>
@@ -115,7 +115,7 @@ const ThemeColorPalette = props => {
             <List>
                 <ListItem className='theme-colors'>
                     <div>{ _t.textThemeColors }</div>
-                    <ThemeColors isTypeCustomColors={isTypeCustomColors} themeColors={themeColors} onColorClick={props.changeColor} curColor={curColor}/>
+                    <ThemeColors isTypeCustomColors={isTypeCustomColors} isTypeColors={isTypeColors} themeColors={themeColors} onColorClick={props.changeColor} curColor={curColor}/>
                 </ListItem>
                 <ListItem className='standart-colors'>
                     <div>{ _t.textStandartColors }</div>

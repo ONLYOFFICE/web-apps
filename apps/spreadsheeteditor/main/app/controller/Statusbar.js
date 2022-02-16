@@ -68,9 +68,6 @@ define([
                     'sheet:updateColors':   _.bind(this.updateTabsColors, this),
                     'sheet:move':           _.bind(this.moveWorksheet, this)
                 },
-                'Common.Views.Header': {
-                    'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
-                },
                 'ViewTab': {
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 }
