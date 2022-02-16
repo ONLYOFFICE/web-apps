@@ -321,6 +321,13 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
+        if(inToc) {
+            editors.push({
+                caption: _t.textTableOfCont,
+                id: 'edit-table-contents',
+                component: <EditTableContentsController />
+            })
+        }
         if (settings.indexOf('hyperlink') > -1) {
             editors.push({
                 caption: _t.textHyperlink,
@@ -328,14 +335,6 @@ const EditTabs = props => {
                 component: <EditHyperlinkController />
             })
         }
-    }
-
-    if(inToc) {
-        editors.push({
-            caption: _t.textTableOfCont,
-            id: 'edit-table-contents',
-            component: <EditTableContentsController />
-        })
     }
 
     return (
