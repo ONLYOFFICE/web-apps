@@ -163,6 +163,8 @@ class ContextMenuController extends Component {
     }
 
     onApiShowForeignCursorLabel(UserId, X, Y, color) {
+        if (!this.isUserVisible(UserId)) return;
+
         /** coauthoring begin **/
         const tipHeight = 20;
 

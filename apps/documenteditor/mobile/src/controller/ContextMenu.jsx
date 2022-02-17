@@ -29,6 +29,7 @@ class ContextMenu extends ContextMenuController {
         this.onApiHideComment = this.onApiHideComment.bind(this);
         this.onApiShowChange = this.onApiShowChange.bind(this);
         this.getUserName = this.getUserName.bind(this);
+        this.isUserVisible = this.isUserVisible.bind(this);
         this.ShowModal = this.ShowModal.bind(this);
     }
 
@@ -39,6 +40,11 @@ class ContextMenu extends ContextMenuController {
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
         return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
+    }
+
+    isUserVisible(id) {
+        const user = this.props.users.searchUserByCurrentId(id);
+        return user ? (user.asc_getIdOriginal()===this.props.users.currentUser.asc_getIdOriginal() || AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName())) : true;
     }
 
     componentWillUnmount() {
