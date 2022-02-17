@@ -30,6 +30,7 @@ class ContextMenu extends ContextMenuController {
         this.isOpenWindowUser = false;
         this.timer;
         this.getUserName = this.getUserName.bind(this);
+        this.isUserVisible = this.isUserVisible.bind(this);
         this.onApiMouseMove = this.onApiMouseMove.bind(this);
         this.onApiHyperlinkClick = this.onApiHyperlinkClick.bind(this);
     }
@@ -41,6 +42,11 @@ class ContextMenu extends ContextMenuController {
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
         return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
+    }
+
+    isUserVisible(id) {
+        const user = this.props.users.searchUserByCurrentId(id);
+        return user ? (user.asc_getIdOriginal()===this.props.users.currentUser.asc_getIdOriginal() || AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName())) : true;
     }
 
     componentWillUnmount() {
@@ -277,7 +283,7 @@ class ContextMenu extends ContextMenuController {
             $$('.username-tip').remove();
         }
 
-        if (index_locked ) {
+        if (index_locked && this.isUserVisible(dataarray[index_locked-1].asc_getUserId())) {
             const tipHeight = 20;
             let editorOffset = $$("#editor_sdk").offset(),
                 XY = [ editorOffset.left -  $(window).scrollLeft(), editorOffset.top - $(window).scrollTop()],
