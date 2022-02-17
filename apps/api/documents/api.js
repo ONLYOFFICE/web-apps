@@ -981,7 +981,6 @@
         iframe.frameBorder = 0;
         iframe.name = "frameEditor";
         iframe.allowFullscreen = true;
-        iframe.title = "Online editor for text documents, spreadsheets, and presentations";
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
         iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture");
