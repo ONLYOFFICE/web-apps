@@ -753,9 +753,6 @@ define([
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             this.rbCoAuthModeFast.setValue(fast_coauth);
             this.rbCoAuthModeStrict.setValue(!fast_coauth);
-            /*item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
-            this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);*/
-            //this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
             value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
@@ -1002,12 +999,8 @@ define([
             }
         },
 
-        strLiveComment: 'Turn on option',
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
-        /** coauthoring begin **/
-        txtLiveComment: 'Live Commenting',
-        /** coauthoring end **/
         txtWin: 'as Windows',
         txtMac: 'as OS X',
         txtNative: 'Native',
@@ -1036,8 +1029,6 @@ define([
         strRegSettings: 'Regional Settings',
         strRegSettingsEx: 'Example: ',
         strCoAuthMode: 'Co-editing mode',
-        strCoAuthModeDescFast: 'Other users will see your changes at once',
-        strCoAuthModeDescStrict: 'You will need to accept changes before you can see them',
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
@@ -1045,10 +1036,7 @@ define([
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments',
         textRefStyle: 'Reference Style',
-        strR1C1: 'Turn on R1C1 style',
-        strSeparator: 'Separator',
         strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
         strDecimalSeparator: 'Decimal separator',
         strThousandsSeparator: 'Thousands separator',
