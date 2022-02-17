@@ -11,7 +11,7 @@ import FilterOptionsController from '../controller/FilterOptions.jsx'
 import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
 import { Search, SearchSettings } from '../controller/Search';
-import { f7 } from 'framework7-react';
+import { f7, Link } from 'framework7-react';
 
 import {FunctionGroups} from "../controller/add/AddFunction";
 import ContextMenu from '../controller/ContextMenu';
@@ -107,7 +107,7 @@ class MainPage extends Component {
             <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
               {/* Top Navbar */}
                 <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
-                    {showLogo && appOptions.canBranding !== undefined && <div className="main-logo"><Icon icon="icon-logo"></Icon></div>}
+                    {showLogo && appOptions.canBranding !== undefined && <Link className="main-logo external" href="https://www.onlyoffice.com" target="_blank"><Icon icon="icon-logo"></Icon></Link>}
                     <Subnavbar>
                         <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
                         <Search useSuspense={false}/>
