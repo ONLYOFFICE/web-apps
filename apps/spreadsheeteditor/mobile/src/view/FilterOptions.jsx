@@ -55,7 +55,7 @@ const FilterOptions = (props) => {
            </List>
 
            <List >
-               <ListButton color="black" className={props.isValid || is_all_checked ? 'disabled' : ''} onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
+               <ListButton className={props.isValid || is_all_checked ? 'disabled' : ''} onClick={HandleClearFilter}>{_t.textClearFilter}</ListButton>
                <ListButton color="red" onClick={() => props.onDeleteFilter()} id="btn-delete-filter">{_t.textDeleteFilter}</ListButton>
            </List>
            <List>
@@ -72,10 +72,10 @@ const FilterOptions = (props) => {
 const FilterView = (props) => {
     return (
         !Device.phone ?
-        <Popover id="picker-popover" className="popover__titled">
+        <Popover id="picker-popover" className="popover__titled popover-filter">
             <FilterOptions style={{height: '410px'}} {...props}></FilterOptions>
         </Popover> :
-        <Sheet className="picker__sheet" push>
+        <Sheet className="picker__sheet sheet-filter" push>
             <FilterOptions  {...props}></FilterOptions>
         </Sheet>
     )

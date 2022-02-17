@@ -119,6 +119,9 @@
         .navbar-bg {
             //-webkit-backdrop-filter: none;
             backdrop-filter: none;
+            &::after {
+                background: @background-menu-divider;
+            }
         }
 
         .list:first-child {
