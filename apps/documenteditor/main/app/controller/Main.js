@@ -1148,7 +1148,7 @@ define([
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
                 // spellcheck
-                value = Common.UI.FeaturesManager.getInitValue('spellcheck');
+                value = Common.UI.FeaturesManager.getInitValue('spellcheck', true);
                 value = (value !== undefined) ? value : !(this.appOptions.customization && this.appOptions.customization.spellcheck===false);
                 if (this.appOptions.customization && this.appOptions.customization.spellcheck!==undefined)
                     console.log("Obsolete: The 'spellcheck' parameter of the 'customization' section is deprecated. Please use 'spellcheck' parameter in the 'customization.features' section instead.");
@@ -1518,7 +1518,7 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
                 this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
-                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features);
+                this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));

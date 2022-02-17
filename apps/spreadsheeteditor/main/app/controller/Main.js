@@ -1279,7 +1279,7 @@ define([
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
-                    this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features);
+                    this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
