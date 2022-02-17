@@ -95,7 +95,7 @@ define([
             this.delayRenderTips = this.options.delayRenderTips || false;
             this.itemTemplate   = this.options.itemTemplate || _.template([
                 '<div class="style" id="<%= id %>">',
-                    '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '"/>',
+                    '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '" + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     '<% if (typeof title !== "undefined") {%>',
                         '<span class="title"><%= title %></span>',
                     '<% } %>',
@@ -456,6 +456,7 @@ define([
                             me.resumeEvents();
                         }
                     }
+                    return me.fieldPicker.store.models; // return list of visible items
                 }
             }
         },
