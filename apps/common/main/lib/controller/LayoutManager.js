@@ -105,17 +105,19 @@ Common.UI.LayoutManager = new(function() {
  * }
  */
 Common.UI.FeaturesManager = new(function() {
-    var _config;
-    var _init = function(config) {
+    var _config,
+        _licensed;
+    var _init = function(config, licensed) {
         _config = config;
+        _licensed = licensed;
     };
 
-    var _canChange = function(name) {
-        return !(_config && typeof _config[name] === 'object' && _config[name] && _config[name].change===false);
+    var _canChange = function(name, force) {
+        return !((_licensed || force) && _config && typeof _config[name] === 'object' && _config[name] && _config[name].change===false);
     };
 
-    var _getInitValue2 = function(name, defValue) {
-        if (_config && _config[name] !== undefined ) {
+    var _getInitValue2 = function(name, defValue, force) {
+        if ((_licensed || force) && _config && _config[name] !== undefined ) {
             if (typeof _config[name] === 'object' && _config[name]) { // object and not null
                 if (_config[name].mode!==undefined)
                     return _config[name].mode;
@@ -126,8 +128,8 @@ Common.UI.FeaturesManager = new(function() {
         return defValue;
     };
 
-    var _getInitValue = function(name) {
-        if (_config && _config[name] !== undefined ) {
+    var _getInitValue = function(name, force) {
+        if ((_licensed || force) && _config && _config[name] !== undefined ) {
             if (typeof _config[name] === 'object' && _config[name]) { // object and not null
                 if (_config[name].mode!==undefined)
                     return _config[name].mode;
