@@ -592,7 +592,7 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            _needShow = (!e.shiftKey && e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
             if (e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
