@@ -14,6 +14,8 @@
   "SSE.ApplicationController.errorFilePassProtect": "Файл абаронены паролем, яго немагчыма адкрыць.",
   "SSE.ApplicationController.errorFileSizeExceed": "Памер файла перавышае ліміт, вызначаны для вашага сервера.<br>Звярніцеся да адміністратара сервера дакументаў за дадатковымі звесткамі.",
   "SSE.ApplicationController.errorForceSave": "Падчас захавання файла адбылася памылка. Калі ласка, выкарыстайце параметр \"Спампаваць як\", каб захаваць файл на цвёрдым дыску камп’ютара, альбо паспрабуйце яшчэ раз пазней.",
+  "SSE.ApplicationController.errorLoadingFont": "Шрыфты не загрузіліся.<br>Звярніцеся да адміністратара сервера дакументаў.",
+  "SSE.ApplicationController.errorTokenExpire": "Тэрмін дзеяння токена бяспекі дакумента сышоў.<br>Калі ласка, звярніцеся да адміністратара сервера дакументаў.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Злучэнне з інтэрнэтам было адноўлена, і версія файла змянілася.<br>Перш чым працягнуць працу, неабходна спампаваць файл альбо скапіяваць яго змесціва, каб захаваць даныя, а пасля перазагрузіць старонку.",
   "SSE.ApplicationController.errorUserDrop": "На дадзены момант файл недаступны.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Увага",
@@ -29,6 +31,7 @@
   "SSE.ApplicationController.waitText": "Калі ласка, пачакайце...",
   "SSE.ApplicationView.txtDownload": "Спампаваць",
   "SSE.ApplicationView.txtEmbed": "Убудаваць",
+  "SSE.ApplicationView.txtFileLocation": "Перайсці да дакументаў",
   "SSE.ApplicationView.txtFullScreen": "Поўнаэкранны рэжым",
   "SSE.ApplicationView.txtPrint": "Друк",
   "SSE.ApplicationView.txtShare": "Падзяліцца"

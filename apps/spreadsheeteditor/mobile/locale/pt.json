@@ -299,7 +299,9 @@
     "textSheet": "Folha",
     "textSheetName": "Nome da folha",
     "textUnhide": "Reexibir",
-    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
+    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",

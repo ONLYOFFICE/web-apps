@@ -33,13 +33,13 @@
       "textTryUndoRedo": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
       "textUsers": "Uživatelé"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Bez výplně"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Vlastní barvy",
       "textStandartColors": "Standardní barvy",
-      "textThemeColors": "Barvy tématu"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
+      "textThemeColors": "Barvy vzhledu prostředí"
     }
   },
   "ContextMenu": {
@@ -107,9 +107,12 @@
       "textHasMacros": "Soubor obsahuje automatická makra.<br>Opravdu chcete makra spustit?",
       "textNo": "Ne",
       "textNoLicenseTitle": "Došlo k dosažení limitu licence",
+      "textNoTextFound": "Text nebyl nalezen",
       "textOpenFile": "Zadejte heslo pro otevření souboru",
       "textPaidFeature": "Placená funkce",
       "textRemember": "Zapamatovat moji volbu",
+      "textReplaceSkipped": "Nahrazení bylo provedeno. {0} výskytů bylo přeskočeno.",
+      "textReplaceSuccess": "Hledání bylo dokončeno. Nahrazeno výskytů: {0}",
       "textYes": "Ano",
       "titleLicenseExp": "Platnost licence vypršela",
       "titleServerVersion": "Editor byl aktualizován",
@@ -123,10 +126,7 @@
       "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
-      "textNoTextFound": "Text not found",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
     }
   },
   "Error": {
@@ -182,8 +182,8 @@
     "loadImageTitleText": "Načítání obrázku",
     "loadingDocumentTextText": "Načítání dokumentu…",
     "loadingDocumentTitleText": "Načítání dokumentu",
-    "loadThemeTextText": "Načítání motivu vzhledu...",
-    "loadThemeTitleText": "Načítání motivu vzhledu",
+    "loadThemeTextText": "Načítání vzhledu prostředí...",
+    "loadThemeTitleText": "Načítání vzhledu prostředí",
     "openTextText": "Otevírání dokumentu...",
     "openTitleText": "Otevírání dokumentu",
     "printTextText": "Tisknutí dokumentu...",
@@ -228,6 +228,7 @@
       "textLinkTo": "Odkaz na",
       "textLinkType": "Typ odkazu",
       "textNextSlide": "Další snímek",
+      "textOk": "OK",
       "textOther": "Jiné",
       "textPictureFromLibrary": "Obrázek z knihovny",
       "textPictureFromURL": "Obrázek z adresy URL",
@@ -240,8 +241,7 @@
       "textSlideNumber": "Číslo snímku",
       "textTable": "Tabulka",
       "textTableSize": "Velikost tabulky",
-      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
-      "textOk": "Ok"
+      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",
@@ -261,6 +261,7 @@
       "textAllCaps": "Všechny kapitálky",
       "textApplyAll": "Použít na všechny snímky",
       "textAuto": "Automaticky",
+      "textAutomatic": "Automaticky",
       "textBack": "Zpět",
       "textBandedColumn": "Pruhované sloupce",
       "textBandedRow": "Pruhované řádky",
@@ -285,6 +286,7 @@
       "textDefault": "Vybraný text",
       "textDelay": "Prodleva",
       "textDeleteSlide": "Odstranit snímek",
+      "textDesign": "Vzhled",
       "textDisplay": "Zobrazit",
       "textDistanceFromText": "Vzdálenost od textu",
       "textDistributeHorizontally": "Rozmístit vodorovně",
@@ -336,6 +338,7 @@
       "textNoTextFound": "Text nebyl nalezen",
       "textNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "textNumbers": "Čísla",
+      "textOk": "OK",
       "textOpacity": "Průhlednost",
       "textOptions": "Možnosti",
       "textPictureFromLibrary": "Obrázek z knihovny",
@@ -374,7 +377,7 @@
       "textSuperscript": "Horní index",
       "textTable": "Tabulka",
       "textText": "Text",
-      "textTheme": "Téma",
+      "textTheme": "Prostředí",
       "textTop": "Nahoru",
       "textTopLeft": "Vlevo nahoře",
       "textTopRight": "Vpravo nahoře",
@@ -386,14 +389,11 @@
       "textVerticalIn": "Svislý uvnitř",
       "textVerticalOut": "Svislý vně",
       "textWedge": "Konjunkce",
-      "textWipe": "Vyčistit",
+      "textWipe": "Setření",
       "textZoom": "Přiblížení",
       "textZoomIn": "Přiblížit",
       "textZoomOut": "Oddálit",
-      "textZoomRotate": "Přiblížit a otočit",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "Přiblížit a otočit"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
@@ -410,6 +410,7 @@
       "textColorSchemes": "Schémata barev",
       "textComment": "Komentář",
       "textCreated": "Vytvořeno",
+      "textDarkTheme": "Tmavý vzhled prostředí",
       "textDisableAll": "Vypnout vše",
       "textDisableAllMacrosWithNotification": "Vypnout všechna makra s notifikacemi",
       "textDisableAllMacrosWithoutNotification": "Vypnout všechna makra bez notifikací",
@@ -472,8 +473,7 @@
       "txtScheme6": "Hala",
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Slévárna",
-      "textDarkTheme": "Dark Theme"
+      "txtScheme9": "Slévárna"
     }
   }
 }
