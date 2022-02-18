@@ -17,7 +17,7 @@
   "PE.ApplicationController.errorUserDrop": "File tidak dapat di akses",
   "PE.ApplicationController.notcriticalErrorTitle": "Peringatan",
   "PE.ApplicationController.scriptLoadError": "Koneksi terlalu lambat,",
-  "PE.ApplicationController.textAnonymous": "Tamu",
+  "PE.ApplicationController.textAnonymous": "Anonim",
   "PE.ApplicationController.textLoadingDocument": "Memuat penyajian",
   "PE.ApplicationController.textOf": "Dari",
   "PE.ApplicationController.txtClose": "Tutup",
@@ -26,6 +26,7 @@
   "PE.ApplicationController.waitText": "Mohon menunggu",
   "PE.ApplicationView.txtDownload": "Unduh",
   "PE.ApplicationView.txtEmbed": "Melekatkan",
+  "PE.ApplicationView.txtFileLocation": "Buka Dokumen",
   "PE.ApplicationView.txtFullScreen": "Layar penuh",
   "PE.ApplicationView.txtShare": "Bagikan"
 }
