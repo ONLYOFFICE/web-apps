@@ -809,7 +809,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_FADE,                     iconCls: 'animation-entrance-fade',                 displayValue: this.textFade},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_FLY_IN_FROM,              iconCls: 'animation-entrance-fly_in',               displayValue: this.textFlyIn},
-                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_FLOAT,                    iconCls: 'animation-entrance-float_in',             displayValue: this.textFloatIn},
+                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_FLOAT_UP,                 iconCls: 'animation-entrance-float_in',             displayValue: this.textFloatIn,     familyEffect: 'entrfloat'},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_SPLIT,                    iconCls: 'animation-entrance-split',                displayValue: this.textSplit},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_WIPE_FROM,                iconCls: 'animation-entrance-wipe',                 displayValue: this.textWipe},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_BOX,                      iconCls: 'animation-entrance-shape',                displayValue: this.textShape,       familyEffect: 'entrshape'},
@@ -896,8 +896,8 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_BASIC_ZOOM,               displayValue: this.textBasicZoom},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_CENTER_REVOLVE,           displayValue: this.textCenterRevolve},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_CENTER_COMPRESS,          displayValue: this.textCompress},
-                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_FLOAT_DOWN,               displayValue: this.textFloatDown},
-                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_FLOAT_UP,                 displayValue: this.textFloatUp},
+                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_FLOAT_DOWN,               displayValue: this.textFloatDown,           familyEffect: 'entrfloat'},
+                    {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_FLOAT_UP,                 displayValue: this.textFloatUp,             familyEffect: 'entrfloat'},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_GROW_AND_TURN,            displayValue: this.textGrowTurn},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_RISE_UP,                  displayValue: this.textRiseUp},
                     {group: 'menu-effect-group-entrance',   level: 'menu-effect-level-moderate',        value: AscFormat.ENTRANCE_SPINNER,                  displayValue: this.textSpinner},
@@ -1331,6 +1331,11 @@ define(function(){ 'use strict';
                             {value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR, caption: this.textHorizontalFigure},
                             {value: AscFormat.MOTION_VERTICAL_FIGURE_8,        caption: this.textVerticalFigure},
                             {value: AscFormat.MOTION_LOOP_DE_LOOP,             caption: this.textLoopDeLoop}
+                        ];
+                    case 'entrfloat':
+                        return [
+                            {value: AscFormat.ENTRANCE_FLOAT_UP,            caption: this.textFloatUp},
+                            {value: AscFormat.ENTRANCE_FLOAT_DOWN,          caption: this.textFloatDown}
                         ];
                     default:
                         return [];

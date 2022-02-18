@@ -110,6 +110,7 @@ define([
                 el      : $('#animation-level'),
                 cls: 'input-group-nr',
                 editable: false,
+                valueField: 'id',
                 style   : 'margin-top: 16px; width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true
@@ -156,7 +157,7 @@ define([
         {
             this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(this._state.activeGroup == 'menu-effect-group-path'));
             var item = (this.activeLevel)?this.cmbLevel.store.findWhere({id: this.activeLevel}):this.cmbLevel.store.at(0);
-            this.cmbLevel.setValue(item.get('displayValue'));
+            this.cmbLevel.setValue(item.get('id'), item.get('displayValue'));
             this.activeLevel = item.get('id');
             this.fillEffect();
         },
