@@ -3982,6 +3982,9 @@ define([
                 api: me.api,
                 fontStore: me.fontStore,
                 handler: function(dlg, result) {
+                    if (result === 'ok') {
+                        me.getApplication().getController('Print').updatePreview();
+                    }
                     Common.NotificationCenter.trigger('edit:complete');
                 }
             });
