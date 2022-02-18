@@ -299,7 +299,9 @@
     "textSheet": "Folla",
     "textSheetName": "Nome da folla",
     "textUnhide": "Volver a amosar",
-    "textWarnDeleteSheet": "A folla de traballo pode que conteña datos. Queres continuar a operación?"
+    "textWarnDeleteSheet": "A folla de traballo pode que conteña datos. Queres continuar a operación?",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",

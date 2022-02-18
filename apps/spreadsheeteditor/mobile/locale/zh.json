@@ -299,7 +299,9 @@
     "textSheet": "表格",
     "textSheetName": "工作表名称",
     "textUnhide": "取消隐藏",
-    "textWarnDeleteSheet": "该工作表可能带有数据。要进行操作吗？"
+    "textWarnDeleteSheet": "该工作表可能带有数据。要进行操作吗？",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
