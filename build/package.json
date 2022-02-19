@@ -4,7 +4,7 @@
   "homepage": "http://www.onlyoffice.com",
   "private": true,
   "dependencies": {
-    "grunt": "^1.0.0",
+    "grunt": "^1.4.1",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
@@ -15,6 +15,7 @@
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-uglify": "^5.0.1",
     "grunt-exec": "^3.0.0",
+    "grunt-inline": "file:plugins/grunt-inline",
     "grunt-json-minify": "^1.1.0",
     "grunt-spritesmith": "^6.9.0",
     "grunt-svgmin": "^6.0.1",
