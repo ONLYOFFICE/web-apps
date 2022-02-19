@@ -2057,7 +2057,7 @@
   "SSE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "SSE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.okButtonText": "Apply",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strAutoRecover": "Turn on autorecover",
+  "del_SSE.Views.FileMenuPanels.MainSettingsGeneral.strAutoRecover": "Turn on autorecover",
   "del_SSE.Views.FileMenuPanels.MainSettingsGeneral.strAutosave": "Turn on autosave",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCoAuthMode": "Co-editing Mode",
   "del_SSE.Views.FileMenuPanels.MainSettingsGeneral.strCoAuthModeDescFast": "Other users will see your changes at once",

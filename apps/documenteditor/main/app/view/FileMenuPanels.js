@@ -285,7 +285,7 @@ define([
                 '</tr>',
                 '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-last"></div></td>',
-                '</tr>',
+                '</tr>','<tr class="divider cchanges-show"></tr>',
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>',
@@ -313,7 +313,7 @@ define([
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td>',
-                        '<div style="display: flex;"><div id="fms-cmb-theme" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<div><div id="fms-cmb-theme" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<div id="fms-chb-dark-mode" style="display: inline-block; vertical-align: middle;margin-top: 2px;"></div></div></td>',
                 '</tr>',
                 '<tr class="edit">',
@@ -331,7 +331,11 @@ define([
                 '<tr class="macros">',
                     '<td><label><%= scope.strMacrosSettings %></label></td>',
                     '<td>',
-                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px; vertical-align: middle;"></div>',
+                '</tr>',
+               '<tr class="fms-btn-apply">',
+                    '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
 
@@ -469,6 +473,7 @@ define([
                 me.chAutosave.setValue(1);
                 me.onChangeCoAuthMode(1);
             });
+            this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
             this.rbCoAuthModeStrict = new Common.UI.RadioBox({
                 el          :$markup.findById('#fms-rb-coauth-mode-strict'),
@@ -478,6 +483,7 @@ define([
                 dataHintOffset: 'small'
             });
             this.rbCoAuthModeStrict.on('change', _.bind(this.onChangeCoAuthMode, this,0));
+            this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
 
             this.rbChangesBallons = new Common.UI.RadioBox({
                 el          :$markup.findById('#fms-rb-show-track-ballons'),
@@ -679,7 +685,7 @@ define([
                 this.chAutosave.setCaption(this.strAutoRecover);
             }
             /** coauthoring begin **/
-            $('tr.collaboration', this.el)[mode.isEdit && mode.canCoAuthoring || mode.canViewReview ? 'show' : 'hide']();
+            $('tr.collaboration', this.el)[mode.canCoAuthoring || mode.canViewReview ? 'show' : 'hide']();
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
@@ -829,7 +835,10 @@ define([
         },
 
         fillShowChanges: function(fastmode) {
-            this.rbShowChangesLast.setVisible(!fastmode);
+            if(fastmode)
+                this.rbShowChangesLast.$el.parent().hide();
+            else
+                this.rbShowChangesLast.$el.parent().show();
         },
 
         onChangeCoAuthMode: function (val){
@@ -881,7 +890,7 @@ define([
         strCoAuthMode: 'Co-editing mode',
         strFast: 'Fast',
         strStrict: 'Strict',
-        strAutoRecover: 'Turn on autorecover',
+        textAutoRecover: 'Autorecover',
         txtInch: 'Inch',
         txtFitPage: 'Fit to Page',
         txtFitWidth: 'Fit to Width',

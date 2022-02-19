@@ -1586,7 +1586,7 @@
   "PE.Views.FileMenuPanels.ProtectDoc.txtView": "View signatures",
   "PE.Views.FileMenuPanels.Settings.okButtonText": "Apply",
   "del_PE.Views.FileMenuPanels.Settings.strAlignGuides": "Turn on alignment guides",
-  "PE.Views.FileMenuPanels.Settings.strAutoRecover": "Turn on autorecover",
+  "dwl_PE.Views.FileMenuPanels.Settings.strAutoRecover": "Turn on autorecover",
   "del_PE.Views.FileMenuPanels.Settings.strAutosave": "Turn on autosave",
   "PE.Views.FileMenuPanels.Settings.strCoAuthMode": "Co-editing Mode",
   "del_PE.Views.FileMenuPanels.Settings.strCoAuthModeDescFast": "Other users will see your changes at once",

@@ -190,7 +190,7 @@ define([
         '<div>',
         '<div class="flex-settings">',
             '<table class="main" style="margin: 10px 18px auto;"><tbody>',
-                '<tr className="autosave edit forcesave">',
+                '<tr class="editsave">',
                     '<td class="group-name top" colspan="2"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
                 '<tr class="autosave">',
@@ -202,10 +202,10 @@ define([
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
-                '<tr class="coauth changes comments" >',
+                '<tr class="collaboration" >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
-                '<tr class="coauth changes">',
+                '<tr class="collaboration">',
                     '<td class="subgroup-name" colspan="2"><label><%= scope.strCoAuthMode %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes">',
@@ -364,6 +364,8 @@ define([
             }).on('change', function () {
                 me.chAutosave.setValue(1);
             });
+            this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
+
             this.rbCoAuthModeStrict = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-strict'),
                 name        : 'coauth-mode',
@@ -371,6 +373,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
             /** coauthoring end **/
 
             this.cmbZoom = new Common.UI.ComboBox({
@@ -433,10 +436,8 @@ define([
             }).on('change', function(field, newValue, oldValue, eOpts){
                 if (field.getValue()!=='checked' && me.rbCoAuthModeFast.getValue()) {
                     me.rbCoAuthModeStrict.setValue(true);
-                    //me.lblCoAuthMode.text(me.strCoAuthModeDescStrict);
                 }
             });
-            this.lblAutosave = $markup.findById('#fms-lbl-autosave');
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
@@ -716,13 +717,14 @@ define([
         setMode: function(mode) {
             this.mode = mode;
 
-            var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
 
+            $('tr.editsave', this.el)[mode.isEdit || mode.canForcesave ? 'show' : 'hide']();
+            $('tr.collaboration', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.edit', this.el)[mode.isEdit ? 'show' : 'hide']();
             $('tr.autosave', this.el)[mode.isEdit && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
-                this.chAutosave.setCaption(this.strAutoRecover);
-                this.lblAutosave.text(this.textAutoRecover);
+                this.chAutosave.setCaption(this.textAutoRecover);
             }
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
@@ -1032,7 +1034,6 @@ define([
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        strAutoRecover: 'Turn on autorecover',
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',

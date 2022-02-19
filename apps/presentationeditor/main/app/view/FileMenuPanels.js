@@ -200,7 +200,7 @@ define([
         template: _.template([
         '<div class="flex-settings">',
             '<table style="margin: 10px 14px auto;"><tbody>',
-                '<tr class="autosave edit">',
+                '<tr class="editsave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
                 '<tr class="autosave">',
@@ -222,17 +222,17 @@ define([
                     '<td colspan="2"><div style="display: flex;">',
                         '<div id="fms-rb-coauth-mode-fast"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
-                        '<label class="comment-text"><%= scope.strFastTip %></label></span>',
+                        '<label class="comment-text"><%= scope.txtFastTip %></label></span>',
                     '</div></td>',
                 '</tr>',
                 '<tr class="coauth changes">',
                     '<td colspan="2"><div style="display: flex;">',
                         '<div id="fms-rb-coauth-mode-strict"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strStrict %></label>',
-                        '<label class="comment-text"><%= scope.strStrictTip %></label></span>',
+                        '<label class="comment-text"><%= scope.txtStrictTip %></label></span>',
                     '</div></td>',
                 '</tr>',
-                '<tr class="edit spellcheck">',
+                '<tr class="edit">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
                 '<tr class="edit spellcheck">',
@@ -241,7 +241,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                     '</tr>',
                 '<tr class="edit">',
@@ -351,6 +351,7 @@ define([
             }).on('change', function () {
                 me.chAutosave.setValue(1);
             });
+            this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
             this.rbCoAuthModeStrict = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-strict'),
@@ -359,6 +360,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
@@ -371,7 +373,6 @@ define([
                     me.rbCoAuthModeStrict.setValue(1);
                 }
             });
-            this.lblAutosave = $markup.findById('#fms-lbl-autosave');
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
@@ -530,11 +531,11 @@ define([
 
             var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
 
+            $('tr.editsave', this.el)[mode.isEdit || mode.canForcesave ?'show':'hide']();
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
             $('tr.autosave', this.el)[mode.isEdit && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
-                this.chAutosave.setCaption(this.strAutoRecover);
-                this.lblAutosave.text(this.textAutoRecover);
+                this.chAutosave.setCaption(this.textAutoRecover);
             }
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             /** coauthoring begin **/
