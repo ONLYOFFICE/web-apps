@@ -3,6 +3,7 @@ Thumbs.db
 .DS_Store
 /deploy
 build/node_modules
+build/plugins/**/node_modules/
 build/sprites/node_modules/
 vendor/framework7-react/
 apps/documenteditor/embed/resources/less/node_modules
