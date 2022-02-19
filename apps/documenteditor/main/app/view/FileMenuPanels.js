@@ -232,7 +232,7 @@ define([
         template: _.template([
         '<div class="flex-settings">',
             '<table style="margin: 10px 14px 0;"><tbody>',
-                '<tr class="autosave edit forcesave">',
+                '<tr class="editsave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
                 '<tr class="autosave">',
@@ -247,7 +247,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
                 '</tr>',
-                '<tr class="edit view-review coauth changes-mode">',
+                '<tr class="collaboration">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
@@ -274,16 +274,16 @@ define([
                 '<tr class="view-review">',
                     '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
                 '</tr>',
-                '<tr class="edit show-changes comments">',
+                '<tr class="comments">',
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
-                '<tr class="edit show-changes">',
+                '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-none"></div></td>',
                 '</tr>',
-                '<tr class="edit show-changes">',
+                '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-all"></div></td>',
                 '</tr>',
-                '<tr class="edit show-changes">',
+                '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-last"></div></td>',
                 '</tr>',
                 '<tr class="comments">',
@@ -292,8 +292,8 @@ define([
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
-                '<tr>',
-                    '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
+                '<tr class ="edit">',
+                    '<td colspan="2" class="group-name proofing"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
                 '<tr class="edit spellcheck">',
                     '<td colspan="2"><div id="fms-chb-spell-check"></div></td>',
@@ -301,7 +301,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
                 '<tr class="edit">',
@@ -674,16 +674,19 @@ define([
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
             $('tr.autosave', this.el)[mode.isEdit && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
+            $('tr.editsave',this.el)[mode.isEdit  || mode.canForcesave ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.strAutoRecover);
             }
             /** coauthoring begin **/
+            $('tr.collaboration', this.el)[mode.isEdit && mode.canCoAuthoring || mode.canViewReview ? 'show' : 'hide']();
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
+
             /** coauthoring end **/
 
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
