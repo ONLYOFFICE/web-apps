@@ -35,6 +35,9 @@
                 <tr>
                     <td class="padding-small"><div id="search-adv-use-regexp"></div></td>
                 </tr>
+                <tr>
+                    <td class="padding-small"><div id="search-adv-match-word"></div></td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -73,6 +73,7 @@ define([
             Common.UI.Window.prototype.initialize.call(this, this.options);
 
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
+            $(window).on('resize', _.bind(this.onLayoutChanged, this));
         },
 
         render: function() {

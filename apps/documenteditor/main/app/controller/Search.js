@@ -58,6 +58,12 @@ define([
                 'SearchBar': {
                     'search:back': _.bind(this.onQuerySearch, this, 'back'),
                     'search:next': _.bind(this.onQuerySearch, this, 'next'),
+                },
+                'Common.Views.SearchPanel': {
+                    'search:back': _.bind(this.onQuerySearch, this, 'back'),
+                    'search:next': _.bind(this.onQuerySearch, this, 'next'),
+                    'search:replace': _.bind(this.onQueryReplace, this),
+                    'search:replaceall': _.bind(this.onQueryReplaceAll, this)
                 }
             });
         },
@@ -83,7 +89,7 @@ define([
 
         onQuerySearch: function (d, w, opts) {
             if (opts.textsearch && opts.textsearch.length) {
-                if (!this.api.asc_findText(opts.textsearch, d != 'back')) {
+                if (!this.api.asc_findText(opts.textsearch, d != 'back', opts.matchcase)) {
                     var me = this;
                     Common.UI.info({
                         msg: this.textNoTextFound,
@@ -92,6 +98,26 @@ define([
                         }
                     });
                 }
+            }
+        },
+
+        onQueryReplace: function(w, opts) {
+            if (!_.isEmpty(opts.textsearch)) {
+                if (!this.api.asc_replaceText(opts.textsearch, opts.textreplace, false, opts.matchcase)) {
+                    var me = this;
+                    Common.UI.info({
+                        msg: this.textNoTextFound,
+                        callback: function() {
+                            me.view.focus();
+                        }
+                    });
+                }
+            }
+        },
+
+        onQueryReplaceAll: function(w, opts) {
+            if (!_.isEmpty(opts.textsearch)) {
+                this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase, opts.matchword);
             }
         },
 

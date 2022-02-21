@@ -88,6 +88,7 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
+                this.btnBack.on('click', _.bind(this.onBtnClick, this, 'next'));
 
                 this.btnNext = new Common.UI.Button({
                     parentEl: $('#search-adv-next'),
@@ -96,14 +97,17 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
+                this.btnNext.on('click', _.bind(this.onBtnClick, this, 'next'));
 
                 this.btnReplace = new Common.UI.Button({
                     el: $('#search-adv-replace')
                 });
+                this.btnReplace.on('click', _.bind(this.onBtnClick, this, 'replace'));
 
                 this.btnReplaceAll = new Common.UI.Button({
                     el: $('#search-adv-replace-all')
                 });
+                this.btnReplaceAll.on('click', _.bind(this.onBtnClick, this, 'replaceall'));
 
                 this.chCaseSensitive = new Common.UI.CheckBox({
                     el: $('#search-adv-case-sensitive'),
@@ -116,6 +120,14 @@ define([
                 this.chUseRegExp = new Common.UI.CheckBox({
                     el: $('#search-adv-use-regexp'),
                     labelText: this.textMatchUsingRegExp,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+
+                this.chMatchWord = new Common.UI.CheckBox({
+                    el: $('#search-adv-match-word'),
+                    labelText: this.options.matchwordstr || this.textWholeWords,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -145,6 +157,14 @@ define([
             this.fireEvent('hide', this );
         },
 
+        focus: function() {
+            var me  = this;
+            setTimeout(function(){
+                me.inputText.$el.find('input').focus();
+                me.inputText.$el.find('input').select();
+            }, 10);
+        },
+
         ChangeSettings: function(props) {
         },
 
@@ -156,6 +176,18 @@ define([
             Common.NotificationCenter.trigger('leftmenu:change', 'hide');
         },
 
+        onBtnClick: function(action) {
+            var opts = {
+                textsearch  : this.inputText.getValue(),
+                textreplace : this.inputReplace.getValue(),
+                matchcase   : this.chCaseSensitive.checked,
+                useregexp   : this.chUseRegExp.checked,
+                matchword   : this.chMatchWord.checked,
+                //highlight   : this.miHighlight.checked
+            };
+            this.fireEvent('search:'+action, [this, opts]);
+        },
+
         textFind: 'Find',
         textFindAndReplace: 'Find and replace',
         textCloseSearch: 'Close search',
@@ -164,7 +196,8 @@ define([
         textSearchResults: 'Search results: {0}/{1}',
         textReplaceWith: 'Replace with',
         textCaseSensitive: 'Case sensitive',
-        textMatchUsingRegExp: 'Match using regular expressions'
+        textMatchUsingRegExp: 'Match using regular expressions',
+        textWholeWords: 'Whole words only',
 
     }, Common.Views.SearchPanel || {}));
 });
