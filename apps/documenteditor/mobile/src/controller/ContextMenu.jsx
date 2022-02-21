@@ -18,7 +18,8 @@ import EditorUIController from '../lib/patch';
     canFillForms: stores.storeAppOptions.canFillForms,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
-    displayMode: stores.storeReview.displayMode
+    displayMode: stores.storeReview.displayMode,
+    dataDoc: stores.storeDocumentInfo.dataDoc
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -267,7 +268,7 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                if ( canFillForms && canCopy && !locked ) {
+                if ( canFillForms && dataDoc.fileType !== 'oform' && !locked ) {
                     itemsIcon.push({
                         event: 'paste',
                         icon: 'icon-paste'
