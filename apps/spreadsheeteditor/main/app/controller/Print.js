@@ -318,9 +318,8 @@ define([
             if (!!pageCount) {
                 this.updateNavigationButtons(0, pageCount);
                 this.printSettings.txtNumberPage.checkValidate();
-
-                this._isPreviewVisible = true;
             }
+            this._isPreviewVisible = true;
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
