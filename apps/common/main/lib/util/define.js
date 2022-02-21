@@ -760,10 +760,10 @@ define(function(){ 'use strict';
             textObjectCenter: 'Object Center',
             textSlideCenter: 'Slide Center',
             textInFromScreenCenter: 'In From Screen Center',
-            textInToScreenCenter: 'In To Screen Center',
-            textInSlightly: 'In Slightly',
             textOutFromScreenBottom: 'Out From Screen Bottom',
-            textToFromScreenBottom: 'Out To Screen Bottom',
+            textInSlightly: 'In Slightly',
+            textInToScreenBottom: 'In To Screen Bottom',
+            textOutToScreenCenter: 'Out To Screen Center',
             textOutSlightly: 'Out Slightly',
             textToBottom: 'To Bottom',
             textToBottomLeft: 'To Bottom-Left',
@@ -812,7 +812,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_FLOAT_UP,                 iconCls: 'animation-entrance-float_in',             displayValue: this.textFloatIn,     familyEffect: 'entrfloat'},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_SPLIT,                    iconCls: 'animation-entrance-split',                displayValue: this.textSplit},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_WIPE_FROM,                iconCls: 'animation-entrance-wipe',                 displayValue: this.textWipe},
-                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_BOX,                      iconCls: 'animation-entrance-shape',                displayValue: this.textShape,       familyEffect: 'entrshape'},
+                    {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_CIRCLE,                   iconCls: 'animation-entrance-shape',                displayValue: this.textShape,       familyEffect: 'entrshape'},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_WHEEL,                    iconCls: 'animation-entrance-wheel',                displayValue: this.textWheel},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_RANDOM_BARS,              iconCls: 'animation-entrance-random_bars',          displayValue: this.textRandomBars},
                     {group: 'menu-effect-group-entrance',   value: AscFormat.ENTRANCE_GROW_AND_TURN,            iconCls: 'animation-entrance-grow_turn',            displayValue: this.textGrowTurn},
@@ -838,7 +838,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FLOAT_DOWN,                   iconCls: 'animation-exit-float_out',                displayValue: this.textFloatOut,    familyEffect: 'exitfloat'},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_SPLIT,                        iconCls: 'animation-exit-split',                    displayValue: this.textSplit},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_WIPE_FROM,                    iconCls: 'animation-exit-wipe',                     displayValue: this.textWipe},
-                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOX,                          iconCls: 'animation-exit-shape',                    displayValue: this.textShape,       familyEffect: 'shape'},
+                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_CIRCLE,                       iconCls: 'animation-exit-shape',                    displayValue: this.textShape,       familyEffect: 'shape'},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_WHEEL,                        iconCls: 'animation-exit-wheel',                    displayValue: this.textWheel},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_RANDOM_BARS,                  iconCls: 'animation-exit-random_bars',              displayValue: this.textRandomBars},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_SHRINK_AND_TURN,              iconCls: 'animation-exit-shrink_turn',              displayValue: this.textShrinkTurn},
@@ -1043,33 +1043,33 @@ define(function(){ 'use strict';
                         switch (type) {
                             case AscFormat.ENTRANCE_BLINDS:
                                 return [
-                                    {value: AscFormat.ENTRANCE_BLINDS_HORIZONTAL,       caption: this.textHorizontal},
+                                    {value: AscFormat.ENTRANCE_BLINDS_HORIZONTAL,       caption: this.textHorizontal, defvalue: true},
                                     {value: AscFormat.ENTRANCE_BLINDS_VERTICAL,         caption: this.textVertical}
                                 ];
                             case AscFormat.ENTRANCE_BOX:
                                 return [
-                                    {value: AscFormat.ENTRANCE_BOX_IN,                  caption: this.textIn},
+                                    {value: AscFormat.ENTRANCE_BOX_IN,                  caption: this.textIn, defvalue: true},
                                     {value: AscFormat.ENTRANCE_BOX_OUT,                 caption: this.textOut}
                                 ];
                             case AscFormat.ENTRANCE_CHECKERBOARD:
                                 return [
-                                    {value: AscFormat.ENTRANCE_CHECKERBOARD_ACROSS,     caption: this.textAcross},
+                                    {value: AscFormat.ENTRANCE_CHECKERBOARD_ACROSS,     caption: this.textAcross, defvalue: true},
                                     {value: AscFormat.ENTRANCE_CHECKERBOARD_DOWN,       caption: this.textDown}
                                 ];
                             case AscFormat.ENTRANCE_CIRCLE:
                                 return [
-                                    {value: AscFormat.ENTRANCE_CIRCLE_IN,               caption: this.textIn},
+                                    {value: AscFormat.ENTRANCE_CIRCLE_IN,               caption: this.textIn, defvalue: true},
                                     {value: AscFormat.ENTRANCE_CIRCLE_OUT,              caption: this.textOut}
                                 ];
                             case AscFormat.ENTRANCE_DIAMOND:
                                 return [
-                                    {value: AscFormat.ENTRANCE_DIAMOND_IN,              caption: this.textIn},
+                                    {value: AscFormat.ENTRANCE_DIAMOND_IN,              caption: this.textIn, defvalue: true},
                                     {value: AscFormat.ENTRANCE_DIAMOND_OUT,             caption: this.textOut}
                                 ];
 
                             case AscFormat.ENTRANCE_FLY_IN_FROM:
                                 return [
-                                    {value: AscFormat.ENTRANCE_FLY_IN_FROM_BOTTOM,      caption: this.textFromBottom},
+                                    {value: AscFormat.ENTRANCE_FLY_IN_FROM_BOTTOM,      caption: this.textFromBottom, defvalue: true},
                                     {value: AscFormat.ENTRANCE_FLY_IN_FROM_BOTTOM_LEFT, caption: this.textFromBottomLeft},
                                     {value: AscFormat.ENTRANCE_FLY_IN_FROM_LEFT,        caption: this.textFromLeft},
                                     {value: AscFormat.ENTRANCE_FLY_IN_FROM_TOP_LEFT,    caption: this.textFromTopLeft},
@@ -1080,38 +1080,38 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.ENTRANCE_PEEK_IN_FROM:
                                 return [
-                                    {value: AscFormat.ENTRANCE_PEEK_IN_FROM_BOTTOM,     caption: this.textFromBottom},
+                                    {value: AscFormat.ENTRANCE_PEEK_IN_FROM_BOTTOM,     caption: this.textFromBottom, defvalue: true},
                                     {value: AscFormat.ENTRANCE_PEEK_IN_FROM_LEFT,       caption: this.textFromLeft},
                                     {value: AscFormat.ENTRANCE_PEEK_IN_FROM_RIGHT,      caption: this.textFromRight},
                                     {value: AscFormat.ENTRANCE_PEEK_IN_FROM_TOP,        caption: this.textFromTop}
                                 ];
                             case AscFormat.ENTRANCE_PLUS:
                                 return [
-                                    {value: AscFormat.ENTRANCE_PLUS_IN,                 caption: this.textIn},
+                                    {value: AscFormat.ENTRANCE_PLUS_IN,                 caption: this.textIn, defvalue: true},
                                     {value: AscFormat.ENTRANCE_PLUS_OUT,                caption: this.textOut}
                                 ];
                             case AscFormat.ENTRANCE_RANDOM_BARS:
                                 return [
-                                    {value: AscFormat.ENTRANCE_RANDOM_BARS_HORIZONTAL,  caption: this.textHorizontal},
+                                    {value: AscFormat.ENTRANCE_RANDOM_BARS_HORIZONTAL,  caption: this.textHorizontal, defvalue: true},
                                     {value: AscFormat.ENTRANCE_RANDOM_BARS_VERTICAL,    caption: this.textVertical}
                                 ];
                             case AscFormat.ENTRANCE_SPLIT:
                                 return [
                                     {value: AscFormat.ENTRANCE_SPLIT_HORIZONTAL_IN,     caption: this.textHorizontalIn},
                                     {value: AscFormat.ENTRANCE_SPLIT_HORIZONTAL_OUT,    caption: this.textHorizontalOut},
-                                    {value: AscFormat.ENTRANCE_SPLIT_VERTICAL_IN,       caption: this.textVerticalIn},
+                                    {value: AscFormat.ENTRANCE_SPLIT_VERTICAL_IN,       caption: this.textVerticalIn, defvalue: true},
                                     {value: AscFormat.ENTRANCE_SPLIT_VERTICAL_OUT,      caption: this.textVerticalOut}
                                 ];
                             case AscFormat.ENTRANCE_STRIPS:
                                 return [
-                                    {value: AscFormat.ENTRANCE_STRIPS_LEFT_DOWN,        caption: this.textLeftDown},
+                                    {value: AscFormat.ENTRANCE_STRIPS_LEFT_DOWN,        caption: this.textLeftDown, defvalue: true},
                                     {value: AscFormat.ENTRANCE_STRIPS_LEFT_UP,          caption: this.textLeftUp},
                                     {value: AscFormat.ENTRANCE_STRIPS_RIGHT_DOWN,       caption: this.textRightDown},
                                     {value: AscFormat.ENTRANCE_STRIPS_RIGHT_UP,         caption: this.textRightUp}
                                 ];
                             case AscFormat.ENTRANCE_WHEEL:
                                 return [
-                                    {value: AscFormat.ENTRANCE_WHEEL_1_SPOKE,           caption: this.textSpoke1},
+                                    {value: AscFormat.ENTRANCE_WHEEL_1_SPOKE,           caption: this.textSpoke1, defvalue: true},
                                     {value: AscFormat.ENTRANCE_WHEEL_2_SPOKES,           caption: this.textSpoke2},
                                     {value: AscFormat.ENTRANCE_WHEEL_3_SPOKES,           caption: this.textSpoke3},
                                     {value: AscFormat.ENTRANCE_WHEEL_4_SPOKES,           caption: this.textSpoke4},
@@ -1119,19 +1119,19 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.ENTRANCE_WIPE_FROM:
                                 return [
-                                    {value: AscFormat.ENTRANCE_WIPE_FROM_BOTTOM,        caption: this.textFromBottom},
+                                    {value: AscFormat.ENTRANCE_WIPE_FROM_BOTTOM,        caption: this.textFromBottom, defvalue: true},
                                     {value: AscFormat.ENTRANCE_WIPE_FROM_LEFT,          caption: this.textFromLeft},
                                     {value: AscFormat.ENTRANCE_WIPE_FROM_RIGHT,         caption: this.textFromRight},
                                     {value: AscFormat.ENTRANCE_WIPE_FROM_TOP,           caption: this.textFromTop}
                                 ];
                             case AscFormat.ENTRANCE_ZOOM:
                                 return [
-                                    {value: AscFormat.ENTRANCE_ZOOM_OBJECT_CENTER,      caption: this.textObjectCenter},
+                                    {value: AscFormat.ENTRANCE_ZOOM_OBJECT_CENTER,      caption: this.textObjectCenter, defvalue: true},
                                     {value: AscFormat.ENTRANCE_ZOOM_SLIDE_CENTER,       caption: this.textSlideCenter}
                                 ];
                             case AscFormat.ENTRANCE_BASIC_ZOOM:
                                 return [
-                                    {value: AscFormat.ENTRANCE_BASIC_ZOOM_IN,           caption: this.textIn},
+                                    {value: AscFormat.ENTRANCE_BASIC_ZOOM_IN,           caption: this.textIn, defvalue: true},
                                     {value: AscFormat.ENTRANCE_BASIC_ZOOM_IN_FROM_SCREEN_CENTER, caption: this.textInFromScreenCenter},
                                     {value: AscFormat.ENTRANCE_BASIC_ZOOM_IN_SLIGHTLY,  caption: this.textInSlightly},
                                     {value: AscFormat.ENTRANCE_BASIC_ZOOM_OUT,          caption: this.textOut},
@@ -1140,7 +1140,7 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.ENTRANCE_STRETCH:
                                 return [
-                                    {value: AscFormat.ENTRANCE_STRETCH_ACROSS,          caption: this.textAcross},
+                                    {value: AscFormat.ENTRANCE_STRETCH_ACROSS,          caption: this.textAcross, defvalue: true},
                                     {value: AscFormat.ENTRANCE_STRETCH_FROM_BOTTOM,     caption: this.textFromBottom},
                                     {value: AscFormat.ENTRANCE_STRETCH_FROM_LEFT,       caption: this.textFromLeft},
                                     {value: AscFormat.ENTRANCE_STRETCH_FROM_RIGHT,      caption: this.textFromRight},
@@ -1148,7 +1148,7 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.ENTRANCE_BASIC_SWIVEL:
                                 return [
-                                    {value: AscFormat.ENTRANCE_BASIC_SWIVEL_HORIZONTAL, caption: this.textHorizontal},
+                                    {value: AscFormat.ENTRANCE_BASIC_SWIVEL_HORIZONTAL, caption: this.textHorizontal, defvalue: true},
                                     {value: AscFormat.ENTRANCE_BASIC_SWIVEL_VERTICAL,   caption: this.textVertical}
                                 ];
                             default:
@@ -1160,32 +1160,32 @@ define(function(){ 'use strict';
                         switch (type){
                             case AscFormat.EXIT_BLINDS:
                                 return [
-                                    {value: AscFormat.EXIT_BLINDS_HORIZONTAL,       caption: this.textHorizontal},
+                                    {value: AscFormat.EXIT_BLINDS_HORIZONTAL,       caption: this.textHorizontal, defvalue: true},
                                     {value: AscFormat.EXIT_BLINDS_VERTICAL,         caption: this.textVertical}
                                 ];
                             case AscFormat.EXIT_BOX:
                                 return [
                                     {value: AscFormat.EXIT_BOX_IN,                  caption: this.textIn},
-                                    {value: AscFormat.EXIT_BOX_OUT,                 caption: this.textOut}
+                                    {value: AscFormat.EXIT_BOX_OUT,                 caption: this.textOut, defvalue: true}
                                 ];
                             case AscFormat.EXIT_CHECKERBOARD:
                                 return [
-                                    {value: AscFormat.EXIT_CHECKERBOARD_ACROSS,     caption: this.textAcross},
+                                    {value: AscFormat.EXIT_CHECKERBOARD_ACROSS,     caption: this.textAcross, defvalue: true},
                                     {value: AscFormat.EXIT_CIRCLE_OUT,              caption: this.textUp}
                                 ];
                             case AscFormat.EXIT_CIRCLE:
                                 return [
                                     {value: AscFormat.EXIT_CIRCLE_IN,               caption: this.textIn},
-                                    {value: AscFormat.EXIT_BOX_OUT,                 caption: this.textOut}
+                                    {value: AscFormat.EXIT_CIRCLE_OUT,              caption: this.textOut, defvalue: true}
                                 ];
                             case AscFormat.EXIT_DIAMOND:
                                 return [
                                     {value: AscFormat.EXIT_DIAMOND_IN,              caption: this.textIn},
-                                    {value: AscFormat.EXIT_DIAMOND_IN,              caption: this.textOut}
+                                    {value: AscFormat.EXIT_DIAMOND_OUT,             caption: this.textOut, defvalue: true}
                                 ];
                             case AscFormat.EXIT_FLY_OUT_TO:
                                 return [
-                                    {value: AscFormat.EXIT_FLY_OUT_TO_BOTTOM,       caption: this.textToBottom},
+                                    {value: AscFormat.EXIT_FLY_OUT_TO_BOTTOM,       caption: this.textToBottom, defvalue: true},
                                     {value: AscFormat.EXIT_FLY_OUT_TO_BOTTOM_LEFT,  caption: this.textToBottomLeft},
                                     {value: AscFormat.EXIT_FLY_OUT_TO_LEFT,         caption: this.textToLeft},
                                     {value: AscFormat.EXIT_FLY_OUT_TO_TOP_LEFT,     caption: this.textToTopLeft},
@@ -1196,7 +1196,7 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.EXIT_PEEK_OUT_TO:
                                 return [
-                                    {value: AscFormat.EXIT_PEEK_OUT_TO_BOTTOM,      caption: this.textToBottom},
+                                    {value: AscFormat.EXIT_PEEK_OUT_TO_BOTTOM,      caption: this.textToBottom, defvalue: true},
                                     {value: AscFormat.EXIT_PEEK_OUT_TO_LEFT,        caption: this.textToLeft},
                                     {value: AscFormat.EXIT_PEEK_OUT_TO_RIGHT,       caption: this.textToRight},
                                     {value: AscFormat.EXIT_PEEK_OUT_TO_TOP,         caption: this.textToTop}
@@ -1204,30 +1204,30 @@ define(function(){ 'use strict';
                             case AscFormat.EXIT_PLUS:
                                 return [
                                     {value: AscFormat.EXIT_PLUS_IN,                 caption: this.textIn},
-                                    {value: AscFormat.EXIT_PLUS_OUT,                caption: this.textOut}
+                                    {value: AscFormat.EXIT_PLUS_OUT,                caption: this.textOut, defvalue: true}
                                 ];
                             case AscFormat.EXIT_RANDOM_BARS:
                                 return [
-                                    {value: AscFormat.EXIT_RANDOM_BARS_HORIZONTAL,  caption: this.textHorizontal},
+                                    {value: AscFormat.EXIT_RANDOM_BARS_HORIZONTAL,  caption: this.textHorizontal, defvalue: true},
                                     {value: AscFormat.EXIT_RANDOM_BARS_VERTICAL,    caption: this.textVertical}
                                 ];
                             case AscFormat.EXIT_SPLIT:
                                 return [
                                     {value: AscFormat.EXIT_SPLIT_HORIZONTAL_IN,     caption: this.textHorizontalIn},
                                     {value: AscFormat.EXIT_SPLIT_HORIZONTAL_OUT,    caption: this.textHorizontalOut},
-                                    {value: AscFormat.EXIT_SPLIT_VERTICAL_IN,       caption: this.textVerticalIn},
+                                    {value: AscFormat.EXIT_SPLIT_VERTICAL_IN,       caption: this.textVerticalIn, defvalue: true},
                                     {value: AscFormat.EXIT_SPLIT_VERTICAL_OUT,      caption: this.textVerticalOut}
                                 ];
                             case AscFormat.EXIT_STRIPS:
                                 return [
-                                    {value: AscFormat.EXIT_STRIPS_LEFT_DOWN,        caption: this.textLeftDown},
+                                    {value: AscFormat.EXIT_STRIPS_LEFT_DOWN,        caption: this.textLeftDown, defvalue: true},
                                     {value: AscFormat.EXIT_STRIPS_LEFT_UP,          caption: this.textLeftUp},
                                     {value: AscFormat.EXIT_STRIPS_RIGHT_DOWN,       caption: this.textRightDown},
                                     {value: AscFormat.EXIT_STRIPS_RIGHT_UP,         caption: this.textRightUp}
                                 ];
                             case AscFormat.EXIT_WHEEL:
                                 return [
-                                    {value: AscFormat.EXIT_WHEEL_1_SPOKE,           caption: this.textSpoke1},
+                                    {value: AscFormat.EXIT_WHEEL_1_SPOKE,           caption: this.textSpoke1, defvalue: true},
                                     {value: AscFormat.EXIT_WHEEL_2_SPOKES,           caption: this.textSpoke2},
                                     {value: AscFormat.EXIT_WHEEL_3_SPOKES,           caption: this.textSpoke3},
                                     {value: AscFormat.EXIT_WHEEL_4_SPOKES,           caption: this.textSpoke4},
@@ -1235,28 +1235,28 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.EXIT_WIPE_FROM:
                                 return [
-                                    {value: AscFormat.EXIT_WIPE_FROM_BOTTOM,        caption: this.textFromBottom},
+                                    {value: AscFormat.EXIT_WIPE_FROM_BOTTOM,        caption: this.textFromBottom, defvalue: true},
                                     {value: AscFormat.EXIT_WIPE_FROM_LEFT,          caption: this.textFromLeft},
                                     {value: AscFormat.EXIT_WIPE_FROM_RIGHT,         caption: this.textFromRight},
                                     {value: AscFormat.EXIT_WIPE_FROM_TOP,           caption: this.textFromTop}
                                 ];
                             case AscFormat.EXIT_ZOOM:
                                 return [
-                                    {value: AscFormat.EXIT_ZOOM_OBJECT_CENTER,  caption: this.textObjectCenter},
+                                    {value: AscFormat.EXIT_ZOOM_OBJECT_CENTER,  caption: this.textObjectCenter, defvalue: true},
                                     {value: AscFormat.EXIT_ZOOM_SLIDE_CENTER,   caption: this.textSlideCenter}
                                 ];
                             case AscFormat.EXIT_BASIC_ZOOM:
                                 return [
+                                    {value: AscFormat.EXIT_BASIC_ZOOM_OUT,          caption: this.textOut, defvalue: true},
+                                    {value: AscFormat.EXIT_BASIC_ZOOM_OUT_TO_SCREEN_CENTER, caption: this.textOutToScreenCenter},
+                                    {value: AscFormat.EXIT_BASIC_ZOOM_OUT_SLIGHTLY, caption: this.textOutSlightly},
                                     {value: AscFormat.EXIT_BASIC_ZOOM_IN,           caption: this.textIn},
-                                    {value: AscFormat.EXIT_BASIC_ZOOM_IN_TO_SCREEN_BOTTOM, caption: this.textInToScreenCenter},
-                                    {value: AscFormat.EXIT_BASIC_ZOOM_IN_SLIGHTLY,  caption: this.textInSlightly},
-                                    {value: AscFormat.EXIT_BASIC_ZOOM_OUT,          caption: this.textOut},
-                                    {value: AscFormat.EXIT_BASIC_ZOOM_OUT_TO_SCREEN_CENTER, caption: this.textOutToScreenBottom},
-                                    {value: AscFormat.EXIT_BASIC_ZOOM_OUT_SLIGHTLY, caption: this.textOutSlightly}
+                                    {value: AscFormat.EXIT_BASIC_ZOOM_IN_TO_SCREEN_BOTTOM, caption: this.textInToScreenBottom},
+                                    {value: AscFormat.EXIT_BASIC_ZOOM_IN_SLIGHTLY,  caption: this.textInSlightly}
                                 ];
                             case AscFormat.EXIT_COLLAPSE:
                                 return [
-                                    {value: AscFormat.EXIT_COLLAPSE_ACROSS,         caption: this.textAcross},
+                                    {value: AscFormat.EXIT_COLLAPSE_ACROSS,         caption: this.textAcross, defvalue: true},
                                     {value: AscFormat.EXIT_COLLAPSE_TO_BOTTOM,      caption: this.textToBottom},
                                     {value: AscFormat.EXIT_COLLAPSE_TO_LEFT,        caption: this.textToLeft},
                                     {value: AscFormat.EXIT_COLLAPSE_TO_RIGHT,       caption: this.textToRight},
@@ -1264,7 +1264,7 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.EXIT_BASIC_SWIVEL:
                                 return [
-                                    {value: AscFormat.EXIT_BASIC_SWIVEL_HORIZONTAL, caption: this.textHorizontal},
+                                    {value: AscFormat.EXIT_BASIC_SWIVEL_HORIZONTAL, caption: this.textHorizontal, defvalue: true},
                                     {value: AscFormat.EXIT_BASIC_SWIVEL_VERTICAL,   caption: this.textVertical}
                                 ];
                            default:
@@ -1279,17 +1279,17 @@ define(function(){ 'use strict';
                 switch (familyEffect){
                     case 'shape':
                         return [
-                            {value: AscFormat.EXIT_BOX,     caption: this.textBox},
                             {value: AscFormat.EXIT_CIRCLE,  caption: this.textCircle},
-                            {value: AscFormat.EXIT_PLUS,    caption: this.textPlus},
-                            {value: AscFormat.EXIT_DIAMOND, caption: this.textDiamond}
+                            {value: AscFormat.EXIT_BOX,     caption: this.textBox},
+                            {value: AscFormat.EXIT_DIAMOND, caption: this.textDiamond},
+                            {value: AscFormat.EXIT_PLUS,    caption: this.textPlus}
                         ];
                     case 'entrshape':
                         return [
-                            {value: AscFormat.ENTRANCE_BOX,     caption: this.textBox},
                             {value: AscFormat.ENTRANCE_CIRCLE,  caption: this.textCircle},
-                            {value: AscFormat.ENTRANCE_PLUS,    caption: this.textPlus},
-                            {value: AscFormat.ENTRANCE_DIAMOND, caption: this.textDiamond}
+                            {value: AscFormat.ENTRANCE_BOX,     caption: this.textBox},
+                            {value: AscFormat.ENTRANCE_DIAMOND, caption: this.textDiamond},
+                            {value: AscFormat.ENTRANCE_PLUS,    caption: this.textPlus}
                         ];
                     case 'pathlines':
                         return[
