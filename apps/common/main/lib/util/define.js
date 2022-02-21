@@ -835,7 +835,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_DISAPPEAR,                    iconCls: 'animation-exit-disappear',                displayValue: this.textDisappear},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FADE,                         iconCls: 'animation-exit-fade',                     displayValue: this.textFade},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FLY_OUT_TO,                   iconCls: 'animation-exit-fly_out',                  displayValue: this.textFlyOut},
-                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FLOAT,                        iconCls: 'animation-exit-float_out',                displayValue: this.textFloatOut},
+                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_FLOAT_DOWN,                   iconCls: 'animation-exit-float_out',                displayValue: this.textFloatOut,    familyEffect: 'exitfloat'},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_SPLIT,                        iconCls: 'animation-exit-split',                    displayValue: this.textSplit},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_WIPE_FROM,                    iconCls: 'animation-exit-wipe',                     displayValue: this.textWipe},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOX,                          iconCls: 'animation-exit-shape',                    displayValue: this.textShape,       familyEffect: 'shape'},
@@ -843,7 +843,7 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_RANDOM_BARS,                  iconCls: 'animation-exit-random_bars',              displayValue: this.textRandomBars},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_SHRINK_AND_TURN,              iconCls: 'animation-exit-shrink_turn',              displayValue: this.textShrinkTurn},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_ZOOM,                         iconCls: 'animation-exit-zoom',                     displayValue: this.textZoom},
-                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BASIC_SWIVEL,                 iconCls: 'animation-exit-swivel',                   displayValue: this.textSwivel},
+                    {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_SWIVEL,                       iconCls: 'animation-exit-swivel',                   displayValue: this.textSwivel},
                     {group: 'menu-effect-group-exit',       value: AscFormat.EXIT_BOUNCE,                       iconCls: 'animation-exit-bounce',                   displayValue: this.textBounce},
                     {group: 'menu-effect-group-path',       value: AscFormat.MOTION_DOWN,                       iconCls: 'animation-motion_paths-lines',            displayValue: this.textLines,       familyEffect: 'pathlines'},
                     {group: 'menu-effect-group-path',       value: AscFormat.MOTION_ARC_DOWN,                   iconCls: 'animation-motion_paths-arcs',             displayValue: this.textArcs,        familyEffect: 'patharcs'},
@@ -954,8 +954,8 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_BASIC_ZOOM,                   displayValue: this.textBasicZoom},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_CENTER_REVOLVE,               displayValue: this.textCenterRevolve},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_COLLAPSE,                     displayValue: this.textCollapse},
-                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_FLOAT_DOWN,                   displayValue: this.textFloatDown},
-                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_FLOAT_UP,                     displayValue: this.textFloatUp},
+                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_FLOAT_DOWN,                   displayValue: this.textFloatDown,    familyEffect: 'exitfloat'},
+                    {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_FLOAT_UP,                     displayValue: this.textFloatUp,      familyEffect: 'exitfloat'},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_SHRINK_AND_TURN,              displayValue: this.textShrinkTurn},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_SINK_DOWN,                    displayValue: this.textSinkDown},
                     {group: 'menu-effect-group-exit',       level: 'menu-effect-level-moderate',        value: AscFormat.EXIT_SPINNER,                      displayValue: this.textSpinner},
@@ -1242,8 +1242,8 @@ define(function(){ 'use strict';
                                 ];
                             case AscFormat.EXIT_ZOOM:
                                 return [
-                                    {value: AscFormat.ENTRANCE_ZOOM_OBJECT_CENTER,  caption: this.textObjectCenter},
-                                    {value: AscFormat.ENTRANCE_ZOOM_SLIDE_CENTER,   caption: this.textSlideCenter}
+                                    {value: AscFormat.EXIT_ZOOM_OBJECT_CENTER,  caption: this.textObjectCenter},
+                                    {value: AscFormat.EXIT_ZOOM_SLIDE_CENTER,   caption: this.textSlideCenter}
                                 ];
                             case AscFormat.EXIT_BASIC_ZOOM:
                                 return [
@@ -1336,6 +1336,11 @@ define(function(){ 'use strict';
                         return [
                             {value: AscFormat.ENTRANCE_FLOAT_UP,            caption: this.textFloatUp},
                             {value: AscFormat.ENTRANCE_FLOAT_DOWN,          caption: this.textFloatDown}
+                        ];
+                    case 'exitfloat':
+                        return [
+                            {value: AscFormat.EXIT_FLOAT_UP,            caption: this.textFloatUp},
+                            {value: AscFormat.EXIT_FLOAT_DOWN,          caption: this.textFloatDown}
                         ];
                     default:
                         return [];
