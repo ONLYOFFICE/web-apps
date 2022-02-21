@@ -448,7 +448,7 @@ define([
             if (this.mode.canPrint) {
                 var printPanel = SSE.getController('Print').getView('PrintWithPreview');
                 printPanel.menu = this;
-                this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print'));
+                !this.panels['printpreview'] && (this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print')));
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {
