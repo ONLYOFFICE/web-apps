@@ -558,13 +558,13 @@ define([
                             opt.checkable = true;
                             opt.toggleGroup = 'animateeffects';
                             this.btnParameters.menu.addItem(opt);
-                            (opt.value == option) && (selectedElement = this.btnParameters.menu.items[index]);
+                            (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index]);
                         }, this);
                         (effect && effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
                     } else {
                         this.btnParameters.menu.clearAll();
                         this.btnParameters.menu.items.forEach(function (opt) {
-                            if(opt.toggleGroup == 'animateeffects' && opt.value == option)
+                            if(opt.toggleGroup == 'animateeffects' && (opt.value == option || option===undefined && !!opt.options.defvalue))
                                 selectedElement = opt;
                         },this);
                     }
