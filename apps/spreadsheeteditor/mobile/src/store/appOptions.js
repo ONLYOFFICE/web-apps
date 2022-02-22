@@ -100,8 +100,10 @@ export class storeAppOptions {
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments;
         this.trialMode = params.asc_getLicenseMode();
-        this.canDownloadOrigin = permissions.download !== false;
-        this.canDownload = permissions.download !== false;
+
+        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
+        this.canDownloadOrigin = permissions.download !== false && (type && typeof type[1] === 'string');
+        this.canDownload = permissions.download !== false && (!type || typeof type[1] !== 'string');
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
         this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;

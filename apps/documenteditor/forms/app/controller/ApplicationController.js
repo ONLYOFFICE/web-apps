@@ -103,6 +103,8 @@ define([
                 this.api.asc_registerCallback('asc_onCountPages',            this.onCountPages.bind(this));
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
 
                 // Initialize api gateway
                 Common.Gateway.on('init',               this.loadConfig.bind(this));
@@ -505,6 +507,7 @@ define([
 
             this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
             this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
+            this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
             this.api.asc_setDocInfo(docInfo);
             this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
             this.api.asc_enableKeyEvents(true);
@@ -642,6 +645,17 @@ define([
             });
         },
 
+        onLicenseChanged: function(params) {
+            var licType = params.asc_getLicenseType();
+            if (licType !== undefined && this.appOptions.canFillForms &&
+                (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
+                this._state.licenseType = licType;
+
+            if (this._isDocReady)
+                this.applyLicense();
+        },
+
         applyLicense: function() {
             if (this._state.licenseType) {
                 var license = this._state.licenseType,
@@ -656,6 +670,10 @@ define([
                     license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
                     buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
                     primary = 'buynow';
+                }
+
+                if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
+                    Common.NotificationCenter.trigger('api:disconnect');
                 }
 
                 var value = Common.localStorage.getItem("de-license-warning");
@@ -986,6 +1004,8 @@ define([
         },
 
         onShowContentControlsActions: function(obj, x, y) {
+            if (this._isDisabled) return;
+
             var me = this;
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
@@ -1718,12 +1738,12 @@ define([
             if (this.textMenu && !noobject) {
                 var cancopy = this.api.can_CopyCut(),
                     disabled = menu_props.paraProps && menu_props.paraProps.locked || menu_props.headerProps && menu_props.headerProps.locked ||
-                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked);
+                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked) || this._isDisabled;
                 this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
                 this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
 
-                this.textMenu.items[3].setDisabled(!cancopy); // copy
-                this.textMenu.items[4].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[3].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[4].setDisabled(!cancopy); // copy
                 this.textMenu.items[5].setDisabled(disabled) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
@@ -1754,6 +1774,23 @@ define([
                         }
                     }
                     break;
+            }
+        },
+
+        onApiServerDisconnect: function(enableDownload) {
+            this._state.isDisconnected = true;
+            this._isDisabled = true;
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(true);
+            if (!enableDownload) {
+                this.appOptions.canPrint = this.appOptions.canDownload = false;
+                this.view && this.view.btnDownload.setDisabled(true);
+                this.view && this.view.btnSubmit.setDisabled(true);
+                if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
+                    this.view.btnOptions.menu.items[0].setDisabled(true); // print
+                    this.view.btnOptions.menu.items[2].setDisabled(true); // download
+                    this.view.btnOptions.menu.items[3].setDisabled(true); // download docx
+                    this.view.btnOptions.menu.items[4].setDisabled(true); // download pdf
+                }
             }
         },
 

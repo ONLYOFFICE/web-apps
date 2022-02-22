@@ -152,9 +152,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                         </ListItem>
                     }
                     {_canDownloadOrigin &&
-                    <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
-                        <Icon slot="media" icon="icon-download"></Icon>
-                    </ListItem>
+                        <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
+                            <Icon slot="media" icon="icon-download"></Icon>
+                        </ListItem>
                     }
                     {_canPrint &&
                         <ListItem title={_t.textPrint} onClick={props.onPrint} link='#' className='no-indicator'>
