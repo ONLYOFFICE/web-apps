@@ -414,6 +414,8 @@ define([
             this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
             this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
             this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
+            this.appOptions.lang            = this.editorConfig.lang;
+            this.appOptions.canPlugins      = false;
         },
 
         onExternalMessage: function(msg) {
@@ -563,6 +565,8 @@ define([
 
             AscCommon.UserInfoParser.setParser(true);
             AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+
+            DE.getController('Plugins').setMode(this.appOptions, this.api);
 
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
@@ -1339,6 +1343,7 @@ define([
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
             }
+            DE.getController('Plugins').setApi(this.api);
 
             this.updateWindowTitle(true);
 
