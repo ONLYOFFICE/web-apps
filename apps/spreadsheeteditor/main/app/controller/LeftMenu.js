@@ -150,7 +150,6 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onRenameText, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',          _.bind(this.onDownloadUrl, this));
@@ -182,6 +181,8 @@ define([
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
+            this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
+            this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
         },
 
@@ -713,38 +714,6 @@ define([
             this.api.asc_enableKeyEvents(true);
         },
 
-        onRenameText: function(found, replaced) {
-            var me = this;
-            if (this.api.isReplaceAll) {
-                Common.UI.info({
-                    msg: (found) ? ((!found-replaced) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced)) : this.textNoTextFound,
-                    callback: function() {
-                        me.dlgSearch.focus();
-                    }
-                });
-            } else {
-                var sett = this.dlgSearch.getSettings();
-                var options = this.dlgSearch.findOptions;
-                options.asc_setFindWhat(sett.textsearch);
-                options.asc_setScanForward(true);
-                options.asc_setIsMatchCase(sett.matchcase);
-                options.asc_setIsWholeCell(sett.matchword);
-                options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-                options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
-
-
-                if (!me.api.asc_findText(options)) {
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
-                        callback: function() {
-                            me.dlgSearch.focus();
-                        }
-                    });
-                }
-            }
-        },
-
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
@@ -1016,6 +985,9 @@ define([
 
                     // focus to sdk
                     this.api.asc_enableKeyEvents(true);
+                } else if (this.leftMenu.btnSearchBar.isActive() && this.api) {
+                    this.leftMenu.btnSearchBar.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
                 }
             }
         },
@@ -1039,8 +1011,6 @@ define([
         newDocumentTitle        : 'Unnamed document',
         textItemEntireCell      : 'Entire cell contents',
         requestEditRightsText   : 'Requesting editing rights...',
-        textReplaceSuccess      : 'Search has been done. {0} occurrences have been replaced',
-        textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.',
         warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?' ,
         textWarning: 'Warning',
         textSheet: 'Sheet',

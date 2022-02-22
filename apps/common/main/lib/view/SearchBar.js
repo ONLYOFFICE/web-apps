@@ -149,7 +149,7 @@ define([
             var opts = {
                 textsearch  : this.inputSearch.val()
             };
-            this.fireEvent('search:'+action, [this, opts]);
+            this.fireEvent('search:'+action, [this, opts, false]);
         },
 
         onOpenPanel: function () {

@@ -65,6 +65,7 @@ define([
                 /** coauthoring end **/
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-spellcheck': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-searchbar': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -88,6 +89,15 @@ define([
                 hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
                 disabled: true,
                 enableToggle: true
+            });
+
+            this.btnSearchBar = new Common.UI.Button({
+                action: 'advancedsearch',
+                el: $markup.elementById('#left-btn-searchbar'),
+                hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
+                disabled: true,
+                enableToggle: true,
+                toggleGroup: 'leftMenuGroup'
             });
 
             this.btnAbout = new Common.UI.Button({
@@ -152,6 +162,7 @@ define([
             this.btnSpellcheck.on('click',      _.bind(this.onBtnMenuClick, this));
 
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
+            this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
 
             this.menuFile = new SSE.Views.FileMenu({});
@@ -226,6 +237,13 @@ define([
                 } else
                     this.panelSpellcheck['hide']();
             }
+            if (this.panelSearch) {
+                if (this.btnSearchBar.pressed) {
+                    this.panelSearch.show();
+                } else {
+                    this.panelSearch.hide();
+                }
+            }
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
             //         this.panelPlugins.show();
@@ -247,6 +265,9 @@ define([
                 this.panelSpellcheck = panel.render('#left-panel-spellcheck');
             } else if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
+            } else
+            if (name == 'advancedsearch') {
+                this.panelSearch = panel.render('#left-panel-search');
             }
         },
 
@@ -288,10 +309,14 @@ define([
                 this.panelSpellcheck['hide']();
                 this.btnSpellcheck.toggle(false, true);
             }
+            if (this.panelSearch) {
+                this.panelSearch['hide']();
+                this.btnSearchBar.toggle(false, true);
+            }
         },
 
         isOpened: function() {
-            var isopened = this.btnSearch.pressed;
+            var isopened = this.btnSearchBar.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
             /** coauthoring end **/
@@ -302,6 +327,7 @@ define([
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
             this.btnSearch.setDisabled(false);
+            this.btnSearchBar.setDisabled(false);
             /** coauthoring begin **/
             this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
@@ -332,6 +358,13 @@ define([
                         this.onBtnMenuClick(this.btnComments);
                         this.onCoauthOptions();
                         this.btnComments.$el.focus();
+                    }
+                } else if (menu == 'advancedsearch') {
+                    if (this.btnSearchBar.isVisible() &&
+                        !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
+                        this.btnSearchBar.toggle(true);
+                        this.onBtnMenuClick(this.btnSearchBar);
+                        this.onCoauthOptions();
                     }
                 }
                 /** coauthoring end **/

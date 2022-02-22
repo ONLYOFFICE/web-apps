@@ -133,6 +133,42 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                this.cmbWithin = new Common.UI.ComboBox({
+                    el: $('#search-adv-cmb-within'),
+                    menuStyle: 'min-width: 100%;',
+                    style: "width: 219px;",
+                    editable: false,
+                    cls: 'input-group-nr',
+                    data: [
+                        { value: 0, displayValue: this.textSheet },
+                        { value: 1, displayValue: this.textWorkbook }
+                    ]
+                });
+
+                this.cmbSearch = new Common.UI.ComboBox({
+                    el: $('#search-adv-cmb-search'),
+                    menuStyle: 'min-width: 100%;',
+                    style: "width: 219px;",
+                    editable: false,
+                    cls: 'input-group-nr',
+                    data: [
+                        { value: 0, displayValue: this.textByRows },
+                        { value: 1, displayValue: this.textByColumns }
+                    ]
+                });
+
+                this.cmbLookIn = new Common.UI.ComboBox({
+                    el: $('#search-adv-cmb-look-in'),
+                    menuStyle: 'min-width: 100%;',
+                    style: "width: 219px;",
+                    editable: false,
+                    cls: 'input-group-nr',
+                    data: [
+                        { value: 0, displayValue: this.textFormulas },
+                        { value: 1, displayValue: this.textValues }
+                    ]
+                });
+
                 this.buttonClose = new Common.UI.Button({
                     parentEl: $('#search-btn-close', this.$el),
                     cls: 'btn-toolbar',
@@ -185,7 +221,15 @@ define([
                 matchword   : this.chMatchWord.checked,
                 //highlight   : this.miHighlight.checked
             };
-            this.fireEvent('search:'+action, [this, opts]);
+            this.fireEvent('search:'+action, [this, opts, true]);
+        },
+
+        getSettings: function() {
+            return {
+                textsearch: this.inputText.getValue(),
+                matchcase: this.chCaseSensitive.checked,
+                matchword: this.chMatchWord.checked
+            };
         },
 
         textFind: 'Find',
@@ -198,6 +242,15 @@ define([
         textCaseSensitive: 'Case sensitive',
         textMatchUsingRegExp: 'Match using regular expressions',
         textWholeWords: 'Whole words only',
+        textWithin: 'Within',
+        textSearch: 'Search',
+        textLookIn: 'Look in',
+        textSheet: 'Sheet',
+        textWorkbook: 'Workbook',
+        textByRows: 'By rows',
+        textByColumns: 'By columns',
+        textFormulas: 'Formulas',
+        textValues: 'Values',
 
     }, Common.Views.SearchPanel || {}));
 });

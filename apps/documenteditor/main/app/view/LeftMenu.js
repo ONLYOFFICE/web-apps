@@ -302,7 +302,7 @@ define([
             } else
             if (name == 'thumbnails') {
                 this.panelThumbnails = panel.render('#left-panel-thumbnails');
-            }
+            } else
             if (name == 'advancedsearch') {
                 this.panelSearch = panel.render('#left-panel-search');
             }

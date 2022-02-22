@@ -30,6 +30,18 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="padding-large">
+                        <div class="search-options">
+                            <label class="input-label"><%= scope.textWithin %></label>
+                            <div id="search-adv-cmb-within"></div>
+                            <label class="input-label"><%= scope.textSearch %></label>
+                            <div id="search-adv-cmb-search"></div>
+                            <label class="input-label"><%= scope.textLookIn %></label>
+                            <div id="search-adv-cmb-look-in"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td class="padding-small"><div id="search-adv-case-sensitive"></div></td>
                 </tr>
                 <tr>
