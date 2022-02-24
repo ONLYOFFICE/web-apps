@@ -52,6 +52,9 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
 
             this.isEdit = options.mode.isEdit;
+
+
+            window.SSE && (this.extendedOptions = Common.localStorage.getBool('sse-search-options-extended', true));
         },
 
         render: function(el) {
@@ -176,6 +179,12 @@ define([
                     hint: this.textCloseSearch
                 });
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
+
+                if (window.SSE) {
+                    this.$searchOptionsBlock = $('.search-options-block');
+                    this.$searchOptionsBlock.show();
+                    $('#open-search-options').on('click', _.bind(this.expandSearchOptions, this));
+                }
             }
 
             this.rendered = true;
@@ -232,6 +241,11 @@ define([
             };
         },
 
+        expandSearchOptions: function () {
+            this.extendedOptions = !this.extendedOptions;
+            this.$searchOptionsBlock[this.extendedOptions ? 'removeClass' : 'addClass']('no-expand');
+        },
+
         textFind: 'Find',
         textFindAndReplace: 'Find and replace',
         textCloseSearch: 'Close search',
@@ -251,6 +265,7 @@ define([
         textByColumns: 'By columns',
         textFormulas: 'Formulas',
         textValues: 'Values',
+        textSearchOptions: 'Search options'
 
     }, Common.Views.SearchPanel || {}));
 });

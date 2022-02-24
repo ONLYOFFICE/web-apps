@@ -29,9 +29,13 @@
                        <button type="button" class="btn btn-text-default" id="search-adv-replace-all" style="display: inline-block; min-width: 78px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplaceAll %></button>
                     </td>
                 </tr>
-                <tr>
+                <tr class="search-options-block">
                     <td class="padding-large">
-                        <div class="search-options">
+                        <div id="open-search-options">
+                            <div class="search-options-caret img-commonctrl"></div>
+                            <div class="search-options-txt"><%= scope.textSearchOptions %></div>
+                        </div>
+                        <div id="search-options">
                             <label class="input-label"><%= scope.textWithin %></label>
                             <div id="search-adv-cmb-within"></div>
                             <label class="input-label"><%= scope.textSearch %></label>
