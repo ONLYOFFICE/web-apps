@@ -175,6 +175,7 @@ class ContextMenuController extends Component {
                 break;
             }
         }
+
         if (!src) {
             src = $$(`<div class="username-tip"></div>`);
             src.attr('userid', UserId);
@@ -185,11 +186,20 @@ class ContextMenuController extends Component {
             //src.fadeIn(150);
             src[0].classList.add('active');
 
-            $$('#id_main_view').append(src);
+            $$("#editor_sdk").append(src);
         }
-        src.css({
-            top: (Y - tipHeight) + 'px',
-            left: X + 'px'});
+
+        if ( X + src.outerWidth() > $$(window).width() ) { 
+            src.css({
+                top: (Y - tipHeight) + 'px',
+                left: X - src.outerWidth() + 'px'});
+        } else {
+            src.css({
+                left: X + 'px',
+                top: (Y - tipHeight) + 'px',
+            });
+        }
+        
         /** coauthoring end **/
     }
 
