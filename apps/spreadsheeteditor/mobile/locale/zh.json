@@ -291,17 +291,15 @@
     "textHide": "隐藏",
     "textMore": "更多",
     "textMove": "移动",
-    "textMoveBack": "后移",
-    "textMoveForward": "前移",
+    "textMoveBefore": "在工作表之前移动",
+    "textMoveToEnd": "（移动到末尾）",
     "textOk": "OK",
     "textRename": "重命名",
     "textRenameSheet": "重命名工作表",
     "textSheet": "表格",
     "textSheetName": "工作表名称",
     "textUnhide": "取消隐藏",
-    "textWarnDeleteSheet": "该工作表可能带有数据。要进行操作吗？",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textWarnDeleteSheet": "该工作表可能带有数据。要进行操作吗？"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
