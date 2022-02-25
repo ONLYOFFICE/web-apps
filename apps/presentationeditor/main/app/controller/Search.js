@@ -34,7 +34,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 09.02.2022
+ *  Created by Julia Svinareva on 25.02.2022
  *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
  *
  */
@@ -45,7 +45,7 @@ define([
 ], function () {
     'use strict';
 
-    DE.Controllers.Search = Backbone.Controller.extend(_.extend({
+    PE.Controllers.Search = Backbone.Controller.extend(_.extend({
         sdkViewName : '#id_main',
 
         views: [
@@ -116,11 +116,11 @@ define([
 
         onQueryReplaceAll: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
-                this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase, opts.matchword);
+                this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase);
             }
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
 
-    }, DE.Controllers.Search || {}));
+    }, PE.Controllers.Search || {}));
 });

@@ -171,6 +171,8 @@ define([
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
             this.leftMenu.btnThumbs.toggle(true);
+            this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
+            this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
         },
 
@@ -747,6 +749,9 @@ define([
 
                     // focus to sdk
                     this.api.asc_enableKeyEvents(true);
+                } else if (this.leftMenu.btnSearchBar.isActive()) {
+                    this.leftMenu.btnSearchBar.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
                 }
             }
         },

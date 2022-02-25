@@ -53,7 +53,6 @@ define([
         ],
 
         initialize: function () {
-            console.log('init');
             this.addListeners({
                 'SearchBar': {
                     'search:back': _.bind(this.onQuerySearch, this, 'back'),

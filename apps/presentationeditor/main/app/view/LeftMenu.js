@@ -72,6 +72,7 @@ define([
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
+                'click #left-btn-searchbar': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -95,6 +96,15 @@ define([
                 hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
                 disabled: true,
                 enableToggle: true
+            });
+
+            this.btnSearchBar = new Common.UI.Button({
+                action: 'advancedsearch',
+                el: $markup.elementById('#left-btn-searchbar'),
+                hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
+                disabled: true,
+                enableToggle: true,
+                toggleGroup: 'leftMenuGroup'
             });
 
             this.btnThumbs = new Common.UI.Button({
@@ -157,6 +167,7 @@ define([
             this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
             
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
+            this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
             this.btnThumbs.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
             this.btnAbout.on('click',           _.bind(this.onFullMenuClick, this));
@@ -241,6 +252,13 @@ define([
                 }
             }
             /** coauthoring end **/
+            if (this.panelSearch) {
+                if (this.btnSearchBar.pressed) {
+                    this.panelSearch.show();
+                } else {
+                    this.panelSearch.hide();
+                }
+            }
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
             //         this.panelPlugins.show();
@@ -260,6 +278,9 @@ define([
                 this.panelPlugins = panel.render('#left-panel-plugins');
             } else if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
+            } else
+            if (name == 'advancedsearch') {
+                this.panelSearch = panel.render('#left-panel-search');
             }
         },
 
@@ -299,11 +320,15 @@ define([
                 this.panelPlugins['hide']();
                 this.btnPlugins.toggle(false, true);
             }
+            if (this.panelSearch) {
+                this.panelSearch['hide']();
+                this.btnSearchBar.toggle(false, true);
+            }
             this.fireEvent('panel:show', [this, '', false]);
         },
 
         isOpened: function() {
-            var isopened = this.btnSearch.pressed;
+            var isopened = this.btnSearchBar.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
             /** coauthoring end **/
@@ -311,6 +336,7 @@ define([
         },
 
         disableMenu: function(menu, disable) {
+            this.btnSearchBar.setDisabled(disable);
             this.btnThumbs.setDisabled(disable);
             this.btnAbout.setDisabled(disable);
             this.btnSupport.setDisabled(disable);
@@ -340,6 +366,13 @@ define([
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
                         this.btnComments.toggle(true);
                         this.onBtnMenuClick(this.btnComments);
+                        this.onCoauthOptions();
+                    }
+                } else if (menu == 'advancedsearch') {
+                    if (this.btnSearchBar.isVisible() &&
+                        !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
+                        this.btnSearchBar.toggle(true);
+                        this.onBtnMenuClick(this.btnSearchBar);
                         this.onCoauthOptions();
                     }
                 }
