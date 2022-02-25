@@ -202,6 +202,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
+                '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
@@ -222,12 +223,14 @@ define([
                         '<label class="comment-text"><%= scope.txtStrictTip %></label></span>',
                     '</div></td>',
                 '</div></tr>',
+                '<tr class ="divider coauth changes"></tr>',
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>',
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
+                '<tr class ="collaboration divider-group"></tr>',
                 '<tr >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
@@ -257,6 +260,7 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                     '</td>',
                 '</tr>',
+                '<tr class ="divider-group"></tr>',
                 '<tr>',
                     '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
                 '</tr>',
@@ -276,14 +280,15 @@ define([
                     '<td colspan="2"><div id="fms-chb-separator-settings"></div></td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strDecimalSeparator %></label></td>',
+                    '<td><label class = "label-separator"><%= scope.strDecimalSeparator %></label></td>',
                     '<td><div id="fms-decimal-separator"></div></td>',
                 '</tr>',
                 '<tr>',
-                    '<td><label><%= scope.strThousandsSeparator %></label></td>',
+                    '<td><label class = "label-separator"><%= scope.strThousandsSeparator %></label></td>',
                     '<td><div id="fms-thousands-separator"></div></td>',
                 '</tr>',
-                '<tr>',
+                '<tr class ="divider-group"></tr>',
+                '<tr class="edit">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
                 '<tr class="spellcheck">',
@@ -297,10 +302,10 @@ define([
                 '<tr class="spellcheck">',
                     '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
                 '</tr>',
-                '<tr>',
+                '<tr  class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
-
+                '<tr class ="divider-group"></tr>',
                  '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
@@ -378,8 +383,9 @@ define([
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 menuStyle   : 'max-height: 157px;',
                 data        : [
@@ -411,8 +417,9 @@ define([
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-font-render'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 itemsTemplate: itemsTemplate,
                 data        : [
@@ -449,8 +456,9 @@ define([
 
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-unit'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
@@ -476,7 +484,7 @@ define([
 
             this.cmbFuncLocale = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-func-locale'),
-                style       : 'width: 160px;',
+                style       : 'width: 200px;',
                 menuStyle: 'max-height: 185px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -499,7 +507,7 @@ define([
 
             this.cmbRegSettings = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-reg-settings'),
-                style       : 'width: 160px;',
+                style       : 'width: 200px;',
                 menuStyle: 'max-height: 185px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -590,7 +598,7 @@ define([
 
             this.cmbMacros = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-macros'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
@@ -621,7 +629,7 @@ define([
 
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 dataHint    : '2',
@@ -632,8 +640,9 @@ define([
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el:  $markup.findById('#fms-cmb-dictionary-language'),
                 cls: 'input-group-nr',
-                style: 'width: 267px;',
+                style: 'width: 200px;',
                 editable: false,
+                menuCls     : 'menu-aligned',
                 menuStyle: 'min-width: 267px; max-height: 209px;',
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -734,7 +743,7 @@ define([
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
-            $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
+            $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -835,7 +844,7 @@ define([
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
 
-            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
 
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
                     allLangs = arrLang[0],
@@ -926,7 +935,7 @@ define([
                     Common.NotificationCenter.trigger('settings:unitschanged', this);
             }
 
-            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
 
                 var value = this.chIgnoreUppercase.isChecked();
                 Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);

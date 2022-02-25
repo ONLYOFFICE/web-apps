@@ -247,6 +247,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
                 '</tr>',
+                '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
@@ -265,6 +266,7 @@ define([
                     '<label class="comment-text"><%= scope.txtStrictTip %></label></span>',
                     '</div></td>',
                 '</tr>',
+                '<tr class ="divider-subgroup coauth changes-mode"></tr>',
                 '<tr class="view-review">',
                     '<td colspan="2" class="subgroup-name"><label><%= scope.txtShowTrackChanges %></label></td>',
                 '</tr>',
@@ -274,6 +276,7 @@ define([
                 '<tr class="view-review">',
                     '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
                 '</tr>',
+                '<tr class ="divider-subgroup  view-review"></tr>',
                 '<tr class="comments">',
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
@@ -285,13 +288,14 @@ define([
                 '</tr>',
                 '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-last"></div></td>',
-                '</tr>','<tr class="divider cchanges-show"></tr>',
+                '</tr>','<tr class="divider coauth changes-show"></tr>',
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>',
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
+                '<tr class ="collaboration divider-group"></tr>',
                 '<tr class ="edit">',
                     '<td colspan="2" class="group-name proofing"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
@@ -301,6 +305,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
+                '<tr class ="edit divider-group"></tr>',
                 '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
@@ -333,7 +338,8 @@ define([
                     '<td>',
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px; vertical-align: middle;"></div>',
                 '</tr>',
-               '<tr class="fms-btn-apply">',
+                '<tr class ="divider-group"></tr>',
+                '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
                 '</tr>',
@@ -435,8 +441,9 @@ define([
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 menuStyle   : 'max-height: 157px;',
                 data        : [
@@ -537,8 +544,9 @@ define([
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
                 el          : $markup.find('#fms-cmb-font-render'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 itemsTemplate: itemsTemplate,
                 data        : [
@@ -555,7 +563,8 @@ define([
 
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-unit'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
+                menuCls     : 'menu-aligned',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -570,7 +579,7 @@ define([
 
             this.cmbMacros = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-macros'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
@@ -605,8 +614,9 @@ define([
 
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -682,7 +692,7 @@ define([
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             $('tr.editsave',this.el)[mode.isEdit  || mode.canForcesave ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
-                this.chAutosave.setCaption(this.strAutoRecover);
+                this.chAutosave.setCaption(this.textAutoRecover);
             }
             /** coauthoring begin **/
             $('tr.collaboration', this.el)[mode.canCoAuthoring || mode.canViewReview ? 'show' : 'hide']();

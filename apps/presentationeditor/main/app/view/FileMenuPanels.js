@@ -212,6 +212,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
+                '<tr class ="editsave divider-group"></tr>',
                 '<tr class="coauth changes">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtCollaboration %></label></td>',
                 '</tr>',
@@ -232,6 +233,7 @@ define([
                         '<label class="comment-text"><%= scope.txtStrictTip %></label></span>',
                     '</div></td>',
                 '</tr>',
+                '<tr class ="coauth changes divider-group"></tr>',
                 '<tr class="edit">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
@@ -241,6 +243,7 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
+                '<tr class ="edit divider-group"></tr>',
                 '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                     '</tr>',
@@ -271,6 +274,7 @@ define([
                     '<td><label><%= scope.strMacrosSettings %></label></td>',
                     '<td><div><div id="fms-cmb-macros"></div></div></td>',
                 '</tr>',
+                '<tr class ="divider-group"></tr>',
                 '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
@@ -315,7 +319,7 @@ define([
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 menuStyle   : 'max-height: 157px;',
@@ -398,7 +402,7 @@ define([
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-font-render'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 itemsTemplate: itemsTemplate,
@@ -416,7 +420,7 @@ define([
 
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-unit'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -431,7 +435,7 @@ define([
 
             this.cmbMacros = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-macros'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
@@ -469,7 +473,7 @@ define([
 
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
-                style       : 'width: 160px;',
+                style       : 'width: 128px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 dataHint    : '2',
