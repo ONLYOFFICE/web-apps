@@ -4,6 +4,9 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
+    const { t } = useTranslation();
+    const _t = t("Error", { returnObjects: true });
+
     useEffect(() => {
         const on_engine_created = k => { k.asc_registerCallback('asc_onError', onError); };
 
@@ -20,8 +23,6 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
     });
 
     const onError = (id, level, errData) => {
-        const {t} = useTranslation();
-        const _t = t("Error", { returnObjects: true });
         const api = Common.EditorApi.get();
         
         if (id === Asc.c_oAscError.ID.LoadingScriptError) {
