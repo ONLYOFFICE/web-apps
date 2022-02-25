@@ -291,17 +291,15 @@
     "textHide": "Amaga",
     "textMore": "Més",
     "textMove": "Desplaça",
-    "textMoveBack": "Ves endarrere",
-    "textMoveForward": "Ves endavant",
+    "textMoveBefore": "Desplaceu abans del full",
+    "textMoveToEnd": "Aneu al final",
     "textOk": "D'acord",
     "textRename": "Canvia el nom",
     "textRenameSheet": "Canvia el nom del full",
     "textSheet": "Full",
     "textSheetName": "Nom del full",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis no desats en aquest document. Fes clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",

@@ -291,17 +291,15 @@
     "textHide": "Skrýt",
     "textMore": "Více",
     "textMove": "Přesunout",
-    "textMoveBack": "Posunout zpět",
-    "textMoveForward": "Posunout vpřed",
+    "textMoveBefore": "Přesunout před list",
+    "textMoveToEnd": "(Přesunout na konec)",
     "textOk": "OK",
     "textRename": "Přejmenovat",
     "textRenameSheet": "Přejmenovat list",
     "textSheet": "List",
     "textSheetName": "Název listu",
     "textUnhide": "Odkrýt",
-    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? ",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? "
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
