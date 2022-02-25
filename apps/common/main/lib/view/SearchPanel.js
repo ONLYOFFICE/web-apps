@@ -115,6 +115,7 @@ define([
                 this.chCaseSensitive = new Common.UI.CheckBox({
                     el: $('#search-adv-case-sensitive'),
                     labelText: this.textCaseSensitive,
+                    value: false,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -131,45 +132,10 @@ define([
                 this.chMatchWord = new Common.UI.CheckBox({
                     el: $('#search-adv-match-word'),
                     labelText: this.options.matchwordstr || this.textWholeWords,
+                    value: false,
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
-                });
-
-                this.cmbWithin = new Common.UI.ComboBox({
-                    el: $('#search-adv-cmb-within'),
-                    menuStyle: 'min-width: 100%;',
-                    style: "width: 219px;",
-                    editable: false,
-                    cls: 'input-group-nr',
-                    data: [
-                        { value: 0, displayValue: this.textSheet },
-                        { value: 1, displayValue: this.textWorkbook }
-                    ]
-                });
-
-                this.cmbSearch = new Common.UI.ComboBox({
-                    el: $('#search-adv-cmb-search'),
-                    menuStyle: 'min-width: 100%;',
-                    style: "width: 219px;",
-                    editable: false,
-                    cls: 'input-group-nr',
-                    data: [
-                        { value: 0, displayValue: this.textByRows },
-                        { value: 1, displayValue: this.textByColumns }
-                    ]
-                });
-
-                this.cmbLookIn = new Common.UI.ComboBox({
-                    el: $('#search-adv-cmb-look-in'),
-                    menuStyle: 'min-width: 100%;',
-                    style: "width: 219px;",
-                    editable: false,
-                    cls: 'input-group-nr',
-                    data: [
-                        { value: 0, displayValue: this.textFormulas },
-                        { value: 1, displayValue: this.textValues }
-                    ]
                 });
 
                 this.buttonClose = new Common.UI.Button({
@@ -181,9 +147,54 @@ define([
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
                 if (window.SSE) {
+
+                    this.cmbWithin = new Common.UI.ComboBox({
+                        el: $('#search-adv-cmb-within'),
+                        menuStyle: 'min-width: 100%;',
+                        style: "width: 219px;",
+                        editable: false,
+                        cls: 'input-group-nr',
+                        data: [
+                            { value: 0, displayValue: this.textSheet },
+                            { value: 1, displayValue: this.textWorkbook }
+                        ]
+                    });
+
+                    this.cmbSearch = new Common.UI.ComboBox({
+                        el: $('#search-adv-cmb-search'),
+                        menuStyle: 'min-width: 100%;',
+                        style: "width: 219px;",
+                        editable: false,
+                        cls: 'input-group-nr',
+                        data: [
+                            { value: 0, displayValue: this.textByRows },
+                            { value: 1, displayValue: this.textByColumns }
+                        ]
+                    });
+
+                    this.cmbLookIn = new Common.UI.ComboBox({
+                        el: $('#search-adv-cmb-look-in'),
+                        menuStyle: 'min-width: 100%;',
+                        style: "width: 219px;",
+                        editable: false,
+                        cls: 'input-group-nr',
+                        data: [
+                            { value: 0, displayValue: this.textFormulas },
+                            { value: 1, displayValue: this.textValues }
+                        ]
+                    });
+
                     this.$searchOptionsBlock = $('.search-options-block');
                     this.$searchOptionsBlock.show();
                     $('#open-search-options').on('click', _.bind(this.expandSearchOptions, this));
+
+                    if (!this.extendedOptions) {
+                        this.$searchOptionsBlock.addClass('no-expand');
+                    }
+
+                    this.cmbWithin.setValue(0);
+                    this.cmbSearch.setValue(0);
+                    this.cmbLookIn.setValue(0);
                 }
             }
 
@@ -241,9 +252,18 @@ define([
             };
         },
 
+        getExtraSettings: function () {
+            return {
+                within: !this.cmbWithin.getValue(),
+                search: !this.cmbSearch.getValue(),
+                lookIn: !this.cmbLookIn.getValue()
+            };
+        },
+
         expandSearchOptions: function () {
             this.extendedOptions = !this.extendedOptions;
             this.$searchOptionsBlock[this.extendedOptions ? 'removeClass' : 'addClass']('no-expand');
+            Common.localStorage.setBool('sse-search-options-extended', this.extendedOptions);
         },
 
         textFind: 'Find',

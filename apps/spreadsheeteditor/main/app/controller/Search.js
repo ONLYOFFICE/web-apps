@@ -94,9 +94,11 @@ define([
             options.asc_setScanForward(d != 'back');
             options.asc_setIsMatchCase(opts.matchcase);
             options.asc_setIsWholeCell(opts.matchword);
-            //options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-            //options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-            //options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+
+            var extraOptions = this.view.getExtraSettings();
+            options.asc_setScanOnOnlySheet(extraOptions.within);
+            options.asc_setScanByRows(extraOptions.search);
+            options.asc_setLookIn(extraOptions.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
             if (!this.api.asc_findText(options)) {
                 var me = this;
@@ -121,9 +123,11 @@ define([
             options.asc_setReplaceWith(opts.textreplace);
             options.asc_setIsMatchCase(opts.matchcase);
             options.asc_setIsWholeCell(opts.matchword);
-            //options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-            //options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-            //options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+
+            var extraOptions = this.view.getExtraSettings();
+            options.asc_setScanOnOnlySheet(extraOptions.within);
+            options.asc_setScanByRows(extraOptions.search);
+            options.asc_setLookIn(extraOptions.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setIsReplaceAll(false);
 
             this.api.asc_replaceText(options);
@@ -137,9 +141,11 @@ define([
             options.asc_setReplaceWith(opts.textreplace);
             options.asc_setIsMatchCase(opts.matchcase);
             options.asc_setIsWholeCell(opts.matchword);
-            //options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-            //options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-            //options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+
+            var extraOptions = this.view.getExtraSettings();
+            options.asc_setScanOnOnlySheet(extraOptions.within);
+            options.asc_setScanByRows(extraOptions.search);
+            options.asc_setLookIn(extraOptions.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setIsReplaceAll(true);
 
             this.api.asc_replaceText(options);
@@ -161,9 +167,11 @@ define([
                 options.asc_setScanForward(true);
                 options.asc_setIsMatchCase(sett.matchcase);
                 options.asc_setIsWholeCell(sett.matchword);
-                //options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-                //options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                //options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+
+                var extraOptions = this.view.getExtraSettings();
+                options.asc_setScanOnOnlySheet(extraOptions.within);
+                options.asc_setScanByRows(extraOptions.search);
+                options.asc_setLookIn(extraOptions.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
 
                 if (!me.api.asc_findText(options)) {
