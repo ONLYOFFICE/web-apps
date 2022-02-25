@@ -321,6 +321,7 @@ define([
                 el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 menuStyle   : 'max-height: 157px;',
                 data        : [
@@ -404,6 +405,7 @@ define([
                 el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 itemsTemplate: itemsTemplate,
                 data        : [
@@ -422,6 +424,7 @@ define([
                 el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
@@ -475,6 +478,7 @@ define([
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 128px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 dataHint    : '2',
                 dataHintDirection: 'bottom',
