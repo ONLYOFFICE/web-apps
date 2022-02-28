@@ -92,7 +92,7 @@ define([
             this.GradColor = { values: [0, 100], colors: ['000000', 'ffffff'], currentIdx: 0};
 
             this.fillControls = [];
-            this.gradientColorsStr="";
+            this.gradientColorsStr="#000, #fff";
             this.typeGradient = 90;
 
             this.render();
@@ -242,6 +242,9 @@ define([
                 { offsetx: 50,  offsety: 100, type:270, subtype:3},
                 { offsetx: 100, offsety: 100, type:225, subtype:7}
             ];
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = me.gradientColorsStr;
+            });
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
@@ -263,7 +266,8 @@ define([
                     parentMenu: btn.menu,
                     restoreHeight: 174,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" ></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background: '
+                        +'linear-gradient(<%= type + 90 %>deg,<%= gradientColorsStr %>);"></div>')
                 });
             });
             this.btnDirection.render($('#cell-button-direction'));
@@ -1080,15 +1084,13 @@ define([
         },
 
         btnDirectionRedraw: function(slider, gradientColorsStr) {
-
             this.gradientColorsStr = gradientColorsStr;
-            if (this.mnuDirectionPicker.dataViewItems.length == 1)
-                this.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + gradientColorsStr + ')'});
-            else
-                this.mnuDirectionPicker.dataViewItems.forEach(function (item) {
-                    var type = item.model.get('type') + 90;
-                    item.$el.children(0).css({'background': 'linear-gradient(' + type + 'deg, ' + gradientColorsStr + ')'});
-                });
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = gradientColorsStr;
+            });
+            this.mnuDirectionPicker.store.each(function(item){
+                item.set('gradientColorsStr', gradientColorsStr);
+            }, this);
 
             if (this.typeGradient == -1)
                 this.btnDirection.$icon.css({'background': 'none'});
