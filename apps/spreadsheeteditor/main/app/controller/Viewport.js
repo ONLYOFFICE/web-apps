@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/view/Header',
+    'common/main/lib/view/SearchBar',
     'spreadsheeteditor/main/app/view/Viewport'
 //    ,'spreadsheeteditor/main/app/view/LeftMenu'
 ], function (Viewport) {
@@ -347,6 +348,7 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
+                me.header.btnSearch.on('click', me.onSearchClick.bind(this));
             }
         },
 
@@ -540,6 +542,24 @@ define([
             this.header.mnuitemHideHeadings.setDisabled(disabled);
             this.header.mnuitemHideGridlines.setDisabled(disabled);
             this.header.mnuitemFreezePanes.setDisabled(disabled);
+        },
+
+        onSearchClick: function () {
+            if (!this.searchBar) {
+                this.searchBar = new Common.UI.SearchBar({});
+            }
+            if (this.header.btnSearch.pressed) {
+                if (this.searchBar.isVisible()) {
+                    this.searchBar.focus();
+                } else {
+                    this.searchBar.show();
+                }
+            } else {
+                this.searchBar.hide();
+            }
+            this.searchBar.on('hide', _.bind(function () {
+                this.header.btnSearch.toggle(false);
+            }, this));
         },
 
         textHideFBar: 'Hide Formula Bar',

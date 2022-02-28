@@ -99,6 +99,9 @@ define([
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
+                },
+                'SearchBar': {
+                    'search:show': _.bind(this.onShowHideSearch, this)
                 }
             });
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
@@ -974,6 +977,16 @@ define([
                     this.leftMenu.btnChat.toggle(false, true);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
+            }
+        },
+
+        onShowHideSearch: function (state) {
+            if (state) {
+                Common.UI.Menu.Manager.hideAll();
+                this.leftMenu.showMenu('advancedsearch');
+            } else {
+                this.leftMenu.btnSearchBar.toggle(false, true);
+                this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
             }
         },
 
