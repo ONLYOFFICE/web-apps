@@ -533,6 +533,14 @@ define([
                 this.api.setEndPointHistory();
                 this._gradientApplyFunc();
             }
+            
+            var arrGrCollors=[];
+            var scale=(this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR)?1:0.7;
+            for (var index=0; index < slider.thumbs.length; index++) {
+                arrGrCollors.push(slider.getColorValue(index)+ ' '+ slider.getValue(index)*scale +'%');
+            }
+
+            this.btnDirectionRedraw(slider, arrGrCollors.join(', '));
             this._sendUndoPoint = true;
         },
 
