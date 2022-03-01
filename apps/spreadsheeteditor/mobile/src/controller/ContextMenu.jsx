@@ -351,6 +351,7 @@ class ContextMenu extends ContextMenuController {
                     top: (foreignSelectY + XY[1] - tipHeight) + 'px',
                 });
             }
+            this.isOpenWindowUser = true;
         }
     }
 
