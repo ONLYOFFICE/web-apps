@@ -181,7 +181,6 @@ class ContextMenuController extends Component {
             src.attr('userid', UserId);
             src.css({'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
             src.text(this.getUserName(UserId));
-            $$('#id_main_parent').append(src);
             this.fastCoAuthTips.push(src);
             //src.fadeIn(150);
             src[0].classList.add('active');
