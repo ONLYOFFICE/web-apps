@@ -1051,10 +1051,12 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         this.disableEditing(true, true);
-                        var me = this;
-                        statusCallback = function() {
-                            me.getApplication().getController('Statusbar').showDisconnectTip();
-                        };
+                        if (!this._state.unload) { // don't show disconnect message on window close/reload
+                            var me = this;
+                            statusCallback = function() {
+                                me.getApplication().getController('Statusbar').showDisconnectTip();
+                            };
+                        }
                         break;
 
                     default:
@@ -2065,6 +2067,7 @@ define([
             },
 
             onUnload: function() {
+                this._state.unload = true;
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
             },
 
