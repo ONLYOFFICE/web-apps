@@ -104,6 +104,8 @@ define([
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
                 this.api.asc_registerCallback('asc_onZoomChange',           this.onApiZoomChange.bind(this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
 
                 // Initialize api gateway
                 Common.Gateway.on('init',               this.loadConfig.bind(this));
@@ -678,7 +680,7 @@ define([
                 }
 
                 if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
-                    this.disableEditing(true);
+                    Common.NotificationCenter.trigger('api:disconnect');
                 }
 
                 var value = Common.localStorage.getItem("de-license-warning");
@@ -1811,9 +1813,21 @@ define([
             }
         },
 
-        disableEditing: function(state) {
-            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
-            this._isDisabled = state;
+        onApiServerDisconnect: function(enableDownload) {
+            this._state.isDisconnected = true;
+            this._isDisabled = true;
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(true);
+            if (!enableDownload) {
+                this.appOptions.canPrint = this.appOptions.canDownload = false;
+                this.view && this.view.btnDownload.setDisabled(true);
+                this.view && this.view.btnSubmit.setDisabled(true);
+                if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
+                    this.view.btnOptions.menu.items[0].setDisabled(true); // print
+                    this.view.btnOptions.menu.items[2].setDisabled(true); // download
+                    this.view.btnOptions.menu.items[3].setDisabled(true); // download docx
+                    this.view.btnOptions.menu.items[4].setDisabled(true); // download pdf
+                }
+            }
         },
 
         errorDefaultMessage     : 'Error code: %1',
