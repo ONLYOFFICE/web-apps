@@ -305,7 +305,7 @@ define([
                 '<tr  class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
-                '<tr class ="divider-group"></tr>',
+                '<tr class ="edit divider-group"></tr>',
                  '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
@@ -383,11 +383,11 @@ define([
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
-                style       : 'width: 128px;',
+                style       : 'width: 160px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
-                menuStyle   : 'max-height: 157px;',
+                menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
@@ -417,10 +417,11 @@ define([
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-font-render'),
-                style       : 'width: 128px;',
+                style       : 'width: 160px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
+                menuStyle   : 'min-width:100%;',
                 itemsTemplate: itemsTemplate,
                 data        : [
                     { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
@@ -456,9 +457,10 @@ define([
 
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-unit'),
-                style       : 'width: 128px;',
+                style       : 'width: 160px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
+                menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
@@ -485,8 +487,9 @@ define([
             this.cmbFuncLocale = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-func-locale'),
                 style       : 'width: 200px;',
-                menuStyle: 'max-height: 185px;',
+                menuStyle   : 'min-width:100%; max-height: 185px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 data        : formula_arr,
                 dataHint    : '2',
@@ -508,7 +511,8 @@ define([
             this.cmbRegSettings = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-reg-settings'),
                 style       : 'width: 200px;',
-                menuStyle: 'max-height: 185px;',
+                menuStyle   : 'min-width:100%; max-height: 185px;',
+                menuCls     : 'menu-aligned',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : regdata,
@@ -598,9 +602,10 @@ define([
 
             this.cmbMacros = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-macros'),
-                style       : 'width: 128px;',
+                style       : 'width: 160px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
+                menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
@@ -629,8 +634,10 @@ define([
 
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
-                style       : 'width: 128px;',
+                style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
+                menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 dataHint    : '2',
                 dataHintDirection: 'bottom',
@@ -643,7 +650,7 @@ define([
                 style: 'width: 200px;',
                 editable: false,
                 menuCls     : 'menu-aligned',
-                menuStyle: 'min-width: 267px; max-height: 209px;',
+                menuStyle: 'min-width: 100%; max-height: 209px;',
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
