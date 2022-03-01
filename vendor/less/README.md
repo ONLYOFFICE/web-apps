@@ -1,25 +1,15 @@
 <p align="center"><img src="http://lesscss.org/public/img/less_logo.png" width="264" height="117">
-
-<p align="center"><a href="http://badge.fury.io/js/less"><img src="https://badge.fury.io/js/less.svg"></a> <a href="https://travis-ci.org/less/less.js"><img src="https://travis-ci.org/less/less.js.svg?branch=master" style="max-width:100%;"></a> <a href="https://ci.appveyor.com/project/lukeapage/less-js/branch/master"><img src="https://ci.appveyor.com/api/projects/status/bx2qspy3qbuxpl9q/branch/master?svg=true" style="max-width:100%;"></a> <a href="https://david-dm.org/less/less.js"><img src="https://david-dm.org/less/less.js.svg" style="max-width:100%;"></a> <a href="https://david-dm.org/less/less.js#info=devDependencies"><img src="https://david-dm.org/less/less.js/dev-status.svg" style="max-width:100%;"></a> <a href="https://david-dm.org/less/less.js#info=optionalDependencies"><img alt="optionalDependency Status" src="https://david-dm.org/less/less.js/optional-status.svg" style="max-width:100%;"></a> <a href="https://twitter.com/lesstocss"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/lesstocss.svg?style=flat-square" style="max-width:100%;"></a></p>
+    
+<p align="center">
+    <a href="https://github.com/less/less.js/actions?query=branch%3Amaster"><img src="https://github.com/less/less.js/actions/workflows/ci.yml/badge.svg?branch=master" alt="Github Actions CI"/></a>
+    <a href="https://www.npmtrends.com/less"><img src="https://img.shields.io/npm/dm/less.svg?sanitize=true" alt="Downloads"></a>
+    <a href="https://www.npmjs.com/package/less"><img src="https://img.shields.io/npm/v/less.svg?sanitize=true" /></a>
+    <a href="https://twitter.com/lesstocss"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/lesstocss.svg?style=flat-square" style="max-width:100%;" /></a>
+</p>
 
 <p align="center"><a href="https://gitter.im/less/less.js?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a> <br><sup class="rich-diff-level-one">Chat with Less.js users and contributors</sup></p>
 
-<p align="center"><a href="https://saucelabs.com/u/less" rel="nofollow"><img src="https://saucelabs.com/browser-matrix/less.svg" alt="Sauce Test Status" style="max-width:100%;"></a></p>
-
-# [Less.js](http://lesscss.org)
-
-> The **dynamic** stylesheet language. [http://lesscss.org](http://lesscss.org).
-
-This is the JavaScript, official, stable version of Less.
-
-
-## Getting Started
-
-Options for adding Less.js to your project:
-
-* Install with [npm](https://npmjs.org): `npm install less`
-* [Download the latest release][download]
-* Clone the repo: `git clone https://github.com/less/less.js.git`
+This is the Less.js monorepo, managed via [Lerna](https://lerna.js.org/).
 
 ## More information
 
@@ -46,6 +36,14 @@ Read [Developing Less](http://lesscss.org/usage/#developing-less).
 
 ## Release History
 See the [changelog](CHANGELOG.md)
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/less/less.js/graphs/contributors"><img src="https://opencollective.com/less/contributors.svg?width=890&button=false" /></a>
+
 
 ## [License](LICENSE)
 
