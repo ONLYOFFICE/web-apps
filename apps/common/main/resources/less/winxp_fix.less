@@ -1,6 +1,19 @@
 .winxp {
-    .toolbar .tabs>ul,
-        .toolbar .extra .btn-slot,#box-document-title .btn-slot {
-            height:28px;
+    @toolbar-editor-height: 28px;
+    @toolbar-viewer-height: 32px;
+    .toolbar {
+        .tabs > ul, .extra .btn-slot {
+            height: @toolbar-editor-height;
         }
+
+        &.toolbar-view {
+            .tabs > ul, .extra .btn-slot {
+                height: @toolbar-viewer-height;
+            }
+        }
+    }
+
+    #box-document-title .btn-slot {
+        height: @toolbar-editor-height;
+    }
 }
