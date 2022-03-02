@@ -11,6 +11,15 @@
     --toolbar-background: var(--background-primary, #FFF);
     --toolbar-segment: var(--brand-word, #446995);
     --toolbar-icons: var(--brand-word, #446995);
+    --f7-calendar-week-header-bg-color: var(--background-secondary);
+    --f7-calendar-week-header-text-color: var(--text-normal);
+    --f7-calendar-week-header-bg-color: var(--background-secondary);
+    --f7-calendar-day-text-color: var(--text-normal);
+    --f7-calendar-week-header-bg-color: var(--background-secondary);
+    --f7-calendar-today-bg-color: var(--brand-word);
+    --f7-toolbar-border-color: rgba(var(--background-menu-divider), .5);
+    --f7-bars-border-color: rgba(var(--background-menu-divider), .5);
+    --f7-calendar-row-border-color: rgba(var(--background-menu-divider), .5);
 }
 
 .device-android {
@@ -166,5 +175,44 @@
         color: @text-secondary;
     }
 }
+
+// Calendar
+
+.calendar {
+    background-color: @background-secondary;
+    .toolbar {
+        background-color: @background-secondary;
+        i.icon.icon-next, i.icon.icon-prev {
+            background-color: @text-normal;
+        }
+    }
+    .current-year-value, .current-month-value {
+        color: @text-normal;
+    }
+    .calendar-day-selected .calendar-day-number {
+        background-color: transparent;
+        border: 1px solid @brandColor;
+        color: @text-normal;
+    }
+    
+    .calendar-day-number {
+        color: @text-normal;
+    }
+    .calendar-week-header {
+        background-color: @background-secondary;
+        color: @text-normal;
+        .calendar-week-day {
+            color: rgba(var(--text-normal), .56);
+        }
+    }
+    .calendar-week-header {
+        margin-top: 27px;
+        margin-bottom: 5px;
+    }
+    .calendar-day-today .calendar-day-number {
+        color: @text-normal;
+    }
+}
+
 
 
