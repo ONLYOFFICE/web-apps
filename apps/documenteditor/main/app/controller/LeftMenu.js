@@ -432,7 +432,7 @@ define([
             this.isFromFileDownloadAs = false;
         },
 
-        applySettings: function(menu) {
+        applySettings: function(menu, showmenu) {
             var value;
 
             value = Common.localStorage.getBool("de-settings-inputmode");
@@ -501,7 +501,7 @@ define([
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
 
-            menu.hide();
+            (!showmenu) && menu.hide();
         },
 
         onCreateNew: function(menu, type) {
