@@ -271,6 +271,10 @@ define([
             Common.localStorage.setBool('sse-search-options-extended', this.extendedOptions);
         },
 
+        setFindText: function (val) {
+            this.inputText.setValue(val);
+        },
+
         textFind: 'Find',
         textFindAndReplace: 'Find and replace',
         textCloseSearch: 'Close search',

@@ -921,10 +921,11 @@ define([
             }
         },
 
-        onShowHideSearch: function (state, action) {
+        onShowHideSearch: function (state, findText, action) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
                 var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
+                findText && this.leftMenu.panelSearch.setFindText(findText);
                 this.leftMenu.panelSearch.setSearchMode(mode);
                 this.leftMenu.showMenu('advancedsearch');
             } else {

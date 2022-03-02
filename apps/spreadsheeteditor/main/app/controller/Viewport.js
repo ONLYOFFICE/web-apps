@@ -348,8 +348,8 @@ define([
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
-                me.header.btnSearch.on('click', me.onSearchClick.bind(this));
             }
+            me.header.btnSearch.on('click', me.onSearchClick.bind(this));
         },
 
         // When our application is ready, lets get started

@@ -118,9 +118,10 @@ define([
 
         show: function() {
             var top = $('#app-title').height() + $('#toolbar').height() + 2,
-                left = Common.Utils.innerWidth() - $('#right-menu').width() - this.options.width - 32;
+                left = Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32;
             Common.UI.Window.prototype.show.call(this, left, top);
 
+            this.inputSearch.val('');
             this.focus();
         },
 
@@ -154,7 +155,7 @@ define([
 
         onOpenPanel: function () {
             this.hide();
-            this.fireEvent('search:show', [true]);
+            this.fireEvent('search:show', [true, this.inputSearch.val()]);
         },
 
         textFind: 'Find'

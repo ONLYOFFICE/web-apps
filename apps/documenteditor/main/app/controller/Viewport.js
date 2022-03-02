@@ -333,13 +333,13 @@ define([
                     cls     : 'btn-toolbar'
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
-                me.header.btnSearch.on('click', me.onSearchClick.bind(this));
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
                 if ( !Common.UI.Themes.isDarkTheme() ) {
                     me.header.menuItemsDarkMode.hide();
                     me.header.menuItemsDarkMode.$el.prev('.divider').hide();
                 }
             }
+            me.header.btnSearch.on('click', me.onSearchClick.bind(this));
         },
 
         onLayoutChanged: function(area) {
