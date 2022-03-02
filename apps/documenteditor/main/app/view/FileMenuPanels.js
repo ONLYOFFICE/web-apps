@@ -339,21 +339,21 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px; vertical-align: middle;"></div>',
                 '</tr>',
                 '<tr class ="divider-group"></tr>',
-                '<tr class="fms-btn-apply">',
+                /*'<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
-                '</tr>',
+                '</tr>',*/
             '</tbody></table>',
 
         '</div>',
-        '<div class="fms-flex-apply hidden">',
+       /* '<div class="fms-flex-apply hidden">',
             '<table style="margin: 10px 14px;"><tbody>',
                 '<tr>',
                     '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
                 '</tr>',
             '</tbody></table>',
-        '</div>'
+        '</div>'*/
         ].join('')),
 
         initialize: function(options) {
@@ -636,17 +636,17 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-
-            $markup.find('.btn.primary').each(function(index, el){
+            this.menu.on('menu:hide', _.bind(this.applySettings,this));
+            /*$markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
                 })).on('click', _.bind(me.applySettings, me));
-            });
+            });*/
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
-            this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
+            //this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
-            this.trApply = $markup.find('.fms-btn-apply');
+            //this.trApply = $markup.find('.fms-btn-apply');
 
             this.$el = $(node).html($markup);
 
@@ -673,13 +673,17 @@ define([
             this.updateSettings();
             this.updateScroller();
         },
+        hide: function (){
+            Common.UI.BaseView.prototype.hide.call(this,arguments);
+            this.applySettings();
+        },
 
         updateScroller: function() {
             if (this.scroller) {
                 Common.UI.Menu.Manager.hideAll();
-                var scrolled = this.$el.height()< this.pnlTable.parent().height() + 25 + this.pnlApply.height();
-                this.pnlApply.toggleClass('hidden', !scrolled);
-                this.trApply.toggleClass('hidden', scrolled);
+                var scrolled = this.$el.height()< this.pnlTable.parent().height() + 25;// + this.pnlApply.height();
+                //this.pnlApply.toggleClass('hidden', !scrolled);
+                //this.trApply.toggleClass('hidden', scrolled);
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
@@ -841,7 +845,7 @@ define([
             Common.localStorage.save();
 
             if (this.menu) {
-                this.menu.fireEvent('settings:apply', [this.menu]);
+                this.menu.fireEvent('settings:apply', [this.menu, true]);
 
                 if (this._oldUnits !== this.cmbUnit.getValue())
                     Common.NotificationCenter.trigger('settings:unitschanged', this);
