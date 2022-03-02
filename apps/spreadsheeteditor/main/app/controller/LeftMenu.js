@@ -116,6 +116,7 @@ define([
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearch.on('toggle', _.bind(this.onMenuSearch, this));
+            this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
 
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
@@ -722,6 +723,8 @@ define([
             this.viewmode = mode;
 
             this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
+
+            this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
         },
 
         onApiServerDisconnect: function(enableDownload) {
@@ -980,13 +983,22 @@ define([
             }
         },
 
-        onShowHideSearch: function (state) {
+        onShowHideSearch: function (state, action) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
+                this.leftMenu.panelSearch.setSearchMode(mode);
                 this.leftMenu.showMenu('advancedsearch');
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+            }
+        },
+
+        onMenuSearchBar: function(obj, show) {
+            if (show) {
+                var mode = this.mode.isEdit && !this.viewmode ? undefined : 'no-replace';
+                this.leftMenu.panelSearch.setSearchMode(mode);
             }
         },
 

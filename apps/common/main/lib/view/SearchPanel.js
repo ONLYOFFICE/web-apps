@@ -51,8 +51,7 @@ define([
             _.extend(this, options);
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
 
-            this.isEdit = options.mode.isEdit;
-
+            this.mode = false;
 
             window.SSE && (this.extendedOptions = Common.localStorage.getBool('sse-search-options-extended', true));
         },
@@ -61,8 +60,7 @@ define([
             if (!this.rendered) {
                 el = el || this.el;
                 $(el).html(this.template({
-                    scope: this,
-                    headerText: this.isEdit ? this.textFindAndReplace : this.textFind
+                    scope: this
                 }));
                 this.$el = $(el);
 
@@ -129,15 +127,6 @@ define([
                     dataHintOffset: 'small'
                 });
 
-                this.chMatchWord = new Common.UI.CheckBox({
-                    el: $('#search-adv-match-word'),
-                    labelText: this.options.matchwordstr || this.textWholeWords,
-                    value: false,
-                    dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'small'
-                });
-
                 this.buttonClose = new Common.UI.Button({
                     parentEl: $('#search-btn-close', this.$el),
                     cls: 'btn-toolbar',
@@ -147,6 +136,14 @@ define([
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
                 if (window.SSE) {
+                    this.chMatchWord = new Common.UI.CheckBox({
+                        el: $('#search-adv-match-word'),
+                        labelText: this.options.matchwordstr || this.textWholeWords,
+                        value: false,
+                        dataHint: '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
+                    });
 
                     this.cmbWithin = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-within'),
@@ -219,6 +216,14 @@ define([
                 me.inputText.$el.find('input').focus();
                 me.inputText.$el.find('input').select();
             }, 10);
+        },
+
+        setSearchMode: function (mode) {
+            if (this.mode !== mode) {
+                this.$el.find('.edit-setting')[mode !== 'no-replace' ? 'show' : 'hide']();
+                this.$el.find('#search-adv-title').text(mode !== 'no-replace' ? this.textFindAndReplace : this.textFind);
+                this.mode = mode;
+            }
         },
 
         ChangeSettings: function(props) {
