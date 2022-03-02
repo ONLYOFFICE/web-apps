@@ -57,8 +57,8 @@ define([
             this.addListeners({
                 'PageThumbnails': {
                     'show': _.bind(function () {
+                        this.api.asc_viewerThumbnailsResize();
                         if (this.firstShow) {
-                            this.api.asc_viewerThumbnailsResize();
                             this.api.asc_setViewerThumbnailsUsePageRect(Common.localStorage.getBool("de-thumbnails-highlight", true));
                             this.firstShow = false;
                         }
