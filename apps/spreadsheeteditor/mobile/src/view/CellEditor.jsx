@@ -28,18 +28,21 @@ const FunctionInfo = props => {
                 </NavRight>
             </Navbar>
             <div className='function-info'>
-                <h3>{`${functionInfo.caption} ${functionInfo.args}`}</h3>
-                <p>{functionInfo.descr}</p>
+                {/* {(functionInfo.caption && functionInfo.args) &&
+                    <h3>{`${functionInfo.caption} ${functionInfo.args}`}</h3>
+                } */}
+                <h3>{functionInfo.caption && functionInfo.args ? `${functionInfo.caption} ${functionInfo.args}` : functionInfo.name}</h3>
+                <p>{functionInfo.descr || functionInfo.hint}</p>
             </div>
         </Page>
     )
 }
 
 const FunctionsList = props => {
-    const { t } = useTranslation();
     const isPhone = Device.isPhone;
     const functions = props.functions;
     const funcArr = props.funcArr;
+    const hintArr = props.hintArr;
 
     return (
         <div className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
@@ -47,16 +50,18 @@ const FunctionsList = props => {
                 {funcArr.map((elem, index) => {
                     return (
                         <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
-                            <div slot='after'
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    let functionInfo = functions[elem.name];
-                                    if(functionInfo) {    
-                                        f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
-                                    }
-                                }}>
-                                <Icon icon='icon-info'/>
-                            </div>
+                            {(functions[elem.name] || hintArr[index]?.hint) &&
+                                <div slot='after'
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        let functionInfo = functions[elem.name] || hintArr[index];
+                                        if(functionInfo) {    
+                                            f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
+                                        }
+                                    }}>
+                                    <Icon icon='icon-info'/>
+                                </div>
+                            }
                         </ListItem>
                     )
                 })}
@@ -64,8 +69,6 @@ const FunctionsList = props => {
         </div>
     )
 }
-
-
 
 const CellEditorView = props => {
     const [expanded, setExpanded] = useState(false);
@@ -78,6 +81,7 @@ const CellEditorView = props => {
     const functions = storeFunctions.functions;
     const isEdit = storeAppOptions.isEdit;
     const funcArr = props.funcArr;
+    const hintArr = props.hintArr;
 
     const expandClick = e => {
         setExpanded(!expanded);
@@ -115,6 +119,7 @@ const CellEditorView = props => {
                                 <FunctionsList 
                                     functions={functions}
                                     funcArr={funcArr} 
+                                    hintArr={hintArr}
                                     insertFormula={props.insertFormula}
                                 />
                             </Page>

@@ -3,8 +3,11 @@ import React, { useEffect, useState } from 'react';
 import CellEditorView from '../view/CellEditor';
 import { f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
+import { useTranslation } from 'react-i18next';
 
 const CellEditor = props => {
+    const { t } = useTranslation();
+
     useEffect(() => {
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection.bind(this));
@@ -16,6 +19,7 @@ const CellEditor = props => {
     const [cellName, setCellName] = useState('');
     const [stateFunctions, setFunctionshDisabled] = useState(null);
     const [stateFuncArr, setFuncArr] = useState('');
+    const [stateHintArr, setHintArr] = useState('');
 
     const onApiCellSelection = info => {
         setCellName(typeof(info)=='string' ? info : info.asc_getName());
@@ -36,9 +40,52 @@ const CellEditor = props => {
     }
 
     const onFormulaCompleteMenu = funcArr => {
-        setFuncArr(funcArr);
-
         if(funcArr) {
+            funcArr.sort(function (a, b) {
+                let atype = a.asc_getType(),
+                    btype = b.asc_getType(),
+                    aname = a.asc_getName(true).toLocaleUpperCase(),
+                    bname = b.asc_getName(true).toLocaleUpperCase();
+    
+                if (atype === Asc.c_oAscPopUpSelectorType.TableThisRow) return -1;
+                if (btype === Asc.c_oAscPopUpSelectorType.TableThisRow) return 1;
+                if ((atype === Asc.c_oAscPopUpSelectorType.TableColumnName || btype === Asc.c_oAscPopUpSelectorType.TableColumnName) && atype !== btype)
+                    return atype === Asc.c_oAscPopUpSelectorType.TableColumnName ? -1 : 1;
+                if (aname < bname) return -1;
+                if (aname > bname) return 1;
+    
+                return 0;
+            });
+    
+            let hintArr = funcArr.map(item => {
+                let type = item.asc_getType(),
+                    name = item.asc_getName(true),
+                    hint = '';
+    
+                switch (type) {
+                    case Asc.c_oAscPopUpSelectorType.TableThisRow:
+                        hint = t('View.Add.textThisRowHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableAll:
+                        hint = t('View.Add.textAllTableHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableData:
+                        hint = t('View.Add.textDataTableHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableHeaders:
+                        hint = t('View.Add.textHeadersTableHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableTotals:
+                        hint = t('View.Add.textTotalsTableHint');
+                        break;
+                }
+
+                return {name, type, hint};
+            });
+    
+            setHintArr(hintArr);
+            setFuncArr(funcArr);
+
             f7.popover.open('#idx-functions-list', '#idx-list-target');
         } else {
             f7.popover.close('#idx-functions-list');
@@ -56,6 +103,7 @@ const CellEditor = props => {
             stateFunctions={stateFunctions}
             onClickToOpenAddOptions={props.onClickToOpenAddOptions} 
             funcArr={stateFuncArr}
+            hintArr={stateHintArr}
             insertFormula={insertFormula}
         />
     )
