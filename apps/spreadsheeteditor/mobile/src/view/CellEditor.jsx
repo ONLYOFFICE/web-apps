@@ -28,9 +28,6 @@ const FunctionInfo = props => {
                 </NavRight>
             </Navbar>
             <div className='function-info'>
-                {/* {(functionInfo.caption && functionInfo.args) &&
-                    <h3>{`${functionInfo.caption} ${functionInfo.args}`}</h3>
-                } */}
                 <h3>{functionInfo.caption && functionInfo.args ? `${functionInfo.caption} ${functionInfo.args}` : functionInfo.name}</h3>
                 <p>{functionInfo.descr || functionInfo.hint}</p>
             </div>

@@ -95,6 +95,7 @@ const CellEditor = props => {
     const insertFormula = (name, type) => {
         const api = Common.EditorApi.get();
         api.asc_insertInCell(name, type, false);
+        f7.popover.close('#idx-functions-list');
     }
     
     return (
