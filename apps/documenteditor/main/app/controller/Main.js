@@ -1051,12 +1051,12 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         this.disableEditing(true, true);
-                        if (!this._state.unload) { // don't show disconnect message on window close/reload
-                            var me = this;
-                            statusCallback = function() {
+                        var me = this;
+                        statusCallback = function() {
+                            setTimeout(function(){
                                 me.getApplication().getController('Statusbar').showDisconnectTip();
-                            };
-                        }
+                            }, me._state.unloadTimer || 0);
+                        };
                         break;
 
                     default:
@@ -2058,16 +2058,18 @@ define([
                 if (this.api.isDocumentModified()) {
                     var me = this;
                     this.api.asc_stopSaving();
+                    this._state.unloadTimer = 1000;
                     this.continueSavingTimer = window.setTimeout(function() {
                         me.api.asc_continueSaving();
+                        me._state.unloadTimer = 0;
                     }, 500);
 
                     return this.leavePageText;
-                }
+                } else
+                    this._state.unloadTimer = 10000;
             },
 
             onUnload: function() {
-                this._state.unload = true;
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
             },
 
