@@ -175,21 +175,30 @@ class ContextMenuController extends Component {
                 break;
             }
         }
+
         if (!src) {
             src = $$(`<div class="username-tip"></div>`);
             src.attr('userid', UserId);
             src.css({'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
             src.text(this.getUserName(UserId));
-            $$('#id_main_parent').append(src);
             this.fastCoAuthTips.push(src);
             //src.fadeIn(150);
             src[0].classList.add('active');
 
-            $$('#id_main_view').append(src);
+            $$("#editor_sdk").append(src);
         }
-        src.css({
-            top: (Y - tipHeight) + 'px',
-            left: X + 'px'});
+
+        if ( X + src.outerWidth() > $$(window).width() ) { 
+            src.css({
+                top: (Y - tipHeight) + 'px',
+                left: X - src.outerWidth() + 'px'});
+        } else {
+            src.css({
+                left: X + 'px',
+                top: (Y - tipHeight) + 'px',
+            });
+        }
+        
         /** coauthoring end **/
     }
 
