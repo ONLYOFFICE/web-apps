@@ -210,11 +210,12 @@ define([
             this.fireEvent('hide', this );
         },
 
-        focus: function() {
-            var me  = this;
+        focus: function(type) {
+            var me  = this,
+                el = type === 'replace' ? me.inputReplace.$el : me.inputText.$el;
             setTimeout(function(){
-                me.inputText.$el.find('input').focus();
-                me.inputText.$el.find('input').select();
+                el.find('input').focus();
+                el.find('input').select();
             }, 10);
         },
 
@@ -243,7 +244,7 @@ define([
                 textreplace : this.inputReplace.getValue(),
                 matchcase   : this.chCaseSensitive.checked,
                 useregexp   : this.chUseRegExp.checked,
-                matchword   : this.chMatchWord.checked,
+                matchword   : this.chMatchWord && this.chMatchWord.checked,
                 //highlight   : this.miHighlight.checked
             };
             this.fireEvent('search:'+action, [this, opts, true]);

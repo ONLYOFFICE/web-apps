@@ -164,6 +164,7 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
+            Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
         },
 
         onAppShowed: function (config) {
@@ -339,7 +340,7 @@ define([
                     me.header.menuItemsDarkMode.$el.prev('.divider').hide();
                 }
             }
-            me.header.btnSearch.on('click', me.onSearchClick.bind(this));
+            me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
 
         onLayoutChanged: function(area) {
@@ -462,22 +463,32 @@ define([
             this.header && this.header.lockHeaderBtns( 'rename-user', disable);
         },
 
-        onSearchClick: function () {
+        onSearchShow: function () {
+            this.header.btnSearch && this.header.btnSearch.toggle(true);
+        },
+
+        onSearchToggle: function () {
+            var leftMenu = this.getApplication().getController('LeftMenu');
+            if (leftMenu.isSearchPanelVisible()) {
+                this.header.btnSearch.toggle(false, true);
+                leftMenu.getView('LeftMenu').panelSearch.focus();
+                return;
+            }
             if (!this.searchBar) {
                 this.searchBar = new Common.UI.SearchBar({});
+                this.searchBar.on('hide', _.bind(function () {
+                    this.header.btnSearch.toggle(false, true);
+                }, this));
             }
             if (this.header.btnSearch.pressed) {
-                if (this.searchBar.isVisible()) {
-                    this.searchBar.focus();
-                } else {
-                    this.searchBar.show();
-                }
+                this.searchBar.show(this.api.asc_GetSelectedText());
             } else {
                 this.searchBar.hide();
             }
-            this.searchBar.on('hide', _.bind(function () {
-                this.header.btnSearch.toggle(false);
-            }, this));
+        },
+
+        isSearchBarVisible: function () {
+            return this.searchBar && this.searchBar.isVisible();
         },
 
         textFitPage: 'Fit to Page',

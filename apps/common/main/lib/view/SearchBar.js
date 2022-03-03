@@ -116,12 +116,17 @@ define([
             return this;
         },
 
-        show: function() {
+        show: function(text) {
             var top = $('#app-title').height() + $('#toolbar').height() + 2,
                 left = Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32;
             Common.UI.Window.prototype.show.call(this, left, top);
 
-            this.inputSearch.val('');
+            if (text) {
+                this.inputSearch.val(text);
+            } else {
+                this.inputSearch.val('');
+            }
+
             this.focus();
         },
 
@@ -131,6 +136,10 @@ define([
                 me.inputSearch.focus();
                 me.inputSearch.select();
             }, 10);
+        },
+
+        setText: function (text) {
+            this.inputSearch.val(text);
         },
 
         getSettings: function() {
