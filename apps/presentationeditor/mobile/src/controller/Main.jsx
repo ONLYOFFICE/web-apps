@@ -627,9 +627,10 @@ class MainController extends Component {
     }
 
     onAdvancedOptions (type, advOptions) {
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
+        
         if ($$('.dlg-adv-options.modal-in').length > 0) return;
-
-        const _t = this._t;
 
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             Common.Notifications.trigger('preloader:close');
