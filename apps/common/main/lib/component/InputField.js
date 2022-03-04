@@ -671,14 +671,7 @@ define([
                 editable: true,
                 iconCls: 'toolbar__icon btn-datetime',
                 btnHint: '',
-                repeatInput: null,
-                showPwdOnClick: true,
                 menu: true
-            },
-
-            initialize : function(options) {
-                options = options || {};
-                Common.UI.InputField.prototype.initialize.call(this, options);
             },
 
             render: function (parentEl) {
@@ -708,6 +701,7 @@ define([
                         });
                         menu.alignPosition();
                     }
+                    me.cmpCalendar.focus();
                 })
             },
 
