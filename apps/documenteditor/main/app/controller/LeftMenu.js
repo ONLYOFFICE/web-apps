@@ -848,6 +848,10 @@ define([
                     return false;
                 case 'escape':
 //                        if (!this.leftMenu.isOpened()) return true;
+                    var btnSearch = this.getApplication().getController('Viewport').header.btnSearch;
+                    btnSearch.pressed && btnSearch.toggle(false);
+                    this.leftMenu._state.isSearchOpen && (this.leftMenu._state.isSearchOpen = false);
+
                     if ( this.leftMenu.menuFile.isVisible() ) {
                         if (Common.UI.HintManager.needCloseFileMenu())
                             this.leftMenu.menuFile.hide();
