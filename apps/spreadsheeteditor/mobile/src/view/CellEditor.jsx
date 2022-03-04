@@ -29,7 +29,7 @@ const FunctionInfo = props => {
             </Navbar>
             <div className='function-info'>
                 <h3>{functionInfo.caption && functionInfo.args ? `${functionInfo.caption} ${functionInfo.args}` : functionInfo.name}</h3>
-                <p>{functionInfo.descr || functionInfo.hint}</p>
+                <p>{functionInfo.descr}</p>
             </div>
         </Page>
     )
@@ -47,11 +47,12 @@ const FunctionsList = props => {
                 {funcArr.map((elem, index) => {
                     return (
                         <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
-                            {(functions[elem.name] || hintArr[index]?.hint) &&
+                            {(functions[elem.name] || hintArr[index]?.descr) &&
                                 <div slot='after'
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         let functionInfo = functions[elem.name] || hintArr[index];
+
                                         if(functionInfo) {    
                                             f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
                                         }

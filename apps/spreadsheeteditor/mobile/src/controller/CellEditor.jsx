@@ -4,10 +4,9 @@ import CellEditorView from '../view/CellEditor';
 import { f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
+import {observer, inject} from "mobx-react";
 
-const CellEditor = props => {
-    const { t } = useTranslation();
-
+const CellEditor = inject("storeFunctions")(observer(props => {
     useEffect(() => {
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection.bind(this));
@@ -16,6 +15,7 @@ const CellEditor = props => {
         });
     }, []);
 
+    const { t } = useTranslation();
     const [cellName, setCellName] = useState('');
     const [stateFunctions, setFunctionshDisabled] = useState(null);
     const [stateFuncArr, setFuncArr] = useState('');
@@ -40,6 +40,10 @@ const CellEditor = props => {
     }
 
     const onFormulaCompleteMenu = funcArr => {
+        const api = Common.EditorApi.get();
+        const storeFunctions = props.storeFunctions;
+        const functions = storeFunctions.functions;
+
         if(funcArr) {
             funcArr.sort(function (a, b) {
                 let atype = a.asc_getType(),
@@ -60,27 +64,33 @@ const CellEditor = props => {
             let hintArr = funcArr.map(item => {
                 let type = item.asc_getType(),
                     name = item.asc_getName(true),
-                    hint = '';
-    
+                    origName = api.asc_getFormulaNameByLocale(name),
+                    args = functions[origName]?.args || '',
+                    caption = name,
+                    descr = '';
+
                 switch (type) {
+                    case Asc.c_oAscPopUpSelectorType.Func:
+                        descr = functions && functions[origName] ? functions[origName].descr : '';
+                        break;
                     case Asc.c_oAscPopUpSelectorType.TableThisRow:
-                        hint = t('View.Add.textThisRowHint');
+                        descr = t('View.Add.textThisRowHint');
                         break;
                     case Asc.c_oAscPopUpSelectorType.TableAll:
-                        hint = t('View.Add.textAllTableHint');
+                        descr = t('View.Add.textAllTableHint');
                         break;
                     case Asc.c_oAscPopUpSelectorType.TableData:
-                        hint = t('View.Add.textDataTableHint');
+                        descr = t('View.Add.textDataTableHint');
                         break;
                     case Asc.c_oAscPopUpSelectorType.TableHeaders:
-                        hint = t('View.Add.textHeadersTableHint');
+                        descr = t('View.Add.textHeadersTableHint');
                         break;
                     case Asc.c_oAscPopUpSelectorType.TableTotals:
-                        hint = t('View.Add.textTotalsTableHint');
+                        descr = t('View.Add.textTotalsTableHint');
                         break;
                 }
 
-                return {name, type, hint};
+                return {name, type, descr, caption, args};
             });
     
             setHintArr(hintArr);
@@ -108,6 +118,6 @@ const CellEditor = props => {
             insertFormula={insertFormula}
         />
     )
-};
+}));
 
 export default CellEditor;
