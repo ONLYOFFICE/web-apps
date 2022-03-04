@@ -847,13 +847,33 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
-                    if (!this.leftMenu.btnSearch.isDisabled()) {
+                    if (!this.leftMenu.btnSearchBar.isDisabled()) {
                         Common.UI.Menu.Manager.hideAll();
-                        this.showSearchDlg(true,s);
-                        this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
-
                         this.leftMenu.menuFile.hide();
+
+                        var selectedText = this.api.asc_GetSelectedText();
+                        if (this.isSearchPanelVisible()) {
+                            selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
+                            this.leftMenu.panelSearch.focus(s);
+                            return false;
+                        } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
+                            if (s === 'replace') {
+                                this.getApplication().getController('Viewport').header.btnSearch.toggle(false);
+                                this.onShowHideSearch(true, this.getApplication().getController('Viewport').searchBar.inputSearch.val());
+                            } else {
+                                selectedText && this.getApplication().getController('Viewport').searchBar.setText(selectedText);
+                                this.getApplication().getController('Viewport').searchBar.focus();
+                                return false;
+                            }
+                        } else if (s === 'search') {
+                            Common.NotificationCenter.trigger('search:show');
+                            return false;
+                        } else {
+                            this.onShowHideSearch(true, selectedText);
+                        }
+                        this.leftMenu.btnSearchBar.toggle(true,true);
+                        this.leftMenu.panelSearch.focus(s);
                     }
                     return false;
                 case 'save':
@@ -880,6 +900,10 @@ define([
 
                     return false;
                 case 'escape':
+                    var btnSearch = this.getApplication().getController('Viewport').header.btnSearch;
+                    btnSearch.pressed && btnSearch.toggle(false);
+                    this.leftMenu._state.isSearchOpen && (this.leftMenu._state.isSearchOpen = false);
+
                     if ( this.leftMenu.menuFile.isVisible() ) {
                         if (Common.UI.HintManager.needCloseFileMenu())
                             this.leftMenu.menuFile.hide();
@@ -937,7 +961,7 @@ define([
             var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
 
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
-            this.leftMenu.btnSearch.setDisabled(isRangeSelection);
+            this.leftMenu.btnSearchBar.setDisabled(isRangeSelection);
             this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isRangeSelection);
@@ -949,7 +973,7 @@ define([
             var isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
 
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
-            this.leftMenu.btnSearch.setDisabled(isEditFormula);
+            this.leftMenu.btnSearchBar.setDisabled(isEditFormula);
             this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
@@ -983,17 +1007,25 @@ define([
             }
         },
 
-        onShowHideSearch: function (state, findText, action) {
+        onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
-                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
-                findText && this.leftMenu.panelSearch.setFindText(findText);
-                this.leftMenu.panelSearch.setSearchMode(mode);
                 this.leftMenu.showMenu('advancedsearch');
+                this.onShowAfterSearch(findText);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
             }
+        },
+
+        onShowAfterSearch: function (findText) {
+            var text = findText || this.api.asc_GetSelectedText();
+            if (text) {
+                this.leftMenu.panelSearch.setFindText(text);
+            } else if (text !== undefined) {
+                this.leftMenu.panelSearch.setFindText('');
+            }
+            this.leftMenu.panelSearch.focus();
         },
 
         onMenuSearchBar: function(obj, show) {
@@ -1001,6 +1033,11 @@ define([
                 var mode = this.mode.isEdit && !this.viewmode ? undefined : 'no-replace';
                 this.leftMenu.panelSearch.setSearchMode(mode);
             }
+            this.leftMenu._state.isSearchOpen = show;
+        },
+
+        isSearchPanelVisible: function () {
+            return this.leftMenu._state.isSearchOpen;
         },
 
         onMenuChange: function (value) {
