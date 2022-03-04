@@ -79,7 +79,8 @@ define([
                 'LeftMenu': {
                     'panel:show':    _.bind(this.menuExpand, this),
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
-                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
+                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide'),
+                    'search:aftershow': _.bind(this.onShowAfterSearch, this)
                 },
                 'FileMenu': {
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
@@ -648,10 +649,31 @@ define([
                     if ((!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides)  {
                         Common.UI.Menu.Manager.hideAll();
                         var full_menu_pressed = this.leftMenu.btnAbout.pressed;
-                        this.showSearchDlg(true,s);
-                        this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
                         full_menu_pressed && this.menuExpand(this.leftMenu.btnAbout, 'files', false);
+
+                        var selectedText = this.api.asc_GetSelectedText();
+                        if (this.isSearchPanelVisible()) {
+                            selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
+                            this.leftMenu.panelSearch.focus(s);
+                            return false;
+                        } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
+                            if (s === 'replace') {
+                                this.getApplication().getController('Viewport').header.btnSearch.toggle(false);
+                                this.onShowHideSearch(true, this.getApplication().getController('Viewport').searchBar.inputSearch.val());
+                            } else {
+                                selectedText && this.getApplication().getController('Viewport').searchBar.setText(selectedText);
+                                this.getApplication().getController('Viewport').searchBar.focus();
+                                return false;
+                            }
+                        } else if (s === 'search') {
+                            Common.NotificationCenter.trigger('search:show');
+                            return false;
+                        } else {
+                            this.onShowHideSearch(true, selectedText);
+                        }
+                        this.leftMenu.btnSearchBar.toggle(true,true);
+                        this.leftMenu.panelSearch.focus(s);
                     }
                     return false;
                 case 'save':
@@ -682,6 +704,10 @@ define([
                     return false;
                 case 'escape':
 //                        if (!this.leftMenu.isOpened()) return true;
+                    var btnSearch = this.getApplication().getController('Viewport').header.btnSearch;
+                    btnSearch.pressed && btnSearch.toggle(false);
+                    this.leftMenu._state.isSearchOpen && (this.leftMenu._state.isSearchOpen = false);
+
                     // TODO:
                     if ( this.leftMenu.menuFile.isVisible() ) {
                         if (Common.UI.HintManager.needCloseFileMenu())
@@ -774,17 +800,25 @@ define([
             }
         },
 
-        onShowHideSearch: function (state, findText, action) {
+        onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
-                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
-                findText && this.leftMenu.panelSearch.setFindText(findText);
-                this.leftMenu.panelSearch.setSearchMode(mode);
                 this.leftMenu.showMenu('advancedsearch');
+                this.onShowAfterSearch(findText);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
             }
+        },
+
+        onShowAfterSearch: function (findText) {
+            var text = findText || this.api.asc_GetSelectedText();
+            if (text) {
+                this.leftMenu.panelSearch.setFindText(text);
+            } else if (text !== undefined) {
+                this.leftMenu.panelSearch.setFindText('');
+            }
+            this.leftMenu.panelSearch.focus();
         },
 
         onMenuSearchBar: function(obj, show) {
@@ -792,6 +826,11 @@ define([
                 var mode = this.mode.isEdit && !this.viewmode ? undefined : 'no-replace';
                 this.leftMenu.panelSearch.setSearchMode(mode);
             }
+            this.leftMenu._state.isSearchOpen = show;
+        },
+
+        isSearchPanelVisible: function () {
+            return this.leftMenu._state.isSearchOpen;
         },
 
         showHistory: function() {
