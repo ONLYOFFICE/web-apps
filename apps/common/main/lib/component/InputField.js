@@ -431,7 +431,7 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-select-range',
+                iconCls: 'toolbar__icon btn-select-range',
                 btnHint: ''
             },
 
@@ -447,7 +447,6 @@ define([
                     '>',
                     '<span class="input-error"></span>',
                     '<div class="select-button">' +
-                        '<button type="button" class="btn btn-toolbar"><i class="icon toolbar__icon <%= iconCls %>"></i></button>' +
                     '</div>',
                 '</div>'
             ].join('')),
@@ -465,7 +464,6 @@ define([
                         name        : this.name,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
-                        iconCls     : this.options.iconCls,
                         scope       : me
                     }));
 
@@ -483,10 +481,12 @@ define([
                     var el = this.cmpEl;
 
                     this._button = new Common.UI.Button({
-                        el: this.cmpEl.find('button'),
+                        cls: 'btn-toolbar',
                         iconCls: this.options.iconCls,
-                        hint: this.options.btnHint || ''
+                        hint: this.options.btnHint || '',
+                        menu: this.options.menu
                     });
+                    this._button.render(this.cmpEl.find('.select-button'));
                     this._button.on('click', _.bind(this.onButtonClick, this));
 
                     this._input = this.cmpEl.find('input').addBack().filter('input');
@@ -548,7 +548,7 @@ define([
         }
     })());
 
-    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend( (function() {
+    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend(_.extend((function() {
         return {
             options: {
                 id: null,
@@ -566,7 +566,7 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-sheet-view',
+                iconCls: 'toolbar__icon btn-sheet-view',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true
@@ -609,7 +609,7 @@ define([
 
             passwordShow: function (e) {
                 if (this.disabled) return;
-                this._button.setIconCls('hide-password');
+                this._button.setIconCls('toolbar__icon hide-password');
                 this.type = 'text';
 
                 this._input.attr('type', this.type);
@@ -628,7 +628,7 @@ define([
             },
 
             passwordHide: function (e) {
-                this._button.setIconCls('btn-sheet-view');
+                this._button.setIconCls('toolbar__icon btn-sheet-view');
                 this.type = 'password';
 
                 (this._input.val() !== '') && this._input.attr('type', this.type);
@@ -648,7 +648,7 @@ define([
             textHintShowPwd: 'Show password',
             textHintHidePwd: 'Hide password'
         }
-    })(), Common.UI.InputFieldBtnPassword || {});
+    })(), Common.UI.InputFieldBtnPassword || {}));
 
     Common.UI.InputFieldBtnCalendar = Common.UI.InputFieldBtn.extend((function (){
         return {
@@ -669,112 +669,52 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-datetime',
+                iconCls: 'toolbar__icon btn-datetime',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true,
-                date: null
+                menu: true
             },
 
             initialize : function(options) {
                 options = options || {};
                 Common.UI.InputField.prototype.initialize.call(this, options);
-                this.date = this.options.date;
-
-
-
             },
 
             render: function (parentEl) {
                 var me = this;
-                this.boxCalendar = this.$el.parent();
                 Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
-                
-                this._button.on('click', _.bind(this.calendarClick, this));
 
-                this.boxCalendar.on('click', function(e) {
-                    if (e.target.localName == 'canvas') {
-                        if (me._preventClick)
-                            me._preventClick = false;
-                        else
-                            me.boxCalendar.focus();
+                var id = 'id-' + Common.UI.getId() + 'input-field-datetime',
+                    menu = new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        style: 'border: none; padding: 0;',
+                        items: [
+                            {template: _.template('<div id="' + id + '" style=""></div>'), stopPropagation: true}
+                        ]
+                    });
+                $('button', this._button.cmpEl).addClass('no-caret');
+                this._button.setMenu(menu);
+                this._button.menu.on('show:after', function(menu) {
+                    if (!me.cmpCalendar) {
+                        me.cmpCalendar = new Common.UI.Calendar({
+                            el: me.cmpEl.find('#' + id),
+                            enableKeyEvents: true,
+                            firstday: 1
+                        });
+                        me.cmpCalendar.on('date:click', function (cmp, date) {
+                            me.trigger('date:click', me, date);
+                            menu.hide();
+                        });
+                        menu.alignPosition();
                     }
-                });
-
-                this.boxCalendar.on('mousedown', function(e){
-                    if (e.target.localName == 'canvas')
-                        Common.UI.Menu.Manager.hideAll();
-                });
+                })
             },
 
-            calendarClick: function (e){
-                var me = this;
-                this.onShowDateActions(this.el.getBoundingClientRect());
-            },
-
-            onShowDateActions: function(position) {
-                var controlsContainer = this.boxCalendar.find('#calendar-control-container'),
-                    me = this;
-
-                if (controlsContainer.length < 1) {
-                    controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
-                    this.boxCalendar.append(controlsContainer);
-                }
-
-                controlsContainer.css({left: position.left, top : position.top});
-                controlsContainer.show();
-
-                if (!this.cmpCalendar) {
-                    this.cmpCalendar = new Common.UI.Calendar({
-                        el: this.boxCalendar.find('#id-document-calendar-control'),
-                        enableKeyEvents: true,
-                        firstday: 1
-                    });
-                    this.cmpCalendar.setDate(this.date);
-
-                    this.cmpCalendar.on('date:click', function (cmp, date) {
-                        me.date = date;
-                        me.trigger('date:click', me, date);
-                        controlsContainer.hide();
-                    });
-
-                    this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
-                        if (e.keyCode==Common.UI.Keys.ESC) {
-                            controlsContainer.hide();
-                        }
-                    });
-
-                    $(document).on('mousedown', function(e) {
-                        if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
-                            controlsContainer.hide();
-                        }
-                    });
-
-                }
-                this.cmpCalendar.setDate(this.date);
-
-                // align
-                var offset  = controlsContainer.offset(),
-                    docW    = Common.Utils.innerWidth(),
-                    docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
-                    menuW   = this.cmpCalendar.cmpEl.outerWidth(),
-                    menuH   = this.cmpCalendar.cmpEl.outerHeight(),
-                    buttonOffset = 22,
-                    left = offset.left - menuW,
-                    top  = offset.top - 1.5*menuH;
-                if (top + menuH > docH) {
-                    top = docH - menuH;
-                    left -= buttonOffset;
-                }
-                if (top < 0)
-                    top = 0;
-                if (left + menuW > docW)
-                    left = docW - menuW;
-                this.cmpCalendar.cmpEl.css({left: left, top : top});
-
-                this._preventClick = true;
+            setDate: function(date) {
+                if (this.cmpCalendar && date && date instanceof Date && !isNaN(date))
+                    this.cmpCalendar && this.cmpCalendar.setDate(date);
             }
-
         }
     })());
 });
