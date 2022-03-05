@@ -69,10 +69,7 @@ define([
                         this.fireEvent('item:click', [this, item.options.action, !!panel]);
 
                         if (panel) {
-                            if(this.active == 'opts')
-                                this.panels[this.active].hide();
-                            else
-                                this.$el.find('.content-box:visible').hide();
+                            this.$el.find('.content-box:visible').hide();
                             this.active = item.options.action;
                             panel.show();
                         }
