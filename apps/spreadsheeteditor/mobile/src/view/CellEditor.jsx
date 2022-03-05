@@ -1,5 +1,5 @@
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Input, View, Button, Link, Popover, ListItem, List, Icon, f7, Page, Navbar, NavRight } from 'framework7-react';
 import {observer, inject} from "mobx-react";
 import { __interactionsRef } from 'scheduler/tracing';
@@ -20,9 +20,20 @@ const FunctionInfo = props => {
     const functionObj = props.functionObj;
     const functionInfo = props.functionInfo;
 
+    useEffect(() => {
+        const functionsList = document.querySelector('#functions-list');
+        const height = functionsList.offsetHeight + 'px';
+
+        functionsList.closest('.view').style.height = '200px';
+
+        return () => {
+            functionsList.closest('.view').style.height = height;
+        }
+    }, []);
+
     return (
         <Page className='page-function-info'>
-            <Navbar title={functionInfo.caption} backLink={_t.textBack}>
+            <Navbar title={functionInfo.caption} backLink={_t.textBack} backLinkUrl='/functions-list/'>
                 <NavRight>
                     <Link text={t('View.Add.textInsert')} onClick={() => props.insertFormula(functionObj.name, functionObj.type)}></Link>
                 </NavRight>
@@ -41,10 +52,17 @@ const FunctionsList = props => {
     const funcArr = props.funcArr;
     const hintArr = props.hintArr;
 
+    useEffect(() => {
+        const functionsList = document.querySelector('#functions-list');
+        const height = functionsList.offsetHeight + 'px';
+
+        functionsList.closest('.view').style.height = height;
+    }, [funcArr]);
+
     return (
-        <div className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
+        <div id="functions-list" className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
             <List>
-                {funcArr.map((elem, index) => {
+                {funcArr && funcArr.length && funcArr.map((elem, index) => {
                     return (
                         <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
                             {(functions[elem.name] || hintArr[index]?.descr) &&
@@ -133,6 +151,10 @@ const routes = [
     {
         path: '/function-info/',
         component: FunctionInfo
+    },
+    {
+        path: '/functions-list/',
+        component: FunctionsList
     }
 ];
 
