@@ -90,7 +90,7 @@ export class storeAppOptions {
         this.canEdit = permissions.edit !== false  && // can edit or review
             (this.config.canRequestEditRights || this.config.mode !== 'view') && isSupportEditFeature; // if mode=="view" -> canRequestEditRights must be defined
             // (!this.isReviewOnly || this.canLicense) && // if isReviewOnly==true -> canLicense must be true
-        this.isEdit = (this.canLicense || this.isEditDiagram || this.isEditMailMerge) && permissions.edit !== false && this.config.mode !== 'view' && true;
+        this.isEdit = (this.canLicense || this.isEditDiagram || this.isEditMailMerge) && permissions.edit !== false && this.config.mode !== 'view' && isSupportEditFeature;
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
@@ -100,12 +100,16 @@ export class storeAppOptions {
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments;
         this.trialMode = params.asc_getLicenseMode();
-        this.canDownloadOrigin = permissions.download !== false;
-        this.canDownload = permissions.download !== false;
+
+        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
+        this.canDownloadOrigin = permissions.download !== false && (type && typeof type[1] === 'string');
+        this.canDownload = permissions.download !== false && (!type || typeof type[1] !== 'string');
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
         this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseUserInfoPermissions = this.canLicense && !!permissions.userInfoGroups;
         this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);  
+        this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
     }
 }

@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Está intentando realizar unha acción para a que non ten dereitos.<br>Por favor, contacte co seu admiinistrador.",
+      "errorOpensource": "Usando a versión gratuíta da Comunidade, pode abrir documentos só para visualización. Para acceder editores da web móbil é necesaria unha licenza comercial.",
       "errorProcessSaveResult": "Erro ao gardar",
       "errorServerVersion": "A versión do editor foi actualizada. A páxina será recargada para aplicar os cambios.",
       "errorUpdateVersion": "Cambiouse a versión do ficheiro. A páxina será actualizada.",
@@ -142,9 +143,14 @@
       "textGuest": "Convidado(a)",
       "textHasMacros": "O ficheiro contén macros automáticas.<br>Quere executar macros?",
       "textNo": "Non",
+      "textNoChoices": "Non hai opcións para encher a cela. <br> Só se poden seleccionar os valores de texto da columna para substituílos.",
       "textNoLicenseTitle": "Alcanzouse o límite da licenza",
+      "textNoTextFound": "Texto non atopado",
+      "textOk": "Aceptar",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Lembrar a miña escolla",
+      "textReplaceSkipped": "A substitución foi realizada. {0} ocorrencias foron ignoradas.",
+      "textReplaceSuccess": "A busca foi realizada. Ocorrencias substituídas: {0}",
       "textYes": "Si",
       "titleServerVersion": "Editor actualizado",
       "titleUpdateVersion": "Versión cambiada",
@@ -154,12 +160,7 @@
       "warnLicenseUsersExceeded": "Alcanzou o límite de usuarios para os editores de %1. Por favor, contacte co se uadministrador para recibir máis información.",
       "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
-      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro."
     }
   },
   "Error": {
@@ -174,6 +175,7 @@
     "errorAutoFilterDataRange": "Non se puido facer a operación para o intervalo de celas seleccionado. <br> Seleccione un intervalo de datos uniforme dentro ou fóra da táboa e inténteo de novo.",
     "errorAutoFilterHiddenRange": "A operación non se pode realizar porque a área contén celas filtradas. <br> Por favor, mostra os elementos filtrados e inténtao de novo.",
     "errorBadImageUrl": "A URL da imaxe é incorrecta",
+    "errorCannotUseCommandProtectedSheet": "Non pode usar esta orde nunha folla protexida. Para usar esta orde, desprotexa a folla. <br> É posible que che pidan un contrasinal.",
     "errorChangeArray": "Non podes cambiar parte dunha matriz.",
     "errorChangeOnProtectedSheet": "A cela ou o gráfico que está intentando cambiar está nunha folla protexida. Para facer un cambio, desprotexa a folla. Pódeselle solicitar que introduza un contrasinal.",
     "errorConnectToServer": "Non se pode gardar este documento. Comprobe a configuración da súa conexión ou póñase en contacto co administrador.<br>Cando prema en Aceptar, pediráselle que descargue o documento.",
@@ -232,8 +234,7 @@
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
-    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contrasinal",
@@ -286,8 +287,10 @@
     "textErrNotEmpty": "O nome da folla non debe estar vacío",
     "textErrorLastSheet": "O libro debe ter polo menos unha folla de traballo visible.",
     "textErrorRemoveSheet": "Non se pode eliminar a folla de cálculo.",
+    "textHidden": "Agochado",
     "textHide": "Agochar",
     "textMore": "Máis",
+    "textMove": "Mover",
     "textOk": "Aceptar",
     "textRename": "Renomear",
     "textRenameSheet": "Renomear folla",
@@ -295,9 +298,8 @@
     "textSheetName": "Nome da folla",
     "textUnhide": "Volver a amosar",
     "textWarnDeleteSheet": "A folla de traballo pode que conteña datos. Queres continuar a operación?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
@@ -340,6 +342,7 @@
       "textLink": "Ligazón",
       "textLinkSettings": "Configuración da ligazón",
       "textLinkType": "Tipo de ligazón",
+      "textOk": "Aceptar",
       "textOther": "Outro",
       "textPictureFromLibrary": "Imaxe da biblioteca",
       "textPictureFromURL": "Imaxe da URL",
@@ -357,8 +360,7 @@
       "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar os obxectos seleccionados",
-      "txtYes": "Si",
-      "textOk": "Ok"
+      "txtYes": "Si"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -377,6 +379,7 @@
       "textAngleClockwise": "Ángulo no sentido horario",
       "textAngleCounterclockwise": "Ángulo no sentido antihorario",
       "textAuto": "Automático",
+      "textAutomatic": "Automático",
       "textAxisCrosses": "Cruces do eixo",
       "textAxisOptions": "Opcións dos eixos",
       "textAxisPosition": "Posición do eixo",
@@ -477,6 +480,7 @@
       "textNoOverlay": "Sen superposición",
       "textNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
       "textNumber": "Número",
+      "textOk": "Aceptar",
       "textOnTickMarks": "Marcas de gradación",
       "textOpacity": "Opacidade",
       "textOut": "Fóra",
@@ -538,9 +542,7 @@
       "textYen": "Ien",
       "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de maior a menor",
-      "txtSortLow2High": "Ordenar de menor a maior ",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Ordenar de menor a maior "
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",
@@ -570,6 +572,7 @@
       "textComments": "Comentarios",
       "textCreated": "Creado",
       "textCustomSize": "Tamaño personalizado",
+      "textDarkTheme": "Tema escuro",
       "textDelimeter": "Delimitador",
       "textDisableAll": "Desactivar todo",
       "textDisableAllMacrosWithNotification": "Desactivar todas as macros con notificación",
@@ -670,8 +673,7 @@
       "txtSemicolon": "Punto e coma",
       "txtSpace": "Espazo",
       "txtTab": "Lapela",
-      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?"
     }
   }
 }

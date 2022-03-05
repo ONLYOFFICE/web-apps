@@ -142,9 +142,14 @@
       "textGuest": "Gast",
       "textHasMacros": "Die Datei beinhaltet automatische Makros.<br>Möchten Sie Makros ausführen?",
       "textNo": "Nein",
+      "textNoChoices": "Es gibt keine Möglichkeit zum Füllung der Zelle.<br>Nur die Textwerte aus der Spalte kann für den Ersatz gewählt werden. ",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
+      "textNoTextFound": "Der Text wurde nicht gefunden.",
+      "textOk": "OK",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
+      "textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
+      "textReplaceSuccess": "Der Suchvorgang wurde durchgeführt. Vorkommen wurden ersetzt:{0}",
       "textYes": "Ja",
       "titleServerVersion": "Editor wurde aktualisiert",
       "titleUpdateVersion": "Version wurde geändert",
@@ -155,11 +160,7 @@
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -174,6 +175,7 @@
     "errorAutoFilterDataRange": "Die Operation ist für den ausgewählten Zellbereich unmöglich.<br>Bitte wählen Sie einen einheitlichen Datenbereich innerhalb oder außerhalb der Tabelle und versuchen Sie neu.",
     "errorAutoFilterHiddenRange": "Die Operation kann nicht ausgeführt werden, weil der Bereich gefilterte Zellen enthält.<br>Bitte machen Sie die gefilterten Elemente sichtbar und versuchen Sie es erneut.",
     "errorBadImageUrl": "URL des Bildes ist falsch",
+    "errorCannotUseCommandProtectedSheet": "Dieser Befehl kann für ein geschütztes Blatt nicht verwendet werden. Sie müssen zuerst den Schutz des Blatts aufheben, um diesen Befehl zu verwenden.<br>Sie werden möglicherweise aufgefordert, ein Kennwort einzugeben.",
     "errorChangeArray": "Sie können einen Teil eines Arrays nicht ändern.",
     "errorChangeOnProtectedSheet": "Die Zelle oder das Diagramm, die bzw. das Sie ändern möchten, befindet sich auf einem schreibgeschützten Blatt. Um eine Änderung vorzunehmen, heben Sie den Schutz des Blatts auf. Möglicherweise werden Sie aufgefordert, ein Kennwort einzugeben.",
     "errorConnectToServer": "Das Dokument kann nicht gespeichert werden. Überprüfen Sie Ihre Verbindungseinstellungen oder wenden Sie sich an den Administrator.<br>Beim Klicken auf OK können Sie das Dokument herunterladen.",
@@ -232,8 +234,7 @@
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",
@@ -288,6 +289,7 @@
     "textErrorRemoveSheet": "Arbeitsblatt kann nicht gelöscht werden. ",
     "textHide": "Ausblenden",
     "textMore": "Mehr",
+    "textMove": "Verschieben",
     "textOk": "OK",
     "textRename": "Umbenennen",
     "textRenameSheet": "Tabelle umbenennen",
@@ -295,9 +297,9 @@
     "textSheetName": "Blattname",
     "textUnhide": "Einblenden",
     "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?",
-    "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textHidden": "Hidden",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
@@ -340,6 +342,7 @@
       "textLink": "Link",
       "textLinkSettings": "Linkseinstellungen",
       "textLinkType": "Linktyp",
+      "textOk": "OK",
       "textOther": "Sonstiges",
       "textPictureFromLibrary": "Bild aus dem Verzeichnis",
       "textPictureFromURL": "Bild aus URL",
@@ -357,8 +360,7 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja",
-      "textOk": "Ok"
+      "txtYes": "Ja"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -377,6 +379,7 @@
       "textAngleClockwise": "Im Uhrzeigersinn drehen",
       "textAngleCounterclockwise": "Gegen den Uhrzeigersinn drehen",
       "textAuto": "auto",
+      "textAutomatic": "Automatisch",
       "textAxisCrosses": "Schnittpunkt mit der Achse",
       "textAxisOptions": "Achsenoptionen",
       "textAxisPosition": "Position der Achse",
@@ -477,6 +480,7 @@
       "textNoOverlay": "Ohne Überlagerung",
       "textNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "textNumber": "Nummer",
+      "textOk": "OK",
       "textOnTickMarks": "Teilstriche",
       "textOpacity": "Undurchsichtigkeit",
       "textOut": "Außen",
@@ -538,9 +542,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "Aufsteigend sortieren"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",
@@ -570,6 +572,7 @@
       "textComments": "Kommentare",
       "textCreated": "Erstellt",
       "textCustomSize": "Benutzerdefinierte Größe",
+      "textDarkTheme": "Dunkelmodus",
       "textDelimeter": "Trennzeichen",
       "textDisableAll": "Alle deaktivieren",
       "textDisableAllMacrosWithNotification": "Alle Makros mit einer Benachrichtigung deaktivieren",
@@ -670,8 +673,7 @@
       "txtSemicolon": "Semikolon",
       "txtSpace": "Leerzeichen",
       "txtTab": "Tab",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
-      "textDarkTheme": "Dark Theme"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
     }
   }
 }

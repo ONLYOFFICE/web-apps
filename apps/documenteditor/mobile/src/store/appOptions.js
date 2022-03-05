@@ -20,6 +20,7 @@ export class storeAppOptions {
             changeReaderMode: action,
 
             canBrandingExt: observable,
+            canBranding: observable,
 
             isDocReady: observable,
             changeDocReady: action
@@ -47,6 +48,7 @@ export class storeAppOptions {
     }
 
     canBrandingExt = false;
+    canBranding = false;
 
     isDocReady = false;
     changeDocReady (value) {
@@ -139,8 +141,10 @@ export class storeAppOptions {
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
         this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseUserInfoPermissions = this.canLicense && !!permissions.userInfoGroups;
         this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);    
+        this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
     }
     setCanViewReview (value) {
         this.canViewReview = value;

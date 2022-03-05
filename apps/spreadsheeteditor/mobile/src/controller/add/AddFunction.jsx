@@ -15,6 +15,11 @@ class _FunctionGroups extends Component {
             this.api = Common.EditorApi.get();
             this.init();
         });
+
+        Common.Notifications.on('changeRegSettings', () => {
+            this.api = Common.EditorApi.get();
+            this.init();
+        });
     }
     componentDidMount() {
         Common.Notifications.on('document:ready', () => {
@@ -46,7 +51,8 @@ class _FunctionGroups extends Component {
                 jsonDesc = data;
             }
             const grouparr = this.api.asc_getFormulasInfo();
-            this.props.storeFunctions.initFunctions(grouparr, jsonDesc);
+            const separator = this.api.asc_getFunctionArgumentSeparator();
+            this.props.storeFunctions.initFunctions(grouparr, jsonDesc, separator);
         };
 
         fetch(`locale/l10n/functions/${this._editorLang}_desc.json`)

@@ -276,6 +276,7 @@ define([
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
+            me.delaySelect = me.options.delaySelect || false;
             me.rendered       = false;
             me.dataViewItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -396,10 +397,10 @@ define([
                 });
 
                 if (record) {
-                    if (Common.Utils.isSafari) {
+                    if (this.delaySelect) {
                         setTimeout(function () {
                             record.set({selected: true});
-                        }, 200);
+                        }, 300);
                     } else {
                         record.set({selected: true});
                     }
@@ -1442,7 +1443,7 @@ define([
                 var models = group.groupStore.models;
                 if (index > 0) {
                     for (var i = 0; i < models.length; i++) {
-                        models.at(i).set({groupName: group.groupName})
+                        models[i].set({groupName: group.groupName});
                     }
                 }
                 store.add(models);
@@ -1578,11 +1579,8 @@ define([
                     selected: false,
                     groupName: groupName
                 };
-            me.recentShapes.unshift(model);
-            if (me.recentShapes.length > 12) {
-                me.recentShapes.splice(12, 1);
-            }
-            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+            var arr = [model].concat(me.recentShapes.slice(0, 11));
+            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(arr));
             me.recentShapes = undefined;
         },
         updateRecents: function () {

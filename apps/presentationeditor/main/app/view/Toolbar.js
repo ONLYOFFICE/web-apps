@@ -96,7 +96,9 @@ define([
         noTriggerObjects: 'no-trigger-objects',
         noMoveAnimationEarlier: 'no-move-animation-earlier',
         noMoveAnimationLater: 'no-move-animation-later',
-        noAnimationPreview: 'no-animation-preview'
+        noAnimationPreview: 'no-animation-preview',
+        noAnimationRepeat: 'no-animation-repeat',
+        noAnimationDuration: 'no-animation-duration'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -1035,6 +1037,7 @@ define([
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, -4',
+                        delayRenderTips: true,
                         itemTemplate: _.template([
                             '<div class="style" id="<%= id %>">',
                             '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
@@ -1082,7 +1085,7 @@ define([
                         cls: 'combo-styles shapes',
                         itemWidth: 20,
                         itemHeight: 20,
-                        menuMaxHeight: 640,
+                        menuMaxHeight: 652,
                         menuWidth: 362,
                         style: 'width: 140px;',
                         enableKeyEvents: true,
@@ -1760,7 +1763,7 @@ define([
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: collection,
                     parentMenu: menuShape,
-                    restoreHeight: 640,
+                    restoreHeight: 652,
                     textRecentlyUsed: me.textRecentlyUsed,
                     recentShapes: recents
                 });

@@ -228,6 +228,7 @@
       "textLinkTo": "Связать с",
       "textLinkType": "Тип ссылки",
       "textNextSlide": "Следующий слайд",
+      "textOk": "Ok",
       "textOther": "Другое",
       "textPictureFromLibrary": "Рисунок из библиотеки",
       "textPictureFromURL": "Рисунок по URL",
@@ -240,8 +241,7 @@
       "textSlideNumber": "Номер слайда",
       "textTable": "Таблица",
       "textTableSize": "Размер таблицы",
-      "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
-      "textOk": "Ok"
+      "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
@@ -261,6 +261,7 @@
       "textAllCaps": "Все прописные",
       "textApplyAll": "Применить ко всем слайдам",
       "textAuto": "Авто",
+      "textAutomatic": "Автоматический",
       "textBack": "Назад",
       "textBandedColumn": "Чередовать столбцы",
       "textBandedRow": "Чередовать строки",
@@ -285,6 +286,7 @@
       "textDefault": "Выделенный текст",
       "textDelay": "Задержка",
       "textDeleteSlide": "Удалить слайд",
+      "textDesign": "Дизайн",
       "textDisplay": "Отображать",
       "textDistanceFromText": "Расстояние до текста",
       "textDistributeHorizontally": "Распределить по горизонтали",
@@ -336,6 +338,7 @@
       "textNoTextFound": "Текст не найден",
       "textNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "textNumbers": "Нумерация",
+      "textOk": "Ok",
       "textOpacity": "Непрозрачность",
       "textOptions": "Параметры",
       "textPictureFromLibrary": "Рисунок из библиотеки",
@@ -379,7 +382,6 @@
       "textTopLeft": "Сверху слева",
       "textTopRight": "Сверху справа",
       "textTotalRow": "Строка итогов",
-      "textTransition": "Переход",
       "textTransitions": "Переходы",
       "textType": "Тип",
       "textUnCover": "Открывание",
@@ -390,10 +392,7 @@
       "textZoom": "Масштабирование",
       "textZoomIn": "Увеличение",
       "textZoomOut": "Уменьшение",
-      "textZoomRotate": "Увеличение с поворотом",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "Увеличение с поворотом"
     },
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",

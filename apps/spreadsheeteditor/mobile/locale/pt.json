@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Você está tentando realizar uma ação para a qual não possui direitos. <br> Por favor, entre em contato com o seu administrador.",
+      "errorOpensource": "Usando a versão gratuita da Comunidade, você pode abrir documentos apenas para visualização. Para acessar editores da web móvel, é necessária uma licença comercial.",
       "errorProcessSaveResult": "O salvamento falhou.",
       "errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
       "errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",
@@ -286,18 +287,19 @@
     "textErrNotEmpty": "Nome da folha não deve estar vazio",
     "textErrorLastSheet": "A apostila deve ter pelo menos uma folha de trabalho visível.",
     "textErrorRemoveSheet": "Não é possível excluir a folha de trabalho.",
+    "textHidden": "Oculto",
     "textHide": "Ocultar",
     "textMore": "Mais",
     "textMove": "Mover",
-    "textMoveBack": "Voltar",
-    "textMoveForward": "Mover para frente",
     "textOk": "OK",
     "textRename": "Renomear",
     "textRenameSheet": "Renomear Folha",
     "textSheet": "Folha",
     "textSheetName": "Nome da folha",
     "textUnhide": "Reexibir",
-    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
+    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",

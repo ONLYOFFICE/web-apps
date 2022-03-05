@@ -555,7 +555,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .icon.lang-flag {
     background-size: 48px auto;
-    background-image: url(../img/controls/flags@2x.png);
+    background-image: ~'url(@{common-image-path}/controls/flags@2x.png)';
 }
 
 .icon.lang-flag {
@@ -653,7 +653,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .lang-flag.vi-VN {
   background-position: -16px -84px;
 }
-.lang-flag.de-CH {
+.lang-flag.de-CH,
+.lang-flag.fr-CH,
+.lang-flag.it-CH {
   background-position: -32px -84px;
 }
 .lang-flag.pt-PT {
@@ -909,15 +911,6 @@ input[type="number"]::-webkit-inner-spin-button {
                     .icon-back::after {
                         color: @brandColor;
                     }
-                }
-            }
-            .function-info {
-                p {
-                    color: @text-secondary;
-                }
-                h3 {
-                    font-weight: 500;
-                    color: @text-normal;
                 }
             }
         }

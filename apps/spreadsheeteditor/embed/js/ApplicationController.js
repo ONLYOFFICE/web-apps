@@ -88,6 +88,13 @@ SSE.ApplicationController = new(function(){
 
         config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
                                  (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
+        var reg = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
+        reg = Common.util.LanguageInfo.getLanguages().hasOwnProperty(reg) ? reg : Common.util.LanguageInfo.getLocalLanguageCode(reg);
+        if (reg!==null)
+            reg = parseInt(reg);
+        else
+            reg = (config.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(config.lang)) : 0x0409;
+        api.asc_setLocale(reg);
     }
 
     function loadDocument(data) {

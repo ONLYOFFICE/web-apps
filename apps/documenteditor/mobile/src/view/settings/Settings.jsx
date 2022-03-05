@@ -173,9 +173,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                         </ListItem>
                     }
                     {_canDownloadOrigin &&
-                    <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
-                        <Icon slot="media" icon="icon-download"></Icon>
-                    </ListItem>
+                        <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
+                            <Icon slot="media" icon="icon-download"></Icon>
+                        </ListItem>
                     }
                     {_canPrint &&
                         <ListItem title={_t.textPrint} onClick={props.onPrint} link='#' className='no-indicator'>
@@ -219,7 +219,7 @@ class SettingsView extends Component {
         const show_popover = this.props.usePopover;
         return (
             show_popover ?
-                <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
+                <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
                     <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>

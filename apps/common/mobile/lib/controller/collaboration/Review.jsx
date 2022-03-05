@@ -52,7 +52,7 @@ class InitReview extends Component {
         });
     }
 
-    onChangeReview (data) {
+    onChangeReview (data, isShow) {
         const storeReview = this.props.storeReview;
         storeReview.changeArrReview(data);
     }

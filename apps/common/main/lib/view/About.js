@@ -235,10 +235,10 @@ define([
                         this.lblCompanyLic.parents('tr').addClass('hidden');
 
                     value = Common.UI.Themes.isDarkTheme() ? (customer.logoDark || customer.logo) : (customer.logo || customer.logoDark);
-                    value.length ?
+                    value && value.length ?
                         this.divCompanyLogo.html('<img src="'+value+'" style="max-width:216px; max-height: 35px;" />') :
                         this.divCompanyLogo.parents('tr').addClass('hidden');
-                    value.length && Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                    value && value.length && Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
                 } else {
                     this.cntLicenseeInfo.addClass('hidden');
                     this.cntLicensorInfo.addClass('margin-bottom');

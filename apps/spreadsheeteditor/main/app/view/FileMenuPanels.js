@@ -500,7 +500,7 @@ define([
             });
 
             var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                            { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+                            { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -2235,6 +2235,9 @@ define([
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
                     '</div>',
                 '</div>',
+                '<div id="print-preview-empty" class="hidden">',
+                    '<div><%= scope.txtEmptyTable %></div>',
+                '</div>',
             '</div>'
         ].join('')),
 
@@ -2534,6 +2537,9 @@ define([
             this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             this.$headerSettings = $('#print-header-footer-settings');
 
+            this.$previewBox = $('#print-preview-box');
+            this.$previewEmpty = $('#print-preview-empty');
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.pnlSettings,
@@ -2714,7 +2720,8 @@ define([
         txtPage: 'Page',
         txtOf: 'of {0}',
         txtSheet: 'Sheet: {0}',
-        txtPageNumInvalid: 'Page number invalid'
+        txtPageNumInvalid: 'Page number invalid',
+        txtEmptyTable: 'There is nothing to print because the table is empty'
     }, SSE.Views.PrintWithPreview || {}));
 
 });

@@ -4,6 +4,7 @@
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+
 @brandColor: var(--brand-word);
 
 .device-ios {
@@ -37,6 +38,7 @@
 @import './app-ios.less';
 @import './icons-ios.less';
 @import './icons-material.less';
+@import './icons-common.less';
 
 :root {
     --f7-popover-width: 360px;
@@ -157,7 +159,7 @@
     height: 50px;
 }
 
-// Table of Contents 
+// Table of Contents
 
 .item-contents {
     padding: 0 16px;
@@ -226,4 +228,16 @@
     margin: 0;
 }
 
+// Picker
 
+.row-picker {
+    .col-50 {
+        color: @text-secondary;
+    }
+}
+
+.calendar-sheet{
+    .calendar-day-weekend {
+        color: #D25252;
+    }
+}

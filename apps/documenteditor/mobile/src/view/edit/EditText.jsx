@@ -218,6 +218,8 @@ const PageBullets = observer( props => {
                                 onClick={() => {
                                     if (bullet.type === -1) {
                                         storeTextSettings.resetBullets(-1);
+                                    } else {
+                                        storeTextSettings.resetBullets(bullet.type);
                                     }
                                     props.onBullet(bullet.type);
                                 }}>
@@ -265,6 +267,8 @@ const PageNumbers = observer( props => {
                             onClick={() => {
                                 if (number.type === -1) {
                                     storeTextSettings.resetNumbers(-1);
+                                } else {
+                                    storeTextSettings.resetNumbers(number.type);
                                 }
                                 props.onNumber(number.type);
                             }}>
@@ -334,9 +338,15 @@ const PageBulletsAndNumbers = props => {
                 }
             </Navbar>
             <Swiper pagination>
-                <SwiperSlide> <PageNumbers storeTextSettings={storeTextSettings} onNumber={props.onNumber}/></SwiperSlide> 
-                <SwiperSlide> <PageBullets storeTextSettings={storeTextSettings} onBullet={props.onBullet}/></SwiperSlide>
-                <SwiperSlide> <PageMultiLevel storeTextSettings={storeTextSettings} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
+                <SwiperSlide>
+                    <PageNumbers storeTextSettings={storeTextSettings} onNumber={props.onNumber} />
+                </SwiperSlide> 
+                <SwiperSlide>
+                    <PageBullets storeTextSettings={storeTextSettings} onBullet={props.onBullet} />
+                </SwiperSlide>
+                <SwiperSlide> 
+                    <PageMultiLevel storeTextSettings={storeTextSettings} onMultiLevelList={props.onMultiLevelList} />
+                </SwiperSlide>
             </Swiper>
         </Page>
     )

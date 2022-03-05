@@ -18,7 +18,8 @@ import EditorUIController from '../lib/patch';
     canFillForms: stores.storeAppOptions.canFillForms,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
-    displayMode: stores.storeReview.displayMode
+    displayMode: stores.storeReview.displayMode,
+    dataDoc: stores.storeDocumentInfo.dataDoc
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -29,6 +30,7 @@ class ContextMenu extends ContextMenuController {
         this.onApiHideComment = this.onApiHideComment.bind(this);
         this.onApiShowChange = this.onApiShowChange.bind(this);
         this.getUserName = this.getUserName.bind(this);
+        this.isUserVisible = this.isUserVisible.bind(this);
         this.ShowModal = this.ShowModal.bind(this);
     }
 
@@ -39,6 +41,11 @@ class ContextMenu extends ContextMenuController {
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
         return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
+    }
+
+    isUserVisible(id) {
+        const user = this.props.users.searchUserByCurrentId(id);
+        return user ? (user.asc_getIdOriginal()===this.props.users.currentUser.asc_getIdOriginal() || AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName())) : true;
     }
 
     componentWillUnmount() {
@@ -63,8 +70,8 @@ class ContextMenu extends ContextMenuController {
         this.isComments = false;
     }
 
-    onApiShowChange(sdkchange) {
-        this.inRevisionChange = sdkchange && sdkchange.length>0;
+    onApiShowChange(sdkchange, isShow) {
+        this.inRevisionChange = isShow && sdkchange && sdkchange.length>0;
     }
 
     // onMenuClosed() {
@@ -230,7 +237,7 @@ class ContextMenu extends ContextMenuController {
 
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
-        const { isEdit, canFillForms } = this.props;
+        const { isEdit, canFillForms, isDisconnected } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -277,32 +284,34 @@ class ContextMenu extends ContextMenuController {
                 });
             }
 
-            if ( canFillForms && canCopy && !locked ) {
-                itemsIcon.push({
-                    event: 'cut',
-                    icon: 'icon-cut'
-                });
-            }
+            if(!isDisconnected) {
+                if ( canFillForms && canCopy && !locked ) {
+                    itemsIcon.push({
+                        event: 'cut',
+                        icon: 'icon-cut'
+                    });
+                }
 
-            if ( canFillForms && !locked ) {
-                itemsIcon.push({
-                    event: 'paste',
-                    icon: 'icon-paste'
-                });
-            }
+                if ( canFillForms && dataDoc.fileType !== 'oform' && !locked ) {
+                    itemsIcon.push({
+                        event: 'paste',
+                        icon: 'icon-paste'
+                    });
+                }
 
-            if ( canViewComments && this.isComments ) {
-                itemsText.push({
-                    caption: _t.menuViewComment,
-                    event: 'viewcomment'
-                });
-            }
+                if ( canViewComments && this.isComments ) {
+                    itemsText.push({
+                        caption: _t.menuViewComment,
+                        event: 'viewcomment'
+                    });
+                }
 
-            if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject)) {
-                itemsText.push({
-                    caption: _t.menuAddComment,
-                    event: 'addcomment'
-                });
+                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject)) {
+                    itemsText.push({
+                        caption: _t.menuAddComment,
+                        event: 'addcomment'
+                    });
+                }
             }
 
             if ( isLink ) {

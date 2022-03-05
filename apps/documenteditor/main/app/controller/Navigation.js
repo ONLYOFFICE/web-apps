@@ -61,6 +61,9 @@ define([
                             if (!me._navigationObject)
                                 me._navigationObject = obj;
                             me.updateNavigation();
+                        } else {
+                            if (me.panelNavigation && me.panelNavigation.viewNavigationList && me.panelNavigation.viewNavigationList.scroller)
+                                me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
                         }
                     },
                     'hide': function() {
@@ -106,6 +109,7 @@ define([
         onAfterRender: function(panelNavigation) {
             panelNavigation.viewNavigationList.on('item:click', _.bind(this.onSelectItem, this));
             panelNavigation.viewNavigationList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
+            panelNavigation.viewNavigationList.on('item:add', _.bind(this.onItemAdd, this));
             panelNavigation.navigationMenu.on('item:click',           _.bind(this.onMenuItemClick, this));
             panelNavigation.navigationMenu.items[11].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
         },
@@ -157,6 +161,7 @@ define([
             } else {
                 item.set('name', this._navigationObject.get_Text(index));
                 item.set('isEmptyItem', this._navigationObject.isEmptyItem(index));
+                this.panelNavigation.viewNavigationList.updateTip(item.get('dataItem'));
             }
         },
 
@@ -220,6 +225,10 @@ define([
                 this.api.asc_viewerNavigateTo(record.get('index'));
             }
             Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
+        },
+
+        onItemAdd: function(picker, item, record, e){
+            record.set('dataItem', item);
         },
 
         onMenuItemClick: function (menu, item) {
@@ -287,6 +296,8 @@ define([
                     arr[0].set('tip', this.txtGotoBeginning);
                 }
                 this.getApplication().getCollection('Navigation').reset(arr);
+                if (this.panelNavigation && this.panelNavigation.viewNavigationList && this.panelNavigation.viewNavigationList.scroller)
+                    this.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
             }
         },
 

@@ -123,6 +123,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Uložit jako PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Uložit jako...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Formulář úspěšně uložen.</b><br>Klikněte pro zavření nápovědy.",
+  "DE.Controllers.ApplicationController.titleLicenseExp": "Platnost licence vypršela",
   "DE.Controllers.ApplicationController.titleServerVersion": "Editor byl aktualizován",
   "DE.Controllers.ApplicationController.titleUpdateVersion": "Verze změněna",
   "DE.Controllers.ApplicationController.txtArt": "Zde napište text",
@@ -139,6 +140,7 @@
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
   "DE.Controllers.ApplicationController.waitText": "Čekejte prosím…",
   "DE.Controllers.ApplicationController.warnLicenseExceeded": "Došlo k dosažení limitu počtu souběžných spojení %1 editorů. Dokument bude otevřen pouze pro náhled.<br>Pro více podrobností kontaktujte svého správce.",
+  "DE.Controllers.ApplicationController.warnLicenseExp": "Platnost vaší licence vypršela.<br>Prosím, aktualizujte vaší licenci a obnovte stránku.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedNoAccess": "Platnost vaší licence skončila.<br>Nemáte přístup k upravování dokumentů.<br>Obraťte se na svého správce.",
   "DE.Controllers.ApplicationController.warnLicenseLimitedRenewed": "Vaši licenci je nutné obnovit.<br>Přístup k možnostem editace dokumentu je omezen.<br>Pro získání plného přístupu prosím kontaktujte svého administrátora.",
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
@@ -147,12 +149,15 @@
   "DE.Views.ApplicationView.textClear": "Vymazat všechna pole",
   "DE.Views.ApplicationView.textCopy": "Kopírovat",
   "DE.Views.ApplicationView.textCut": "Vyjmout",
+  "DE.Views.ApplicationView.textFitToPage": "Přízpůsobit stránce",
+  "DE.Views.ApplicationView.textFitToWidth": "Přizpůsobit šířce",
   "DE.Views.ApplicationView.textNext": "Následující pole",
   "DE.Views.ApplicationView.textPaste": "Vložit",
   "DE.Views.ApplicationView.textPrintSel": "Vytisknout vybrané",
   "DE.Views.ApplicationView.textRedo": "Znovu",
   "DE.Views.ApplicationView.textSubmit": "Potvrdit",
   "DE.Views.ApplicationView.textUndo": "Zpět",
+  "DE.Views.ApplicationView.textZoom": "Přiblížení",
   "DE.Views.ApplicationView.txtDarkMode": "Tmavý režim",
   "DE.Views.ApplicationView.txtDownload": "Stáhnout",
   "DE.Views.ApplicationView.txtDownloadDocx": "Stáhnout jako docx",
@@ -162,5 +167,5 @@
   "DE.Views.ApplicationView.txtFullScreen": "Na celou obrazovku",
   "DE.Views.ApplicationView.txtPrint": "Tisk",
   "DE.Views.ApplicationView.txtShare": "Sdílet",
-  "DE.Views.ApplicationView.txtTheme": "Vzhled uživatelského rozhraní"
+  "DE.Views.ApplicationView.txtTheme": "Vzhled prostředí"
 }

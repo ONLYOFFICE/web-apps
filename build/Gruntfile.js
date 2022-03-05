@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         return !!string && !!iconv_lite ? iconv_lite.encode(string,encoding) : string;
     };
 
-    var jsreplacements = [
+    global.jsreplacements = [
                 {
                     from: /\{\{SUPPORT_EMAIL\}\}/g,
                     to: _encode(process.env.SUPPORT_EMAIL) || 'support@onlyoffice.com'
@@ -355,12 +355,12 @@ module.exports = function(grunt) {
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/g,
                         to: `${packageFile.version}.${packageFile.build}`
-                    }]
+                    }, ...global.jsreplacements]
                 },
                 prepareHelp: {
                     src: ['<%= pkg.main.copy.help[0].dest %>/ru/**/*.htm*'],
                     overwrite: true,
-                    replacements: []
+                    replacements: [...helpreplacements]
                 }
             },
 
@@ -427,10 +427,10 @@ module.exports = function(grunt) {
             }
         });
 
-        var replace = grunt.config.get('replace');
-        replace.writeVersion.replacements.push(...jsreplacements);
-        replace.prepareHelp.replacements.push(...helpreplacements);
-        grunt.config.set('replace', replace);
+        // var replace = grunt.config.get('replace');
+        // replace.writeVersion.replacements.push(...global.jsreplacements);
+        // replace.prepareHelp.replacements.push(...helpreplacements);
+        // grunt.config.set('replace', replace);
     });
 
     grunt.registerTask('deploy-reporter', function(){

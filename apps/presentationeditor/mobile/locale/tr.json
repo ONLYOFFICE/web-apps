@@ -228,6 +228,7 @@
       "textLinkTo": "Şuna bağlantıla:",
       "textLinkType": "Link Tipi",
       "textNextSlide": "Sonraki slayt",
+      "textOk": "Tamam",
       "textOther": "Diğer",
       "textPictureFromLibrary": "Kütüphaneden Resim",
       "textPictureFromURL": "URL'den resim",
@@ -240,8 +241,7 @@
       "textSlideNumber": "Slayt numarası",
       "textTable": "Tablo",
       "textTableSize": "Tablo Boyutu",
-      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
-      "textOk": "Tamam"
+      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır."
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -336,6 +336,7 @@
       "textNoTextFound": "Metin Bulunamadı",
       "textNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textNumbers": "Sayılar",
+      "textOk": "Tamam",
       "textOpacity": "Opaklık",
       "textOptions": "Seçenekler",
       "textPictureFromLibrary": "Kütüphaneden Resim",
@@ -378,7 +379,6 @@
       "textTopLeft": "Üst-Sol",
       "textTopRight": "Üst-Sağ",
       "textTotalRow": "Toplam Satır",
-      "textTransition": "Geçiş",
       "textTransitions": "geçişler",
       "textType": "Tip",
       "textUnCover": "Meydana çıkar",
@@ -392,7 +392,6 @@
       "textAutomatic": "Automatic",
       "textDesign": "Design",
       "textPush": "Push",
-      "textOk": "Tamam",
       "textWedge": "Wedge"
     },
     "Settings": {

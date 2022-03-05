@@ -52,6 +52,9 @@
     --f7-subnavbar-border-color: @background-menu-divider;
     --f7-list-border-color: @background-menu-divider;
 
+    --f7-picker-item-text-color: rgba(var(--text-normal), 0.45);
+    --f7-picker-item-selected-text-color: @text-normal;
+
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
     #editor-navbar.navbar .left a + a {
@@ -119,6 +122,9 @@
         .navbar-bg {
             //-webkit-backdrop-filter: none;
             backdrop-filter: none;
+            &::after {
+                background: @background-menu-divider;
+            }
         }
 
         .list:first-child {
@@ -215,6 +221,7 @@
                     text-align: center;
                     position: absolute;
                     top: 34%;
+                    color: @fill-black;
                 }
             }
         }
@@ -619,11 +626,11 @@
     input.modal-text-input {
         box-sizing: border-box;
         height: 26px;
-        background: #fff;
+        background: @background-primary;
         margin: 0;
         margin-top: 15px;
         padding: 0 5px;
-        border: 1px solid rgba(0,0,0,.3);
+        border: 1px solid @text-tertiary;
         border-radius: 0;
         width: 100%;
         font-size: 14px;

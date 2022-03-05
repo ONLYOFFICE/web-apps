@@ -492,7 +492,9 @@ Common.UI.HintManager = new(function() {
                         match = false;
                     var keyCode = e.keyCode;
                     if (keyCode !== 16 && keyCode !== 17 && keyCode !== 18 && keyCode !== 91) {
-                        curLetter = _lang === 'en' ? ((keyCode > 47 && keyCode < 58 || keyCode > 64 && keyCode < 91) ? String.fromCharCode(e.keyCode) : null) : e.key;
+                        curLetter = _lang === 'en' ?
+                            ((keyCode > 47 && keyCode < 58 || keyCode > 64 && keyCode < 91) ? String.fromCharCode(e.keyCode) : null) :
+                            (/[.*+?^${}()|[\]\\]/g.test(e.key) ? null : e.key);
                     }
                     if (curLetter) {
                         var curr;
@@ -592,9 +594,8 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            var isAlt = e.altKey;
-            _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
-            if (isAlt && e.keyCode !== 115) {
+            _needShow = (!e.shiftKey && e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            if (e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });

@@ -132,8 +132,7 @@ module.exports = {
                 lessOptions: {
                   javascriptEnabled: true,
                   globalVars: {
-                      "common-image-header-path": env === 'production' ? `../../../${editor}/mobile/resources/img/header` : '../../common/mobile/resources/img/header',
-                      "common-image-about-path": env === 'production' ? `../../../${editor}/mobile/resources/img/about` : '../../common/main/resources/img/about',
+                      "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
                       "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
                   }
                 }

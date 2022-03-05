@@ -106,6 +106,9 @@ define([
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 }
             }, this));
+
+            var eventname = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+            this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
         },
 
         setApi: function(o) {
@@ -297,6 +300,7 @@ define([
 
         onShowMainSettingsPrint: function() {
             this._changedProps = [];
+            this.printSettings.$previewBox.removeClass('hidden');
 
             if (!this.isFillSheets) {
                 this.isFillSheets = true;
@@ -305,10 +309,16 @@ define([
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
-            var pageCount = this.api.asc_initPrintPreview('print-preview');
-            this.updateNavigationButtons(0, pageCount);
-            this.printSettings.txtNumberPage.checkValidate();
+            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+            opts.asc_setAdvancedOptions(this.adjPrintParams);
+            var pageCount = this.api.asc_initPrintPreview('print-preview', opts);
 
+            this.printSettings.$previewBox.toggleClass('hidden', !pageCount);
+            this.printSettings.$previewEmpty.toggleClass('hidden', !!pageCount);
+            if (!!pageCount) {
+                this.updateNavigationButtons(0, pageCount);
+                this.printSettings.txtNumberPage.checkValidate();
+            }
             this._isPreviewVisible = true;
         },
 
@@ -631,6 +641,11 @@ define([
             this.api.asc_drawPrintPreview(index);
 
             this.updateNavigationButtons(index, this._navigationPreview.pageCount);
+        },
+
+        onPreviewWheel: function (e) {
+            var forward = (e.deltaY || (e.detail && -e.detail) || e.wheelDelta) < 0;
+            this.onChangePreviewPage(forward);
         },
 
         onKeypressPageNumber: function (input, e) {

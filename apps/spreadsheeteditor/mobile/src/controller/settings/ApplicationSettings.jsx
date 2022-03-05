@@ -85,6 +85,7 @@ class ApplicationSettingsController extends Component {
         LocalStorage.setItem("sse-settings-regional", regCode);
         this.initRegSettings();
         if (regCode!==null) api.asc_setLocale(+regCode);
+        Common.Notifications.trigger('changeRegSettings');
     }
 
     render() {

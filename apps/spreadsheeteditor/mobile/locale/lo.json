@@ -159,7 +159,8 @@
       "textOk": "Ok",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textNoTextFound": "Text not found",
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -297,7 +298,10 @@
     "textOk": "Ok",
     "textMove": "Move",
     "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textMoveForward": "Move forward",
+    "textHidden": "Hidden",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

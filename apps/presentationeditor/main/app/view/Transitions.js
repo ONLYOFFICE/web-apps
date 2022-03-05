@@ -234,6 +234,14 @@ define([
                 });
                 this.lockedControls.push(this.numDuration);
 
+                this.lblDuration = new Common.UI.Label({
+                    el: this.$el.find('#transit-duration'),
+                    iconCls: 'toolbar__icon animation-duration',
+                    caption: this.strDuration,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                });
+                this.lockedControls.push(this.lblDuration);
+
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-delay'),
                     step: 1,
@@ -271,7 +279,6 @@ define([
 
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.lockedControls});
 
-                this.$el.find('#transit-duration').text(this.strDuration);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -336,7 +343,6 @@ define([
                 this.renderComponent('#transit-spin-duration', this.numDuration);
                 this.renderComponent('#transit-spin-delay', this.numDelay);
                 this.renderComponent('#transit-checkbox-startonclick', this.chStartOnClick);
-                this.$el.find("#label-duration").innerText = this.strDuration;
                 this.$el.find("#label-delay").innerText = this.strDelay;
                 return this.$el;
             },
@@ -418,6 +424,7 @@ define([
                     this.btnParameters.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                    this.lblDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                 }
                 return (selectedElement)?selectedElement.value:-1;
             },
@@ -430,7 +437,6 @@ define([
             strDuration: 'Duration',
             strDelay: 'Delay',
             strStartOnClick: 'Start On Click',
-
             textNone: 'None',
             textFade: 'Fade',
             textPush: 'Push',

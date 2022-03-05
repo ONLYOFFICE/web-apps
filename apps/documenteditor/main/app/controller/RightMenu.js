@@ -131,11 +131,15 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects, forceSignature) {
+        onApiFocusObject: function(SelectedObjects) {
+            this.onFocusObject(SelectedObjects);
+        },
+
+        onFocusObject: function(SelectedObjects, forceSignature, forceOpen) {
             if (!this.editMode && !forceSignature)
                 return;
 
-            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
+            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : !!forceOpen;
             this._initSettings = false;
 
             var can_add_table = false, 
@@ -339,7 +343,7 @@ define([
         createDelayedElements: function() {
             var me = this;
             if (this.api) {
-                this.api.asc_registerCallback('asc_onFocusObject',       _.bind(this.onFocusObject, this));
+                this.api.asc_registerCallback('asc_onFocusObject',       _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
                 if (this.rightmenu.mergeSettings) {
                     this.rightmenu.mergeSettings.setDocumentName(this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption());
@@ -443,7 +447,7 @@ define([
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
-                        this.onFocusObject(selectedElements);
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
                 }
             }
         },

@@ -552,6 +552,7 @@ define([
             
             me.ssMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                restoreHeightAndTop: true,
                 id          : 'id-context-menu-cell',
                 items       : [
                     me.pmiCut,
@@ -831,6 +832,7 @@ define([
 
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
+                restoreHeightAndTop: true,
                 items: [
                     me.pmiImgCut,
                     me.pmiImgCopy,
