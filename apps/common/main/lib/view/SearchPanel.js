@@ -81,6 +81,7 @@ define([
                 });
 
                 this.$reaultsNumber = $('#search-adv-results-number');
+                this.updateResultsNumber('no-results');
 
                 this.btnBack = new Common.UI.Button({
                     parentEl: $('#search-adv-back'),
@@ -231,7 +232,8 @@ define([
         },
 
         updateResultsNumber: function (current, count) {
-            this.$reaultsNumber.text(Common.Utils.String.format(current, count));
+            var text = current === 'no-results' ? this.textNoSearchResults : (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count));
+            this.$reaultsNumber.text(text);
         },
 
         onClickClosePanel: function() {
@@ -276,6 +278,10 @@ define([
             this.inputText.setValue(val);
         },
 
+        clearResults: function () {
+            this.updateResultsNumber('no-results');
+        },
+
         textFind: 'Find',
         textFindAndReplace: 'Find and replace',
         textCloseSearch: 'Close search',
@@ -295,7 +301,9 @@ define([
         textByColumns: 'By columns',
         textFormulas: 'Formulas',
         textValues: 'Values',
-        textSearchOptions: 'Search options'
+        textSearchOptions: 'Search options',
+        textNoMatches: 'No matches',
+        textNoSearchResults: 'No search results'
 
     }, Common.Views.SearchPanel || {}));
 });

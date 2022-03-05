@@ -77,6 +77,7 @@ define([
         setApi: function (api) {
             if (api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onSetSearchCurrent', _.bind(this.onUpdateSearchCurrent, this));
             }
             return this;
         },
@@ -90,6 +91,7 @@ define([
             if (opts.textsearch && opts.textsearch.length) {
                 if (!this.api.asc_findText(opts.textsearch, d != 'back', opts.matchcase)) {
                     var me = this;
+                    me.view.updateResultsNumber(undefined, 0);
                     Common.UI.info({
                         msg: this.textNoTextFound,
                         callback: function() {
@@ -104,6 +106,7 @@ define([
             if (!_.isEmpty(opts.textsearch)) {
                 if (!this.api.asc_replaceText(opts.textsearch, opts.textreplace, false, opts.matchcase)) {
                     var me = this;
+                    me.view.updateResultsNumber(undefined, 0);
                     Common.UI.info({
                         msg: this.textNoTextFound,
                         callback: function() {
@@ -117,6 +120,12 @@ define([
         onQueryReplaceAll: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
                 this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase, opts.matchword);
+            }
+        },
+
+        onUpdateSearchCurrent: function (current, all) {
+            if (this.view) {
+                this.view.updateResultsNumber(current, all);
             }
         },
 
