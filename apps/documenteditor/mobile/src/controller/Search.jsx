@@ -80,9 +80,9 @@ class DESearchView extends SearchView {
     }
 
     onSearchbarShow(isshowed, bar) {
-        super.onSearchbarShow(isshowed, bar);
-
+        // super.onSearchbarShow(isshowed, bar);
         const api = Common.EditorApi.get();
+
         if ( isshowed && this.state.searchQuery.length ) {
             const checkboxMarkResults = f7.toggle.get('.toggle-mark-results');
             api.asc_selectSearchingResults(checkboxMarkResults.checked);
