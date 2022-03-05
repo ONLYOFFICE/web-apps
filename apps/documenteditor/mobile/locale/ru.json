@@ -57,7 +57,10 @@
     "textStartAt": "Начать с",
     "textTable": "Таблица",
     "textTableSize": "Размер таблицы",
-    "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\""
+    "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textDoNotShowAgain": "Больше не показывать",
     "textNumberingValue": "Начальное значение",
     "textOk": "Ok",
-    "textRows": "Строки"
+    "textRows": "Строки",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Внимание",
@@ -330,7 +335,29 @@
     "textTu": "Вт",
     "textType": "Тип",
     "textWe": "Ср",
-    "textWrap": "Стиль обтекания"
+    "textWrap": "Стиль обтекания",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
@@ -615,7 +642,12 @@
     "txtScheme6": "Открытая",
     "txtScheme7": "Справедливость",
     "txtScheme8": "Поток",
-    "txtScheme9": "Литейная"
+    "txtScheme9": "Литейная",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",

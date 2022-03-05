@@ -57,7 +57,10 @@
     "textTable": "표",
     "textTableSize": "표 크기",
     "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textDoNotShowAgain": "다시 표시하지 않음",
     "textNumberingValue": "번호",
     "textOk": "확인",
-    "textRows": "행"
+    "textRows": "행",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "경고",
@@ -330,7 +335,29 @@
     "textSu": "Su",
     "textTh": "Th",
     "textTu": "Tu",
-    "textWe": "We"
+    "textWe": "We",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",
@@ -615,7 +642,12 @@
     "txtScheme6": "광장",
     "txtScheme7": "같음",
     "txtScheme8": "플로우",
-    "txtScheme9": "발견"
+    "txtScheme9": "발견",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "저장하지 않은 변경 사항이 있습니다. 자동 저장이 완료될 때까지 기다리려면 \"이 페이지에 머물기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 변경 사항이 삭제됩니다.",

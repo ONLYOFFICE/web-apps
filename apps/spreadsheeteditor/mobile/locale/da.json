@@ -299,7 +299,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "leaveButtonText": "Forlad denne side",
@@ -673,7 +674,8 @@
       "txtScheme21": "Verve",
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
-      "txtTab": "Tab"
+      "txtTab": "Tab",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

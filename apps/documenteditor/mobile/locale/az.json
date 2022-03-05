@@ -57,7 +57,10 @@
     "textTable": "Cədvəl",
     "textTableSize": "Cədvəl Ölçüsü",
     "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textDoNotShowAgain": "Bir daha göstərmə",
     "textNumberingValue": "Nömrələmə Qiyməti",
     "textOk": "OK",
-    "textRows": "Sətirlər"
+    "textRows": "Sətirlər",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Xəbərdarlıq",
@@ -330,7 +335,29 @@
     "textSu": "Su",
     "textTh": "Th",
     "textTu": "Tu",
-    "textWe": "We"
+    "textWe": "We",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Çevrilmə vaxtı maksimumu keçdi.",
@@ -615,7 +642,12 @@
     "txtScheme6": "Konkurs",
     "txtScheme7": "Bərabər",
     "txtScheme8": "Axın",
-    "txtScheme9": "Emalatxana"
+    "txtScheme9": "Emalatxana",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",

@@ -299,7 +299,8 @@
     "textSheet": "List",
     "textSheetName": "Název listu",
     "textUnhide": "Odkrýt",
-    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? "
+    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? ",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
@@ -673,7 +674,8 @@
       "txtSemicolon": "Středník",
       "txtSpace": "Mezera",
       "txtTab": "Tabulátor",
-      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?"
+      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

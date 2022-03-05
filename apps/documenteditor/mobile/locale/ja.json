@@ -57,7 +57,10 @@
     "textStartAt": "から始まる",
     "textTable": "表",
     "textTableSize": "表のサイズ",
-    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。"
+    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textDoNotShowAgain": "再度表示しない",
     "textNumberingValue": "番号",
     "textOk": "OK",
-    "textRows": "行"
+    "textRows": "行",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": " 警告",
@@ -330,7 +335,29 @@
     "textTu": "火",
     "textType": "タイプ",
     "textWe": "水",
-    "textWrap": "折り返す"
+    "textWrap": "折り返す",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
@@ -615,7 +642,12 @@
     "txtScheme6": "コンコース",
     "txtScheme7": "株主資本",
     "txtScheme8": "フロー",
-    "txtScheme9": "ファウンドリ"
+    "txtScheme9": "ファウンドリ",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",

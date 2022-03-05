@@ -299,7 +299,8 @@
     "textWarnDeleteSheet": "A munkalap lehet hogy tartalmaz adatok. Folytatja a műveletet?",
     "textHidden": "Hidden",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
@@ -673,7 +674,8 @@
       "txtSemicolon": "Pontosvessző",
       "txtSpace": "Szóköz",
       "txtTab": "Lap",
-      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?"
+      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

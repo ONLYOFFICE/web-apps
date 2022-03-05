@@ -57,7 +57,10 @@
     "textStartAt": "Почати з",
     "textTable": "Таблиця",
     "textTableSize": "Розмір таблиці",
-    "txtNotUrl": "Це поле має бути URL-адресою у форматі \"http://www.example.com\""
+    "txtNotUrl": "Це поле має бути URL-адресою у форматі \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textDoNotShowAgain": "Більше не показувати",
     "textNumberingValue": "Початкове значення",
     "textOk": "Ок",
-    "textRows": "Рядки"
+    "textRows": "Рядки",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Увага",
@@ -330,7 +335,29 @@
     "textTu": "Вт",
     "textType": "Тип",
     "textWe": "Ср",
-    "textWrap": "Стиль обтікання"
+    "textWrap": "Стиль обтікання",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Перевищено час очікування конверсії.",
@@ -615,7 +642,12 @@
     "txtScheme6": "Відкрита",
     "txtScheme7": "Власний",
     "txtScheme8": "Потік",
-    "txtScheme9": "Ливарна"
+    "txtScheme9": "Ливарна",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "У документі є незбережені зміни. Натисніть 'Залишитись на сторінці', щоб дочекатися автозбереження. Натисніть 'Піти зі сторінки', щоб скинути всі незбережені зміни.",

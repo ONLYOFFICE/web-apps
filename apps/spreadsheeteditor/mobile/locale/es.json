@@ -299,7 +299,8 @@
     "textUnhide": "Volver a mostrar",
     "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -673,7 +674,8 @@
       "txtSemicolon": "Punto y coma",
       "txtSpace": "Espacio",
       "txtTab": "Pestaña",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

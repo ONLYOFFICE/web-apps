@@ -299,7 +299,8 @@
     "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?",
     "textHidden": "Hidden",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
@@ -673,7 +674,8 @@
       "txtSemicolon": "Noktalı virgül",
       "txtSpace": "Boşluk",
       "txtTab": "Sekme",
-      "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?"
+      "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

@@ -299,7 +299,8 @@
     "textSheet": "Foaie",
     "textSheetName": "Numele foii",
     "textUnhide": "Reafișare",
-    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
+    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -673,7 +674,8 @@
       "txtSemicolon": "Punct și virgulă",
       "txtSpace": "Spațiu",
       "txtTab": "Tabulator",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

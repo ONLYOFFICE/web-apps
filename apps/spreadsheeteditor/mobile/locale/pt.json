@@ -299,7 +299,8 @@
     "textUnhide": "Reexibir",
     "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -673,7 +674,8 @@
       "txtSemicolon": "Ponto e vírgula ",
       "txtSpace": "Espaço",
       "txtTab": "Aba",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

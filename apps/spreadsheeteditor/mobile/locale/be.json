@@ -258,7 +258,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
+    "textTabColor": "Tab Color"
   },
   "View": {
     "Add": {
@@ -626,7 +627,8 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textFeedback": "Feedback & Support"
     }
   },
   "LongActions": {

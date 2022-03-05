@@ -57,7 +57,10 @@
     "textStartAt": "Пачаць з",
     "textTable": "Табліца",
     "textTableSize": "Памеры табліцы",
-    "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\""
+    "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textOk": "Добра",
     "textRows": "Радкі",
     "menuSplit": "Split",
-    "textDoNotShowAgain": "Don't show again"
+    "textDoNotShowAgain": "Don't show again",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Увага",
@@ -330,7 +335,29 @@
     "textFirstLine": "FirstLine",
     "textNoStyles": "No styles for this type of charts.",
     "textSelectObjectToEdit": "Select object to edit",
-    "textSquare": "Square"
+    "textSquare": "Square",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Час чакання пераўтварэння сышоў.",
@@ -615,7 +642,12 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "txtScheme22": "New Office"
+    "txtScheme22": "New Office",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Вы выходзіце з праграмы",

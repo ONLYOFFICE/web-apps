@@ -299,7 +299,8 @@
     "textSheet": "表格",
     "textSheetName": "工作表名称",
     "textUnhide": "取消隐藏",
-    "textWarnDeleteSheet": "该工作表可能带有数据。要进行操作吗？"
+    "textWarnDeleteSheet": "该工作表可能带有数据。要进行操作吗？",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
@@ -673,7 +674,8 @@
       "txtSemicolon": "分号",
       "txtSpace": "空格",
       "txtTab": "标签",
-      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？"
+      "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

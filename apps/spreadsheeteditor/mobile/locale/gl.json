@@ -299,7 +299,8 @@
     "textUnhide": "Volver a amosar",
     "textWarnDeleteSheet": "A folla de traballo pode que conteña datos. Queres continuar a operación?",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios non gardados neste documento. Prema en \"Quedarse nesta páxina\" para esperar ata que se garden automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
@@ -673,7 +674,8 @@
       "txtSemicolon": "Punto e coma",
       "txtSpace": "Espazo",
       "txtTab": "Lapela",
-      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?"
+      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

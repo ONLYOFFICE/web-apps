@@ -301,7 +301,8 @@
     "textMoveForward": "Move forward",
     "textHidden": "Hidden",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -675,7 +676,8 @@
       "txtOk": "Ok",
       "txtSemicolon": "Semicolon",
       "textExample": "Example",
-      "textDarkTheme": "Dark Theme"
+      "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

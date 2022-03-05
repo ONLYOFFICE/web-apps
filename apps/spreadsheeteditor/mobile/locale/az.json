@@ -299,7 +299,8 @@
     "textHidden": "Hidden",
     "textMove": "Move",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
@@ -673,7 +674,8 @@
       "txtSpace": "Boşluq",
       "txtTab": "Tab",
       "warnDownloadAs": "Bu formatda yadda saxlamağa davam etsəniz, mətndən başqa bütün funksiyalar itiriləcək.<br>Davam etmək istədiyinizdən əminsiniz?",
-      "textDarkTheme": "Dark Theme"
+      "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

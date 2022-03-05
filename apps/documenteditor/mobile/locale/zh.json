@@ -57,7 +57,10 @@
     "textStartAt": "始于",
     "textTable": "表格",
     "textTableSize": "表格大小",
-    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
+    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textDoNotShowAgain": "不要再显示",
     "textNumberingValue": "编号值",
     "textOk": "好",
-    "textRows": "行"
+    "textRows": "行",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
@@ -330,7 +335,29 @@
     "textTu": "周二",
     "textType": "类型",
     "textWe": "周三",
-    "textWrap": "包裹"
+    "textWrap": "包裹",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "转换超时",
@@ -615,7 +642,12 @@
     "txtScheme6": "汇合",
     "txtScheme7": "公平",
     "txtScheme8": "流动",
-    "txtScheme9": "发现"
+    "txtScheme9": "发现",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",

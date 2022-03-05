@@ -57,7 +57,10 @@
     "textStartAt": "Comezar en",
     "textTable": "Táboa",
     "textTableSize": "Tamaño da táboa",
-    "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +196,9 @@
     "textDoNotShowAgain": "Non amosar de novo",
     "textNumberingValue": "Valor de numeración",
     "textOk": "Aceptar",
-    "textRows": "Filas"
+    "textRows": "Filas",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
@@ -330,7 +335,29 @@
     "textTu": "Ma",
     "textType": "Tipo",
     "textWe": "Me",
-    "textWrap": "Axuste"
+    "textWrap": "Axuste",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo límite de conversión.",
@@ -615,7 +642,12 @@
     "txtScheme6": "Concorrencia",
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundición"
+    "txtScheme9": "Fundición",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
