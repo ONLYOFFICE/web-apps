@@ -109,6 +109,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-terser');
 
     function doRegisterTask(name, callbackConfig) {
         return grunt.registerTask(name + '-init', function() {
@@ -343,6 +344,9 @@ module.exports = function(grunt) {
             },
 
             requirejs: {
+                options: {
+                    optimize: "none",
+                },
                 compile: {
                     options: packageFile['main']['js']['requirejs']['options']
                 }
@@ -424,7 +428,20 @@ module.exports = function(grunt) {
                 dist: {
                     files: packageFile.main.svgicons.common
                 }
-            }
+            },
+
+            terser: {
+                options: {
+                    format: {
+                        comments: false,
+                        preamble: "/* minified by terser */",
+                    },
+                },
+                mytarget: {
+                    src: [packageFile['main']['js']['requirejs']['options']['out']],
+                    dest: packageFile['main']['js']['requirejs']['options']['out']
+                },
+            },
         });
 
         // var replace = grunt.config.get('replace');
@@ -660,7 +677,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
+                                                            'requirejs', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', /*'cssmin',*/ /*'copy:template-backup',*/
