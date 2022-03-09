@@ -223,6 +223,18 @@
     .calendar-months {
         margin-bottom: 12px;
     }
+    .calendar-month-picker-item, .calendar-year-picker-item {
+        color: @text-normal;
+        &:before, &:after {
+            background-color: @background-menu-divider;
+        }
+    }
+    .calendar-month-picker, .calendar-year-picker {
+        background: @background-secondary;
+    }
+    .calendar-month-picker-item-current, .calendar-year-picker-item-current {
+        color: @brandColor;
+    }
 }
 
 
