@@ -128,6 +128,15 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                this.chMatchWord = new Common.UI.CheckBox({
+                    el: $('#search-adv-match-word'),
+                    labelText: window.SSE ? this.textItemEntireCell : this.textWholeWords,
+                    value: false,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+
                 this.buttonClose = new Common.UI.Button({
                     parentEl: $('#search-btn-close', this.$el),
                     cls: 'btn-toolbar',
@@ -137,15 +146,6 @@ define([
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
                 if (window.SSE) {
-                    this.chMatchWord = new Common.UI.CheckBox({
-                        el: $('#search-adv-match-word'),
-                        labelText: this.options.matchwordstr || this.textWholeWords,
-                        value: false,
-                        dataHint: '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-
                     this.cmbWithin = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-within'),
                         menuStyle: 'min-width: 100%;',
@@ -303,7 +303,8 @@ define([
         textValues: 'Values',
         textSearchOptions: 'Search options',
         textNoMatches: 'No matches',
-        textNoSearchResults: 'No search results'
+        textNoSearchResults: 'No search results',
+        textItemEntireCell: 'Entire cell contents'
 
     }, Common.Views.SearchPanel || {}));
 });

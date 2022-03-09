@@ -89,7 +89,11 @@ define([
 
         onQuerySearch: function (d, w, opts) {
             if (opts.textsearch && opts.textsearch.length) {
-                if (!this.api.asc_findText(opts.textsearch, d != 'back', opts.matchcase)) {
+                var searchSettings = new AscCommon.CSearchSettings();
+                searchSettings.put_Text(opts.textsearch);
+                searchSettings.put_MatchCase(opts.matchcase);
+                searchSettings.put_WholeWords(opts.matchword);
+                if (!this.api.asc_findText(searchSettings, d != 'back')) {
                     var me = this;
                     me.view.updateResultsNumber(undefined, 0);
                     Common.UI.info({
@@ -104,7 +108,11 @@ define([
 
         onQueryReplace: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
-                if (!this.api.asc_replaceText(opts.textsearch, opts.textreplace, false, opts.matchcase)) {
+                var searchSettings = new AscCommon.CSearchSettings();
+                searchSettings.put_Text(opts.textsearch);
+                searchSettings.put_MatchCase(opts.matchcase);
+                searchSettings.put_WholeWords(opts.matchword);
+                if (!this.api.asc_replaceText(searchSettings, opts.textreplace, false)) {
                     var me = this;
                     me.view.updateResultsNumber(undefined, 0);
                     Common.UI.info({
@@ -119,7 +127,11 @@ define([
 
         onQueryReplaceAll: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
-                this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase, opts.matchword);
+                var searchSettings = new AscCommon.CSearchSettings();
+                searchSettings.put_Text(opts.textsearch);
+                searchSettings.put_MatchCase(opts.matchcase);
+                searchSettings.put_WholeWords(opts.matchword);
+                this.api.asc_replaceText(searchSettings, opts.textreplace, true);
             }
         },
 
