@@ -66,7 +66,8 @@ define([
                     'file:show': _.bind(this.fileShowHide, this, true),
                     'file:hide': _.bind(this.fileShowHide, this, false),
                     'comments:show': _.bind(this.commentsShowHide, this, true),
-                    'comments:hide': _.bind(this.commentsShowHide, this, false)
+                    'comments:hide': _.bind(this.commentsShowHide, this, false),
+                    'search:aftershow': _.bind(this.onShowAfterSearch, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, true),
@@ -1019,6 +1020,11 @@ define([
         },
 
         onShowAfterSearch: function (findText) {
+            var viewport = this.getApplication().getController('Viewport');
+            if (viewport.isSearchBarVisible()) {
+                viewport.searchBar.hide();
+            }
+
             var text = findText || this.api.asc_GetSelectedText();
             if (text) {
                 this.leftMenu.panelSearch.setFindText(text);

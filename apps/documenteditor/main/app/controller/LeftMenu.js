@@ -957,6 +957,11 @@ define([
         },
 
         onShowAfterSearch: function (findText) {
+            var viewport = this.getApplication().getController('Viewport');
+            if (viewport.isSearchBarVisible()) {
+                viewport.searchBar.hide();
+            }
+
             var text = findText || this.api.asc_GetSelectedText();
             if (text) {
                 this.leftMenu.panelSearch.setFindText(text);
