@@ -96,7 +96,6 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -288,15 +287,15 @@ module.exports = function(grunt) {
     doRegisterTask('common-embed');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
-            uglify: {
-                pkg: packageFile,
-
+            terser: {
                 options: {
-                    banner: '/** vim: et:ts=4:sw=4:sts=4\n' +
-                        ' * @license RequireJS 2.1.2 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.\n' +
-                        ' * Available via the MIT or new BSD license.\n' +
-                        ' * see: http://github.com/jrburke/requirejs for details\n' +
-                        ' */\n'
+                    format: {
+                        preamble: '/** vim: et:ts=4:sw=4:sts=4\n' +
+                            ' * @license RequireJS 2.1.2 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.\n' +
+                            ' * Available via the MIT or new BSD license.\n' +
+                            ' * see: http://github.com/jrburke/requirejs for details\n' +
+                            ' */\n',
+                    },
                 },
                 build: {
                     src:  packageFile['requirejs']['min']['src'],
@@ -437,7 +436,7 @@ module.exports = function(grunt) {
                         preamble: "/* minified by terser */",
                     },
                 },
-                mytarget: {
+                build: {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
                     dest: packageFile['main']['js']['requirejs']['options']['out']
                 },
@@ -453,21 +452,23 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-reporter', function(){
         grunt.initConfig({
             pkg: packageFile,
-            uglify: {
+            terser: {
                 options: {
-                    banner: copyright
+                    format: {
+                        comments: false,
+                        preamble: copyright,
+                    },
                 },
-                build: {
-                    files: {
-                        "<%= pkg.main.reporter.uglify.dest %>": packageFile.main.reporter.uglify.src
-                    }
-                }
+                reporter: {
+                    src: packageFile.main.reporter.uglify.src,
+                    dest: packageFile.main.reporter.uglify.dest
+                },
             },
             copy: packageFile.main.reporter.copy
         });
 
 
-        grunt.task.run(['uglify', 'copy']);
+        grunt.task.run(['terser', 'copy']);
     });
 
     grunt.registerTask('mobile-app-init', function() {
@@ -609,9 +610,12 @@ module.exports = function(grunt) {
                 prebuild: packageFile['embed']['clean']['prebuild']
             },
 
-            uglify: {
+            terser: {
                 options: {
-                    banner: copyright
+                    format: {
+                        comments: false,
+                        preamble: copyright,
+                    },
                 },
                 build: {
                     src: packageFile['embed']['js']['src'],
@@ -672,7 +676,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
+    grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'terser']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
@@ -686,8 +690,7 @@ module.exports = function(grunt) {
                                                             'copy:images-app', 'copy:webpack-dist', 'concat', 'json-minify'/*,*/
                                                             /*'replace:writeVersion', 'replace:fixResourceUrl'*/]);
 
-    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 
-                                                            'clean:postbuild']);
+    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'terser', 'less', 'copy', 'clean:postbuild']);
 
     doRegisterInitializeAppTask('common',               'Common',               'common.json');
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
