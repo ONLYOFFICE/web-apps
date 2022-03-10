@@ -290,8 +290,6 @@
     "textHide": "Gizle",
     "textMore": "Daha fazla",
     "textMove": "Taşı",
-    "textMoveBack": "Geriye taşı",
-    "textMoveForward": "İleri Taşı",
     "textOk": "Tamam",
     "textRename": "Yeniden adlandır",
     "textRenameSheet": "Sayfayı Yeniden Adlandır",
@@ -299,7 +297,9 @@
     "textSheetName": "Sayfa ismi",
     "textUnhide": "Gizlemeyi kaldır",
     "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?",
-    "textHidden": "Hidden"
+    "textHidden": "Hidden",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

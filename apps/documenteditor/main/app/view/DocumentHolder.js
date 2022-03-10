@@ -2120,7 +2120,7 @@ define([
                     menuViewCut.setDisabled(disabled || !cancopy);
                     menuViewPaste.setVisible(me._fillFormwMode && canEditControl);
                     menuViewPaste.setDisabled(disabled);
-                    menuViewPrint.setVisible(me.mode.canPrint);
+                    menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormwMode);
                     menuViewPrint.setDisabled(!cancopy);
 
                 },

@@ -1274,26 +1274,15 @@ define([
                 this._state.imgPositionY = 50;
             }
             this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
-
-            if (this._sendUndoPoint) {
-                this.api.setStartPointHistory();
-                this._sendUndoPoint = false;
-                this.updateslider = setInterval(_.bind(this.imgPositionApplyFunc, this, type), 100);
-            }
         },
 
         onImagePositionChangeComplete: function (type, field, newValue, oldValue) {
-            clearInterval(this.updateslider);
             if (type === 'x') {
                 this._state.imgPositionX = newValue;
             } else {
                 this._state.imgPositionY = newValue;
             }
-            if (!this._sendUndoPoint) { // start point was added
-                this.api.setEndPointHistory();
-                this.imgPositionApplyFunc(type);
-            }
-            this._sendUndoPoint = true;
+            this.imgPositionApplyFunc(type);
         },
 
         imgPositionApplyFunc: function (type) {

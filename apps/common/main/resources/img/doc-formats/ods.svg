@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 127" version="1.1" width="100" height="127">
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 127" version="1.1" width="100" height="127">
   <symbol id="svg-format-ods">
 <path d="M95 23V119C95 119.796 94.6839 120.559 94.1213 121.121C93.5587 121.684 92.7956 122 92 122H8C7.20435 122 6.44129 121.684 5.87868 121.121C5.31607 120.559 5 119.796 5 119V8C5 7.20435 5.31607 6.44129 5.87868 5.87868C6.44129 5.31607 7.20435 5 8 5H77L95 23Z" fill="#237453"/>
 <path opacity="0.2" d="M95 23H80C79.2044 23 78.4413 22.6839 77.8787 22.1213C77.3161 21.5587 77 20.7956 77 20V5L95 23Z" fill="black"/>

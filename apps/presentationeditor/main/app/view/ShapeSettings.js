@@ -448,8 +448,13 @@ define([
                 rawData = record;
             }
 
-            this.typeGradient = rawData.type + 90;
-            (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
+            if (this.GradFillType === Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                this.GradLinearDirectionType = rawData.type;
+                this.typeGradient = rawData.type + 90;
+            } else {
+                this.GradRadialDirectionIdx = 0;
+                this.typeGradient = rawData.type;
+            }
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     this.numGradientAngle.setValue(rawData.type, true);
@@ -536,13 +541,13 @@ define([
 
         btnDirectionRedraw: function(slider, gradientColorsStr) {
             this.gradientColorsStr = gradientColorsStr;
-            if (this.mnuDirectionPicker.dataViewItems.length == 1)
-                this.mnuDirectionPicker.dataViewItems[0].$el.children(0).css({'background': 'radial-gradient(' + gradientColorsStr + ')'});
-            else
-                this.mnuDirectionPicker.dataViewItems.forEach(function (item) {
-                    var type = item.model.get('type') + 90;
-                    item.$el.children(0).css({'background': 'linear-gradient(' + type + 'deg, ' + gradientColorsStr + ')'});
-                });
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = gradientColorsStr;
+            });
+            this._viewDataRadial.gradientColorsStr = this.gradientColorsStr;
+            this.mnuDirectionPicker.store.each(function(item){
+                item.set('gradientColorsStr', gradientColorsStr);
+            }, this);
 
             if (this.typeGradient == -1)
                 this.btnDirection.$icon.css({'background': 'none'});
@@ -1302,9 +1307,12 @@ define([
                 { type:270, subtype:3},
                 { type:225, subtype:7}
             ];
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = me.gradientColorsStr;
+            });
 
             this._viewDataRadial = [
-                { type:2, subtype:5}
+                { type:2, subtype:5, gradientColorsStr: this.gradientColorsStr}
             ];
 
             this.btnDirection = new Common.UI.Button({
@@ -1328,8 +1336,8 @@ define([
                     restoreHeight: 174,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background: '
-                        +'<% if(type!=2) {%>linear-gradient(<%= type + 90 %>deg, ' + me.gradientColorsStr + ' )'
-                        +' <%} else {%> radial-gradient( ' + me.gradientColorsStr + ' 70%) <%}%>;"></div>')
+                        +'<% if(type!=2) {%>linear-gradient(<%= type + 90 %>deg,<%= gradientColorsStr %>)'
+                        +' <%} else {%> radial-gradient(<%= gradientColorsStr %>) <%}%>;"></div>')
                 });
             });
             this.btnDirection.render($('#shape-button-direction'));

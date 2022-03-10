@@ -61,6 +61,9 @@ define([
                             if (!me._navigationObject)
                                 me._navigationObject = obj;
                             me.updateNavigation();
+                        } else {
+                            if (me.panelNavigation && me.panelNavigation.viewNavigationList && me.panelNavigation.viewNavigationList.scroller)
+                                me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
                         }
                     },
                     'hide': function() {
@@ -293,6 +296,8 @@ define([
                     arr[0].set('tip', this.txtGotoBeginning);
                 }
                 this.getApplication().getCollection('Navigation').reset(arr);
+                if (this.panelNavigation && this.panelNavigation.viewNavigationList && this.panelNavigation.viewNavigationList.scroller)
+                    this.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
             }
         },
 

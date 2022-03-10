@@ -546,11 +546,11 @@ define([
                 this.lockToolbar(PE.enumLock.noMoveAnimationLater, this._state.noMoveAnimationLater);
             if (this._state.noMoveAnimationEarlier != undefined)
                 this.lockToolbar(PE.enumLock.noMoveAnimationEarlier, this._state.noMoveAnimationEarlier);
-            if (PE.enumLock.noAnimationPreview != undefined)
+            if (this._state.noAnimationPreview != undefined)
                 this.lockToolbar(PE.enumLock.noAnimationPreview, this._state.noAnimationPreview);
-            if (PE.enumLock.noAnimationRepeat != undefined)
+            if (this._state.noAnimationRepeat != undefined)
                 this.lockToolbar(PE.enumLock.noAnimationRepeat, this._state.noAnimationRepeat);
-            if (PE.enumLock.noAnimationDuration != undefined)
+            if (this._state.noAnimationDuration != undefined)
                 this.lockToolbar(PE.enumLock.noAnimationDuration, this._state.noAnimationDuration);
         }
 
