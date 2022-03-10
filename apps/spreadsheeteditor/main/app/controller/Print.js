@@ -106,6 +106,9 @@ define([
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 }
             }, this));
+
+            var eventname = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+            this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
         },
 
         setApi: function(o) {
@@ -315,9 +318,8 @@ define([
             if (!!pageCount) {
                 this.updateNavigationButtons(0, pageCount);
                 this.printSettings.txtNumberPage.checkValidate();
-
-                this._isPreviewVisible = true;
             }
+            this._isPreviewVisible = true;
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -639,6 +641,11 @@ define([
             this.api.asc_drawPrintPreview(index);
 
             this.updateNavigationButtons(index, this._navigationPreview.pageCount);
+        },
+
+        onPreviewWheel: function (e) {
+            var forward = (e.deltaY || (e.detail && -e.detail) || e.wheelDelta) < 0;
+            this.onChangePreviewPage(forward);
         },
 
         onKeypressPageNumber: function (input, e) {

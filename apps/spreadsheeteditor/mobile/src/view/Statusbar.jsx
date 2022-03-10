@@ -14,23 +14,25 @@ const PageListMove = props => {
     const allSheets = sheets.sheets;
 
     return (
-        <Page>
-            <Navbar title={t('Statusbar.textMoveBefore')}/>
-            <List>
-                <ListGroup>
-                    { allSheets.map((model, index) => 
-                        model.hidden ? null : 
+        <View style={!Device.phone ? {height: '420px'} : null}>
+            <Page>
+                <Navbar title={t('Statusbar.textMoveBefore')}/>
+                <List>
+                    <ListGroup>
+                        { allSheets.map((model, index) => 
+                            model.hidden ? null : 
+                            <ListItem 
+                            key={model.name} 
+                            title={model.name} 
+                            onClick={() => onMenuMoveClick(index)} />)
+                        }
                         <ListItem 
-                        key={model.name} 
-                        title={model.name} 
-                        onClick={() => onMenuMoveClick(index)} />)
-                    }
-                    <ListItem 
-                    title={t('Statusbar.textMoveToEnd')} 
-                    onClick={() => onMenuMoveClick(-255)}/>
-                </ListGroup>
-            </List>
-        </Page>
+                        title={t('Statusbar.textMoveToEnd')} 
+                        onClick={() => onMenuMoveClick(-255)}/>
+                    </ListGroup>
+                </List>
+            </Page>
+        </View>
     )
 };
 
@@ -40,19 +42,21 @@ const PageAllList = (props) => {
     const allSheets = sheets.sheets;
 
     return (
-        <Page>
-            <List>
-                { allSheets.map( (model,sheetIndex) => 
-                    <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
-                        {model.hidden ?     
-                            <div slot='after'>
-                                {t('Statusbar.textHidden')}
-                            </div>
-                        : null}
-                    </ListItem>)
-                }
-            </List>
-        </Page>
+        <View style={{height: '240px'}}>
+            <Page>
+                <List>
+                    { allSheets.map( (model,sheetIndex) => 
+                        <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
+                            {model.hidden ?     
+                                <div slot='after'>
+                                    {t('Statusbar.textHidden')}
+                                </div>
+                            : null}
+                        </ListItem>)
+                    }
+                </List>
+            </Page>
+        </View>
     )
 };
 
@@ -138,7 +142,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                 </Actions>
             ) : null}
             {
-                <Popover style={{height: '240px'}} id="idx-all-list" className="all-list">
+                <Popover id="idx-all-list" className="all-list">
                     <PageAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
                 </Popover>
             }
@@ -150,7 +154,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                     <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
                 </Sheet>
                 :
-                <Popover style={{height: '420px'}} id="idx-move-sheet-popover" closeByOutsideClick={false}>
+                <Popover id="idx-move-sheet-popover" closeByOutsideClick={false}>
                     <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
                 </Popover>
             }

@@ -298,8 +298,8 @@
     "textWarnDeleteSheet": "İş vərəqində məlumat ola bilər. Əməliyyat davam etdirilsin?",
     "textHidden": "Hidden",
     "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward"
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu sənəddə saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" hissəsinin üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",

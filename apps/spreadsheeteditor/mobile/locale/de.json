@@ -290,8 +290,6 @@
     "textHide": "Ausblenden",
     "textMore": "Mehr",
     "textMove": "Verschieben",
-    "textMoveBack": "Zurück",
-    "textMoveForward": "Vorwärts",
     "textOk": "OK",
     "textRename": "Umbenennen",
     "textRenameSheet": "Tabelle umbenennen",
@@ -299,7 +297,9 @@
     "textSheetName": "Blattname",
     "textUnhide": "Einblenden",
     "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?",
-    "textHidden": "Hidden"
+    "textHidden": "Hidden",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

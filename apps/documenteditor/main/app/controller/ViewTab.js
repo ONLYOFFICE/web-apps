@@ -246,8 +246,10 @@ define([
             if (this.view) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
-                this.view.btnInterfaceTheme.menu.clearAll();
-                menu_item.setChecked(true, true);
+                if ( menu_item ) {
+                    this.view.btnInterfaceTheme.menu.clearAll();
+                    menu_item.setChecked(true, true);
+                }
                 this.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
             }
         },
