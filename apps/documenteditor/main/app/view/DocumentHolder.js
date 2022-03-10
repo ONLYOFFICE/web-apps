@@ -802,6 +802,17 @@ define([
                     }
                 }
             };
+            
+            var onDoubleClickOnTableOleObject = function(chart) {
+                if (me.mode.isEdit && !me._isDisabled) {
+                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor && chart) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
+                    }
+                }
+            };
 
             var onCoAuthoringDisconnect= function() {
                 me.mode.isEdit = false;
@@ -1596,6 +1607,7 @@ define([
                         this.api.asc_registerCallback('asc_onImgWrapStyleChanged',      _.bind(this.onImgWrapStyleChanged, this));
                         this.api.asc_registerCallback('asc_onDialogAddHyperlink',       onDialogAddHyperlink);
                         this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
+                        this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', onDoubleClickOnTableOleObject);
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
                         this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
                         this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));

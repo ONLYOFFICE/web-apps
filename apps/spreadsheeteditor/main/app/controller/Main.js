@@ -2491,6 +2491,8 @@ define([
                     case 'clearChartData':  this.clearChartData(); break;
                     case 'setMergeData':    this.setMergeData(data.data); break;
                     case 'getMergeData':    this.getMergeData(); break;
+                    case 'setOleData':      this.setOleData(data.data); break;
+                    case 'getOleData':      this.getOleData(); break;
                     case 'setAppDisabled':
                         if (this.isAppDisabled===undefined && !data.data) { // first editor opening
                             Common.NotificationCenter.trigger('layout:changed', 'main');
@@ -2543,6 +2545,24 @@ define([
 
             clearChartData: function() {
                 this.api && this.api.asc_closeCellEditor();
+            },
+
+            setOleData: function(obj) {
+                if (typeof obj === 'object' && this.api) {
+                    this.api.asc_addTableOleObject(obj);
+                    this.isFrameClosed = false;
+                }
+            },
+
+            getOleData: function() {
+                if (this.api) {
+                    var oleData = this.api.asc_getBinaryInfoOleObject();
+                    if (typeof oleData === 'object') {
+                        Common.Gateway.internalMessage('oleData', {
+                            data: oleData
+                        });
+                    }
+                }
             },
 
             setMergeData: function(merge) {
