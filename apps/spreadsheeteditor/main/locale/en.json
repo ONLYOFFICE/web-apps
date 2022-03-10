@@ -1726,6 +1726,8 @@
   "SSE.Views.ChartSettingsDlg.textYAxisTitle": "Y Axis Title",
   "SSE.Views.ChartSettingsDlg.textZero": "Zero",
   "SSE.Views.ChartSettingsDlg.txtEmpty": "This field is required",
+  "SSE.Views.ChartSettingsDlg.textBase": "Base",
+  "SSE.Views.ChartSettingsDlg.textLogScale": "Logarithmic Scale",
   "SSE.Views.ChartTypeDialog.errorComboSeries": "To create a combination chart, select at least two series of data.",
   "SSE.Views.ChartTypeDialog.errorSecondaryAxis": "The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.",
   "SSE.Views.ChartTypeDialog.textSecondary": "Secondary Axis",
