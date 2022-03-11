@@ -166,7 +166,7 @@ define([
 
             var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
             if (oleEditor) {
-                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
+                oleEditor.on('internalmessage', _.bind(function(cmp, message) {
                     var command = message.data.command;
                     var data = message.data.data;
                     if (this.api) {
@@ -174,7 +174,7 @@ define([
                             this.api.asc_editTableOleObject(data);
                     }
                 }, this));
-                diagramEditor.on('hide', _.bind(function(cmp, message) {
+                oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
                     }
