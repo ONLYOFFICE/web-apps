@@ -631,7 +631,7 @@
   "SSE.Controllers.LeftMenu.textWithin": "Искать",
   "SSE.Controllers.LeftMenu.textWorkbook": "В книге",
   "SSE.Controllers.LeftMenu.txtUntitled": "Без имени",
-  "SSE.Controllers.LeftMenu.warnDownloadAs": "Если Вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?",
+  "SSE.Controllers.LeftMenu.warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?",
   "SSE.Controllers.Main.confirmMoveCellRange": "Конечный диапазон ячеек может содержать данные. Продолжить операцию?",
   "SSE.Controllers.Main.confirmPutMergeRange": "Исходные данные содержали объединенные ячейки.<br>Перед вставкой этих ячеек в таблицу объединение было отменено.",
   "SSE.Controllers.Main.confirmReplaceFormulaInTable": "Формулы в строке заголовка будут удалены и преобразованы в статический текст.<br>Вы хотите продолжить?",
