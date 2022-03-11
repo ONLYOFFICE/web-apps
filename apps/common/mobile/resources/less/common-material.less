@@ -412,10 +412,14 @@
         }
     }
     .popover__titled {
-        .list:last-child {
-            li:last-child {
-                a {
+        .list {
+            ul {
+                background-color: var(--f7-list-bg-color);
+                li:first-child, li:last-child {
                     border-radius: 0;
+                    a {
+                        border-radius: 0;
+                    }
                 }
             }
         }

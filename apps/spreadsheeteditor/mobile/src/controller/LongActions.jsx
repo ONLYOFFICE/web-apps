@@ -26,12 +26,17 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     };
 
     useEffect( () => {
-        Common.Notifications.on('engineCreated', (api) => {
+        const on_engine_created = api => { 
             api.asc_registerCallback('asc_onStartAction', onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction', onLongActionEnd);
             api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
             api.asc_registerCallback('asc_onConfirmAction', onConfirmAction);
-        });
+        };
+
+        const api = Common.EditorApi.get();
+        if(!api) Common.Notifications.on('engineCreated', on_engine_created);
+        else on_engine_created(api);
+
         Common.Notifications.on('preloader:endAction', onLongActionEnd);
         Common.Notifications.on('preloader:beginAction', onLongActionBegin);
         Common.Notifications.on('preloader:close', closePreloader);
@@ -45,6 +50,7 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
                 api.asc_unregisterCallback('asc_onConfirmAction', onConfirmAction);
             }
 
+            Common.Notifications.off('engineCreated', on_engine_created);
             Common.Notifications.off('preloader:endAction', onLongActionEnd);
             Common.Notifications.off('preloader:beginAction', onLongActionBegin);
             Common.Notifications.off('preloader:close', closePreloader);
