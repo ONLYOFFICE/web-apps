@@ -779,9 +779,9 @@ define([
                 this._sheetViewTip.hide();
         },
 
-        onChangeViewMode: function(item, compact) {
+        onChangeViewMode: function(item, compact, suppressEvent) {
             this.statusbar.fireEvent('view:compact', [this.statusbar, compact]);
-            Common.localStorage.setBool('sse-compact-statusbar', compact);
+            !suppressEvent && Common.localStorage.setBool('sse-compact-statusbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'status');
             this.statusbar.onChangeCompact(compact);
 

@@ -176,7 +176,7 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
@@ -249,7 +249,7 @@ define([
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 Common.NotificationCenter.on('cells:range',   _.bind(this.onCellsRange, this));
             return this;
         },
@@ -867,6 +867,7 @@ define([
 
             if (this.mode.isEditDiagram && s!='escape') return false;
             if (this.mode.isEditMailMerge && s!='escape' && s!='search') return false;
+            if (this.mode.isEditOle && s!='escape' && s!='search') return false;
 
             switch (s) {
                 case 'replace':
@@ -877,7 +878,8 @@ define([
                         this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
 
-                        this.leftMenu.menuFile.hide();
+                        if ( this.leftMenu.menuFile.isVisible() )
+                            this.leftMenu.menuFile.hide();
                     }
                     return false;
                 case 'save':
@@ -931,7 +933,7 @@ define([
                         }
                         return false;
                     }
-                    if (this.mode.isEditDiagram || this.mode.isEditMailMerge) {
+                    if (this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) {
                         menu_opened = $(document.body).find('.open > .dropdown-menu');
                         if (!this.api.isCellEdited && !menu_opened.length) {
                             Common.Gateway.internalMessage('shortcut', {key:'escape'});

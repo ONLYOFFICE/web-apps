@@ -71,5 +71,40 @@
             </div>
             <div class="group" style="width: 100%;"></div>
         </section>
+    <% } else if ( isEditOle ) { %>
+        <!----------------------->
+        <!-- Edit ole object -->
+        <!----------------------->
+        <section class="simple-bar">
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-copy"></span>
+                    <span class="btn-slot split" id="slot-btn-paste"></span>
+                    <span class="btn-slot split" id="slot-btn-undo"></span>
+                    <span class="btn-slot" id="slot-btn-redo"></span>
+                </div>
+            </div>
+            <div class="separator short"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-sortdesc"></span>
+                    <span class="btn-slot" id="slot-btn-sortasc"></span>
+                </div>
+            </div>
+            <div class="separator short" style="margin-left: 5px;"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-setfilter"></span>
+                    <span class="btn-slot" id="slot-btn-clear-filter"></span>
+                </div>
+            </div>
+            <div class="separator short"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-search"></span>
+                </div>
+            </div>
+            <div class="group" style="width: 100%;"></div>
+        </section>
     <% } %>
 </div>

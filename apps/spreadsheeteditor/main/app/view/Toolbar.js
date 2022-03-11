@@ -342,7 +342,7 @@ define([
                     dataHintOffset: 'medium'
                 });
             } else
-            if ( config.isEditMailMerge ) {
+            if ( config.isEditMailMerge || config.isEditOle ) {
                 me.$layout = $(_.template(simple)(config));
 
                 me.btnSearch = new Common.UI.Button({
@@ -1781,7 +1781,7 @@ define([
             });
 
             if ( mode.isEdit ) {
-                if (!mode.isEditDiagram && !mode.isEditMailMerge) {
+                if (!mode.isEditDiagram && !mode.isEditMailMerge && !mode.isEditOle) {
                     var top = Common.localStorage.getItem("sse-pgmargins-top"),
                         left = Common.localStorage.getItem("sse-pgmargins-left"),
                         bottom = Common.localStorage.getItem("sse-pgmargins-bottom"),
@@ -2361,7 +2361,7 @@ define([
                 }));
             }
 
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 this.updateMetricUnit();
         },
 
@@ -2412,7 +2412,7 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram) {
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle) {
                 this.api.asc_registerCallback('asc_onCollaborativeChanges',  _.bind(this.onApiCollaborativeChanges, this));
                 this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onApiSendThemeColorSchemes, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onApiUsersChanged, this));
@@ -2572,7 +2572,7 @@ define([
         },
 
         onAppReady: function (config) {
-            if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram) return;
+            if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram || this.mode.isEditOle) return;
 
             var me = this;
             var _holder_view = SSE.getController('DocumentHolder').getView('DocumentHolder');

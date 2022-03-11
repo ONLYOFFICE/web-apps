@@ -516,7 +516,7 @@ define([
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                $('#status-addtabs-box')[this.mode.isEdit ? 'show' : 'hide']();
+                $('#status-addtabs-box')[(this.mode.isEdit && !this.mode.isEditOle ) ? 'show' : 'hide']();
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 this.updateTabbarBorders();
             },
@@ -607,7 +607,7 @@ define([
                         this.tabbar.setTabVisible(sindex);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || wbprotected || me.api.isCellEdited);
-                    if (this.mode.isEdit) {
+                    if (this.mode.isEdit && !this.mode.isEditOle) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
                         }));
@@ -698,7 +698,7 @@ define([
                     this.tabbar.setTabVisible(index);
                 }
 
-                if (this.mode.isEdit) {
+                if (this.mode.isEdit && !this.mode.isEditOle) {
                     this.tabbar.addDataHint(index);
                 }
 
@@ -710,7 +710,7 @@ define([
 
             onTabMenu: function (o, index, tab, select) {
                 var me = this;
-                if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                if (this.mode.isEdit  && !this.mode.isEditOle && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
                     !this.mode.isDisconnected ) {

@@ -69,8 +69,7 @@ define([
                     }
                 },
                 editorConfig: {
-                    // mode            : 'editole',
-                    mode            : 'editdiagram',
+                    mode            : 'editole',
                     targetApp       : targetApp,
                     lang            : appLang,
                     canCoAuthoring  : false,
