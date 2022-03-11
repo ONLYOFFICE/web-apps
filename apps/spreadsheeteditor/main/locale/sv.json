@@ -2753,6 +2753,7 @@
   "SSE.Views.PrintWithPreview.txtCurrentSheet": "Aktuellt kalkylblad",
   "SSE.Views.PrintWithPreview.txtCustom": "Anpassad",
   "SSE.Views.PrintWithPreview.txtCustomOptions": "Anpassade alternativ",
+  "SSE.Views.PrintWithPreview.txtEmptyTable": "Det finns inget att skriva ut eftersom tabellen är tom",
   "SSE.Views.PrintWithPreview.txtFitCols": "Anpassa alla kolumner till en sida",
   "SSE.Views.PrintWithPreview.txtFitPage": "Anpassa kalkylbladet på en sida",
   "SSE.Views.PrintWithPreview.txtFitRows": "Anpassa alla rader på en sida",

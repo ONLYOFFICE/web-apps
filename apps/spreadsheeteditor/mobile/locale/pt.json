@@ -291,15 +291,15 @@
     "textHide": "Ocultar",
     "textMore": "Mais",
     "textMove": "Mover",
+    "textMoveBefore": "Mover antes da folha",
+    "textMoveToEnd": "(Mover para o final)",
     "textOk": "OK",
     "textRename": "Renomear",
     "textRenameSheet": "Renomear Folha",
     "textSheet": "Folha",
     "textSheetName": "Nome da folha",
     "textUnhide": "Reexibir",
-    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -360,7 +360,12 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
