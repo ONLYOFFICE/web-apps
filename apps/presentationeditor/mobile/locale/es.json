@@ -245,7 +245,7 @@
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
-      "textActualSize": "Tamaño actual",
+      "textActualSize": "Tamaño real",
       "textAddCustomColor": "Agregar color personalizado",
       "textAdditional": "Adicional",
       "textAdditionalFormatting": "Formato adicional",

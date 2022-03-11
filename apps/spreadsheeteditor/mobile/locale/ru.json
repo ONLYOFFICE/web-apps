@@ -360,7 +360,12 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
       "txtSortSelected": "Сортировать выделенное",
-      "txtYes": "Да"
+      "txtYes": "Да",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",
@@ -673,7 +678,7 @@
       "txtSemicolon": "Точка с запятой",
       "txtSpace": "Пробел",
       "txtTab": "Табуляция",
-      "warnDownloadAs": "Если вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?"
+      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?"
     }
   }
 }

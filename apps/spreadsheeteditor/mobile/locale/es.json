@@ -291,15 +291,15 @@
     "textHide": "Ocultar",
     "textMore": "Más",
     "textMove": "Mover",
+    "textMoveBefore": "Mover antes de la hoja",
+    "textMoveToEnd": "(Mover al final)",
     "textOk": "OK",
     "textRename": "Renombrar",
     "textRenameSheet": "Renombrar hoja",
     "textSheet": "Hoja",
     "textSheetName": "Nombre de hoja",
     "textUnhide": "Volver a mostrar",
-    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -360,7 +360,12 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
