@@ -118,8 +118,6 @@ class SearchView extends Component {
                 on: {
                     search: (bar, curval, prevval) => {
                     },
-                    enable: this.onSearchbarShow.bind(this, true),
-                    disable: this.onSearchbarShow.bind(this, false)
                 }
             });
         }
@@ -183,11 +181,11 @@ class SearchView extends Component {
         }
     }
 
-    onSearchbarShow(isshowed, bar) {
-        if ( !isshowed ) {
-            this.$replace.val('');
-        }
-    }
+    // onSearchbarShow(isshowed, bar) {
+    //     if ( !isshowed ) {
+    //         // this.$replace.val('');
+    //     }
+    // }
 
     onEditorTouchStart(e) {
         console.log('taouch start');
@@ -260,7 +258,7 @@ class SearchView extends Component {
                     </div>
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
-                            <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
+                            <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="text" maxLength="255"
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />
@@ -268,7 +266,7 @@ class SearchView extends Component {
                         {/* {usereplace || isReplaceAll ?  */}
                             <div className="searchbar-input-wrap" style={usereplace || isReplaceAll ? null : hidden}>
                                 {/* style={!usereplace ? hidden: null} */}
-                                <input value={replaceQuery} placeholder={_t.textReplace} type="search" maxLength="255" id="idx-replace-val"
+                                <input value={replaceQuery} placeholder={_t.textReplace} type="text" maxLength="255" id="idx-replace-val"
                                     onChange={e => {this.changeReplaceQuery(e.target.value)}} />
                                 {isIos ? <i className="searchbar-icon" /> : null}
                                 <span className="input-clear-button" onClick={() => this.changeReplaceQuery('')} />
