@@ -78,6 +78,9 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSetSearchCurrent', _.bind(this.onUpdateSearchCurrent, this));
+                this.api.asc_registerCallback('asc_onStartTextAroundSearch', _.bind(this.onStartTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
             }
             return this;
         },
@@ -89,6 +92,8 @@ define([
 
         onQuerySearch: function (d, w, opts) {
             if (opts.textsearch && opts.textsearch.length) {
+                this.hideResults();
+
                 var searchSettings = new AscCommon.CSearchSettings();
                 searchSettings.put_Text(opts.textsearch);
                 searchSettings.put_MatchCase(opts.matchcase);
@@ -102,12 +107,16 @@ define([
                             //me.dlgSearch.focus();
                         }
                     });
+                } else {
+                    this.api.asc_StartTextAroundSearch();
                 }
             }
         },
 
         onQueryReplace: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
+                this.hideResults();
+
                 var searchSettings = new AscCommon.CSearchSettings();
                 searchSettings.put_Text(opts.textsearch);
                 searchSettings.put_MatchCase(opts.matchcase);
@@ -121,12 +130,16 @@ define([
                             me.view.focus();
                         }
                     });
+                } else {
+                    this.api.asc_StartTextAroundSearch();
                 }
             }
         },
 
         onQueryReplaceAll: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
+                this.hideResults();
+
                 var searchSettings = new AscCommon.CSearchSettings();
                 searchSettings.put_Text(opts.textsearch);
                 searchSettings.put_MatchCase(opts.matchcase);
@@ -138,6 +151,37 @@ define([
         onUpdateSearchCurrent: function (current, all) {
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
+            }
+        },
+
+        onStartTextAroundSearch: function () {
+            if (this.view) {
+                this.view.$resultsContainer.show();
+                this._state.isStartedAddingResults = true;
+            }
+        },
+
+        onEndTextAroundSearch: function () {
+            if (this.view) {
+                this._state.isStartedAddingResults = false;
+                this.view.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            }
+        },
+
+        onApiGetTextAroundSearch: function (data) {
+            if (this.view && this._state.isStartedAddingResults) {
+                var me = this;
+                data.forEach(function (item) {
+                    var el = '<div class="item">' + item[1].trim() + '</div>';
+                    me.view.$resultsContainer.append(el);
+                });
+            }
+        },
+
+        hideResults: function () {
+            if (this.view) {
+                this.view.$resultsContainer.hide();
+                this.view.$resultsContainer.empty();
             }
         },
 

@@ -57,6 +57,7 @@ define([
         },
 
         render: function(el) {
+            var me = this;
             if (!this.rendered) {
                 el = el || this.el;
                 $(el).html(this.template({
@@ -145,6 +146,21 @@ define([
                 });
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
+                this.$resultsContainer = $('#search-results');
+                this.$resultsContainer.hide();
+
+                this.$resultsContainer.scroller = new Common.UI.Scroller({
+                    el: this.$resultsContainer,
+                    includePadding: true,
+                    useKeyboard: true,
+                    minScrollbarLength: 40,
+                    alwaysVisibleY: true
+                });
+                Common.NotificationCenter.on('window:resize', function() {
+                    me.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
+                    me.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                });
+
                 if (window.SSE) {
                     this.cmbWithin = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-within'),
@@ -203,6 +219,10 @@ define([
 
         show: function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+
+            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
+            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+
             this.fireEvent('show', this );
         },
 

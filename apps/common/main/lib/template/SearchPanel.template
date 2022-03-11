@@ -52,11 +52,11 @@
                     <td class="padding-small"><div id="search-adv-use-regexp"></div></td>
                 </tr>
                 <tr>
-                    <td class="padding-small"><div id="search-adv-match-word"></div></td>
+                    <td class="padding-large"><div id="search-adv-match-word"></div></td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div id="search-results">
+    <div id="search-results" class="ps-container oo">
     </div>
 </div>
