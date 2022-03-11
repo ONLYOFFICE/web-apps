@@ -264,7 +264,7 @@ define([
                     if ((!Common.Utils.ModalWindow.isVisible() || $('.asc-window.enable-key-events:visible').length>0) && !(me.loadMask && me.loadMask.isVisible())) {
                         if (/form-control/.test(e.target.className))
                             me.inFormControl = false;
-                        if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
+                        if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible() && $('.asc-window.enable-key-events:visible').length === 0)
                             return;
                         if (!e.relatedTarget ||
                             !/area_id/.test(e.target.id)
