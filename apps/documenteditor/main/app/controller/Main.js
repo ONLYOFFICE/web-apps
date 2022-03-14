@@ -1866,24 +1866,24 @@ define([
                         config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
                         break;
 
-                   case Asc.c_oAscError.ID.MailToClientMissing:
+                    case Asc.c_oAscError.ID.MailToClientMissing:
                         config.msg = this.errorEmailClient;
                         break;
 
-                   case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
                         config.msg = this.errorFileSizeExceed;
                         break;
 
-                   case Asc.c_oAscError.ID.UpdateVersion:
+                    case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         config.maxwidth = 600;
                         break;
 
-                   case Asc.c_oAscError.ID.DirectUrl:
+                    case Asc.c_oAscError.ID.DirectUrl:
                         config.msg = this.errorDirectUrl;
                         break;
 
-                   case Asc.c_oAscError.ID.CannotCompareInCoEditing:
+                    case Asc.c_oAscError.ID.CannotCompareInCoEditing:
                         config.msg = this.errorCompare;
                         break;
 
@@ -1901,6 +1901,10 @@ define([
 
                     case Asc.c_oAscError.ID.LoadingFontError:
                         config.msg = this.errorLoadingFont;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComplexFieldEmptyTOC:
+                        config.msg = this.errorEmptyTOC;
                         break;
 
                     default:
@@ -3130,7 +3134,8 @@ define([
             textDisconnect: 'Connection is lost',
             textReconnect: 'Connection is restored',
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
-            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+            errorEmptyTOC: 'There\'s no table of contents to update. You can insert one from the References tab.'
         }
     })(), DE.Controllers.Main || {}))
 });
