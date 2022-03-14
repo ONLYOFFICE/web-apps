@@ -75,7 +75,9 @@ define([
                     'links:caption': this.onCaptionClick,
                     'links:crossref': this.onCrossRefClick,
                     'links:tof': this.onTableFigures,
-                    'links:tof-update': this.onTableFiguresUpdate
+                    'links:tof-update': this.onTableFiguresUpdate,
+                    'links:addtext': this.onAddText,
+                    'links:addtext-open': this.onAddTextOpen
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -189,6 +191,8 @@ define([
             this.lockToolbar(Common.enumLock.plainDelLock,  plain_del_lock,     {array: this.view.btnsContents.concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate])});
             this.lockToolbar(Common.enumLock.contentLock,   content_locked,     {array: [this.view.btnCrossRef]});
             this.lockToolbar(Common.enumLock.cantUpdateTOF, !this.api.asc_CanUpdateTablesOfFigures(),   {array: [this.view.btnTableFiguresUpdate]});
+            this.lockToolbar(Common.enumLock.inFootnote, this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote(),   {array: [this.view.btnAddText]});
+            this.lockToolbar(Common.enumLock.inHeader, in_header,   {array: [this.view.btnAddText]});
 
             this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(this.view.btnCrossRef.isDisabled());
         },
@@ -312,6 +316,17 @@ define([
 
         onTableContentsOpen: function(menu) {
             this.api.asc_getButtonsTOC(menu.items[0].options.previewId, menu.items[1].options.previewId);
+        },
+
+        onAddTextOpen: function(menu) {
+            var props = this.api.asc_GetTableOfContentsPr(),
+                end = props ? props.get_OutlineEnd() : 3;
+            (end<0) && (end = 9);
+            this.view.fillAddTextMenu(menu, end, this.api.asc_GetCurrentLevelTOC());
+        },
+
+        onAddText: function(value) {
+            this.api.asc_AddParagraphToTOC(value);
         },
 
         onNotesClick: function(type) {
