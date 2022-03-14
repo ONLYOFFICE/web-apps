@@ -968,6 +968,7 @@ define([
             } else if (text !== undefined) {
                 this.leftMenu.panelSearch.setFindText('');
             }
+            this.leftMenu.panelSearch.disableNavButtons();
             this.leftMenu.panelSearch.focus();
         },
 

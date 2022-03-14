@@ -72,6 +72,7 @@ define([
                     validateOnBlur: false,
                     style: 'width: 100%;'
                 });
+                this.inputText._input.on('input', _.bind(this.disableNavButtons, this));
 
                 this.inputReplace = new Common.UI.InputField({
                     el: $('#search-adv-replace-text'),
@@ -161,6 +162,7 @@ define([
                     me.$resultsContainer.scroller.update({alwaysVisibleY: true});
                 });
 
+                Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
                 if (window.SSE) {
                     this.cmbWithin = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-within'),
@@ -223,6 +225,7 @@ define([
             this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
             this.$resultsContainer.scroller.update({alwaysVisibleY: true});
 
+            this.disableNavButtons();
             this.fireEvent('show', this );
         },
 
@@ -300,6 +303,12 @@ define([
 
         clearResults: function () {
             this.updateResultsNumber('no-results');
+        },
+
+        disableNavButtons: function (resultNumber, allResults) {
+            var disable = this.inputText._input.val() === '';
+            this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
+            this.btnNext.setDisabled(disable);
         },
 
         textFind: 'Find',

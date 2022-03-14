@@ -152,6 +152,7 @@ define([
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
             }
+            Common.NotificationCenter.trigger('search:updateresults', current, all);
         },
 
         onStartTextAroundSearch: function () {

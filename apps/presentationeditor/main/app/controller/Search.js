@@ -139,6 +139,7 @@ define([
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
             }
+            Common.NotificationCenter.trigger('search:updateresults', current, all);
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',

@@ -80,6 +80,9 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             this.inputSearch = this.$window.find('#search-bar-text');
+            this.inputSearch.on('input', _.bind(function () {
+                this.disableNavButtons();
+            }, this));
 
             this.btnBack = new Common.UI.Button({
                 parentEl: $('#search-bar-back'),
@@ -113,6 +116,8 @@ define([
 
             this.on('animate:before', _.bind(this.focus, this));
 
+            Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
+
             return this;
         },
 
@@ -127,6 +132,7 @@ define([
                 this.inputSearch.val('');
             }
 
+            this.disableNavButtons();
             this.focus();
         },
 
@@ -165,6 +171,12 @@ define([
         onOpenPanel: function () {
             this.hide();
             this.fireEvent('search:show', [true, this.inputSearch.val()]);
+        },
+
+        disableNavButtons: function (resultNumber, allResults) {
+            var disable = this.inputSearch.val() === '';
+            this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
+            this.btnNext.setDisabled(disable);
         },
 
         textFind: 'Find'

@@ -255,7 +255,6 @@ define([
             if (this.panelSearch) {
                 if (this.btnSearchBar.pressed) {
                     this.panelSearch.show();
-                    this.fireEvent('search:aftershow', this);
                 } else {
                     this.panelSearch.hide();
                 }
@@ -375,6 +374,7 @@ define([
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
                         this.onCoauthOptions();
+                        this.fireEvent('search:aftershow', this);
                     }
                 }
                 /** coauthoring end **/
