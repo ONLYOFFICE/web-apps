@@ -140,7 +140,9 @@ define([
                 in_header = false,
                 in_equation = false,
                 in_image = false,
+                in_image_inline = false,
                 in_table = false,
+                in_para = false,
                 frame_pr = null,
                 object_type;
 
@@ -151,11 +153,13 @@ define([
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
                     frame_pr = pr;
+                    in_para = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
                     in_image = true;
+                    in_image_inline = (pr.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline);
                     object_type = type;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
@@ -193,6 +197,7 @@ define([
             this.lockToolbar(Common.enumLock.cantUpdateTOF, !this.api.asc_CanUpdateTablesOfFigures(),   {array: [this.view.btnTableFiguresUpdate]});
             this.lockToolbar(Common.enumLock.inFootnote, this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote(),   {array: [this.view.btnAddText]});
             this.lockToolbar(Common.enumLock.inHeader, in_header,   {array: [this.view.btnAddText]});
+            this.lockToolbar(Common.enumLock.cantAddTextTOF, in_image && !in_image_inline && !in_para,   {array: [this.view.btnAddText]});
 
             this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(this.view.btnCrossRef.isDisabled());
         },

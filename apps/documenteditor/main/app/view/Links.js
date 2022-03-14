@@ -197,7 +197,7 @@ define([
                     parentEl: $host.find('#slot-btn-add-text'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-update',
-                    lock: [ _set.inHeader, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                    lock: [ _set.cantAddTextTOF, _set.inHeader, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnAddText,
                     menu: new Common.UI.Menu({
                         items: []

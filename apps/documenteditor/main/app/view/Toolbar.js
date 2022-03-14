@@ -109,6 +109,7 @@ define([
         cantAddPageNum: 'cant-add-page-num',
         cantPageBreak:  'cant-page-break',
         cantUpdateTOF:  'cant-update-tof',
+        cantAddTextTOF: 'cant-addtext-tof',
         cantGroup:      'cant-group',
         cantWrap:       'cant-wrap',
         cantArrange:    'cant-arrange',
