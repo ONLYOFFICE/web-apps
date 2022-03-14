@@ -397,7 +397,9 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Φόρτωση δεδομένων...",

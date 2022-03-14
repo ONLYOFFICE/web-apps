@@ -397,7 +397,9 @@
     "unknownErrorText": "Naməlum xəta.",
     "uploadImageExtMessage": "Naməlum təsvir formatı.",
     "uploadImageFileCountMessage": "Heç bir təsvir yüklənməyib.",
-    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır."
+    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Məlumat yüklənir...",

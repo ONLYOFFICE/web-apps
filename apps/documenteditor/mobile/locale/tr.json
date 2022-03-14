@@ -397,7 +397,9 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",

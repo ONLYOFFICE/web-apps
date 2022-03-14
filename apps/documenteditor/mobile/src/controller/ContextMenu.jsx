@@ -134,11 +134,9 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         let props = api.asc_GetTableOfContentsPr(currentTOC);
 
-        if (props) {
-            if (currentTOC && props)
-                currentTOC = props.get_InternalClass();
-            api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
-        }
+        if (currentTOC && props)
+            currentTOC = props.get_InternalClass();
+        api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
     };
 
     showCopyCutPasteModal() {

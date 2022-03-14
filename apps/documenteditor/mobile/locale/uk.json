@@ -397,7 +397,9 @@
     "unknownErrorText": "Невідома помилка.",
     "uploadImageExtMessage": "Невідомий формат зображення.",
     "uploadImageFileCountMessage": "Жодного зображення не завантажено.",
-    "uploadImageSizeMessage": "Занадто велике зображення. Максимальний розмір – 25 MB."
+    "uploadImageSizeMessage": "Занадто велике зображення. Максимальний розмір – 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Завантаження даних...",

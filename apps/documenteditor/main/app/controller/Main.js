@@ -1904,7 +1904,12 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.ComplexFieldEmptyTOC:
+                        config.maxwidth = 600;
                         config.msg = this.errorEmptyTOC;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComplexFieldNoTOC:
+                        config.msg = this.errorNoTOC;
                         break;
 
                     default:
@@ -3135,7 +3140,8 @@ define([
             textReconnect: 'Connection is restored',
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
-            errorEmptyTOC: 'There\'s no table of contents to update. You can insert one from the References tab.'
+            errorEmptyTOC: 'Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.',
+            errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -304,11 +304,9 @@ define([
 
         onTableContentsUpdate: function(type, currentTOC){
             var props = this.api.asc_GetTableOfContentsPr(currentTOC);
-            if (props) {
-                if (currentTOC && props)
-                    currentTOC = props.get_InternalClass();
-                this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
-            }
+            if (currentTOC && props)
+                currentTOC = props.get_InternalClass();
+            this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

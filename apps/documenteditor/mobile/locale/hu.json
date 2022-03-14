@@ -397,7 +397,9 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
