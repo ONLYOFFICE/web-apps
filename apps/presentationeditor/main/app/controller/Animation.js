@@ -188,7 +188,8 @@ define([
         },
 
         addNewEffect: function (type, group, groupName, replace, parametr) {
-            if (this._state.Effect == type && this._state.EffectGroup == group && replace) return;
+            if (this._state.Effect == type && this._state.EffectGroup == group && replace)
+                parametr = this._state.EffectOption;
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
             this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-preview"));
         },
