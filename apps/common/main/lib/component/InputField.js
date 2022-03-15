@@ -605,6 +605,10 @@ define([
                     this.passwordHide(e);
                     this.hidePwd = true;
                 }
+                var me = this;
+                setTimeout(function () {
+                    me.focus();
+                }, 1);
             },
 
             passwordShow: function (e) {
@@ -643,6 +647,10 @@ define([
                 else {
                     this._btnElm.off('mouseup', this.passwordHide);
                     this._btnElm.off('mouseout', this.passwordHide);
+                    var me = this;
+                    setTimeout(function () {
+                        me.focus();
+                    }, 1);
                 }
             },
             textHintShowPwd: 'Show password',

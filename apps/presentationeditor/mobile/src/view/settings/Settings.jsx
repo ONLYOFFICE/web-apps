@@ -86,9 +86,12 @@ const SettingsList = inject("storeAppOptions", "storeToolbarSettings")(observer(
     }
 
     const onPrint = () => {
-        closeModal();
         const api = Common.EditorApi.get();
-        api.asc_Print();
+
+        closeModal();
+        setTimeout(() => {
+            api.asc_Print();
+        }, 400);
     };
 
     const showHelp = () => {

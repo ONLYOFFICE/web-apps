@@ -11,6 +11,7 @@ class EditChartController extends Component {
         this.onType = this.onType.bind(this);
         this.onBorderColor = this.onBorderColor.bind(this);
         this.onBorderSize = this.onBorderSize.bind(this);
+        this.onStyle = this.onStyle.bind(this);
 
         const type = props.storeFocusObjects.chartObject.getType();
         if (type==Asc.c_oAscChartTypeSettings.comboBarLine ||
@@ -88,7 +89,7 @@ class EditChartController extends Component {
     onStyle (style) {
         const api = Common.EditorApi.get();
         let chart = new Asc.CAscChartProp();
-        const chartProps = this.storeFocusObjects.chartObject.get_ChartProperties();
+        const chartProps = this.props.storeFocusObjects.chartObject.get_ChartProperties();
         chartProps.putStyle(style);
         chart.put_ChartProperties(chartProps);
         api.ChartApply(chart);

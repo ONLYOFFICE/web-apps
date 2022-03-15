@@ -63,7 +63,8 @@ define([
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
                 me.listEffectsMore.on('click', _.bind(function () {
-                    me.fireEvent('animation:additional', [me.listEffects.menuPicker.getSelectedRec().get('value') != AscFormat.ANIM_PRESET_NONE]); // replace effect
+                    var rec = me.listEffects.menuPicker.getSelectedRec();
+                    me.fireEvent('animation:additional', [!(rec && rec.get('value') === AscFormat.ANIM_PRESET_NONE)]); // replace effect
                 }, me));
             }
 

@@ -877,7 +877,8 @@ define([
                         this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
 
-                        this.leftMenu.menuFile.hide();
+                        if ( this.leftMenu.menuFile.isVisible() )
+                            this.leftMenu.menuFile.hide();
                     }
                     return false;
                 case 'save':

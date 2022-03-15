@@ -1,6 +1,4 @@
-
 @import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
-
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
@@ -11,6 +9,9 @@
     --toolbar-background: var(--background-primary, #FFF);
     --toolbar-segment: var(--brand-word, #446995);
     --toolbar-icons: var(--brand-word, #446995);
+    --f7-toolbar-border-color: var(--background-menu-divider);
+    --f7-bars-border-color: var(--background-menu-divider);
+    --f7-calendar-row-border-color: var(--background-menu-divider);
 }
 
 .device-android {
@@ -236,8 +237,74 @@
     }
 }
 
-.calendar-sheet{
-    .calendar-day-weekend {
-        color: #D25252;
+// Calendar
+
+.calendar {
+    background-color: @background-secondary;
+    .toolbar {
+        background-color: @background-secondary;
+        i.icon.icon-next, i.icon.icon-prev {
+            background-color: @text-normal;
+        }
+        &:after {
+            background-color: @background-menu-divider;
+        }
+    }
+    .calendar-row {
+        padding: 0 16px;
+        &:before {
+            display: none;
+        }
+    }
+    .current-year-value, .current-month-value {
+        color: @text-normal;
+        font-size: 16px;
+    }
+    .calendar-day-selected .calendar-day-number {
+        border: 1px solid transparent;
+        background-color: @brandColor;
+        color: @fill-white;
+    }
+    .calendar-day-today .calendar-day-number {
+        border: 1px solid @brandColor;
+        background-color: transparent;
+    }
+    .calendar-day-weekend .calendar-day-number {
+       color: #D25252;
+    }
+    .calendar-day-number {
+        color: @text-normal;
+        font-size: 14px;
+        font-weight: 500;
+        width: 47px;
+        height: 32px;
+        border-radius: 16px;
+    }
+    .calendar-week-header {
+        margin: 25px 16px 10px 16px;
+        background-color: @background-secondary;
+        color: @text-normal;
+        border-bottom: 1px solid @background-menu-divider;
+        padding-bottom: 5px;
+        height: auto;
+        .calendar-week-day {
+            color: @text-normal;
+            font-size: 12px;
+        }
+    }
+    .calendar-months {
+        margin-bottom: 12px;
+    }
+    .calendar-month-picker-item, .calendar-year-picker-item {
+        color: @text-normal;
+        &:before, &:after {
+            background-color: @background-menu-divider;
+        }
+    }
+    .calendar-month-picker, .calendar-year-picker {
+        background: @background-secondary;
+    }
+    .calendar-month-picker-item-current, .calendar-year-picker-item-current {
+        color: @brandColor;
     }
 }

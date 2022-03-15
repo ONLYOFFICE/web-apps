@@ -361,7 +361,12 @@
       "txtSorting": "Sorteren",
       "txtSortSelected": "Geselecteerde sorteren",
       "txtYes": "Ja",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",
