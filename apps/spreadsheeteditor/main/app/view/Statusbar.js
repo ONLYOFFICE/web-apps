@@ -519,6 +519,15 @@ define([
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
                 this.btnAddWorksheet.setVisible(!this.mode.isEditOle);
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+                if (this.mode.isEditOle) { // change hints order
+                    this.btnScrollFirst.$el.find('button').attr('data-hint', '1');
+                    this.btnScrollLast.$el.find('button').attr('data-hint', '1');
+                    this.btnScrollBack.$el.find('button').attr('data-hint', '1');
+                    this.btnScrollNext.$el.find('button').attr('data-hint', '1');
+                    this.cntSheetList.$el.find('button').attr('data-hint', '1');
+                    this.cntSheetList.$el.find('button').removeAttr('data-hint-title'); // 'v' hint is used for paste
+                    this.cntZoom.$el.find('.dropdown-toggle').attr('data-hint', '1');
+                }
                 this.updateTabbarBorders();
             },
 
