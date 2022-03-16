@@ -979,7 +979,7 @@ define([
                     //this.boxAction.show();
                 }
                 this.updateTabbarBorders();
-                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
+                (this.tabbar.getCount()>0) && this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
             },
 
             updateNumberOfSheet: function (active, count) {
