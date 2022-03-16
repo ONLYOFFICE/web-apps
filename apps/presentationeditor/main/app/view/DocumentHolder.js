@@ -354,7 +354,8 @@ define([
                     addEvent(me.el, eventname, handleDocumentWheel);
                 }
 
-                $(document).on('mousewheel', handleDocumentWheel);
+                !Common.Utils.isChrome ? $(document).on('mousewheel', handleDocumentWheel) :
+                    document.addEventListener('mousewheel', handleDocumentWheel, {passive: false});
                 $(document).on('keydown', handleDocumentKeyDown);
                 $(window).on('resize', onDocumentHolderResize);
                 var viewport = PE.getController('Viewport').getView('Viewport');
