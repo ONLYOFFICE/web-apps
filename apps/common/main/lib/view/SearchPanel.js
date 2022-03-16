@@ -72,7 +72,12 @@ define([
                     validateOnBlur: false,
                     style: 'width: 100%;'
                 });
-                this.inputText._input.on('input', _.bind(this.disableNavButtons, this));
+                this.inputText._input.on('input', _.bind(function () {
+                    this.disableNavButtons();
+                    this.fireEvent('search:input', [this.inputText._input.val()]);
+                }, this)).on('keydown', _.bind(function (e) {
+                    this.fireEvent('search:keydown', [this.inputText._input.val(), e]);
+                }, this));
 
                 this.inputReplace = new Common.UI.InputField({
                     el: $('#search-adv-replace-text'),
@@ -92,7 +97,7 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
-                this.btnBack.on('click', _.bind(this.onBtnClick, this, 'next'));
+                this.btnBack.on('click', _.bind(this.onBtnNextClick, this, 'back'));
 
                 this.btnNext = new Common.UI.Button({
                     parentEl: $('#search-adv-next'),
@@ -101,17 +106,17 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
-                this.btnNext.on('click', _.bind(this.onBtnClick, this, 'next'));
+                this.btnNext.on('click', _.bind(this.onBtnNextClick, this, 'next'));
 
                 this.btnReplace = new Common.UI.Button({
                     el: $('#search-adv-replace')
                 });
-                this.btnReplace.on('click', _.bind(this.onBtnClick, this, 'replace'));
+                this.btnReplace.on('click', _.bind(this.onReplaceClick, this, 'replace'));
 
                 this.btnReplaceAll = new Common.UI.Button({
                     el: $('#search-adv-replace-all')
                 });
-                this.btnReplaceAll.on('click', _.bind(this.onBtnClick, this, 'replaceall'));
+                this.btnReplaceAll.on('click', _.bind(this.onReplaceClick, this, 'replaceall'));
 
                 this.chCaseSensitive = new Common.UI.CheckBox({
                     el: $('#search-adv-case-sensitive'),
@@ -120,6 +125,8 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
+                }).on('change', function(field) {
+                    me.fireEvent('search:options', ['case-sensitive', field.getValue() === 'checked']);
                 });
 
                 this.chUseRegExp = new Common.UI.CheckBox({
@@ -128,6 +135,8 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
+                }).on('change', function(field) {
+                    me.fireEvent('search:options', ['regexp', field.getValue() === 'checked']);
                 });
 
                 this.chMatchWord = new Common.UI.CheckBox({
@@ -137,6 +146,8 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
+                }).on('change', function(field) {
+                    me.fireEvent('search:options', ['match-word', field.getValue() === 'checked']);
                 });
 
                 this.buttonClose = new Common.UI.Button({
@@ -222,11 +233,11 @@ define([
         show: function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
-            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
-
             this.disableNavButtons();
             this.fireEvent('show', this );
+
+            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
+            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
         },
 
         hide: function () {
@@ -263,16 +274,12 @@ define([
             Common.NotificationCenter.trigger('leftmenu:change', 'hide');
         },
 
-        onBtnClick: function(action) {
-            var opts = {
-                textsearch  : this.inputText.getValue(),
-                textreplace : this.inputReplace.getValue(),
-                matchcase   : this.chCaseSensitive.checked,
-                useregexp   : this.chUseRegExp.checked,
-                matchword   : this.chMatchWord && this.chMatchWord.checked,
-                //highlight   : this.miHighlight.checked
-            };
-            this.fireEvent('search:'+action, [this, opts, true]);
+        onBtnNextClick: function (action) {
+            this.fireEvent('search:'+action, [this.inputText.getValue(), true]);
+        },
+
+        onReplaceClick: function (action) {
+            this.fireEvent('search:'+action, [this.inputText.getValue(), this.inputReplace.getValue()]);
         },
 
         getSettings: function() {
@@ -308,7 +315,7 @@ define([
         disableNavButtons: function (resultNumber, allResults) {
             var disable = this.inputText._input.val() === '';
             this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
-            this.btnNext.setDisabled(disable);
+            this.btnNext.setDisabled(disable || resultNumber + 1 === allResults);
         },
 
         textFind: 'Find',

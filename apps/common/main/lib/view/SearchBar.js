@@ -82,6 +82,9 @@ define([
             this.inputSearch = this.$window.find('#search-bar-text');
             this.inputSearch.on('input', _.bind(function () {
                 this.disableNavButtons();
+                this.fireEvent('search:input', [this.inputSearch.val()]);
+            }, this)).on('keydown', _.bind(function (e) {
+                this.fireEvent('search:keydown', [this.inputSearch.val(), e]);
             }, this));
 
             this.btnBack = new Common.UI.Button({
@@ -89,14 +92,14 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-arrow-up'
             });
-            this.btnBack.on('click', _.bind(this.onBtnClick, this, 'back'));
+            this.btnBack.on('click', _.bind(this.onBtnNextClick, this, 'back'));
 
             this.btnNext = new Common.UI.Button({
                 parentEl: $('#search-bar-next'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-arrow-down'
             });
-            this.btnNext.on('click', _.bind(this.onBtnClick, this, 'next'));
+            this.btnNext.on('click', _.bind(this.onBtnNextClick, this, 'next'));
 
             this.btnOpenPanel = new Common.UI.Button({
                 parentEl: $('#search-bar-open-panel'),
@@ -160,12 +163,8 @@ define([
             this.$window.css({left: left, top: top});
         },
 
-        onBtnClick: function(action, event) {
-            if ( $('.asc-loadmask').length ) return;
-            var opts = {
-                textsearch  : this.inputSearch.val()
-            };
-            this.fireEvent('search:'+action, [this, opts, false]);
+        onBtnNextClick: function(action) {
+            this.fireEvent('search:'+action, [this.inputSearch.val(), false]);
         },
 
         onOpenPanel: function () {
@@ -176,7 +175,7 @@ define([
         disableNavButtons: function (resultNumber, allResults) {
             var disable = this.inputSearch.val() === '';
             this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
-            this.btnNext.setDisabled(disable);
+            this.btnNext.setDisabled(disable || resultNumber + 1 === allResults);
         },
 
         textFind: 'Find'

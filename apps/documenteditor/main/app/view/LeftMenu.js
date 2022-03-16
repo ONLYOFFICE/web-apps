@@ -379,7 +379,7 @@ define([
             this.btnThumbnails.setDisabled(false);
         },
 
-        showMenu: function(menu, opts) {
+        showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
                 if ( !this.menuFile.isVisible() ) {
@@ -417,7 +417,7 @@ define([
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
                         this.onCoauthOptions();
-                        this.fireEvent('search:aftershow', this);
+                        !suspendAfter && this.fireEvent('search:aftershow', this);
                     }
                 }
                 /** coauthoring end **/

@@ -55,19 +55,32 @@ define([
         initialize: function () {
             this.addListeners({
                 'SearchBar': {
-                    'search:back': _.bind(this.onQuerySearch, this, 'back'),
-                    'search:next': _.bind(this.onQuerySearch, this, 'next'),
+                    'search:back': _.bind(this.onSearchNext, this, 'back'),
+                    'search:next': _.bind(this.onSearchNext, this, 'next'),
+                    'search:input': _.bind(this.onInputSearchChange, this),
+                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
                 },
                 'Common.Views.SearchPanel': {
-                    'search:back': _.bind(this.onQuerySearch, this, 'back'),
-                    'search:next': _.bind(this.onQuerySearch, this, 'next'),
+                    'search:back': _.bind(this.onSearchNext, this, 'back'),
+                    'search:next': _.bind(this.onSearchNext, this, 'next'),
                     'search:replace': _.bind(this.onQueryReplace, this),
-                    'search:replaceall': _.bind(this.onQueryReplaceAll, this)
+                    'search:replaceall': _.bind(this.onQueryReplaceAll, this),
+                    'search:input': _.bind(this.onInputSearchChange, this),
+                    'search:options': _.bind(this.onChangeSearchOption, this),
+                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
+                },
+                'LeftMenu': {
+                    'search:aftershow': _.bind(this.onShowAfterSearch, this)
                 }
             });
         },
         onLaunch: function () {
-            this._state = {};
+            this._state = {
+                searchText: '',
+                matchCase: false,
+                matchWord: false,
+                useRegExp: false
+            };
         },
 
         setMode: function (mode) {
@@ -81,6 +94,7 @@ define([
                 this.api.asc_registerCallback('asc_onStartTextAroundSearch', _.bind(this.onStartTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
             }
             return this;
         },
@@ -90,61 +104,89 @@ define([
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
 
-        onQuerySearch: function (d, w, opts) {
-            if (opts.textsearch && opts.textsearch.length) {
-                this.hideResults();
+        onChangeSearchOption: function (option, checked) {
+            switch (option) {
+                case 'case-sensitive':
+                    this._state.matchCase = checked;
+                    break;
+                case 'match-word':
+                    this._state.matchWord = checked;
+                    break;
+                case 'regexp':
+                    this._state.useRegExp = checked;
+                    break;
+            }
+        },
 
-                var searchSettings = new AscCommon.CSearchSettings();
-                searchSettings.put_Text(opts.textsearch);
-                searchSettings.put_MatchCase(opts.matchcase);
-                searchSettings.put_WholeWords(opts.matchword);
-                if (!this.api.asc_findText(searchSettings, d != 'back')) {
-                    var me = this;
-                    me.view.updateResultsNumber(undefined, 0);
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
-                        callback: function() {
-                            //me.dlgSearch.focus();
-                        }
-                    });
-                } else {
-                    this.api.asc_StartTextAroundSearch();
+        onSearchNext: function (type, text, e) {
+            if (text && text.length > 0 && (type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN || type !== 'keydown')) {
+                this._state.searchText = text;
+                if (this.onQuerySearch(type) && this.searchTimer) {
+                    this.hideResults();
+                    clearInterval(this.searchTimer);
+                    this.searchTimer = undefined;
+                    if (this.view.$el.is(':visible')) {
+                        this.api.asc_StartTextAroundSearch();
+                    }
                 }
             }
         },
 
-        onQueryReplace: function(w, opts) {
-            if (!_.isEmpty(opts.textsearch)) {
-                this.hideResults();
+        onInputSearchChange: function (text) {
+            var me = this;
+            if (text.length > 0 && this._state.searchText !== text) {
+                this._state.newSearchText = text;
+                this._lastInputChange = (new Date());
+                if (this.searchTimer === undefined) {
+                    this.searchTimer = setInterval(function(){
+                        if ((new Date()) - me._lastInputChange < 400) return;
 
-                var searchSettings = new AscCommon.CSearchSettings();
-                searchSettings.put_Text(opts.textsearch);
-                searchSettings.put_MatchCase(opts.matchcase);
-                searchSettings.put_WholeWords(opts.matchword);
-                if (!this.api.asc_replaceText(searchSettings, opts.textreplace, false)) {
-                    var me = this;
-                    me.view.updateResultsNumber(undefined, 0);
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
-                        callback: function() {
-                            me.view.focus();
+                        me.hideResults();
+                        me._state.searchText = me._state.newSearchText;
+                        if (me.onQuerySearch() && me.view.$el.is(':visible')) {
+                            me.api.asc_StartTextAroundSearch();
                         }
-                    });
-                } else {
-                    this.api.asc_StartTextAroundSearch();
+                        clearInterval(me.searchTimer);
+                        me.searchTimer = undefined;
+                    }, 10);
                 }
             }
         },
 
-        onQueryReplaceAll: function(w, opts) {
-            if (!_.isEmpty(opts.textsearch)) {
-                this.hideResults();
+        onQuerySearch: function (d, w) {
+            var searchSettings = new AscCommon.CSearchSettings();
+            searchSettings.put_Text(this._state.searchText);
+            searchSettings.put_MatchCase(this._state.matchCase);
+            searchSettings.put_WholeWords(this._state.matchWord);
+            if (!this.api.asc_findText(searchSettings, d != 'back')) {
+                this.view.updateResultsNumber(undefined, 0);
+                return false;
+            }
+            return true;
+        },
 
+        onQueryReplace: function(textSearch, textReplace) {
+            if (textSearch !== '') {
                 var searchSettings = new AscCommon.CSearchSettings();
-                searchSettings.put_Text(opts.textsearch);
-                searchSettings.put_MatchCase(opts.matchcase);
-                searchSettings.put_WholeWords(opts.matchword);
-                this.api.asc_replaceText(searchSettings, opts.textreplace, true);
+                searchSettings.put_Text(textSearch);
+                searchSettings.put_MatchCase(this._state.matchCase);
+                searchSettings.put_WholeWords(this._state.matchWord);
+                if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
+                    this.view.updateResultsNumber(undefined, 0);
+                }
+            }
+        },
+
+        onQueryReplaceAll: function(textSearch, textReplace) {
+            if (textSearch !== '') {
+                var searchSettings = new AscCommon.CSearchSettings();
+                searchSettings.put_Text(textSearch);
+                searchSettings.put_MatchCase(this._state.matchCase);
+                searchSettings.put_WholeWords(this._state.matchWord);
+                this.api.asc_replaceText(searchSettings, textReplace, true);
+
+                this.hideResults();
+                this.resultItems.length = 0;
             }
         },
 
@@ -172,11 +214,32 @@ define([
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
                 var me = this;
+                me.resultItems = [];
                 data.forEach(function (item) {
-                    var el = '<div class="item">' + item[1].trim() + '</div>';
+                    var el = document.createElement("div");
+                    el.className = 'item';
+                    el.innerHTML = item[1].trim();
                     me.view.$resultsContainer.append(el);
+                    me.resultItems.push({id: item[0], $el: $(el)});
+                    $(el).on('click', _.bind(function (el) {
+                        var id = item[0];
+                        me.api.asc_SelectSearchElement(id);
+                        $('#search-results').find('.item').removeClass('selected');
+                        $(el.currentTarget).addClass('selected');
+                    }, me));
                 });
             }
+        },
+
+        onApiRemoveTextAroundSearch: function (arr) {
+            var me = this;
+            arr.forEach(function (id) {
+                var ind = _.findIndex(me.resultItems, {id: id});
+                if (ind !== -1) {
+                    me.resultItems[ind].$el.remove();
+                    me.resultItems.splice(ind, 1);
+                }
+            });
         },
 
         hideResults: function () {
@@ -186,7 +249,27 @@ define([
             }
         },
 
-        textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
+        onShowAfterSearch: function (findText) {
+            var viewport = this.getApplication().getController('Viewport');
+            if (viewport.isSearchBarVisible()) {
+                viewport.searchBar.hide();
+            }
+
+            var text = findText || this.api.asc_GetSelectedText();
+            if (text) {
+                this.view.setFindText(text);
+            } else if (text !== undefined) {
+                this.view.setFindText('');
+            }
+
+            if (text !== '' && text === this._state.searchText) {
+                this.hideResults();
+                this.api.asc_StartTextAroundSearch();
+            }
+
+            this.view.disableNavButtons();
+            this.view.focus();
+        },
 
     }, DE.Controllers.Search || {}));
 });
