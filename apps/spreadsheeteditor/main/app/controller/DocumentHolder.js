@@ -241,6 +241,8 @@ define([
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
+                view.mnuChartData.on('click',                       _.bind(me.onChartData, me));
+                view.mnuChartType.on('click',                       _.bind(me.onChartType, me));
                 view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
                 view.mnuSlicerAdvanced.on('click',                  _.bind(me.onSlicerAdvanced, me));
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
@@ -1030,6 +1032,60 @@ define([
                                 Common.NotificationCenter.trigger('edit:complete', me);
                             }
                         })).show();
+                }
+            }
+        },
+
+        onChartData: function(btn) {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditRanges = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartDataDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditRanges = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditRanges && props.cancelEdit();
+                        me._isEditRanges = false;
+                    });
+                    win.show();
+                }
+            }
+        },
+
+        onChartType: function(btn) {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditType = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartTypeDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditType = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditType && props.cancelEdit();
+                        me._isEditType = false;
+                    });
+                    win.show();
                 }
             }
         },
@@ -1843,11 +1899,11 @@ define([
                 case Asc.c_oAscSelectionType.RangeCol:      iscolmenu = true; break;
                 case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
                 case Asc.c_oAscSelectionType.RangeSlicer:
-                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
             }
 
             if (this.api.asc_getHeaderFooterMode()) {
@@ -1918,6 +1974,10 @@ define([
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
                 documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);
+                documentHolder.mnuChartData.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                documentHolder.mnuChartData.setDisabled(isObjLocked);
+                documentHolder.mnuChartType.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                documentHolder.mnuChartType.setDisabled(isObjLocked);
                 documentHolder.pmiImgCut.setDisabled(isObjLocked);
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
@@ -1946,6 +2006,7 @@ define([
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
 
+                documentHolder.menuImgMacro.setVisible(!internaleditor);
                 documentHolder.menuImgMacro.setDisabled(isObjLocked);
 
                 var canEditPoints = this.api && this.api.asc_canEditGeometry();
