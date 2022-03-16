@@ -87,6 +87,12 @@
             <div class="separator short"></div>
             <div class="group small">
                 <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-formula"></span>
+                </div>
+            </div>
+            <div class="separator short"></div>
+            <div class="group small">
+                <div class="elset">
                     <span class="btn-slot split" id="slot-btn-sortdesc"></span>
                     <span class="btn-slot" id="slot-btn-sortasc"></span>
                 </div>
@@ -96,6 +102,14 @@
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-setfilter"></span>
                     <span class="btn-slot" id="slot-btn-clear-filter"></span>
+                </div>
+            </div>
+            <div class="separator short"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-digit-dec"></span>
+                    <span class="btn-slot split" id="slot-btn-digit-inc"></span>
+                    <span class="btn-slot" id="slot-btn-format" style="width: 84px; vertical-align: middle;"></span>
                 </div>
             </div>
             <div class="separator short"></div>

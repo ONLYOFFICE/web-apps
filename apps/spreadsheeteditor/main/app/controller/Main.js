@@ -468,7 +468,7 @@ define([
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
                 Common.Controllers.Desktop.init(this.appOptions);
 
-                if (this.appOptions.isEditDiagram) {
+                if (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) {
                     Common.UI.HintManager.setMode(this.appOptions);
                 }
             },
@@ -1437,7 +1437,7 @@ define([
                     application.getController('WBProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (statusbarController) {
-                        statusbarController.getView('Statusbar').changeViewMode(!me.appOptions.isEditOle);
+                        statusbarController.getView('Statusbar').changeViewMode(me.appOptions);
                         me.appOptions.isEditOle && statusbarController.onChangeViewMode(null, true, true); // set compact status bar for ole editing mode
                     }
 

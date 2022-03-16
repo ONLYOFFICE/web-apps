@@ -312,6 +312,14 @@ define([
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
                 toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
                 toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
+                toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
+                toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
+                toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
+                toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
+                if (toolbar.cmbNumberFormat.cmpEl)
+                    toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
@@ -3105,12 +3113,28 @@ define([
                     });
                 }
 
+                var _set = Common.enumLock;
+                var type = seltype;
+                switch ( seltype ) {
+                    case Asc.c_oAscSelectionType.RangeSlicer:
+                    case Asc.c_oAscSelectionType.RangeImage: type = _set.selImage; break;
+                    case Asc.c_oAscSelectionType.RangeShape: type = _set.selShape; break;
+                    case Asc.c_oAscSelectionType.RangeShapeText: type = _set.selShapeText; break;
+                    case Asc.c_oAscSelectionType.RangeChart: type = _set.selChart; break;
+                    case Asc.c_oAscSelectionType.RangeChartText: type = _set.selChartText; break;
+                }
+
+                me.toolbar.lockToolbar(type, type != seltype, {
+                    clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
+                });
+
                 me.toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked);
 
                 return is_image;
             };
 
             var selectionType = info.asc_getSelectionType(),
+                xfs = info.asc_getXfs(),
                 coauth_disable = false,
                 editOptionsDisabled = _disableEditOptions(selectionType, coauth_disable),
                 val, need_disable = false;
@@ -3134,6 +3158,17 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 me.toolbar.lockToolbar(Common.enumLock.ruleDelFilter, need_disable, {array: [me.toolbar.btnClearAutofilter]});
+            }
+
+            var val = xfs.asc_getNumFormatInfo();
+            if ( val ) {
+                this._state.numformat = xfs.asc_getNumFormat();
+                this._state.numformatinfo = val;
+                val = val.asc_getType();
+                if (this._state.numformattype !== val) {
+                    me.toolbar.cmbNumberFormat.setValue(val, me.toolbar.txtCustom);
+                    this._state.numformattype = val;
+                }
             }
         },
 
@@ -3793,7 +3828,7 @@ define([
             var me = this;
             me.appConfig = config;
 
-            var compactview = !config.isEdit || config.isEditOle;
+            var compactview = !config.isEdit;
             if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
                 if ( Common.localStorage.itemExists("sse-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("sse-compact-toolbar");

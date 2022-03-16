@@ -516,7 +516,8 @@ define([
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                $('#status-addtabs-box')[(this.mode.isEdit && !this.mode.isEditOle ) ? 'show' : 'hide']();
+                $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
+                this.btnAddWorksheet.setVisible(!this.mode.isEditOle);
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 this.updateTabbarBorders();
             },
@@ -890,11 +891,12 @@ define([
                 }
             },
 
-            changeViewMode: function (edit) {
+            changeViewMode: function (mode) {
+                var edit = mode.isEdit && !mode.isEditOle;
                 if (edit) {
                     this.tabBarBox.css('left',  '175px');
                 } else {
-                    this.tabBarBox.css('left',  '');
+                    this.tabBarBox.css('left',  mode.isEditOle ? '152px' : '');
                 }
 
                 this.tabbar.options.draggable = edit;
