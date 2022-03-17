@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
 const PageTable = props => {
-    props.initStyleTable();
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
-    const styles = storeTableSettings.arrayStyles;
+    const styles = storeTableSettings.arrayStylesDefault;
 
     return (
         <Page id={'add-table'}>
@@ -50,7 +49,6 @@ const AddOther = props => {
         <List>
             <ListItem title={_t.textTable} link={'/add-table/'} onClick = {() => props.onGetTableStylesPreviews()} routeProps={{
                 onStyleClick: props.onStyleClick,
-                initStyleTable: props.initStyleTable
             }}>
                 <Icon slot="media" icon="icon-add-table"></Icon>
             </ListItem>

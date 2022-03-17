@@ -9,9 +9,6 @@ class AddTableController extends Component {
     constructor (props) {
         super(props);
         this.onStyleClick = this.onStyleClick.bind(this);
-
-        const api = Common.EditorApi.get();
-        api.asc_GetDefaultTableStyles();
     }
 
     closeModal () {
