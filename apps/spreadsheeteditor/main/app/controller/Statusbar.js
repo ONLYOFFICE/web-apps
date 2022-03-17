@@ -89,6 +89,7 @@ define([
             this.statusbar = this.createView('Statusbar').render();
             this.statusbar.$el.css('z-index', 10);
             this.statusbar.labelZoom.css('min-width', 80);
+            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, 100));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
 
             this.bindViewEvents(this.statusbar, this.events);
