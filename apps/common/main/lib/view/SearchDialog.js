@@ -171,7 +171,7 @@
             this.txtSearch.on('keydown', null, 'search', _.bind(this.onKeyPress, this));
             this.txtReplace.on('keydown', null, 'replace', _.bind(this.onKeyPress, this));
 
-            this.on('animate:before', _.bind(this.focus, this));
+            this.on('animate:before', _.bind(this.onAnimateBefore, this));
 
             return this;
         },
@@ -191,12 +191,16 @@
             this.focus();
         },
 
-        focus: function() {
-            var me  = this;
+        focus: function(type) {
+            var field = (type==='replace') ? this.txtReplace : this.txtSearch;
             setTimeout(function(){
-                me.txtSearch.focus();
-                me.txtSearch.select();
+                field.focus();
+                field.select();
             }, 10);
+        },
+
+        onAnimateBefore: function() {
+            this.focus();
         },
 
         onKeyPress: function(event) {

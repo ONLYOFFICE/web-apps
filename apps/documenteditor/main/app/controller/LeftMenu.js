@@ -575,8 +575,21 @@ define([
 
         onQueryReplace: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
+                var me = this;
+                var str = this.api.asc_GetErrorForReplaceString(opts.textreplace);
+                if (str) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: Common.Utils.String.format(this.warnReplaceString, str),
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            me.dlgSearch.focus('replace');
+                        }
+                    });
+                    return;
+                }
+
                 if (!this.api.asc_replaceText(opts.textsearch, opts.textreplace, false, opts.matchcase, opts.matchword)) {
-                    var me = this;
                     Common.UI.info({
                         msg: this.textNoTextFound,
                         callback: function() {
@@ -589,6 +602,19 @@ define([
 
         onQueryReplaceAll: function(w, opts) {
             if (!_.isEmpty(opts.textsearch)) {
+                var me = this;
+                var str = this.api.asc_GetErrorForReplaceString(opts.textreplace);
+                if (str) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: Common.Utils.String.format(this.warnReplaceString, str),
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            me.dlgSearch.focus('replace');
+                        }
+                    });
+                    return;
+                }
                 this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase, opts.matchword);
             }
         },
@@ -928,7 +954,8 @@ define([
         warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
-        warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.'
+        warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
+        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
 
     }, DE.Controllers.LeftMenu || {}));
 });
