@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
     "textEmail": "Email",
@@ -397,7 +397,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Ecran lat (16:9)",
-      "textAbout": "Despre",
+      "textAbout": "Informații",
       "textAddress": "adresă:",
       "textApplication": "Aplicația",
       "textApplicationSettings": "Setări Aplicație",
