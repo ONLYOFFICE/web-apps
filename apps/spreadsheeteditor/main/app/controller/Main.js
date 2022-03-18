@@ -969,6 +969,8 @@ define([
 
                                 me.updateThemeColors();
                                 toolbarController.activateControls();
+                            } else if (me.appOptions.isEditOle) {
+                                me.updateThemeColors();
                             }
 
                             rightmenuController.createDelayedElements();
@@ -1389,8 +1391,8 @@ define([
 
                     var printController = app.getController('Print');
                     printController && this.api && printController.setApi(this.api);
-
-                }
+                } else if (this.appOptions.isEditOle)
+                    this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
 
                 var celleditorController = this.getApplication().getController('CellEditor');
                 celleditorController && celleditorController.setApi(this.api).setMode(this.appOptions);
@@ -2454,11 +2456,11 @@ define([
 
             updateThemeColors: function() {
                 var me = this;
-                setTimeout(function(){
+                !me.appOptions.isEditOle && setTimeout(function(){
                     me.getApplication().getController('RightMenu').UpdateThemeColors();
                 }, 50);
 
-                setTimeout(function(){
+                !me.appOptions.isEditOle && setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);
 
@@ -2469,12 +2471,16 @@ define([
 
             onSendThemeColors: function(colors, standart_colors) {
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
-                if (window.styles_loaded && !this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram && !this.appOptions.isEditOle) {
-                    this.updateThemeColors();
-                    var me = this;
-                    setTimeout(function(){
-                        me.fillTextArt();
-                    }, 1);
+                if (window.styles_loaded) {
+                    if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram)
+                        this.updateThemeColors();
+
+                    if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram && !this.appOptions.isEditOle) {
+                        var me = this;
+                        setTimeout(function(){
+                            me.fillTextArt();
+                        }, 1);
+                    }
                 }
             },
 

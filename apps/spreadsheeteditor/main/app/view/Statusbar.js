@@ -517,13 +517,13 @@ define([
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
-                this.btnAddWorksheet.setVisible(!this.mode.isEditOle);
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 if (this.mode.isEditOle) { // change hints order
-                    this.btnScrollFirst.$el.find('button').attr('data-hint', '1');
-                    this.btnScrollLast.$el.find('button').attr('data-hint', '1');
-                    this.btnScrollBack.$el.find('button').attr('data-hint', '1');
-                    this.btnScrollNext.$el.find('button').attr('data-hint', '1');
+                    this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollFirst.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollLast.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollBack.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollNext.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.cntSheetList.$el.find('button').attr('data-hint', '1');
                     this.cntSheetList.$el.find('button').removeAttr('data-hint-title'); // 'v' hint is used for paste
                     this.cntZoom.$el.find('.dropdown-toggle').attr('data-hint', '1');
@@ -617,10 +617,10 @@ define([
                         this.tabbar.setTabVisible(sindex);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || wbprotected || me.api.isCellEdited);
-                    if (this.mode.isEdit && !this.mode.isEditOle) {
+                    if (this.mode.isEdit) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
-                        }));
+                        }), this.mode.isEditOle ? '1' : '0');
                     }
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
@@ -708,8 +708,8 @@ define([
                     this.tabbar.setTabVisible(index);
                 }
 
-                if (this.mode.isEdit && !this.mode.isEditOle) {
-                    this.tabbar.addDataHint(index);
+                if (this.mode.isEdit) {
+                    this.tabbar.addDataHint(index, this.mode.isEditOle ? '1' : '0');
                 }
 
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
@@ -720,7 +720,7 @@ define([
 
             onTabMenu: function (o, index, tab, select) {
                 var me = this;
-                if (this.mode.isEdit  && !this.mode.isEditOle && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                if (this.mode.isEdit  && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
                     !this.mode.isDisconnected ) {
@@ -755,6 +755,7 @@ define([
                         this.tabMenu.items[7].setDisabled(select.length>1);
                         this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
 
+                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle);
                         this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
@@ -901,11 +902,11 @@ define([
             },
 
             changeViewMode: function (mode) {
-                var edit = mode.isEdit && !mode.isEditOle;
+                var edit = mode.isEdit;
                 if (edit) {
                     this.tabBarBox.css('left',  '175px');
                 } else {
-                    this.tabBarBox.css('left',  mode.isEditOle ? '152px' : '');
+                    this.tabBarBox.css('left', '');
                 }
 
                 this.tabbar.options.draggable = edit;
