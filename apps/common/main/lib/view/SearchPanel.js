@@ -266,7 +266,12 @@ define([
         },
 
         updateResultsNumber: function (current, count) {
-            var text = current === 'no-results' ? this.textNoSearchResults : (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count));
+            var text;
+            if (count > 300) {
+                text = this.textTooManyResults;
+            } else {
+                text = current === 'no-results' ? this.textNoSearchResults : (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count));
+            }
             this.$reaultsNumber.text(text);
         },
 
@@ -315,7 +320,12 @@ define([
         disableNavButtons: function (resultNumber, allResults) {
             var disable = this.inputText._input.val() === '';
             this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
-            this.btnNext.setDisabled(disable || resultNumber + 1 === allResults);
+            this.btnNext.setDisabled(disable || !allResults || resultNumber + 1 === allResults);
+        },
+
+        disableReplaceButtons: function (disable) {
+            this.btnReplace.setDisabled(disable);
+            this.btnReplaceAll.setDisabled(disable);
         },
 
         textFind: 'Find',
@@ -340,7 +350,8 @@ define([
         textSearchOptions: 'Search options',
         textNoMatches: 'No matches',
         textNoSearchResults: 'No search results',
-        textItemEntireCell: 'Entire cell contents'
+        textItemEntireCell: 'Entire cell contents',
+        textTooManyResults: 'There are too many results to show here'
 
     }, Common.Views.SearchPanel || {}));
 });

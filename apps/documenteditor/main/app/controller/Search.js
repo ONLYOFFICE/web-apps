@@ -134,7 +134,7 @@ define([
 
         onInputSearchChange: function (text) {
             var me = this;
-            if (text.length > 0 && this._state.searchText !== text) {
+            if (this._state.searchText !== text) {
                 this._state.newSearchText = text;
                 this._lastInputChange = (new Date());
                 if (this.searchTimer === undefined) {
@@ -143,8 +143,14 @@ define([
 
                         me.hideResults();
                         me._state.searchText = me._state.newSearchText;
-                        if (me.onQuerySearch() && me.view.$el.is(':visible')) {
-                            me.api.asc_StartTextAroundSearch();
+                        if (me._state.newSearchText !== '' && me.onQuerySearch()) {
+                            if (me.view.$el.is(':visible')) {
+                                me.api.asc_StartTextAroundSearch();
+                            }
+                            me.view.disableReplaceButtons(false);
+                        } else if (me._state.newSearchText === '') {
+                            me.view.updateResultsNumber('no-results');
+                            me.view.disableReplaceButtons(true);
                         }
                         clearInterval(me.searchTimer);
                         me.searchTimer = undefined;
@@ -160,6 +166,7 @@ define([
             searchSettings.put_WholeWords(this._state.matchWord);
             if (!this.api.asc_findText(searchSettings, d != 'back')) {
                 this.view.updateResultsNumber(undefined, 0);
+                this.view.disableReplaceButtons(true);
                 return false;
             }
             return true;
@@ -173,6 +180,7 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
                     this.view.updateResultsNumber(undefined, 0);
+                    this.view.disableReplaceButtons(true);
                 }
             }
         },
@@ -199,7 +207,6 @@ define([
 
         onStartTextAroundSearch: function () {
             if (this.view) {
-                this.view.$resultsContainer.show();
                 this._state.isStartedAddingResults = true;
             }
         },
@@ -213,6 +220,7 @@ define([
 
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
+                if (data.length > 300) return;
                 var me = this;
                 me.resultItems = [];
                 data.forEach(function (item) {
@@ -228,6 +236,8 @@ define([
                         $(el.currentTarget).addClass('selected');
                     }, me));
                 });
+
+                this.view.$resultsContainer.show();
             }
         },
 
@@ -262,9 +272,12 @@ define([
                 this.view.setFindText('');
             }
 
-            if (text !== '' && text === this._state.searchText) {
+            if (text !== '' && text === this._state.searchText) { // search was made
+                this.view.disableReplaceButtons(false);
                 this.hideResults();
                 this.api.asc_StartTextAroundSearch();
+            } else {
+                this.view.disableReplaceButtons(true);
             }
 
             this.view.disableNavButtons();
