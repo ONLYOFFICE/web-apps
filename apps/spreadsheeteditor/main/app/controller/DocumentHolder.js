@@ -2407,7 +2407,7 @@ define([
 
                 var coord  = me.api.asc_getActiveCellCoord(),
                     offset = {left:0,top:0},
-                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                    showPoint = [coord.asc_getX() + offset.left + coord.asc_getWidth(), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
 
                 me._preventClick = true;
