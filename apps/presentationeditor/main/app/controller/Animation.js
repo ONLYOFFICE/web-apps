@@ -206,7 +206,7 @@ define([
                 if (!item) {
                     var expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.view.txtSec + ')?\\s*$');
                     if (!expr.exec(record.value)) {
-                        combo.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
+                        combo.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : '');
                         e.preventDefault();
                         return false;
                     }
@@ -447,7 +447,7 @@ define([
                 if (this._state.noAnimationDuration)
                     view.cmbDuration.setValue('');
                 else
-                    view.cmbDuration.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
+                    view.cmbDuration.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : '');
 
                 value = this.AnimationProperties.asc_getDelay();
                 if (Math.abs(this._state.Delay - value) > 0.001 ||
