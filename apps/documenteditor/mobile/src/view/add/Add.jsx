@@ -179,9 +179,12 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
             component: <AddLinkController noNavbar={true}/>
         });
     }
+
     const onGetTableStylesPreviews = () => {
-        const api = Common.EditorApi.get();
-        setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)), 1);
+        if(storeTableSettings.arrayStylesDefault.length == 0) {
+            const api = Common.EditorApi.get();
+            setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);
+        }
     }
 
     return (

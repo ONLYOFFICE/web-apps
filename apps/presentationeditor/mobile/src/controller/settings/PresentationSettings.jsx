@@ -7,6 +7,7 @@ class PresentationSettingsController extends Component {
         super(props);
         this.initSlideSize = this.initSlideSize.bind(this);
         this.onSlideSize = this.onSlideSize.bind(this);
+        this.onColorSchemeChange = this.onColorSchemeChange.bind(this);
         this.initSlideSize();
     }
 
@@ -47,6 +48,7 @@ class PresentationSettingsController extends Component {
     onColorSchemeChange(newScheme) {
         const api = Common.EditorApi.get();
         api.asc_ChangeColorSchemeByIdx(newScheme);
+        this.props.storeTableSettings.setStyles([], 'default');
     }
 
 
@@ -62,4 +64,4 @@ class PresentationSettingsController extends Component {
     }
 }
 
-export default inject("storePresentationSettings")(observer(PresentationSettingsController));
+export default inject("storePresentationSettings", "storeTableSettings")(observer(PresentationSettingsController));
