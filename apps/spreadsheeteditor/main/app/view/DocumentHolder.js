@@ -1103,6 +1103,7 @@ define([
 
             this.tableTotalMenu = new Common.UI.Menu({
                 maxHeight: 160,
+                menuAlign: 'tr-br',
                 cyclic: false,
                 cls: 'lang-menu',
                 items: [

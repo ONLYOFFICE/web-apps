@@ -183,6 +183,8 @@ define([
 
             _options.tpl        =   _.template(this.template)(_options);
 
+            this._previewTdWidth = [];
+            this._previewTdMaxLength = 0;
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
         render: function () {
@@ -417,6 +419,9 @@ define([
         },
 
         updatePreview: function() {
+            this._previewTdWidth = [];
+            this._previewTdMaxLength = 0;
+
             var encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
                 ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0);
             var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
@@ -488,15 +493,24 @@ define([
                     if (str.length>maxlength)
                         maxlength = str.length;
                 }
+                this._previewTdMaxLength = Math.max(this._previewTdMaxLength, maxlength);
                 var tpl = '<table>';
                 for (var i=0; i<data.length; i++) {
                     var str = data[i] || '';
                     tpl += '<tr style="vertical-align: top;">';
                     for (var j=0; j<str.length; j++) {
-                        tpl += '<td>' + Common.Utils.String.htmlEncode(str[j]) + '</td>';
+                        var style = '';
+                        if (i==0 && this._previewTdWidth[j]) { // set td style only for first tr
+                            style = 'style="min-width:' + this._previewTdWidth[j] + 'px;"';
+                        }
+                        tpl += '<td '+ style +'>' + Common.Utils.String.htmlEncode(str[j]) + '</td>';
                     }
-                    for (j=str.length; j<maxlength; j++) {
-                        tpl += '<td></td>';
+                    for (j=str.length; j<this._previewTdMaxLength; j++) {
+                        var style = '';
+                        if (i==0 && this._previewTdWidth[j]) { // set td style only for first tr
+                            style = 'style="min-width:' + this._previewTdWidth[j] + 'px;"';
+                        }
+                        tpl += '<td '+ style +'></td>';
                     }
                     tpl += '</tr>';
                 }
@@ -511,6 +525,14 @@ define([
             }
             this.previewPanel.html(tpl);
 
+            if (data.length>0) {
+                var me = this;
+                (this._previewTdWidth.length===0) && this.previewScrolled.scrollLeft(0);
+                this.previewPanel.find('tr:first td').each(function(index, el){
+                    me._previewTdWidth[index] = Math.max(Math.max(Math.ceil($(el).outerWidth()), 30), me._previewTdWidth[index] || 0);
+                });
+            }
+
             this.scrollerX = new Common.UI.Scroller({
                 el: this.previewPanel,
                 suppressScrollY: true,
@@ -521,7 +543,9 @@ define([
 
         onCmbDelimiterSelect: function(combo, record){
             this.inputDelimiter.setVisible(record.value == -1);
-            (record.value == -1) && this.inputDelimiter.cmpEl.find('input').focus();
+            var me = this;
+            if (record.value == -1)
+                setTimeout(function(){me.inputDelimiter.focus();}, 10);
             if (this.preview)
                 this.updatePreview();
         },

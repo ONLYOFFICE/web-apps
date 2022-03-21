@@ -79,7 +79,7 @@
         "txtAll": "（全部）",
         "txtArt": "你的文本在此",
         "txtBlank": "（空白）",
-        "txtByField": "%2的%1 ",
+        "txtByField": "%1/%2",
         "txtClearFilter": "清除筛选器(Alt+C)",
         "txtColLbls": "列标签",
         "txtColumn": "列",

@@ -10,10 +10,7 @@ class AddOtherController extends Component {
     constructor (props) {
         super(props);
         this.onStyleClick = this.onStyleClick.bind(this);
-        this.initStyleTable = this.initStyleTable.bind(this);
         this.onGetTableStylesPreviews = this.onGetTableStylesPreviews.bind(this);
-
-        this.initTable = false;
     }
 
     closeModal () {
@@ -21,14 +18,6 @@ class AddOtherController extends Component {
             f7.sheet.close('.add-popup', true);
         } else {
             f7.popover.close('#add-popover');
-        }
-    }
-
-    initStyleTable () {
-        if (!this.initTable) {
-            const api = Common.EditorApi.get();
-            api.asc_GetDefaultTableStyles();
-            this.initTable = true;
         }
     }
 
@@ -93,8 +82,10 @@ class AddOtherController extends Component {
     }
 
     onGetTableStylesPreviews = () => {
-        const api = Common.EditorApi.get();
-        setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)), 1);
+        if(this.props.storeTableSettings.arrayStylesDefault.length == 0) {
+            const api = Common.EditorApi.get();
+            setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);
+        }
     }
 
     hideAddComment () {
@@ -127,7 +118,6 @@ class AddOtherController extends Component {
         return (
             <AddOther closeModal={this.closeModal}
                       onStyleClick={this.onStyleClick}
-                      initStyleTable={this.initStyleTable}
                       hideAddComment={this.hideAddComment}
                       onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
             />

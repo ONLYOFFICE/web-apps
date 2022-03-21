@@ -389,6 +389,7 @@
     "errorUserDrop": "K súboru momentálne nie je možné získať prístup.",
     "errorUsersExceed": "Počet používateľov povolených cenovým plánom bol prekročený",
     "errorViewerDisconnect": "Spojenie je stratené. Dokument si stále môžete prezerať,<br>ale nebudete si ho môcť stiahnuť ani vytlačiť, kým sa neobnoví pripojenie a stránka sa znova nenačíta.",
+    "notcriticalErrorTitle": "Upozornenie",
     "openErrorText": "Pri otváraní súboru sa vyskytla chyba",
     "saveErrorText": "Pri ukladaní súboru sa vyskytla chyba",
     "scriptLoadError": "Pripojenie je príliš pomalé, niektoré komponenty sa nepodarilo načítať. Prosím, načítajte stránku znova.",
@@ -398,8 +399,7 @@
     "unknownErrorText": "Neznáma chyba.",
     "uploadImageExtMessage": "Neznámy formát obrázka.",
     "uploadImageFileCountMessage": "Neboli načítané žiadne obrázky.",
-    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB.",
-    "notcriticalErrorTitle": "Warning"
+    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Načítavanie dát...",
@@ -590,6 +590,7 @@
     "textMargins": "Okraje",
     "textMarginsH": "Horné a spodné okraje sú pre danú výšku stránky príliš vysoké",
     "textMarginsW": "Ľavé a pravé okraje sú príliš široké pre danú šírku stránky",
+    "textNoCharacters": "Formátovacie značky",
     "textNoTextFound": "Text nebol nájdený",
     "textOk": "OK",
     "textOpenFile": "Zadajte heslo na otvorenie súboru",
@@ -648,8 +649,7 @@
     "txtScheme6": "Hala",
     "txtScheme7": "Spravodlivosť",
     "txtScheme8": "Tok",
-    "txtScheme9": "Zlieváreň",
-    "textNoCharacters": "Nonprinting Characters"
+    "txtScheme9": "Zlieváreň"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",

@@ -1522,7 +1522,7 @@
   "PE.Views.FileMenu.btnCloseMenuCaption": "关闭菜单",
   "PE.Views.FileMenu.btnCreateNewCaption": "新建",
   "PE.Views.FileMenu.btnDownloadCaption": "下载为...",
-  "PE.Views.FileMenu.btnExitCaption": "退出",
+  "PE.Views.FileMenu.btnExitCaption": "关闭",
   "PE.Views.FileMenu.btnFileOpenCaption": "打开...",
   "PE.Views.FileMenu.btnHelpCaption": "帮助",
   "PE.Views.FileMenu.btnHistoryCaption": "版本历史",
