@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Add a chart to your presentation and adjust its properties" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -19,7 +20,7 @@
             <ol>
                 <li>Positionieren Sie den Cursor an der Stelle, an der Sie ein Diagramm einfügen möchten.</li>
                 <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Einfügen</b>.</li>
-                <li>Klicken Sie in der oberen Symbolleiste auf das Symbol <img alt="Diagramm" src="../images/insertchart.png" /> <b>Diagramm</b>.</li>
+                <li>Klicken Sie in der oberen Symbolleiste auf das Symbol <div class = "icon icon-insertchart"></div> <b>Diagramm</b>.</li>
                 <li>
                     Wählen Sie den gewünschten Diagrammtyp aus der Liste der verfügbaren Typen aus:
                     <details class="details-example">
@@ -99,10 +100,10 @@
                 <li>
                     Wenn Sie Ihre Auswahl getroffen haben, öffnet sich das Fenster <b>Diagramm bearbeiten</b> und Sie können die gewünschten Daten mithilfe der folgenden Steuerelemente in die Zellen eingeben:
                     <ul>
-                        <li><img alt="Kopieren" src="../images/copy.png" /> und <img alt="Einfügen" src="../images/paste.png" /> - Kopieren und Einfügen der kopierten Daten.</li>
-                        <li><img alt="Rückgängig machen" src="../images/undo1.png" /> und <img alt="Wiederholen" src="../images/redo1.png" /> - Vorgänge Rückgängig machen und Wiederholen.</li>
-                        <li><img alt="Funktion einfügen" src="../images/insertfunction.png" /> - Einfügen einer Funktion.</li>
-                        <li><img alt="Dezimalstelle löschen" src="../images/decreasedec.png" /> und <img alt="Dezimalstelle hinzufügen" src="../images/increasedec.png" /> - Löschen und Hinzufügen von Dezimalstellen.</li>
+                        <li><div class = "icon icon-copy"></div> und <div class = "icon icon-paste"></div> - Kopieren und Einfügen der kopierten Daten.</li>
+                        <li><div class = "icon icon-undo1"></div> und <div class = "icon icon-redo1"></div> - Vorgänge Rückgängig machen und Wiederholen.</li>
+                        <li><div class = "icon icon-insertfunction"></div> - Einfügen einer Funktion.</li>
+                        <li><div class = "icon icon-decreasedec"></div> und <div class = "icon icon-increasedec"></div> - Löschen und Hinzufügen von Dezimalstellen.</li>
                         <li><img alt="Zahlenformat" src="../images/numberformat.png" /> - Zahlenformat ändern, d.h. das Format in dem die eingegebenen Zahlen in den Zellen dargestellt werden.</li>
                         <li><img alt="Diagrammtyp" src="../images/charttypebutton.png" /> zur Auswahl eines anderen Diagrammtyps.</li>
                     </ul>
@@ -119,7 +120,7 @@
                                     <b>Diagrammdatenbereich</b> - wählen Sie Daten für Ihr Diagramm aus.
                                     <ul>
                                         <li>
-                                            Klicken SIe auf das Symbol <img alt="Quelldatenbereich - Symbol" src="../images/changerange.png" /> rechts neben dem Feld <b>Diagrammdatenbereich</b>, um den Datenbereicht auszuwählen.
+                                            Klicken SIe auf das Symbol <div class = "icon icon-changerange"></div> rechts neben dem Feld <b>Diagrammdatenbereich</b>, um den Datenbereicht auszuwählen.
                                             <p><img alt="Datenbereich auswählen - Fenster" src="../images/selectdata.png" /></p>
                                         </li>
                                     </ul>
@@ -129,7 +130,7 @@
                                     <ul>
                                         <li>Im Feld <b>Legendeneinträge (Reihen)</b> klicken Sie auf die Schaltfläche <b>Hinzufügen</b>.</li>
                                         <li>
-                                            Im Fenster <b>Datenreihe bearbeiten</b> geben Sie einen neuen Legendeneintrag ein oder klicken Sie auf das Symbol <img alt="Quelldatenbereich - Symbol" src="../images/changerange.png" /> rechts neben dem Feld <b>Reihenname</b>.
+                                            Im Fenster <b>Datenreihe bearbeiten</b> geben Sie einen neuen Legendeneintrag ein oder klicken Sie auf das Symbol <div class = "icon icon-changerange"></div> rechts neben dem Feld <b>Reihenname</b>.
                                             <p><img alt="Datenreihe bearbeiten - Fenster" src="../images/editseries.png" /></p>
                                         </li>
                                     </ul>
@@ -139,7 +140,7 @@
                                     <ul>
                                         <li>Im Feld <b>Horizontale Achsenbeschriftungen (Rubrik)</b> klicken Sie auf <b>Bearbeiten</b>.</li>
                                         <li>
-                                            Im Feld <b>Der Bereich von Achsenbeschriftungen</b> geben Sie die gewünschten Achsenbeschriftungen ein oder klicken Sie auf das Symbol <img alt="Quelldatenbereich - Symbol" src="../images/changerange.png" /> rechts neben dem Feld <b>Der Bereich von Achsenbeschriftungen</b>, um den Datenbereich auszuwählen.
+                                            Im Feld <b>Der Bereich von Achsenbeschriftungen</b> geben Sie die gewünschten Achsenbeschriftungen ein oder klicken Sie auf das Symbol <div class = "icon icon-changerange"></div> rechts neben dem Feld <b>Der Bereich von Achsenbeschriftungen</b>, um den Datenbereich auszuwählen.
                                             <p><img alt="Der Bereich von Achsenbeschriftungen - Fenster" src="../images/axislabels.png" /></p>
                                         </li>
                                     </ul>
@@ -323,7 +324,7 @@
                 <p>Sie können <a href="../UsageInstructions/ManipulateObjects.htm" onclick="onhyperlinkclick(this)">die Position des Diagramm</a> auf der Folie angeben, indem Sie das Diagram vertikal oder horizontal ziehen.</p>
             </li>
             </ol>
-            <p>Sie können einem Textplatzhalter auch ein Diagramm hinzufügen, indem Sie auf das Symbol <img alt="Diagramm Symbol" src="../images/placeholder_chart.png" /> <b>Diagramm</b> innen drücken und den gewünschten Diagrammtyp auswählen:</p>
+            <p>Sie können einem Textplatzhalter auch ein Diagramm hinzufügen, indem Sie auf das Symbol <div class = "icon icon-placeholder_chart"></div> <b>Diagramm</b> innen drücken und den gewünschten Diagrammtyp auswählen:</p>
             <p><img alt="Einem Textplatzhalter ein Diagramm hinzufügen" src="../images/placeholder_object.png" /></p>
             <p>Es ist auch möglich, einem Folienlayout ein Diagramm hinzuzufügen. Weitere Informationen finden Sie <a href="../UsageInstructions/SetSlideParameters.htm#addtolayout" onclick="onhyperlinkclick(this)">hier</a>.</p>
             <hr />
@@ -335,15 +336,15 @@
             <p><img alt="3D-Diagramm" src="../images/3dchart.png" /></p>
             <hr />
             <h3>Diagrammeinstellungen anpassen</h3>
-            <img alt="Registerkarte Diagramme" src="../images/charttab.png" /><p>Diagrammgröße, -typ und -stil sowie die zur Erstellung des Diagramms verwendeten Daten, können in der rechten Seitenleiste geändert werden. Um das Menü zu aktivieren, klicken Sie auf das Diagramm und wählen Sie rechts das Symbol <b>Diagrammeinstellungen</b> <img alt="Diagrammeinstellungen" src="../images/chart_settings_icon.png" /> aus.</p>
-            <p>Im Abschnitt <b>Größe</b> können Sie Breite und Höhe des aktuellen Diagramms ändern. Wenn Sie die Funktion <b>Seitenverhältnis sperren</b> <img alt="Seitenverhältnis sperren" src="../images/constantproportions.png" /> aktivieren (in diesem Fall sieht das Symbol so aus <img alt="Symbol Seitenverhältnis sperren aktiviert" src="../images/constantproportionsactivated.png" />), werden Breite und Höhe gleichmäßig geändert und das ursprüngliche Seitenverhältnis des Diagramms wird beibehalten.</p>
+            <img alt="Registerkarte Diagramme" src="../images/charttab.png" /><p>Diagrammgröße, -typ und -stil sowie die zur Erstellung des Diagramms verwendeten Daten, können in der rechten Seitenleiste geändert werden. Um das Menü zu aktivieren, klicken Sie auf das Diagramm und wählen Sie rechts das Symbol <b>Diagrammeinstellungen</b> <div class = "icon icon-chart_settings_icon"></div> aus.</p>
+            <p>Im Abschnitt <b>Größe</b> können Sie Breite und Höhe des aktuellen Diagramms ändern. Wenn Sie die Funktion <b>Seitenverhältnis sperren</b> <div class = "icon icon-constantproportions"></div> aktivieren (in diesem Fall sieht das Symbol so aus <div class = "icon icon-constantproportionsactivated"></div>), werden Breite und Höhe gleichmäßig geändert und das ursprüngliche Seitenverhältnis des Diagramms wird beibehalten.</p>
             <p>Im Abschnitt <b>Diagrammtyp ändern</b> können Sie den gewählten Diagrammtyp und -stil über die entsprechende Auswahlliste ändern.</p>
             <p>Um den gewünschten <b>Diagrammstil</b> auszuwählen, verwenden Sie im Abschnitt <b>Diagrammtyp ändern</b> die zweite Auswahlliste.</p>
             <p>Über die Schaltfläche <b>Daten ändern</b> können Sie das Fenster <b>Diagrammtools</b> öffnen und die Daten ändern (wie oben beschrieben).</p>
             <p class="note"><b>Hinweis</b>: Wenn Sie einen Doppelklick auf einem in Ihrer Präsentation enthaltenen Diagramm ausführen, öffnet sich das Fenster „Diagrammtools“.</p>
             <p>Die Option <b>Erweiterte Einstellungen anzeigen</b> in der rechten Seitenleiste ermöglicht das Öffnen des Fensters <b>Diagramm - Erweiterte Einstellungen</b>, über das Sie den alternativen Text festlegen können:</p>
             <p><img alt="Diagramme - Erweiterte Einstellungen" src="../images/chartsettings6.png" /></p>
-            <p>Wenn das Diagramm ausgewählt ist, ist rechts auch das Symbol <b>Formeinstellungen</b> <img alt="Formeinstellungen" src="../images/shape_settings_icon.png" /> verfügbar, da eine Form als Hintergrund für das Diagramm verwendet wird. Klicken Sie auf dieses Symbol, um die Registerkarte <a href="InsertAutoshapes.htm" onclick="onhyperlinkclick(this)">Formeinstellungen</a> in der rechten Seitenleiste zu öffnen und passen Sie <b>Füllung</b> und <b>Linienstärke</b> der Form an. Beachten Sie, dass Sie den Formtyp nicht ändern können.</p>
+            <p>Wenn das Diagramm ausgewählt ist, ist rechts auch das Symbol <b>Formeinstellungen</b> <div class = "icon icon-shape_settings_icon"></div> verfügbar, da eine Form als Hintergrund für das Diagramm verwendet wird. Klicken Sie auf dieses Symbol, um die Registerkarte <a href="InsertAutoshapes.htm" onclick="onhyperlinkclick(this)">Formeinstellungen</a> in der rechten Seitenleiste zu öffnen und passen Sie <b>Füllung</b> und <b>Linienstärke</b> der Form an. Beachten Sie, dass Sie den Formtyp nicht ändern können.</p>
             <hr />
             <p>Um das hinzugefügte Diagramm zu <b>löschen</b>, wählen Sie es mit der linken Maustaste aus und drücken Sie die Taste <b>ENTF</b> auf Ihrer Tastatur.</p>
             <p>Informationen zum <b>Ausrichten</b> eines Diagramms auf der Folie oder zum <b>Anordnen</b> mehrerer Objekte, finden Sie im Abschnitt <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">Objekte auf einer Folie ausrichten und anordnen</a>.</p>
