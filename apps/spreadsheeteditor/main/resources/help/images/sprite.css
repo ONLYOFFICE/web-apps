@@ -1661,7 +1661,7 @@ icons
 smb
  ----------------------------------------------------------------------------------------*/
 .smb {
-    background-image: url(../images/symbols.png.png);
+    background-image: url(../images/symbols.png);
     background-repeat: no-repeat;
     display: inline-block;
 }
