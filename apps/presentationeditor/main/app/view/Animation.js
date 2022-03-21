@@ -251,7 +251,7 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon animation-none',
+                    iconCls: 'toolbar__icon icon animation-parameters',
                     menu: new Common.UI.Menu({items: []}),
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam],
                     dataHint: '1',
