@@ -174,6 +174,20 @@ define([
 
         onQueryReplace: function(textSearch, textReplace) {
             if (textSearch !== '') {
+                var me = this;
+                var str = this.api.asc_GetErrorForReplaceString(textReplace);
+                if (str) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: Common.Utils.String.format(this.warnReplaceString, str),
+                        buttons: ['ok'],
+                        callback: function(){
+                            me.view.focus('replace');
+                        }
+                    });
+                    return;
+                }
+
                 var searchSettings = new AscCommon.CSearchSettings();
                 searchSettings.put_Text(textSearch);
                 searchSettings.put_MatchCase(this._state.matchCase);
@@ -187,6 +201,20 @@ define([
 
         onQueryReplaceAll: function(textSearch, textReplace) {
             if (textSearch !== '') {
+                var me = this;
+                var str = this.api.asc_GetErrorForReplaceString(textReplace);
+                if (str) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: Common.Utils.String.format(this.warnReplaceString, str),
+                        buttons: ['ok'],
+                        callback: function(){
+                            me.view.focus('replace');
+                        }
+                    });
+                    return;
+                }
+
                 var searchSettings = new AscCommon.CSearchSettings();
                 searchSettings.put_Text(textSearch);
                 searchSettings.put_MatchCase(this._state.matchCase);
@@ -283,6 +311,9 @@ define([
             this.view.disableNavButtons();
             this.view.focus();
         },
+
+        notcriticalErrorTitle: 'Warning',
+        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
 
     }, DE.Controllers.Search || {}));
 });
