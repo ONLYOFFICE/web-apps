@@ -1508,7 +1508,7 @@ define([
                 visible = this._ShowHideInfoItem(this.lblPdfSubject, !!value) || visible;
                 $('tr.divider.pdf-title', this.el)[visible?'show':'hide']();
 
-                value = props.Author || props.Creator;
+                value = props.Author;
                 value && this.lblPdfAuthor.text(value);
                 this._ShowHideInfoItem(this.lblPdfAuthor, !!value);
 
