@@ -76,7 +76,10 @@ define([
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-navigation': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-thumbnails': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-searchbar': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-searchbar': _.bind(function () {
+                    this.onCoauthOptions();
+                    this.fireEvent('search:aftershow', this.leftMenu);
+                }, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -271,6 +274,7 @@ define([
             if (this.panelSearch) {
                 if (this.btnSearchBar.pressed) {
                     this.panelSearch.show();
+                    this.panelSearch.focus();
                 } else {
                     this.panelSearch.hide();
                 }
@@ -417,6 +421,7 @@ define([
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
                         this.onCoauthOptions();
+                        this.panelSearch.focus();
                         !suspendAfter && this.fireEvent('search:aftershow', this);
                     }
                 }

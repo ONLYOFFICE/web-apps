@@ -73,7 +73,6 @@ define([
                     style: 'width: 100%;'
                 });
                 this.inputText._input.on('input', _.bind(function () {
-                    this.disableNavButtons();
                     this.fireEvent('search:input', [this.inputText._input.val()]);
                 }, this)).on('keydown', _.bind(function (e) {
                     this.fireEvent('search:keydown', [this.inputText._input.val(), e]);
@@ -232,8 +231,6 @@ define([
 
         show: function () {
             Common.UI.BaseView.prototype.show.call(this,arguments);
-
-            this.disableNavButtons();
             this.fireEvent('show', this );
 
             this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
@@ -277,6 +274,7 @@ define([
 
         onClickClosePanel: function() {
             Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+            this.fireEvent('hide', this );
         },
 
         onBtnNextClick: function (action) {

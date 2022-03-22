@@ -67,7 +67,9 @@ define([
                     'search:replaceall': _.bind(this.onQueryReplaceAll, this),
                     'search:input': _.bind(this.onInputSearchChange, this),
                     'search:options': _.bind(this.onChangeSearchOption, this),
-                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
+                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
+                    'show': _.bind(this.onShowPanel, this),
+                    'hide': _.bind(this.onHidePanel, this),
                 },
                 'LeftMenu': {
                     'search:aftershow': _.bind(this.onShowAfterSearch, this)
@@ -165,8 +167,12 @@ define([
             searchSettings.put_MatchCase(this._state.matchCase);
             searchSettings.put_WholeWords(this._state.matchWord);
             if (!this.api.asc_findText(searchSettings, d != 'back')) {
+                this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
                 this.view.disableReplaceButtons(true);
+                this._state.currentResult = 0;
+                this._state.resultsNumber = 0;
+                this.view.disableNavButtons();
                 return false;
             }
             return true;
@@ -193,8 +199,12 @@ define([
                 searchSettings.put_MatchCase(this._state.matchCase);
                 searchSettings.put_WholeWords(this._state.matchWord);
                 if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
+                    this.resultItems = [];
                     this.view.updateResultsNumber(undefined, 0);
                     this.view.disableReplaceButtons(true);
+                    this._state.currentResult = 0;
+                    this._state.resultsNumber = 0;
+                    this.view.disableNavButtons();
                 }
             }
         },
@@ -222,13 +232,16 @@ define([
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
                 this.hideResults();
-                this.resultItems.length = 0;
+                this.resultItems = [];
             }
         },
 
         onUpdateSearchCurrent: function (current, all) {
+            this._state.currentResult = current;
+            this._state.resultsNumber = all;
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
+                this.view.disableNavButtons(current, all);
             }
             Common.NotificationCenter.trigger('search:updateresults', current, all);
         },
@@ -256,7 +269,7 @@ define([
                     el.className = 'item';
                     el.innerHTML = item[1].trim();
                     me.view.$resultsContainer.append(el);
-                    me.resultItems.push({id: item[0], $el: $(el)});
+                    me.resultItems.push({id: item[0], $el: $(el), el: el});
                     $(el).on('click', _.bind(function (el) {
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
@@ -293,23 +306,43 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = findText || this.api.asc_GetSelectedText();
+            var text = findText || this.api.asc_GetSelectedText() || this._state.searchText;
             if (text) {
                 this.view.setFindText(text);
             } else if (text !== undefined) {
                 this.view.setFindText('');
             }
 
+            this.hideResults();
             if (text !== '' && text === this._state.searchText) { // search was made
                 this.view.disableReplaceButtons(false);
-                this.hideResults();
                 this.api.asc_StartTextAroundSearch();
+            } else if (text !== '') { // search wasn't made
+                this.onInputSearchChange(text);
             } else {
+                this.resultItems = [];
                 this.view.disableReplaceButtons(true);
             }
+            this.view.disableNavButtons(this._state.currentResult, this._state.resultsNumber);
+        },
 
-            this.view.disableNavButtons();
-            this.view.focus();
+        onShowPanel: function () {
+            if (this.resultItems && this.resultItems.length > 0 && !this._state.isStartedAddingResults) {
+                var me = this;
+                this.view.$resultsContainer.show();
+                this.resultItems.forEach(function (item) {
+                    me.view.$resultsContainer.append(item.el);
+                    $(item.el).on('click', function (el) {
+                        me.api.asc_SelectSearchElement(item.id);
+                        $('#search-results').find('.item').removeClass('selected');
+                        $(el.currentTarget).addClass('selected');
+                    });
+                });
+            }
+        },
+
+        onHidePanel: function () {
+            this.hideResults();
         },
 
         notcriticalErrorTitle: 'Warning',
