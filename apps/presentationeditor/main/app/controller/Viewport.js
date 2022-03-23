@@ -534,7 +534,6 @@ define([
             }
             if (this.header.btnSearch.pressed) {
                 this.searchBar.show(this.api.asc_GetSelectedText());
-                leftMenu.getView('LeftMenu').panelSearch.clearResults();
             } else {
                 this.searchBar.hide();
             }

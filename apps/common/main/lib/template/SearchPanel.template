@@ -48,9 +48,9 @@
                 <tr>
                     <td class="padding-small"><div id="search-adv-case-sensitive"></div></td>
                 </tr>
-                <tr>
+                <!---<tr>
                     <td class="padding-small"><div id="search-adv-use-regexp"></div></td>
-                </tr>
+                </tr>-->
                 <tr>
                     <td class="padding-large"><div id="search-adv-match-word"></div></td>
                 </tr>

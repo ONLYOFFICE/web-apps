@@ -237,6 +237,7 @@ define([
         },
 
         onUpdateSearchCurrent: function (current, all) {
+            if (current === -1) return;
             this._state.currentResult = current;
             this._state.resultsNumber = all;
             if (this.view) {
@@ -322,6 +323,7 @@ define([
             } else {
                 this.resultItems = [];
                 this.view.disableReplaceButtons(true);
+                this.view.clearResultsNumber();
             }
             this.view.disableNavButtons(this._state.currentResult, this._state.resultsNumber);
         },

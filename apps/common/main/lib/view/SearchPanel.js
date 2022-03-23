@@ -128,7 +128,7 @@ define([
                     me.fireEvent('search:options', ['case-sensitive', field.getValue() === 'checked']);
                 });
 
-                this.chUseRegExp = new Common.UI.CheckBox({
+                /*this.chUseRegExp = new Common.UI.CheckBox({
                     el: $('#search-adv-use-regexp'),
                     labelText: this.textMatchUsingRegExp,
                     dataHint: '1',
@@ -136,7 +136,7 @@ define([
                     dataHintOffset: 'small'
                 }).on('change', function(field) {
                     me.fireEvent('search:options', ['regexp', field.getValue() === 'checked']);
-                });
+                });*/
 
                 this.chMatchWord = new Common.UI.CheckBox({
                     el: $('#search-adv-match-word'),
@@ -311,7 +311,7 @@ define([
             this.inputText.setValue(val);
         },
 
-        clearResults: function () {
+        clearResultsNumber: function () {
             this.updateResultsNumber('no-results');
         },
 
