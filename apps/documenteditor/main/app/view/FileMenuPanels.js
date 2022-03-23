@@ -1094,33 +1094,47 @@ define([
                         '<td class="left"><label>' + this.txtSpaces + '</label></td>',
                         '<td class="right"><label id="id-info-spaces"></label></td>',
                     '</tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtPageSize + '</label></td>',
+                        '<td class="right"><label id="id-info-page-size"></label></td>',
+                    '</tr>',
                     '<tr class="divider"></tr>',
                     '<tr class="divider"></tr>',
                     // '<tr>',
                     //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
                     //     '<td class="right"><label id="id-info-edittime"></label></td>',
                     // '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtTitle + '</label></td>',
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtComment + '</label></td>',
                         '<td class="right"><div id="id-info-comment"></div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr class="divider"></tr>',
+                    '<tr class="divider docx-info"></tr>',
+                    '<tr class="divider docx-info"></tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-title"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-subject"></label></td>',
+                    '</tr>',
+                    '<tr class="divider pdf-info pdf-title"></tr>',
+                    '<tr class="divider pdf-info pdf-title"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
                         '<td class="right"><label id="id-info-modify-date"></label></td>',
                     '</tr>',
                     '<tr>',
-                            '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
-                            '<td class="right"><label id="id-info-modify-by"></label></td>',
+                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-by"></label></td>',
                     '</tr>',
                     '<tr class="divider modify">',
                     '<tr class="divider modify">',
@@ -1132,7 +1146,23 @@ define([
                          '<td class="left"><label>' + this.txtAppName + '</label></td>',
                          '<td class="right"><label id="id-info-appname"></label></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-author"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfVer + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-ver"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfTagged + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-tagged"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtFastWV + '</label></td>',
+                         '<td class="right"><label id="id-info-fast-wv"></label></td>',
+                    '</tr>',
+                    '<tr class="docx-info">',
                         '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
                         '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
                             '<table>',
@@ -1177,6 +1207,7 @@ define([
             this.lblStatParagraphs = $markup.findById('#id-info-paragraphs');
             this.lblStatSymbols = $markup.findById('#id-info-symbols');
             this.lblStatSpaces = $markup.findById('#id-info-spaces');
+            this.lblPageSize = $markup.findById('#id-info-pages-size');
             // this.lblEditTime = $markup.find('#id-info-edittime');
 
             // edited info
@@ -1270,6 +1301,15 @@ define([
                 }
             }).on('keydown:before', keyDownBefore);
 
+            // pdf info
+            this.lblPageSize = $markup.findById('#id-info-page-size');
+            this.lblPdfTitle = $markup.findById('#id-lbl-info-title');
+            this.lblPdfSubject = $markup.findById('#id-lbl-info-subject');
+            this.lblPdfAuthor = $markup.findById('#id-lbl-info-author');
+            this.lblPdfVer = $markup.findById('#id-info-pdf-ver');
+            this.lblPdfTagged = $markup.findById('#id-info-pdf-tagged');
+            this.lblFastWV = $markup.findById('#id-info-fast-wv');
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fminfo-btn-apply')
             });
@@ -1346,9 +1386,15 @@ define([
                 this._ShowHideDocInfo(false);
             $('tr.divider.general', this.el)[visible?'show':'hide']();
 
+            var pdfProps = (this.api) ? this.api.asc_getPdfProps() : null;
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
+                $('.pdf-info', this.el).hide();
                 appname = (appname.asc_getApplication() || '') + (appname.asc_getAppVersion() ? ' ' : '') + (appname.asc_getAppVersion() || '');
+                this.lblApplication.text(appname);
+            } else if (pdfProps) {
+                $('.docx-info', this.el).hide();
+                appname = pdfProps ? pdfProps.Producer || '' : '';
                 this.lblApplication.text(appname);
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
@@ -1359,7 +1405,8 @@ define([
                 if (value)
                     this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 this._ShowHideInfoItem(this.lblDate, !!value);
-            }
+            } else if (pdfProps)
+                this.updatePdfInfo(pdfProps);
         },
 
         updateFileInfo: function() {
@@ -1371,14 +1418,6 @@ define([
                 value;
 
             this.coreProps = props;
-            // var app = (this.api) ? this.api.asc_getAppProps() : null;
-            // if (app) {
-            //     value = app.asc_getTotalTime();
-            //     if (value)
-            //         this.lblEditTime.text(value + ' ' + this.txtMinutes);
-            // }
-            // this._ShowHideInfoItem(this.lblEditTime, !!value);
-
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
@@ -1411,6 +1450,82 @@ define([
                 !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
             this.SetDisabled();
+        },
+
+        updatePdfInfo: function(props) {
+            if (!this.rendered)
+                return;
+
+            var me = this,
+                value;
+
+            if (props) {
+                value = props.CreationDate;
+                if (value) {
+                    value = new Date(value);
+                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                }
+                this._ShowHideInfoItem(this.lblDate, !!value);
+
+                var visible = false;
+                value = props.ModDate;
+                if (value) {
+                    value = new Date(value);
+                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                }
+                visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
+                visible = this._ShowHideInfoItem(this.lblModifyBy, false) || visible;
+                $('tr.divider.modify', this.el)[visible?'show':'hide']();
+
+                if (props.PageWidth && props.PageHeight && (typeof props.PageWidth === 'number') && (typeof props.PageHeight === 'number')) {
+                    var w = props.PageWidth,
+                        h = props.PageHeight;
+                    switch (Common.Utils.Metric.getCurrentMetric()) {
+                        case Common.Utils.Metric.c_MetricUnits.cm:
+                            w = parseFloat((w* 25.4 / 72000.).toFixed(2));
+                            h = parseFloat((h* 25.4 / 72000.).toFixed(2));
+                            break;
+                        case Common.Utils.Metric.c_MetricUnits.pt:
+                            w = parseFloat((w/100.).toFixed(2));
+                            h = parseFloat((h/100.).toFixed(2));
+                            break;
+                        case Common.Utils.Metric.c_MetricUnits.inch:
+                            w = parseFloat((w/7200.).toFixed(2));
+                            h = parseFloat((h/7200.).toFixed(2));
+                            break;
+                    }
+                    this.lblPageSize.text(w + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' + h + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                    this._ShowHideInfoItem(this.lblPageSize, true);
+                } else
+                    this._ShowHideInfoItem(this.lblPageSize, false);
+
+                value = props.Title;
+                value && this.lblPdfTitle.text(value);
+                visible = this._ShowHideInfoItem(this.lblPdfTitle, !!value);
+
+                value = props.Subject;
+                value && this.lblPdfSubject.text(value);
+                visible = this._ShowHideInfoItem(this.lblPdfSubject, !!value) || visible;
+                $('tr.divider.pdf-title', this.el)[visible?'show':'hide']();
+
+                value = props.Author;
+                value && this.lblPdfAuthor.text(value);
+                this._ShowHideInfoItem(this.lblPdfAuthor, !!value);
+
+                value = props.Version;
+                value && this.lblPdfVer.text(value);
+                this._ShowHideInfoItem(this.lblPdfVer, !!value);
+
+                value = props.Tagged;
+                if (value !== undefined)
+                    this.lblPdfTagged.text(value===true ? this.txtYes : this.txtNo);
+                this._ShowHideInfoItem(this.lblPdfTagged, value !== undefined);
+
+                value = props.FastWebView;
+                if (value !== undefined)
+                    this.lblFastWV.text(value===true ? this.txtYes : this.txtNo);
+                this._ShowHideInfoItem(this.lblFastWV, value !== undefined);
+            }
         },
 
         _ShowHideInfoItem: function(el, visible) {
@@ -1565,7 +1680,14 @@ define([
         txtAddAuthor: 'Add Author',
         txtAddText: 'Add Text',
         txtMinutes: 'min',
-        okButtonText: 'Apply'
+        okButtonText: 'Apply',
+        txtPageSize: 'Page Size',
+        txtPdfVer: 'PDF Version',
+        txtPdfTagged: 'Tagged PDF',
+        txtFastWV: 'Fast Web View',
+        txtYes: 'Yes',
+        txtNo: 'No'
+
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 
     DE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
