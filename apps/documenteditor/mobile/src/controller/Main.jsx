@@ -283,10 +283,18 @@ class MainController extends Component {
                 .then ( result => {
                     window["flat_desine"] = true;
                     const {t} = this.props;
+                    let _translate = t('Main.SDK', {returnObjects:true});
+                    for (let item in _translate) {
+                        if (_translate.hasOwnProperty(item)) {
+                            const str = _translate[item];
+                            if (item[item.length-1]===' ' && str[str.length-1]!==' ')
+                                _translate[item] += ' ';
+                        }
+                    }
                     this.api = new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        'translate': t('Main.SDK', {returnObjects:true})
+                        'translate': _translate
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
