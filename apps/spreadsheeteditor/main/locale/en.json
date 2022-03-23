@@ -2001,6 +2001,8 @@
   "SSE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "SSE.Views.DocumentHolder.txtWidth": "Width",
   "SSE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "SSE.Views.DocumentHolder.chartDataText": "Select Chart Data",
+  "SSE.Views.DocumentHolder.chartTypeText": "Change Chart Type",
   "SSE.Views.FieldSettingsDialog.strLayout": "Layout",
   "SSE.Views.FieldSettingsDialog.strSubtotals": "Subtotals",
   "SSE.Views.FieldSettingsDialog.textReport": "Report Form",

@@ -241,6 +241,8 @@ define([
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
+                view.mnuChartData.on('click',                       _.bind(me.onChartData, me));
+                view.mnuChartType.on('click',                       _.bind(me.onChartType, me));
                 view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
                 view.mnuSlicerAdvanced.on('click',                  _.bind(me.onSlicerAdvanced, me));
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
@@ -1030,6 +1032,60 @@ define([
                                 Common.NotificationCenter.trigger('edit:complete', me);
                             }
                         })).show();
+                }
+            }
+        },
+
+        onChartData: function(btn) {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditRanges = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartDataDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditRanges = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditRanges && props.cancelEdit();
+                        me._isEditRanges = false;
+                    });
+                    win.show();
+                }
+            }
+        },
+
+        onChartType: function(btn) {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditType = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartTypeDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditType = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditType && props.cancelEdit();
+                        me._isEditType = false;
+                    });
+                    win.show();
                 }
             }
         },
@@ -1832,7 +1888,8 @@ define([
                 isPivotLocked       = cellinfo.asc_getLockedPivotTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
-                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram,
+                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram || this.permissions.isEditOle,
+                diagramOrMergeEditor = this.permissions.isEditMailMerge || this.permissions.isEditDiagram,
                 xfs = cellinfo.asc_getXfs(),
                 isSmartArt = false,
                 isSmartArtInternal = false;
@@ -1843,11 +1900,11 @@ define([
                 case Asc.c_oAscSelectionType.RangeCol:      iscolmenu = true; break;
                 case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
                 case Asc.c_oAscSelectionType.RangeSlicer:
-                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
             }
 
             if (this.api.asc_getHeaderFooterMode()) {
@@ -1918,6 +1975,10 @@ define([
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
                 documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);
+                documentHolder.mnuChartData.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                documentHolder.mnuChartData.setDisabled(isObjLocked);
+                documentHolder.mnuChartType.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                documentHolder.mnuChartType.setDisabled(isObjLocked);
                 documentHolder.pmiImgCut.setDisabled(isObjLocked);
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
@@ -1946,6 +2007,7 @@ define([
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
 
+                documentHolder.menuImgMacro.setVisible(!internaleditor);
                 documentHolder.menuImgMacro.setDisabled(isObjLocked);
 
                 var canEditPoints = this.api && this.api.asc_canEditGeometry();
@@ -2059,8 +2121,10 @@ define([
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
 
                 documentHolder.menuParagraphBullets.setDisabled(isSmartArt || isSmartArtInternal);
-            } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
-            seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
+            } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle ||
+                (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
+                seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText &&
+                seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
                 if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
                 
                 var iscelledit = this.api.isCellEdited,
@@ -2083,14 +2147,14 @@ define([
                 documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiSparklines.setVisible(isinsparkline);
                 documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit && !inPivot);
-                documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
-                documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[2].setVisible(!diagramOrMergeEditor);
+                documentHolder.pmiSortCells.menu.items[3].setVisible(!diagramOrMergeEditor);
                 documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
-                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor && !inPivot);
-                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor && !inPivot);
-                documentHolder.pmiCondFormat.setVisible(!iscelledit && !internaleditor);
-                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
-                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
+                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
+                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
+                documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
+                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
+                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
@@ -2108,8 +2172,8 @@ define([
                 }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
-                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !internaleditor && !inPivot);
-                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !internaleditor && !inPivot);
+                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
+                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
@@ -2213,9 +2277,9 @@ define([
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
-                iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
+                iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
                 iscelledit = this.api.isCellEdited,
-                isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
+                isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
                 signGuid;
 
             if (!documentHolder.viewModeMenu)

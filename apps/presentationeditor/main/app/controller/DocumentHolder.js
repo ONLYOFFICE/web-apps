@@ -126,6 +126,27 @@ define([
                     }, 10);
                 }, this));
             }
+
+            var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+            if (oleEditor) {
+                oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        if (oleEditor.isEditMode())
+                            this.api.asc_editTableOleObject(data);
+                    }
+                }, this));
+                oleEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_enableKeyEvents(true);
+                    }
+                    var me = this;
+                    setTimeout(function(){
+                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                    }, 10);
+                }, this));
+            }
         }
     });
 });

@@ -152,6 +152,7 @@ require([
             /** coauthoring end **/
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
+            ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
             ,'Transitions'
@@ -188,6 +189,7 @@ require([
             'common/main/lib/controller/Plugins',
             'presentationeditor/main/app/view/ChartSettings',
             'common/main/lib/controller/ExternalDiagramEditor'
+            ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Themes'

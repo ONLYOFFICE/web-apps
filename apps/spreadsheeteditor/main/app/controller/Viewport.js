@@ -79,7 +79,7 @@ define([
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
-                        if (!config.isEditDiagram && !config.isEditMailMerge)
+                        if (!config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle)
                             toolbar.setExtra('right', me.header.getPanel('right', config));
 
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
@@ -148,11 +148,11 @@ define([
             {
                 me.viewport.vlayout.getItem('toolbar').height = _intvars.get('toolbar-height-compact');
             } else
-            if ( config.isEditDiagram || config.isEditMailMerge ) {
+            if ( config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
                 me.viewport.vlayout.getItem('toolbar').height = 41;
             }
 
-            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !(config.customization && config.customization.compactHeader)) {
+            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !(config.customization && config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));

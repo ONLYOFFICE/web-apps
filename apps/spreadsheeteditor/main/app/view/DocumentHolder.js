@@ -634,6 +634,15 @@ define([
                 caption : me.chartText
             });
 
+             me.mnuChartData = new Common.UI.MenuItem({
+                iconCls     : 'menu__icon btn-select-range',
+                caption : me.chartDataText
+            });
+
+             me.mnuChartType = new Common.UI.MenuItem({
+                caption : me.chartTypeText
+            });
+
             me.pmiImgCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption     : me.txtCut,
@@ -849,6 +858,8 @@ define([
                     me.menuImgMacro,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
+                    me.mnuChartData,
+                    me.mnuChartType,
                     me.mnuChartEdit,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
@@ -1280,7 +1291,9 @@ define([
         tipMarkersArrow: 'Arrow bullets',
         tipMarkersCheckmark: 'Checkmark bullets',
         tipMarkersFRhombus: 'Filled rhombus bullets',
-        tipMarkersDash: 'Dash bullets'
+        tipMarkersDash: 'Dash bullets',
+        chartDataText: 'Select Chart Data',
+        chartTypeText: 'Change Chart Type'
 
     }, SSE.Views.DocumentHolder || {}));
 });

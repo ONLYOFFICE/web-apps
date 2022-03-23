@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2022
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -31,10 +31,10 @@
  *
 */
 /**
- *  ExternalDiagramEditor.js
+ *  ExternalOleEditor.js
  *
- *  Created by Julia Radzhabova on 4/08/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created by Julia Radzhabova on 3/10/22
+ *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -42,13 +42,14 @@ define([
     'common/main/lib/component/Window'
 ], function () { 'use strict';
 
-    Common.Views.ExternalMergeEditor = Common.UI.Window.extend(_.extend({
+    Common.Views.ExternalOleEditor = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var _options = {};
+            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
             _.extend(_options,  {
                 title: this.textTitle,
                 width: 910,
-                height: (Common.Utils.innerHeight()-700)<0 ? Common.Utils.innerHeight(): 700,
+                height: (_inner_height - 700)<0 ? _inner_height : 700,
                 cls: 'advanced-settings-dlg',
                 header: true,
                 toolclose: 'hide',
@@ -56,21 +57,21 @@ define([
             }, options);
 
             this.template = [
-                '<div id="id-merge-editor-container" class="box" style="height:' + (_options.height-85) + 'px;">',
-                    '<div id="id-merge-editor-placeholder" style="width: 100%;height: 100%;"></div>',
+                '<div id="id-ole-editor-container" class="box" style="height:' + (_options.height-85) + 'px;">',
+                    '<div id="id-ole-editor-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>',
                 '<div class="footer" style="text-align: center;">',
-                    '<button id="id-btn-merge-editor-apply" class="btn normal dlg-btn primary custom" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
-                    '<button id="id-btn-merge-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
+                    '<button id="id-btn-ole-editor-apply" class="btn normal dlg-btn primary custom" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
+                    '<button id="id-btn-ole-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
                 '</div>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
 
             this.handler = _options.handler;
-            this._mergeData = null;
-            this._isNewMerge = true;
+            this._oleData = null;
+            this._isNewOle = true;
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
@@ -78,30 +79,33 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             this.btnSave = new Common.UI.Button({
-                el: $('#id-btn-merge-editor-apply'),
+                el: $('#id-btn-ole-editor-apply'),
                 disabled: true
             });
             this.btnCancel = new Common.UI.Button({
-                el: $('#id-btn-merge-editor-cancel'),
-                disabled: true
+                el: $('#id-btn-ole-editor-cancel')
             });
 
-            this.$window.find('.tool.close').addClass('disabled');
             this.$window.find('.dlg-btn').on('click', _.bind(this.onDlgBtnClick, this));
         },
 
-        setMergeData: function(data) {
-            this._mergeData = data;
+        show: function() {
+            this.setPlaceholder();
+            Common.UI.Window.prototype.show.apply(this, arguments);
+        },
+
+        setOleData: function(data) {
+            this._oleData = data;
             if (this._isExternalDocReady)
-                this.fireEvent('setmergedata', this);
+                this.fireEvent('setoledata', this);
         },
 
         setEditMode: function(mode) {
-            this._isNewMerge = !mode;
+            this._isNewOle = !mode;
         },
 
         isEditMode: function() {
-            return !this._isNewMerge;
+            return !this._isNewOle;
         },
 
         setControlsDisabled: function(disable) {
@@ -111,15 +115,18 @@ define([
         },
 
         onDlgBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
-            if ( this.handler && this.handler.call(this, state) )
+            if ( this.handler ) {
+                this.handler.call(this, event.currentTarget.attributes['result'].value);
                 return;
+            }
             this.hide();
         },
 
         onToolClose: function() {
-            if ( this.handler && this.handler.call(this, 'cancel') )
+            if ( this.handler ) {
+                this.handler.call(this, 'cancel');
                 return;
+            }
             this.hide();
         },
 
@@ -134,16 +141,24 @@ define([
                 this.$window.find('> .body').css('height', height-header_height);
                 this.$window.find('> .body > .box').css('height', height-85);
 
-                var top  = (Common.Utils.innerHeight() - parseInt(height)) / 2;
+                var top  = (Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top') - parseInt(height)) / 2;
                 var left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
 
                 this.$window.css('left',left);
-                this.$window.css('top',top);
+                this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
             }
+        },
+
+        setPlaceholder: function(placeholder) {
+            this._placeholder = placeholder;
+        },
+
+        getPlaceholder: function() {
+            return this._placeholder;
         },
 
         textSave: 'Save & Exit',
         textClose: 'Close',
-        textTitle: 'Mail Merge Recipients'
-    }, Common.Views.ExternalMergeEditor || {}));
+        textTitle: 'Spreadsheet Editor'
+    }, Common.Views.ExternalOleEditor || {}));
 });

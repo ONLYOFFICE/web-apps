@@ -913,7 +913,7 @@
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge')
+            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge' || config.editorConfig.mode === 'editole')
                 index = "/index_internal.html";
 
         }
@@ -947,7 +947,7 @@
             }
         }
 
-        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge'))
+        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge' || config.editorConfig.mode == 'editole'))
             params += "&internal=true";
 
         if (config.frameEditorId)

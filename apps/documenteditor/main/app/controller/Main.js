@@ -1234,6 +1234,7 @@ define([
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
+                application.getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
 
