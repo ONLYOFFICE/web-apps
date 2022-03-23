@@ -65,8 +65,7 @@ const PageApplicationSettings = props => {
             }
                 <BlockTitle>{_t.textCommentingDisplay}</BlockTitle>
                 <List>
-                    <ListItem>
-                        <span>{_t.textComments}</span>
+                    <ListItem title={_t.textComments}>
                         <Toggle checked={isComments}
                                 onToggleChange={() => {
                                     storeApplicationSettings.changeDisplayComments(!isComments);
@@ -74,8 +73,7 @@ const PageApplicationSettings = props => {
                                 }}
                         />
                     </ListItem>
-                    <ListItem>
-                        <span>{_t.textResolvedComments}</span>
+                    <ListItem title={_t.textResolvedComments}>
                         <Toggle checked={isResolvedComments} disabled={!isComments}
                                 onToggleChange={() => {
                                     storeApplicationSettings.changeDisplayResolved(!isResolvedComments);
@@ -85,8 +83,7 @@ const PageApplicationSettings = props => {
                     </ListItem>
                 </List>
                 <List>
-                    <ListItem>
-                        <span>{_t.textR1C1Style}</span>
+                    <ListItem title={_t.textR1C1Style}>
                         <Toggle checked={isRefStyle}
                                 onToggleChange={() => {
                                     storeApplicationSettings.changeRefStyle(!isRefStyle);
