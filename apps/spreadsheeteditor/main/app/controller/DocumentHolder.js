@@ -2451,13 +2451,15 @@ define([
                 }
                 funcarr.sort(function (a,b) {
                     var atype = a.asc_getType(),
-                        btype = b.asc_getType(),
-                        aname = a.asc_getName(true).toLocaleUpperCase(),
-                        bname = b.asc_getName(true).toLocaleUpperCase();
+                        btype = b.asc_getType();
+                    if (atype===btype && (atype === Asc.c_oAscPopUpSelectorType.TableColumnName))
+                        return 0;
                     if (atype === Asc.c_oAscPopUpSelectorType.TableThisRow) return -1;
                     if (btype === Asc.c_oAscPopUpSelectorType.TableThisRow) return 1;
                     if ((atype === Asc.c_oAscPopUpSelectorType.TableColumnName || btype === Asc.c_oAscPopUpSelectorType.TableColumnName) && atype !== btype)
                         return atype === Asc.c_oAscPopUpSelectorType.TableColumnName ? -1 : 1;
+                    var aname = a.asc_getName(true).toLocaleUpperCase(),
+                        bname = b.asc_getName(true).toLocaleUpperCase();
                     if (aname < bname) return -1;
                     if (aname > bname) return 1;
                     return 0;
