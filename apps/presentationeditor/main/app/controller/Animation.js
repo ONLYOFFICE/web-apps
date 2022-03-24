@@ -188,8 +188,6 @@ define([
         },
 
         addNewEffect: function (type, group, groupName, replace, parametr, preview) {
-            if (this._state.Effect == type && this._state.EffectGroup == group && replace)
-                parametr = this._state.EffectOption;
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
             this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, preview);
         },
@@ -397,7 +395,6 @@ define([
                         }
                         view.listEffects.selectRecord(item);
                         view.listEffects.fillComboView(item, true, forceFill);
-                        view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
                     } else {
                         store.remove(store.findWhere({isCustom: true})); // remove custom effects
                         if (this._state.Effect==AscFormat.ANIM_PRESET_MULTIPLE) { // add and select "multiple" item
@@ -410,7 +407,6 @@ define([
                                 displayValue: view.textMultiple
                             }), {at:1}));
                             view.listEffects.menuPicker.deselectAll();
-                            view.btnParameters.setIconCls('toolbar__icon icon animation-none');
                         } else { // add custom effect to appropriate group
                             if (group) {
                                 var items = store.where({group: group.get('id')});
@@ -425,11 +421,9 @@ define([
                                 }), {at:index+1});
                                 view.listEffects.selectRecord(item);
                                 view.listEffects.fillComboView(item, true, true);
-                                view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
                             } else {
                                 view.listEffects.fieldPicker.deselectAll();
                                 view.listEffects.menuPicker.deselectAll();
-                                view.btnParameters.setIconCls('toolbar__icon icon animation-none');
                             }
                         }
                     }

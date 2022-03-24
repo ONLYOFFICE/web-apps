@@ -1616,6 +1616,12 @@ define([
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
                 this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
+
+                var value = Common.localStorage.getItem('de-settings-unit');
+                value = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[this.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("de-settings-unit", value);
             },
 
             applyModeEditorElements: function() {
@@ -1664,11 +1670,7 @@ define([
                         toolbarView.on('insertcontrol', _.bind(me.onInsertControl, me));
                     }
 
-                    var value = Common.localStorage.getItem('de-settings-unit');
-                    value = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[this.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
-                    (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
-                    Common.Utils.Metric.setCurrentMetric(value);
-                    Common.Utils.InternalSettings.set("de-settings-unit", value);
+                    var value = Common.Utils.InternalSettings.get("de-settings-unit");
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     value = Common.localStorage.itemExists('de-hidden-rulers') ? Common.localStorage.getBool('de-hidden-rulers') : (this.appOptions.customization && !!this.appOptions.customization.hideRulers);
