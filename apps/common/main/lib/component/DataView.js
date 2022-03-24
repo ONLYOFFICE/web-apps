@@ -1387,6 +1387,39 @@ define([
 
             me.recentShapes = recentArr;
 
+            // check lang
+            if (me.recentShapes.length > 0) {
+                var isTranslated = _.findWhere(me.groups, {groupName: me.recentShapes[0].groupName});
+                if (!isTranslated) {
+                    for (var r = 0; r < me.recentShapes.length; r++) {
+                        var type = me.recentShapes[r].data.shapeType,
+                            record;
+                        for (var g = 0; g < me.groups.length; g++) {
+                            var store = me.groups[g].groupStore,
+                                groupName = me.groups[g].groupName;
+                            for (var i = 0; i < store.length; i++) {
+                                if (store.at(i).get('data').shapeType === type) {
+                                    record = store.at(i).toJSON();
+                                    me.recentShapes[r] = {
+                                        data: record.data,
+                                        tip: record.tip,
+                                        allowSelected: record.allowSelected,
+                                        selected: false,
+                                        groupName: groupName
+                                    };
+                                    break;
+                                }
+                            }
+                            if (record) {
+                                record = undefined;
+                                break;
+                            }
+                        }
+                    }
+                    Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+                }
+            }
+
             // Add default recent
 
             if (me.recentShapes.length < 12) {
