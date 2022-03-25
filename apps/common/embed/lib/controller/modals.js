@@ -57,6 +57,13 @@
 
             $dlgShare.find('#btn-copyshort').on('click', copytext.bind(this, $dlgShare.find('#id-short-url')));
             $dlgShare.find('.share-buttons > span').on('click', function(e){
+                const key = $(e.target).attr('data-name');
+                if ( config.btnsShare[key] && config.btnsShare[key].getUrl ) {
+                    window.open(config.btnsShare[key].getUrl(appConfig.shareUrl, encodeURI(appConfig.docTitle)), '',
+                        'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+                    return;
+                }
+
                 var _url;
                 switch ($(e.target).attr('data-name')) {
                     case 'facebook':

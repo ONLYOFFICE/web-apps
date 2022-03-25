@@ -246,6 +246,22 @@
           });
       </script>
 
+      <script>
+          window.config = {
+              btnsShare: {
+                  'facebook': {
+                      getUrl: (shareurl, title) => `https://www.facebook.com/sharer/sharer.php?u=${shareurl}&t=${encodeURI(title)}`
+                  },
+                  'twitter': {
+                      url: ""
+                  },
+                  'email': {
+                      url: ""
+                  }
+              }
+          };
+      </script>
+
       <!--application-->
       <script type="text/javascript" src="../../common/locale.js"></script>
       <script type="text/javascript" src="../../common/Gateway.js"></script>
