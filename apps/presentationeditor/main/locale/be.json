@@ -53,7 +53,7 @@
   "Common.define.effectData.textZoom": "Маштаб",
   "Common.Translation.warnFileLocked": "Дакумент выкарыстоўваецца іншай праграмай. Вы можаце працягнуць рэдагаванне і захаваць яго як копію.",
   "Common.UI.ButtonColored.textAutoColor": "Аўтаматычна",
-  "Common.UI.ButtonColored.textNewColor": "Дадаць новы адвольны колер",
+  "Common.UI.ButtonColored.textNewColor": "Адвольны колер",
   "Common.UI.ComboBorderSize.txtNoBorders": "Без межаў",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Без межаў",
   "Common.UI.ComboDataView.emptyComboText": "Без стыляў",

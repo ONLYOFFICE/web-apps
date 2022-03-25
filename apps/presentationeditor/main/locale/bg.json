@@ -14,6 +14,7 @@
   "Common.define.chartData.textPoint": "XY (точкова)",
   "Common.define.chartData.textStock": "Борсова",
   "Common.define.chartData.textSurface": "Повърхност",
+  "Common.UI.ButtonColored.textNewColor": "Нов Потребителски Цвят",
   "Common.UI.ComboBorderSize.txtNoBorders": "Няма граници",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Няма граници",
   "Common.UI.ComboDataView.emptyComboText": "Няма стилове",

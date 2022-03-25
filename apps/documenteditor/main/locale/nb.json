@@ -34,6 +34,7 @@
   "Common.define.chartData.textCharts": "Diagrammer",
   "Common.define.chartData.textColumn": "Kolonne",
   "Common.UI.ButtonColored.textAutoColor": "Automatisk",
+  "Common.UI.ButtonColored.textNewColor": "Legg til ny egendefinert farge",
   "Common.UI.Calendar.textApril": "april",
   "Common.UI.Calendar.textAugust": "august",
   "Common.UI.Calendar.textDecember": "desember",
