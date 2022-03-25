@@ -63,6 +63,7 @@
   "Common.Controllers.ReviewChanges.textTabs": "Vaihda välilehtiä",
   "Common.Controllers.ReviewChanges.textUnderline": "Alleviivaus",
   "Common.Controllers.ReviewChanges.textWidow": "Leskirivien hallinta",
+  "Common.UI.ButtonColored.textNewColor": "Lisää uusi mukautettu väri",
   "Common.UI.ComboBorderSize.txtNoBorders": "Ei reunusta",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Ei reunuksia",
   "Common.UI.ComboDataView.emptyComboText": "Ei tyylejä",

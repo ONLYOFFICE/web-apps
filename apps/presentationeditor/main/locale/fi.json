@@ -6,6 +6,7 @@
   "Common.Controllers.ExternalDiagramEditor.warningText": "Ohjekti ei ole käytössä koska toinen käyttäjä muokkaa sitä.",
   "Common.Controllers.ExternalDiagramEditor.warningTitle": "Varoitus",
   "Common.UI.ButtonColored.textAutoColor": "Automaattinen",
+  "Common.UI.ButtonColored.textNewColor": "Lisää uusi mukautettu väri",
   "Common.UI.ComboBorderSize.txtNoBorders": "Ei reunuksia",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Ei reunuksia",
   "Common.UI.ComboDataView.emptyComboText": "Ei tyylejä",

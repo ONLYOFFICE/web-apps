@@ -1086,6 +1086,8 @@
   "PE.Controllers.Toolbar.txtSymbol_zeta": "Zeta",
   "PE.Controllers.Viewport.textFitPage": "Slayda uyğun tənzimlə",
   "PE.Controllers.Viewport.textFitWidth": "Enə uyğun tənzimlə",
+  "PE.Views.Animation.textNoRepeat": "(yoxdur)",
+  "PE.Views.Animation.txtParameters": "Parametreler",
   "PE.Views.ChartSettings.textAdvanced": "Qabaqcıl Parametrləri Göstər",
   "PE.Views.ChartSettings.textChartType": "Diaqramın növünü dəyiş",
   "PE.Views.ChartSettings.textEditData": "Məlumatları Redaktə edin",
