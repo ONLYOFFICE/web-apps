@@ -417,6 +417,7 @@ define([
                                     value: this._state.Effect,
                                     iconCls: group.get('iconClsCustom'),
                                     displayValue: rec ? rec.displayValue : '',
+                                    tip: rec ? rec.displayValue : '',
                                     isCustom: true
                                 }), {at:index+1});
                                 view.listEffects.selectRecord(item);
