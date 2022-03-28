@@ -1561,6 +1561,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 }
                 if (props.get_FromSmartArtInternal()) {
                     this.chAutofit.setDisabled(true);
+                    this.chFlipHor.setDisabled(true);
+                    this.chFlipVert.setDisabled(true);
                 }
 
                 var stroke = props.get_stroke();

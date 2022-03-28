@@ -291,7 +291,6 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnHighlightColor);
-                    this.textOnlyControls.push(this.btnHighlightColor);
 
                     this.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
