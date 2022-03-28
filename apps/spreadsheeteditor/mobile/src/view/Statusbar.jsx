@@ -60,6 +60,21 @@ const PageAllList = (props) => {
     )
 };
 
+const PopoverAllList = (props) => {
+    const {sheets, onTabListClick} = props;
+
+    const onScrollList = () => {
+        const listHeight = $$('.list .item-list').height();
+        $$('.all-list .page-content').scrollTop(listHeight*sheets.activeWorksheet);
+    };
+
+    return (
+        <Popover id="idx-all-list" className="all-list" onPopoverOpen={onScrollList}>
+            <PageAllList sheets={sheets} onTabListClick={onTabListClick}/>
+        </Popover>
+    )
+};
+
 const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Statusbar', {returnObjects: true});
@@ -142,9 +157,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                 </Actions>
             ) : null}
             {
-                <Popover id="idx-all-list" className="all-list">
-                    <PageAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
-                </Popover>
+                <PopoverAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
             }
             {isPhone ? 
                 <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true}>
