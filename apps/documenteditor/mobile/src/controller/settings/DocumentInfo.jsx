@@ -17,8 +17,6 @@ class DocumentInfoController extends Component {
         } else if (this.pdfProps) {
             this.updatePdfInfo(this.pdfProps);
         }
-
-        console.log(this.docInfoObject)
     }
 
     updateFileInfo(props) {
