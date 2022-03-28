@@ -32,12 +32,9 @@ class DocumentInfoController extends Component {
             value = props.asc_getLastModifiedBy();
             if(value) this.docInfoObject.modifyBy = AscCommon.UserInfoParser.getParsedName(value);
 
-            value = props.asc_getTitle();
-            this.docInfoObject.title = value || '';
-            value = props.asc_getSubject();
-            this.docInfoObject.subject = value || '';
-            value = props.asc_getDescription();
-            this.docInfoObject.description = value || '';
+            this.docInfoObject.title = props.asc_getTitle() || '';
+            this.docInfoObject.subject = props.asc_getSubject() || '';
+            this.docInfoObject.description = props.asc_getDescription() || '';
 
             value = props.asc_getCreator();
             if(value) this.docInfoObject.creators = value;
@@ -117,11 +114,11 @@ class DocumentInfoController extends Component {
         let appName;
 
         if (appProps) {
-            appName =
-                (appProps.asc_getApplication() || "") +
-                (appProps.asc_getAppVersion() ? " " : "") +
-                (appProps.asc_getAppVersion() || "");
-            return appName;
+            appName = appProps.asc_getApplication();
+            if ( appName && appProps.asc_getAppVersion() )
+                appName += ` ${appProps.asc_getAppVersion()}`;
+           
+            return appName || '';
         } else if (this.pdfProps) {
             appName = this.pdfProps ? this.pdfProps.Producer || '' : '';
             return appName;
