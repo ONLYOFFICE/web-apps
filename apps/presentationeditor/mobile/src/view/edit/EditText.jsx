@@ -490,7 +490,7 @@ const PageAdditionalFormatting = props => {
     )
 };
 
-const PageBullets = props => {
+const PageBullets = observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const bulletArrays = [
@@ -525,11 +525,8 @@ const PageBullets = props => {
                             <ListItem key={'bullet-' + bullet.type} data-type={bullet.type} className={(bullet.type === typeBullets) && 
                                 (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
                                 onClick={() => {
-                                    if (bullet.type === -1) {
-                                        storeTextSettings.resetBullets(-1);
-                                    }
-                                    props.onBullet(bullet.type)
-                                    props.f7router.back();
+                                    storeTextSettings.resetBullets(bullet.type);
+                                    props.onBullet(bullet.type);
                                 }}>
                                 {bullet.thumb.length < 1 ?
                                     <Icon className="thumb" style={{position: 'relative'}}>
@@ -543,9 +540,9 @@ const PageBullets = props => {
             ))}
         </View>
     )
-};
+});
 
-const PageNumbers = props => {
+const PageNumbers = observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const numberArrays = [
@@ -573,7 +570,7 @@ const PageNumbers = props => {
         return null;
     }
 
-    return(
+    return (
         <View className='numbers dataview'>
             {numberArrays.map((numbers, index) => (
                 <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
@@ -581,11 +578,8 @@ const PageNumbers = props => {
                         <ListItem key={'number-' + number.type} data-type={number.type} className={(number.type === typeNumbers) && 
                             (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                             onClick={() => {
-                                if (number.type === -1) {
-                                    storeTextSettings.resetNumbers(-1);
-                                }
-                                props.onNumber(number.type)
-                                props.f7router.back();
+                                storeTextSettings.resetNumbers(number.type);
+                                props.onNumber(number.type);
                             }}>
                             {number.thumb.length < 1 ?
                                 <Icon className="thumb" style={{position: 'relative'}}>
@@ -599,7 +593,7 @@ const PageNumbers = props => {
             ))}
         </View>
     )
-};
+});
 
 const PageBulletsAndNumbers = props => {
     const { t } = useTranslation();
