@@ -207,11 +207,7 @@ const PageBullets = observer(props => {
                             <ListItem key={'bullet-' + bullet.type} data-type={bullet.type} className={(bullet.type === typeBullets) && 
                                 (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
                                 onClick={() => {
-                                    if (bullet.type === -1) {
-                                        storeTextSettings.resetBullets(-1);
-                                    } else {
-                                        storeTextSettings.resetBullets(bullet.type);
-                                    }
+                                    storeTextSettings.resetBullets(bullet.type);
                                     props.onBullet(bullet.type);
                                 }}>
                                 {bullet.thumb.length < 1 ?
@@ -256,11 +252,7 @@ const PageNumbers = observer(props => {
                         <ListItem key={'number-' + number.type} data-type={number.type} className={(number.type === typeNumbers) && 
                             (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                             onClick={() => {
-                                if (number.type === -1) {
-                                    storeTextSettings.resetNumbers(-1);
-                                } else {
-                                    storeTextSettings.resetNumbers(number.type);
-                                }
+                                storeTextSettings.resetNumbers(number.type);
                                 props.onNumber(number.type);
                             }}>
                             {number.thumb.length < 1 ?
