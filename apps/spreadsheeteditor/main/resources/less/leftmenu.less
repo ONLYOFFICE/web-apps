@@ -39,8 +39,38 @@
     height: 125px;
     cursor: pointer;
 
-    svg&:hover {
-        opacity:0.85;
+    .svg-format-xlsx {
+        background: ~"url(../../../apps/common/main/resources/img/doc-formats/xlsx.svg) no-repeat center";
+    }
+    .svg-format-pdf {
+       background: ~"url(../../../apps/common/main/resources/img/doc-formats/pdf.svg) no-repeat center";
+    }
+    .svg-format-ods {
+        background: ~"url(../../../apps/common/main/resources/img/doc-formats/ods.svg) no-repeat center";
+    }
+    .svg-format-csv {
+        background: ~"url(../../../apps/common/main/resources/img/doc-formats/csv.svg) no-repeat center";
+    }
+    .svg-format-xltx {
+        background: ~"url(../../../apps/common/main/resources/img/doc-formats/xltx.svg) no-repeat center";
+    }
+    .svg-format-pdfa {
+        background: ~"url(../../../apps/common/main/resources/img/doc-formats/pdfa.svg) no-repeat center";
+    }
+    .svg-format-ots {
+        background: ~"url(../../../apps/common/main/resources/img/doc-formats/ots.svg) no-repeat center";
+    }
+    .svg-format-xlsm {
+        background: ~"url(../../../apps/common/main/resources/img/doc-formats/xlsm.svg) no-repeat center";
+    }
+
+    div {
+        display: block;
+        height: 100%;
+        width: 100%;
+        &:hover {
+            opacity: 0.85;
+        }
     }
 }
 
