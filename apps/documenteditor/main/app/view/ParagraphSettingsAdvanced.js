@@ -410,7 +410,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             _.each(_arrBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[2]),
-                    style: 'margin-left: 5px; margin-bottom: 4px;',
+                    style: 'margin-left: 4px; margin-bottom: 4px;',
                     cls: 'btn-options large border-off',
                     iconCls: item[1],
                     strId   :item[0],
