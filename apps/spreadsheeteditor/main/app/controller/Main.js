@@ -915,6 +915,7 @@ define([
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle) {
                      pluginsController.setApi(me.api);
                      this.api && this.api.asc_setFrozenPaneBorderType(Common.localStorage.getBool('sse-freeze-shadow', true) ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
+                     application.getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                  }
 
                 leftMenuView.disableMenu('all',false);
@@ -2565,7 +2566,7 @@ define([
 
             setOleData: function(obj) {
                 if (typeof obj === 'object' && this.api) {
-                    this.api.asc_addTableOleObject(obj);
+                    this.api.asc_addTableOleObjectInOleEditor(obj);
                     this.isFrameClosed = false;
                 }
             },
