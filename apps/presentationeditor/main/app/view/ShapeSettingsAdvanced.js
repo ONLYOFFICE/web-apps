@@ -576,6 +576,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this.radioNofit.setDisabled(true);
                     this.radioShrink.setDisabled(true);
                     this.radioFit.setDisabled(true);
+                    this.chFlipHor.setDisabled(true);
+                    this.chFlipVert.setDisabled(true);
                 }
 
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
