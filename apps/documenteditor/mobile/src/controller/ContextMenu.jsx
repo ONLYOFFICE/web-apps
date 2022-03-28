@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
-import { f7 } from 'framework7-react';
+import React, { useContext } from "react";
+import { f7 } from "framework7-react";
 import { inject, observer } from "mobx-react";
-import { withTranslation} from 'react-i18next';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { withTranslation } from "react-i18next";
+import { LocalStorage } from "../../../../common/mobile/utils/LocalStorage";
 
-import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
-import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
-import { Device } from '../../../../common/mobile/utils/device';
-import EditorUIController from '../lib/patch';
+import ContextMenuController from "../../../../common/mobile/lib/controller/ContextMenu";
+import { idContextMenuElement } from "../../../../common/mobile/lib/view/ContextMenu";
+import { Device } from "../../../../common/mobile/utils/device";
+import EditorUIController from "../lib/patch";
 
-@inject ( stores => ({
+@inject((stores) => ({
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
@@ -19,7 +19,7 @@ import EditorUIController from '../lib/patch';
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
     displayMode: stores.storeReview.displayMode,
-    dataDoc: stores.storeDocumentInfo.dataDoc
+    dataDoc: stores.storeDocumentInfo.dataDoc,
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -45,23 +45,30 @@ class ContextMenu extends ContextMenuController {
 
     isUserVisible(id) {
         const user = this.props.users.searchUserByCurrentId(id);
-        return user ? (user.asc_getIdOriginal()===this.props.users.currentUser.asc_getIdOriginal() || AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName())) : true;
+        return user
+            ? user.asc_getIdOriginal() ===
+                  this.props.users.currentUser.asc_getIdOriginal() ||
+                  AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName())
+            : true;
     }
 
     componentWillUnmount() {
         super.componentWillUnmount();
 
         const api = Common.EditorApi.get();
-        api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
-        api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
-        api.asc_unregisterCallback('asc_onShowRevisionsChange', this.onApiShowChange);
-        Common.Notifications.off('showSplitModal', this.ShowModal);
+        api.asc_unregisterCallback("asc_onShowComment", this.onApiShowComment);
+        api.asc_unregisterCallback("asc_onHideComment", this.onApiHideComment);
+        api.asc_unregisterCallback(
+            "asc_onShowRevisionsChange",
+            this.onApiShowChange
+        );
+        Common.Notifications.off("showSplitModal", this.ShowModal);
     }
 
     ShowModal() {
-        this.showSplitModal()
+        this.showSplitModal();
     }
-    
+
     onApiShowComment(comments) {
         this.isComments = comments && comments.length > 0;
     }
@@ -71,7 +78,7 @@ class ContextMenu extends ContextMenuController {
     }
 
     onApiShowChange(sdkchange, isShow) {
-        this.inRevisionChange = isShow && sdkchange && sdkchange.length>0;
+        this.inRevisionChange = isShow && sdkchange && sdkchange.length > 0;
     }
 
     // onMenuClosed() {
@@ -81,44 +88,53 @@ class ContextMenu extends ContextMenuController {
     onMenuItemClick(action) {
         super.onMenuItemClick(action);
 
-        if ( EditorUIController.ContextMenu && EditorUIController.ContextMenu.handleMenuItemClick(this, action) )
+        if (
+            EditorUIController.ContextMenu &&
+            EditorUIController.ContextMenu.handleMenuItemClick(this, action)
+        )
             return;
 
         const api = Common.EditorApi.get();
         switch (action) {
-            case 'cut':
-                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
+            case "cut":
+                if (!LocalStorage.getBool("de-hide-copy-cut-paste-warning"))
                     this.showCopyCutPasteModal();
                 break;
-            case 'copy':
-                if (!api.Copy() && !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
+            case "copy":
+                if (
+                    !api.Copy() &&
+                    !LocalStorage.getBool("de-hide-copy-cut-paste-warning")
+                )
                     this.showCopyCutPasteModal();
                 break;
-            case 'paste':
-                if ( !LocalStorage.getBool("de-hide-copy-cut-paste-warning") )
+            case "paste":
+                if (!LocalStorage.getBool("de-hide-copy-cut-paste-warning"))
                     this.showCopyCutPasteModal();
                 break;
-            case 'viewcomment':
-                Common.Notifications.trigger('viewcomment');
+            case "viewcomment":
+                Common.Notifications.trigger("viewcomment");
                 break;
-            case 'openlink':
+            case "openlink":
                 const stack = api.getSelectedElements();
                 let value;
                 stack.forEach((item) => {
-                    if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                    if (
+                        item.get_ObjectType() ==
+                        Asc.c_oAscTypeSelectElement.Hyperlink
+                    ) {
                         value = item.get_ObjectValue().get_Value();
                     }
                 });
                 value && this.openLink(value);
                 break;
-            case 'review':
+            case "review":
                 setTimeout(() => {
-                    this.props.openOptions('coauth', 'cm-review');
+                    this.props.openOptions("coauth", "cm-review");
                 }, 400);
                 break;
-            case 'reviewchange':
+            case "reviewchange":
                 setTimeout(() => {
-                    this.props.openOptions('coauth', 'cm-review-change');
+                    this.props.openOptions("coauth", "cm-review-change");
                 }, 400);
                 break;
         }
@@ -127,81 +143,97 @@ class ContextMenu extends ContextMenuController {
     showCopyCutPasteModal() {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
-        f7.dialog.create({
-            title: _t.textCopyCutPasteActions,
-            text: _t.errorCopyCutPaste,
-            content: `<div class="checkbox-in-modal">
+        f7.dialog
+            .create({
+                title: _t.textCopyCutPasteActions,
+                text: _t.errorCopyCutPaste,
+                content: `<div class="checkbox-in-modal">
                       <label class="checkbox">
                         <input type="checkbox" name="checkbox-show" />
                         <i class="icon-checkbox"></i>
                       </label>
                       <span class="right-text">${_t.textDoNotShowAgain}</span>
                       </div>`,
-            buttons: [{
-                text: 'OK',
-                onClick: () => {
-                    const dontShow = $$('input[name="checkbox-show"]').prop('checked');
-                    if (dontShow) LocalStorage.setItem("de-hide-copy-cut-paste-warning", 1);
-                }
-            }]
-        }).open();
+                buttons: [
+                    {
+                        text: "OK",
+                        onClick: () => {
+                            const dontShow = $$(
+                                'input[name="checkbox-show"]'
+                            ).prop("checked");
+                            if (dontShow)
+                                LocalStorage.setItem(
+                                    "de-hide-copy-cut-paste-warning",
+                                    1
+                                );
+                        },
+                    },
+                ],
+            })
+            .open();
     }
 
     showSplitModal() {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
         let picker;
-        const dialog = f7.dialog.create({
-            title: _t.menuSplit,
-            text: '',
-            content: `<div class="content-block">
+        const dialog = f7.dialog
+            .create({
+                title: _t.menuSplit,
+                text: "",
+                content: `<div class="content-block">
                         <div class="row">
                             <div class="col-50">${_t.textColumns}</div>
                             <div class="col-50">${_t.textRows}</div>
                         </div>
                         <div id="picker-split-size"></div>
                     </div>`,
-            buttons: [
-                {
-                    text: _t.menuCancel
+                buttons: [
+                    {
+                        text: _t.menuCancel,
+                    },
+                    {
+                        text: "OK",
+                        bold: true,
+                        onClick: function () {
+                            const size = picker.value;
+                            Common.EditorApi.get().SplitCell(
+                                parseInt(size[0]),
+                                parseInt(size[1])
+                            );
+                        },
+                    },
+                ],
+                on: {
+                    open: () => {
+                        picker = f7.picker.create({
+                            containerEl:
+                                document.getElementById("picker-split-size"),
+                            cols: [
+                                {
+                                    textAlign: "center",
+                                    width: "100%",
+                                    values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                                },
+                                {
+                                    textAlign: "center",
+                                    width: "100%",
+                                    values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                                },
+                            ],
+                            toolbar: false,
+                            rotateEffect: true,
+                            value: [3, 3],
+                        });
+                    },
                 },
-                {
-                    text: 'OK',
-                    bold: true,
-                    onClick: function () {
-                        const size = picker.value;
-                        Common.EditorApi.get().SplitCell(parseInt(size[0]), parseInt(size[1]));
-                    }
-                }
-            ],
-            on: {
-                open: () => {
-                    picker = f7.picker.create({
-                        containerEl: document.getElementById('picker-split-size'),
-                        cols: [
-                            {
-                                textAlign: 'center',
-                                width: '100%',
-                                values: [1,2,3,4,5,6,7,8,9,10]
-                            },
-                            {
-                                textAlign: 'center',
-                                width: '100%',
-                                values: [1,2,3,4,5,6,7,8,9,10]
-                            }
-                        ],
-                        toolbar: false,
-                        rotateEffect: true,
-                        value: [3, 3]
-                    });
-                }
-            }
-        }).open();
+            })
+            .open();
     }
 
     openLink(url) {
         if (Common.EditorApi.get().asc_getUrlType(url) > 0) {
-            const newDocumentPage = window.open(url, '_blank');
+            const newDocumentPage = window.open(url, "_blank");
             if (newDocumentPage) {
                 newDocumentPage.focus();
             }
@@ -212,21 +244,24 @@ class ContextMenu extends ContextMenuController {
         super.onDocumentReady();
 
         const api = Common.EditorApi.get();
-        api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
-        api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
-        api.asc_registerCallback('asc_onShowRevisionsChange', this.onApiShowChange);
-        Common.Notifications.on('showSplitModal', this.ShowModal);
+        api.asc_registerCallback("asc_onShowComment", this.onApiShowComment);
+        api.asc_registerCallback("asc_onHideComment", this.onApiHideComment);
+        api.asc_registerCallback(
+            "asc_onShowRevisionsChange",
+            this.onApiShowChange
+        );
+        Common.Notifications.on("showSplitModal", this.ShowModal);
     }
 
     initMenuItems() {
-        if ( !Common.EditorApi ) return [];
-        const { isEdit, canFillForms, isDisconnected } = this.props;
+        if (!Common.EditorApi) return [];
+        const { isEdit, canFillForms, isDisconnected, dataDoc } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
             const { t } = this.props;
-            const _t = t("ContextMenu", {returnObjects: true});
+            const _t = t("ContextMenu", { returnObjects: true });
             const { canViewComments, canCoAuthoring, canComments } = this.props;
 
             const api = Common.EditorApi.get();
@@ -238,20 +273,25 @@ class ContextMenu extends ContextMenuController {
                 isLink = false,
                 locked = false;
 
-            stack.forEach(item => {
+            stack.forEach((item) => {
                 const objectType = item.get_ObjectType(),
                     objectValue = item.get_ObjectValue();
-                if ( objectType == Asc.c_oAscTypeSelectElement.Header ) {
+                if (objectType == Asc.c_oAscTypeSelectElement.Header) {
                     locked = objectValue.get_Locked();
-                } else
-                if ( objectType == Asc.c_oAscTypeSelectElement.Paragraph ) {
+                } else if (
+                    objectType == Asc.c_oAscTypeSelectElement.Paragraph
+                ) {
                     locked = objectValue.get_Locked();
                     isText = true;
-                } else
-                if ( objectType == Asc.c_oAscTypeSelectElement.Image || objectType == Asc.c_oAscTypeSelectElement.Table) {
+                } else if (
+                    objectType == Asc.c_oAscTypeSelectElement.Image ||
+                    objectType == Asc.c_oAscTypeSelectElement.Table
+                ) {
                     locked = objectValue.get_Locked();
                     isObject = true;
-                } else if ( objectType == Asc.c_oAscTypeSelectElement.Hyperlink ) {
+                } else if (
+                    objectType == Asc.c_oAscTypeSelectElement.Hyperlink
+                ) {
                     isLink = true;
                 }
             });
@@ -259,47 +299,53 @@ class ContextMenu extends ContextMenuController {
             let itemsIcon = [],
                 itemsText = [];
 
-            if ( canCopy ) {
+            if (canCopy) {
                 itemsIcon.push({
-                    event: 'copy',
-                    icon: 'icon-copy'
+                    event: "copy",
+                    icon: "icon-copy",
                 });
             }
 
-            if(!isDisconnected) {
-                if ( canFillForms && canCopy && !locked ) {
+            if (!isDisconnected) {
+                if (canFillForms && canCopy && !locked) {
                     itemsIcon.push({
-                        event: 'cut',
-                        icon: 'icon-cut'
+                        event: "cut",
+                        icon: "icon-cut",
                     });
                 }
 
-                if ( canFillForms && dataDoc.fileType !== 'oform' && !locked ) {
+                if (canFillForms && dataDoc.fileType !== "oform" && !locked) {
                     itemsIcon.push({
-                        event: 'paste',
-                        icon: 'icon-paste'
+                        event: "paste",
+                        icon: "icon-paste",
                     });
                 }
 
-                if ( canViewComments && this.isComments ) {
+                if (canViewComments && this.isComments) {
                     itemsText.push({
                         caption: _t.menuViewComment,
-                        event: 'viewcomment'
+                        event: "viewcomment",
                     });
                 }
 
-                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject)) {
+                if (
+                    api.can_AddQuotedComment() !== false &&
+                    canCoAuthoring &&
+                    canComments &&
+                    !locked &&
+                    !(!isText && isObject)
+                ) {
                     itemsText.push({
                         caption: _t.menuAddComment,
-                        event: 'addcomment'
+                        event: "addcomment",
                     });
                 }
             }
 
-            if ( isLink ) {
+            if (isLink) {
                 itemsText.push({
                     caption: _t.menuOpenLink,
-                    event: 'openlink'
+                    event: "openlink",
                 });
             }
 
@@ -307,8 +353,10 @@ class ContextMenu extends ContextMenuController {
         }
     }
 
-    initExtraItems () {
-        return (this.extraItems && this.extraItems.length > 0 ? this.extraItems : []);
+    initExtraItems() {
+        return this.extraItems && this.extraItems.length > 0
+            ? this.extraItems
+            : [];
     }
 }
 
