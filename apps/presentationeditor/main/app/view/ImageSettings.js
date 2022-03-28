@@ -148,7 +148,18 @@ define([
 
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnEditObject.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_startEditCurrentOleObject();
+                if (this.api) {
+                    var oleobj = this.api.asc_canEditTableOleObject();
+                    if (oleobj) {
+                        var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                        if (oleEditor) {
+                            oleEditor.setEditMode(true);
+                            oleEditor.show();
+                            oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                        }
+                    } else
+                        this.api.asc_startEditCurrentOleObject();
+                }
                 this.fireEvent('editcomplete', this);
             }, this));
 
@@ -348,7 +359,7 @@ define([
 
                 if (this._state.isOleObject) {
                     var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
-                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined || this._locked);
+                    this.btnEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin===null || plugin ===undefined) || this._locked);
                 } else {
                     this.btnSelectImage.setDisabled(pluginGuid===null || this._locked);
                 }
