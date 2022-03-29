@@ -865,12 +865,8 @@ define([
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
                 Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
-                var value = this.chIgnoreUppercase.isChecked();
-                Common.localStorage.setBool("de-spellcheck-ignore-uppercase-words", value);
-                Common.Utils.InternalSettings.set("de-spellcheck-ignore-uppercase-words", value);
-                value = this.chIgnoreNumbers.isChecked();
-                Common.localStorage.setBool("de-spellcheck-ignore-numbers-words", value);
-                Common.Utils.InternalSettings.set("de-spellcheck-ignore-numbers-words", value);
+                Common.localStorage.setBool("de-spellcheck-ignore-uppercase-words", this.chIgnoreUppercase.isChecked());
+                Common.localStorage.setBool("de-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
             }
             Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
