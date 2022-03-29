@@ -1694,6 +1694,7 @@ define([
                                 paragraphProps      : elValue,
                                 borderProps         : me.borderAdvancedProps,
                                 isChart             : (item.isChart===true),
+                                isSmartArtInternal  : (item.isSmartArtInternal===true),
                                 api             : me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
@@ -4058,6 +4059,7 @@ define([
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
+                    menuParagraphAdvanced.isSmartArtInternal = (value.imgProps && value.imgProps.isSmartArtInternal);
                     menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
                     menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
                     if (value.paraProps) {

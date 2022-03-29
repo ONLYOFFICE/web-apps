@@ -87,6 +87,7 @@ define([
             this.lockedControls = [];
             this._locked = true;
             this.isChart = false;
+            this.isSmartArtInternal = false;
 
             this._arrLineRule = [
                 {displayValue: this.textAtLeast,defaultValue: 5, value: c_paragraphLinerule.LINERULE_LEAST, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'},
@@ -452,7 +453,7 @@ define([
                 this.createDelayedElements();
 
             this.disableControls(this._locked);
-            this.hideTextOnlySettings(this.isChart);
+            this.hideTextOnlySettings(this.isChart || this.isSmartArtInternal);
 
             if (prop) {
                 var Spacing = {
@@ -635,6 +636,7 @@ define([
                                 paragraphProps: elValue,
                                 borderProps: me.borderAdvancedProps,
                                 isChart: me.isChart,
+                                isSmartArtInternal: me.isSmartArtInternal,
                                 api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
