@@ -1799,6 +1799,8 @@
   "DE.Views.FileMenuPanels.Settings.txtWarnMacrosDesc": "Disable all macros with a notification",
   "DE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "DE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "DE.Views.FileMenuPanels.Settings.strIgnoreWordsInUPPERCASE": "Ignore words in UPPERCASE",
+  "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignore words with numbers",
   "DE.Views.FormSettings.textAlways": "Always",
   "DE.Views.FormSettings.textAspect": "Lock aspect ratio",
   "DE.Views.FormSettings.textAutofit": "AutoFit",

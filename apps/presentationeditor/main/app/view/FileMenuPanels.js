@@ -240,6 +240,12 @@ define([
                 '<tr class="edit spellcheck">',
                     '<td colspan="2"><div id="fms-chb-spell-check"></div></td>',
                 '</tr>',
+                '<tr class="edit spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-uppercase-words"></span></td>',
+                '</tr>',
+                '<tr class="edit spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
+                '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
@@ -304,6 +310,25 @@ define([
             this.chSpell = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-spell-check'),
                 labelText: this.txtSpellCheck,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                me.chIgnoreUppercase.setDisabled(field.getValue()!=='checked');
+                me.chIgnoreNumbers.setDisabled(field.getValue()!=='checked');
+            });
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -567,8 +592,11 @@ define([
         },
 
         updateSettings: function() {
-            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
                 this.chSpell.setValue(Common.Utils.InternalSettings.get("pe-settings-spellcheck"));
+                this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("pe-spellcheck-ignore-uppercase-words"));
+                this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("pe-spellcheck-ignore-numbers-words"));
+            }
 
             this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
 
@@ -627,8 +655,11 @@ define([
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
-            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
                 Common.localStorage.setItem("pe-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
+                Common.localStorage.setBool("pe-spellcheck-ignore-uppercase-words", this.chIgnoreUppercase.isChecked());
+                Common.localStorage.setBool("pe-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
+            }
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
@@ -724,7 +755,9 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
-        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make'
+        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

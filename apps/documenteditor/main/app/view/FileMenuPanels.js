@@ -318,6 +318,12 @@ define([
                 '<tr class="edit spellcheck">',
                     '<td colspan="2"><div id="fms-chb-spell-check"></div></td>',
                 '</tr>',
+                '<tr class="edit spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-uppercase-words"></span></td>',
+                '</tr>',
+                '<tr class="edit spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
+                '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
@@ -413,6 +419,25 @@ define([
             this.chSpell = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-spell-check'),
                 labelText: this.txtSpellCheck,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                me.chIgnoreUppercase.setDisabled(field.getValue()!=='checked');
+                me.chIgnoreNumbers.setDisabled(field.getValue()!=='checked');
+            });
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -780,8 +805,11 @@ define([
             if (this.mode.canForcesave)
                 this.chForcesave.setValue(Common.Utils.InternalSettings.get("de-settings-forcesave"));
 
-            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
                 this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
+                this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("de-spellcheck-ignore-uppercase-words"));
+                this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("de-spellcheck-ignore-numbers-words"));
+            }
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
             this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
 
@@ -835,8 +863,11 @@ define([
                 Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
                 Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
+                Common.localStorage.setBool("de-spellcheck-ignore-uppercase-words", this.chIgnoreUppercase.isChecked());
+                Common.localStorage.setBool("de-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
+            }
             Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
@@ -951,7 +982,9 @@ define([
         strShowComments: 'Show comments in text',
         strShowResolvedComments: 'Show resolved comments',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
-        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make'
+        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

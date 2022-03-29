@@ -493,6 +493,14 @@ define([
                     value = Common.localStorage.getBool("de-settings-spellcheck", true);
                     Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
                     this.api.asc_setSpellCheck(value);
+                    var spprops = new AscCommon.CSpellCheckSettings();
+                    value = Common.localStorage.getBool("de-spellcheck-ignore-uppercase-words", true);
+                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-uppercase-words", value);
+                    spprops.put_IgnoreWordsInUppercase(value);
+                    value = Common.localStorage.getBool("de-spellcheck-ignore-numbers-words", true);
+                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-numbers-words", value);
+                    spprops.put_IgnoreWordsWithNumbers(value);
+                    this.api.asc_setSpellCheckSettings(spprops);
                 }
 
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
