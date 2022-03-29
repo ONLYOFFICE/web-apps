@@ -806,12 +806,13 @@ define([
                         this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText);
                         return false;
                     } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
+                        var viewport = this.getApplication().getController('Viewport');
                         if (s === 'replace') {
-                            this.getApplication().getController('Viewport').header.btnSearch.toggle(false);
-                            this.onShowHideSearch(true, this.getApplication().getController('Viewport').searchBar.inputSearch.val());
+                            viewport.header.btnSearch.toggle(false);
+                            this.onShowHideSearch(true, viewport.searchBar.inputSearch.val());
                         } else {
-                            selectedText && this.getApplication().getController('Viewport').searchBar.setText(selectedText);
-                            this.getApplication().getController('Viewport').searchBar.focus();
+                            selectedText && viewport.searchBar.setText(selectedText);
+                            viewport.searchBar.focus();
                             return false;
                         }
                     } else if (s === 'search') {

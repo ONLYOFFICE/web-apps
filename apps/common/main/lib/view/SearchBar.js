@@ -131,6 +131,7 @@ define([
 
             if (text) {
                 this.inputSearch.val(text);
+                this.fireEvent('search:input', [text]);
             } else {
                 this.inputSearch.val('');
             }
@@ -149,6 +150,7 @@ define([
 
         setText: function (text) {
             this.inputSearch.val(text);
+            this.fireEvent('search:input', [text]);
         },
 
         getSettings: function() {

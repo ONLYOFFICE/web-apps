@@ -58,7 +58,9 @@ define([
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
                     'search:input': _.bind(this.onInputSearchChange, this),
-                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
+                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
+                    'show': _.bind(this.onSelectSearchingResults, this, true),
+                    'hide': _.bind(this.onSelectSearchingResults, this, false)
                 },
                 'Common.Views.SearchPanel': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
@@ -81,7 +83,8 @@ define([
                 searchText: '',
                 matchCase: false,
                 matchWord: false,
-                useRegExp: false
+                useRegExp: false,
+                isHighlightedResults: false
             };
         },
 
@@ -329,6 +332,7 @@ define([
         },
 
         onShowPanel: function () {
+            this.onSelectSearchingResults(true);
             if (this.resultItems && this.resultItems.length > 0 && !this._state.isStartedAddingResults) {
                 var me = this;
                 this.view.$resultsContainer.show();
@@ -345,6 +349,16 @@ define([
 
         onHidePanel: function () {
             this.hideResults();
+            this.onSelectSearchingResults(false);
+        },
+
+        onSelectSearchingResults: function (val) {
+            if (!val && this.getApplication().getController('LeftMenu').isSearchPanelVisible()) return;
+
+            if (this._state.isHighlightedResults !== val) {
+                this.api.asc_selectSearchingResults(val);
+                this._state.isHighlightedResults = val;
+            }
         },
 
         notcriticalErrorTitle: 'Warning',
