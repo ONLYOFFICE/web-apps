@@ -182,7 +182,7 @@ define([
 
             this.btnEditObject.on('click', _.bind(function(btn){
                 if (this.api) {
-                    var oleobj = this.api.asc_canEditTableOleObject();
+                    var oleobj = this.api.asc_canEditTableOleObject(true);
                     if (oleobj) {
                         var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                         if (oleEditor) {

@@ -216,7 +216,7 @@ define([
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnEditObject.on('click', _.bind(function(btn){
                 if (this.api) {
-                    var oleobj = this.api.asc_canEditTableOleObject();
+                    var oleobj = this.api.asc_canEditTableOleObject(true);
                     if (oleobj) {
                         var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                         if (oleEditor) {
