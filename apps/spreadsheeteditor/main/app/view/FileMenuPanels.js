@@ -296,7 +296,6 @@ define([
                     '<td><span id="fms-cmb-dictionary-language"></span></td>',
                 '</tr>',
                 '<tr class="spellcheck">',
-
                     '<td colspan="2"><span id="fms-chb-ignore-uppercase-words"></span></td>',
                 '</tr>',
                 '<tr class="spellcheck">',

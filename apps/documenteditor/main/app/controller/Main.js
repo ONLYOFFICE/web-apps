@@ -1167,6 +1167,15 @@ define([
                 me.api.asc_setSpellCheck(value);
                 Common.NotificationCenter.trigger('spelling:turn', value ? 'on' : 'off', true); // only toggle buttons
 
+                value = Common.localStorage.getBool("de-spellcheck-ignore-uppercase-words", false);
+                Common.Utils.InternalSettings.set("de-spellcheck-ignore-uppercase-words", value);
+                value = Common.localStorage.getBool("de-spellcheck-ignore-numbers-words", false);
+                Common.Utils.InternalSettings.set("de-spellcheck-ignore-numbers-words", value);
+                value = new AscCommon.CSpellCheckSettings();
+                value.put_IgnoreWordsInUppercase(Common.Utils.InternalSettings.get("de-spellcheck-ignore-uppercase-words"));
+                value.put_IgnoreWordsWithNumbers(Common.Utils.InternalSettings.get("de-spellcheck-ignore-numbers-words"));
+                this.api.asc_setSpellCheckSettings(value);
+
                 value = Common.localStorage.getBool("de-settings-compatible", false);
                 Common.Utils.InternalSettings.set("de-settings-compatible", value);
 

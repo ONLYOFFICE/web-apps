@@ -493,6 +493,10 @@ define([
                     value = Common.localStorage.getBool("de-settings-spellcheck", true);
                     Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
                     this.api.asc_setSpellCheck(value);
+                    value = new AscCommon.CSpellCheckSettings();
+                    value.put_IgnoreWordsInUppercase(Common.localStorage.getBool("de-spellcheck-ignore-uppercase-words"));
+                    value.put_IgnoreWordsWithNumbers(Common.localStorage.getBool("de-spellcheck-ignore-numbers-words"));
+                    this.api.asc_setSpellCheckSettings(value);
                 }
 
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
