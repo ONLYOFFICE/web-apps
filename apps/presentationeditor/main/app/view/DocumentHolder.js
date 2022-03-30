@@ -3594,8 +3594,11 @@ define([
                     mnuArrangeBackward.setDisabled(inSmartartInternal);
 
                     menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
-                    if (menuImgShapeRotate.isVisible())
+                    if (menuImgShapeRotate.isVisible()) {
                         menuImgShapeRotate.setDisabled(disabled || (value.shapeProps && value.shapeProps.value.get_FromSmartArt()));
+                        menuImgShapeRotate.menu.items[3].setDisabled(inSmartartInternal);
+                        menuImgShapeRotate.menu.items[4].setDisabled(inSmartartInternal);
+                    }
 
                     // image properties
                     menuImgOriginalSize.setVisible(isimage);

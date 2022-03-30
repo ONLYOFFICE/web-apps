@@ -359,16 +359,16 @@
       "txtSortSelected": "ຈັດລຽງທີ່ເລືອກ",
       "txtYes": "ແມ່ນແລ້ວ",
       "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
-      "textEmptyImgUrl": "You need to specify the image URL.",
-      "textGroups": "CATEGORIES",
-      "textLinkSettings": "Link Settings",
-      "textLinkType": "Link Type",
-      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
-      "textThisRowHint": "Choose only this row of the specified column",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textEmptyImgUrl": "You need to specify the image URL.",
+      "textGroups": "CATEGORIES",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
+      "textLinkSettings": "Link Settings",
+      "textLinkType": "Link Type",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
+      "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?"
     },
     "Edit": {
       "notcriticalErrorTitle": "ເຕືອນ",

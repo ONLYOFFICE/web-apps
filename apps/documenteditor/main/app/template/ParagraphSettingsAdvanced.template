@@ -182,7 +182,7 @@
                     <label class="input-label"><%= scope.textAlign %></label>
                     <div id="paraadv-cmb-align"></div>
                 </div>
-                <div class="padding-large" style="display: inline-block;">
+                <div class="padding-large text-only" style="display: inline-block;">
                     <label class="input-label"><%= scope.textLeader %></label>
                     <div id="paraadv-cmb-leader"></div>
                 </div>

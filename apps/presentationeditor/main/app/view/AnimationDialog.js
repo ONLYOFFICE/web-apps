@@ -170,6 +170,9 @@ define([
 
         fillEffect: function () {
             var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
+            arr = _.reject(arr, function (item) {
+                return !!item.notsupported;
+            });
             this.lstEffectList.store.reset(arr);
             var  item = this.lstEffectList.store.findWhere({value: this._state.activeEffect});
             if(!item)

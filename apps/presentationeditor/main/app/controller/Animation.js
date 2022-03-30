@@ -410,13 +410,14 @@ define([
                         } else { // add custom effect to appropriate group
                             if (group) {
                                 var items = store.where({group: group.get('id')});
-                                var index = (items && items.length>0) ? store.indexOf(items.at(items.length-1)) : store.length-1;
+                                var index = (items && items.length>0) ? store.indexOf(items[items.length-1]) : store.length-1;
                                 var rec = _.findWhere(Common.define.effectData.getEffectFullData(), {group: group.get('id'), value: this._state.Effect});
                                 item = store.add(new Common.UI.DataViewModel({
                                     group: group.get('id'),
                                     value: this._state.Effect,
                                     iconCls: group.get('iconClsCustom'),
                                     displayValue: rec ? rec.displayValue : '',
+                                    tip: rec ? rec.displayValue : '',
                                     isCustom: true
                                 }), {at:index+1});
                                 view.listEffects.selectRecord(item);

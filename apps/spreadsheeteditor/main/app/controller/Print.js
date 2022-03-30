@@ -644,6 +644,10 @@ define([
         },
 
         onPreviewWheel: function (e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
             var forward = (e.deltaY || (e.detail && -e.detail) || e.wheelDelta) < 0;
             this.onChangePreviewPage(forward);
         },

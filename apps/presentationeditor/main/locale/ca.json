@@ -245,7 +245,7 @@
   "Common.Translation.warnFileLockedBtnEdit": "Crea una còpia",
   "Common.Translation.warnFileLockedBtnView": "Obre per a la seva visualització",
   "Common.UI.ButtonColored.textAutoColor": "Automàtic",
-  "Common.UI.ButtonColored.textNewColor": "Afegeix un color personalitzat nou ",
+  "Common.UI.ButtonColored.textNewColor": "Color personalitzat nou ",
   "Common.UI.ComboBorderSize.txtNoBorders": "Sense vores",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Sense vores",
   "Common.UI.ComboDataView.emptyComboText": "Sense estils",

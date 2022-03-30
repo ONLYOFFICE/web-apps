@@ -28,6 +28,7 @@
   "Common.define.chartData.textPoint": "Točkovni grafikon",
   "Common.define.chartData.textStock": "Založni grafikon",
   "Common.Translation.warnFileLockedBtnEdit": "Ustvari kopijo",
+  "Common.UI.ButtonColored.textNewColor": "Dodaj novo barvo po meri",
   "Common.UI.ComboBorderSize.txtNoBorders": "Ni mej",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Ni mej",
   "Common.UI.ComboDataView.emptyComboText": "Ni slogov",

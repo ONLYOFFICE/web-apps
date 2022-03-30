@@ -1998,6 +1998,8 @@ define([
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);
+                documentHolder.menuImgRotate.menu.items[3].setDisabled(isSmartArtInternal);
+                documentHolder.menuImgRotate.menu.items[4].setDisabled(isSmartArtInternal);
 
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
                 documentHolder.menuImgCrop.setDisabled(isObjLocked);

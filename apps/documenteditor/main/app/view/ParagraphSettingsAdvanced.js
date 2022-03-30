@@ -95,6 +95,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.api = this.options.api;
             this._originalProps = new Asc.asc_CParagraphProperty(this.options.paragraphProps);
             this.isChart = this.options.isChart;
+            this.isSmartArtInternal = this.options.isSmartArtInternal;
 
             this.CurLineRuleIdx = this._originalProps.get_Spacing().get_LineRule();
 
@@ -410,7 +411,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             _.each(_arrBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[2]),
-                    style: 'margin-left: 5px; margin-bottom: 4px;',
+                    style: 'margin-left: 4px; margin-bottom: 4px;',
                     cls: 'btn-options large border-off',
                     iconCls: item[1],
                     strId   :item[0],
@@ -549,7 +550,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                     '<div style="width:117px;display: inline-block;"><%= value %></div>',
                     '<div style="width:121px;display: inline-block;"><%= displayTabAlign %></div>',
-                    '<div style="width:96px;display: inline-block;"><%= displayTabLeader %></div>',
+                    (this.isChart || this.isSmartArtInternal) ? '' : '<div style="width:96px;display: inline-block;"><%= displayTabLeader %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1
@@ -809,7 +810,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (props ){
                 this._originalProps = new Asc.asc_CParagraphProperty(props);
 
-                this.hideTextOnlySettings(this.isChart);
+                this.hideTextOnlySettings(this.isChart || this.isSmartArtInternal);
 
                 this.FirstLine = (props.get_Ind() !== null) ? props.get_Ind().get_FirstLine() : null;
                 this.LeftIndent = (props.get_Ind() !== null) ? props.get_Ind().get_Left() : null;

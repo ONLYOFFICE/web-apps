@@ -6,6 +6,7 @@
   "Common.Controllers.ExternalDiagramEditor.warningText": "The object is disabled because it is being edited by another user.",
   "Common.Controllers.ExternalDiagramEditor.warningTitle": "Warning",
   "Common.UI.ButtonColored.textAutoColor": "Automātisks",
+  "Common.UI.ButtonColored.textNewColor": "Pievienot jauno krāsu",
   "Common.UI.ComboBorderSize.txtNoBorders": "No borders",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "No borders",
   "Common.UI.ComboDataView.emptyComboText": "No styles",

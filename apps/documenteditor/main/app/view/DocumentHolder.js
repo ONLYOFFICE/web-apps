@@ -1709,6 +1709,7 @@ define([
                                 paragraphProps      : elValue,
                                 borderProps         : me.borderAdvancedProps,
                                 isChart             : (item.isChart===true),
+                                isSmartArtInternal  : (item.isSmartArtInternal===true),
                                 api             : me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
@@ -2782,9 +2783,11 @@ define([
                     menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
                     menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
-                    if (menuImgRotate.isVisible())
+                    if (menuImgRotate.isVisible()) {
                         menuImgRotate.setDisabled(islocked || value.imgProps.isSmartArt);
-
+                        menuImgRotate.menu.items[3].setDisabled(value.imgProps.isSmartArtInternal);
+                        menuImgRotate.menu.items[4].setDisabled(value.imgProps.isSmartArtInternal);
+                    }
                     me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(islocked);
@@ -4071,6 +4074,7 @@ define([
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
+                    menuParagraphAdvanced.isSmartArtInternal = (value.imgProps && value.imgProps.isSmartArtInternal);
                     menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
                     menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
                     if (value.paraProps) {
