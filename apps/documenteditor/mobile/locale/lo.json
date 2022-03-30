@@ -615,7 +615,13 @@
     "txtScheme21": "Verve",
     "txtScheme22": "New Office",
     "txtScheme5": "Civic",
-    "txtScheme6": "Concourse"
+    "txtScheme6": "Concourse",
+    "textPageSize": "Page Size",
+    "textPdfVer": "PDF Version",
+    "textPdfTagged": "Tagged PDF",
+    "textFastWV": "Fast Web View",
+    "textYes": "Yes",
+    "textNo": "No"
   },
   "Toolbar": {
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",

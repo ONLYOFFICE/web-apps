@@ -615,7 +615,13 @@
     "txtScheme6": "Előcsarnok",
     "txtScheme7": "Saját tőke",
     "txtScheme8": "Folyam",
-    "txtScheme9": "Öntöde"
+    "txtScheme9": "Öntöde",
+    "textPageSize": "Page Size",
+    "textPdfVer": "PDF Version",
+    "textPdfTagged": "Tagged PDF",
+    "textFastWV": "Fast Web View",
+    "textYes": "Yes",
+    "textNo": "No"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nem mentett módosításai vannak. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",
