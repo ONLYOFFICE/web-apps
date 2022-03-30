@@ -668,6 +668,8 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback("asc_onDocInfo", (obj) => {
+            clearTimeout(this.timerLoading);
+
             this.objectInfo = obj;
             if(!this.timerDocInfo) {
                 this.timerDocInfo = setInterval(() => {
@@ -675,14 +677,12 @@ class MainController extends Component {
                 }, 300);
                 storeDocumentInfo.changeCount(this.objectInfo);
             }
-            
-            clearTimeout(this.timerLoading);
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
-          storeDocumentInfo.switchIsLoaded(true);
           clearTimeout(this.timerLoading);
           clearInterval(this.timerDocInfo);
+          storeDocumentInfo.switchIsLoaded(true);
         });
 
         // Color Schemes
