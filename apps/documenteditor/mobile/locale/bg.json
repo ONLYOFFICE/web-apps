@@ -615,7 +615,13 @@
     "textParagraphs": "Paragraphs",
     "textSpaces": "Spaces",
     "textSymbols": "Symbols",
-    "textWords": "Words"
+    "textWords": "Words",
+    "textPageSize": "Page Size",
+    "textPdfVer": "PDF Version",
+    "textPdfTagged": "Tagged PDF",
+    "textFastWV": "Fast Web View",
+    "textYes": "Yes",
+    "textNo": "No"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
