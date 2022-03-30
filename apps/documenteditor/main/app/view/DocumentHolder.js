@@ -3301,6 +3301,79 @@ define([
                 caption     : '--'
             });
 
+            var equationInput = function(item, e) {
+                if (me.api) {
+                    me.api.asc_SetMathInputType(item.value);
+                }
+            };
+
+            var equationMathView = function(item, e) {
+                if (me.api) {
+                    me.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                }
+            };
+
+            var equationInline = function(item, e) {
+                if (me.api) {
+                    me.api.asc_ConvertMathDisplayMode(item.checked);
+                }
+            };
+
+            var menuTableEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : new Common.UI.Menu({
+                    cls: 'ppm-toolbar shifted-right',
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        (new Common.UI.MenuItem({
+                            caption     : me.unicodeText,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popupparaeqinput',
+                            value       : Asc.c_oAscMathInputType.Unicode
+                        })).on('click', _.bind(equationInput, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.latexText,
+                            iconCls     : 'menu__icon text-orient-rdown',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popupparaeqinput',
+                            value       : Asc.c_oAscMathInputType.LaTeX
+                        })).on('click', _.bind(equationInput, me)),
+                        { caption     : '--' },
+                        (new Common.UI.MenuItem({
+                            caption     : me.currProfText,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            value       : {all: false, linear: false}
+                        })).on('click', _.bind(equationMathView, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.currLinearText,
+                            iconCls     : 'menu__icon text-orient-rdown',
+                            value       : {all: false, linear: true}
+                        })).on('click', _.bind(equationMathView, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.allProfText,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            value       : {all: true, linear: false}
+                        })).on('click', _.bind(equationMathView, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.allLinearText,
+                            iconCls     : 'menu__icon text-orient-rdown',
+                            value       : {all: true, linear: true}
+                        })).on('click', _.bind(equationMathView, me)),
+                        { caption     : '--' },
+                        (new Common.UI.MenuItem({
+                            caption     : me.eqToInlineText,
+                            checkable   : true,
+                            checked     : false
+                        })).on('click', _.bind(equationInline, me))
+                    ]
+                })
+            });
+
             this.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -3459,6 +3532,15 @@ define([
                     } else
                         me.clearEquationMenu(false, 10);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
+
+                    menuTableEquation.setVisible(isEquation);
+                    menuTableEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        menuTableEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                    }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
@@ -3646,7 +3728,8 @@ define([
                     menuTableRemoveForm,
                     menuTableControl,
                     menuTableTOC,
-                    menuParagraphAdvancedInTable
+                    menuParagraphAdvancedInTable,
+                    menuTableEquation
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -3779,6 +3862,61 @@ define([
                 iconCls: 'menu__icon dropcap-intext',
                 caption     : me.advancedDropCapText
             }).on('click', _.bind(me.advancedFrameClick, me, false));
+
+            var menuParagraphEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : new Common.UI.Menu({
+                    cls: 'ppm-toolbar shifted-right',
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        (new Common.UI.MenuItem({
+                            caption     : me.unicodeText,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popupparaeqinput',
+                            value       : Asc.c_oAscMathInputType.Unicode
+                        })).on('click', _.bind(equationInput, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.latexText,
+                            iconCls     : 'menu__icon text-orient-rdown',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popupparaeqinput',
+                            value       : Asc.c_oAscMathInputType.LaTeX
+                        })).on('click', _.bind(equationInput, me)),
+                        { caption     : '--' },
+                        (new Common.UI.MenuItem({
+                            caption     : me.currProfText,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            value       : {all: false, linear: false}
+                        })).on('click', _.bind(equationMathView, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.currLinearText,
+                            iconCls     : 'menu__icon text-orient-rdown',
+                            value       : {all: false, linear: true}
+                        })).on('click', _.bind(equationMathView, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.allProfText,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            value       : {all: true, linear: false}
+                        })).on('click', _.bind(equationMathView, me)),
+                        (new Common.UI.MenuItem({
+                            caption     : me.allLinearText,
+                            iconCls     : 'menu__icon text-orient-rdown',
+                            value       : {all: true, linear: true}
+                        })).on('click', _.bind(equationMathView, me)),
+                        { caption     : '--' },
+                        (new Common.UI.MenuItem({
+                            caption     : me.eqToInlineText,
+                            checkable   : true,
+                            checked     : false
+                        })).on('click', _.bind(equationInline, me))
+                    ]
+                })
+            });
 
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
@@ -4168,6 +4306,15 @@ define([
                     menuEquationInsertCaption.setVisible(isEquation);
                     menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
+                    menuParagraphEquation.setVisible(isEquation);
+                    menuParagraphEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                        menuParagraphEquation.menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                    }
+
                     var frame_pr = value.paraProps.value.get_FramePr();
                     menuFrameAdvanced.setVisible(frame_pr !== undefined);
                     menuDropCapAdvanced.setVisible(frame_pr !== undefined);
@@ -4270,6 +4417,7 @@ define([
                     menuParagraphAdvanced,
                     menuFrameAdvanced,
                     menuDropCapAdvanced,
+                    menuParagraphEquation,
                 /** coauthoring begin **/
                     menuCommentSeparatorPara,
                     menuAddCommentPara,
@@ -4898,7 +5046,15 @@ define([
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
         textEditPoints: 'Edit Points',
         textAccept: 'Accept Change',
-        textReject: 'Reject Change'
+        textReject: 'Reject Change',
+        advancedEquationText: 'Equation Settings',
+        unicodeText: 'Unicode',
+        latexText: 'LaTeX',
+        currProfText: 'Current - Professional',
+        currLinearText: 'Current - Linear',
+        allProfText: 'All - Professional',
+        allLinearText: 'All - Linear',
+        eqToInlineText: 'Change to Inline'
 
 }, DE.Views.DocumentHolder || {}));
 });
