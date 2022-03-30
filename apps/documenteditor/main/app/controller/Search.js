@@ -246,8 +246,36 @@ define([
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
                 this.view.disableNavButtons(current, all);
+                if (this.resultItems.length > 0) {
+                    this.resultItems.forEach(function (item) {
+                        item.selected = false;
+                    });
+                    if (this.resultItems[current]) {
+                        this.resultItems[current].selected = true;
+                        $('#search-results').find('.item').removeClass('selected');
+                        $(this.resultItems[current].el).addClass('selected');
+                        this.scrollToSelectedResult(current);
+                    }
+                }
             }
             Common.NotificationCenter.trigger('search:updateresults', current, all);
+        },
+
+        scrollToSelectedResult: function (ind) {
+            var index = ind !== undefined ? ind : _.findIndex(this.resultItems, {selected: true});
+            if (index !== -1) {
+                var item = this.resultItems[index].$el,
+                    itemHeight = item.outerHeight(),
+                    itemTop = item.position().top,
+                    container = this.view.$resultsContainer,
+                    containerHeight = container.outerHeight(),
+                    containerTop = container.scrollTop();
+                if (itemTop < 0 || (containerTop === 0 && itemTop > containerHeight)) {
+                    container.scroller.scrollTop(containerTop + itemTop - 12);
+                } else if (itemTop + itemHeight > containerHeight) {
+                    container.scroller.scrollTop(containerTop + itemHeight);
+                }
+            }
         },
 
         onStartTextAroundSearch: function () {
@@ -268,17 +296,21 @@ define([
                 if (data.length > 300) return;
                 var me = this;
                 me.resultItems = [];
-                data.forEach(function (item) {
-                    var el = document.createElement("div");
+                data.forEach(function (item, ind) {
+                    var el = document.createElement("div"),
+                        isSelected = ind === me._state.currentResult;
                     el.className = 'item';
                     el.innerHTML = item[1].trim();
                     me.view.$resultsContainer.append(el);
-                    me.resultItems.push({id: item[0], $el: $(el), el: el});
+                    if (isSelected) {
+                        $(el).addClass('selected');
+                    }
+
+                    var resultItem = {id: item[0], $el: $(el), el: el, selected: isSelected};
+                    me.resultItems.push(resultItem);
                     $(el).on('click', _.bind(function (el) {
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
-                        $('#search-results').find('.item').removeClass('selected');
-                        $(el.currentTarget).addClass('selected');
                     }, me));
                 });
 
@@ -338,12 +370,16 @@ define([
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
                     me.view.$resultsContainer.append(item.el);
+                    if (item.selected) {
+                        $(item.el).addClass('selected');
+                    }
                     $(item.el).on('click', function (el) {
                         me.api.asc_SelectSearchElement(item.id);
                         $('#search-results').find('.item').removeClass('selected');
                         $(el.currentTarget).addClass('selected');
                     });
                 });
+                this.scrollToSelectedResult();
             }
         },
 
