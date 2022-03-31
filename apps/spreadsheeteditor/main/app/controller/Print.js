@@ -456,8 +456,8 @@ define([
             panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
-            panel.txtRangeTop.on('changing', _.bind(this.propertyChange, this, panel));
-            panel.txtRangeLeft.on('changing', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeTop.on('changed:after', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeLeft.on('changed:after', _.bind(this.propertyChange, this, panel));
             panel.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, panel, 'top', panel.btnPresetsTop.menu, {value: 'select'}));
             panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
@@ -521,7 +521,6 @@ define([
         fillComponents: function(panel, selectdata) {
             var me = this;
             panel.txtRangeTop.validation = function(value) {
-                !me._noApply && me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -531,7 +530,6 @@ define([
             selectdata && panel.txtRangeTop.updateBtnHint(this.textSelectRange);
 
             panel.txtRangeLeft.validation = function(value) {
-                !me._noApply &&  me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
