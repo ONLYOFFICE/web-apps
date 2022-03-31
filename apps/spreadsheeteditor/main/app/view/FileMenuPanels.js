@@ -1199,7 +1199,7 @@ define([
                 '<% if (blank) { %> ',
                 '<div class="blank-document">',
                     '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="10, 1">',
-                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
+                        '<div class="btn-blank-format"><div class="svg-format-blank"></div></div>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
                 '</div>',
@@ -1210,7 +1210,7 @@ define([
                         '<% if (!_.isEmpty(item.image)) {%> ',
                             ' style="background-image: url(<%= item.image %>);">',
                         ' <%} else {' +
-                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                            'print(\"><div class=\'btn-blank-format\'><div class=\'svg-file-template\'></div></div>\")' +
                         ' } %>',
                     '</div>',
                     '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
