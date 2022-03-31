@@ -115,6 +115,7 @@ define([
             this.api = o;
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
+            this.api.asc_registerCallback('asc_onUpdateDocumentProps', _.bind(this.updateDocumentProps, this));
         },
 
         updateSheetsInfo: function() {
@@ -744,6 +745,13 @@ define([
                 pageCount = this._navigationPreview.pageCount;
             this.printSettings.btnPrevPage.setDisabled(curPage < 1);
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
+        },
+
+        updateDocumentProps: function (index) {
+            if (this._isPreviewVisible) {
+                this._changedProps[index] = this.api.asc_getPageOptions(index);
+                this.updatePreview();
+            }
         },
 
         warnCheckMargings:      'Margins are incorrect',
