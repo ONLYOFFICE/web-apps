@@ -658,7 +658,9 @@ class MainController extends Component {
         const storeDocumentInfo = this.props.storeDocumentInfo;
 
         this.api.asc_registerCallback("asc_onGetDocInfoStart", () => {
-            storeDocumentInfo.switchIsLoaded(false);
+            this.timerLoading = setTimeout(() => {
+                storeDocumentInfo.switchIsLoaded(false);
+            }, 2000);
         });
 
         this.api.asc_registerCallback("asc_onGetDocInfoStop", () => {
@@ -666,10 +668,20 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback("asc_onDocInfo", (obj) => {
-            storeDocumentInfo.changeCount(obj);
+            clearTimeout(this.timerLoading);
+
+            this.objectInfo = obj;
+            if(!this.timerDocInfo) {
+                this.timerDocInfo = setInterval(() => {
+                    storeDocumentInfo.changeCount(this.objectInfo);
+                }, 300);
+                storeDocumentInfo.changeCount(this.objectInfo);
+            }
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
+          clearTimeout(this.timerLoading);
+          clearInterval(this.timerDocInfo);
           storeDocumentInfo.switchIsLoaded(true);
         });
 
