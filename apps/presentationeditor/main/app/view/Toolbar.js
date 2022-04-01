@@ -718,7 +718,8 @@ define([
                             cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                                {caption: me.mniCustomTable, value: 'custom'}
+                                {caption: me.mniCustomTable, value: 'custom'},
+                                {caption: me.mniInsertSSE, value: 'sse'}
                             ]
                         }),
                         dataHint: '1',
@@ -2011,7 +2012,8 @@ define([
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
             tipNone: 'None',
-            textTabView: 'View'
+            textTabView: 'View',
+            mniInsertSSE: 'Insert Spreadsheet'
         }
     }()), PE.Views.Toolbar || {}));
 });
