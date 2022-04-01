@@ -649,7 +649,13 @@
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
     "textEmptyHeading": "Empty Heading",
-    "txtScheme6": "Concourse"
+    "txtScheme6": "Concourse",
+    "textPageSize": "Page Size",
+    "textPdfVer": "PDF Version",
+    "textPdfTagged": "Tagged PDF",
+    "textFastWV": "Fast Web View",
+    "textYes": "Yes",
+    "textNo": "No"
   },
   "Toolbar": {
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",

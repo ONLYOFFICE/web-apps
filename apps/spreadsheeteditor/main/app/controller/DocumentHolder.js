@@ -256,6 +256,28 @@ define([
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
+
+                if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
+                    var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                            var command = message.data.command;
+                            var data = message.data.data;
+                            if (me.api) {
+                                if (oleEditor.isEditMode())
+                                    me.api.asc_editTableOleObject(data);
+                            }
+                        }, me));
+                        oleEditor.on('hide', _.bind(function(cmp, message) {
+                            if (me.api) {
+                                me.api.asc_enableKeyEvents(true);
+                            }
+                            setTimeout(function(){
+                                view.fireEvent('editcomplete', view);
+                            }, 10);
+                        }, me));
+                    }
+                }
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -342,6 +364,8 @@ define([
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
+                if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
+                    this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -3950,6 +3974,17 @@ define([
                     me.fastcoauthtips[i].fadeOut(150, function(){src.remove()});
                     me.fastcoauthtips.splice(i, 1);
                     break;
+                }
+            }
+        },
+
+        onDoubleClickOnTableOleObject: function(obj) {
+            if (this.permissions.isEdit && !this._isDisabled) {
+                var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor && obj) {
+                    oleEditor.setEditMode(true);
+                    oleEditor.show();
+                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(obj));
                 }
             }
         },
