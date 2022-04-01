@@ -607,7 +607,8 @@ define([
                                 {caption: this.mniCustomTable, value: 'custom'},
                                 {caption: this.mniDrawTable, value: 'draw', checkable: true},
                                 {caption: this.mniEraseTable, value: 'erase', checkable: true},
-                                {caption: this.mniTextToTable, value: 'convert'}
+                                {caption: this.mniTextToTable, value: 'convert'},
+                                {caption: this.mniInsertSSE, value: 'sse'}
                             ]
                         }),
                         dataHint: '1',
@@ -2829,7 +2830,8 @@ define([
             tipMarkersDash: 'Dash bullets',
             textTabView: 'View',
             mniRemoveHeader: 'Remove Header',
-            mniRemoveFooter: 'Remove Footer'
+            mniRemoveFooter: 'Remove Footer',
+            mniInsertSSE: 'Insert Spreadsheet'
         }
     })(), DE.Views.Toolbar || {}));
 });
