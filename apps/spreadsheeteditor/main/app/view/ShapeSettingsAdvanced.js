@@ -635,6 +635,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 if (shapeprops.asc_getFromSmartArtInternal()) {
                     this.chAutofit.setDisabled(true);
                     this.chOverflow.setDisabled(true);
+                    this.chFlipHor.setDisabled(true);
+                    this.chFlipVert.setDisabled(true);
                 }
 
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getWidth()).toFixed(2), true);

@@ -1,10 +1,10 @@
 
 <div class="statusbar" style="display:table;">
     <div class="status-group">
-        <div id="slot-status-btn-preview" style="display: inline-block;margin-left: 9px;"></div>
+        <div id="slot-status-btn-preview" style="display: inline-block;margin-left: 9px;" class="margin-top-small"></div>
     </div>
     <div class="status-group dropup">
-        <label id="status-label-pages" class="status-label dropdown-toggle" style="margin-left: 7px; display: none;" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
+        <label id="status-label-pages" class="status-label dropdown-toggle margin-top-large" style="margin-left: 7px; display: none;" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
         <div id="status-goto-box" class="dropdown-menu">
             <label style="float:left;line-height:22px;"><%= scope.goToPageText %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>
@@ -24,22 +24,22 @@
         <div class="separator short" style="margin-left: 10px;"></div>
     </div>
     <div class="status-group" style="width:100%; text-align:center;">
-        <label id="status-label-action" class="status-label" data-layout-name="statusBar-actionStatus"></label>
+        <label id="status-label-action" class="status-label margin-top-large" data-layout-name="statusBar-actionStatus"></label>
     </div>
     <div class="status-group" style="">
-        <span id="btn-cnt-lang" class="el-edit" data-layout-name="statusBar-textLang"></span>
-        <span id="btn-doc-lang" class="el-edit" data-layout-name="statusBar-docLang"></span>
+        <span id="btn-cnt-lang" class="el-edit margin-top-small" data-layout-name="statusBar-textLang"></span>
+        <span id="btn-doc-lang" class="el-edit margin-top-small" data-layout-name="statusBar-docLang"></span>
         <div class="separator short el-edit space"></div>
-        <span id="btn-doc-spell" class="el-edit"></span>
+        <span id="btn-doc-spell" class="el-edit margin-top-small"></span>
         <div class="separator short el-edit el-lang"></div>
-        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtoslide"></i></button>
-        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth"></i></button>
-        <button id="btn-zoom-down" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown"></i></button>
+        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><span class="icon toolbar__icon btn-ic-zoomtoslide">&nbsp;</span></button>
+        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><span class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</span></button>
+        <button id="btn-zoom-down" type="button" class="btn small btn-toolbar margin-top-small"><span class="icon toolbar__icon btn-zoomdown">&nbsp;</span></button>
         <div class="cnt-zoom">
             <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
-        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar" style="margin-right:40px;"><i class="icon toolbar__icon btn-zoomup"></i></button>
+        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar margin-top-small" style="margin-right:40px;"><span class="icon toolbar__icon btn-zoomup">&nbsp;</span></button>
     </div>
 </div>

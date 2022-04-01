@@ -397,13 +397,7 @@ define([
                 });
 
                 if (record) {
-                    if (this.delaySelect) {
-                        setTimeout(function () {
-                            record.set({selected: true});
-                        }, 300);
-                    } else {
-                        record.set({selected: true});
-                    }
+                    record.set({selected: true});
                 }
             } else {
                 if (record)
@@ -607,14 +601,30 @@ define([
 
             window._event = e;  //  for FireFox only
 
-            if (this.showLast) this.selectRecord(record);
+            if (this.showLast) {
+                if (!this.delaySelect) {
+                    this.selectRecord(record);
+                } else {
+                    _.each(this.store.where({selected: true}), function(rec){
+                        rec.set({selected: false});
+                    });
+                    if (record) {
+                        setTimeout(_.bind(function () {
+                            record.set({selected: true});
+                            this.trigger('item:click', this, view, record, e);
+                        }, this), 300);
+                    }
+                }
+            }
             this.lastSelectedRec = null;
 
             var tip = view.$el.data('bs.tooltip');
             if (tip) (tip.tip()).remove();
 
             if (!this.isSuspendEvents) {
-                this.trigger('item:click', this, view, record, e);
+                if (!this.delaySelect) {
+                    this.trigger('item:click', this, view, record, e);
+                }
             }
         },
 

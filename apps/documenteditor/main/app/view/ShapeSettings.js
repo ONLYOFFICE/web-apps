@@ -822,6 +822,8 @@ define([
                 this._originalProps = new Asc.asc_CImgProperty(props);
 
                 this._noApply = true;
+                this._state.isFromImage = !!shapeprops.get_FromImage();
+                this._state.isFromSmartArtInternal = !!shapeprops.get_FromSmartArtInternal();
 
                 this.disableControls(this._locked, !shapeprops.get_CanFill());
                 this.hideShapeOnlySettings(shapeprops.get_FromChart() || !!shapeprops.get_FromImage());
@@ -832,10 +834,8 @@ define([
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype || control_props);
-                this._state.isFromImage = !!shapeprops.get_FromImage();
-                this._state.isFromSmartArtInternal = !!shapeprops.get_FromSmartArtInternal();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
-                    this.btnChangeShape.shapePicker.hideTextRect(shapeprops.get_FromImage() || shapeprops.get_FromSmartArtInternal());
+                    this.btnChangeShape.shapePicker.hideTextRect(shapeprops.get_FromImage() || this._state.isFromSmartArtInternal);
                 }
 
                 var value = props.get_WrappingStyle();
@@ -1986,6 +1986,8 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+            this.btnFlipV.setDisabled(disable || this._state.isFromSmartArtInternal);
+            this.btnFlipH.setDisabled(disable || this._state.isFromSmartArtInternal);
         },
 
         hideShapeOnlySettings: function(value) {

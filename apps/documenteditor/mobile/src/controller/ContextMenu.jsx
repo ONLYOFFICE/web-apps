@@ -227,7 +227,7 @@ class ContextMenu extends ContextMenuController {
         } else {
             const { t } = this.props;
             const _t = t("ContextMenu", {returnObjects: true});
-            const { canViewComments, canCoAuthoring, canComments } = this.props;
+            const { canViewComments, canCoAuthoring, canComments, dataDoc } = this.props;
 
             const api = Common.EditorApi.get();
             const stack = api.getSelectedElements();

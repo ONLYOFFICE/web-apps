@@ -95,7 +95,8 @@ define([
         noMoveAnimationLater: 'no-move-animation-later',
         noAnimationPreview: 'no-animation-preview',
         noAnimationRepeat: 'no-animation-repeat',
-        noAnimationDuration: 'no-animation-duration'
+        noAnimationDuration: 'no-animation-duration',
+        timingLock: 'timing-lock'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -402,7 +403,7 @@ define([
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 100px;',
                             items: [
