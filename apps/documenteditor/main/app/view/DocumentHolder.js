@@ -3327,7 +3327,7 @@ define([
                     items   : [
                         (new Common.UI.MenuItem({
                             caption     : me.unicodeText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon unicode',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -3336,7 +3336,7 @@ define([
                         })).on('click', _.bind(equationInput, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.latexText,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon latex',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -3346,22 +3346,22 @@ define([
                         { caption     : '--' },
                         (new Common.UI.MenuItem({
                             caption     : me.currProfText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon professional-equation',
                             value       : {all: false, linear: false}
                         })).on('click', _.bind(equationMathView, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.currLinearText,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon linear-equation',
                             value       : {all: false, linear: true}
                         })).on('click', _.bind(equationMathView, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.allProfText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon professional-equation',
                             value       : {all: true, linear: false}
                         })).on('click', _.bind(equationMathView, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.allLinearText,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon linear-equation',
                             value       : {all: true, linear: true}
                         })).on('click', _.bind(equationMathView, me)),
                         { caption     : '--' },
@@ -3871,7 +3871,7 @@ define([
                     items   : [
                         (new Common.UI.MenuItem({
                             caption     : me.unicodeText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon unicode',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -3880,7 +3880,7 @@ define([
                         })).on('click', _.bind(equationInput, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.latexText,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon latex',
                             checkable   : true,
                             checkmark   : false,
                             checked     : false,
@@ -3890,22 +3890,22 @@ define([
                         { caption     : '--' },
                         (new Common.UI.MenuItem({
                             caption     : me.currProfText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon professional-equation',
                             value       : {all: false, linear: false}
                         })).on('click', _.bind(equationMathView, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.currLinearText,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon linear-equation',
                             value       : {all: false, linear: true}
                         })).on('click', _.bind(equationMathView, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.allProfText,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon professional-equation',
                             value       : {all: true, linear: false}
                         })).on('click', _.bind(equationMathView, me)),
                         (new Common.UI.MenuItem({
                             caption     : me.allLinearText,
-                            iconCls     : 'menu__icon text-orient-rdown',
+                            iconCls     : 'menu__icon linear-equation',
                             value       : {all: true, linear: true}
                         })).on('click', _.bind(equationMathView, me)),
                         { caption     : '--' },
