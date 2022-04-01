@@ -606,6 +606,12 @@
     "textMarginsW": "Left and right margins are too wide for a given page width",
     "textOpenFile": "Enter a password to open the file",
     "textPages": "Pages",
+    "textPageSize": "Page Size",
+    "textPdfVer": "PDF Version",
+    "textPdfTagged": "Tagged PDF",
+    "textFastWV": "Fast Web View",
+    "textYes": "Yes",
+    "textNo": "No",
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset",
@@ -615,13 +621,7 @@
     "txtScheme21": "Verve",
     "txtScheme22": "New Office",
     "txtScheme5": "Civic",
-    "txtScheme6": "Concourse",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
-    "textFastWV": "Fast Web View",
-    "textYes": "Yes",
-    "textNo": "No"
+    "txtScheme6": "Concourse"
   },
   "Toolbar": {
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
