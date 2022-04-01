@@ -72,7 +72,10 @@ define([
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
-                'click #left-btn-searchbar': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-searchbar':  _.bind(function () {
+                    this.onCoauthOptions();
+                    this.fireEvent('search:aftershow', this.leftMenu);
+                }, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -255,6 +258,7 @@ define([
             if (this.panelSearch) {
                 if (this.btnSearchBar.pressed) {
                     this.panelSearch.show();
+                    this.panelSearch.focus()
                 } else {
                     this.panelSearch.hide();
                 }
@@ -346,7 +350,7 @@ define([
             this.btnPlugins.setDisabled(disable);
         },
 
-        showMenu: function(menu, opts) {
+        showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
                 this.menuFile.show(re[2].length ? re[2] : undefined, opts);
@@ -374,7 +378,7 @@ define([
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
                         this.onCoauthOptions();
-                        this.fireEvent('search:aftershow', this);
+                        !suspendAfter && this.fireEvent('search:aftershow', this);
                     }
                 }
                 /** coauthoring end **/

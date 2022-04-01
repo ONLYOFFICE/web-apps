@@ -79,8 +79,7 @@ define([
                 'LeftMenu': {
                     'panel:show':    _.bind(this.menuExpand, this),
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
-                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide'),
-                    'search:aftershow': _.bind(this.onShowAfterSearch, this)
+                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
                 },
                 'FileMenu': {
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
@@ -655,15 +654,17 @@ define([
                         var selectedText = this.api.asc_GetSelectedText();
                         if (this.isSearchPanelVisible()) {
                             selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
-                            this.leftMenu.panelSearch.focus(s);
+                            this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
+                            this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText);
                             return false;
                         } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
+                            var viewport = this.getApplication().getController('Viewport');
                             if (s === 'replace') {
-                                this.getApplication().getController('Viewport').header.btnSearch.toggle(false);
-                                this.onShowHideSearch(true, this.getApplication().getController('Viewport').searchBar.inputSearch.val());
+                                viewport.header.btnSearch.toggle(false);
+                                this.onShowHideSearch(true, viewport.searchBar.inputSearch.val());
                             } else {
-                                selectedText && this.getApplication().getController('Viewport').searchBar.setText(selectedText);
-                                this.getApplication().getController('Viewport').searchBar.focus();
+                                selectedText && viewport.searchBar.setText(selectedText);
+                                viewport.searchBar.focus();
                                 return false;
                             }
                         } else if (s === 'search') {
@@ -803,28 +804,12 @@ define([
         onShowHideSearch: function (state, findText) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
-                this.leftMenu.showMenu('advancedsearch');
-                this.onShowAfterSearch(findText);
+                this.leftMenu.showMenu('advancedsearch', undefined, true);
+                this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
             }
-        },
-
-        onShowAfterSearch: function (findText) {
-            var viewport = this.getApplication().getController('Viewport');
-            if (viewport.isSearchBarVisible()) {
-                viewport.searchBar.hide();
-            }
-
-            var text = findText || this.api.asc_GetSelectedText();
-            if (text) {
-                this.leftMenu.panelSearch.setFindText(text);
-            } else if (text !== undefined) {
-                this.leftMenu.panelSearch.setFindText('');
-            }
-            this.leftMenu.panelSearch.disableNavButtons();
-            this.leftMenu.panelSearch.focus();
         },
 
         onMenuSearchBar: function(obj, show) {
