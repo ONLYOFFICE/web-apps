@@ -2598,8 +2598,8 @@ define([
             },
 
             setOleData: function(obj) {
-                if (typeof obj === 'object' && this.api) {
-                    this.api.asc_addTableOleObjectInOleEditor(obj);
+                if ((typeof obj === 'object' || obj==="empty") && this.api) {
+                    this.api.asc_addTableOleObjectInOleEditor(typeof obj === 'object' ? obj : undefined);
                     this.isFrameClosed = false;
                 }
             },
