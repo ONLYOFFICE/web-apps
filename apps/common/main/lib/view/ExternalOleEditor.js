@@ -50,14 +50,17 @@ define([
                 title: this.textTitle,
                 width: 910,
                 height: (_inner_height - 700)<0 ? _inner_height : 700,
+                minwidth: 355,
+                minheight: 280,
                 cls: 'advanced-settings-dlg',
                 header: true,
                 toolclose: 'hide',
-                toolcallback: _.bind(this.onToolClose, this)
+                toolcallback: _.bind(this.onToolClose, this),
+                resizable: true
             }, options);
 
             this.template = [
-                '<div id="id-ole-editor-container" class="box" style="height:' + (_options.height-85) + 'px;">',
+                '<div id="id-ole-editor-container" class="box" style="height:' + (_options.height-85) + 'px; padding: 0 5px;">',
                     '<div id="id-ole-editor-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>',
@@ -140,13 +143,16 @@ define([
 
                 this.$window.find('> .body').css('height', height-header_height);
                 this.$window.find('> .body > .box').css('height', height-85);
-
-                var top  = (Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top') - parseInt(height)) / 2;
-                var left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
-
-                this.$window.css('left',left);
-                this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
             }
+        },
+
+        setInCenter: function() {
+            var height = this.$window.height(),
+                top  = (Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top') - parseInt(height)) / 2,
+                left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
+
+            this.$window.css('left',left);
+            this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
         },
 
         setPlaceholder: function(placeholder) {
