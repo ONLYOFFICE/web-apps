@@ -104,10 +104,8 @@ define([
                         'show': _.bind(function(cmp){
                             var h = this.oleEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
-                            if (innerHeight>h && h<700 || innerHeight<h) {
-                                h = Math.min(innerHeight, 700);
+                            if (innerHeight<h) {
                                 this.oleEditorView.setHeight(h);
-                                this.oleEditorView.setInCenter();
                             }
 
                             if (externalEditor) {
@@ -228,14 +226,20 @@ define([
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {
                             this.oleEditorView.binding.dragStop();
-                            this.oleEditorView.binding.resizeStop();
+                            if (this.oleEditorView.binding.resizeStop)  this.oleEditorView.binding.resizeStop();
                         } else
                         if (eventData.data.event == 'mouse:move') {
                             var x = parseInt(this.oleEditorView.$window.css('left')) + eventData.data.pagex,
                                 y = parseInt(this.oleEditorView.$window.css('top')) + eventData.data.pagey + 34;
                             this.oleEditorView.binding.drag({pageX:x, pageY:y});
-                            this.oleEditorView.binding.resize && this.oleEditorView.binding.resize({pageX:x, pageY:y});
+                            if (this.oleEditorView.binding.resize)  this.oleEditorView.binding.resize({pageX:x, pageY:y});
                         }
+                    }  else
+                    if (eventData.type == "resize") {
+                        var w = eventData.data.width,
+                            h = eventData.data.height;
+                        if (w>0 && h>0)
+                            this.oleEditorView.setInnerSize(w, h);
                     } else
                         this.oleEditorView.fireEvent('internalmessage', this.oleEditorView, eventData);
                 }

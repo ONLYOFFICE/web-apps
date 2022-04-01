@@ -80,6 +80,8 @@ define([
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
+            this._headerFooterHeight = 85 + ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+            this.boxEl = this.$window.find('.body > .box');
 
             this.btnSave = new Common.UI.Button({
                 el: $('#id-btn-ole-editor-apply'),
@@ -153,6 +155,26 @@ define([
 
             this.$window.css('left',left);
             this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
+        },
+
+        setInnerSize: function(width, height) {
+            var maxHeight = Common.Utils.innerHeight(),
+                maxWidth = Common.Utils.innerWidth(),
+                borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width'))),
+                bordersOffset = this.bordersOffset*2;
+            height += 90; // add toolbar and statusbar height
+            if (maxHeight - bordersOffset<height + this._headerFooterHeight)
+                height = maxHeight - bordersOffset - this._headerFooterHeight;
+            if (maxWidth - bordersOffset<width + borders_width)
+                width = maxWidth - bordersOffset - borders_width;
+
+            this.boxEl.css('height', height);
+
+            this.setHeight(height + this._headerFooterHeight);
+            this.setWidth(width + borders_width);
+
+            // this.$window.css('left',(maxWidth - width - borders_width) / 2);
+            // this.$window.css('top',(maxHeight - height - this._headerFooterHeight) / 2);
         },
 
         setPlaceholder: function(placeholder) {

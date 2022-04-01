@@ -2568,8 +2568,13 @@ define([
             },
 
             setOleData: function(obj) {
+                var callback = function(value) {
+                    Common.Gateway.internalMessage('resize', {
+                        width: value.width, height: value.height
+                    });
+                };
                 if (typeof obj === 'object' && this.api) {
-                    this.api.asc_addTableOleObjectInOleEditor(obj);
+                    this.api.asc_addTableOleObjectInOleEditor(obj, callback);
                     this.isFrameClosed = false;
                 }
             },
