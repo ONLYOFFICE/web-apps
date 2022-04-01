@@ -207,7 +207,7 @@ define([
                     store: new Common.UI.DataViewStore(this._arrEffectName),
                     additionalMenuItems: [{caption: '--'}, this.listEffectsMore],
                     enableKeyEvents: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
@@ -241,7 +241,7 @@ define([
                     caption: this.txtPreview,
                     split: false,
                     iconCls: 'toolbar__icon animation-preview-start',
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -253,7 +253,7 @@ define([
                     caption: this.txtParameters,
                     iconCls: 'toolbar__icon icon animation-parameters',
                     menu: new Common.UI.Menu({items: []}),
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -265,7 +265,7 @@ define([
                     caption: this.txtAnimationPane,
                     split: true,
                     iconCls: 'toolbar__icon transition-apply-all',
-                    lock: [_set.slideDeleted, _set.noSlides],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -277,7 +277,7 @@ define([
                     caption: this.txtAddEffect,
                     iconCls: 'toolbar__icon icon add-animation',
                     menu: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -298,7 +298,7 @@ define([
                         {value: 1, displayValue: this.str1},
                         {value: 0.5, displayValue: this.str0_5}
                     ],
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: 'small'
@@ -309,7 +309,7 @@ define([
                     el: this.$el.find('#animation-duration'),
                     iconCls: 'toolbar__icon animation-duration',
                     caption: this.strDuration,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration, _set.timingLock]
                 });
                 this.lockedControls.push(this.lblDuration);
 
@@ -318,7 +318,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-trigger',
                     caption: this.strTrigger,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.timingLock],
                     menu        : new Common.UI.Menu({
                          items: [
                             {
@@ -351,7 +351,7 @@ define([
                     defaultUnit: this.txtSec,
                     maxValue: 300,
                     minValue: 0,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -362,7 +362,7 @@ define([
                     el: this.$el.find('#animation-delay'),
                     iconCls: 'toolbar__icon animation-delay',
                     caption: this.strDelay,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
                 });
                 this.lockedControls.push(this.lblDelay);
 
@@ -370,7 +370,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;',
                     editable: false,
-                    lock: [_set.slideDeleted,  _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    lock: [_set.slideDeleted,  _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     data: [
                         {value: AscFormat.NODE_TYPE_CLICKEFFECT, displayValue: this.textStartOnClick},
                         {value: AscFormat.NODE_TYPE_WITHEFFECT, displayValue: this.textStartWithPrevious},
@@ -386,14 +386,14 @@ define([
                     el: this.$el.find('#animation-label-start'),
                     iconCls: 'toolbar__icon btn-preview-start',
                     caption: this.strStart,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
                 });
                 this.lockedControls.push(this.lblStart);
 
                 this.chRewind = new Common.UI.CheckBox({
                     el: this.$el.find('#animation-checkbox-rewind'),
                     labelText: this.strRewind,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -405,7 +405,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;',
                     editable: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat, _set.timingLock],
                     data: [
                         {value: 1, displayValue: this.textNoRepeat},
                         {value: 2, displayValue: "2"},
@@ -426,7 +426,7 @@ define([
                     el: this.$el.find('#animation-repeat'),
                     iconCls: 'toolbar__icon animation-repeat',
                     caption: this.strRepeat,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat]
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat, _set.timingLock]
                 });
                 this.lockedControls.push(this.lblRepeat);
 
@@ -436,7 +436,7 @@ define([
                     iconCls: 'toolbar__icon btn-arrow-up',
                     style: 'min-width: 82px',
                     caption: this.textMoveEarlier,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationEarlier],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationEarlier, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -449,7 +449,7 @@ define([
                     iconCls: 'toolbar__icon btn-arrow-down',
                     style: 'min-width: 82px',
                     caption: this.textMoveLater,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationLater],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationLater, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
