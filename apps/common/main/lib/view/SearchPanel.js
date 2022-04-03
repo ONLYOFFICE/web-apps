@@ -182,8 +182,11 @@ define([
                         cls: 'input-group-nr',
                         data: [
                             { value: 0, displayValue: this.textSheet },
-                            { value: 1, displayValue: this.textWorkbook }
+                            { value: 1, displayValue: this.textWorkbook },
+                            { value: 2, displayValue: this.textSpecificRange}
                         ]
+                    }).on('selected', function(combo, record) {
+                        me.fireEvent('search:options', ['within', record.value]);
                     });
 
                     this.cmbSearch = new Common.UI.ComboBox({
@@ -196,6 +199,10 @@ define([
                             { value: 0, displayValue: this.textByRows },
                             { value: 1, displayValue: this.textByColumns }
                         ]
+                    }).on('selected', function(combo, record) {
+                        console.log(record.value);
+                        console.log(!record.value);
+                        me.fireEvent('search:options', ['search', !record.value]);
                     });
 
                     this.cmbLookIn = new Common.UI.ComboBox({
@@ -208,6 +215,10 @@ define([
                             { value: 0, displayValue: this.textFormulas },
                             { value: 1, displayValue: this.textValues }
                         ]
+                    }).on('selected', function(combo, record) {
+                        console.log(record.value);
+                        console.log(!record.value);
+                        me.fireEvent('search:options', ['lookIn', !record.value]);
                     });
 
                     this.$searchOptionsBlock = $('.search-options-block');
@@ -293,14 +304,6 @@ define([
             };
         },
 
-        getExtraSettings: function () {
-            return {
-                within: !this.cmbWithin.getValue(),
-                search: !this.cmbSearch.getValue(),
-                lookIn: !this.cmbLookIn.getValue()
-            };
-        },
-
         expandSearchOptions: function () {
             this.extendedOptions = !this.extendedOptions;
             this.$searchOptionsBlock[this.extendedOptions ? 'removeClass' : 'addClass']('no-expand');
@@ -341,6 +344,7 @@ define([
         textLookIn: 'Look in',
         textSheet: 'Sheet',
         textWorkbook: 'Workbook',
+        textSpecificRange: 'Specific range',
         textByRows: 'By rows',
         textByColumns: 'By columns',
         textFormulas: 'Formulas',
