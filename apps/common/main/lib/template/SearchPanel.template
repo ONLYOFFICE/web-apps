@@ -38,6 +38,7 @@
                         <div id="search-options">
                             <label class="input-label"><%= scope.textWithin %></label>
                             <div id="search-adv-cmb-within"></div>
+                            <div id="search-adv-select-range"></div>
                             <label class="input-label"><%= scope.textSearch %></label>
                             <div id="search-adv-cmb-search"></div>
                             <label class="input-label"><%= scope.textLookIn %></label>

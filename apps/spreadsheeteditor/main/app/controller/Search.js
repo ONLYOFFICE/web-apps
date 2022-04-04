@@ -69,7 +69,7 @@ define([
                     'search:options': _.bind(this.onChangeSearchOption, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
                     'show': _.bind(this.onShowPanel, this),
-                    'hide': _.bind(this.onHidePanel, this),
+                    'hide': _.bind(this.onHidePanel, this)
                 },
                 'LeftMenu': { // TO DO
                     'search:aftershow': _.bind(this.onShowAfterSearch, this)
@@ -82,14 +82,16 @@ define([
                 matchCase: false,
                 matchWord: false,
                 useRegExp: false,
-                withinSheet: true,
+                withinSheet: Asc.c_oAscSearchBy.Sheet,
                 searchByRows: true,
-                lookInFormulas: true
+                lookInFormulas: true,
+                isValidSelectedRange: true
             };
         },
 
         setMode: function (mode) {
             this.view = this.createView('Common.Views.SearchPanel', { mode: mode });
+            this.view.on('render:after', _.bind(this.onAfterRender, this));
         },
 
         setApi: function (api) {
@@ -110,6 +112,18 @@ define([
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
 
+        onAfterRender: function () {
+            var me = this;
+            this.view.inputSelectRange.validation = function(value) {
+                if (_.isEmpty(value)) {
+                    return true;
+                }
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSearchBy.Range, value);
+                me._state.isValidSelectedRange = isvalid;
+                return (isvalid === Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+            };
+        },
+
         onChangeSearchOption: function (option, value) {
             switch (option) {
                 case 'case-sensitive':
@@ -122,7 +136,11 @@ define([
                     this._state.useRegExp = value;
                     break;
                 case 'within':
-                    this._state.withinSheet = value;
+                    this._state.withinSheet = value === 0 ? Asc.c_oAscSearchBy.Sheet : (value === 1 ? Asc.c_oAscSearchBy.Workbook : Asc.c_oAscSearchBy.Range);
+                    this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+                    break;
+                case 'range':
+                    this._state.selectedRange = value;
                     break;
                 case 'search':
                     this._state.searchByRows = value;
@@ -181,7 +199,10 @@ define([
             options.asc_setScanForward(d != 'back');
             options.asc_setIsMatchCase(this._state.matchCase);
             options.asc_setIsWholeCell(this._state.matchWord);
-            options.asc_setScanOnOnlySheet(this._state.withinSheet); // TO DO
+            options.asc_setScanOnOnlySheet(this._state.withinSheet);
+            if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
+                options.asc_setSpecificRange(this._state.selectedRange);
+            }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             if (!this.api.asc_findText(options)) {
@@ -204,7 +225,10 @@ define([
                 options.asc_setReplaceWith(textReplace);
                 options.asc_setIsMatchCase(this._state.matchCase);
                 options.asc_setIsWholeCell(this._state.matchWord);
-                options.asc_setScanOnOnlySheet(this._state.withinSheet); // TO DO
+                options.asc_setScanOnOnlySheet(this._state.withinSheet);
+                if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
+                    options.asc_setSpecificRange(this._state.selectedRange);
+                }
                 options.asc_setScanByRows(this._state.searchByRows);
                 options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                 options.asc_setIsReplaceAll(false);
@@ -220,7 +244,10 @@ define([
             options.asc_setReplaceWith(textReplace);
             options.asc_setIsMatchCase(this._state.matchCase);
             options.asc_setIsWholeCell(this._state.matchWord);
-            options.asc_setScanOnOnlySheet(this._state.withinSheet); // TO DO
+            options.asc_setScanOnOnlySheet(this._state.withinSheet);
+            if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
+                options.asc_setSpecificRange(this._state.selectedRange);
+            }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setIsReplaceAll(true);
@@ -412,6 +439,7 @@ define([
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
         textReplaceSuccess: 'Search has been done. {0} occurrences have been replaced',
         textReplaceSkipped: 'The replacement has been made. {0} occurrences were skipped.',
+        textInvalidRange: 'ERROR! Invalid cells range',
 
     }, SSE.Controllers.Search || {}));
 });

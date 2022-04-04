@@ -189,6 +189,17 @@ define([
                         me.fireEvent('search:options', ['within', record.value]);
                     });
 
+                    this.inputSelectRange = new Common.UI.InputField({
+                        el: $('#search-adv-select-range'),
+                        placeHolder: this.textSelectDataRange,
+                        allowBlank: true,
+                        validateOnChange: true,
+                        style: "width: 219px; margin-top: 8px",
+                        disabled: true
+                    }).on('changed:after', function(input, newValue) {
+                        me.fireEvent('search:options', ['range', newValue]);
+                    });
+
                     this.cmbSearch = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-search'),
                         menuStyle: 'min-width: 100%;',
@@ -340,6 +351,7 @@ define([
         textMatchUsingRegExp: 'Match using regular expressions',
         textWholeWords: 'Whole words only',
         textWithin: 'Within',
+        textSelectDataRange: 'Select Data range',
         textSearch: 'Search',
         textLookIn: 'Look in',
         textSheet: 'Sheet',
