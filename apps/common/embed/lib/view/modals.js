@@ -53,6 +53,9 @@ common.view.modals = new(function() {
                             '<input id="id-short-url" class="form-control" type="text" readonly/>' +
                         '</div>' +
                         '<div class="share-buttons">' +
+                            '<span class="svg big-facebook" data-name="facebook"></span>' +
+                            '<span class="svg big-twitter" data-name="twitter"></span>' +
+                            '<span class="svg big-email" data-name="email"></span>' +
                             '<div class="autotest" id="email" style="display: none"></div>' +
                         '</div>';
 
@@ -70,16 +73,23 @@ common.view.modals = new(function() {
 
             var _$dlg;
             if (name == 'share') {
-                let _btns = '';
-                for (const key of Object.keys(config.btnsShare))
-                    _btns += `<span class="svg big-${key}" data-name="${key}"></span>`;
+                if ( config && config.btnsShare ) {
+                    let _btns = [];
+                    for (const key of Object.keys(config.btnsShare))
+                        _btns.push(`<span class="svg big-${key}" data-name="${key}"></span>`);
 
-                let $sharebox = $(_tplbody_share);
-                $sharebox.eq(1).prepend(_btns);
+                    if ( _btns ) {
+                        let $sharebox = $(_tplbody_share);
+                        $sharebox.find('.autotest').prevAll().remove();
+                        $sharebox.eq(1).prepend(_btns.join(''));
+
+                        _tplbody_share = $("<div>").append($sharebox).html();
+                    }
+                }
 
                 _$dlg = $(tplDialog
                             .replace(/\{title}/, this.txtShare)
-                            .replace(/\{body}/, $("<div>").append($sharebox).html())
+                            .replace(/\{body}/, _tplbody_share)
                             .replace(/\{footer}/, '<button id="btn-copyshort" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-share');
