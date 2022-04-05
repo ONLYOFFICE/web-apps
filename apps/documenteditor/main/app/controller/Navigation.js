@@ -112,6 +112,12 @@ define([
             panelNavigation.viewNavigationList.on('item:add', _.bind(this.onItemAdd, this));
             panelNavigation.navigationMenu.on('item:click',           _.bind(this.onMenuItemClick, this));
             panelNavigation.navigationMenu.items[11].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
+
+            var viewport = this.getApplication().getController('Viewport').getView('Viewport');
+            viewport.hlayout.on('layout:resizedrag',  function () {
+                if (panelNavigation.viewNavigationList && panelNavigation.viewNavigationList.scroller)
+                    panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
+            });
         },
 
         updateNavigation: function() {

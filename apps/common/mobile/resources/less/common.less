@@ -130,7 +130,7 @@
 .bullets,
 .numbers,
 .multilevels {
-    .list {
+    .row.list {
         margin: 0;
         ul {
             background: none;
@@ -183,12 +183,12 @@
     }
 }
 
-.popover__titled .popover-inner{
+.popover {
     .list {
         ul {
             background-color: var(--f7-list-bg-color);
             li:first-child, li:last-child {
-                a {
+                .item-link {
                     border-radius: 0;
                 }
             }

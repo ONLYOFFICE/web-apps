@@ -98,7 +98,8 @@ define([
         noMoveAnimationLater: 'no-move-animation-later',
         noAnimationPreview: 'no-animation-preview',
         noAnimationRepeat: 'no-animation-repeat',
-        noAnimationDuration: 'no-animation-duration'
+        noAnimationDuration: 'no-animation-duration',
+        timingLock: 'timing-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

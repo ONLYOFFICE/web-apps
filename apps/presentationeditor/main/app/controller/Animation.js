@@ -347,8 +347,11 @@ define([
         onFocusObject: function(selectedObjects) {
             this.AnimationProperties = null;
             for (var i = 0; i<selectedObjects.length; i++) {
-                if (selectedObjects[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Animation) {
+                var type = selectedObjects[i].get_ObjectType();
+                if (type == Asc.c_oAscTypeSelectElement.Animation) {
                     this.AnimationProperties = selectedObjects[i].get_ObjectValue();
+                } else if (type==Asc.c_oAscTypeSelectElement.Slide) {
+                    this._state.timingLock = selectedObjects[i].get_ObjectValue().get_LockTiming();
                 }
             }
             if (this._state.onactivetab)
@@ -548,6 +551,8 @@ define([
                 this.lockToolbar(Common.enumLock.noAnimationRepeat, this._state.noAnimationRepeat);
             if (this._state.noAnimationDuration != undefined)
                 this.lockToolbar(Common.enumLock.noAnimationDuration, this._state.noAnimationDuration);
+            if (this._state.timingLock != undefined)
+                this.lockToolbar(Common.enumLock.timingLock, this._state.timingLock);
         }
 
     }, PE.Controllers.Animation || {}));
