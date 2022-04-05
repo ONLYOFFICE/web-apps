@@ -2117,6 +2117,7 @@
   "DE.Views.Navigation.txtCollapse": "Свернуть все",
   "DE.Views.Navigation.txtDemote": "Понизить уровень",
   "DE.Views.Navigation.txtEmpty": "В документе нет заголовков.<br>Примените стиль заголовка к тексту, чтобы он появился в оглавлении.",
+  "DE.Views.Navigation.txtEmptyViewer": "В документе нет заголовков.",
   "DE.Views.Navigation.txtEmptyItem": "Пустой заголовок",
   "DE.Views.Navigation.txtExpand": "Развернуть все",
   "DE.Views.Navigation.txtExpandToLevel": "Развернуть до уровня",

@@ -103,6 +103,8 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.canUseViwerNavigation = this.mode.canUseViwerNavigation;
+            if (this.panelNavigation && this.panelNavigation.viewNavigationList)
+                this.panelNavigation.viewNavigationList.setEmptyText(this.mode.isEdit ? this.panelNavigation.txtEmpty : this.panelNavigation.txtEmptyViewer);
             return this;
         },
 
