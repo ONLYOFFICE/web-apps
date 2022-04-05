@@ -262,7 +262,7 @@ define([
             store.where({isRevision: false}).forEach(function(item){
                 item.set('isVisible', needExpand);
             });
-            this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: 40});
+            this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: this.panelHistory.viewHistoryList.minScrollbarLength});
             this.panelHistory.btnExpand.cmpEl.text(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
         },
 

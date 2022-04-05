@@ -223,6 +223,7 @@ define([
             listenStoreEvents: true,
             allowScrollbar: true,
             scrollAlwaysVisible: false,
+            minScrollbarLength: 40,
             showLast: true,
             useBSKeydown: false,
             cls: ''
@@ -272,6 +273,7 @@ define([
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.minScrollbarLength = me.options.minScrollbarLength || 40;
             me.tabindex = me.options.tabindex || 0;
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
@@ -355,7 +357,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -548,7 +550,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -816,7 +818,7 @@ define([
                 paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top')),
-                props = {minScrollbarLength  : 40};
+                props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
@@ -987,7 +989,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1079,7 +1081,7 @@ define([
             this.scroller = new Common.UI.Scroller({
                 el: $(this.el).find('.inner').addBack().filter('.inner'),
                 useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                minScrollbarLength  : 40,
+                minScrollbarLength  : this.minScrollbarLength,
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             });
@@ -1287,7 +1289,7 @@ define([
                 paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top')),
-                props = {minScrollbarLength  : 40};
+                props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {

@@ -85,6 +85,14 @@ define([
                 storeUsers: this.getApplication().getCollection('Common.Collections.Users'),
                 storeMessages: this.getApplication().getCollection('Common.Collections.ChatMessages')
             });
+            this.panelChat.on('render:after', _.bind(this.onAfterRender, this));
+        },
+
+        onAfterRender: function(panel) {
+            var viewport = this.getApplication().getController('Viewport').getView('Viewport');
+            viewport.hlayout.on('layout:resizedrag',  _.bind(function () {
+                panel && panel.updateScrolls();
+            }, this));
         },
 
         setMode: function(mode) {
