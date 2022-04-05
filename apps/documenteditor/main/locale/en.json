@@ -2125,6 +2125,7 @@
   "DE.Views.Navigation.txtDemote": "Demote",
   "DE.Views.Navigation.txtEmpty": "There are no headings in the document.<br>Apply a heading style to the text so that it appears in the table of contents.",
   "DE.Views.Navigation.txtEmptyItem": "Empty Heading",
+  "DE.Views.Navigation.txtEmptyViewer": "There are no headings in the document.",
   "DE.Views.Navigation.txtExpand": "Expand all",
   "DE.Views.Navigation.txtExpandToLevel": "Expand to level",
   "DE.Views.Navigation.txtHeadingAfter": "New heading after",

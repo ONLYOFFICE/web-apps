@@ -158,7 +158,8 @@ define([
         txtCollapse: 'Collapse all',
         txtExpandToLevel: 'Expand to level...',
         txtEmpty: 'There are no headings in the document.<br>Apply a heading style to the text so that it appears in the table of contents.',
-        txtEmptyItem: 'Empty Heading'
+        txtEmptyItem: 'Empty Heading',
+        txtEmptyViewer: 'There are no headings in the document.'
 
     }, DE.Views.Navigation || {}));
 });
