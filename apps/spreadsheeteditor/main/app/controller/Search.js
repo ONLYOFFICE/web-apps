@@ -118,13 +118,15 @@ define([
                 if (_.isEmpty(value)) {
                     return true;
                 }
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSearchBy.Range, value);
-                me._state.isValidSelectedRange = isvalid;
+                var isvalid = me.api.asc_checkDataRange(undefined, value);
+                me._state.isValidSelectedRange = isvalid !== Asc.c_oAscError.ID.DataRangeError;
                 return (isvalid === Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
+            this.view.inputSelectRange.on('button:click', _.bind(this.onRangeSelect, this));
         },
 
-        onChangeSearchOption: function (option, value) {
+        onChangeSearchOption: function (option, value, noSearch) {
+            var runSearch = true;
             switch (option) {
                 case 'case-sensitive':
                     this._state.matchCase = value;
@@ -138,9 +140,13 @@ define([
                 case 'within':
                     this._state.withinSheet = value === 0 ? Asc.c_oAscSearchBy.Sheet : (value === 1 ? Asc.c_oAscSearchBy.Workbook : Asc.c_oAscSearchBy.Range);
                     this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+                    if (value === Asc.c_oAscSearchBy.Range) {
+                        runSearch = false;
+                    }
                     break;
                 case 'range':
                     this._state.selectedRange = value;
+                    runSearch = !noSearch;
                     break;
                 case 'search':
                     this._state.searchByRows = value;
@@ -148,8 +154,39 @@ define([
                 case 'lookIn':
                     this._state.lookInFormulas = value;
                     break;
-
             }
+            if (runSearch && this._state.searchText !== '' && this.onQuerySearch()) {
+                this.hideResults();
+                clearInterval(this.searchTimer);
+                this.searchTimer = undefined;
+                this.api.asc_StartTextAroundSearch();
+            }
+        },
+
+        onRangeSelect: function () {
+            var me = this;
+            var handlerDlg = function(dlg, result) {
+                if (result == 'ok') {
+                    var valid = dlg.getSettings();
+                    me.view.inputSelectRange.setValue(valid);
+                    me.view.inputSelectRange.checkValidate();
+                    me.onChangeSearchOption('range', valid);
+                }
+            };
+
+            var win = new SSE.Views.CellRangeDialog({
+                handler: handlerDlg
+            }).on('close', function() {
+                _.delay(function(){
+                    me.view.inputSelectRange.focus();
+                },1);
+            });
+            win.show();
+            win.setSettings({
+                api: me.api,
+                range: (!_.isEmpty(me.view.inputSelectRange.getValue()) && (me.view.inputSelectRange.checkValidate()==true)) ? me.view.inputSelectRange.getValue() : me._state.selectedRange,
+                type: Asc.c_oAscSelectionDialogType.PrintTitles
+            });
         },
 
         onSearchNext: function (type, text, e) {
@@ -194,6 +231,19 @@ define([
         },
 
         onQuerySearch: function (d, w, opts, fromPanel) {
+            var me = this;
+            if (this._state.withinSheet === Asc.c_oAscSearchBy.Range && !this._state.isValidSelectedRange) {
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    msg: this.textInvalidRange,
+                    buttons: ['ok'],
+                    callback: function () {
+                        me.view.focus('range');
+                    }
+                });
+                return;
+            }
+
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(this._state.searchText);
             options.asc_setScanForward(d != 'back');

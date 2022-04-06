@@ -189,15 +189,16 @@ define([
                         me.fireEvent('search:options', ['within', record.value]);
                     });
 
-                    this.inputSelectRange = new Common.UI.InputField({
+                    this.inputSelectRange = new Common.UI.InputFieldBtn({
                         el: $('#search-adv-select-range'),
                         placeHolder: this.textSelectDataRange,
                         allowBlank: true,
                         validateOnChange: true,
+                        validateOnBlur: true,
                         style: "width: 219px; margin-top: 8px",
                         disabled: true
-                    }).on('changed:after', function(input, newValue) {
-                        me.fireEvent('search:options', ['range', newValue]);
+                    }).on('keyup:after', function(input, e) {
+                        me.fireEvent('search:options', ['range', input.getValue(), e.keyCode !== Common.UI.Keys.RETURN]);
                     });
 
                     this.cmbSearch = new Common.UI.ComboBox({
@@ -266,7 +267,7 @@ define([
 
         focus: function(type) {
             var me  = this,
-                el = type === 'replace' ? me.inputReplace.$el : me.inputText.$el;
+                el = type === 'replace' ? me.inputReplace.$el : (type === 'range' ? me.inputSelectRange.$el : me.inputText.$el);
             setTimeout(function(){
                 el.find('input').focus();
                 el.find('input').select();
