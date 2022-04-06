@@ -1,4 +1,5 @@
 import React, {Fragment, useState} from 'react';
+import { flushSync } from 'react-dom';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Toggle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -229,7 +230,11 @@ const EditParagraph = props => {
                         key={index}
                         radio
                         checked={curStyleName === style.name}
-                        onClick={() => {props.onStyleClick(style.name)}}
+                        onClick={() => {
+                            if(curStyleName !== style.name) {
+                                props.onStyleClick(style.name);
+                            }
+                        }}
                     >
                         <div slot="inner"
                              style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}

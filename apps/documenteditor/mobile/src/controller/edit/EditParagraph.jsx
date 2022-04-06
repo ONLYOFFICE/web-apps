@@ -6,12 +6,14 @@ class EditParagraphController extends Component {
     constructor (props) {
         super(props);
         props.storeParagraphSettings.setBackColor(undefined);
+        this.onStyleClick = this.onStyleClick.bind(this);
     }
 
     onStyleClick (name) {
         const api = Common.EditorApi.get();
         if (api) {
             api.put_Style(name);
+            this.props.storeParagraphSettings.changeParaStyleName(name);
         }
     }
 
