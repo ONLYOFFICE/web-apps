@@ -1,5 +1,4 @@
 import React, {Fragment, useState} from 'react';
-import { flushSync } from 'react-dom';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Toggle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
