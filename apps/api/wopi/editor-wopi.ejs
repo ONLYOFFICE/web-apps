@@ -302,7 +302,7 @@ div {
                         "uiTheme": queryParams.thm==="1" ? "default-light" : (queryParams.thm==="2" ? "default-dark" : undefined)
 					},
                     "coEditing": {
-                        "mode": "fast",
+                        "mode": userAuth.mode !== "view" ? "fast" : "strict",
                         "change": false
                     },
                     "wopi": {
