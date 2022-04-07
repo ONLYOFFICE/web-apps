@@ -196,7 +196,7 @@ define([
                 this.btnAddText = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-add-text'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon add-text',
                     lock: [ _set.cantAddTextTOF, _set.inHeader, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnAddText,
                     menu: new Common.UI.Menu({
