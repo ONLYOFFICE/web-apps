@@ -65,7 +65,8 @@ define([
                 'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
                     'render:after': _.bind(this.onAfterRender, this),
-                    'changerange': _.bind(this.onChangeRange, this, false)
+                    'changerange': _.bind(this.onChangeRange, this, false),
+                    'openheader': _.bind(this.onOpenHeaderSettings, this),
                 },
                 'PrintSettings': {
                     'changerange': _.bind(this.onChangeRange, this, true)
@@ -115,7 +116,6 @@ define([
             this.api = o;
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
-            this.api.asc_registerCallback('asc_onUpdateDocumentProps', _.bind(this.updateDocumentProps, this));
         },
 
         updateSheetsInfo: function() {
@@ -749,11 +749,11 @@ define([
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
         },
 
-        updateDocumentProps: function (index) {
-            if (this._isPreviewVisible) {
-                this._changedProps[index] = this.api.asc_getPageOptions(index);
-                this.updatePreview();
-            }
+        onOpenHeaderSettings: function () {
+            var props = props = (this._changedProps.length > 0 && this._changedProps[this.printSettings.cmbSheet.getValue()]) ?
+                this._changedProps[this.printSettings.cmbSheet.getValue()] :
+                this.api.asc_getPageOptions(this.printSettings.cmbSheet.getValue(), true);
+            SSE.getController('Toolbar').onEditHeaderClick(props.asc_getPageSetup());
         },
 
         warnCheckMargings:      'Margins are incorrect',

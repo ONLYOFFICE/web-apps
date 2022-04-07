@@ -2778,7 +2778,7 @@ define([
         },
 
         openHeaderSettings: function() {
-            SSE.getController('Toolbar').onEditHeaderClick();
+            this.fireEvent('openheader', this);
         },
 
         updateCountOfPages: function (count) {
