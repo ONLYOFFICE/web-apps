@@ -13,13 +13,15 @@ import EditTableController from "../../controller/edit/EditTable";
 import EditChartController from "../../controller/edit/EditChart";
 import EditHyperlinkController from "../../controller/edit/EditHyperlink";
 import EditHeaderController from "../../controller/edit/EditHeader";
+import EditTableContentsController from "../../controller/edit/EditTableContents";
 
-import {PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextBackgroundColor, PageTextCustomBackColor} from "./EditText";
+import {PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor} from "./EditText";
 import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor} from "./EditParagraph";
 import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
 import {PageTableOptions, PageTableWrap, PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor} from "./EditTable";
-import {PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartWrap, PageChartReorder} from "./EditChart";
+import {PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartWrap, PageChartReorder} from "./EditChart";
+import { PageEditLeaderTableContents, PageEditStylesTableContents, PageEditStructureTableContents } from './EditTableContents';
 
 const routes = [
     //Edit text
@@ -48,12 +50,8 @@ const routes = [
         component: PageTextCustomFontColor,
     },
     {
-        path: '/edit-text-background-color/',
-        component: PageTextBackgroundColor,
-    },
-    {
-        path: '/edit-text-custom-back-color/',
-        component: PageTextCustomBackColor,
+        path: '/edit-text-highlight-color/',
+        component: PageTextHighlightColor,
     },
     //Edit paragraph
     {
@@ -157,8 +155,24 @@ const routes = [
         component: PageChartReorder,
     },
     {
+        path: '/edit-chart-design/',
+        component: PageChartDesign,
+    },
+    {
+        path: '/edit-chart-type/',
+        component: PageChartDesignType
+    },
+    {
         path: '/edit-chart-style/',
-        component: PageChartStyle,
+        component: PageChartDesignStyle
+    },
+    {
+        path: '/edit-chart-fill/',
+        component: PageChartDesignFill
+    },
+    {
+        path: '/edit-chart-border/',
+        component: PageChartDesignBorder
     },
     {
         path: '/edit-chart-custom-fill-color/',
@@ -171,6 +185,21 @@ const routes = [
     {
         path: '/edit-chart-custom-border-color/',
         component: PageChartCustomBorderColor,
+    }, 
+
+    // Table Contents 
+
+    {
+        path: '/edit-style-table-contents/',
+        component: PageEditStylesTableContents
+    },
+    {
+        path: '/edit-leader-table-contents/',
+        component: PageEditLeaderTableContents
+    },
+    {
+        path: '/edit-structure-table-contents/',
+        component: PageEditStructureTableContents
     }
 ];
 
@@ -230,10 +259,13 @@ const EditLayoutContent = ({ editors }) => {
 const EditTabs = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const api = Common.EditorApi.get();
+    const inToc = api.asc_GetTableOfContentsPr(true);
 
     const settings = props.storeFocusObjects.settings;
     const headerType = props.storeFocusObjects.headerType;
     let editors = [];
+
     if (settings.length < 1) {
         editors.push({
             caption: _t.textSettings,
@@ -287,6 +319,13 @@ const EditTabs = props => {
                 caption: _t.textChart,
                 id: 'edit-chart',
                 component: <EditChartController />
+            })
+        }
+        if(inToc) {
+            editors.push({
+                caption: _t.textTableOfCont,
+                id: 'edit-table-contents',
+                component: <EditTableContentsController />
             })
         }
         if (settings.indexOf('hyperlink') > -1) {

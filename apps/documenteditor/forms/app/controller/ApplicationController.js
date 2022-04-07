@@ -103,6 +103,7 @@ define([
                 this.api.asc_registerCallback('asc_onCountPages',            this.onCountPages.bind(this));
                 this.api.asc_registerCallback('asc_onCurrentPage',           this.onCurrentPage.bind(this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
+                this.api.asc_registerCallback('asc_onZoomChange',           this.onApiZoomChange.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
 
@@ -415,6 +416,8 @@ define([
             this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
             this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
             this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
+            this.appOptions.lang            = this.editorConfig.lang;
+            this.appOptions.canPlugins      = false;
         },
 
         onExternalMessage: function(msg) {
@@ -487,13 +490,15 @@ define([
                 docInfo.put_Token(data.doc.token);
                 docInfo.put_Permissions(_permissions);
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
-
+                docInfo.put_Lang(this.editorConfig.lang);
+                docInfo.put_Mode(this.editorConfig.mode);
+                
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
                 enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                 docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                 if (type && typeof type[1] === 'string') {
                     this.permissions.edit = this.permissions.review = false;
                 }
@@ -562,6 +567,8 @@ define([
 
             AscCommon.UserInfoParser.setParser(true);
             AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+
+            DE.getController('Plugins').setMode(this.appOptions, this.api);
 
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
@@ -802,7 +809,7 @@ define([
                             }
                         } else {
                             Common.Gateway.requestClose();
-                            Common.Controllers.Desktop.requestClose();
+                            DE.Controllers.Desktop.requestClose();
                         }
                         me._openDlg = null;
                     }
@@ -930,7 +937,7 @@ define([
             if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
 
             if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
             Common.component.Analytics.trackEvent('Print');
         },
 
@@ -1338,6 +1345,7 @@ define([
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
             }
+            DE.getController('Plugins').setApi(this.api);
 
             this.updateWindowTitle(true);
 
@@ -1363,12 +1371,12 @@ define([
                     if ( !!this.embedConfig.saveUrl ){
                         this.onHyperlinkClick(this.embedConfig.saveUrl);
                     } else if (this.api && this.appOptions.canPrint){
-                        this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                        this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
                     }
                     Common.Analytics.trackEvent('Save');
                     break;
                 case 'print':
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
                     Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
@@ -1409,6 +1417,30 @@ define([
 
         onThemeClick: function(menu, item) {
             (item.value!==null) && Common.UI.Themes.setTheme(item.value);
+        },
+        onApiZoomChange: function(percent, type) {
+            this.view.mnuZoom.items[0].setChecked(type == 2, true);
+            this.view.mnuZoom.items[1].setChecked(type == 1, true);
+            this.view.mnuZoom.options.value = percent;
+
+            if ( this.view.mnuZoom.$el )
+                $('.menu-zoom label.zoom', this.view.mnuZoom.$el).html(percent + '%');
+        },
+
+        onMenuZoomClick: function(menu, item, e){
+            switch ( item.value ) {
+                case 'zoom:page':
+                    item.isChecked() ? this.api.zoomFitToPage() : this.api.zoomCustomMode();
+                    break;
+                case 'zoom:width':
+                    item.isChecked() ? this.api.zoomFitToWidth() : this.api.zoomCustomMode();
+                    break;
+            }
+
+        },
+        onBtnZoom: function (btn, e) {
+            btn == 'up' ? this.api.zoomIn() : this.api.zoomOut();
+            e.stopPropagation();
         },
 
         onDarkModeClick: function(item) {
@@ -1456,20 +1488,20 @@ define([
                 else
                     last = menuItems[5];
 
-                // theme
-                if (!menuItems[6].isVisible())
-                    menuItems[7].setVisible(false);
+                // theme and zoom
+                if (!menuItems[6].isVisible() && !menuItems[7].isVisible())
+                    menuItems[8].setVisible(false);
                 else
-                    last = menuItems[7];
+                    last = menuItems[8];
 
                 // share, location
-                if (!menuItems[8].isVisible() && !menuItems[9].isVisible())
-                    menuItems[10].setVisible(false);
+                if (!menuItems[9].isVisible() && !menuItems[10].isVisible())
+                    menuItems[11].setVisible(false);
                 else
-                    last = menuItems[10];
+                    last = menuItems[11];
 
                 // embed, fullscreen
-                if (!menuItems[11].isVisible() && !menuItems[12].isVisible())
+                if (!menuItems[12].isVisible() && !menuItems[13].isVisible())
                     last && last.setVisible(false);
 
                 menu.off('show:after', initMenu);
@@ -1522,22 +1554,22 @@ define([
             }
 
             if ( !this.embedConfig.shareUrl || this.appOptions.isOFORM) {
-                menuItems[8].setVisible(false);
-                itemsCount--;
-            }
-
-            if (!this.appOptions.canBackToFolder) {
                 menuItems[9].setVisible(false);
                 itemsCount--;
             }
 
+            if (!this.appOptions.canBackToFolder) {
+                menuItems[10].setVisible(false);
+                itemsCount--;
+            }
+
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
-                menuItems[11].setVisible(false);
+                menuItems[12].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.fullscreenUrl || this.appOptions.isOFORM) {
-                menuItems[12].setVisible(false);
+                menuItems[13].setVisible(false);
                 itemsCount--;
             }
             if (itemsCount<1)
@@ -1564,7 +1596,11 @@ define([
             // zoom
             $('#id-btn-zoom-in').on('click', this.api.zoomIn.bind(this.api));
             $('#id-btn-zoom-out').on('click', this.api.zoomOut.bind(this.api));
+            $('#id-menu-zoom-in').on('click', _.bind(this.onBtnZoom, this,'up'));
+            $('#id-menu-zoom-out').on('click', _.bind(this.onBtnZoom, this,'down'));
             this.view.btnOptions.menu.on('item:click', _.bind(this.onOptionsClick, this));
+            this.view.mnuZoom.on('item:click', _.bind(this.onMenuZoomClick, this));
+
 
             // pages
             var $pagenum = this.view.txtGoToPage._input;
@@ -1862,7 +1898,9 @@ define([
         saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
         errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
         textSaveAs: 'Save as PDF',
-        textSaveAsDesktop: 'Save as...'
+        textSaveAsDesktop: 'Save as...',
+        warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
+        titleLicenseExp: 'License expired'
 
     }, DE.Controllers.ApplicationController));
 

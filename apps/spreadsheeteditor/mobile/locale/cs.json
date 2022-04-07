@@ -36,7 +36,7 @@
     "ThemeColorPalette": {
       "textCustomColors": "Vlastní barvy",
       "textStandartColors": "Standardní barvy",
-      "textThemeColors": "Barvy motivu vzhledu"
+      "textThemeColors": "Barvy vzhledu prostředí"
     }
   },
   "ContextMenu": {
@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Chyba",
       "errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Obraťte se na Vašeho správce.",
+      "errorOpensource": "Při využívání bezplatné komunitní veze, můžete otevřít dokumenty pouze pro náhled. Pro získání přístupu k mobilním online editorům, je nutná komerční licence.",
       "errorProcessSaveResult": "Ukládání selhalo.",
       "errorServerVersion": "Verze editoru byla aktualizována. Stránka bude znovu načtena, aby se změny uplatnily.",
       "errorUpdateVersion": "Verze souboru byla změněna. Stránka bude znovu načtena.",
@@ -142,9 +143,14 @@
       "textGuest": "Návštěvník",
       "textHasMacros": "Soubor obsahuje automatická makra.<br>Opravdu chcete makra spustit?",
       "textNo": "Ne",
+      "textNoChoices": "Neexistují žádné možnosti pro vyplnění buňky.<br>Jako náhradu je možné vybrat pouze textové hodnoty ze sloupce.",
       "textNoLicenseTitle": "Došlo k dosažení limitu licence",
+      "textNoTextFound": "Text nebyl nalezen",
+      "textOk": "OK",
       "textPaidFeature": "Placená funkce",
       "textRemember": "Zapamatovat moji volbu",
+      "textReplaceSkipped": "Nahrazení bylo provedeno. {0} výskytů bylo přeskočeno.",
+      "textReplaceSuccess": "Hledání bylo dokončeno. Nahrazeno výskytů: {0}",
       "textYes": "Ano",
       "titleServerVersion": "Editor byl aktualizován",
       "titleUpdateVersion": "Verze změněna",
@@ -154,10 +160,7 @@
       "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
     }
   },
   "Error": {
@@ -172,6 +175,7 @@
     "errorAutoFilterDataRange": "Operaci nelze pro zvolený rozsah buněk provést.<br>Vyberte jednotnou oblast dat uvnitř nebo vně tabulky a zkuste to znovu.",
     "errorAutoFilterHiddenRange": "Operaci nelze provést, protože oblast obsahuje filtrované buňky.<br>Odkryjte filtrované prvky a zkuste to znovu.",
     "errorBadImageUrl": "Adresa URL obrázku je nesprávná",
+    "errorCannotUseCommandProtectedSheet": "Tento příkaz nelze použít na zabezpečený list. Pro použití příkazu, zrušte zabezpečení listu.<br>Může být vyžadováno zadání hesla.",
     "errorChangeArray": "Nemůžete měnit část pole.",
     "errorChangeOnProtectedSheet": "Buňka nebo graf, který se pokoušíte změnit je na zabezpečeném listu. Pro provedení změny, vypněte zabezpečení listu. Může být vyžadováno zadání hesla.",
     "errorConnectToServer": "Není možné uložit dokument. Zkontrolujte nastavení připojení, nebo kontaktujte Vašeho správce.<br>Po kliknutím na tlačítko 'OK' budete vyzváni ke stažení dokumentu.",
@@ -283,15 +287,20 @@
     "textErrNotEmpty": "List musí mít název",
     "textErrorLastSheet": "Sešit musí obsahovat alespoň jeden viditelný list.",
     "textErrorRemoveSheet": "Nelze odstranit list.",
+    "textHidden": "Skrytý",
     "textHide": "Skrýt",
     "textMore": "Více",
+    "textMove": "Přesunout",
+    "textMoveBefore": "Přesunout před list",
+    "textMoveToEnd": "(Přesunout na konec)",
     "textOk": "OK",
     "textRename": "Přejmenovat",
     "textRenameSheet": "Přejmenovat list",
     "textSheet": "List",
     "textSheetName": "Název listu",
     "textUnhide": "Odkrýt",
-    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? "
+    "textWarnDeleteSheet": "List může obsahovat data. Pokračovat v operaci? ",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
@@ -315,16 +324,19 @@
       "sCatTextAndData": "Text a data",
       "textAddLink": "Přidat odkaz",
       "textAddress": "Adresa",
+      "textAllTableHint": "Získá veškerý obsah tabulky, nebo definovaných sloupců tabulky tj. hlavičky, data a celkový počet řádků",
       "textBack": "Zpět",
       "textCancel": "Zrušit",
       "textChart": "Graf",
       "textComment": "Komentář",
+      "textDataTableHint": "Získá hodnotu buněk tabulky, nebo definovaných sloupců tabulky",
       "textDisplay": "Zobrazit",
       "textEmptyImgUrl": "Je třeba zadat URL adresu obrázku.",
       "textExternalLink": "Externí odkaz",
       "textFilter": "Filtrovat",
       "textFunction": "Funkce",
       "textGroups": "KATEGORIE",
+      "textHeadersTableHint": "Získá hlavičky v tabulce, nebo hlavičky definovaných sloupců tabulky",
       "textImage": "Obrázek",
       "textImageURL": "URL obrázku",
       "textInsert": "Vložit",
@@ -334,6 +346,7 @@
       "textLink": "Odkaz",
       "textLinkSettings": "Nastavení odkazů",
       "textLinkType": "Typ odkazu",
+      "textOk": "OK",
       "textOther": "Jiné",
       "textPictureFromLibrary": "Obrázek z knihovny",
       "textPictureFromURL": "Obrázek z adresy URL",
@@ -344,6 +357,8 @@
       "textShape": "Obrazec",
       "textSheet": "List",
       "textSortAndFilter": "Seřadit a filtrovat",
+      "textThisRowHint": "Zvolte pouze tento řádek zadaného sloupce",
+      "textTotalsTableHint": "Získá hodnotu celkového počtu řádků, nebo definovaných sloupců tabulky",
       "txtExpand": "Rozbalit a seřadit",
       "txtExpandSort": "Data vedle výběru nebudou seřazena. Chcete rozšířit výběr tak, aby zahrnoval sousední data, nebo pokračovat v seřazení pouze vybraných buněk?",
       "txtLockSort": "Poblíž Vašeho výběru existují data, nemáte však dostatečná oprávnění k úpravě těchto buněk.<br>Chcete pokračovat s aktuálním výběrem?",
@@ -351,8 +366,7 @@
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSorting": "Řazení",
       "txtSortSelected": "Seřadit vybrané",
-      "txtYes": "Ano",
-      "textOk": "Ok"
+      "txtYes": "Ano"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",
@@ -371,6 +385,7 @@
       "textAngleClockwise": "Otočit ve směru hodinových ručiček",
       "textAngleCounterclockwise": "Otočit proti směru hodinových ručiček",
       "textAuto": "Automaticky",
+      "textAutomatic": "Automaticky",
       "textAxisCrosses": "Křížení os",
       "textAxisOptions": "Možnosti osy",
       "textAxisPosition": "Pozice osy",
@@ -471,6 +486,7 @@
       "textNoOverlay": "Bez překrytí",
       "textNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "textNumber": "Číslo",
+      "textOk": "OK",
       "textOnTickMarks": "Na značkách zaškrtnutí",
       "textOpacity": "Průhlednost",
       "textOut": "Vně",
@@ -532,8 +548,7 @@
       "textYen": "Jen",
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
-      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
-      "textOk": "Ok"
+      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší"
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",
@@ -563,6 +578,7 @@
       "textComments": "Komentáře",
       "textCreated": "Vytvořeno",
       "textCustomSize": "Vlastní velikost",
+      "textDarkTheme": "Tmavý vzhled prostředí",
       "textDelimeter": "Oddělovač",
       "textDisableAll": "Vypnout vše",
       "textDisableAllMacrosWithNotification": "Vypnout všechna makra s notifikacemi",
@@ -663,7 +679,8 @@
       "txtSemicolon": "Středník",
       "txtSpace": "Mezera",
       "txtTab": "Tabulátor",
-      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?"
+      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

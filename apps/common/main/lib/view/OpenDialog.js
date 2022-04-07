@@ -183,6 +183,8 @@ define([
 
             _options.tpl        =   _.template(this.template)(_options);
 
+            this._previewTdWidth = [];
+            this._previewTdMaxLength = 0;
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
         render: function () {
@@ -200,10 +202,11 @@ define([
                 this.previewInner = this.previewScrolled.find('div:first-child');
 
                 if (this.type == Common.Utils.importTextType.DRM) {
-                    this.inputPwd = new Common.UI.InputField({
+                    this.inputPwd = new Common.UI.InputFieldBtnPassword({
                         el: $('#id-password-txt'),
                         type: 'password',
                         validateOnBlur: false,
+                        showPwdOnClick: true,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
                         }
@@ -291,10 +294,12 @@ define([
                     }
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
-                        thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined;
+                        thousands = this.separatorOptions ? this.separatorOptions.thousands : undefined,
+                        qualifier = this.separatorOptions ? this.separatorOptions.qualifier : '"';
                     var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
                     decimal && options.asc_setNumberDecimalSeparator(decimal);
                     thousands && options.asc_setNumberGroupSeparator(thousands);
+                    qualifier && options.asc_setTextQualifier(qualifier);
                     this.handler.call(this, state, {
                         textOptions: options,
                         range: this.txtDestRange ? this.txtDestRange.getValue() : '',
@@ -414,35 +419,31 @@ define([
         },
 
         updatePreview: function() {
+            this._previewTdWidth = [];
+            this._previewTdMaxLength = 0;
+
             var encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
                 ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0);
             var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                 delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
             (delimiter == -1) && (delimiter = null);
 
+            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+            if (this.separatorOptions) {
+                options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
+                options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
+                options.asc_setTextQualifier(this.separatorOptions.qualifier);
+            }
+
             switch (this.type) {
                 case Common.Utils.importTextType.CSV:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar), _.bind(this.previewCallback, this));
-                    break;
                 case Common.Utils.importTextType.TXT:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding), _.bind(this.previewCallback, this));
+                case Common.Utils.importTextType.Data:
+                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
                 case Common.Utils.importTextType.Paste:
                 case Common.Utils.importTextType.Columns:
-                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                    if (this.separatorOptions) {
-                        options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
-                        options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
-                    }
                     this.api.asc_TextImport(options, _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
-                    break;
-                case Common.Utils.importTextType.Data:
-                    var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
-                    if (this.separatorOptions) {
-                        options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
-                        options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
-                    }
-                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
                     break;
             }
         },
@@ -488,17 +489,28 @@ define([
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
                 var maxlength = 0;
                 for (var i=0; i<data.length; i++) {
-                    if (data[i].length>maxlength)
-                        maxlength = data[i].length;
+                    var str = data[i] || '';
+                    if (str.length>maxlength)
+                        maxlength = str.length;
                 }
+                this._previewTdMaxLength = Math.max(this._previewTdMaxLength, maxlength);
                 var tpl = '<table>';
                 for (var i=0; i<data.length; i++) {
+                    var str = data[i] || '';
                     tpl += '<tr style="vertical-align: top;">';
-                    for (var j=0; j<data[i].length; j++) {
-                        tpl += '<td>' + Common.Utils.String.htmlEncode(data[i][j]) + '</td>';
+                    for (var j=0; j<str.length; j++) {
+                        var style = '';
+                        if (i==0 && this._previewTdWidth[j]) { // set td style only for first tr
+                            style = 'style="min-width:' + this._previewTdWidth[j] + 'px;"';
+                        }
+                        tpl += '<td '+ style +'>' + Common.Utils.String.htmlEncode(str[j]) + '</td>';
                     }
-                    for (j=data[i].length; j<maxlength; j++) {
-                        tpl += '<td></td>';
+                    for (j=str.length; j<this._previewTdMaxLength; j++) {
+                        var style = '';
+                        if (i==0 && this._previewTdWidth[j]) { // set td style only for first tr
+                            style = 'style="min-width:' + this._previewTdWidth[j] + 'px;"';
+                        }
+                        tpl += '<td '+ style +'></td>';
                     }
                     tpl += '</tr>';
                 }
@@ -506,11 +518,20 @@ define([
             } else {
                 var tpl = '<table>';
                 for (var i=0; i<data.length; i++) {
-                    tpl += '<tr style="vertical-align: top;"><td>' + Common.Utils.String.htmlEncode(data[i]) + '</td></tr>';
+                    var str = data[i] || '';
+                    tpl += '<tr style="vertical-align: top;"><td>' + Common.Utils.String.htmlEncode(str) + '</td></tr>';
                 }
                 tpl += '</table>';
             }
             this.previewPanel.html(tpl);
+
+            if (data.length>0) {
+                var me = this;
+                (this._previewTdWidth.length===0) && this.previewScrolled.scrollLeft(0);
+                this.previewPanel.find('tr:first td').each(function(index, el){
+                    me._previewTdWidth[index] = Math.max(Math.max(Math.ceil($(el).outerWidth()), 30), me._previewTdWidth[index] || 0);
+                });
+            }
 
             this.scrollerX = new Common.UI.Scroller({
                 el: this.previewPanel,
@@ -522,7 +543,9 @@ define([
 
         onCmbDelimiterSelect: function(combo, record){
             this.inputDelimiter.setVisible(record.value == -1);
-            (record.value == -1) && this.inputDelimiter.cmpEl.find('input').focus();
+            var me = this;
+            if (record.value == -1)
+                setTimeout(function(){me.inputDelimiter.focus();}, 10);
             if (this.preview)
                 this.updatePreview();
         },
@@ -535,19 +558,23 @@ define([
             if (!SSE) return;
 
             var me = this,
-                decimal = this.api.asc_getDecimalSeparator(),
-                thousands = this.api.asc_getGroupSeparator();
+                decimal = this.separatorOptions ? this.separatorOptions.decimal : this.api.asc_getDecimalSeparator(),
+                thousands = this.separatorOptions ? this.separatorOptions.thousands : this.api.asc_getGroupSeparator(),
+                qualifier = this.separatorOptions ? this.separatorOptions.qualifier : (this.settings || (new Asc.asc_CTextOptions())).asc_getTextQualifier();
             (new SSE.Views.AdvancedSeparatorDialog({
                 props: {
                     decimal: decimal,
-                    thousands: thousands
+                    thousands: thousands,
+                    qualifier: qualifier
                 },
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.separatorOptions = {
                             decimal: (value.decimal.length > 0) ? value.decimal : decimal,
-                            thousands: (value.thousands.length > 0) ? value.thousands : thousands
+                            thousands: (value.thousands.length > 0) ? value.thousands : thousands,
+                            qualifier: value.qualifier
                         };
+                        me.preview && me.updatePreview();
                     }
                 }
             })).show();

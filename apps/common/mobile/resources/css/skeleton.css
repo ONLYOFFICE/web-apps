@@ -1,0 +1,114 @@
+body {
+    margin: 0;
+}
+
+body.theme-type-dark {
+    --background-navbar-ios: #232323;
+    --background-navbar-word: #232323;
+    --background-navbar-cell: #232323;
+    --background-navbar-slide: #232323;
+}
+
+.skl-navbar {
+    --box-logo-height: 26px;
+    --skl-navbar-height: 44px;
+    --skl-pixel-ratio: 1;
+}
+
+.skl-navbar--md {
+    --skl-navbar-height: 56px;
+}
+
+.skl-pixel-ratio--2 {
+    --skl-pixel-ratio: 2;
+}
+
+.skl-navbar {
+    height: calc(var(--skl-navbar-height) + var(--box-logo-height));
+    width: 100%;
+    position: relative;
+}
+
+.skl-navbar.skl-navbar--md {
+    /*height: calc(56px + 26px);*/
+}
+
+.skl-navbar.skl-navbar--ios {
+    background-color: var(--background-navbar-ios, #f7f7f8);
+}
+
+.skl-navbar.skl-navbar--word.skl-navbar--md {
+    background-color: var(--background-navbar-word, #446995);
+}
+
+.skl-navbar.skl-navbar--cell.skl-navbar--md {
+    background-color: var(--background-navbar-cell, #40865c);
+}
+
+.skl-navbar.skl-navbar--slide.skl-navbar--md {
+    background-color: var(--background-navbar-slide, #aa5252);
+}
+
+.skl-navbar::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+}
+
+.skl-navbar:not(.skl-navbar--md)::before {
+    background-color: rgba(0,0,0,0.25);
+    display: block;
+    z-index: 15;
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    transform-origin: 50% 100%;
+    transform: scaleY(calc(1 / var(--skl-pixel-ratio)));
+}
+
+.skl-navbar.skl-navbar--md::before {
+    right: 0;
+    width: 100%;
+    top: 100%;
+    bottom: auto;
+    height: 8px;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.08) 40%, rgba(0, 0, 0, 0.04) 50%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0) 100%)
+}
+
+.skl-lines {
+    display: none;
+}
+
+.skl-line {
+    height: 15px;
+    margin: 30px;
+    background: #e2e2e2;
+    overflow: hidden;
+    position: relative;
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+}
+
+@keyframes flickerAnimation {
+    0%   { opacity:0.1; }
+    50%  { opacity:1; }
+    100% { opacity:0.1; }
+}
+@-o-keyframes flickerAnimation{
+    0%   { opacity:0.1; }
+    50%  { opacity:1; }
+    100% { opacity:0.1; }
+}
+@-moz-keyframes flickerAnimation{
+    0%   { opacity:0.1; }
+    50%  { opacity:1; }
+    100% { opacity:0.1; }
+}
+@-webkit-keyframes flickerAnimation{
+    0%   { opacity:0.1; }
+    50%  { opacity:1; }
+    100% { opacity:0.1; }
+}

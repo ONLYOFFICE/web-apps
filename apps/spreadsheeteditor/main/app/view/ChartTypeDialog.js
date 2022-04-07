@@ -123,6 +123,11 @@ define([
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
             this.currentChartType = Asc.c_oAscChartTypeSettings.barNormal;
+
+            this.wrapEvents = {
+                onAddChartStylesPreview: _.bind(this.onAddChartStylesPreview, this)
+            };
+            this.api.asc_registerCallback('asc_onAddChartStylesPreview', this.wrapEvents.onAddChartStylesPreview);
         },
 
         render: function() {
@@ -173,7 +178,7 @@ define([
                 enableKeyEvents: this.options.enableKeyEvents,
                 itemTemplate : _.template([
                     '<div class="style" id="<%= id %>">',
-                        '<img src="<%= imageUrl %>" width="50" height="50"/>',
+                        '<img src="<%= imageUrl %>" width="50" height="50" <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                         '<% if (typeof title !== "undefined") {%>',
                             '<span class="title"><%= title %></span>',
                         '<% } %>',
@@ -221,6 +226,7 @@ define([
 
         close: function () {
             this.api.asc_onCloseChartFrame();
+            this.api.asc_unregisterCallback('asc_onAddChartStylesPreview', this.wrapEvents.onAddChartStylesPreview);
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
 
@@ -258,8 +264,10 @@ define([
                 if (this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                     this.currentChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this.currentChartType==Asc.c_oAscChartTypeSettings.comboCustom) {
                     this.updateSeriesList(this.chartSettings.getSeries());
-                } else
-                    this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
+                } else {
+                    this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType, undefined, true));
+                    this.api.asc_generateChartPreviews(this.currentChartType);
+                }
             }
         },
 
@@ -310,8 +318,10 @@ define([
                 this.ShowHideSettings(this.currentChartType);
                 if (isCombo)
                     this.updateSeriesList(this.chartSettings.getSeries());
-                else
-                    this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
+                else {
+                    this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType, undefined, true));
+                    this.api.asc_generateChartPreviews(this.currentChartType);
+                }
             } else {
                 picker.selectRecord(picker.store.findWhere({type: this.currentChartType}), true);
             }
@@ -323,24 +333,15 @@ define([
             if (styles && styles.length>0){
                 var stylesStore = this.stylesList.store;
                 if (stylesStore) {
-                    var count = stylesStore.length;
-                    if (count>0 && count==styles.length) {
-                        var data = stylesStore.models;
-                        _.each(styles, function(style, index){
-                            data[index].set('imageUrl', style.asc_getImage());
+                    var stylearray = [];
+                    _.each(styles, function(item, index){
+                        stylearray.push({
+                            imageUrl: item.asc_getImage(),
+                            data    : item.asc_getName(),
+                            tip     : me.textStyle + ' ' + item.asc_getName()
                         });
-                    } else {
-                        var stylearray = [],
-                            selectedIdx = -1;
-                        _.each(styles, function(item, index){
-                            stylearray.push({
-                                imageUrl: item.asc_getImage(),
-                                data    : item.asc_getName(),
-                                tip     : me.textStyle + ' ' + item.asc_getName()
-                            });
-                        });
-                        stylesStore.reset(stylearray, {silent: false});
-                    }
+                    });
+                    stylesStore.reset(stylearray, {silent: false});
                 }
             } else {
                 this.stylesList.store.reset();
@@ -351,6 +352,21 @@ define([
         onSelectStyles: function(dataView, itemView, record) {
             if (!record) return;
             this.chartSettings.putStyle(record.get('data'));
+        },
+
+        onAddChartStylesPreview: function(styles){
+            var me = this;
+            if (styles && styles.length>0){
+                var stylesStore = this.stylesList.store;
+                if (stylesStore) {
+                    _.each(styles, function(item, index){
+                        var rec = stylesStore.findWhere({
+                            data: item.asc_getName()
+                        });
+                        rec && rec.set('imageUrl', item.asc_getImage());
+                    });
+                }
+            }
         },
 
         updateSeriesList: function(series, index) {

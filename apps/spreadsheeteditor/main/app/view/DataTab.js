@@ -121,7 +121,7 @@ define([
 
                 var me = this,
                     $host = me.toolbar.$el,
-                    _set = SSE.enumLock;
+                    _set = Common.enumLock;
 
                 this.btnDataFromText = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-data-from-text'),
@@ -220,7 +220,7 @@ define([
                     iconCls: 'toolbar__icon btn-data-validation',
                     caption: this.capBtnTextDataValidation,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock, _set.wsLock],
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.editPivot, _set.cantModifyFilter, _set.sheetLock, _set.wsLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

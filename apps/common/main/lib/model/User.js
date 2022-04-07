@@ -62,7 +62,8 @@ define([
                 color       : '#fff',
                 colorval    : null,
                 online      : false,
-                view        : false
+                view        : false,
+                hidden      : false
             }
         }
     });

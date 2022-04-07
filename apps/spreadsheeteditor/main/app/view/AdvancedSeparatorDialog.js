@@ -66,6 +66,12 @@ define([
                 '<div style="margin-bottom: 10px;">',
                     '<div id="id-adv-separator-thousands" class=""></div><label class="input-row" style="margin-left: 10px; padding-top: 4px;">' + this.strThousandsSeparator + '</label>',
                 '</div>',
+                '<div class="input-row" style="margin-bottom: 8px;">',
+                '<label>' + this.textQualifier + '</label>',
+                '</div>',
+                '<div style="margin-bottom: 12px;">',
+                '<div id="id-adv-separator-qualifier" class="input-group-nr"></div>',
+                '</div>',
                 '</div>'
             ].join('');
 
@@ -92,14 +98,27 @@ define([
                 validateOnBlur: false
             });
 
+            this.cmbQualifier = new Common.UI.ComboBox({
+                el: $('#id-adv-separator-qualifier'),
+                style: 'width: 100px;',
+                menuStyle: 'min-width: 100px;',
+                cls: 'input-group-nr',
+                data: [
+                    {value: '"', displayValue: '"'},
+                    {value: '\'', displayValue: '\''},
+                    {value: null, displayValue: this.txtNone}],
+                editable: false,
+                takeFocusOnClose: true
+            });
+
             var $window = this.getChild();
-            $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
+            $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.inputDecimalSeparator, this.inputThousandsSeparator];
+            return [this.inputDecimalSeparator, this.inputThousandsSeparator, this.cmbQualifier];
         },
 
         getDefaultFocusableComponent: function () {
@@ -114,6 +133,7 @@ define([
             if (props) {
                 this.inputDecimalSeparator.setValue(props.decimal || '');
                 this.inputThousandsSeparator.setValue(props.thousands || '');
+                this.cmbQualifier.setValue(props.qualifier || null);
             }
         },
 
@@ -128,7 +148,8 @@ define([
 
         _handleInput: function(state) {
             if (this.options.handler) {
-                this.options.handler.call(this, state, {decimal: this.inputDecimalSeparator.getValue(), thousands: this.inputThousandsSeparator.getValue()});
+                this.options.handler.call(this, state, {decimal: this.inputDecimalSeparator.getValue(), thousands: this.inputThousandsSeparator.getValue(),
+                                                        qualifier: this.cmbQualifier.getValue()});
             }
 
             this.close();
@@ -137,7 +158,9 @@ define([
         textTitle: 'Advanced Settings',
         textLabel: 'Settings used to recognize numeric data',
         strDecimalSeparator: 'Decimal separator',
-        strThousandsSeparator: 'Thousands separator'
+        strThousandsSeparator: 'Thousands separator',
+        txtNone: '(none)',
+        textQualifier: 'Text qualifier'
 
     }, SSE.Views.AdvancedSeparatorDialog || {}));
 });

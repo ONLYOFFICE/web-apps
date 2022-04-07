@@ -62,7 +62,6 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
@@ -228,7 +227,7 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
-            case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;
+            case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
                 this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
@@ -350,6 +349,10 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
+            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("pe-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
             /** coauthoring end **/
 
@@ -368,9 +371,19 @@ define([
                     this.api.asc_setAutoSaveGap(value);
                 }
 
-                value = Common.localStorage.getBool("pe-settings-spellcheck", true);
-                Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
-                this.api.asc_setSpellCheck(value);
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) {
+                    value = Common.localStorage.getBool("pe-settings-spellcheck", true);
+                    Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
+                    this.api.asc_setSpellCheck(value);
+                    var spprops = new AscCommon.CSpellCheckSettings();
+                    value = Common.localStorage.getBool("pe-spellcheck-ignore-uppercase-words", true);
+                    Common.Utils.InternalSettings.set("pe-spellcheck-ignore-uppercase-words", value);
+                    spprops.put_IgnoreWordsInUppercase(value);
+                    value = Common.localStorage.getBool("pe-spellcheck-ignore-numbers-words", true);
+                    Common.Utils.InternalSettings.set("pe-spellcheck-ignore-numbers-words", value);
+                    spprops.put_IgnoreWordsWithNumbers(value);
+                    this.api.asc_setSpellCheckSettings(spprops);
+                }
 
                 value = parseInt(Common.localStorage.getItem("pe-settings-paste-button"));
                 Common.Utils.InternalSettings.set("pe-settings-paste-button", value);
@@ -436,15 +449,15 @@ define([
 
         onQuerySearch: function(d, w, opts) {
             if (opts.textsearch && opts.textsearch.length) {
-                if (!this.api.findText(opts.textsearch, d != 'back', opts.matchcase)) {
-                    var me = this;
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
+                var me = this;
+                this.api.asc_findText(opts.textsearch, d != 'back', opts.matchcase, function(resultCount) {
+                    !resultCount && Common.UI.info({
+                        msg: me.textNoTextFound,
                         callback: function() {
                             me.dlgSearch.focus();
                         }
                     });
-                }
+                });
             }
         },
 

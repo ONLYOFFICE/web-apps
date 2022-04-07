@@ -185,11 +185,12 @@ define([
 
                         function updateTextBoxHeight() {
                             scrollPos = parentView.scroller.getScrollTop();
-
                             if (domTextBox.scrollHeight > domTextBox.clientHeight) {
-                                textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
+                                if (domTextBox.clientHeight + 2 < parseInt($(domTextBox).css('max-height'))) { // 2 = border of textarea
+                                    textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
 
-                                parentView.calculateSizeOfContent();
+                                    parentView.calculateSizeOfContent();
+                                }
                             } else {
                                 oldHeight = domTextBox.clientHeight;
                                 if (oldHeight >= minHeight) {
@@ -265,6 +266,11 @@ define([
                         });
                         btns = $(view.el).find('.comment-resolved');
                         btns.tooltip({title: me.textOpenAgain, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        btns = $(view.el).find('.i-comment-resolved');
+                        btns.tooltip({title: me.textViewResolved, placement: 'cursor'});
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
@@ -1286,6 +1292,7 @@ define([
         textFollowMove          : 'Follow Move',
         textMention             : '+mention will provide access to the document and send an email',
         textMentionNotify       : '+mention will notify the user via email',
+        textViewResolved        : 'You have not permission for reopen comment',
         txtAccept: 'Accept',
         txtReject: 'Reject',
         txtEditTip: 'Edit',

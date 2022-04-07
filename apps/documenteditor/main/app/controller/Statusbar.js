@@ -64,14 +64,8 @@ define([
                         Common.NotificationCenter.trigger('edit:complete', this.statusbar);
                     }.bind(this)
                 },
-                'Common.Views.Header': {
-                    'statusbar:hide': function (view, status) {
-                        me.statusbar.setVisible(!status);
-                        Common.localStorage.setBool('de-hidden-status', status);
-
-                        Common.NotificationCenter.trigger('layout:changed', 'status');
-                        Common.NotificationCenter.trigger('edit:complete', me.statusbar);
-                    }
+                'ViewTab': {
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }
             });
         },
@@ -96,13 +90,16 @@ define([
                 me.statusbar.render(cfg);
                 me.statusbar.$el.css('z-index', 1);
 
-                $('.statusbar #label-zoom').css('min-width', 80);
+                var lblzoom = $('.statusbar #label-zoom');
+                lblzoom.css('min-width', 80);
+                lblzoom.text(Common.Utils.String.format(me.zoomText, 100));
 
                 if ( cfg.isEdit ) {
                     var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
                     if (cfg.canReview) {
                         me.btnTurnReview = review.getButton('turn', 'statusbar');
                         me.btnTurnReview.render(me.statusbar.$layout.find('#btn-doc-review'));
+                        me.statusbar.btnTurnReview = me.btnTurnReview;
                     } else {
                         me.statusbar.$el.find('.el-review').hide();
                     }
@@ -111,8 +108,18 @@ define([
                     me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
                     me.btnDocLang = review.getButton('doclang', 'statusbar');
                     me.btnDocLang.render( me.statusbar.$layout.find('#btn-doc-lang') );
+
+                    var isVisible = (Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang'))
+                                    && Common.UI.FeaturesManager.canChange('spellcheck');
+                    me.btnDocLang.$el.find('+.separator.space')[isVisible?'show':'hide']();
+                    isVisible = Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang')
+                                || Common.UI.FeaturesManager.canChange('spellcheck');
+                    me.statusbar.$el.find('.el-lang')[isVisible?'show':'hide']();
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
+                }
+                if (cfg.canUseSelectHandTools) {
+                    me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
                 }
             });
 
@@ -126,6 +133,12 @@ define([
                 resolve();
             })).then(function () {
                 me.bindViewEvents(me.statusbar, me.events);
+                if (config.canUseSelectHandTools) {
+                    me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
+                    me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
+                    me.statusbar.btnHandTool.toggle(true, true);
+                    me.api.asc_setViewerTargetType('hand');
+                }
 
                 var statusbarIsHidden = Common.localStorage.getBool("de-hidden-status");
                 if ( config.canReview && !statusbarIsHidden ) {
@@ -164,6 +177,18 @@ define([
                     }
                 }
             });
+        },
+
+        onChangeCompactView: function (view, status) {
+            this.statusbar.setVisible(!status);
+            Common.localStorage.setBool('de-hidden-status', status);
+
+            if (view.$el.closest('.btn-slot').prop('id') === 'slot-btn-options') {
+                this.statusbar.fireEvent('view:hide', [this, status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
         onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) {
@@ -243,13 +268,14 @@ define([
             this.statusbar.reloadLanguages(langs);
         },
 
-        setStatusCaption: function(text, force, delay) {
+        setStatusCaption: function(text, force, delay, callback) {
             if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
                 return;
 
             this.timerCaption = undefined;
             if (text.length) {
                 this.statusbar.showStatusMessage(text);
+                callback && callback();
                 if (delay>0)
                     this.timerCaption = (new Date()).getTime() + delay;
             } else
@@ -298,10 +324,45 @@ define([
             return tip;
         },
 
+        showDisconnectTip: function () {
+            var me = this;
+            if (!this.disconnectTip) {
+                var target = this.statusbar.getStatusLabel();
+                target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
+                this.disconnectTip = new Common.UI.SynchronizeTip({
+                    target  : target,
+                    text    : this.textDisconnect,
+                    placement: 'top',
+                    position: this.statusbar.isVisible() ? undefined : {bottom: 0},
+                    showLink: false,
+                    style: 'max-width: 310px;'
+                });
+                this.disconnectTip.on({
+                    'closeclick': function() {
+                        me.disconnectTip.hide();
+                        me.disconnectTip = null;
+                    }
+                });
+            }
+            this.disconnectTip.show();
+        },
+
+        hideDisconnectTip: function() {
+            this.disconnectTip && this.disconnectTip.hide();
+            this.disconnectTip = null;
+        },
+
+        onSelectTool: function (type, btn, e) {
+            if (this.api) {
+                this.api.asc_setViewerTargetType(type);
+            }
+        },
+
         zoomText        : 'Zoom {0}%',
         textHasChanges  : 'New changes have been tracked',
         textTrackChanges: 'The document is opened with the Track Changes mode enabled',
         tipReview       : 'Review',
-        textSetTrackChanges: 'You are in Track Changes mode'
+        textSetTrackChanges: 'You are in Track Changes mode',
+        textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.'
     }, DE.Controllers.Statusbar || {}));
 });

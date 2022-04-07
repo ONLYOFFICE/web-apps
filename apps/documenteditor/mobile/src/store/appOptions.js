@@ -20,6 +20,7 @@ export class storeAppOptions {
             changeReaderMode: action,
 
             canBrandingExt: observable,
+            canBranding: observable,
 
             isDocReady: observable,
             changeDocReady: action
@@ -47,6 +48,7 @@ export class storeAppOptions {
     }
 
     canBrandingExt = false;
+    canBranding = false;
 
     isDocReady = false;
     changeDocReady (value) {
@@ -114,11 +116,12 @@ export class storeAppOptions {
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
         this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
-        this.canChat = this.canLicense && !this.isOffline && !((typeof (this.customization) == 'object') && this.customization.chat === false);
+        this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.fileKey = document.key;
-        this.canFillForms = this.canLicense && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        const typeForm = /^(?:(oform))$/.exec(document.fileType); // can fill forms only in oform format
+        this.canFillForms = this.canLicense && !!(typeForm && typeof typeForm[1] === 'string') && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
         this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms);
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;
@@ -138,8 +141,10 @@ export class storeAppOptions {
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
         this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseUserInfoPermissions = this.canLicense && !!permissions.userInfoGroups;
         this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);    
+        this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
     }
     setCanViewReview (value) {
         this.canViewReview = value;

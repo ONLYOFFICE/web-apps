@@ -39,12 +39,14 @@ define([
 
     SSE.Controllers.Print = Backbone.Controller.extend(_.extend({
         views: [
-            'MainSettingsPrint'
+            'MainSettingsPrint',
+            'PrintWithPreview'
         ],
 
         initialize: function() {
             var value = Common.localStorage.getItem("sse-print-settings-range");
             value = (value!==null) ? parseInt(value) : Asc.c_oAscPrintType.ActiveSheets;
+            this._currentPrintType = value;
 
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
             this.adjPrintParams.asc_setPrintType(value);
@@ -52,13 +54,21 @@ define([
             this._changedProps = null;
             this._originalPageSettings = null;
 
+            this._navigationPreview = {
+                pageCount: false,
+                currentPage: 0
+            };
+
+            this._isPreviewVisible = false;
+
             this.addListeners({
-                'MainSettingsPrint': {
+                'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
-                    'render:after': _.bind(this.onAfterRender, this)
+                    'render:after': _.bind(this.onAfterRender, this),
+                    'changerange': _.bind(this.onChangeRange, this, false)
                 },
                 'PrintSettings': {
-                    'changerange': _.bind(this.onChangeRange,this)
+                    'changerange': _.bind(this.onChangeRange, this, true)
                 }
             });
             Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
@@ -66,19 +76,46 @@ define([
         },
 
         onLaunch: function() {
-            this.printSettings = this.createView('MainSettingsPrint');
+            this.printSettings = this.createView('PrintWithPreview');
         },
 
         onAfterRender: function(view) {
+            var me = this;
+            this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
-            this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
+            this.printSettings.btnsSave.forEach(function (btn) {
+                btn.on('click', _.bind(me.querySavePrintSettings, me, false));
+            });
+            this.printSettings.btnsPrint.forEach(function (btn) {
+                btn.on('click', _.bind(me.querySavePrintSettings, me, true));
+            });
+            this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
+            this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
+            this.printSettings.txtNumberPage.on({
+                'keypress:after':  _.bind(this.onKeypressPageNumber, this),
+                'keyup:after': _.bind(this.onKeyupPageNumber, this)
+            });
+            this.printSettings.txtNumberPage.cmpEl.find('input').on('blur', _.bind(this.onBlurPageNumber, this));
+            this.printSettings.chIgnorePrintArea.on('change', _.bind(this.updatePreview, this));
+
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
+
+            Common.NotificationCenter.on('window:resize', _.bind(function () {
+                if (this._isPreviewVisible) {
+                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+                }
+            }, this));
+
+            var eventname = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+            this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
         },
 
         setApi: function(o) {
             this.api = o;
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
+            this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
+            this.api.asc_registerCallback('asc_onUpdateDocumentProps', _.bind(this.updateDocumentProps, this));
         },
 
         updateSheetsInfo: function() {
@@ -187,22 +224,28 @@ define([
             panel.btnPresetsLeft.menu.items[panel.btnPresetsLeft.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, sheet));
         },
 
-        fillPrintOptions: function(props) {
-            this.printSettingsDlg.setRange(props.asc_getPrintType());
-            this.printSettingsDlg.setIgnorePrintArea(!!props.asc_getIgnorePrintArea());
-            this.onChangeRange();
+        fillPrintOptions: function(props, isDlg) {
+            var menu = isDlg ? this.printSettingsDlg : this.printSettings;
+            menu.setRange(props.asc_getPrintType());
+            menu.setIgnorePrintArea(!!props.asc_getIgnorePrintArea());
+            this.onChangeRange(isDlg);
         },
 
-        onChangeRange: function() {
-            var printtype = this.printSettingsDlg.getRange(),
-                store = this.printSettingsDlg.cmbSheet.store,
+        onChangeRange: function(isDlg) {
+            var menu = isDlg ? this.printSettingsDlg : this.printSettings;
+            var printtype = menu.getRange(),
+                store = menu.cmbSheet.store,
                 item = (printtype !== Asc.c_oAscPrintType.EntireWorkbook) ? store.findWhere({value: this.api.asc_getActiveWorksheetIndex()}) : store.at(0);
             if (item) {
-                this.printSettingsDlg.cmbSheet.setValue(item.get('value'));
-                this.comboSheetsChange(this.printSettingsDlg, this.printSettingsDlg.cmbSheet, item.toJSON());
+                menu.cmbSheet.setValue(item.get('value'));
+                this.comboSheetsChange(menu, menu.cmbSheet, item.toJSON());
             }
-            this.printSettingsDlg.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
-            this.printSettingsDlg.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
+            menu.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
+            menu.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
+
+            if (!isDlg) {
+                this.updatePreview();
+            }
         },
 
         getPageOptions: function(panel) {
@@ -258,17 +301,26 @@ define([
 
         onShowMainSettingsPrint: function() {
             this._changedProps = [];
+            this.printSettings.$previewBox.removeClass('hidden');
 
             if (!this.isFillSheets) {
                 this.isFillSheets = true;
                 this.updateSettings(this.printSettings);
             }
 
-            var item = this.printSettings.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
-            if (item) {
-                this.printSettings.cmbSheet.setValue(item.get('value'));
-                this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
+            this.fillPrintOptions(this.adjPrintParams, false);
+
+            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+            opts.asc_setAdvancedOptions(this.adjPrintParams);
+            var pageCount = this.api.asc_initPrintPreview('print-preview', opts);
+
+            this.printSettings.$previewBox.toggleClass('hidden', !pageCount);
+            this.printSettings.$previewEmpty.toggleClass('hidden', !!pageCount);
+            if (!!pageCount) {
+                this.updateNavigationButtons(0, pageCount);
+                this.printSettings.txtNumberPage.checkValidate();
             }
+            this._isPreviewVisible = true;
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -289,7 +341,7 @@ define([
                         this.updateSettings(this.printSettingsDlg);
                         this.printSettingsDlg.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettingsDlg));
                         this.fillComponents(this.printSettingsDlg, true);
-                        this.fillPrintOptions(this.adjPrintParams);
+                        this.fillPrintOptions(this.adjPrintParams, true);
                         this.registerControlEvents(this.printSettingsDlg);
                     },this)
                 }));
@@ -310,7 +362,7 @@ define([
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     if ( this.printSettingsDlg.type=='print' ) {
-                        var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                        var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                         opts.asc_setAdvancedOptions(this.adjPrintParams);
                         this.api.asc_Print(opts);
                     } else {
@@ -330,10 +382,26 @@ define([
             this.printSettingsDlg = null;
         },
 
-        querySavePrintSettings: function() {
+        querySavePrintSettings: function(print) {
             if ( this.checkMargins(this.printSettings) ) {
                 this.savePageOptions(this.printSettings);
+                this._isPrint = print;
                 this.printSettings.applySettings();
+
+                if (print) {
+                    var printType = this.printSettings.getRange();
+                    this.adjPrintParams.asc_setPrintType(printType);
+                    this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+                    this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+                    Common.localStorage.setItem("sse-print-settings-range", printType);
+
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                    opts.asc_setAdvancedOptions(this.adjPrintParams);
+                    this.api.asc_Print(opts);
+                    Common.NotificationCenter.trigger('edit:complete', view);
+
+                    this._isPrint = false;
+                }
             }
         },
 
@@ -389,8 +457,8 @@ define([
             panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
-            panel.txtRangeTop.on('changing', _.bind(this.propertyChange, this, panel));
-            panel.txtRangeLeft.on('changing', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeTop.on('changed:after', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeLeft.on('changed:after', _.bind(this.propertyChange, this, panel));
             panel.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, panel, 'top', panel.btnPresetsTop.menu, {value: 'select'}));
             panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
@@ -413,6 +481,7 @@ define([
                                 me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
                                 if (me._changedProps) {
                                     me._changedProps[panel.cmbSheet.getValue()] = me.getPageOptions(panel);
+                                    me.updatePreview();
                                 }
                             }
                         } else {
@@ -430,6 +499,7 @@ define([
             } else {
                 if (this._changedProps) {
                     this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+                    this.updatePreview();
                 }
             }
         },
@@ -452,7 +522,6 @@ define([
         fillComponents: function(panel, selectdata) {
             var me = this;
             panel.txtRangeTop.validation = function(value) {
-                !me._noApply && me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -462,7 +531,6 @@ define([
             selectdata && panel.txtRangeTop.updateBtnHint(this.textSelectRange);
 
             panel.txtRangeLeft.validation = function(value) {
-                !me._noApply &&  me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -550,6 +618,141 @@ define([
                 _.delay(function(){
                     txtRange.focus();
                 },1);
+            }
+        },
+
+        onHidePrintMenu: function () {
+            if (this._isPreviewVisible) {
+                this.api.asc_closePrintPreview(this._isPrint);
+                this._isPreviewVisible = false;
+            }
+        },
+
+        onChangePreviewPage: function (next) {
+            var index = this._navigationPreview.currentPage;
+            if (next) {
+                index++;
+                index = Math.min(index, this._navigationPreview.pageCount - 1);
+            } else {
+                index--;
+                index = Math.max(index, 0);
+            }
+            this.api.asc_drawPrintPreview(index);
+
+            this.updateNavigationButtons(index, this._navigationPreview.pageCount);
+        },
+
+        onPreviewWheel: function (e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+            this.printSettings.txtRangeTop.cmpEl.find('input:focus').blur();
+            this.printSettings.txtRangeLeft.cmpEl.find('input:focus').blur();
+            var forward = (e.deltaY || (e.detail && -e.detail) || e.wheelDelta) < 0;
+            this.onChangePreviewPage(forward);
+        },
+
+        onKeypressPageNumber: function (input, e) {
+            if (e.keyCode === Common.UI.Keys.RETURN) {
+                var box = this.printSettings.$el.find('#print-number-page'),
+                    edit = box.find('input[type=text]'), page = parseInt(edit.val());
+                if (!page || page > this._navigationPreview.pageCount || page < 0) {
+                    edit.select();
+                    this.printSettings.txtNumberPage.setValue(this._navigationPreview.currentPage + 1);
+                    this.printSettings.txtNumberPage.checkValidate();
+                    return false;
+                }
+
+                box.focus(); // for IE
+
+                this.api.asc_drawPrintPreview(page-1);
+                this.api.asc_enableKeyEvents(true);
+                this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
+
+                return false;
+            }
+        },
+
+        onKeyupPageNumber: function (input, e) {
+            if (e.keyCode === Common.UI.Keys.ESC) {
+                var box = this.printSettings.$el.find('#print-number-page');
+                box.focus(); // for IE
+                this.api.asc_enableKeyEvents(true);
+                return false;
+            }
+        },
+
+        onBlurPageNumber: function () {
+            if (this.printSettings.txtNumberPage.getValue() != this._navigationPreview.currentPage + 1) {
+                this.printSettings.txtNumberPage.setValue(this._navigationPreview.currentPage + 1);
+                this.printSettings.txtNumberPage.checkValidate();
+            }
+        },
+
+        updatePreview: function () {
+            if (this._isPreviewVisible) {
+                var adjPrintParams = new Asc.asc_CAdjustPrint(),
+                    printType = this.printSettings.getRange();
+                adjPrintParams.asc_setPrintType(printType);
+                adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+                adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
+
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                opts.asc_setAdvancedOptions(adjPrintParams);
+
+                var pageCount = this.api.asc_updatePrintPreview(opts);
+
+                var newPage;
+                if (this._currentPrintType !== printType) {
+                    newPage = 0;
+                    this._currentPrintType = printType;
+                } else if (this._navigationPreview.currentPage > pageCount - 1) {
+                    newPage = pageCount - 1;
+                } else {
+                    newPage = this._navigationPreview.currentPage;
+                }
+
+                this.api.asc_drawPrintPreview(newPage);
+
+                this.updateNavigationButtons(newPage, pageCount);
+            }
+        },
+
+        onApiChangePreviewSheet: function (index) {
+            var item = this.printSettings.cmbSheet.store.findWhere({value: index});
+            if (item) {
+                this.printSettings.cmbSheet.setValue(item.get('value'));
+                this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
+                var sheetName = this.api.asc_getWorksheetName(index);
+                this.printSettings.updateActiveSheet(sheetName);
+            }
+        },
+
+        updateNavigationButtons: function (page, count) {
+            this._navigationPreview.currentPage = page;
+            this.printSettings.updateCurrentPage(page);
+            this._navigationPreview.pageCount = count;
+            this.printSettings.updateCountOfPages(count);
+            this.disableNavButtons();
+        },
+
+        disableNavButtons: function (force) {
+            if (force) {
+                this.printSettings.btnPrevPage.setDisabled(true);
+                this.printSettings.btnNextPage.setDisabled(true);
+                return;
+            }
+            var curPage = this._navigationPreview.currentPage,
+                pageCount = this._navigationPreview.pageCount;
+            this.printSettings.btnPrevPage.setDisabled(curPage < 1);
+            this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
+        },
+
+        updateDocumentProps: function (index) {
+            if (this._isPreviewVisible) {
+                this._changedProps[index] = this.api.asc_getPageOptions(index);
+                this.updatePreview();
             }
         },
 

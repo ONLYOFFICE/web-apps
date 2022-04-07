@@ -100,6 +100,7 @@ define([
         onLaunch: function () {
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
+            this.viewmode = false;
 
             this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: []};
 
@@ -160,11 +161,21 @@ define([
             this.document = data.doc;
         },
 
-        SetDisabled: function(state) {
+        SetDisabled: function(state, reviewMode, fillFormMode) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            this.view && this.view.SetDisabled(state, this.langs, {comments: !!this._state.wsProps['Objects']});
+            if (reviewMode)
+                this.lockToolbar(Common.enumLock.previewReviewMode, state);
+            else if (fillFormMode)
+                this.lockToolbar(Common.enumLock.viewFormMode, state);
+            else
+                this.lockToolbar(Common.enumLock.viewMode, state);
+
             this.setPreviewMode(state);
+        },
+
+        lockToolbar: function (causes, lock, opts) {
+            Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
         },
 
         setPreviewMode: function(mode) { //disable accept/reject in popover
@@ -179,20 +190,50 @@ define([
             });
         },
 
-        onApiShowChange: function (sdkchange) {
+        isSelectedChangesLocked: function(changes, isShow) {
+            if (!changes || changes.length<1) return true;
+
+            if (isShow)
+                return changes[0].get('lock') || !changes[0].get('editable');
+
+            for (var i=0; i<changes.length; i++) {
+                var change = changes[i];
+                if (change.get('lock') || !change.get('editable'))
+                    return true; // lock button if at least one change is locked
+            }
+            return false;
+        },
+
+        onApiShowChange: function (sdkchange, isShow) {
+            var btnlock = true,
+                changes;
+            if (this.appConfig.canReview && !this.appConfig.isReviewOnly) {
+                if (sdkchange && sdkchange.length>0) {
+                    changes = this.readSDKChange(sdkchange);
+                    btnlock = this.isSelectedChangesLocked(changes, isShow);
+                }
+                if (this._state.lock !== btnlock) {
+                    Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.view.btnAccept, this.view.btnReject]});
+                    if (this.dlgChanges) {
+                        this.dlgChanges.btnAccept.setDisabled(btnlock);
+                        this.dlgChanges.btnReject.setDisabled(btnlock);
+                    }
+                    this._state.lock = btnlock;
+                    Common.Utils.InternalSettings.set(this.view.appPrefix + "accept-reject-lock", btnlock);
+                }
+            }
+
             if (this.getPopover()) {
-                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0) {
+                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0 && isShow) { // show changes balloon only for current position, not selection
                     var i = 0,
-                        changes = this.readSDKChange(sdkchange),
                         posX = sdkchange[0].get_X(),
                         posY = sdkchange[0].get_Y(),
                         animate = ( Math.abs(this._state.posx-posX)>0.001 || Math.abs(this._state.posy-posY)>0.001) || (sdkchange.length !== this._state.changes_length),
                         lock = (sdkchange[0].get_LockUserId()!==null),
-                        lockUser = this.getUserName(sdkchange[0].get_LockUserId()),
-                        editable = changes[0].get('editable');
+                        lockUser = this.getUserName(sdkchange[0].get_LockUserId());
 
                     this.getPopover().hideTips();
-                    this.popoverChanges.reset(changes);
+                    this.popoverChanges.reset(changes || this.readSDKChange(sdkchange));
 
                     if (animate) {
                         if ( this.getPopover().isVisible() ) this.getPopover().hide();
@@ -200,18 +241,6 @@ define([
                     }
 
                     this.getPopover().showReview(animate, lock, lockUser);
-
-                    var btnlock = lock || !editable;
-                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== btnlock) {
-                        this.view.btnAccept.setDisabled(btnlock);
-                        this.view.btnReject.setDisabled(btnlock);
-                        if (this.dlgChanges) {
-                            this.dlgChanges.btnAccept.setDisabled(btnlock);
-                            this.dlgChanges.btnReject.setDisabled(btnlock);
-                        }
-                        this._state.lock = btnlock;
-                        Common.Utils.InternalSettings.set(this.view.appPrefix + "accept-reject-lock", btnlock);
-                    }
                     this._state.posx = posX;
                     this._state.posy = posY;
                     this._state.changes_length = sdkchange.length;
@@ -586,13 +615,15 @@ define([
             }
         },
 
-        onTurnSpelling: function (state) {
+        onTurnSpelling: function (state, suspend) {
             state = (state == 'on');
-            this.view.turnSpelling(state);
+            this.view && this.view.turnSpelling(state);
 
-            Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
-            this.api.asc_setSpellCheck(state);
-            Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-spellcheck", state);
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && !suspend) {
+                Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
+                this.api.asc_setSpellCheck(state);
+                Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-spellcheck", state);
+            }
         },
 
         onReviewViewClick: function(menu, item, e) {
@@ -763,33 +794,24 @@ define([
             Common.NotificationCenter.trigger('editing:disable', disable, {
                 viewMode: false,
                 reviewMode: true,
-                fillFormwMode: false,
+                fillFormMode: false,
                 allowMerge: false,
                 allowSignature: false,
                 allowProtect: false,
-                rightMenu: {clear: true, disable: true},
+                rightMenu: {clear: disable, disable: true},
                 statusBar: true,
                 leftMenu: {disable: false, previewMode: true},
                 fileMenu: {protect: true},
                 navigation: {disable: false, previewMode: true},
                 comments: {disable: false, previewMode: true},
                 chat: false,
-                review: false,
+                review: true,
                 viewport: false,
                 documentHolder: true,
                 toolbar: true,
-                plugins: true
+                plugins: true,
+                protect: true
             }, 'review');
-
-            if (this.view) {
-                this.view.$el.find('.no-group-mask.review').css('opacity', 1);
-
-                this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(disable || !this.langs || this.langs.length<1);
-                    }
-                }, this);
-            }
         },
 
         createToolbarPanel: function() {
@@ -803,9 +825,6 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", !(config.customization && config.customization.spellcheck===false)))
-                me.view.turnSpelling(true);
-
             if ( config.canReview ) {
                 (new Promise(function (resolve) {
                     resolve();
@@ -868,8 +887,8 @@ define([
             }
             me.onChangeProtectSheet();
             if (me.view) {
-                me.view.btnCommentRemove && me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
-                me.view.btnCommentResolve && me.view.btnCommentResolve.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true) || !!this._state.wsProps['Objects']);
+                me.lockToolbar(Common.enumLock.hideComments, !Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true), {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
+                me.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
             }
 
             var val = Common.localStorage.getItem(me.view.appPrefix + "settings-review-hover-mode");
@@ -931,11 +950,7 @@ define([
 
         setLanguages: function (array) {
             this.langs = array;
-            this.view && this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
-                if ( button ) {
-                    button.setDisabled(this.langs.length<1);
-                }
-            }, this);
+            this.lockToolbar(Common.enumLock.noSpellcheckLangs, this.langs.length<1, {array: this.view.btnsDocLang});
         },
 
         onDocLanguage: function() {
@@ -955,6 +970,7 @@ define([
         onLostEditRights: function() {
             this._readonlyRights = true;
             this.view && this.view.onLostEditRights();
+            this.view && this.lockToolbar(Common.enumLock.cantShare, true, {array: [this.view.btnSharing]});
         },
 
         changeAccessRights: function(btn,event,opts) {
@@ -986,7 +1002,7 @@ define([
         },
 
         onCoAuthoringDisconnect: function() {
-            this.SetDisabled(true);
+            this.lockToolbar(Common.enumLock.lostConnect, true)
         },
 
         onUpdateUsers: function() {
@@ -1004,15 +1020,14 @@ define([
                     if (!item.asc_getView())
                         length++;
                 });
-                this.view.btnCompare.setDisabled(length>1 || this.viewmode);
+                Common.Utils.lockControls(Common.enumLock.hasCoeditingUsers, length>1, {array: [this.view.btnCompare]});
             }
         },
 
         commentsShowHide: function(mode) {
             if (!this.view) return;
             var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
-            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
-            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(mode != 'show' && !value || !!this._state.wsProps['Objects']);
+            (value!==undefined) && this.lockToolbar(Common.enumLock.hideComments, mode != 'show' && !value, {array: [this.view.btnCommentRemove, this.view.btnCommentResolve]});
         },
 
         onChangeProtectSheet: function(props) {
@@ -1024,11 +1039,7 @@ define([
             this._state.wsLock = props ? props.wsLock : false;
 
             if (!this.view) return;
-            var leftmenu = this.getApplication().getController('LeftMenu'),
-                isCommentsVisible = leftmenu && leftmenu.isCommentsVisible();
-            var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
-            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
-            (value!==undefined) && this.view.btnCommentResolve && this.view.btnCommentResolve.setDisabled(!isCommentsVisible && !value || !!this._state.wsProps['Objects']);
+            this.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [this.view.btnCommentRemove, this.view.btnCommentResolve]});
         },
 
         textInserted: '<b>Inserted:</b>',

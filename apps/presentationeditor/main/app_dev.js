@@ -143,6 +143,7 @@ require([
             'RightMenu',
             'LeftMenu',
             'Main',
+            'ViewTab',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -151,9 +152,11 @@ require([
             /** coauthoring end **/
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
+            ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
             ,'Transitions'
+            ,'Animation'
         ]
     });
 
@@ -166,6 +169,7 @@ require([
             'presentationeditor/main/app/controller/RightMenu',
             'presentationeditor/main/app/controller/LeftMenu',
             'presentationeditor/main/app/controller/Main',
+            'presentationeditor/main/app/controller/ViewTab',
             'presentationeditor/main/app/view/FileMenuPanels',
             'presentationeditor/main/app/view/ParagraphSettings',
             'presentationeditor/main/app/view/ImageSettings',
@@ -185,11 +189,13 @@ require([
             'common/main/lib/controller/Plugins',
             'presentationeditor/main/app/view/ChartSettings',
             'common/main/lib/controller/ExternalDiagramEditor'
+            ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Themes'
             ,'common/main/lib/controller/Desktop'
             ,'presentationeditor/main/app/controller/Transitions'
+            ,'presentationeditor/main/app/controller/Animation'
         ], function() {
             window.compareVersions = true;
             app.start();

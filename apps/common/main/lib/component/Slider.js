@@ -272,6 +272,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             if (disabled !== this.disabled)
                 this.cmpEl.toggleClass('disabled', disabled);
             this.disabled = disabled;
@@ -386,17 +387,11 @@ define([
                     need_sort = position < minValue || position > maxValue,
                     pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
-
+                
                 if (me.thumbs.length < 3)
                     me.isRemoveThumb = false;
-                
+
                 if (me.isRemoveThumb) {
-                    if (me.thumbs.length < 3) {
-                        $(document).off('mouseup', me.binding.onMouseUp);
-                        $(document).off('mousemove', me.binding.onMouseMove);
-                        me._dragstart = undefined;
-                        return;
-                    }
                     me.trigger('removethumb', me, _.findIndex(me.thumbs, {index: index}));
                     me.trigger('change', me, value, lastValue);
                     me.trigger('changecomplete', me, value, lastValue);
@@ -410,7 +405,6 @@ define([
 
                 $(document).off('mouseup', me.binding.onMouseUp);
                 $(document).off('mousemove', me.binding.onMouseMove);
-
                 me._dragstart = undefined;
                 !me.isRemoveThumb && me.trigger('changecomplete', me, value, lastValue);
                 me.isRemoveThumb = undefined;
@@ -595,6 +589,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             if (disabled !== this.disabled)
                 this.cmpEl.toggleClass('disabled', disabled);
             this.disabled = disabled;

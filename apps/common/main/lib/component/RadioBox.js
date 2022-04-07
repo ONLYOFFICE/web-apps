@@ -133,6 +133,7 @@ define([
             if (!this.rendered)
                 return;
 
+            disabled = !!disabled;
             if (disabled !== this.disabled) {
                 this.$label.toggleClass('disabled', disabled);
                 this.$radio.toggleClass('disabled', disabled);

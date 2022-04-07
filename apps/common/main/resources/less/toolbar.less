@@ -162,7 +162,7 @@
 
     .box-controls {
         //height: @height-controls;         // button has strange offset in IE when odd height
-        padding: 10px 0;
+        padding: 7px 0;
         display: flex;
 
         //background-color: #F2CBBF;
@@ -177,13 +177,14 @@
     .box-panels {
         flex-grow: 1;
         -ms-flex: 1;
+        padding-right: 6px;
 
         .panel:not(.active) {
             display: none;
         }
 
         /* ##adopt-panel-width */
-        .panel:not(#plugns-panel) .compactwidth {
+        .panel .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -192,11 +193,51 @@
 
                     .inner-box-caption {
                         justify-content: center;
+                        align-items: center;
+                        padding: 0 2px;
+                    }
+
+                    .compact-caret {
+                        display: block;
                     }
                 }
             }
         }
         /**/
+    }
+
+    .more-container {
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
+        min-width:auto;
+        padding: 12px 10px 7px 0;
+        border-radius: 0;
+        z-index:999;
+        .compactwidth {
+            .btn-group, .btn-toolbar {
+                &.x-huge {
+                    .caption {
+                        display: none;
+                    }
+
+                    .inner-box-caption {
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .compact-caret {
+                        display: block;
+                    }
+                }
+            }
+        }
+        &[data-tab=pivot] {
+            padding: 5px 10px 0 0;
+        }
+    }
+
+    .more-box {
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
     }
 
     background-color: @background-toolbar-ie;
@@ -213,10 +254,6 @@
         padding-left: 6px;
         font-size: 0;
 
-        &:last-child {
-            padding-right: 6px;
-        }
-
         &.small {
             padding-left: 10px;
 
@@ -225,11 +262,11 @@
             }
         }
 
-        &.no-group-mask {
-            .elset {
-                position: relative;
-            }
-        }
+        //&.no-group-mask {
+        //    .elset {
+        //        position: relative;
+        //    }
+        //}
     }
 
     .elset {
@@ -237,7 +274,7 @@
         font-size: 0;
 
         &:not(:first-child) {
-            margin-top: 6px;
+            margin-top: 8px;
         }
 
         &.font-normal {
@@ -253,7 +290,7 @@
         }
 
         &.long {
-            height: 46px;
+            height: 52px;
         }
 
         &.short {
@@ -425,10 +462,29 @@
         }
 
         // TODO: move to appropriate module
-        .btn-header, .btn-users {
-            &:not(:active) .icon--inverse {
-                background-position-x: 0;
-                background-position-x: @button-small-normal-icon-offset-x;
+        .btn-current-user, .btn-header  {
+            .color-user-name {
+                background-color: @text-normal-ie;
+                background-color: @text-normal;
+                color: @text-inverse-ie;
+                color: @text-inverse;
+            }
+        }
+
+        .btn-header, .btn-users, .btn-header-share {
+            .icon {
+                &.icon--inverse {
+                    background-position-x: 0 !important;
+                    background-position-x: @button-small-normal-icon-offset-x !important;
+                }
+            }
+
+            &:active, &.active {
+                &:not(.disabled) .icon.toolbar__icon {
+                    &.icon--inverse {
+                        background-position-x: @button-small-active-icon-offset-x !important;
+                    }
+                }
             }
 
             svg.icon {
@@ -441,6 +497,13 @@
                 color: @text-normal;
             }
 
+            .inner-box-icon {
+                > svg {
+                    fill: @text-normal-ie;
+                    fill: @text-normal;
+                }
+            }
+
             &:hover:not(.disabled) {
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
@@ -451,31 +514,30 @@
                     background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
 
-                    .icon--inverse {
-                        background-position-x: @button-small-active-icon-offset-x;
-                    }
-
                     svg.icon {
                         fill: @icon-toolbar-header-ie;
                         fill: @icon-toolbar-header;
                     }
 
                     .caption {
-                        color: @text-inverse-ie;
-                        color: @text-inverse;
+                        color: @text-normal-pressed-ie;
+                        color: @text-normal-pressed;
+                    }
+
+                    .inner-box-icon {
+                        > svg {
+                            fill: @text-normal-pressed-ie;
+                            fill: @text-normal-pressed;
+                        }
+                    }
+
+                    .color-user-name {
+                        background-color: @text-normal-pressed-ie;
+                        background-color: @text-normal-pressed;
+                        color: @highlight-button-pressed-ie;
+                        color: @highlight-button-pressed;
                     }
                 }
-            }
-        }
-
-        .btn-current-user {
-            .icon--inverse {
-                background-position-x: 0;
-            }
-
-            svg.icon {
-                fill: @icon-toolbar-header-ie;
-                fill: @icon-toolbar-header;
             }
         }
 
@@ -535,12 +597,10 @@
 
     &.borders--small {
         border-radius: 2px;
-        background-color: @background-normal-ie;
-        background-color: @background-normal;
 
         &:not(:active) {
-            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
-            box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
+            //box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
+            //box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
         }
 
         & {
@@ -567,6 +627,43 @@
     }
 }
 
+#slot-combo-insertshape {
+    width: 150px;
+    height: 46px;
+    .view {
+        padding-right: 14px;
+    }
+    .dataview.field-picker {
+        height: 100%;
+        margin: 0;
+        padding: 2px;
+        .item {
+            margin: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            &:hover {
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
+            &.active {
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
+
+                svg.icon {
+                    fill: @icon-normal-pressed-ie;
+                    fill: @icon-normal-pressed;
+                }
+            }
+        }
+    }
+    .button {
+        width: 14px;
+        .caret {
+            width: 4px;
+            height: 4px;
+        }
+    }
+}
 
 .item-shape {
     .icon {
@@ -722,3 +819,11 @@
     }
 }
 
+#slot-field-zoom {
+    float: left;
+    min-width: 46px;
+}
+
+section .field-styles {
+    width: 100%;
+}

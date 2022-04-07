@@ -121,6 +121,11 @@ class MainController extends Component {
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+
+                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
 
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -182,7 +187,6 @@ class MainController extends Component {
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
 
                     this.appOptions   = {};
                     this.bindEvents();
@@ -378,8 +382,12 @@ class MainController extends Component {
             storeTextSettings.resetDecreaseIndent(value);
         });
 
-        this.api.asc_registerCallback('asc_onTextColor', (color) => {
+        this.api.asc_registerCallback('asc_onTextColor', color => {
             storeTextSettings.resetTextColor(color);
+        });
+
+        this.api.asc_registerCallback('asc_onTextHighLight', color => {
+            storeTextSettings.resetHighlightColor(color);
         });
 
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {
@@ -493,7 +501,9 @@ class MainController extends Component {
     }
 
     applyLicense () {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
+
         const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
@@ -620,9 +630,10 @@ class MainController extends Component {
     }
 
     onAdvancedOptions (type, advOptions) {
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
+        
         if ($$('.dlg-adv-options.modal-in').length > 0) return;
-
-        const _t = this._t;
 
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             Common.Notifications.trigger('preloader:close');
@@ -848,6 +859,7 @@ class MainController extends Component {
     }
 
     componentDidMount () {
+        Common.EditorApi = {get: () => this.api};
         this.initSdk();
     }
 }

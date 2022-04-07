@@ -57,9 +57,7 @@ define([
         initialize: function () {
         },
         onLaunch: function () {
-            this._state = {
-                prcontrolsdisable:undefined
-            };
+            this._state = {};
         },
 
         setApi: function (api) {
@@ -145,17 +143,12 @@ define([
                 control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
-            var need_disable = (paragraph_locked || header_locked || control_plain || content_locked);
-            if (this._state.prcontrolsdisable !== need_disable) {
-                this.view.btnTextField.setDisabled(need_disable);
-                this.view.btnComboBox.setDisabled(need_disable);
-                this.view.btnDropDown.setDisabled(need_disable);
-                this.view.btnCheckBox.setDisabled(need_disable);
-                this.view.btnRadioBox.setDisabled(need_disable);
-                this.view.btnImageField.setDisabled(need_disable);
-                this.view.btnTextField.setDisabled(need_disable);
-                this._state.prcontrolsdisable = need_disable;
-            }
+            var arr = [ this.view.btnTextField, this.view.btnComboBox, this.view.btnDropDown, this.view.btnCheckBox,
+                        this.view.btnRadioBox, this.view.btnImageField ];
+            Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: arr});
+            Common.Utils.lockControls(Common.enumLock.headerLock,    header_locked,      {array: arr});
+            Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
+            Common.Utils.lockControls(Common.enumLock.contentLock,   content_locked,     {array: arr});
         },
 
         onChangeSpecialFormsGlobalSettings: function() {
@@ -302,11 +295,11 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: false,
                     reviewMode: false,
-                    fillFormwMode: true,
+                    fillFormMode: true,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: true, disable: true},
+                    rightMenu: {clear: disable, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
                     fileMenu: false,
@@ -317,10 +310,11 @@ define([
                     viewport: false,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false
+                    plugins: true,
+                    protect: true
                 }, 'forms');
-                if (this.view)
-                    this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
+                // if (this.view)
+                //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
             }
         },
 

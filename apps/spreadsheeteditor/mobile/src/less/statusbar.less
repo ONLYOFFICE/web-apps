@@ -2,11 +2,16 @@
 @fontColor: #000;
 
 .statusbar {
-    .hairline(top, @border-regular-control);
+    .hairline(top, @background-menu-divider);
     height: @statusbar-height;
     min-height: @statusbar-height;
-    background-color: @background-normal;
+    background-color: @background-tertiary;
     display: flex;
+
+    transition: top 400ms;
+    .box-tab {
+        display: flex;
+    }
 
     .tab {
         border: 0 none;
@@ -20,8 +25,16 @@
         text-align: center;
         height: 100%;
         position: relative;
+        
+        &.active {
+            background-color: @background-secondary;
+            font-weight: 600;
+            a {
+                box-shadow: 0px 2px 0 #49795d inset;
+            }
+        }
 
-        .hairline(right, @border-regular-control);
+        .hairline(right, @background-menu-divider);
     }
 
     .statusbar--box-tabs {
@@ -37,8 +50,8 @@
             padding: 0;
             margin: 0;
             height: 100%;
-            white-space: pre;
-            // overflow: hidden;
+            white-space: nowrap;
+            overflow-x: scroll;
             // position: absolute;
             // left: 0;
             // top: 0;
@@ -51,23 +64,26 @@
                     height: 100%;
                     display: block;
                 }
-
-                &:not(.active) {
-                    a {
-                        opacity: 0.5;
-                    }
-                }
             }
         }
     }
 
-    i.icon {
-        width: 22px;
-        height: 22px;
-        &.icon-plus {
-            @source: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>';
-            .encoded-svg-mask(@source, @fontColor);
-            background-image: none;
+    .tab {
+        i.icon {
+            width: 18px;
+            height: 18px;
+            &.icon-plus.bold{
+                
+                // @source: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>';
+                // .encoded-svg-mask(@source, @fontColor);
+                // background-image: none;
+                .encoded-svg-mask('<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M16 9.98658H9.98658V16H8.01342V9.98658H2V8.01342H8.01342V2H9.98658V8.01342H16V9.98658Z" fill="black"/></svg>')
+            }
+
+            &.icon-list.bold {
+                .encoded-svg-mask('<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M2 4H16V6H2V4ZM2 8.01562H16V10.0312H2V8.01562ZM2 12H16V14H2V12Z" fill="black"/></svg>')
+            }
         }
     }
+    
 }

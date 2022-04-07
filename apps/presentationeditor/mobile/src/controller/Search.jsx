@@ -65,9 +65,9 @@ class PESearchView extends SearchView {
         return {...params, ...searchOptions};
     }
 
-    onSearchbarShow(isshowed, bar) {
-        super.onSearchbarShow(isshowed, bar);
-    }
+    // onSearchbarShow(isshowed, bar) {
+    //     super.onSearchbarShow(isshowed, bar);
+    // }
 }
 
 const Search = withTranslation()(props => {
@@ -88,9 +88,10 @@ const Search = withTranslation()(props => {
         f7.popover.close('.document-menu.modal-in', false);
 
         if (params.find && params.find.length) {
-            if (!api.findText(params.find, params.forward, params.caseSensitive) ) {
-                f7.dialog.alert(null, _t.textNoTextFound);
-            }
+            api.asc_findText(params.find, params.forward, params.caseSensitive, function(resultCount) {
+                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
+            });
+
         }
     };
 

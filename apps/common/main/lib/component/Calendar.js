@@ -456,6 +456,13 @@ define([
             }
         },
 
+        focus: function () {
+            var me = this;
+            me.enableKeyEvents && me.monthPicker && _.delay(function() {
+                me.monthPicker.focus();
+            }, 10);
+        },
+
         textJanuary: 'January',
         textFebruary: 'February',
         textMarch: 'March',

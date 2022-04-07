@@ -516,13 +516,27 @@ define([
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                $('#status-addtabs-box')[this.mode.isEdit ? 'show' : 'hide']();
+                $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+                if (this.mode.isEditOle) { // change hints order
+                    this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollFirst.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollLast.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollBack.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollNext.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.cntSheetList.$el.find('button').attr('data-hint', '1');
+                    this.cntSheetList.$el.find('button').removeAttr('data-hint-title'); // 'v' hint is used for paste
+                    this.cntZoom.$el.find('.dropdown-toggle').attr('data-hint', '1');
+                }
                 this.updateTabbarBorders();
             },
 
             setVisible: function(visible) {
                 visible ? this.show(): this.hide();
+            },
+
+            isVisible: function() {
+                return this.$el && this.$el.is(':visible');
             },
 
             update: function() {
@@ -606,7 +620,7 @@ define([
                     if (this.mode.isEdit) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
-                        }));
+                        }), this.mode.isEditOle ? '1' : '0');
                     }
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
@@ -695,7 +709,7 @@ define([
                 }
 
                 if (this.mode.isEdit) {
-                    this.tabbar.addDataHint(index);
+                    this.tabbar.addDataHint(index, this.mode.isEditOle ? '1' : '0');
                 }
 
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
@@ -706,7 +720,7 @@ define([
 
             onTabMenu: function (o, index, tab, select) {
                 var me = this;
-                if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                if (this.mode.isEdit  && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
                     !this.mode.isDisconnected ) {
@@ -741,6 +755,7 @@ define([
                         this.tabMenu.items[7].setDisabled(select.length>1);
                         this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
 
+                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle);
                         this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
@@ -886,11 +901,12 @@ define([
                 }
             },
 
-            changeViewMode: function (edit) {
+            changeViewMode: function (mode) {
+                var edit = mode.isEdit;
                 if (edit) {
                     this.tabBarBox.css('left',  '175px');
                 } else {
-                    this.tabBarBox.css('left',  '');
+                    this.tabBarBox.css('left', '');
                 }
 
                 this.tabbar.options.draggable = edit;
@@ -964,7 +980,7 @@ define([
                     //this.boxAction.show();
                 }
                 this.updateTabbarBorders();
-                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
+                (this.tabbar.getCount()>0) && this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
             },
 
             updateNumberOfSheet: function (active, count) {
@@ -983,7 +999,7 @@ define([
                 return _message;
             },
 
-            showStatusMessage: function(message) {
+            showStatusMessage: function(message, callback) {
                 this.statusMessage = message;
                 if (!this.actionWidth) {
                     this.actionWidth = message.length > 22 ? 166 : 140;
@@ -1002,12 +1018,17 @@ define([
                 _.delay(function(){
                     me.updateTabbarBorders();
                     me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
+                    callback && callback();
                 },30);
             },
 
             clearStatusMessage: function() {
                 this.labelAction.text('');
                 this.statusMessage = undefined;
+            },
+
+            getStatusLabel: function() {
+                return this.labelAction;
             },
 
             sheetIndexText      : 'Sheet {0} of {1}',

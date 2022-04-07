@@ -9,7 +9,7 @@
         left: 0;
         top: 0;
         width: 100%;
-        font-weight: bold;
+        .font-weight-bold();
         padding: 10px 12px;
         border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
@@ -34,6 +34,12 @@
 
         .name.not-header {
             font-style: italic;
+        }
+
+        .name {
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 350px;
         }
     }
 }

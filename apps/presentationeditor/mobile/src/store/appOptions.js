@@ -12,6 +12,7 @@ export class storeAppOptions {
             lostEditingRights: observable,
             changeEditingRights: action,
             canBrandingExt: observable,
+            canBranding: observable,
 
             isDocReady: observable,
             changeDocReady: action
@@ -21,6 +22,7 @@ export class storeAppOptions {
     isEdit = false;
     canViewComments = false;
     canBrandingExt = false;
+    canBranding = false;
     config = {};
 
     lostEditingRights = false;
@@ -94,7 +96,7 @@ export class storeAppOptions {
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
         this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
-        this.canChat = this.canLicense && !this.isOffline && !((typeof (this.customization) == 'object') && this.customization.chat === false);
+        this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments;
@@ -110,7 +112,9 @@ export class storeAppOptions {
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
         this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseUserInfoPermissions = this.canLicense && !!permissions.userInfoGroups;
         this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);
+        this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
     }
 }

@@ -80,6 +80,7 @@
 @import "../../../../common/main/resources/less/spinner.less";
 @import "../../../../common/main/resources/less/checkbox.less";
 @import "../../../../common/main/resources/less/opendialog.less";
+@import "../../../../common/main/resources/less/advanced-settings-window.less";
 
 @toolbarBorderColor:            @border-toolbar-ie;
 @toolbarBorderColor:            @border-toolbar;
@@ -456,6 +457,14 @@
         background-position: -@icon-width*4 0;
         background-position: -@icon-width*4 @icon-normal-top;
     }
+    &.zoom-in {
+        background-position: -@icon-width*5 0;
+        background-position: -@icon-width*5 @icon-normal-top;
+    }
+    &.zoom-out {
+        background-position: -@icon-width*6 0;
+        background-position: -@icon-width*6 @icon-normal-top;
+    }
     &.zoom-up {
         background-position: -@icon-width*5 -@icon-height;
     }
@@ -622,6 +631,32 @@
     background-color: @background-notification-popover;
     .box-shadow(0 4px 15px -2px rgba(0, 0, 0, 0.5));
     font-size: 11px;
+}
+
+.menu-zoom {
+    line-height: @line-height-base;
+
+    .title {
+        padding: 5px 5px 5px 28px;
+        float: left;
+        font-weight: normal;
+        font-size: 11px;
+        margin: 0px;
+        text-overflow: ellipsis;
+    }
+
+    .zoom {
+        padding: 5px 3px;
+        float: right;
+        min-width: 40px;
+        text-align: center;
+        font-weight: normal;
+        font-size: 11px;
+        padding-bottom: 0px;
+    }
+    .mi-icon  {
+        margin: 0;
+    }
 }
 
 .font-size-small {

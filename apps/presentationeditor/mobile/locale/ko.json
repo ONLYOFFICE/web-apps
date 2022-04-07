@@ -37,6 +37,9 @@
       "textCustomColors": "사용자 정의 색상",
       "textStandartColors": "표준 색상",
       "textThemeColors": "테마 색"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -121,9 +124,9 @@
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
       "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textNoTextFound": "Text not found",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -376,7 +379,6 @@
       "textTopLeft": "왼쪽 위",
       "textTopRight": "오른쪽 위",
       "textTotalRow": "합계",
-      "textTransition": "전환",
       "textTransitions": "전환",
       "textType": "유형",
       "textUnCover": "당기기",
@@ -388,6 +390,8 @@
       "textZoomIn": "확대",
       "textZoomOut": "축소",
       "textZoomRotate": "확대 / 축소 및 회전",
+      "textAutomatic": "Automatic",
+      "textDesign": "Design",
       "textOk": "Ok"
     },
     "Settings": {
@@ -467,7 +471,9 @@
       "txtScheme6": "광장",
       "txtScheme7": "같음",
       "txtScheme8": "플로우",
-      "txtScheme9": "발견"
+      "txtScheme9": "발견",
+      "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

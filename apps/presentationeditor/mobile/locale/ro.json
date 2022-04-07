@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
     "textEmail": "Email",
@@ -32,6 +32,9 @@
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUsers": "Utilizatori"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "Fără umplere"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -104,9 +107,12 @@
       "textHasMacros": "Fișierul conține macrocomenzi.<br>Doriți să le rulați?",
       "textNo": "Nu",
       "textNoLicenseTitle": "Ați atins limita stabilită de licență",
+      "textNoTextFound": "Textul nu a fost găsit",
       "textOpenFile": "Introduceți parola pentru deschidere fișier",
       "textPaidFeature": "Funcția contra plată",
       "textRemember": "Reține opțiunea mea",
+      "textReplaceSkipped": "A avut loc o înlocuire. {0} apariții ignorate.",
+      "textReplaceSuccess": "Căutarea a fost finalizată. Înlocuiri: {0}",
       "textYes": "Da",
       "titleLicenseExp": "Licența a expirat",
       "titleServerVersion": "Editorul a fost actualizat",
@@ -120,10 +126,7 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
   "Error": {
@@ -225,6 +228,7 @@
       "textLinkTo": "Legătură la",
       "textLinkType": "Tip link",
       "textNextSlide": "Diapozitivul următor",
+      "textOk": "OK",
       "textOther": "Altele",
       "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
       "textPictureFromURL": "Imaginea prin URL",
@@ -237,8 +241,7 @@
       "textSlideNumber": "Număr diapozitiv",
       "textTable": "Tabel",
       "textTableSize": "Dimensiune tabel",
-      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
-      "textOk": "Ok"
+      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -258,6 +261,7 @@
       "textAllCaps": "Cu majuscule",
       "textApplyAll": "Aplicarea la toate diapozitivele ",
       "textAuto": "Auto",
+      "textAutomatic": "Automat",
       "textBack": "Înapoi",
       "textBandedColumn": "Coloana alternantă",
       "textBandedRow": "Rând alternant",
@@ -282,6 +286,7 @@
       "textDefault": "Textul selectat",
       "textDelay": "Amânare",
       "textDeleteSlide": "Ștergere diapozitiv",
+      "textDesign": "Proiectare",
       "textDisplay": "Afișare",
       "textDistanceFromText": "Distanță de la text",
       "textDistributeHorizontally": "Distribuire pe orizontală",
@@ -333,6 +338,7 @@
       "textNoTextFound": "Textul nu a fost găsit",
       "textNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "textNumbers": "Numere",
+      "textOk": "OK",
       "textOpacity": "Transparență",
       "textOptions": "Opțiuni",
       "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
@@ -376,7 +382,6 @@
       "textTopLeft": "Stânga sus",
       "textTopRight": "Dreapta sus",
       "textTotalRow": "Rând total",
-      "textTransition": "Tranziții",
       "textTransitions": "Tranziții",
       "textType": "Tip",
       "textUnCover": "Descoperire",
@@ -387,13 +392,12 @@
       "textZoom": "Zoom",
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
-      "textZoomRotate": "Zoom și rotire",
-      "textOk": "Ok"
+      "textZoomRotate": "Zoom și rotire"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Ecran lat (16:9)",
-      "textAbout": "Despre",
+      "textAbout": "Informații",
       "textAddress": "adresă:",
       "textApplication": "Aplicația",
       "textApplicationSettings": "Setări Aplicație",
@@ -405,6 +409,7 @@
       "textColorSchemes": "Scheme de culori",
       "textComment": "Comentariu",
       "textCreated": "A fost creat la",
+      "textDarkTheme": "Tema întunecată",
       "textDisableAll": "Se dezactivează toate",
       "textDisableAllMacrosWithNotification": "Se dezactivează toate macrocomenzileâ cu notificare",
       "textDisableAllMacrosWithoutNotification": "Se dezactivează toate macrocomenzile fără notificare",
@@ -467,7 +472,8 @@
       "txtScheme6": "Concurență",
       "txtScheme7": "Echilibru",
       "txtScheme8": "Flux",
-      "txtScheme9": "Forjă"
+      "txtScheme9": "Forjă",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

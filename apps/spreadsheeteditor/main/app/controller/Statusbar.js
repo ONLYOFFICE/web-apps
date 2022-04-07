@@ -68,7 +68,7 @@ define([
                     'sheet:updateColors':   _.bind(this.updateTabsColors, this),
                     'sheet:move':           _.bind(this.moveWorksheet, this)
                 },
-                'Common.Views.Header': {
+                'ViewTab': {
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 }
             });
@@ -86,6 +86,7 @@ define([
             this.statusbar = this.createView('Statusbar').render();
             this.statusbar.$el.css('z-index', 10);
             this.statusbar.labelZoom.css('min-width', 80);
+            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, 100));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
 
             this.bindViewEvents(this.statusbar, this.events);
@@ -255,6 +256,11 @@ define([
             this.statusbar.$el.css('z-index', '');
             this.statusbar.tabMenu.on('item:click', _.bind(this.onTabMenu, this));
             this.statusbar.btnAddWorksheet.on('click', _.bind(this.onAddWorksheetClick, this));
+            if (!Common.UI.LayoutManager.isElementVisible('statusBar-actionStatus') || this.statusbar.mode.isEditOle) {
+                this.statusbar.customizeStatusBarMenu.items[0].setVisible(false);
+                this.statusbar.customizeStatusBarMenu.items[1].setVisible(false);
+                this.statusbar.boxAction.addClass('hide');
+            }
 
             Common.NotificationCenter.on('window:resize', _.bind(this.onWindowResize, this));
             Common.NotificationCenter.on('cells:range',   _.bind(this.onRangeDialogMode, this));
@@ -774,22 +780,22 @@ define([
                 this._sheetViewTip.hide();
         },
 
-        onChangeViewMode: function(item, compact) {
+        onChangeViewMode: function(item, compact, suppressEvent) {
             this.statusbar.fireEvent('view:compact', [this.statusbar, compact]);
-            Common.localStorage.setBool('sse-compact-statusbar', compact);
+            !suppressEvent && Common.localStorage.setBool('sse-compact-statusbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'status');
             this.statusbar.onChangeCompact(compact);
 
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
-        setStatusCaption: function(text, force, delay) {
+        setStatusCaption: function(text, force, delay, callback) {
             if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
                 return;
 
             this.timerCaption = undefined;
             if (text.length) {
-                this.statusbar.showStatusMessage(text);
+                this.statusbar.showStatusMessage(text, callback);
                 if (delay>0)
                     this.timerCaption = (new Date()).getTime() + delay;
             } else
@@ -806,12 +812,41 @@ define([
             return isDragDrop;
         },
 
+        showDisconnectTip: function () {
+            var me = this;
+            if (!this.disconnectTip) {
+                var target = this.statusbar.getStatusLabel();
+                target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
+                this.disconnectTip = new Common.UI.SynchronizeTip({
+                    target  : target,
+                    text    : this.textDisconnect,
+                    placement: 'top',
+                    position: this.statusbar.isVisible() ? undefined : {bottom: 0},
+                    showLink: false,
+                    style: 'max-width: 310px;'
+                });
+                this.disconnectTip.on({
+                    'closeclick': function() {
+                        me.disconnectTip.hide();
+                        me.disconnectTip = null;
+                    }
+                });
+            }
+            this.disconnectTip.show();
+        },
+
+        hideDisconnectTip: function() {
+            this.disconnectTip && this.disconnectTip.hide();
+            this.disconnectTip = null;
+        },
+
         zoomText        : 'Zoom {0}%',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',
         warnDeleteSheet : 'The worksheet maybe has data. Proceed operation?',
         strSheet        : 'Sheet',
         textSheetViewTip: 'You are in Sheet View mode. Filters and sorting are visible only to you and those who are still in this view.',
-        textSheetViewTipFilters: 'You are in Sheet View mode. Filters are visible only to you and those who are still in this view.'
+        textSheetViewTipFilters: 'You are in Sheet View mode. Filters are visible only to you and those who are still in this view.',
+        textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.'
     }, SSE.Controllers.Statusbar || {}));
 });

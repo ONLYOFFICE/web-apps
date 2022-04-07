@@ -33,6 +33,9 @@
       "textTryUndoRedo": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di modifica collaborativa.",
       "textUsers": "Utenti"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Nessun riempimento"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Colori personalizzati",
       "textStandartColors": "Colori standard",
@@ -104,9 +107,12 @@
       "textHasMacros": "Il file contiene delle macro automatiche.<br>Vuoi eseguirle?",
       "textNo": "No",
       "textNoLicenseTitle": "È stato raggiunto il limite della licenza",
+      "textNoTextFound": "Testo non trovato",
       "textOpenFile": "Inserisci la password per aprire il file",
       "textPaidFeature": "Funzionalità a pagamento",
       "textRemember": "Ricordare la mia scelta",
+      "textReplaceSkipped": "La sostituzione è stata effettuata. {0} casi sono stati saltati.",
+      "textReplaceSuccess": "La ricerca è stata effettuata. Casi sostituiti: {0}",
       "textYes": "Sì",
       "titleLicenseExp": "La licenza è scaduta",
       "titleServerVersion": "L'editor è stato aggiornato",
@@ -120,10 +126,7 @@
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
   "Error": {
@@ -225,6 +228,7 @@
       "textLinkTo": "Link a",
       "textLinkType": "Tipo di link",
       "textNextSlide": "Diapositiva successiva",
+      "textOk": "OK",
       "textOther": "Altro",
       "textPictureFromLibrary": "Immagine dalla libreria",
       "textPictureFromURL": "Immagine dall'URL",
@@ -237,8 +241,7 @@
       "textSlideNumber": "Numero di diapositiva",
       "textTable": "Tabella",
       "textTableSize": "Dimensione di tabella",
-      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
-      "textOk": "Ok"
+      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -258,6 +261,7 @@
       "textAllCaps": "Tutto maiuscolo",
       "textApplyAll": "Applica a tutte le diapositive",
       "textAuto": "Auto",
+      "textAutomatic": "Automatico",
       "textBack": "Indietro",
       "textBandedColumn": "Colonne a bande",
       "textBandedRow": "Righe a bande",
@@ -282,6 +286,7 @@
       "textDefault": "Testo selezionato",
       "textDelay": "Ritardo",
       "textDeleteSlide": "Eliminare diapositiva",
+      "textDesign": "Design",
       "textDisplay": "Visualizzare",
       "textDistanceFromText": "Distanza dal testo",
       "textDistributeHorizontally": "Distribuire orizzontalmente",
@@ -333,6 +338,7 @@
       "textNoTextFound": "Testo non trovato",
       "textNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "textNumbers": "Numeri",
+      "textOk": "OK",
       "textOpacity": "Opacità",
       "textOptions": "Opzioni",
       "textPictureFromLibrary": "Immagine dalla libreria",
@@ -376,7 +382,6 @@
       "textTopLeft": "In alto a sinistra",
       "textTopRight": "In alto a destra",
       "textTotalRow": "Riga del totale",
-      "textTransition": "Transizione",
       "textTransitions": "Transizioni",
       "textType": "Tipo",
       "textUnCover": "Scoprire",
@@ -387,8 +392,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ingrandire",
       "textZoomOut": "Rimpicciolire",
-      "textZoomRotate": "Zoom e rotazione",
-      "textOk": "Ok"
+      "textZoomRotate": "Zoom e rotazione"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -405,6 +409,7 @@
       "textColorSchemes": "Schemi di colori",
       "textComment": "Commento",
       "textCreated": "Creato",
+      "textDarkTheme": "‎Tema scuro‎",
       "textDisableAll": "Disabilitare tutto",
       "textDisableAllMacrosWithNotification": "Disattivare tutte le macro con notifica",
       "textDisableAllMacrosWithoutNotification": "Disattivare tutte le macro senza notifica",
@@ -467,7 +472,8 @@
       "txtScheme6": "Concorso",
       "txtScheme7": "Equità",
       "txtScheme8": "Flusso",
-      "txtScheme9": "Fonderia"
+      "txtScheme9": "Fonderia",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

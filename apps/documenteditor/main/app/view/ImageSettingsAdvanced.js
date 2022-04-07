@@ -1554,6 +1554,17 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
         _setShapeDefaults: function(props) {
             if (props ){
+                if (props.get_FromSmartArt()) {
+                    this.radioHSizePc.setDisabled(true);
+                    this.radioVSizePc.setDisabled(true);
+                    this.btnsCategory[2].setDisabled(true);
+                }
+                if (props.get_FromSmartArtInternal()) {
+                    this.chAutofit.setDisabled(true);
+                    this.chFlipHor.setDisabled(true);
+                    this.chFlipVert.setDisabled(true);
+                }
+
                 var stroke = props.get_stroke();
                 if (stroke) {
                     var value = stroke.get_linejoin();

@@ -4,15 +4,10 @@
 
     .status-label {
         position: relative;
-        top: 1px;
     }
 
     #status-label-pages, #status-label-zoom {
         cursor: pointer;
-    }
-
-    #status-label-pages, #status-label-action {
-        margin-top: 2px;
     }
 
     #status-users-icon, #status-users-count {
@@ -33,60 +28,55 @@
     }
 
     #btn-zoom-topage {
-        margin-right: 9px;
-        margin-left: 6px;
+        margin-right: 8px;
     }
 
     #btn-zoom-towidth {
-        margin-right: 9px;
-    }
-
-    #btn-doc-lang {
-        margin-right: 9px;
-    }
-
-    #btn-doc-spell {
-        margin-right: 5px;
+        margin-right: 8px;
     }
 
     .status-group {
         display: table-cell;
         white-space: nowrap;
         vertical-align: top;
-        padding-top: 3px;
         &.dropup {
             position: static;
+        }
+
+        .status-label.margin-top-large {
+            margin-top: 6px;
+        }
+
+        button.margin-top-small,
+        .margin-top-small > button,
+        .margin-top-small > .btn-group {
+            margin-top: 3px;
         }
     }
 
     .separator {
-        margin: -2px 3px 0 4px;
+        margin: 0 6px;
 
         &.short {
             height: 25px;
         }
+
+        &.space {
+            margin: 0px 2px;
+            border: none;
+        }
     }
 
-    .cnt-lang {
-        display: inline-block;
-        cursor: pointer;
-        margin-left: 6px;
-
-        label {
-            cursor: pointer;
-        }
-
-        &.disabled {
-            cursor: default;
-            label {
-                cursor: default;
-            }
+    #btn-cnt-lang {
+        button {
+            font-weight: 700;
         }
     }
 
     .cnt-zoom {
         display: inline-block;
-
+        vertical-align: middle;
+        margin-top: 4px;
         .dropdown-menu {
             min-width: 80px;
             margin-left: -4px;

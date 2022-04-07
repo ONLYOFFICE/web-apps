@@ -325,6 +325,16 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-numbered", checked);
                     me.api.asc_SetAutomaticNumberedLists(checked);
                 });
+                this.chDoubleSpaces = new Common.UI.CheckBox({
+                    el: panelAutoFormat.find('#id-autocorrect-dialog-chk-double-space'),
+                    labelText: this.textDoubleSpaces,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-double-space")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-double-space", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-double-space", checked);
+                    me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(checked);
+                });
                 // AutoCorrect
                 this.chFLSentence = new Common.UI.CheckBox({
                     el: $window.find('#id-autocorrect-dialog-chk-fl-sentence'),
@@ -335,6 +345,17 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-sentence", checked);
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-sentence", checked);
                     me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
+                });
+
+                this.chFLCells = new Common.UI.CheckBox({
+                    el: $window.find('#id-autocorrect-dialog-chk-fl-cells'),
+                    labelText: this.textFLCells,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-fl-cells")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-fl-cells", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-fl-cells", checked);
+                    me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(checked);
                 });
 
                 this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
@@ -384,7 +405,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     this.chHyperlink // 2 tab
                 ];
             arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
-            arr = arr.concat(this.chFLSentence ? [this.chFLSentence] : []);
+            arr = arr.concat(this.chFLSentence ? [this.chFLSentence, this.chFLCells] : []);
             return arr;
         },
 
@@ -829,7 +850,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         textNewRowCol: 'Include new rows and columns in table',
         textAutoCorrect: 'AutoCorrect',
         textFLSentence: 'Capitalize first letter of sentences',
-        textHyperlink: 'Internet and network paths with hyperlinks'
+        textHyperlink: 'Internet and network paths with hyperlinks',
+        textFLCells: 'Capitalize first letter of table cells',
+        textDoubleSpaces: 'Add period with double-space'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });

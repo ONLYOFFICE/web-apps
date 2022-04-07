@@ -1,0 +1,167 @@
+// Common styles
+@import "colors-table-ie-fix.less";
+@import "variables.less";
+@import "colors-table.less";
+@import "asc-mixins.less";
+#cell-editing-box {
+    border-bottom: solid @scaled-one-px-value-ie @border-toolbar-ie;
+    border-bottom: solid @scaled-one-px-value @border-toolbar;
+    border-left: solid @scaled-one-px-value-ie @border-toolbar-ie;
+    border-left: solid @scaled-one-px-value @border-toolbar;
+    min-height: 20px;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
+
+    .ce-group-name {
+        float: left;
+        height: 20px;
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
+
+        #ce-cell-name {
+            width: 100px;
+            height: 19px;
+            //height: calc(19px + (1px - 1px/var(--pixel-ratio-factor,1)));
+            padding: 0px 19px 0 4px;
+            vertical-align: top;
+            display: inline-block;
+            border: 0 none;
+            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-right: @scaled-one-px-value solid @border-toolbar;
+            transition: none;
+            -webkit-transition: none;
+            box-shadow: 0 @scaled-one-px-value-ie 0 0 @border-toolbar-ie;
+            box-shadow: 0 @scaled-one-px-value 0 0 @border-toolbar;
+
+            &[disabled] {
+                color: @border-preview-select-ie;
+                color: @border-preview-select;
+                opacity: 0.5;
+            }
+        }
+
+        #ce-cell-name-menu {
+            display: inline-block;
+            position: absolute;
+            left: 80px;
+            background-color: @background-toolbar-ie;
+            background-color: @background-toolbar;
+
+            button {
+                background-color: @background-normal-ie;
+                background-color: @background-normal;
+                height: 19px;
+
+                &.disabled {
+                    opacity: 0.5;
+                }
+
+                &:active:not(.disabled),
+                &.active:not(.disabled){
+                    .caret {
+                        border-color: @icon-normal;
+                    }
+                }
+            }
+
+            .dropdown-menu a {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        #ce-func-label {
+            height: 20px;
+            margin-left: -3px;
+            .border-radius(0);
+
+            &.disabled {
+                opacity: 0.4;
+            }
+        }
+    }
+
+    &:not(.expanded) {
+        #ce-func-label {
+            border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-bottom: @scaled-one-px-value solid @border-toolbar;
+        }
+    }
+
+    .ce-group-expand {
+        float: right;
+        //height: 20px;
+        height: 100%;
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
+    }
+
+    .ce-group-content {
+        margin: 0 2px 0 120px;
+        height: 100%;
+        border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-left: @scaled-one-px-value solid @border-toolbar;
+        #ce-cell-content {
+            height: 100%;
+            resize: none;
+            min-height: 19px;
+            border: 0 none;
+            font-size: 12px;
+            line-height: 18px;
+            padding-bottom: 0;
+            padding-top: 0;
+            &[disabled] {
+                color: @border-preview-select-ie;
+                color: @border-preview-select;
+                opacity: 0.5;
+            }
+        }
+    }
+
+    #ce-cell-name, #ce-cell-content {
+        border-radius: 0;
+    }
+
+    &+.layout-resizer {
+        border-top: 0 none;
+        border-bottom: 0 none;
+
+        &.move {
+            border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-top: @scaled-one-px-value solid @border-toolbar;
+            border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-bottom: @scaled-one-px-value solid @border-toolbar;
+            opacity: 0.4;
+        }
+    }
+}
+
+#ce-btn-expand {
+    width: 16px;
+    height: 18px;
+    .border-radius(0);
+    background: transparent;
+    padding: 0 2px 0;
+
+    .caret {
+        transition: transform .2s;
+        border-color: @icon-normal;
+    }
+
+    &.btn-collapse {
+        .caret {
+            transform: rotate(45deg);
+        }
+    }
+}
+
+.layout-resizer {
+    z-index: @zindex-dropdown - 10;
+    background: @background-toolbar-ie;
+    background: @background-toolbar;
+    border: 0 none;
+
+    &.move {
+        opacity: 0.4;
+    }
+}

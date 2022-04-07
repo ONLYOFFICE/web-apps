@@ -95,7 +95,7 @@ define([
                 labelText: this.textDontShow
             });
 
-            this.getChild().find('.btn').on('click', _.bind(this.onBtnClick, this));
+            this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.autoSize();
         },
 

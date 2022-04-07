@@ -143,9 +143,11 @@ require([
             'Links',
             'FormsTab',
             'Navigation',
+            'PageThumbnails',
             'RightMenu',
             'LeftMenu',
             'Main',
+            'ViewTab',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -155,6 +157,7 @@ require([
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ExternalMergeEditor'
+            ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
         ]
@@ -169,10 +172,12 @@ require([
                 'documenteditor/main/app/controller/Links',
                 'documenteditor/main/app/controller/FormsTab',
                 'documenteditor/main/app/controller/Navigation',
+                'documenteditor/main/app/controller/PageThumbnails',
                 'documenteditor/main/app/controller/Statusbar',
                 'documenteditor/main/app/controller/RightMenu',
                 'documenteditor/main/app/controller/LeftMenu',
                 'documenteditor/main/app/controller/Main',
+                'documenteditor/main/app/controller/ViewTab',
                 'documenteditor/main/app/view/FileMenuPanels',
                 'documenteditor/main/app/view/ParagraphSettings',
                 'documenteditor/main/app/view/HeaderFooterSettings',
@@ -193,6 +198,7 @@ require([
                 ,'documenteditor/main/app/view/ChartSettings'
                 ,'common/main/lib/controller/ExternalDiagramEditor'
                 ,'common/main/lib/controller/ExternalMergeEditor'
+                ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/ReviewChanges'
                 ,'common/main/lib/controller/Protection'
                 ,'common/main/lib/controller/Themes'

@@ -80,9 +80,9 @@ class DESearchView extends SearchView {
     }
 
     onSearchbarShow(isshowed, bar) {
-        super.onSearchbarShow(isshowed, bar);
-
+        // super.onSearchbarShow(isshowed, bar);
         const api = Common.EditorApi.get();
+
         if ( isshowed && this.state.searchQuery.length ) {
             const checkboxMarkResults = f7.toggle.get('.toggle-mark-results');
             api.asc_selectSearchingResults(checkboxMarkResults.checked);
@@ -108,12 +108,12 @@ const Search = withTranslation()(props => {
         f7.popover.close('.document-menu.modal-in', false);
 
         if (params.find && params.find.length) {
-            
-            if(params.highlight) api.asc_selectSearchingResults(true);
-            
-            if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
-                f7.dialog.alert(null, _t.textNoTextFound);
-            }
+
+            if (params.highlight) api.asc_selectSearchingResults(true);
+
+            api.asc_findText(params.find, params.forward, params.caseSensitive, function (resultCount) {
+                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
+            });
         }
     };
 

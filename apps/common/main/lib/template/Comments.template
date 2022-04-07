@@ -1,4 +1,4 @@
-<% if (!hide) { %>
+<% if (!hide && !filtered) { %>
     <div id="<%= id %>" class="user-comment-item">
 
         <!-- comment block -->
@@ -70,16 +70,20 @@
 
         <!-- edit buttons -->
 
-        <% if (!editText && !lock && !scope.viewmode) { %>
+        <% if (!editText && !lock) { %>
             <div class="edit-ct">
-                <% if (editable) { %>
-                    <div class="btn-edit img-commonctrl"></div>
+                <% if (!scope.viewmode) { %>
+                    <% if (editable) { %>
+                        <div class="btn-edit img-commonctrl"></div>
+                    <% } %>
+                    <% if (removable) { %>
+                        <div class="btn-delete img-commonctrl"></div>
+                    <% } %>
                 <% } %>
-                <% if (removable) { %>
-                    <div class="btn-delete img-commonctrl"></div>
-                <% } %>
-                <% if (editable) { %>
-                <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+                <% if (editable && !scope.viewmode) { %>
+                    <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+                <% } else if ((!editable || scope.viewmode) && resolved) { %>
+                    <div class="icon-resolve i-comment-resolved" data-toggle="tooltip"></div>
                 <% } %>
             </div>
         <% } %>

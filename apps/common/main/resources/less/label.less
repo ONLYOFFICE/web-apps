@@ -1,0 +1,26 @@
+.label-cmp {
+    margin-bottom: 0;
+    .font-size-normal();
+    font-weight: normal;
+
+    .icon {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        padding: 0;
+        margin-top: -2px;
+        display: inline-block;
+        background-repeat: no-repeat;
+        vertical-align: middle;
+    }
+
+    &:not(:disabled) {
+        .icon {
+            opacity: @component-normal-icon-opacity;
+        }
+    }
+
+    .caption {
+        padding: 0 4px;
+    }
+}

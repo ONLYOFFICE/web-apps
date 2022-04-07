@@ -142,9 +142,9 @@ require([
             'Print',
             'Toolbar',
             'Statusbar',
-            'Spellcheck',
             'RightMenu',
             'LeftMenu',
+            'Spellcheck',
             'Main',
             'PivotTable',
             'DataTab',
@@ -155,6 +155,7 @@ require([
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
+            ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
         ]
@@ -167,9 +168,9 @@ require([
             'spreadsheeteditor/main/app/controller/CellEditor',
             'spreadsheeteditor/main/app/controller/Toolbar',
             'spreadsheeteditor/main/app/controller/Statusbar',
-            'spreadsheeteditor/main/app/controller/Spellcheck',
             'spreadsheeteditor/main/app/controller/RightMenu',
             'spreadsheeteditor/main/app/controller/LeftMenu',
+            'spreadsheeteditor/main/app/controller/Spellcheck',
             'spreadsheeteditor/main/app/controller/Main',
             'spreadsheeteditor/main/app/controller/Print',
             'spreadsheeteditor/main/app/controller/PivotTable',
@@ -193,6 +194,7 @@ require([
             'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
             'common/main/lib/controller/Plugins'
+            ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Themes'

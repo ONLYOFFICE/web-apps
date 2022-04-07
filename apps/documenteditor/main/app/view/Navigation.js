@@ -71,7 +71,9 @@ define([
                 enableKeyEvents: false,
                 emptyText: this.txtEmpty,
                 emptyItemText: this.txtEmptyItem,
-                style: 'border: none;'
+                style: 'border: none;',
+                delayRenderTips: true,
+                minScrollbarLength: 25
             });
             this.viewNavigationList.cmpEl.off('click');
             this.navigationMenu = new Common.UI.Menu({

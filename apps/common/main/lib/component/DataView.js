@@ -223,6 +223,7 @@ define([
             listenStoreEvents: true,
             allowScrollbar: true,
             scrollAlwaysVisible: false,
+            minScrollbarLength: 40,
             showLast: true,
             useBSKeydown: false,
             cls: ''
@@ -272,10 +273,12 @@ define([
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.minScrollbarLength = me.options.minScrollbarLength || 40;
             me.tabindex = me.options.tabindex || 0;
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
+            me.delaySelect = me.options.delaySelect || false;
             me.rendered       = false;
             me.dataViewItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -354,7 +357,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -395,8 +398,9 @@ define([
                     rec.set({selected: false});
                 });
 
-                if (record)
+                if (record) {
                     record.set({selected: true});
+                }
             } else {
                 if (record)
                     record.set({selected: !record.get('selected')});
@@ -449,13 +453,24 @@ define([
                     }
                 }
 
+                var idx = _.indexOf(this.store.models, record);
                 if (innerEl) {
-                    if (opts && opts.at == 0)
-                        innerEl.prepend(view.render().el); else
+                    if (opts && (typeof opts.at==='number') && opts.at >= 0) {
+                        if (opts.at == 0) {
+                            innerEl.prepend(view.render().el);
+                        } else if (!(this.groups && this.groups.length > 0)) { // for dataview without groups
+                            var innerDivs = innerEl.find('> div');
+                            if (idx > 0)
+                                $(innerDivs.get(idx - 1)).after(view.render().el);
+                            else {
+                                (innerDivs.length > 0) ? $(innerDivs[idx]).before(view.render().el) : innerEl.append(view.render().el);
+                            }
+                        } else
+                            innerEl.append(view.render().el);
+                    } else
                         innerEl.append(view.render().el);
 
                     (this.dataViewItems.length<1) && innerEl.find('.empty-text').remove();
-                    var idx = _.indexOf(this.store.models, record);
                     this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 
                     var me = this,
@@ -535,7 +550,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -588,14 +603,30 @@ define([
 
             window._event = e;  //  for FireFox only
 
-            if (this.showLast) this.selectRecord(record);
+            if (this.showLast) {
+                if (!this.delaySelect) {
+                    this.selectRecord(record);
+                } else {
+                    _.each(this.store.where({selected: true}), function(rec){
+                        rec.set({selected: false});
+                    });
+                    if (record) {
+                        setTimeout(_.bind(function () {
+                            record.set({selected: true});
+                            this.trigger('item:click', this, view, record, e);
+                        }, this), 300);
+                    }
+                }
+            }
             this.lastSelectedRec = null;
 
             var tip = view.$el.data('bs.tooltip');
             if (tip) (tip.tip()).remove();
 
             if (!this.isSuspendEvents) {
-                this.trigger('item:click', this, view, record, e);
+                if (!this.delaySelect) {
+                    this.trigger('item:click', this, view, record, e);
+                }
             }
         },
 
@@ -763,6 +794,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             this.disabled = disabled;
             $(this.el).find('.inner').addBack().filter('.inner').toggleClass('disabled', disabled);
         },
@@ -786,7 +818,7 @@ define([
                 paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top')),
-                props = {minScrollbarLength  : 40};
+                props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
@@ -836,16 +868,18 @@ define([
 
         focus: function(index) {
             $(this.el).find('.inner').addBack().filter('.inner').focus();
+            var rec;
             if (typeof index == 'string') {
                 if (index == 'first') {
-                    this.selectByIndex(0, true);
+                    rec = this.selectByIndex(0, true);
                 } else if (index == 'last') {
                     if (this._layoutParams === undefined)
                         this.fillIndexesArray();
-                    this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                    rec = this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
                 }
             } else if (index !== undefined)
-                this.selectByIndex(index, true);
+                rec = this.selectByIndex(index, true);
+            this.scrollToRecord(rec);
         },
 
         focusInner: function(e) {
@@ -917,7 +951,8 @@ define([
                 this.cmpEl.html(this.template({
                     items: me.store.toJSON(),
                     itemTemplate: me.itemTemplate,
-                    style: me.style
+                    style: me.style,
+                    options: me.options
                 }));
             }
             var modalParents = this.cmpEl.closest('.asc-window');
@@ -954,7 +989,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1046,7 +1081,7 @@ define([
             this.scroller = new Common.UI.Scroller({
                 el: $(this.el).find('.inner').addBack().filter('.inner'),
                 useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                minScrollbarLength  : 40,
+                minScrollbarLength  : this.minScrollbarLength,
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             });
@@ -1131,21 +1166,30 @@ define([
                 if (data.keyCode==Common.UI.Keys.RETURN) {
                     if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                         rec = this.selectedBeforeHideRec;
+                    if (this.canAddRecents) // only for DaraViewShape
+                        this.addRecentItem(rec);
                     this.trigger('item:click', this, this, rec, e);
                     if (this.parentMenu)
                         this.parentMenu.hide();
                 } else {
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
+                        function getFirstItemIndex() {
+                            var first = 0;
+                            while(!this.dataViewItems[first].el.is(':visible')) {
+                                first++;
+                            }
+                            return first;
+                        }
                         if (data.keyCode==Common.UI.Keys.LEFT) {
                             var target = $(e.target).closest('.dropdown-submenu.over');
                             if (target.length>0) {
                                 target.removeClass('over');
                                 target.find('> a').focus();
                             } else
-                                idx = 0;
+                                idx = getFirstItemIndex.call(this);
                         } else
-                            idx = 0;
+                            idx = getFirstItemIndex.call(this);
                     } else if (this.options.keyMoveDirection == 'both') {
                         if (this._layoutParams === undefined)
                             this.fillIndexesArray();
@@ -1225,6 +1269,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             this.disabled = disabled;
             $(this.el).find('.inner').addBack().filter('.inner').toggleClass('disabled', disabled);
         },
@@ -1244,7 +1289,7 @@ define([
                 paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top')),
-                props = {minScrollbarLength  : 40};
+                props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
@@ -1310,4 +1355,386 @@ define([
             }
         }, 100);
     });
+
+    Common.UI.DataViewShape = Common.UI.DataViewSimple.extend(_.extend({
+        template: _.template([
+            '<div class="dataview inner" style="<%= style %>">',
+                '<% _.each(options.groupsWithRecent, function(group, index) { %>',
+                    '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" >',
+                        '<% if (!_.isEmpty(group.groupName)) { %>',
+                            '<div class="group-description">',
+                                '<span><%= group.groupName %></span>',
+                            '</div>',
+                        '<% } %>',
+                        '<div class="group-items-container <% if (index === 0) { %> recent-items <% } %>">',
+                            '<% _.each(group.groupStore.toJSON(), function(item, index) { %>',
+                                '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                                    '<div class="item" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                '<% }); %>',
+                        '</div>',
+                    '</div>',
+                '<% }); %>',
+            '</div>'
+        ].join('')),
+        initialize : function(options) {
+            var me = this;
+            this.canAddRecents = true;
+
+            this._state = {
+                hideTextRect: options.hideTextRect,
+                hideLines: options.hideLines
+            }
+
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+            me.groups = options.groups.toJSON();
+
+            // add recent shapes to store
+            var recentStore = new Common.UI.DataViewGroupStore,
+                recentArr = options.recentShapes || [],
+                cols = (recentArr.length) > 18 ? 7 : 6,
+                height = Math.ceil(recentArr.length/cols) * 35 + 3,
+                width = 30 * cols;
+
+            me.recentShapes = recentArr;
+
+            // check lang
+            if (me.recentShapes.length > 0) {
+                var isTranslated = _.findWhere(me.groups, {groupName: me.recentShapes[0].groupName});
+                if (!isTranslated) {
+                    for (var r = 0; r < me.recentShapes.length; r++) {
+                        var type = me.recentShapes[r].data.shapeType,
+                            record;
+                        for (var g = 0; g < me.groups.length; g++) {
+                            var store = me.groups[g].groupStore,
+                                groupName = me.groups[g].groupName;
+                            for (var i = 0; i < store.length; i++) {
+                                if (store.at(i).get('data').shapeType === type) {
+                                    record = store.at(i).toJSON();
+                                    me.recentShapes[r] = {
+                                        data: record.data,
+                                        tip: record.tip,
+                                        allowSelected: record.allowSelected,
+                                        selected: false,
+                                        groupName: groupName
+                                    };
+                                    break;
+                                }
+                            }
+                            if (record) {
+                                record = undefined;
+                                break;
+                            }
+                        }
+                    }
+                    Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+                }
+            }
+
+            // Add default recent
+
+            if (me.recentShapes.length < 12) {
+                var count = 12 - me.recentShapes.length,
+                    defaultArr = [];
+
+                var addItem = function (rec, groupName) {
+                    var item = rec.toJSON(),
+                        model = {
+                            data: item.data,
+                            tip: item.tip,
+                            allowSelected: item.allowSelected,
+                            selected: false,
+                            groupName: groupName
+                        };
+                    defaultArr.push(model);
+                };
+
+                for (var i = 0; i < me.groups.length && count > 0; i++) {
+                    var groupStore = me.groups[i].groupStore,
+                        groupName = me.groups[i].groupName;
+                    if (i === 0) {
+                        addItem(groupStore.at(1), groupName);
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(2), groupName);
+                            count--;
+                        }
+                    } else if (i !== 3 && i !== 6 && i !== 7) {
+                        addItem(groupStore.at(0), groupName);
+                        count--;
+                        if (count > 0) {
+                            addItem(groupStore.at(1), groupName);
+                            count--;
+                        }
+                    }
+                }
+                me.recentShapes = me.recentShapes.concat(defaultArr);
+            }
+
+            recentStore.add(me.recentShapes);
+            me.groups.unshift({
+                groupName   : options.textRecentlyUsed,
+                groupStore  : recentStore,
+                groupWidth  : width,
+                groupHeight : height
+            });
+
+            me.options.groupsWithRecent = me.groups;
+
+            var store = new Common.UI.DataViewStore();
+
+            _.each(me.groups, function (group, index) {
+                var models = group.groupStore.models;
+                if (index > 0) {
+                    for (var i = 0; i < models.length; i++) {
+                        models[i].set({groupName: group.groupName});
+                    }
+                }
+                store.add(models);
+            });
+
+            options.store = store;
+
+            Common.UI.DataViewSimple.prototype.initialize.call(this, options);
+
+            me.parentMenu.on('show:before', function() { me.updateRecents(); });
+
+            if (me._state.hideLines) {
+                me.hideLinesGroup();
+            }
+        },
+        onAfterShowMenu: function(e) {
+            var me = this,
+                updateHideRect = false;
+            if (!me.dataViewItems) {
+                me.dataViewItems = [];
+                _.each(me.cmpEl.find('div.grouped-data'), function (group, indexGroup) {
+                    _.each($(group).find('div.item'), function (item, index) {
+                        var $item = $(item),
+                            rec = me.groups[indexGroup].groupStore.at(index);
+                        me.dataViewItems.push({el: $item, groupIndex: indexGroup, index: index});
+                        var tip = rec.get('tip');
+                        if (tip) {
+                            $item.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                                $item.attr('data-toggle', 'tooltip');
+                                $item.tooltip({
+                                    title       : tip,
+                                    placement   : 'cursor',
+                                    zIndex : me.tipZIndex
+                                });
+                                $item.mouseenter();
+                            });
+                        }
+                    });
+                });
+                updateHideRect = true;
+            }
+            if (me.updateDataViewItems && me.cmpEl.is(':visible')) {
+                // add recent item in dataViewItems
+                var recent = _.where(me.dataViewItems, {groupIndex: 0});
+                var len = recent ? recent.length : 0;
+                for (var i = 0; i < len; i++) {
+                    var tip = me.dataViewItems[i].el.data('bs.tooltip');
+                    if (tip) {
+                        if (tip.dontShow===undefined)
+                            tip.dontShow = true;
+                        (tip.tip()).remove();
+                    }
+                }
+                me.dataViewItems = me.dataViewItems.slice(len);
+                var recentViewItems = [];
+                _.each(me.cmpEl.find('.recent-group div.item'), function (item, index) {
+                    var $item = $(item),
+                        rec = me.recentShapes[index];
+                    recentViewItems.push({el: $item, groupIndex: 0, index: index});
+                    var tip = rec.tip;
+                    if (tip) {
+                        $item.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                            $item.attr('data-toggle', 'tooltip');
+                            $item.tooltip({
+                                title: tip,
+                                placement: 'cursor',
+                                zIndex : me.tipZIndex
+                            });
+                            $item.mouseenter();
+                        });
+                    }
+                });
+                me.dataViewItems = recentViewItems.concat(me.dataViewItems);
+
+                if (me.recentShapes.length === 1) {
+                    $('.recent-group').show();
+                }
+                me.updateDataViewItems = false;
+
+                updateHideRect = true;
+            }
+            if (this._state.hideLines) {
+                me.hideLines();
+            }
+            if (updateHideRect) {
+                me.hideTextRect(me._state.hideTextRect);
+            }
+            me.fillIndexesArray();
+        },
+
+        onClickItem: function(e) {
+            if ( this.disabled ) return;
+
+            window._event = e;  //  for FireFox only
+
+            var groupIndex = $(e.currentTarget).closest('div.grouped-data').index(),
+                itemIndex = $(e.currentTarget).closest('div.item').data('index');
+            var index = _.findIndex(this.dataViewItems, function (item) {
+                    return (item.groupIndex === groupIndex && item.index === itemIndex);
+                });
+            var record = (index>=0) ? this.store.at(index) : null,
+                view = (index>=0) ? this.dataViewItems[index] : null;
+            if (!record || !view) return;
+
+            record.set({selected: true});
+            var tip = view.el.data('bs.tooltip');
+            if (tip) (tip.tip()).remove();
+
+            if (!this.isSuspendEvents) {
+                this.trigger('item:click', this, view.el, record, e);
+            }
+
+            this.addRecentItem(record);
+        },
+        addRecentItem: function (rec) {
+            var me = this,
+                exist = false,
+                type = rec.get('data').shapeType,
+                groupName = rec.get('groupName');
+            for (var i = 0; i < me.recentShapes.length; i++) {
+                if (me.recentShapes[i].data.shapeType === type) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist) return;
+
+            var item = rec.toJSON(),
+                model = {
+                    data: item.data,
+                    tip: item.tip,
+                    allowSelected: item.allowSelected,
+                    selected: false,
+                    groupName: groupName
+                };
+            var arr = [model].concat(me.recentShapes.slice(0, 11));
+            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(arr));
+            me.recentShapes = undefined;
+        },
+        updateRecents: function () {
+            var me = this,
+                recents = Common.localStorage.getItem(this.appPrefix + 'recent-shapes');
+            recents = recents ? JSON.parse(recents) : [];
+
+            var diff = false;
+            if (me.recentShapes) {
+                for (var i = 0; i < recents.length; i++) {
+                    if (!me.recentShapes[i] || (me.recentShapes[i] && recents[i].tip !== me.recentShapes[i].tip)) {
+                        diff = true;
+                    }
+                }
+            } else {
+                diff = true;
+            }
+
+            if (recents.length > 0 && diff) {
+                me.recentShapes = recents;
+                me.groups[0].groupStore.reset(me.recentShapes);
+
+                var store = new Common.UI.DataViewStore();
+                _.each(me.groups, function (group) {
+                    store.add(group.groupStore.models);
+                });
+                me.store = store;
+
+                var template = _.template([
+                    '<% _.each(items, function(item, index) { %>',
+                    '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                    '<div class="item" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<% }) %>'
+                ].join(''));
+                me.cmpEl && me.cmpEl.find('.recent-items').html(template({
+                    items: me.recentShapes,
+                    itemTemplate: this.itemTemplate,
+                    style : this.style
+                }));
+
+                me.updateDataViewItems = true;
+            }
+        },
+        fillIndexesArray: function() {
+            if (this.dataViewItems.length<=0) return;
+
+            this._layoutParams = {
+                itemsIndexes:   [],
+                columns:        0,
+                rows:           0
+            };
+
+            var el = this.dataViewItems[0].el,
+                first = 0;
+            while (!this.dataViewItems[first].el.is(":visible")) { // if first elem is hidden
+                first++;
+                el = this.dataViewItems[first].el;
+            }
+
+            var itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                offsetLeft = this.$el.offset().left,
+                offsetTop = el.offset().top,
+                prevtop = -1, topIdx = 0, leftIdx = first;
+
+            for (var i=0; i<this.dataViewItems.length; i++) {
+                var item = this.dataViewItems[i];
+                if (item.el.is(":visible")) {
+                    var top = item.el.offset().top - offsetTop;
+                    leftIdx = Math.floor((item.el.offset().left - offsetLeft) / itemW);
+                    if (top > prevtop) {
+                        prevtop = top;
+                        this._layoutParams.itemsIndexes.push([]);
+                        topIdx = this._layoutParams.itemsIndexes.length - 1;
+                    }
+                    this._layoutParams.itemsIndexes[topIdx][leftIdx] = i;
+                    item.topIdx = topIdx;
+                    item.leftIdx = leftIdx;
+                    if (this._layoutParams.columns < leftIdx) this._layoutParams.columns = leftIdx;
+                } else {
+                    item.topIdx = -1;
+                    item.leftIdx = -1;
+                }
+            }
+            this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
+            this._layoutParams.columns++;
+        },
+        hideTextRect: function (hide) {
+            var me = this;
+            this.store.each(function(item, index){
+                if (item.get('data').shapeType === 'textRect') {
+                    me.dataViewItems[index].el[hide ? 'addClass' : 'removeClass']('hidden');
+                }
+            }, this);
+            this._state.hideTextRect = hide;
+        },
+        hideLinesGroup: function () {
+            $(this.cmpEl.find('div.grouped-data')[9]).hide();
+        },
+        hideLines: function () {
+            var me = this;
+            this.store.each(function(item, index){
+                if (item.get('groupName') === 'Lines') {
+                    var el = me.dataViewItems[index].el;
+                    if (el.is(':visible')) {
+                        el.addClass('hidden');
+                    }
+                }
+            }, this);
+        }
+    }));
+
 });

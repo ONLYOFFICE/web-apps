@@ -1,5 +1,5 @@
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import {StatusbarView} from '../view/Statusbar';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
@@ -63,8 +63,7 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
         }
 
         sheets.resetSheets(items);
-
-        updateTabsColors();
+        setTimeout(() => updateTabsColors());
     };
 
     const onApiActiveSheetChanged = (index) => {
@@ -103,14 +102,13 @@ const StatusbarController = inject('sheets', 'storeFocusObjects', 'users')(obser
 
             if (color.length) {
                 if (!tab.active) {
-                    color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                    color = '0px 3px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
                 } else {
-                    color = '0px 4px 0 ' + color + ' inset';
+                    color = '0px 3px 0 ' + color + ' inset';
                 }
-                
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', color);
+                $$(`.sheet-tabs .tab a.tab-color-${tab.index}`).css('box-shadow', color);
             } else {
-                $$('.sheet-tabs .tab a').eq(tab.index).css('box-shadow', '');
+                $$(`.sheet-tabs .tab a.tab-color-${tab.index}`).css('box-shadow', '');
             }
         }
     };
@@ -134,6 +132,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
     const isDisconnected = users.isDisconnected;
     const isProtectedWorkbook = sheets.isProtectedWorkbook;
     const isDisabledEditSheet = sheets.isDisabledEditSheet;
+    const targetRef = useRef();
 
     useEffect(() => {
         const on_main_view_click = e => {
@@ -183,6 +182,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
     const onTabClick = (i, target) => {
         const api = Common.EditorApi.get();
         const model = sheets.at(i);
+        targetRef.current = target;
 
         let opened = $$('.document-menu.modal-in').length;
         let index = model.index;
@@ -332,6 +332,18 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
                 api.asc_copyWorksheet(index, name);
                 break;
             case 'ren': renameWorksheet(); break;
+            case 'move': 
+                Device.phone ? f7.sheet.open('.move-sheet') : f7.popover.open('#idx-move-sheet-popover', targetRef.current); 
+                break;
+            case 'tab-color':
+                if( Device.phone ) {
+                    f7.sheet.open('.tab-color-sheet');
+                    f7.navbar.hide('.main-navbar');
+                    $$('.statusbar').css('top', '-50%');
+                } else {
+                    f7.popover.open('#idx-tab-color-popover',targetRef.current);
+                }
+                break;
             case 'unhide':
                 f7.popover.open('#idx-hidden-sheets-popover', '.active');
                 break;
@@ -346,12 +358,63 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
         }
     };
 
+    const onMenuMoveClick = (index) => {
+        const api = Common.EditorApi.get();
+
+        let sheetsCount = api.asc_getWorksheetsCount();
+        let activeIndex = api.asc_getActiveWorksheetIndex();
+
+        api.asc_moveWorksheet(index === -255 ? sheetsCount : index , [activeIndex]);
+    };
+
+    const onTabListClick = (sheetIndex) => {
+        const api = Common.EditorApi.get();
+        if(api && api.asc_getActiveWorksheetIndex() !== sheetIndex) {
+            api.asc_showWorksheet(sheetIndex);
+            f7.popover.close('#idx-all-list');
+        }
+
+        const tab = $$('.sheet-tabs .tab').eq(sheetIndex);
+        if(tab.offset().left < 0) {
+            $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + tab.offset().left - 96, 500);
+        } else {
+            $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + (tab.offset().left + tab.width() - $$('.sheet-tabs').width()/1.5), 500);
+        }
+    };
+
+    const onSetWorkSheetColor = (color) => {
+        const api = Common.EditorApi.get();
+        const active_index = api.asc_getActiveWorksheetIndex();
+        const arrIndex = [];
+
+        if (api) {
+            arrIndex.push(active_index);
+            if (arrIndex) {
+                if(color === 'transparent') {
+                    api.asc_setWorksheetTabColor(null, arrIndex);
+                    sheets.sheets.forEach(tab => {
+                        if(tab.active) $$(`.sheet-tabs .tab a.tab-color-${tab.index}`).css('box-shadow', '');
+                    })
+                } else {
+                    let asc_clr = Common.Utils.ThemeColor.getRgbColor(color);
+                    if (asc_clr) {
+                        api.asc_setWorksheetTabColor(asc_clr, arrIndex);
+                    }
+                }
+            }
+            sheets.sheets[active_index].color = api.asc_getWorksheetTabColor(active_index);
+        }
+    }
+
     return (
         <StatusbarView 
             onTabClick={onTabClick}
             onTabClicked={onTabClicked}
             onAddTabClicked={onAddTabClicked}
             onTabMenu={onTabMenu}
+            onTabListClick={onTabListClick}
+            onMenuMoveClick = {onMenuMoveClick}
+            onSetWorkSheetColor={onSetWorkSheetColor}
         />
     )
 }));

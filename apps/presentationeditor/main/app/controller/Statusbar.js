@@ -61,14 +61,8 @@ define([
                 'Statusbar': {
                     'langchanged': this.onLangMenu
                 },
-                'Common.Views.Header': {
-                    'statusbar:hide': function (view, status) {
-                        me.statusbar.setVisible(!status);
-                        Common.localStorage.setBool('pe-hidden-status', status);
-
-                        Common.NotificationCenter.trigger('layout:changed', 'status');
-                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-                    }
+                'ViewTab': {
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }
             });
             this._state = {
@@ -90,7 +84,9 @@ define([
 
             this.bindViewEvents(this.statusbar, this.events);
 
-            $('#status-label-zoom').css('min-width', 80);
+            var lblzoom = $('#status-label-zoom');
+            lblzoom.css('min-width', 80);
+            lblzoom.text(Common.Utils.String.format(this.zoomText, 100));
 
             this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
@@ -107,6 +103,12 @@ define([
                     me.btnDocLang = review.getButton('doclang', 'statusbar');
                     me.btnDocLang.render( me.statusbar.$el.find('#btn-doc-lang') );
 
+                    var isVisible = (Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang'))
+                                    && Common.UI.FeaturesManager.canChange('spellcheck');
+                    me.btnDocLang.$el.find('+.separator.space')[isVisible?'show':'hide']();
+                    isVisible = Common.UI.LayoutManager.isElementVisible('statusBar-textLang') || Common.UI.LayoutManager.isElementVisible('statusBar-docLang')
+                                || Common.UI.FeaturesManager.canChange('spellcheck');
+                    me.statusbar.$el.find('.el-lang')[isVisible?'show':'hide']();
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }
@@ -199,13 +201,14 @@ define([
             this.statusbar.reloadLanguages(langs);
         },
 
-        setStatusCaption: function(text, force, delay) {
+        setStatusCaption: function(text, force, delay, callback) {
             if (this.timerCaption && ( ((new Date()) < this.timerCaption) || text.length==0 ) && !force )
                 return;
 
             this.timerCaption = undefined;
             if (text.length) {
                 this.statusbar.showStatusMessage(text);
+                callback && callback();
                 if (delay>0)
                     this.timerCaption = (new Date()).getTime() + delay;
             } else
@@ -220,6 +223,48 @@ define([
             this.api.put_TextPrLang(langid);
         },
 
-        zoomText        : 'Zoom {0}%'
+        onChangeCompactView: function (view, status) {
+            this.statusbar.setVisible(!status);
+            Common.localStorage.setBool('pe-hidden-status', status);
+
+            if (view.$el.closest('.btn-slot').prop('id') === 'slot-btn-options') {
+                this.statusbar.fireEvent('view:hide', [this, status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+        },
+
+        showDisconnectTip: function () {
+            var me = this;
+            if (!this.disconnectTip) {
+                var target = this.statusbar.getStatusLabel();
+                target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
+                this.disconnectTip = new Common.UI.SynchronizeTip({
+                    target  : target,
+                    text    : this.textDisconnect,
+                    placement: 'top',
+                    position: this.statusbar.isVisible() ? undefined : {bottom: 0},
+                    showLink: false,
+                    style: 'max-width: 310px;'
+                });
+                this.disconnectTip.on({
+                    'closeclick': function() {
+                        me.disconnectTip.hide();
+                        me.disconnectTip = null;
+                    }
+                });
+            }
+            this.disconnectTip.show();
+        },
+
+        hideDisconnectTip: function() {
+            this.disconnectTip && this.disconnectTip.hide();
+            this.disconnectTip = null;
+        },
+
+        zoomText        : 'Zoom {0}%',
+        textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.'
+
     }, PE.Controllers.Statusbar || {}));
 });

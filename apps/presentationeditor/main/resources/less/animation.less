@@ -1,0 +1,39 @@
+.combo-animation {
+  .menu-picker-container .dataview {
+    padding: 10px 0 0 2px;
+  }
+  .dropdown-menu {
+    padding-bottom: 5px;
+  }
+}
+
+.menu-animation .dataview {
+  padding: 0 0 0 2px;
+
+  .group-description {
+    padding: 3px 0 3px 10px;
+    .font-weight-bold();
+  }
+
+  .grouped-data .group-items-container {
+    float: left;
+    position: relative;
+    .item {
+        box-shadow: none;
+        margin: @scaled-two-px-value;
+        &:last-child {
+          margin-bottom: @scaled-two-px-value;
+        }
+
+        &:hover {
+          .box-shadow(0 0 0 2px @border-preview-hover-ie);
+          .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+        }
+
+        &.selected {
+          .box-shadow(0 0 0 2px @border-preview-select-ie);
+          .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+        }
+      }
+  }
+}

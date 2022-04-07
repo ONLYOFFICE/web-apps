@@ -191,6 +191,7 @@ define([
             },
 
             checkPasswordType: function(){
+                if(this.type == 'text') return;
                 if (this._input.val() !== '') {
                     (this._input.attr('type') !== 'password') && this._input.attr('type', 'password');
                 } else {
@@ -298,6 +299,7 @@ define([
             },
 
             setDisabled: function(disabled) {
+                disabled = !!disabled;
                 this.disabled = disabled;
                 $(this.el).toggleClass('disabled', disabled);
                 disabled
@@ -429,14 +431,14 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-select-range',
+                iconCls: 'toolbar__icon btn-select-range',
                 btnHint: ''
             },
 
             template: _.template([
                 '<div class="input-field input-field-btn" style="<%= style %>">',
                     '<input ',
-                        'type="<%= type %>" ',
+                        'type="text" ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
@@ -445,7 +447,6 @@ define([
                     '>',
                     '<span class="input-error"></span>',
                     '<div class="select-button">' +
-                        '<button type="button" class="btn btn-toolbar"><i class="icon toolbar__icon <%= iconCls %>"></i></button>' +
                     '</div>',
                 '</div>'
             ].join('')),
@@ -463,7 +464,6 @@ define([
                         name        : this.name,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
-                        iconCls     : this.options.iconCls,
                         scope       : me
                     }));
 
@@ -481,9 +481,12 @@ define([
                     var el = this.cmpEl;
 
                     this._button = new Common.UI.Button({
-                        el: this.cmpEl.find('button'),
-                        hint: this.options.btnHint || ''
+                        cls: 'btn-toolbar',
+                        iconCls: this.options.iconCls,
+                        hint: this.options.btnHint || '',
+                        menu: this.options.menu
                     });
+                    this._button.render(this.cmpEl.find('.select-button'));
                     this._button.on('click', _.bind(this.onButtonClick, this));
 
                     this._input = this.cmpEl.find('input').addBack().filter('input');
@@ -512,6 +515,8 @@ define([
                 }
 
                 me.rendered = true;
+                if (me.value)
+                    me.setValue(me.value);
 
                 return this;
             },
@@ -521,6 +526,7 @@ define([
             },
 
             setDisabled: function(disabled) {
+                disabled = !!disabled;
                 this.disabled = disabled;
                 $(this.el).toggleClass('disabled', disabled);
                 disabled
@@ -538,6 +544,186 @@ define([
 
                 if (!this.rendered) return;
                 this._button.updateHint(this.options.hint);
+            }
+        }
+    })());
+
+    Common.UI.InputFieldBtnPassword = Common.UI.InputFieldBtn.extend(_.extend((function() {
+        return {
+            options: {
+                id: null,
+                cls: '',
+                style: '',
+                value: '',
+                name: '',
+                validation: null,
+                allowBlank: true,
+                placeHolder: '',
+                blankError: null,
+                spellcheck: false,
+                maskExp: '',
+                validateOnChange: false,
+                validateOnBlur: true,
+                disabled: false,
+                editable: true,
+                iconCls: 'toolbar__icon btn-sheet-view',
+                btnHint: '',
+                repeatInput: null,
+                showPwdOnClick: true
+            },
+
+            initialize : function(options) {
+                options = options || {};
+                options.btnHint = options.btnHint || this.textHintShowPwd;
+
+                Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
+
+                this.hidePwd = true;
+                this.repeatInput= this.options.repeatInput;
+            },
+
+            render: function (parentEl) {
+                Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
+
+                this._btnElm = this._button.$el;
+                this._input.on('input', _.bind(this.checkPasswordType, this));
+                if(this.options.showPwdOnClick)
+                    this._button.on('click', _.bind(this.passwordClick, this));
+                else
+                    this._btnElm.on('mousedown', _.bind(this.passwordShow, this));
+
+                return this;
+            },
+
+            passwordClick: function (e)
+            {
+                if(this.hidePwd) {
+                    this.passwordShow(e);
+                    this.hidePwd = false;
+                }
+                else {
+                    this.passwordHide(e);
+                    this.hidePwd = true;
+                }
+                var me = this;
+                var prevstart = me._input[0].selectionStart,
+                    prevend = me._input[0].selectionEnd;
+                setTimeout(function () {
+                    me.focus();
+                    me._input[0].selectionStart = prevstart;
+                    me._input[0].selectionEnd = prevend;
+                }, 1);
+            },
+
+            passwordShow: function (e) {
+                if (this.disabled) return;
+                this._button.setIconCls('toolbar__icon hide-password');
+                this.type = 'text';
+
+                this._input.attr('type', this.type);
+                if(this.repeatInput) {
+                    this.repeatInput.type = this.type;
+                    this.repeatInput._input.attr('type', this.type);
+                }
+
+                if(this.options.showPwdOnClick) {
+                    this._button.updateHint(this.textHintHidePwd);
+                }
+                else {
+                    this._btnElm.on('mouseup', _.bind(this.passwordHide, this));
+                    this._btnElm.on('mouseout', _.bind(this.passwordHide, this));
+                }
+            },
+
+            passwordHide: function (e) {
+                this._button.setIconCls('toolbar__icon btn-sheet-view');
+                this.type = 'password';
+
+                (this._input.val() !== '') && this._input.attr('type', this.type);
+                if(this.repeatInput) {
+                    this.repeatInput.type = this.type;
+                    (this.repeatInput._input.val() !== '') && this.repeatInput._input.attr('type', this.type);
+                }
+
+                if(this.options.showPwdOnClick) {
+                    this._button.updateHint(this.textHintShowPwd);
+                }
+                else {
+                    this._btnElm.off('mouseup', this.passwordHide);
+                    this._btnElm.off('mouseout', this.passwordHide);
+                    var me = this;
+                    var prevstart = me._input[0].selectionStart,
+                        prevend = me._input[0].selectionEnd;
+                    setTimeout(function () {
+                        me.focus();
+                        me._input[0].selectionStart = prevstart;
+                        me._input[0].selectionEnd = prevend;
+                    }, 1);
+                }
+            },
+            textHintShowPwd: 'Show password',
+            textHintHidePwd: 'Hide password'
+        }
+    })(), Common.UI.InputFieldBtnPassword || {}));
+
+    Common.UI.InputFieldBtnCalendar = Common.UI.InputFieldBtn.extend((function (){
+        return {
+            options: {
+                id: null,
+                cls: '',
+                style: '',
+                value: '',
+                type: 'date',
+                name: '',
+                validation: null,
+                allowBlank: true,
+                placeHolder: '',
+                blankError: null,
+                spellcheck: false,
+                maskExp: '',
+                validateOnChange: false,
+                validateOnBlur: true,
+                disabled: false,
+                editable: true,
+                iconCls: 'toolbar__icon btn-datetime',
+                btnHint: '',
+                menu: true
+            },
+
+            render: function (parentEl) {
+                var me = this;
+                Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
+
+                var id = 'id-' + Common.UI.getId() + 'input-field-datetime',
+                    menu = new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        style: 'border: none; padding: 0;',
+                        items: [
+                            {template: _.template('<div id="' + id + '" style=""></div>'), stopPropagation: true}
+                        ]
+                    });
+                $('button', this._button.cmpEl).addClass('no-caret');
+                this._button.setMenu(menu);
+                this._button.menu.on('show:after', function(menu) {
+                    if (!me.cmpCalendar) {
+                        me.cmpCalendar = new Common.UI.Calendar({
+                            el: me.cmpEl.find('#' + id),
+                            enableKeyEvents: true,
+                            firstday: 1
+                        });
+                        me.cmpCalendar.on('date:click', function (cmp, date) {
+                            me.trigger('date:click', me, date);
+                            menu.hide();
+                        });
+                        menu.alignPosition();
+                    }
+                    me.cmpCalendar.focus();
+                })
+            },
+
+            setDate: function(date) {
+                if (this.cmpCalendar && date && date instanceof Date && !isNaN(date))
+                    this.cmpCalendar && this.cmpCalendar.setDate(date);
             }
         }
     })());

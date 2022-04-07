@@ -207,7 +207,7 @@ define([
                                 })
                             );
                         }
-                        Common.NotificationCenter.trigger('tab:visible', 'protect', true);
+                        Common.NotificationCenter.trigger('tab:visible', 'protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                     }
 
                     setEvents.call(me);

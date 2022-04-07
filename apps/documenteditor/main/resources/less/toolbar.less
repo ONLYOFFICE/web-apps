@@ -24,12 +24,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
-    z-index: @zindex-tooltip + 1;
+    width: 0;
+    height: 0;
+    background-color: transparent;
 }
 
 .item-markerlist {
@@ -163,11 +160,6 @@
 
 #slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
     margin-left: 2px;
-}
-
-#slot-field-styles {
-    width: 100%;
-    min-width: 160px;
 }
 
 #special-paste-container {

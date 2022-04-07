@@ -56,7 +56,6 @@ define([
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
@@ -107,6 +106,7 @@ define([
                 if ( !this.leftMenu.panelHistory.isVisible() )
                     this.clickMenuFileItem(null, 'history');
             }, this));
+            Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
         onLaunch: function() {
@@ -176,7 +176,7 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
@@ -239,8 +239,8 @@ define([
                 this.leftMenu.btnComments.hide();
             }
 
-            if (this.mode.isEdit) {
-                this.leftMenu.btnSpellcheck.show();
+            if (this.mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck')) {
+                Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
                 this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
             }
             if (this.mode.canUseHistory)
@@ -249,7 +249,7 @@ define([
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 Common.NotificationCenter.on('cells:range',   _.bind(this.onCellsRange, this));
             return this;
         },
@@ -449,6 +449,10 @@ define([
                     Common.Utils.InternalSettings.set("sse-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
+            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("sse-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("sse-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
             /** coauthoring end **/
 
@@ -482,7 +486,7 @@ define([
         },
 
         applySpellcheckSettings: function(menu) {
-            if (this.mode.isEdit && this.api) {
+            if (this.mode.isEdit && this.api && Common.UI.FeaturesManager.canChange('spellcheck')) {
                 var value = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words");
                 this.api.asc_ignoreUppercase(value);
                 value = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words");
@@ -534,6 +538,10 @@ define([
                 this.leftMenu.menuFile.hide();
         },
 
+        clickToolbarPrint: function () {
+            this.leftMenu.showMenu('file:printpreview');
+        },
+
         changeToolbarSaveState: function (state) {
             var btnSave = this.leftMenu.menuFile.getButton('save');
             btnSave && btnSave.setDisabled(state);
@@ -561,15 +569,15 @@ define([
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
                 options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
 
-                if (!this.api.asc_findText(options)) {
-                    var me = this;
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
+                var me = this;
+                this.api.asc_findText(options, function(resultCount) {
+                    !resultCount && Common.UI.info({
+                        msg: me.textNoTextFound,
                         callback: function() {
                             me.dlgSearch.focus();
                         }
                     });
-                }
+                });
             // }
         },
 
@@ -863,6 +871,7 @@ define([
 
             if (this.mode.isEditDiagram && s!='escape') return false;
             if (this.mode.isEditMailMerge && s!='escape' && s!='search') return false;
+            if (this.mode.isEditOle && s!='escape' && s!='search') return false;
 
             switch (s) {
                 case 'replace':
@@ -873,7 +882,8 @@ define([
                         this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
 
-                        this.leftMenu.menuFile.hide();
+                        if ( this.leftMenu.menuFile.isVisible() )
+                            this.leftMenu.menuFile.hide();
                     }
                     return false;
                 case 'save':
@@ -927,7 +937,7 @@ define([
                         }
                         return false;
                     }
-                    if (this.mode.isEditDiagram || this.mode.isEditMailMerge) {
+                    if (this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) {
                         menu_opened = $(document.body).find('.open > .dropdown-menu');
                         if (!this.api.isCellEdited && !menu_opened.length) {
                             Common.Gateway.internalMessage('shortcut', {key:'escape'});

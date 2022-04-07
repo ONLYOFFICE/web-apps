@@ -431,7 +431,7 @@ define([
                     });
                     if (!equalArr) {
                         list.store.reset(arr);
-                        list.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                        list.scroller.update({minScrollbarLength  : list.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
                         list.dataViewItems.forEach(function (item, index) {
                             item.$el.attr('draggable', true);
                             item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, eventIndex, list, item, index));
@@ -500,7 +500,7 @@ define([
                 });
                 if (!equalArr) {
                     this.fieldsList.store.reset(arr);
-                    this.fieldsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                    this.fieldsList.scroller.update({minScrollbarLength  : this.fieldsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
                     this.fieldsList.dataViewItems.forEach(function (item, index) {
                         item.$el.attr('draggable', true);
                         item.$el.on('dragstart', _.bind(me.onFieldsDragStart, me, item, index));
@@ -633,7 +633,7 @@ define([
                 }
 
                 // listView.isSuspendEvents = false;
-                listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                listView.scroller.update({minScrollbarLength  : listView.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 

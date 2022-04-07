@@ -103,7 +103,7 @@
         }
     }
 
-    .item {
+    &:not(.shapes) .item {
         padding: 2px;
         padding: @scaled-two-px-value;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
@@ -111,7 +111,7 @@
         .box-shadow(none);
 
         @minus-px-ie: -1px;
-        @minus-px: calc(-1px / @pixel-ratio-factor);
+        @minus-px: calc((-1px / @pixel-ratio-factor));
         margin: 0 @minus-px-ie @minus-px-ie 0;
         margin: 0 @minus-px @minus-px 0;
         height: @combo-dataview-height;
@@ -131,7 +131,7 @@
         }
     }
 
-    &.disabled {
+    &.disabled:not(.shapes) {
         .item {
             &:hover:not(.selected) {
                 .box-shadow(none);
@@ -143,7 +143,7 @@
         }
     }
 
-    .dropdown-menu {
+    &:not(.shapes) .dropdown-menu {
         box-sizing: content-box;
         padding: 0;
         border-top-left-radius: 0;
@@ -341,9 +341,14 @@
 .combo-pivot-template {
     .combo-template(60px);
 
-    top: -7px;
-    padding-right: 24px;
+    top: -4px;
+    padding-right: 12px;
     position: absolute;
+
+    .more-container & {
+        padding-right: 0;
+        position: static;
+    }
 
     .view .dataview, .dropdown-menu {
         padding: 1px;
@@ -378,13 +383,34 @@
         height: @combo-dataview-height-calc;
     }
 
-    .item {
+    .item, .menu-picker-container .dataview .group-items-container .item {
         padding: 0px;
-        margin: @combo-dataview-item-margins 0 0 @combo-dataview-item-margins;
+        margin: @combo-dataview-item-margins;
         .box-shadow(none);
+
+        &:hover {
+            .box-shadow(0 0 0 2px @border-preview-hover-ie);
+            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+        }
+
+        &.selected {
+            .box-shadow(0 0 0 2px @border-preview-select-ie);
+            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+        }
     }
 
     .menu-picker-container {
+        .group-description {
+            padding: 3px 0 3px 10px;
+            .font-weight-bold();
+        }
+
+        .group-items-container .item {
+            &:last-child {
+                margin-bottom: @combo-dataview-item-margins;
+            }
+        }
+
         .last-item {
             margin-bottom: @combo-dataview-item-margins;
         }
@@ -397,5 +423,30 @@
             }
         }
     }
+}
 
+.combo-transitions, .menu-animation {
+    .btn_item {
+        color: @text-normal-ie;
+        color: @text-normal;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+
+        .icon:not(svg) {
+            width: @x-huge-btn-icon-size;
+            height: @x-huge-btn-icon-size;
+            min-width: 0;
+        }
+
+        .caption{
+            line-height: 12px;
+            font-size: 11px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            padding: 0 2px;
+        }
+    }
 }

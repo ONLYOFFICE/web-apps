@@ -19,7 +19,10 @@ import app from "../page/app";
 import About from "../../../../common/mobile/lib/view/About";
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import EncodingController from "./Encoding";
+import DropdownListController from "./DropdownList";
 import { StatusbarController } from "./Statusbar";
+import { useTranslation } from 'react-i18next';
+import { Device } from '../../../../common/mobile/utils/device';
 
 @inject(
     "users",
@@ -165,6 +168,11 @@ class MainController extends Component {
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+
+                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
 
                     const appOptions = this.props.storeAppOptions;
                     let enable = !appOptions.customization || (appOptions.customization.macros !== false);
@@ -283,7 +291,6 @@ class MainController extends Component {
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
 
                     this.appOptions = {};
                     this.bindEvents();
@@ -419,8 +426,50 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onChangeProtectWorksheet', this.onChangeProtectSheet.bind(this));
-        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this));  
-        this.api.asc_registerCallback('asc_onRenameCellTextEnd', this.onRenameText.bind(this)); 
+        this.api.asc_registerCallback('asc_onActiveSheetChanged', this.onChangeProtectSheet.bind(this)); 
+        
+        this.api.asc_registerCallback('asc_onRenameCellTextEnd', this.onRenameText.bind(this));
+
+        this.api.asc_registerCallback('asc_onEntriesListMenu', this.onEntriesListMenu.bind(this, false));
+        this.api.asc_registerCallback('asc_onValidationListMenu', this.onEntriesListMenu.bind(this, true));
+    }
+
+    onEntriesListMenu(validation, textArr, addArr) {
+        const storeAppOptions = this.props.storeAppOptions;
+       
+        if (!storeAppOptions.isEdit && !storeAppOptions.isRestrictedEdit || this.props.users.isDisconnected) return;
+
+        const { t } = this.props;
+        const boxSdk = $$('#editor_sdk');
+    
+        if (textArr && textArr.length) { 
+            if(!Device.isPhone) {
+                let dropdownListTarget = boxSdk.find('#dropdown-list-target');
+            
+                if (!dropdownListTarget.length) {
+                    dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+                    boxSdk.append(dropdownListTarget);
+                }
+
+                let coord  = this.api.asc_getActiveCellCoord(validation),
+                    offset = {left: 0, top: 0},
+                    showPoint = [coord.asc_getX() + offset.left + (validation ? coord.asc_getWidth() : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+            
+                dropdownListTarget.css({left: `${showPoint[0]}px`, top: `${showPoint[1]}px`});
+            }
+
+            Common.Notifications.trigger('openDropdownList', textArr, addArr);
+        } else {
+            !validation && f7.dialog.create({
+                title: t('Controller.Main.notcriticalErrorTitle'),
+                text: t('Controller.Main.textNoChoices'),
+                buttons: [
+                    {
+                        text: t('Controller.Main.textOk')
+                    }
+                ]
+            });
+        }
     }
 
     onRenameText(found, replaced) {
@@ -575,8 +624,10 @@ class MainController extends Component {
     }
 
     applyLicense () {
-        const _t = this._t;
-        const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
+
+        const warnNoLicense = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
         const warnLicenseExceeded = _t.warnLicenseExceeded.replace(/%1/g, __COMPANY_NAME__);
@@ -914,11 +965,13 @@ class MainController extends Component {
                 <ViewCommentsSheetsController />
                 <PluginsController />
                 <EncodingController />
+                <DropdownListController />
             </Fragment>
         )
     }
 
     componentDidMount() {
+        Common.EditorApi = {get: () => this.api};
         this.initSdk();
     }
 }

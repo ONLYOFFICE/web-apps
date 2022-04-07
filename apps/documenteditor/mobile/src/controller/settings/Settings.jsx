@@ -41,9 +41,11 @@ const Settings = props => {
     };
 
     const onPrint = () => {
+        const api = Common.EditorApi.get();
+
         closeModal();
         setTimeout(() => {
-            Common.EditorApi.get().asc_Print();
+            api.asc_Print();
         }, 400);
     };
 
@@ -67,6 +69,17 @@ const Settings = props => {
         }, 400);
     };
 
+    const showFeedback = () => {
+        let config = props.storeAppOptions.config;
+
+        closeModal();
+        setTimeout(() => {
+            if(config && !!config.feedback && !!config.feedback.url) {
+                window.open(config.feedback.url, "_blank");
+            } else window.open('{{__SUPPORT_URL__}}', "_blank");
+        }, 400);
+    }
+
     const onOrthographyCheck = () => {
         closeModal();
         setTimeout(() => {
@@ -87,6 +100,7 @@ const Settings = props => {
                          onReaderMode={onReaderMode}
                          onPrint={onPrint}
                          showHelp={showHelp}
+                         showFeedback={showFeedback}
                          onOrthographyCheck={onOrthographyCheck}
                          onDownloadOrigin={onDownloadOrigin}
     />

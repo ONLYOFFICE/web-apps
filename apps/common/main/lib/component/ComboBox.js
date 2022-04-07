@@ -190,6 +190,7 @@ define([
                         el.on('click', '.form-control', _.bind(this.onInputClick, this));
                         this._input.attr('readonly', 'readonly');
                         this._input.attr('data-can-copy', false);
+                        this._input.on('mousedown',function (e){e.preventDefault();})
                     }
 
                     if (me.options.hint) {
@@ -544,6 +545,7 @@ define([
             },
 
             setDisabled: function(disabled) {
+                disabled = !!disabled;
                 this.disabled = disabled;
 
                 if (!this.rendered)

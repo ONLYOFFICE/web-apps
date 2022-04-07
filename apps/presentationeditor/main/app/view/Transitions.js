@@ -118,7 +118,7 @@ define([
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
                 this.$el = this.toolbar.toolbar.$el.find('#transitions-panel');
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
                 this.lockedControls = [];
 
                 this._arrEffectName = [
@@ -136,10 +136,19 @@ define([
                     item.tip = item.title;
                 });
 
+                var itemWidth = 88,
+                    itemHeight = 40;
                 this.listEffects = new Common.UI.ComboDataView({
                     cls: 'combo-transitions',
-                    itemWidth: 87,
-                    itemHeight: 40,
+                    itemWidth: itemWidth,
+                    itemHeight: itemHeight,
+                    style: 'min-width:110px;',
+                    itemTemplate: _.template([
+                        '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
+                            '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
+                            '<div class = "caption"><%= title %></div>',
+                        '</div>'
+                    ].join('')),
                     enableKeyEvents: true,
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
@@ -172,14 +181,6 @@ define([
                 });
                 this.lockedControls.push(this.listEffects);
                 this.listEffects.menuPicker.store.add(this._arrEffectName);
-
-                this.listEffects.fieldPicker.itemTemplate = _.template([
-                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + (this.listEffects.itemWidth) + 'px;height: ' + (this.listEffects.itemHeight) + 'px;">',
-                        '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
-                        '<div class = "caption"><%= title %></div>',
-                    '</div>'
-                ].join(''));
-                this.listEffects.menuPicker.itemTemplate = this.listEffects.fieldPicker.itemTemplate;
 
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar', // x-huge icon-top',
@@ -221,7 +222,7 @@ define([
                 this.numDuration = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-duration'),
                     step: 1,
-                    width: 50,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -233,10 +234,18 @@ define([
                 });
                 this.lockedControls.push(this.numDuration);
 
+                this.lblDuration = new Common.UI.Label({
+                    el: this.$el.find('#transit-duration'),
+                    iconCls: 'toolbar__icon animation-duration',
+                    caption: this.strDuration,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
+                });
+                this.lockedControls.push(this.lblDuration);
+
                 this.numDelay = new Common.UI.MetricSpinner({
                     el: this.$el.find('#transit-spin-delay'),
                     step: 1,
-                    width: 60,
+                    width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
                     maxValue: 300,
@@ -268,9 +277,8 @@ define([
                 });
                 this.lockedControls.push(this.chDelay);
 
-                Common.Utils.lockControls(PE.enumLock.disableOnStart, true, {array: this.lockedControls});
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.lockedControls});
 
-                this.$el.find('#transit-duration').text(this.strDuration);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -335,7 +343,6 @@ define([
                 this.renderComponent('#transit-spin-duration', this.numDuration);
                 this.renderComponent('#transit-spin-delay', this.numDelay);
                 this.renderComponent('#transit-checkbox-startonclick', this.chStartOnClick);
-                this.$el.find("#label-duration").innerText = this.strDuration;
                 this.$el.find("#label-delay").innerText = this.strDelay;
                 return this.$el;
             },
@@ -417,6 +424,7 @@ define([
                     this.btnParameters.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                    this.lblDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                 }
                 return (selectedElement)?selectedElement.value:-1;
             },
@@ -429,7 +437,6 @@ define([
             strDuration: 'Duration',
             strDelay: 'Delay',
             strStartOnClick: 'Start On Click',
-
             textNone: 'None',
             textFade: 'Fade',
             textPush: 'Push',

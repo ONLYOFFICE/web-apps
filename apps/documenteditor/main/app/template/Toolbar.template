@@ -11,7 +11,7 @@
                     <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-save"></span>
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
                 </div>
             </div>
             <div class="separator long"></div>
@@ -75,10 +75,10 @@
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-copystyle"></span>
-                        <span class="btn-slot" id="slot-btn-mailrecepients"></span>
+                        <span class="btn-slot" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
                     </div>
                 </div>
-                <div class="group small" id="slot-field-styles"></div>
+                <div class="group small flex field-styles" id="slot-field-styles" style="min-width: 160px;width: 100%; " data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -135,11 +135,11 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
-                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
-                    <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

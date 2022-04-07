@@ -206,6 +206,7 @@ define([
         },
 
         setDisabled: function(disabled) {
+            disabled = !!disabled;
             var el = this.$el || $(this.el);
             if (disabled !== this.disabled) {
                 el.find('button').toggleClass('disabled', disabled);
@@ -240,6 +241,14 @@ define([
 
         setStep: function(step){
             this.options.step = step;
+        },
+
+        getMinValue: function(){
+            return this.options.minValue;
+        },
+
+        getMaxValue: function(){
+            return this.options.maxValue;
         },
 
         getNumberValue: function(){

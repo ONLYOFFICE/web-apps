@@ -41,6 +41,7 @@
     "textLocation": "Konum",
     "textNextPage": "Sonraki Sayfa",
     "textOddPage": "Tek Sayfa",
+    "textOk": "Tamam",
     "textOther": "Diğer",
     "textPageBreak": "Sayfa Sonu",
     "textPageNumber": "Sayfa Numarası",
@@ -57,7 +58,9 @@
     "textTable": "Tablo",
     "textTableSize": "Tablo Boyutu",
     "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
-    "textOk": "Tamam"
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -162,6 +165,9 @@
       "textCustomColors": "Özel Renkler",
       "textStandartColors": "Standart Renkler",
       "textThemeColors": "Tema Renkleri"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -190,7 +196,9 @@
     "textDoNotShowAgain": "Tekrar gösterme",
     "textNumberingValue": "Numaralandırma değeri",
     "textOk": "Tamam",
-    "textRows": "Satırlar"
+    "textRows": "Satırlar",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Dikkat",
@@ -205,6 +213,8 @@
     "textAlign": "Hizala",
     "textAllCaps": "Tümü büyük harf",
     "textAllowOverlap": "Çakışmaya izin ver",
+    "textApril": "Nisan",
+    "textAugust": "Ağustos",
     "textAuto": "Otomatik",
     "textAutomatic": "Otomatik",
     "textBack": "Geri",
@@ -223,6 +233,8 @@
     "textColor": "Renk",
     "textContinueFromPreviousSection": "Önceki bölümden devam et",
     "textCustomColor": "Özel Renk",
+    "textDecember": "Aralık",
+    "textDesign": "Tasarım",
     "textDifferentFirstPage": "Farklı ilk sayfa",
     "textDifferentOddAndEvenPages": "Farklı tek ve çift sayfalar",
     "textDisplay": "Görüntüle",
@@ -262,6 +274,7 @@
     "textNoStyles": "Bu tip çizelge için stil yok!",
     "textNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
     "textNumbers": "Sayılar",
+    "textOk": "Tamam",
     "textOpacity": "Opaklık",
     "textOptions": "Seçenekler",
     "textOrphanControl": "Tek satır denetimi",
@@ -306,7 +319,45 @@
     "textTotalRow": "Toplam Satır",
     "textType": "Tip",
     "textWrap": "Metni Kaydır",
-    "textOk": "Tamam"
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
@@ -346,7 +397,9 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -477,9 +530,9 @@
     "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textNoTextFound": "Text not found"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",
@@ -591,7 +644,18 @@
     "txtScheme8": "Yayılma",
     "txtScheme9": "Döküm",
     "txtScheme14": "Oriel",
-    "txtScheme19": "Trek"
+    "txtScheme19": "Trek",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading",
+    "textPageSize": "Page Size",
+    "textPdfVer": "PDF Version",
+    "textPdfTagged": "Tagged PDF",
+    "textFastWV": "Fast Web View",
+    "textYes": "Yes",
+    "textNo": "No"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

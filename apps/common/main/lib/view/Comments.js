@@ -377,7 +377,21 @@ define([
                                 visible: this.appPrefix==='de-',
                                 checked: Common.localStorage.getItem(this.appPrefix + "comments-sort") === 'position-desc',
                                 toggleGroup: 'sortcomments'
-                            }
+                            },
+                            {
+                                caption: '--',
+                                visible: false
+                            },
+                            this.menuFilterGroups = new Common.UI.MenuItem({
+                                caption: this.mniFilterGroups,
+                                checkable: false,
+                                visible: false,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    style: 'min-width: auto;',
+                                    items: []
+                                })
+                            })
                         ]
                     })
                 });
@@ -394,6 +408,7 @@ define([
                 this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
+                this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
                 this.txtComment.keydown(function (event) {
@@ -449,6 +464,11 @@ define([
                     btns.each(function(idx, item){
                         arr.push($(item).data('bs.tooltip').tip());
                     });
+                    btns = $(view.el).find('.i-comment-resolved');
+                    btns.tooltip({title: me.textViewResolved, placement: 'cursor'});
+                    btns.each(function(idx, item){
+                        arr.push($(item).data('bs.tooltip').tip());
+                    });
                     view.tipsArray = arr;
                 };
 
@@ -472,7 +492,7 @@ define([
         },
         updateScrolls: function () {
             if (this.commentsView && this.commentsView.scroller) {
-                this.commentsView.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+                this.commentsView.scroller.update({minScrollbarLength: this.commentsView.minScrollbarLength, alwaysVisibleY: true});
             }
         },
 
@@ -786,7 +806,7 @@ define([
         },
 
         pickEMail: function (commentId, message) {
-            var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._]+\.[A-Z]+\b/gi);
+            var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._-]+\.[A-Z]+\b/gi);
             arr = _.map(arr, function(str){
                 return str.slice(1, str.length);
             });
@@ -805,6 +825,10 @@ define([
 
         onSortClick: function(menu, item, state) {
             state && this.fireEvent('comment:sort', [item.value]);
+        },
+
+        onFilterGroupsClick: function(menu, item, state) {
+            state && this.fireEvent('comment:filtergroups', [item.value]);
         },
 
         onClickClosePanel: function() {
@@ -833,6 +857,9 @@ define([
         mniAuthorDesc: 'Author Z to A',
         mniDateDesc: 'Newest',
         mniDateAsc: 'Oldest',
-        textClosePanel: 'Close comments'
+        textClosePanel: 'Close comments',
+        textViewResolved: 'You have not permission for reopen comment',
+        mniFilterGroups: 'Filter by Group',
+        textAll: 'All'
     }, Common.Views.Comments || {}))
 });

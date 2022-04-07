@@ -319,8 +319,8 @@ define([
                     if (newValue) {
                         this.levelsContainer.toggleClass('hidden', !newValue);
                         this.stylesContainer.toggleClass('hidden', newValue);
-                        if (this._needUpdateOutlineLevels)
-                            this.synchronizeLevelsFromStyles();
+                        if (this._needUpdateOutlineLevels || this._forceUpdateOutlineLevels)
+                            this.synchronizeLevelsFromStyles(true);
                     }
                 }, this));
 
@@ -354,19 +354,7 @@ define([
                     allowDecimal: false,
                     maskExp: /[1-9]/
                 });
-                this.spnLevels.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                    this._needUpdateStyles = true;
-                    this.startLevel = 1;
-                    this.endLevel = field.getNumberValue();
-
-                    if (this.api && !this._noApply) {
-                        var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
-                        properties.clear_Styles();
-                        properties.put_OutlineRange(this.startLevel, this.endLevel);
-                        this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
-                        this.scrollerY.update();
-                    }
-                }, this));
+                this.spnLevels.on('change', _.bind(this.onLevelsChange, this));
 
                 this.stylesLevels = new Common.UI.DataViewStore();
 
@@ -629,6 +617,7 @@ define([
             });
             this.stylesLevels.reset(styles);
             if (checkStyles) {
+                this._forceUpdateOutlineLevels = true;
                 this.radioStyles.setValue(true);
                 this.stylesList.scroller.update({alwaysVisibleY: true});
                 var rec = this.stylesLevels.findWhere({checked: true});
@@ -715,7 +704,7 @@ define([
             this._needUpdateStyles = false;
         },
 
-        synchronizeLevelsFromStyles: function() {
+        synchronizeLevelsFromStyles: function(reset) {
             var new_start = -1, new_end = -1, empty_index = -1,
                 disable_outlines = false;
 
@@ -756,8 +745,10 @@ define([
             this.startLevel = new_start;
             this.endLevel = new_end;
 
-            this.spnLevels.setValue(new_end>0 ? new_end : '', true);
+            this.spnLevels.setValue(new_end>0 ? new_end : (reset ? 9 : ''), true);
+            reset && (new_end<=0) && this.onLevelsChange(this.spnLevels);
             this._needUpdateOutlineLevels = false;
+            this._forceUpdateOutlineLevels = false;
         },
 
         getSettings: function () {
@@ -858,6 +849,20 @@ define([
                 properties.clear_Styles();
                 properties.add_Style(record.styleName);
                 this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
+                this.scrollerY.update();
+            }
+        },
+
+        onLevelsChange: function(field, newValue, oldValue, eOpts){
+            this._needUpdateStyles = true;
+            this.startLevel = 1;
+            this.endLevel = field.getNumberValue();
+
+            if (this.api && !this._noApply) {
+                var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                properties.clear_Styles();
+                properties.put_OutlineRange(this.startLevel, this.endLevel);
+                this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 this.scrollerY.update();
             }
         },

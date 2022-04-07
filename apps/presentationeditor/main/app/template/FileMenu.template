@@ -1,8 +1,8 @@
 <div class="panel-menu">
     <li class="fm-first-item"></li>
-    <li id="fm-btn-return" class="fm-btn"></li>
+    <li id="fm-btn-return" class="fm-btn" data-layout-name="toolbar-file-close"></li>
     <li class="devider"></li>
-    <li id="fm-btn-save" class="fm-btn"></li>
+    <li id="fm-btn-save" class="fm-btn" data-layout-name="toolbar-file-save"></li>
     <li id="fm-btn-edit" class="fm-btn"></li>
     <li id="fm-btn-download" class="fm-btn"></li>
     <li id="fm-btn-save-copy" class="fm-btn"></li>
@@ -14,11 +14,11 @@
     <li id="fm-btn-recent" class="fm-btn"></li>
     <li id="fm-btn-create" class="fm-btn"></li>
     <li class="devider"></li>
-    <li id="fm-btn-info" class="fm-btn"></li>
+    <li id="fm-btn-info" class="fm-btn" data-layout-name="toolbar-file-info"></li>
     <li id="fm-btn-rights" class="fm-btn"></li>
     <li id="fm-btn-history" class="fm-btn"></li>
     <li class="devider" class="fm-btn"></li>
-    <li id="fm-btn-settings" class="fm-btn"></li>
+    <li id="fm-btn-settings" class="fm-btn" data-layout-name="toolbar-file-settings"></li>
     <li class="devider"></li>
     <li id="fm-btn-help" class="fm-btn"></li>
     <li class="devider"></li>

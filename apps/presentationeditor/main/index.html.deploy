@@ -21,7 +21,7 @@
             border: none;
             background: #f0f0f0;
             background: var(--canvas-background, #f0f0f0);
-            z-index: 1001;
+            z-index: 1002;
         }
 
         .loadmask > .brendpanel {
@@ -61,6 +61,15 @@
             border-radius: 3px;
             margin: 0 10px;
             background: rgba(255, 255, 255, 0.2);
+        }
+
+        .loadmask > .brendpanel .circle {
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            margin: 0 10px;
+            background: rgba(255,255,255,.2);
         }
 
         .loadmask > .sktoolbar {
@@ -263,7 +272,7 @@
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
-            <div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
             <ul><li/><li class="space" style="width: 76px;"/><li class="split" /><li class="space"/><li style="width: 176px;"/><li class="space"/><li style="width: 115px;"/><li class="space" style="width: 183px;"/><li style="width: 95px;"/><li class="fat"/></ul>
@@ -324,6 +333,7 @@
             else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
             else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
             else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+            else if ( lang == 'tr') reqerr = 'Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.';
             else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
 
             return reqerr;
@@ -344,6 +354,7 @@
 
     <inline src="resources/img/header/buttons.svg" />
     <inline src="resources/img/doc-formats/pptx.svg" />
+    <inline src="resources/img/doc-formats/ppsx.svg" />
     <inline src="resources/img/doc-formats/potx.svg" />
     <inline src="resources/img/doc-formats/pdf.svg" />
     <inline src="resources/img/doc-formats/pdfa.svg" />

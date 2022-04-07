@@ -457,6 +457,7 @@ define([
                     this.trigger('show:after', this, e);
                     this.flushVisibleFontsTiles();
                     this.updateVisibleFontsTiles(null, 0);
+                    Common.Utils.isGecko && this.scroller && this.scroller.update();
                 } else {
                     Common.UI.ComboBox.prototype.onAfterShowMenu.apply(this, arguments);
                 }

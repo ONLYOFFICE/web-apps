@@ -142,17 +142,17 @@
         </div>
         </td>
     </tr>
-    <tr class="shape-only">
+    <tr class="shape-rotation">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="shape-only">
+    <tr class="shape-rotation">
         <td class="padding-small">
             <label class="header"><%= scope.textRotation %></label>
         </td>
     </tr>
-    <tr class="shape-only">
+    <tr class="shape-rotation">
         <td>
             <table cols="2" style="width: 100%;">
                 <tr>

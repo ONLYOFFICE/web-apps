@@ -1,4 +1,4 @@
-@x-huge-btn-height: 46px;
+@x-huge-btn-height: 52px;
 @x-huge-btn-icon-size: 28px;
 
 .btn {
@@ -70,6 +70,9 @@
 
         transition: transform 0.2s ease;
         transform: rotate(-135deg) translate(1px,1px);
+        &.compact-caret {
+            display: none;
+        }
     }
 
     //&:active,
@@ -229,14 +232,24 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 0 2px;
+            padding: 1px 3px;
             display: flex;
-            align-items: center;
+            //align-items: center;
+            align-items: start;
+            height: 24px;
 
             .caption {
-                max-width: 107px;
+                max-width: 85px;
+                max-height: 24px;
                 text-overflow: ellipsis;
-                overflow: hidden;
+
+                white-space: pre;
+                line-height: 11px;
+                padding: 0 2px;
+
+                .caret {
+                    margin: 0 1px 0 4px;
+                }
             }
         }
 
@@ -267,9 +280,10 @@
 
         &.dropdown-toggle {
             .caption {
-                max-width: 100px;
+                //max-width: 100px;
             }
         }
+
     }
 
     .inner-box-icon {
@@ -295,7 +309,7 @@
 
     .inner-box-caption {
         margin: 0;
-        height: 18px;
+        height: 20px;
     }
 
     div.inner-box-icon {
@@ -462,8 +476,9 @@
     display: block;
     position: relative;
     .border-radius(0);
+    .font-weight-bold();
     background-color: transparent;
-    font-weight: bold;
+
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
@@ -1028,62 +1043,11 @@
     }
 }
 
-.cnt-lang {
-    color: @text-normal-ie;
-    color: @text-normal;
-    height: 20px;
-    line-height: 18px;
-    border: 0;
-    .border-radius(1px);
-    vertical-align: middle;
-
-    .dropdown-toggle {
-        margin: 0 6px 0 4px;
-    }
-
-    &:hover:not(.disabled) {
-        background-color: @highlight-button-hover-ie;
-        background-color: @highlight-button-hover;
-    }
-
-    &[disabled], &.disabled {
-        opacity: @component-disabled-opacity;
-    }
-
-    .caret {
-        width: 4px;
-        height: 4px;
-        border: solid 1px @icon-normal-ie;
-        border: solid 1px @icon-normal;
-        border-bottom: none;
-        border-right: none;
-        background-image: none;
-
-        transition: transform 0.2s ease;
-        transform: rotate(-135deg) translate(1px,1px);
-    }
-
-    &.open:not(.disabled){
-        &, .status-label {
-            color: @text-normal-pressed-ie;
-            color: @text-normal-pressed;
-        }
-
-        background-color: @highlight-button-pressed-ie;
-        background-color: @highlight-button-pressed;
-
-        .caret {
-            transform: rotate(45deg);
-            border-color: @icon-normal-pressed-ie;
-            border-color: @icon-normal-pressed;
-        }
-    }
-}
 // Dialog buttons
 // ------------------------
 
 .dlg-btn {
-    font-weight: bold;
+    .font-weight-bold();
     width: 86px;
     color: @text-normal-ie;
     color: @text-normal;

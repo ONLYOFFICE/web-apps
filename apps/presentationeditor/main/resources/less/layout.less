@@ -19,8 +19,6 @@ body {
         }
 
         #viewport {
-            overflow: scroll;
-
             &::-webkit-scrollbar {
                 width: 0;
                 height: 0;
@@ -29,7 +27,6 @@ body {
 
         #viewport-vbox-layout {
             .layout-item:nth-child(3) {
-                overflow: scroll;
 
                 &::-webkit-scrollbar {
                     width: 0;
@@ -54,6 +51,7 @@ label {
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     overflow: hidden;
+    scroll-behavior: smooth; // chromium bug890248 (Bug 39614)
 }
 
 .layout-region {

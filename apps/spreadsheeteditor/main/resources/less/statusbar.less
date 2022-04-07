@@ -10,8 +10,6 @@
     }
 
     #status-zoom-box {
-        width: 160px;
-        //float: right;
         padding-top: 3px;
 
         position: absolute;
@@ -238,7 +236,7 @@
                         box-shadow: 0px 4px 0 #49795d inset;
                         border-top-width: 0;
                         padding-top: 1px;
-                        font-weight: bold;
+                        .font-weight-bold();
                     }
                 }
 
@@ -368,9 +366,9 @@
         display: flex;
         justify-content: flex-start;
         .status-label {
-            font-weight: bold;
+            .font-weight-bold();
             color: @text-normal;
-            margin-top: 5px;
+            margin-top: 6px;
             width: 100%;
             text-align: center;
         }

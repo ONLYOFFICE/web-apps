@@ -354,7 +354,7 @@ module.exports = function(grunt) {
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/g,
-                        to: packageFile.version
+                        to: `${packageFile.version}.${packageFile.build}`
                     }, ...global.jsreplacements]
                 },
                 prepareHelp: {
