@@ -77,11 +77,14 @@ define([
             });
             this.viewNavigationList.cmpEl.off('click');
             this.navigationMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [{
+                        iconCls     : 'menu__icon promote',
                         caption     : this.txtPromote,
                         value: 'promote'
                     },
                     {
+                        iconCls     : 'menu__icon demote',
                         caption     : this.txtDemote,
                         value: 'demote'
                     },
@@ -104,6 +107,7 @@ define([
                         caption     : '--'
                     },
                     {
+                        iconCls     : 'menu__icon select-all',
                         caption     : this.txtSelect,
                         value: 'select'
                     },
@@ -111,10 +115,12 @@ define([
                         caption     : '--'
                     },
                     {
+                        iconCls     : 'menu__icon expand-all',
                         caption     : this.txtExpand,
                         value: 'expand'
                     },
                     {
+                        iconCls     : 'menu__icon collapse-all',
                         caption     : this.txtCollapse,
                         value: 'collapse'
                     },
