@@ -86,6 +86,15 @@ define([
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
+                            '<tr class="image">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                    '<label class="text">' + this.txtImport + '</label>',
+                                '</td>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                    '<div id="id-dlg-list-image" style="width: 100px;"></div>',
+                                '</td>',
+                                '<td style="padding-bottom: 8px;"></td>',
+                            '</tr>',
                             '<tr>',
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtSize + '</label>',
@@ -106,7 +115,7 @@ define([
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
-                            '<tr>',
+                            '<tr class="color">',
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtColor + '</label>',
                                 '</td>',
@@ -123,6 +132,9 @@ define([
             this.props = options.props;
             this.options.tpl = _.template(this.template)(this.options);
             this.color = '000000';
+            this.storage = !!options.storage;
+            this.api = options.api;
+            this.isImageLoaded = false;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -210,13 +222,16 @@ define([
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "ü", font: 'Wingdings' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "w", font: 'Wingdings' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "–", font: 'Arial' },
-                    { displayValue: this.txtNewBullet, value: 1 }
+                    { displayValue: this.txtNewBullet, value: 1 },
+                    { displayValue: this.txtNewImage, value: 2 }
                 ],
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
                         if (record.get('value')==0)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                        else if (record.get('value')==2)
+                            formcontrol[0].innerHTML = me.txtImage;
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else
@@ -227,6 +242,8 @@ define([
             this.cmbBulletFormat.selectRecord(rec);
             this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
             this.cmbBulletFormat.on('selected', _.bind(function (combo, record) {
+                this.imageControls.toggleClass('hidden', record.value !== 2);
+                this.colorControls.toggleClass('hidden', record.value === 2);
                 if (record.value === 1) {
                     var me = this,
                         props = me.bulletProps,
@@ -258,6 +275,9 @@ define([
                         });
                     win.show();
                     win.on('symbol:dblclick', handler);
+                } else if (record.value == 2) { // image
+                    // need to set previous image or disable Ok button
+                    this.isImageLoaded = false;
                 } else if (record.value == -1) {
                     if (this._changedProps)
                         this._changedProps.asc_putListType(0, record.value);
@@ -271,6 +291,7 @@ define([
                         this._changedProps.asc_putSymbol(this.bulletProps.symbol);
                     }
                 }
+                this.btnOk.setDisabled(record.value === 2 && !this.isImageLoaded);
             }, this));
 
             this.spnSize = new Common.UI.MetricSpinner({
@@ -314,7 +335,32 @@ define([
                 }
             });
 
-            me.numberingControls = $window.find('.numbering');
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $('#id-dlg-list-image'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelect,
+                style: 'width: 100%;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 100px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                })
+            });
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            this.btnSelectImage.menu.items[2].setVisible(this.storage);
+
+            this.btnOk = new Common.UI.Button({
+                el: $window.find('.primary')
+            });
+
+            me.numberingControls = $window.find('tr.numbering');
+            me.imageControls = $window.find('tr.image');
+            me.colorControls = $window.find('tr.color');
 
             var el = $window.find('table tr:first() td:first()');
             el.width(Math.max($window.find('.numbering .text').width(), el.width()));
@@ -323,12 +369,36 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbNumFormat, this.cmbBulletFormat, this.spnSize, this.spnStart, this.btnColor];
+            return [this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor];
         },
 
         afterRender: function() {
             this.updateThemeColors();
             this._setDefaults(this.props);
+
+            var me = this;
+            var onApiImageLoaded = function() {
+                me.isImageLoaded = true;
+                me.btnOk.setDisabled(false);
+            };
+            this.api.asc_registerCallback('asc_onBulletImageLoaded', onApiImageLoaded);
+
+            var insertImageFromStorage = function(data) {
+                if (data && data._urls && data.c=='bullet') {
+                    if (me._changedProps)
+                        me._changedProps.asc_putImageUrl(data._urls[0], data.token);
+                    else if (me.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
+                        me._changedImageProps = new Asc.asc_CBullet();
+                        me._changedImageProps.asc_putImageUrl(data._urls[0], data.token);
+                    }
+                }
+            };
+            Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
+
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onBulletImageLoaded', onApiImageLoaded);
+                Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
+            });
         },
 
         updateThemeColors: function() {
@@ -347,9 +417,13 @@ define([
         },
 
         ShowHideElem: function(value) {
+            var isImage = value==0 && this.cmbBulletFormat.getValue()===2;
             this.numberingControls.toggleClass('hidden', value==0);
+            this.imageControls.toggleClass('hidden', !isImage);
+            this.colorControls.toggleClass('hidden', isImage);
             this.cmbNumFormat.setVisible(value==1);
             this.cmbBulletFormat.setVisible(value==0);
+            this.btnOk.setDisabled(isImage && !this.isImageLoaded);
             var me = this;
             _.delay(function(){
                 if (value)
@@ -362,18 +436,29 @@ define([
         _handleInput: function(state) {
             if (this.options.handler)
             {
+                if (state == 'ok' && this.btnOk.isDisabled()) {
+                    return;
+                }
                 var type = this.btnBullet.pressed ? 0 : 1;
                 if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
-                    this._changedProps = new Asc.asc_CBullet();
-                    this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
-                    this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                    if (type==0 && this.cmbBulletFormat.getValue()==2 && this._changedImageProps) {//image
+                        this._changedProps = this._changedImageProps;
+                        this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                    } else {
+                        this._changedProps = new Asc.asc_CBullet();
+                        this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
+                        this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                    }
                 }
 
                 if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE ||
-                    this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR && type==1 || this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM && type==0) { // changed list type
+                    (this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR || this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) && type==1 ||
+                    this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM && type==0) { // changed list type
                     if (type==0) {//markers
                         if (this.cmbBulletFormat.getValue()==-1) {
                             this._changedProps.asc_putListType(0, -1);
+                        } else if (this.cmbBulletFormat.getValue()==2) {
+
                         } else {
                             this._changedProps.asc_putFont(this.bulletProps.font);
                             this._changedProps.asc_putSymbol(this.bulletProps.symbol);
@@ -446,6 +531,11 @@ define([
                             this.cmbBulletFormat.setValue('');
                         this._changedProps = bullet;
                         type = 0;
+                    } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) {
+                        this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 2}));
+                        this._changedProps = bullet;
+                        this.isImageLoaded = true;
+                        type = 0;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM) {
                         var autonum = bullet.asc_getAutoNumType();
                         this.cmbNumFormat.setValue(autonum, '');
@@ -468,6 +558,36 @@ define([
             this.ShowHideElem(type);
         },
 
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                if (me._changedProps)
+                                    me._changedProps.asc_putImageUrl(checkUrl);
+                                else if (me.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
+                                    me._changedImageProps = new Asc.asc_CBullet();
+                                    me._changedImageProps.asc_putImageUrl(checkUrl);
+                                }
+                            }
+                        }
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'bullet');
+            } else {
+                if (this._changedProps)
+                    this._changedProps.asc_showFileDialog();
+                else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
+                    this._changedImageProps = new Asc.asc_CBullet();
+                    this._changedImageProps.asc_showFileDialog();
+                }
+            }
+        },
+
         txtTitle: 'List Settings',
         txtSize: 'Size',
         txtColor: 'Color',
@@ -478,6 +598,13 @@ define([
         txtType: 'Type',
         txtNone: 'None',
         txtNewBullet: 'New bullet',
-        txtSymbol: 'Symbol'
+        txtSymbol: 'Symbol',
+        txtNewImage: 'New image',
+        txtImage: 'Image',
+        txtImport: 'Import',
+        textSelect: 'Select From',
+        textFromUrl: 'From URL',
+        textFromFile: 'From File',
+        textFromStorage: 'From Storage'
     }, Common.Views.ListSettingsDialog || {}))
 });
