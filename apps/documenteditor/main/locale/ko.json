@@ -2099,6 +2099,7 @@
   "DE.Views.Navigation.txtDemote": "강등",
   "DE.Views.Navigation.txtEmpty": "문서에 제목이 없습니다. <br>텍스트에 제목 스타일을 적용하여 목차에 표시되도록 합니다.",
   "DE.Views.Navigation.txtEmptyItem": "머리말 없슴",
+  "DE.Views.Navigation.txtEmptyViewer": "문서에 제목이 없습니다. ",
   "DE.Views.Navigation.txtExpand": "모두 확장",
   "DE.Views.Navigation.txtExpandToLevel": "레벨로 확장하기",
   "DE.Views.Navigation.txtHeadingAfter": "뒤에 신규 머리글 ",

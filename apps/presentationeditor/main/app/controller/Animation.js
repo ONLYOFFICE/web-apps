@@ -475,9 +475,12 @@ define([
                     this._state.TriggerValue = this.AnimationProperties.asc_getTriggerObjectClick();
                 }
                 this.setTriggerList();
+            } else {
+                this._state.Effect = this._state.EffectGroup = this._state.EffectOption = undefined;
+                if (this.view && this.view.listEffects)
+                    this.view.listEffects.fieldPicker.deselectAll();
             }
             this.setLocked();
-
         },
 
         setTriggerList: function (){

@@ -2118,6 +2118,7 @@
   "DE.Views.Navigation.txtDemote": "Dégrader",
   "DE.Views.Navigation.txtEmpty": "Aucune entrée de table des matières trouvée.<br>L'application d'un style de titre sur une sélection de texte permettra l'affichage dans la table des matières. ",
   "DE.Views.Navigation.txtEmptyItem": "En-tête vide",
+  "DE.Views.Navigation.txtEmptyViewer": "Aucune entrée de table des matières trouvée.",
   "DE.Views.Navigation.txtExpand": "Développer tout",
   "DE.Views.Navigation.txtExpandToLevel": "Développer jusqu'au niveau",
   "DE.Views.Navigation.txtHeadingAfter": "Nouvel en-tête après",

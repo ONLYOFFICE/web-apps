@@ -443,7 +443,8 @@ define([
                         textReply: me.textReply,
                         textClose: me.textClose,
                         maxCommLength: Asc.c_oAscMaxCellOrCommentLength
-                    }))
+                    })),
+                    emptyText: me.txtEmpty
                 });
 
                 var addtooltip = function (dataview, view, record) {
@@ -860,6 +861,7 @@ define([
         textClosePanel: 'Close comments',
         textViewResolved: 'You have not permission for reopen comment',
         mniFilterGroups: 'Filter by Group',
-        textAll: 'All'
+        textAll: 'All',
+        txtEmpty: 'There are no comments in the document.'
     }, Common.Views.Comments || {}))
 });

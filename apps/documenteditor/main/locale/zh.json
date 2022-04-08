@@ -2117,6 +2117,7 @@
   "DE.Views.Navigation.txtDemote": "降级",
   "DE.Views.Navigation.txtEmpty": "文档中无标题。<br>文本中应用标题样式以便使其出现在目录中。",
   "DE.Views.Navigation.txtEmptyItem": "空标题",
+  "DE.Views.Navigation.txtEmptyViewer": "文档中无标题。",
   "DE.Views.Navigation.txtExpand": "展开全部",
   "DE.Views.Navigation.txtExpandToLevel": "展开到级别",
   "DE.Views.Navigation.txtHeadingAfter": "之后的新标题",

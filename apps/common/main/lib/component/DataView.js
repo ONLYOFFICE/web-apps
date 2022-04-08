@@ -805,6 +805,12 @@ define([
 
         setEmptyText: function(emptyText) {
             this.emptyText = emptyText;
+
+            if (this.store.length < 1) {
+                var el = $(this.el).find('.inner').addBack().filter('.inner').find('.empty-text td');
+                if ( el.length>0 )
+                    el.text(this.emptyText);
+            }
         },
 
         alignPosition: function() {

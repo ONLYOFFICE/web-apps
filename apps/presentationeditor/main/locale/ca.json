@@ -349,6 +349,7 @@
   "Common.Views.Comments.textResolved": "Resolt",
   "Common.Views.Comments.textSort": "Ordena els comentaris",
   "Common.Views.Comments.textViewResolved": "No teniu permís per tornar a obrir el comentari",
+  "Common.Views.Comments.txtEmpty": "No hi ha cap comentari al document",
   "Common.Views.CopyWarningDialog.textDontShow": "No tornis a mostrar aquest missatge",
   "Common.Views.CopyWarningDialog.textMsg": "Les accions de copiar, tallar i enganxar mitjançant els botons de la barra d’eines de l’editor i les accions del menú contextual només es realitzaran dins d’aquesta pestanya editor.<br><br>Per copiar o enganxar a o des d’aplicacions fora de la pestanya de l'editor, utilitzeu les combinacions de teclat següents:",
   "Common.Views.CopyWarningDialog.textTitle": "Accions de copiar, tallar i enganxar ",

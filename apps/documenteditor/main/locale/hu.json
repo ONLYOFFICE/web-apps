@@ -2117,6 +2117,7 @@
   "DE.Views.Navigation.txtDemote": "Lefokoz",
   "DE.Views.Navigation.txtEmpty": "Nincsenek címsorok a dokumentumban.<br>Vigyen fel egy fejlécstílust a szövegre, hogy az megjelenjen a tartalomjegyzékben.",
   "DE.Views.Navigation.txtEmptyItem": "Üres fejléc",
+  "DE.Views.Navigation.txtEmptyViewer": "Nincsenek címsorok a dokumentumban.",
   "DE.Views.Navigation.txtExpand": "Összes kibontása",
   "DE.Views.Navigation.txtExpandToLevel": "Szintig kibont",
   "DE.Views.Navigation.txtHeadingAfter": "Új címsor utána",

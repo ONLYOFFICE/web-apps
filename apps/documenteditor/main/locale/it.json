@@ -2113,6 +2113,7 @@
   "DE.Views.Navigation.txtDemote": "Retrocedere",
   "DE.Views.Navigation.txtEmpty": "Non ci sono titoli nel documento.<br>Applica uno stile di titolo al testo in modo che appaia nel sommario.",
   "DE.Views.Navigation.txtEmptyItem": "Intestazione vuota",
+  "DE.Views.Navigation.txtEmptyViewer": "Non ci sono titoli nel documento.",
   "DE.Views.Navigation.txtExpand": "Espandi tutto",
   "DE.Views.Navigation.txtExpandToLevel": "Espandi al livello",
   "DE.Views.Navigation.txtHeadingAfter": "Nuova intestazione dopo",
