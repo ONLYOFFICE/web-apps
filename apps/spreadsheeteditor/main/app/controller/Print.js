@@ -148,7 +148,11 @@ define([
         },
 
         comboSheetsChange: function(panel, combo, record) {
-            this.fillPageOptions(panel, this._changedProps[record.value] ? this._changedProps[record.value] : this.api.asc_getPageOptions(record.value, true), record.value);
+            var currentSheet = record.value;
+            this.fillPageOptions(panel, this._changedProps[currentSheet] ? this._changedProps[currentSheet] : this.api.asc_getPageOptions(currentSheet, true), currentSheet);
+            if (!this._changedProps[currentSheet]) {
+                this._changedProps[currentSheet] = this.getPageOptions(this.printSettings, currentSheet);
+            }
         },
 
         fillPageOptions: function(panel, props, sheet) {
@@ -248,12 +252,12 @@ define([
             }
         },
 
-        getPageOptions: function(panel) {
-            var props = new Asc.asc_CPageOptions();
+        getPageOptions: function(panel, sheet) {
+            var props = this._changedProps[sheet] ? this._changedProps[sheet] : new Asc.asc_CPageOptions();
             props.asc_setGridLines(panel.chPrintGrid.getValue()==='checked');
             props.asc_setHeadings(panel.chPrintRows.getValue()==='checked');
 
-            var opt = new Asc.asc_CPageSetup();
+            var opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageSetup() : new Asc.asc_CPageSetup();
             opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
 
             var pagew = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
@@ -275,15 +279,19 @@ define([
                 opt.asc_setFitToHeight(this.fitHeight);
                 opt.asc_setScale(this.fitScale);
             }
-            props.asc_setPageSetup(opt);
+            if (!this._changedProps[sheet]) {
+                props.asc_setPageSetup(opt);
+            }
 
-            opt = new Asc.asc_CPageMargins();
+            opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageMargins() : new Asc.asc_CPageMargins();
             opt.asc_setLeft(panel.spnMarginLeft.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginLeft.getNumberValue()));    // because 1.91*10=19.0999999...
             opt.asc_setTop(panel.spnMarginTop.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginTop.getNumberValue()));
             opt.asc_setRight(panel.spnMarginRight.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginRight.getNumberValue()));
             opt.asc_setBottom(panel.spnMarginBottom.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginBottom.getNumberValue()));
 
-            props.asc_setPageMargins(opt);
+            if (!this._changedProps[sheet]) {
+                props.asc_setPageMargins(opt);
+            }
 
             var check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, panel.txtRangeTop.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
             props.asc_setPrintTitlesHeight(check ? panel.txtRangeTop.getValue() : panel.dataRangeTop);
@@ -480,7 +488,8 @@ define([
                                 me.fitScale = result.scale;
                                 me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
                                 if (me._changedProps) {
-                                    me._changedProps[panel.cmbSheet.getValue()] = me.getPageOptions(panel);
+                                    var currentSheet = panel.cmbSheet.getValue();
+                                    me._changedProps[currentSheet] = me.getPageOptions(panel, currentSheet);
                                     me.updatePreview();
                                 }
                             }
@@ -498,7 +507,8 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
                 if (this._changedProps) {
-                    this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+                    var currentSheet = panel.cmbSheet.getValue();
+                    this._changedProps[currentSheet] = this.getPageOptions(panel, currentSheet);
                     this.updatePreview();
                 }
             }
@@ -750,10 +760,8 @@ define([
         },
 
         onOpenHeaderSettings: function () {
-            var props = props = (this._changedProps.length > 0 && this._changedProps[this.printSettings.cmbSheet.getValue()]) ?
-                this._changedProps[this.printSettings.cmbSheet.getValue()] :
-                this.api.asc_getPageOptions(this.printSettings.cmbSheet.getValue(), true);
-            SSE.getController('Toolbar').onEditHeaderClick(props.asc_getPageSetup());
+            var pageSetup = this._changedProps[this.printSettings.cmbSheet.getValue()].asc_getPageSetup();
+            SSE.getController('Toolbar').onEditHeaderClick(pageSetup);
         },
 
         warnCheckMargings:      'Margins are incorrect',
