@@ -616,12 +616,12 @@
     "txtScheme7": "公平",
     "txtScheme8": "流动",
     "txtScheme9": "发现",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
     "textFastWV": "Fast Web View",
-    "textYes": "Yes",
-    "textNo": "No"
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",

@@ -616,12 +616,12 @@
     "txtScheme7": "Власний",
     "txtScheme8": "Потік",
     "txtScheme9": "Ливарна",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
     "textFastWV": "Fast Web View",
-    "textYes": "Yes",
-    "textNo": "No"
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "У документі є незбережені зміни. Натисніть 'Залишитись на сторінці', щоб дочекатися автозбереження. Натисніть 'Піти зі сторінки', щоб скинути всі незбережені зміни.",

@@ -75,7 +75,7 @@
       "leavePageText": "Teniu canvis no desats en aquest document. Feu clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
       "notcriticalErrorTitle": "Advertiment",
       "SDK": {
-        "txtAccent": "Èmfasi",
+        "txtAccent": "Accent",
         "txtAll": "(Tots)",
         "txtArt": "El vostre text aquí",
         "txtBlank": "(en blanc)",
@@ -556,7 +556,7 @@
       "advDRMPassword": "Contrasenya",
       "closeButtonText": "Tanca el fitxer",
       "notcriticalErrorTitle": "Advertiment",
-      "textAbout": "Quant a...",
+      "textAbout": "Quant a",
       "textAddress": "Adreça",
       "textApplication": "Aplicació",
       "textApplicationSettings": "Configuració de l'aplicació",
