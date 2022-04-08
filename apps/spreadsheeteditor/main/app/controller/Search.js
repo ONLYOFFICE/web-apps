@@ -405,26 +405,47 @@ define([
         onApiGetTextAroundSearch: function (data) { // [id, sheet, name, cell, value, formula]
             if (this.view && this._state.isStartedAddingResults) {
                 if (data.length > 300) return;
-                var me = this;
+                var me = this,
+                    container = me.view.$resultsContainer;
+                container.html('<table style="width:100%">' +
+                    '<col style="width:20%">' +
+                    '<col style="width:20%">' +
+                    '<col style="width:20%">' +
+                    '<col style="width:20%">' +
+                    '<col style="width:20%">' +
+                    '<thead>' +
+                        '<tr>' +
+                            '<th>' + this.textSheet +   '</th>' +
+                            '<th>' + this.textName +    '</th>' +
+                            '<th>' + this.textCell +    '</th>' +
+                            '<th>' + this.textValue +   '</th>' +
+                            '<th>' + this.textFormula + '</th>' +
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '</table>');
+                var $tableBody = container.find('tbody');
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
-                    var el = document.createElement("div"),
-                        isSelected = ind === me._state.currentResult;
-                    el.className = 'item';
-                    el.innerHTML = item[4].trim();
-                    me.view.$resultsContainer.append(el);
+                    var isSelected = ind === me._state.currentResult;
+                    var tr = '<tr class="item">' +
+                        '<td>' + item[1] + '</td>' +
+                        '<td>' + item[2] + '</td>' +
+                        '<td>' + item[3] + '</td>' +
+                        '<td>' + item[4] + '</td>' +
+                        '<td>' + item[5] + '</td>' +
+                        '</tr>';
+                    var $item = $(tr).appendTo($tableBody);
                     if (isSelected) {
-                        $(el).addClass('selected');
+                        $item.addClass('selected');
                     }
-
-                    var resultItem = {id: item[0], $el: $(el), el: el, selected: isSelected};
+                    var resultItem = {id: item[0], $el: $item, selected: isSelected};
                     me.resultItems.push(resultItem);
-                    $(el).on('click', _.bind(function (el) {
+                    $item.on('click', _.bind(function (el) {
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
                     }, me));
                 });
-
                 this.view.$resultsContainer.show();
             }
         },
@@ -490,6 +511,11 @@ define([
         textReplaceSuccess: 'Search has been done. {0} occurrences have been replaced',
         textReplaceSkipped: 'The replacement has been made. {0} occurrences were skipped.',
         textInvalidRange: 'ERROR! Invalid cells range',
+        textSheet: 'Sheet',
+        textName: 'Name',
+        textCell: 'Cell',
+        textValue: 'Value',
+        textFormula: 'Formula'
 
     }, SSE.Controllers.Search || {}));
 });
