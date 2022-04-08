@@ -1320,6 +1320,7 @@
   "DE.Views.Navigation.txtDemote": "Pazemināt",
   "DE.Views.Navigation.txtEmpty": "Šajā dokumentā nav virsrakstu",
   "DE.Views.Navigation.txtEmptyItem": "Tukšs virsraksts",
+  "DE.Views.Navigation.txtEmptyViewer": "Šajā dokumentā nav virsrakstu.",
   "DE.Views.Navigation.txtExpand": "Parādīt visas",
   "DE.Views.Navigation.txtExpandToLevel": "Parādīt līdz līmenim",
   "DE.Views.Navigation.txtHeadingAfter": "Jauns virsraksts pēc",

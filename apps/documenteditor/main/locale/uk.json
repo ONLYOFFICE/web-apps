@@ -2113,6 +2113,7 @@
   "DE.Views.Navigation.txtDemote": "Понизити рівень",
   "DE.Views.Navigation.txtEmpty": "У документі відсутні заголовки. <br>Застосуйте стиль заголовків до тексту, щоби він з'явився у змісті.",
   "DE.Views.Navigation.txtEmptyItem": "Пустий заголовок",
+  "DE.Views.Navigation.txtEmptyViewer": "У документі відсутні заголовки.",
   "DE.Views.Navigation.txtExpand": "Розгорнути все",
   "DE.Views.Navigation.txtExpandToLevel": "Розгорнути до рівня",
   "DE.Views.Navigation.txtHeadingAfter": "Новий заголовок після",

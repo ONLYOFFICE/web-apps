@@ -2117,6 +2117,7 @@
   "DE.Views.Navigation.txtDemote": "Rebaixar",
   "DE.Views.Navigation.txtEmpty": "Não há títulos no documento.<br>Aplique um estilo de título ao texto para que ele apareça no índice.",
   "DE.Views.Navigation.txtEmptyItem": "Título Vazio",
+  "DE.Views.Navigation.txtEmptyViewer": "Não há títulos no documento.",
   "DE.Views.Navigation.txtExpand": "Expandir tudo",
   "DE.Views.Navigation.txtExpandToLevel": "Expandir ao nível",
   "DE.Views.Navigation.txtHeadingAfter": "Novo título após",

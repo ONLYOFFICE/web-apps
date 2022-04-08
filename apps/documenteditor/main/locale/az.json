@@ -2100,6 +2100,7 @@
   "DE.Views.Navigation.txtDemote": "Azalt",
   "DE.Views.Navigation.txtEmpty": "Heç bir məzmun qeydi tapılmadı. <br> Mətn seçiminə başlıq üslubunun tətbiqi məzmun cədvəlində görünəcək.",
   "DE.Views.Navigation.txtEmptyItem": "Boş Başlıq",
+  "DE.Views.Navigation.txtEmptyViewer": "Heç bir məzmun qeydi tapılmadı.",
   "DE.Views.Navigation.txtExpand": "Hamısını genişləndir",
   "DE.Views.Navigation.txtExpandToLevel": "Səviyyəyə uyğun genişləndir",
   "DE.Views.Navigation.txtHeadingAfter": "Sonra yeni başlıq",

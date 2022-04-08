@@ -202,6 +202,7 @@
   "Common.Views.Comments.textResolved": "Rezolvat",
   "Common.Views.Comments.textSort": "Sortare comentarii",
   "Common.Views.Comments.textViewResolved": "Dvs. nu aveți permisiunea de a redeschide comentariu",
+  "Common.Views.Comments.txtEmpty": "Nu există niciun comentariu.",
   "Common.Views.CopyWarningDialog.textDontShow": "Nu afișa acest mesaj din nou",
   "Common.Views.CopyWarningDialog.textMsg": "Operațiuni de copiere, decupare și lipire din bară de instrumente sau meniul contextual al editorului se execută numai în editorul.<br><br>Pentru copiere și lipire din sau în aplicații exterioare folosiți următoarele combinații de taste:",
   "Common.Views.CopyWarningDialog.textTitle": "Comenzile de copiere, decupare și lipire",
