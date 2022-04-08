@@ -202,6 +202,7 @@
   "Common.Views.Comments.textResolved": "Resuelto",
   "Common.Views.Comments.textSort": "Ordenar comentarios",
   "Common.Views.Comments.textViewResolved": "No tiene permiso para volver a abrir el comentario",
+  "Common.Views.Comments.txtEmpty": "Sin comentarios en la hoja.",
   "Common.Views.CopyWarningDialog.textDontShow": "No volver a mostrar este mensaje",
   "Common.Views.CopyWarningDialog.textMsg": "Se puede realizar las acciones de copiar, cortar y pegar usando los botones en la barra de herramientas y el menú contextual sólo en esta pestaña del editor.<br><br>Si quiere copiar o pegar algo fuera de esta pestaña, use las combinaciones de teclas siguientes:",
   "Common.Views.CopyWarningDialog.textTitle": "Funciones de Copiar, Cortar y Pegar",

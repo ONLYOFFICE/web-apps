@@ -14,6 +14,7 @@
   "PE.ApplicationController.errorFilePassProtect": "ມີລະຫັດປົກປ້ອງຟາຍນີ້ຈຶ່ງບໍ່ສາມາດເປີດໄດ້",
   "PE.ApplicationController.errorFileSizeExceed": "ຂະໜາດຂອງຟາຍໃຫຍ່ກວ່າທີ່ກຳນົດໄວ້ໃນລະບົບ. <br>ກະລຸນະຕິດຕໍ່ຜູ້ຄຸ້ມຄອງລົບຂອງທ່ານ",
   "PE.ApplicationController.errorForceSave": "ເກີດຂໍ້ຜິດພາດໃນລະຫວ່າງການເບັນທຶກຝາຍ. ກະລຸນາໃຊ້ຕົວເລືອກ 'ດາວໂຫລດເປັນ' ເພື່ອບັນທຶກເອກະສານໄວ້ໃນຮາດໄດຄອມພິວເຕີຂອງທ່ານຫຼືລອງໃໝ່ພາຍຫຼັງ.",
+  "PE.ApplicationController.errorLoadingFont": "ຟອນບໍ່ໄດ້ຖືກໂຫລດ.<br>ກະລຸນາແອດມີນຂອງທ່ານ.",
   "PE.ApplicationController.errorTokenExpire": "ເຄື່ອງໝາຍຄວາມປອດໄພຂອງເອກະສານໄດ້ໝົດອາຍຸແລ້ວ. <br> ກະລຸນາຕິດຕໍ່ຜູ້ເບິ່ງແຍງລະບົບເອກະສານຂອງທ່ານ.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "ການເຊື່ອຕໍ່ອິນເຕີເນັດຫາກໍ່ກັບມາ, ແລະຟາຍເອກະສານໄດ້ມີການປ່ຽນແປງແລ້ວ. <b>ກ່ອນທີ່ທ່ານຈະດຳເນີການຕໍ່ໄປ, ທ່ານຕ້ອງໄດ້ດາວໂຫຼດຟາຍ ຫຼືສຳເນົາເນື້ອຫາ ເພື່ອປ້ອງການການສູນເສຍ, ແລະກໍ່ທຳການໂຫຼດໜ້າຄືນອີກຄັ້ງ.",
   "PE.ApplicationController.errorUserDrop": "ບໍ່ສາມາດເຂົ້າເຖິງຟາຍໄດ້",

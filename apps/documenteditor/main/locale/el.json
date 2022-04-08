@@ -2117,6 +2117,7 @@
   "DE.Views.Navigation.txtDemote": "Υποβίβαση",
   "DE.Views.Navigation.txtEmpty": "Δεν υπάρχουν επικεφαλίδες στο έγγραφο.<br>Εφαρμόστε μια τεχνοτροπία επικεφαλίδων στο κείμενο ώστε να εμφανίζεται στον πίνακα περιεχομένων.",
   "DE.Views.Navigation.txtEmptyItem": "Κενή Επικεφαλίδα",
+  "DE.Views.Navigation.txtEmptyViewer": "Δεν υπάρχουν επικεφαλίδες στο έγγραφο.",
   "DE.Views.Navigation.txtExpand": "Επέκταση όλων",
   "DE.Views.Navigation.txtExpandToLevel": "Επέκταση σε επίπεδο",
   "DE.Views.Navigation.txtHeadingAfter": "Νέα επικεφαλίδα μετά",

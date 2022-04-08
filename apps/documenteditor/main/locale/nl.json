@@ -2113,6 +2113,7 @@
   "DE.Views.Navigation.txtDemote": "Degraderen",
   "DE.Views.Navigation.txtEmpty": "Er zijn geen koppen in het document.<br>Pas een kopstijl toe op de tekst zodat deze in de inhoudsopgave wordt weergegeven.",
   "DE.Views.Navigation.txtEmptyItem": "Lege koptekst",
+  "DE.Views.Navigation.txtEmptyViewer": "Er zijn geen koppen in het document.",
   "DE.Views.Navigation.txtExpand": "Alle uitbreiden",
   "DE.Views.Navigation.txtExpandToLevel": "Uitbreiden tot niveau",
   "DE.Views.Navigation.txtHeadingAfter": "Nieuwe kop na",

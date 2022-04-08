@@ -1969,6 +1969,7 @@
   "DE.Views.Navigation.txtDemote": "Панізіць узровень",
   "DE.Views.Navigation.txtEmpty": "У гэтага дакумента няма загалоўка<br>Выкарыстайце стыль загалоўка да тэксту, каб ён з’явіўся ў змесце.",
   "DE.Views.Navigation.txtEmptyItem": "Пусты загаловак",
+  "DE.Views.Navigation.txtEmptyViewer": "У гэтага дакумента няма загалоўка.",
   "DE.Views.Navigation.txtExpand": "Пашырыць усе",
   "DE.Views.Navigation.txtExpandToLevel": "Пашырыць да ўзроўня",
   "DE.Views.Navigation.txtHeadingAfter": "Новы загаловак пасля",

@@ -2100,6 +2100,7 @@
   "DE.Views.Navigation.txtDemote": "Zdegradować",
   "DE.Views.Navigation.txtEmpty": "W dokumencie nie ma nagłówków. <br> Zastosuj styl nagłówka do tekstu, aby pojawił się w spisie treści.",
   "DE.Views.Navigation.txtEmptyItem": "Pusty nagłówek",
+  "DE.Views.Navigation.txtEmptyViewer": "W dokumencie nie ma nagłówków.",
   "DE.Views.Navigation.txtExpand": "Rozwiń wszystko",
   "DE.Views.Navigation.txtExpandToLevel": "Rozwiń do poziomu",
   "DE.Views.Navigation.txtHeadingAfter": "Nowy nagłówek po",

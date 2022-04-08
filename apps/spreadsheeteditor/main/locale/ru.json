@@ -202,6 +202,7 @@
   "Common.Views.Comments.textResolved": "Решено",
   "Common.Views.Comments.textSort": "Сортировать комментарии",
   "Common.Views.Comments.textViewResolved": "У вас нет прав для повторного открытия комментария",
+  "Common.Views.Comments.txtEmpty": "На листе нет комментариев.",
   "Common.Views.CopyWarningDialog.textDontShow": "Больше не показывать это сообщение",
   "Common.Views.CopyWarningDialog.textMsg": "Операции копирования, вырезания и вставки можно выполнить с помощью кнопок на панели инструментов и команд контекстного меню только в этой вкладке редактора.<br><br>Для копирования в другие приложения и вставки из них используйте следующие сочетания клавиш:",
   "Common.Views.CopyWarningDialog.textTitle": "Операции копирования, вырезания и вставки",
