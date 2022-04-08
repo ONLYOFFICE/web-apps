@@ -2,6 +2,8 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const WebpackRTLPlugin = require('webpack-rtl-plugin');
+// const rtlcss = require('rtlcss');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -103,7 +105,8 @@ module.exports = {
                 options: {
                     config: {
                         path: path.resolve(__dirname, '..'),
-                    }
+                    },
+                    // plugins: [rtlcss]
                 },
             },
         ],
@@ -123,7 +126,8 @@ module.exports = {
                 options: {
                     config: {
                         path: path.resolve(__dirname, '..'),
-                    }
+                    },
+                    // plugins: [rtlcss]
                 },
             },
             {
@@ -197,6 +201,10 @@ module.exports = {
     // new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
+    }),
+    new WebpackRTLPlugin({
+      filename: 'css/[name].rtl.css',
+      diffOnly: true
     }),
     new HtmlWebpackPlugin({
       filename: `../../../apps/${editor}/mobile/index.html`,

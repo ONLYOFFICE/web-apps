@@ -37,8 +37,10 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-i18next": "^11.8.5",
+    "rtlcss": "^3.5.0",
     "swiper": "^6.4.8",
-    "template7": "^1.4.2"
+    "template7": "^1.4.2",
+    "webpack-rtl-plugin": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

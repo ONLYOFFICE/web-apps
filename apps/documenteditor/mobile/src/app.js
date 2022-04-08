@@ -15,7 +15,8 @@ window.jQuery = jQuery;
 window.$ = jQuery;
 
 // Import Framework7 Styles
-import 'framework7/framework7-bundle.css';
+// import 'framework7/framework7-bundle.css';
+import 'framework7/framework7-bundle-rtl.css';
 
 // Import Icons and App Custom Styles
 // import '../css/icons.css';
