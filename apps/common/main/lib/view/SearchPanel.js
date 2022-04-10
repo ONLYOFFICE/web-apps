@@ -160,18 +160,6 @@ define([
                 this.$resultsContainer = $('#search-results');
                 this.$resultsContainer.hide();
 
-                this.$resultsContainer.scroller = new Common.UI.Scroller({
-                    el: this.$resultsContainer,
-                    includePadding: true,
-                    useKeyboard: true,
-                    minScrollbarLength: 40,
-                    alwaysVisibleY: true
-                });
-                Common.NotificationCenter.on('window:resize', function() {
-                    me.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-                    me.$resultsContainer.scroller.update({alwaysVisibleY: true});
-                });
-
                 Common.NotificationCenter.on('search:updateresults', _.bind(this.disableNavButtons, this));
                 if (window.SSE) {
                     this.cmbWithin = new Common.UI.ComboBox({
@@ -244,7 +232,36 @@ define([
                     this.cmbWithin.setValue(0);
                     this.cmbSearch.setValue(0);
                     this.cmbLookIn.setValue(0);
+
+                    var tableTemplate = '<div class="search-table">' +
+                        '<div class="header-item">' + this.textSheet + '</div>' +
+                        '<div class="header-item">' + this.textName + '</div>' +
+                        '<div class="header-item">' + this.textCell + '</div>' +
+                        '<div class="header-item">' + this.textValue + '</div>' +
+                        '<div class="header-item">' + this.textFormula + '</div>' +
+                        '<div class="ps-container oo search-items"></div>' +
+                        '</div>',
+                        $resultTable = $(tableTemplate).appendTo(this.$resultsContainer);
+                    this.$resultsContainer.scroller = new Common.UI.Scroller({
+                        el: $resultTable.find('.search-items'),
+                        includePadding: true,
+                        useKeyboard: true,
+                        minScrollbarLength: 40,
+                        alwaysVisibleY: true
+                    });
+                } else {
+                    this.$resultsContainer.scroller = new Common.UI.Scroller({
+                        el: this.$resultsContainer,
+                        includePadding: true,
+                        useKeyboard: true,
+                        minScrollbarLength: 40,
+                        alwaysVisibleY: true
+                    });
                 }
+                Common.NotificationCenter.on('window:resize', function() {
+                    me.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
+                    me.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                });
             }
 
             this.rendered = true;
@@ -366,7 +383,11 @@ define([
         textNoMatches: 'No matches',
         textNoSearchResults: 'No search results',
         textItemEntireCell: 'Entire cell contents',
-        textTooManyResults: 'There are too many results to show here'
+        textTooManyResults: 'There are too many results to show here',
+        textName: 'Name',
+        textCell: 'Cell',
+        textValue: 'Value',
+        textFormula: 'Formula'
 
     }, Common.Views.SearchPanel || {}));
 });

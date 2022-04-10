@@ -364,7 +364,7 @@ define([
                     if (this.resultItems[current]) {
                         this.resultItems[current].selected = true;
                         $('#search-results').find('.item').removeClass('selected');
-                        $(this.resultItems[current].el).addClass('selected');
+                        this.resultItems[current].$el.addClass('selected');
                         this.scrollToSelectedResult(current);
                     }
                 }
@@ -378,13 +378,13 @@ define([
                 var item = this.resultItems[index].$el,
                     itemHeight = item.outerHeight(),
                     itemTop = item.position().top,
-                    container = this.view.$resultsContainer,
+                    container = this.view.$resultsContainer.find('.search-items'),
                     containerHeight = container.outerHeight(),
                     containerTop = container.scrollTop();
                 if (itemTop < 0 || (containerTop === 0 && itemTop > containerHeight)) {
-                    container.scroller.scrollTop(containerTop + itemTop - 12);
+                    this.view.$resultsContainer.scroller.scrollTop(containerTop + itemTop - 12);
                 } else if (itemTop + itemHeight > containerHeight) {
-                    container.scroller.scrollTop(containerTop + itemHeight);
+                    this.view.$resultsContainer.scroller.scrollTop(containerTop + itemHeight);
                 }
             }
         },
@@ -406,40 +406,22 @@ define([
             if (this.view && this._state.isStartedAddingResults) {
                 if (data.length > 300) return;
                 var me = this,
-                    container = me.view.$resultsContainer;
-                container.html('<table style="width:100%">' +
-                    '<col style="width:20%">' +
-                    '<col style="width:20%">' +
-                    '<col style="width:20%">' +
-                    '<col style="width:20%">' +
-                    '<col style="width:20%">' +
-                    '<thead>' +
-                        '<tr>' +
-                            '<th>' + this.textSheet +   '</th>' +
-                            '<th>' + this.textName +    '</th>' +
-                            '<th>' + this.textCell +    '</th>' +
-                            '<th>' + this.textValue +   '</th>' +
-                            '<th>' + this.textFormula + '</th>' +
-                        '</tr>' +
-                    '</thead>' +
-                    '<tbody>' +
-                    '</table>');
-                var $tableBody = container.find('tbody');
+                    $innerResults = me.view.$resultsContainer.find('.search-items');
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var isSelected = ind === me._state.currentResult;
-                    var tr = '<tr class="item">' +
-                        '<td>' + item[1] + '</td>' +
-                        '<td>' + item[2] + '</td>' +
-                        '<td>' + item[3] + '</td>' +
-                        '<td>' + item[4] + '</td>' +
-                        '<td>' + item[5] + '</td>' +
-                        '</tr>';
-                    var $item = $(tr).appendTo($tableBody);
+                    var tr = '<div class="item" style="width: 100%;">' +
+                        '<div>' + item[1] + '</div>' +
+                        '<div>' + item[2] + '</div>' +
+                        '<div>' + item[3] + '</div>' +
+                        '<div>' + item[4] + '</div>' +
+                        '<div>' + item[5] + '</div>' +
+                        '</div>';
+                    var $item = $(tr).appendTo($innerResults);
                     if (isSelected) {
                         $item.addClass('selected');
                     }
-                    var resultItem = {id: item[0], $el: $item, selected: isSelected};
+                    var resultItem = {id: item[0], $el: $item, el: tr, selected: isSelected};
                     me.resultItems.push(resultItem);
                     $item.on('click', _.bind(function (el) {
                         var id = item[0];
@@ -453,7 +435,7 @@ define([
         hideResults: function () {
             if (this.view) {
                 this.view.$resultsContainer.hide();
-                this.view.$resultsContainer.empty();
+                this.view.$resultsContainer.find('tbody').empty();
             }
         },
 
@@ -464,14 +446,19 @@ define([
             }
 
             var text = findText || this.api.asc_GetSelectedText() || this._state.searchText;
-            if (text) {
+            if (this.resultItems && this.resultItems.length > 0 &&
+                (!this._state.matchCase && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
+                return;
+            }
+            if (text && text !== this.view.inputText.getValue()) {
                 this.view.setFindText(text);
             } else if (text !== undefined) {
                 this.view.setFindText('');
             }
 
             this.hideResults();
-            if (text !== '' && text === this._state.searchText) { // search was made
+            if (text !== '') { // search was made
                 this.view.disableReplaceButtons(false);
                 this.api.asc_StartTextAroundSearch();
             } else if (text !== '') { // search wasn't made
@@ -486,14 +473,15 @@ define([
 
         onShowPanel: function () {
             if (this.resultItems && this.resultItems.length > 0 && !this._state.isStartedAddingResults) {
-                var me = this;
+                var me = this,
+                    $tableBody = this.view.$resultsContainer.find('tbody');
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
-                    me.view.$resultsContainer.append(item.el);
+                    var $item = $(item.el).appendTo($tableBody);
                     if (item.selected) {
-                        $(item.el).addClass('selected');
+                        $item.addClass('selected');
                     }
-                    $(item.el).on('click', function (el) {
+                    $item.on('click', function (el) {
                         me.api.asc_SelectSearchElement(item.id);
                         $('#search-results').find('.item').removeClass('selected');
                         $(el.currentTarget).addClass('selected');
@@ -510,12 +498,7 @@ define([
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
         textReplaceSuccess: 'Search has been done. {0} occurrences have been replaced',
         textReplaceSkipped: 'The replacement has been made. {0} occurrences were skipped.',
-        textInvalidRange: 'ERROR! Invalid cells range',
-        textSheet: 'Sheet',
-        textName: 'Name',
-        textCell: 'Cell',
-        textValue: 'Value',
-        textFormula: 'Formula'
+        textInvalidRange: 'ERROR! Invalid cells range'
 
     }, SSE.Controllers.Search || {}));
 });

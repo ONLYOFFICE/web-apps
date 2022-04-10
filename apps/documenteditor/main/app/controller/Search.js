@@ -343,6 +343,11 @@ define([
             }
 
             var text = findText || this.api.asc_GetSelectedText() || this._state.searchText;
+            if (this.resultItems && this.resultItems.length > 0 &&
+                (!this._state.matchCase && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
+                return;
+            }
             if (text) {
                 this.view.setFindText(text);
             } else if (text !== undefined) {
