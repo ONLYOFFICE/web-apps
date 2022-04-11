@@ -337,6 +337,9 @@ define([
             this.extendedOptions = !this.extendedOptions;
             this.$searchOptionsBlock[this.extendedOptions ? 'removeClass' : 'addClass']('no-expand');
             Common.localStorage.setBool('sse-search-options-extended', this.extendedOptions);
+
+            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
+            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
         },
 
         setFindText: function (val) {

@@ -58,7 +58,9 @@ define([
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
                     'search:input': _.bind(this.onInputSearchChange, this),
-                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
+                    'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
+                    'show': _.bind(this.onSelectSearchingResults, this, true),
+                    'hide': _.bind(this.onSelectSearchingResults, this, false)
                 },
                 'Common.Views.SearchPanel': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
@@ -307,36 +309,43 @@ define([
 
         onRenameText: function (found, replaced) {
             var me = this;
-            /*if (this.api.isReplaceAll) {
-                Common.UI.info({
-                    msg: (found) ? ((!found-replaced) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced)) : this.textNoTextFound,
-                    callback: function() {
-                        me.view.focus();
-                    }
-                });
-            } else {
-                var sett = this.view.getSettings();
-                var options = new Asc.asc_CFindOptions();
-                options.asc_setFindWhat(sett.textsearch);
-                options.asc_setScanForward(true);
-                options.asc_setIsMatchCase(sett.matchcase);
-                options.asc_setIsWholeCell(sett.matchword);
-
-                var extraOptions = this.view.getExtraSettings();
-                options.asc_setScanOnOnlySheet(extraOptions.within);
-                options.asc_setScanByRows(extraOptions.search);
-                options.asc_setLookIn(extraOptions.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-
-
-                if (!me.api.asc_findText(options)) {
+            if (this.api.isReplaceAll) {
+                if (!found) {
+                    this.resultItems = [];
+                    this.view.updateResultsNumber(undefined, 0);
+                    this.view.disableReplaceButtons(true);
+                    this._state.currentResult = 0;
+                    this._state.resultsNumber = 0;
+                    this.view.disableNavButtons();
+                } else {
                     Common.UI.info({
-                        msg: this.textNoTextFound,
+                        msg: !found-replaced ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
                         callback: function() {
                             me.view.focus();
                         }
                     });
                 }
-            }*/
+            } else {
+                var options = new Asc.asc_CFindOptions();
+                options.asc_setFindWhat(this._state.searchText);
+                options.asc_setScanForward(true);
+                options.asc_setIsMatchCase(this._state.matchCase);
+                options.asc_setIsWholeCell(this._state.matchWord);
+                options.asc_setScanOnOnlySheet(this._state.withinSheet);
+                if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
+                    options.asc_setSpecificRange(this._state.selectedRange);
+                }
+                options.asc_setScanByRows(this._state.searchByRows);
+                options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+                if (!this.api.asc_findText(options)) {
+                    this.resultItems = [];
+                    this.view.updateResultsNumber(undefined, 0);
+                    this.view.disableReplaceButtons(true);
+                    this._state.currentResult = 0;
+                    this._state.resultsNumber = 0;
+                    this.view.disableNavButtons();
+                }
+            }
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
@@ -435,7 +444,7 @@ define([
         hideResults: function () {
             if (this.view) {
                 this.view.$resultsContainer.hide();
-                this.view.$resultsContainer.find('tbody').empty();
+                this.view.$resultsContainer.find('.search-items').empty();
             }
         },
 
@@ -472,9 +481,10 @@ define([
         },
 
         onShowPanel: function () {
+            this.onSelectSearchingResults(true);
             if (this.resultItems && this.resultItems.length > 0 && !this._state.isStartedAddingResults) {
                 var me = this,
-                    $tableBody = this.view.$resultsContainer.find('tbody');
+                    $tableBody = this.view.$resultsContainer.find('.search-items');
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
                     var $item = $(item.el).appendTo($tableBody);
@@ -493,6 +503,16 @@ define([
 
         onHidePanel: function () {
             this.hideResults();
+            this.onSelectSearchingResults(false);
+        },
+
+        onSelectSearchingResults: function (val) {
+            if (!val && this.getApplication().getController('LeftMenu').isSearchPanelVisible()) return;
+
+            if (this._state.isHighlightedResults !== val) {
+                this.api.asc_selectSearchingResults(val);
+                this._state.isHighlightedResults = val;
+            }
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
