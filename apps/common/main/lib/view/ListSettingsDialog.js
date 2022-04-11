@@ -50,6 +50,13 @@ define([
     'common/main/lib/view/SymbolTableDialog'
 ], function () { 'use strict';
 
+    var _BulletTypes = {};
+    _BulletTypes.none = -1;
+    _BulletTypes.symbol = 0;
+    _BulletTypes.image = 2;
+    _BulletTypes.newSymbol = 1;
+    _BulletTypes.newImage = -2;
+
     Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
@@ -134,7 +141,6 @@ define([
             this.color = '000000';
             this.storage = !!options.storage;
             this.api = options.api;
-            this.isImageLoaded = false;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -213,24 +219,26 @@ define([
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 data        : [
-                    { displayValue: this.txtNone,       value: -1 },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "•", font: 'Arial' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "o", font: 'Courier New' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "§", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "v", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "Ø", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "ü", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "w", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "–", font: 'Arial' },
-                    { displayValue: this.txtNewBullet, value: 1 },
-                    { displayValue: this.txtNewImage, value: 2 }
+                    { displayValue: this.txtNone,          value: _BulletTypes.none },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "•", font: 'Arial' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "o", font: 'Courier New' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "§", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "v", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "Ø", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "ü", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "w", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "–", font: 'Arial' },
+                    { displayValue: this.txtNewBullet,     value: _BulletTypes.newSymbol },
+                    { displayValue: this.txtNewImage,      value: _BulletTypes.newImage }
                 ],
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        if (record.get('value')==0)
+                        if (record.get('value')===_BulletTypes.symbol)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
-                        else if (record.get('value')==2)
+                        else if (record.get('value')===_BulletTypes.image)
+                            formcontrol[0].innerHTML = me.txtImage;
+                        else if (record.get('value')===_BulletTypes.newImage)
                             formcontrol[0].innerHTML = me.txtImage;
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
@@ -242,9 +250,9 @@ define([
             this.cmbBulletFormat.selectRecord(rec);
             this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
             this.cmbBulletFormat.on('selected', _.bind(function (combo, record) {
-                this.imageControls.toggleClass('hidden', record.value !== 2);
-                this.colorControls.toggleClass('hidden', record.value === 2);
-                if (record.value === 1) {
+                this.imageControls.toggleClass('hidden', !(record.value === _BulletTypes.image || record.value === _BulletTypes.newImage));
+                this.colorControls.toggleClass('hidden', record.value === _BulletTypes.image || record.value === _BulletTypes.newImage);
+                if (record.value === _BulletTypes.newSymbol) {
                     var me = this,
                         props = me.bulletProps,
                         handler = function(dlg, result, settings) {
@@ -259,10 +267,14 @@ define([
                                 }
                             }
                             var store = combo.store;
-                            if (!store.findWhere({value: 0, symbol: props.symbol, font: props.font}))
-                                store.add({ displayValue: me.txtSymbol + ': ', value: 0, symbol: props.symbol, font: props.font }, {at: store.length-1});
+                            if (!store.findWhere({value: _BulletTypes.symbol, symbol: props.symbol, font: props.font})) {
+                                var idx = store.indexOf(store.findWhere({value: _BulletTypes.image}));
+                                if (idx<0)
+                                    idx = store.indexOf(store.findWhere({value: _BulletTypes.newSymbol}));
+                                store.add({ displayValue: me.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: props.symbol, font: props.font }, {at: idx});
+                            }
                             combo.setData(store.models);
-                            combo.selectRecord(combo.store.findWhere({value: 0, symbol: props.symbol, font: props.font}));
+                            combo.selectRecord(combo.store.findWhere({value: _BulletTypes.symbol, symbol: props.symbol, font: props.font}));
                         },
                         win = new Common.Views.SymbolTableDialog({
                             api: me.options.api,
@@ -275,10 +287,11 @@ define([
                         });
                     win.show();
                     win.on('symbol:dblclick', handler);
-                } else if (record.value == 2) { // image
-                    // need to set previous image or disable Ok button
-                    this.isImageLoaded = false;
-                } else if (record.value == -1) {
+                } else if (record.value == _BulletTypes.newImage) { // new image
+                } else if (record.value == _BulletTypes.image) { // image
+                    if (this._changedProps)
+                        this._changedProps.asc_fillBulletImage(this.imageProps.id);
+                } else if (record.value == _BulletTypes.none) {
                     if (this._changedProps)
                         this._changedProps.asc_putListType(0, record.value);
                 } else {
@@ -291,7 +304,7 @@ define([
                         this._changedProps.asc_putSymbol(this.bulletProps.symbol);
                     }
                 }
-                this.btnOk.setDisabled(record.value === 2 && !this.isImageLoaded);
+                this.btnOk.setDisabled(record.value === _BulletTypes.newImage);
             }, this));
 
             this.spnSize = new Common.UI.MetricSpinner({
@@ -377,20 +390,25 @@ define([
             this._setDefaults(this.props);
 
             var me = this;
-            var onApiImageLoaded = function() {
-                me.isImageLoaded = true;
+            var onApiImageLoaded = function(bullet) {
+                me.imageProps = {id: bullet.asc_getImageId()};
+                if (me._changedProps)
+                    me._changedProps.asc_fillBulletImage(me.imageProps.id);
+                // add or update record for image to btnBulletFormat and select it
+                var store = me.cmbBulletFormat.store;
+                if (!store.findWhere({value: _BulletTypes.image})) {
+                    var idx = store.indexOf(store.findWhere({value: _BulletTypes.newSymbol}));
+                    store.add({ displayValue: me.txtImage, value: _BulletTypes.image }, {at: idx});
+                }
+                me.cmbBulletFormat.setData(store.models);
+                me.cmbBulletFormat.selectRecord(me.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
                 me.btnOk.setDisabled(false);
             };
             this.api.asc_registerCallback('asc_onBulletImageLoaded', onApiImageLoaded);
 
             var insertImageFromStorage = function(data) {
                 if (data && data._urls && data.c=='bullet') {
-                    if (me._changedProps)
-                        me._changedProps.asc_putImageUrl(data._urls[0], data.token);
-                    else if (me.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
-                        me._changedImageProps = new Asc.asc_CBullet();
-                        me._changedImageProps.asc_putImageUrl(data._urls[0], data.token);
-                    }
+                    (new Asc.asc_CBullet()).asc_putImageUrl(data._urls[0], data.token);
                 }
             };
             Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
@@ -417,13 +435,13 @@ define([
         },
 
         ShowHideElem: function(value) {
-            var isImage = value==0 && this.cmbBulletFormat.getValue()===2;
+            var isImage = value==0 && (this.cmbBulletFormat.getValue()===_BulletTypes.image || this.cmbBulletFormat.getValue()===_BulletTypes.newImage);
             this.numberingControls.toggleClass('hidden', value==0);
             this.imageControls.toggleClass('hidden', !isImage);
             this.colorControls.toggleClass('hidden', isImage);
             this.cmbNumFormat.setVisible(value==1);
             this.cmbBulletFormat.setVisible(value==0);
-            this.btnOk.setDisabled(isImage && !this.isImageLoaded);
+            this.btnOk.setDisabled(isImage && (this.cmbBulletFormat.getValue()===_BulletTypes.newImage));
             var me = this;
             _.delay(function(){
                 if (value)
@@ -441,13 +459,12 @@ define([
                 }
                 var type = this.btnBullet.pressed ? 0 : 1;
                 if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
-                    if (type==0 && this.cmbBulletFormat.getValue()==2 && this._changedImageProps) {//image
-                        this._changedProps = this._changedImageProps;
-                        this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                    this._changedProps = new Asc.asc_CBullet();
+                    this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                    if (type==0 && this.cmbBulletFormat.getValue()===_BulletTypes.image && this.imageProps) {//image
+                        this._changedProps.asc_fillBulletImage(this.imageProps.id);
                     } else {
-                        this._changedProps = new Asc.asc_CBullet();
                         this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
-                        this._changedProps.asc_putSize(this.spnSize.getNumberValue());
                     }
                 }
 
@@ -455,9 +472,9 @@ define([
                     (this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR || this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) && type==1 ||
                     this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM && type==0) { // changed list type
                     if (type==0) {//markers
-                        if (this.cmbBulletFormat.getValue()==-1) {
+                        if (this.cmbBulletFormat.getValue()==_BulletTypes.none) {
                             this._changedProps.asc_putListType(0, -1);
-                        } else if (this.cmbBulletFormat.getValue()==2) {
+                        } else if (this.cmbBulletFormat.getValue()==_BulletTypes.image) {
 
                         } else {
                             this._changedProps.asc_putFont(this.bulletProps.font);
@@ -517,24 +534,27 @@ define([
 
                     if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
                         this.cmbNumFormat.setValue(-1);
-                        this.cmbBulletFormat.setValue(-1);
+                        this.cmbBulletFormat.setValue(_BulletTypes.none);
                         type = this.type;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR) {
                         var symbol = bullet.asc_getSymbol();
                         if (symbol) {
                             this.bulletProps = {symbol: symbol, font: bullet.asc_getFont()};
-                            if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
-                                this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
+                            if (!this.cmbBulletFormat.store.findWhere({value: _BulletTypes.symbol, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
+                                this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-2});
                             this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
-                            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: _BulletTypes.symbol, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
                         } else
                             this.cmbBulletFormat.setValue('');
                         this._changedProps = bullet;
                         type = 0;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) {
-                        this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 2}));
+                        this.imageProps = {id: bullet.asc_getImageId()};
+                        if (!this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}))
+                            this.cmbBulletFormat.store.add({ displayValue: this.txtImage, value: _BulletTypes.image}, {at: this.cmbBulletFormat.store.length-2});
+                        this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
+                        this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
                         this._changedProps = bullet;
-                        this.isImageLoaded = true;
                         type = 0;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM) {
                         var autonum = bullet.asc_getAutoNumType();
@@ -548,7 +568,7 @@ define([
                     }
                 } else {// different bullet types
                     this.cmbNumFormat.setValue(-1);
-                    this.cmbBulletFormat.setValue(-1);
+                    this.cmbBulletFormat.setValue(_BulletTypes.none);
                     this._changedProps = new Asc.asc_CBullet();
                     type = this.type;
                 }
@@ -566,12 +586,7 @@ define([
                         if (result == 'ok') {
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
-                                if (me._changedProps)
-                                    me._changedProps.asc_putImageUrl(checkUrl);
-                                else if (me.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
-                                    me._changedImageProps = new Asc.asc_CBullet();
-                                    me._changedImageProps.asc_putImageUrl(checkUrl);
-                                }
+                                (new Asc.asc_CBullet()).asc_putImageUrl(checkUrl);
                             }
                         }
                     }
@@ -579,12 +594,7 @@ define([
             } else if (item.value==2) {
                 Common.NotificationCenter.trigger('storage:image-load', 'bullet');
             } else {
-                if (this._changedProps)
-                    this._changedProps.asc_showFileDialog();
-                else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
-                    this._changedImageProps = new Asc.asc_CBullet();
-                    this._changedImageProps.asc_showFileDialog();
-                }
+                (new Asc.asc_CBullet()).asc_showFileDialog();
             }
         },
 
