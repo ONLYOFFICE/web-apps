@@ -2,8 +2,10 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const WebpackRTLPlugin = require('webpack-rtl-plugin');
+// const WebpackRTLPlugin = require('webpack-rtl-plugin');
 // const rtlcss = require('rtlcss');
+const postcssRTLCSS = require('postcss-rtlcss');
+const { Mode } = require('postcss-rtlcss/options');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -100,15 +102,17 @@ module.exports = {
             }
           }),
           'css-loader',
-            {
-                loader: 'postcss-loader',
-                options: {
-                    config: {
-                        path: path.resolve(__dirname, '..'),
-                    },
-                    // plugins: [rtlcss]
-                },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                path: path.resolve(__dirname, '..'),
+                plugins: [
+                  postcssRTLCSS({mode: Mode.combined})
+                ]
+              },
             },
+          },
         ],
       },
       {
@@ -122,13 +126,15 @@ module.exports = {
           }),
             'css-loader?url=false',
             {
-                loader: 'postcss-loader',
-                options: {
-                    config: {
-                        path: path.resolve(__dirname, '..'),
-                    },
-                    // plugins: [rtlcss]
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  path: path.resolve(__dirname, '..'),
+                  plugins: [
+                    postcssRTLCSS({mode: Mode.combined})
+                  ]
                 },
+              },
             },
             {
               loader: "less-loader",
@@ -202,10 +208,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
     }),
-    new WebpackRTLPlugin({
-      filename: 'css/[name].rtl.css',
-      diffOnly: true
-    }),
+    // new WebpackRTLPlugin({
+    //   filename: 'css/[name].rtl.css',
+    //   diffOnly: true
+    // }),
     new HtmlWebpackPlugin({
       filename: `../../../apps/${editor}/mobile/index.html`,
       template: `../../apps/${editor}/mobile/src/index_dev.html`,
