@@ -197,7 +197,9 @@ define([
                 [
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<%= item.displayValue %><% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span><% } %>',
+                    '<%= item.displayValue %>',
+                    '<% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span>',
+                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" style="width:12px; height: 12px; margin-left: 5px; display: inline-block; vertical-align: middle;"></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -236,9 +238,12 @@ define([
                     if (record) {
                         if (record.get('value')===_BulletTypes.symbol)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
-                        else if (record.get('value')===_BulletTypes.image)
-                            formcontrol[0].innerHTML = me.txtImage;
-                        else if (record.get('value')===_BulletTypes.newImage)
+                        else if (record.get('value')===_BulletTypes.image) {
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" style="width:12px; height: 12px; margin-left: 5px; display: inline-block; vertical-align: middle;"></span>';
+                            var bullet = new Asc.asc_CBullet();
+                            bullet.asc_fillBulletImage(me.imageProps.id);
+                            bullet.drawSquareImage('id-dlg-list-bullet-combo-preview');
+                        } else if (record.get('value')===_BulletTypes.newImage)
                             formcontrol[0].innerHTML = me.txtImage;
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
@@ -306,6 +311,7 @@ define([
                 }
                 this.btnOk.setDisabled(record.value === _BulletTypes.newImage);
             }, this));
+            this.cmbBulletFormat.on('show:after', _.bind(this.onBulletFormatOpen, this));
 
             this.spnSize = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-size'),
@@ -391,14 +397,14 @@ define([
 
             var me = this;
             var onApiImageLoaded = function(bullet) {
-                me.imageProps = {id: bullet.asc_getImageId()};
+                me.imageProps = {id: bullet.asc_getImageId(), redraw: true};
                 if (me._changedProps)
                     me._changedProps.asc_fillBulletImage(me.imageProps.id);
                 // add or update record for image to btnBulletFormat and select it
                 var store = me.cmbBulletFormat.store;
                 if (!store.findWhere({value: _BulletTypes.image})) {
                     var idx = store.indexOf(store.findWhere({value: _BulletTypes.newSymbol}));
-                    store.add({ displayValue: me.txtImage, value: _BulletTypes.image }, {at: idx});
+                    store.add({ displayValue: me.txtImage + ':', value: _BulletTypes.image }, {at: idx});
                 }
                 me.cmbBulletFormat.setData(store.models);
                 me.cmbBulletFormat.selectRecord(me.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
@@ -417,6 +423,17 @@ define([
                 me.api.asc_unregisterCallback('asc_onBulletImageLoaded', onApiImageLoaded);
                 Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
             });
+        },
+
+        onBulletFormatOpen: function(combo) {
+            var store = combo.store,
+                rec = store.findWhere({value: _BulletTypes.image});
+            if (rec && this.imageProps.redraw) {
+                var bullet = new Asc.asc_CBullet();
+                bullet.asc_fillBulletImage(this.imageProps.id);
+                bullet.drawSquareImage('id-dlg-list-bullet-image-preview');
+                this.imageProps.redraw = false;
+            }
         },
 
         updateThemeColors: function() {
@@ -549,9 +566,9 @@ define([
                         this._changedProps = bullet;
                         type = 0;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) {
-                        this.imageProps = {id: bullet.asc_getImageId()};
+                        this.imageProps = {id: bullet.asc_getImageId(), redraw: true};
                         if (!this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}))
-                            this.cmbBulletFormat.store.add({ displayValue: this.txtImage, value: _BulletTypes.image}, {at: this.cmbBulletFormat.store.length-2});
+                            this.cmbBulletFormat.store.add({ displayValue: this.txtImage + ':', value: _BulletTypes.image}, {at: this.cmbBulletFormat.store.length-2});
                         this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
                         this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
                         this._changedProps = bullet;
