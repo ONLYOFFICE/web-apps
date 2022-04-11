@@ -373,6 +373,13 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
             api.asc_showWorksheet(sheetIndex);
             f7.popover.close('#idx-all-list');
         }
+
+        const tab = $$('.sheet-tabs .tab').eq(sheetIndex);
+        if(tab.offset().left < 0) {
+            $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + tab.offset().left - 96, 500);
+        } else {
+            $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + (tab.offset().left + tab.width() - $$('.sheet-tabs').width()/1.5), 500);
+        }
     };
 
     const onSetWorkSheetColor = (color) => {

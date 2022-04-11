@@ -79,7 +79,7 @@
         "txtAll": "（全部）",
         "txtArt": "你的文本在此",
         "txtBlank": "（空白）",
-        "txtByField": "%2的%1 ",
+        "txtByField": "%1/%2",
         "txtClearFilter": "清除筛选器(Alt+C)",
         "txtColLbls": "列标签",
         "txtColumn": "列",
@@ -361,7 +361,12 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序",
       "txtSortSelected": "排序选定的",
-      "txtYes": "是"
+      "txtYes": "是",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -373,7 +378,7 @@
       "textAlignBottom": "底部对齐",
       "textAlignCenter": "居中对齐",
       "textAlignLeft": "左对齐",
-      "textAlignMiddle": "居中对齐",
+      "textAlignMiddle": "垂直居中",
       "textAlignRight": "右对齐",
       "textAlignTop": "顶端对齐",
       "textAllBorders": "所有边框",

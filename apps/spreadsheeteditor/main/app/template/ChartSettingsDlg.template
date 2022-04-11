@@ -56,7 +56,7 @@
     <div class="inner-content">
         <table cols="2" style="width: 100%">
             <tr>
-                <td colspan="2" class="padding-large">
+                <td colspan="2" class="padding-small">
                     <div id="chart-dlg-chk-vert-hide-0" class="input-group-nr"></div>
                 </td>
             </tr>
@@ -84,13 +84,13 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large" width="100">
+                <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textMaxValue %></label>
                 </td>
-                <td class="padding-large" width="115" style="padding-right: 10px;">
+                <td class="padding-small" width="115" style="padding-right: 10px;">
                     <div id="chart-dlg-combo-maxtype-0"></div>
                 </td>
-                <td class="padding-large" width="90">
+                <td class="padding-small" width="90">
                     <div id="chart-dlg-input-max-value-0"></div>
                 </td>
             </tr>
@@ -108,16 +108,27 @@
         </table>
     </div>
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="2" style="width: 100%;">
             <tr>
-                <td class="padding-large">
+                <td colspan=2 class="padding-small">
+                    <label class="input-label"><%= scope.textUnits %></label>
+                    <div id="chart-dlg-combo-units-0" class="input-group-nr" style="width: 140px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
                     <div id="chart-dlg-check-v-reverse-0"></div>
                 </td>
             </tr>
             <tr>
                 <td class="padding-large">
-                    <label class="input-label"><%= scope.textUnits %></label>
-                    <div id="chart-dlg-combo-units-0" class="input-group-nr" style="width:140px;"></div>
+                    <div id="chart-dlg-check-v-logscale-0"></div>
+                </td>
+                <td class="padding-large">
+                    <div style="float: right;">
+                        <label class="input-label"><%= scope.textBase %></label>
+                        <div id="chart-dlg-input-base-0" style="display: inline-block;margin-left: 5px;"></div>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -166,7 +177,7 @@
     <div class="inner-content">
         <table cols="2" style="width: 100%">
             <tr>
-                <td colspan="2" class="padding-large">
+                <td colspan="2" class="padding-small">
                     <div id="chart-dlg-chk-vert-hide-1" class="input-group-nr"></div>
                 </td>
             </tr>
@@ -194,13 +205,13 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large" width="100">
+                <td class="padding-small" width="100">
                     <label class="input-label"><%= scope.textMaxValue %></label>
                 </td>
-                <td class="padding-large" width="115" style="padding-right: 10px;">
+                <td class="padding-small" width="115" style="padding-right: 10px;">
                     <div id="chart-dlg-combo-maxtype-1"></div>
                 </td>
-                <td class="padding-large" width="90">
+                <td class="padding-small" width="90">
                     <div id="chart-dlg-input-max-value-1"></div>
                 </td>
             </tr>
@@ -218,16 +229,27 @@
         </table>
     </div>
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="2" style="width: 100%;">
             <tr>
-                <td class="padding-large">
+                <td colspan=2 class="padding-small">
+                    <label class="input-label"><%= scope.textUnits %></label>
+                    <div id="chart-dlg-combo-units-1" class="input-group-nr" style="width: 140px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
                     <div id="chart-dlg-check-v-reverse-1"></div>
                 </td>
             </tr>
             <tr>
                 <td class="padding-large">
-                    <label class="input-label"><%= scope.textUnits %></label>
-                    <div id="chart-dlg-combo-units-1" class="input-group-nr" style="width:140px;"></div>
+                    <div id="chart-dlg-check-v-logscale-1"></div>
+                </td>
+                <td class="padding-large">
+                    <div style="float: right;">
+                        <label class="input-label"><%= scope.textBase %></label>
+                        <div id="chart-dlg-input-base-1" style="display: inline-block;margin-left: 5px;"></div>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -276,7 +298,7 @@
     <div class="inner-content">
         <table cols="2" style="width: 100%">
             <tr>
-                <td colspan="2" class="padding-large">
+                <td colspan="2" class="padding-small">
                     <div id="chart-dlg-chk-hor-hide-0" class="input-group-nr"></div>
                 </td>
             </tr>
@@ -385,7 +407,7 @@
     <div class="inner-content">
         <table cols="2" style="width: 100%">
             <tr>
-                <td colspan="2" class="padding-large">
+                <td colspan="2" class="padding-small">
                     <div id="chart-dlg-chk-hor-hide-1" class="input-group-nr"></div>
                 </td>
             </tr>

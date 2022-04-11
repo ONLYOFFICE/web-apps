@@ -397,7 +397,9 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -647,7 +649,13 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textFastWV": "Fast Web View",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

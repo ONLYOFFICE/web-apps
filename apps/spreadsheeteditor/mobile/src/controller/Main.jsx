@@ -171,6 +171,9 @@ class MainController extends Component {
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
+                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
+
                     const appOptions = this.props.storeAppOptions;
                     let enable = !appOptions.customization || (appOptions.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -448,9 +451,9 @@ class MainController extends Component {
                     boxSdk.append(dropdownListTarget);
                 }
 
-                let coord  = this.api.asc_getActiveCellCoord(),
+                let coord  = this.api.asc_getActiveCellCoord(validation),
                     offset = {left: 0, top: 0},
-                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                    showPoint = [coord.asc_getX() + offset.left + (validation ? coord.asc_getWidth() : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
             
                 dropdownListTarget.css({left: `${showPoint[0]}px`, top: `${showPoint[1]}px`});
             }

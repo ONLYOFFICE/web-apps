@@ -353,21 +353,8 @@
     </script>
 
     <inline src="resources/img/header/buttons.svg" />
-    <inline src="resources/img/doc-formats/pptx.svg" />
-    <inline src="resources/img/doc-formats/ppsx.svg" />
-    <inline src="resources/img/doc-formats/potx.svg" />
-    <inline src="resources/img/doc-formats/pdf.svg" />
-    <inline src="resources/img/doc-formats/pdfa.svg" />
-    <inline src="resources/img/doc-formats/odp.svg" />
-    <inline src="resources/img/doc-formats/otp.svg" />
-    <inline src="resources/img/doc-formats/pptm.svg" />
-    <inline src="resources/img/doc-formats/png.svg" />
-    <inline src="resources/img/doc-formats/jpg.svg" />
-    <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
-    <inline src="resources/img/recent-file.svg" />
-    <inline src="resources/img/file-template.svg" />
 
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>

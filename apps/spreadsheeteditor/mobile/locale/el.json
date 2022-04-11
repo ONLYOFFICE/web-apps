@@ -291,6 +291,8 @@
     "textHide": "Απόκρυψη",
     "textMore": "Περισσότερα",
     "textMove": "Μετακίνηση",
+    "textMoveBefore": "Μετακίνηση πριν το φύλλο",
+    "textMoveToEnd": "(Μετακίνηση στο τέλος)",
     "textOk": "Εντάξει",
     "textRename": "Μετονομασία",
     "textRenameSheet": "Μετονομασία Φύλλου",
@@ -298,8 +300,6 @@
     "textSheetName": "Όνομα Φύλλου",
     "textUnhide": "Αναίρεση απόκρυψης",
     "textWarnDeleteSheet": "Το φύλλο εργασίας ίσως περιέχει δεδομένα. Να συνεχιστεί η λειτουργία;",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -361,7 +361,12 @@
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSorting": "Ταξινόμηση",
       "txtSortSelected": "Ταξινόμηση επιλεγμένων",
-      "txtYes": "Ναι"
+      "txtYes": "Ναι",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",

@@ -647,7 +647,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _setMode = function (mode) {
-        _isEditDiagram = mode.isEditDiagram;
+        _isEditDiagram = mode.isEditDiagram || mode.isEditMailMerge || mode.isEditOle;
     };
 
     return {

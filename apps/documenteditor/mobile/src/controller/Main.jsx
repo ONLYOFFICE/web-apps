@@ -132,7 +132,10 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-                    
+
+                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
+
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
@@ -283,10 +286,18 @@ class MainController extends Component {
                 .then ( result => {
                     window["flat_desine"] = true;
                     const {t} = this.props;
+                    let _translate = t('Main.SDK', {returnObjects:true});
+                    for (let item in _translate) {
+                        if (_translate.hasOwnProperty(item)) {
+                            const str = _translate[item];
+                            if (item[item.length-1]===' ' && str[str.length-1]!==' ')
+                                _translate[item] += ' ';
+                        }
+                    }
                     this.api = new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        'translate': t('Main.SDK', {returnObjects:true})
+                        'translate': _translate
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -650,7 +661,9 @@ class MainController extends Component {
         const storeDocumentInfo = this.props.storeDocumentInfo;
 
         this.api.asc_registerCallback("asc_onGetDocInfoStart", () => {
-            storeDocumentInfo.switchIsLoaded(false);
+            this.timerLoading = setTimeout(() => {
+                storeDocumentInfo.switchIsLoaded(false);
+            }, 2000);
         });
 
         this.api.asc_registerCallback("asc_onGetDocInfoStop", () => {
@@ -658,10 +671,20 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback("asc_onDocInfo", (obj) => {
-            storeDocumentInfo.changeCount(obj);
+            clearTimeout(this.timerLoading);
+
+            this.objectInfo = obj;
+            if(!this.timerDocInfo) {
+                this.timerDocInfo = setInterval(() => {
+                    storeDocumentInfo.changeCount(this.objectInfo);
+                }, 300);
+                storeDocumentInfo.changeCount(this.objectInfo);
+            }
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
+          clearTimeout(this.timerLoading);
+          clearInterval(this.timerDocInfo);
           storeDocumentInfo.switchIsLoaded(true);
         });
 

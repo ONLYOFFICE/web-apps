@@ -134,11 +134,9 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         let props = api.asc_GetTableOfContentsPr(currentTOC);
 
-        if (props) {
-            if (currentTOC && props)
-                currentTOC = props.get_InternalClass();
-            api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
-        }
+        if (currentTOC && props)
+            currentTOC = props.get_InternalClass();
+        api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
     };
 
     showCopyCutPasteModal() {
@@ -244,7 +242,7 @@ class ContextMenu extends ContextMenuController {
         } else {
             const { t } = this.props;
             const _t = t("ContextMenu", {returnObjects: true});
-            const { canViewComments, canCoAuthoring, canComments } = this.props;
+            const { canViewComments, canCoAuthoring, canComments, dataDoc } = this.props;
 
             const api = Common.EditorApi.get();
             const inToc = api.asc_GetTableOfContentsPr(true);

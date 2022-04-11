@@ -429,7 +429,10 @@ define([
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-                    
+
+                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
+
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
@@ -629,6 +632,7 @@ define([
                     this.synchronizeChanges();
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
+                    this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
                     this.disableEditing(false, true);
                     this.getApplication().getController('Statusbar').hideDisconnectTip();
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
@@ -726,7 +730,9 @@ define([
                         this.disableEditing(true, true);
                         var me = this;
                         statusCallback = function() {
-                            me.getApplication().getController('Statusbar').showDisconnectTip();
+                            me._state.timerDisconnect = setTimeout(function(){
+                                me.getApplication().getController('Statusbar').showDisconnectTip();
+                            }, me._state.unloadTimer || 0);
                         };
                         break;
 
@@ -799,6 +805,17 @@ define([
                 me.api.asc_setSpellCheck(value);
                 Common.NotificationCenter.trigger('spelling:turn', value ? 'on' : 'off', true); // only toggle buttons
 
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) { // get settings for spellcheck from local storage
+                    value = Common.localStorage.getBool("pe-spellcheck-ignore-uppercase-words", true);
+                    Common.Utils.InternalSettings.set("pe-spellcheck-ignore-uppercase-words", value);
+                    value = Common.localStorage.getBool("pe-spellcheck-ignore-numbers-words", true);
+                    Common.Utils.InternalSettings.set("pe-spellcheck-ignore-numbers-words", value);
+                    value = new AscCommon.CSpellCheckSettings();
+                    value.put_IgnoreWordsInUppercase(Common.Utils.InternalSettings.get("pe-spellcheck-ignore-uppercase-words"));
+                    value.put_IgnoreWordsWithNumbers(Common.Utils.InternalSettings.get("pe-spellcheck-ignore-numbers-words"));
+                    this.api.asc_setSpellCheckSettings(value);
+                }
+
                 value = Common.localStorage.getBool('pe-hidden-notes', this.appOptions.customization && this.appOptions.customization.hideNotes===true);
                 me.api.asc_ShowNotes(!value);
 
@@ -851,6 +868,7 @@ define([
 
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
+                application.getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
 
@@ -1176,7 +1194,9 @@ define([
                 this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
 
-                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+                // change = true by default in editor, change = false by default in viewer
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
+                                                    !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===true) ;
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
@@ -1218,6 +1238,16 @@ define([
                     fastCoauth = (value===null || parseInt(value) == 1);
                 } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
                     fastCoauth = true;
+                } else if (!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && !this.appOptions.isOffline) { // viewer
+                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'strict' by default
+                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
+                    } else {
+                        value = Common.localStorage.getItem("pe-settings-view-coauthmode");
+                        if (value===null) {
+                            value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
+                        }
+                    }
+                    fastCoauth = (parseInt(value) == 1);
                 } else {
                     fastCoauth = false;
                     autosave = 0;
@@ -1698,12 +1728,15 @@ define([
                 if (this.api.isDocumentModified()) {
                     var me = this;
                     this.api.asc_stopSaving();
+                    this._state.unloadTimer = 1000;
                     this.continueSavingTimer = window.setTimeout(function() {
                         me.api.asc_continueSaving();
+                        me._state.unloadTimer = 0;
                     }, 500);
 
                     return this.leavePageText;
-                }
+                } else
+                    this._state.unloadTimer = 10000;
             },
 
             onUnload: function() {

@@ -365,7 +365,8 @@ define([
                     addEvent(me.el, eventname, handleDocumentWheel);
                 }
 
-                $(document).on('mousewheel', handleDocumentWheel);
+                !Common.Utils.isChrome ? $(document).on('mousewheel', handleDocumentWheel) :
+                    document.addEventListener('mousewheel', handleDocumentWheel, {passive: false});
                 $(document).on('keydown', handleDocumentKeyDown);
 
                 $(window).on('resize', onDocumentHolderResize);
@@ -799,6 +800,17 @@ define([
                         diagramEditor.setEditMode(true);
                         diagramEditor.show();
                         diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    }
+                }
+            };
+            
+            var onDoubleClickOnTableOleObject = function(chart) {
+                if (me.mode.isEdit && !me._isDisabled) {
+                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor && chart) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
                     }
                 }
             };
@@ -1596,6 +1608,7 @@ define([
                         this.api.asc_registerCallback('asc_onImgWrapStyleChanged',      _.bind(this.onImgWrapStyleChanged, this));
                         this.api.asc_registerCallback('asc_onDialogAddHyperlink',       onDialogAddHyperlink);
                         this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
+                        this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', onDoubleClickOnTableOleObject);
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
                         this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
                         this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
@@ -1696,6 +1709,7 @@ define([
                                 paragraphProps      : elValue,
                                 borderProps         : me.borderAdvancedProps,
                                 isChart             : (item.isChart===true),
+                                isSmartArtInternal  : (item.isSmartArtInternal===true),
                                 api             : me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
@@ -2769,9 +2783,11 @@ define([
                     menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
                     menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
-                    if (menuImgRotate.isVisible())
+                    if (menuImgRotate.isVisible()) {
                         menuImgRotate.setDisabled(islocked || value.imgProps.isSmartArt);
-
+                        menuImgRotate.menu.items[3].setDisabled(value.imgProps.isSmartArtInternal);
+                        menuImgRotate.menu.items[4].setDisabled(value.imgProps.isSmartArtInternal);
+                    }
                     me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(islocked);
@@ -4058,6 +4074,7 @@ define([
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
+                    menuParagraphAdvanced.isSmartArtInternal = (value.imgProps && value.imgProps.isSmartArtInternal);
                     menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
                     menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
                     if (value.paraProps) {
@@ -4157,9 +4174,10 @@ define([
                     if (frame_pr)
                         menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
 
-                    menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart);
-                    menuStyle.setVisible(me.mode.canEditStyles && !isInChart);
-                    if (me.mode.canEditStyles && !isInChart) {
+                    var edit_style = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
+                    menuStyleSeparator.setVisible(edit_style);
+                    menuStyle.setVisible(edit_style);
+                    if (edit_style) {
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 

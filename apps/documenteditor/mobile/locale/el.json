@@ -397,7 +397,9 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Φόρτωση δεδομένων...",
@@ -647,7 +649,13 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textFastWV": "Fast Web View",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",

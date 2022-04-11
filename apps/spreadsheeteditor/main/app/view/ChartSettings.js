@@ -1011,7 +1011,7 @@ define([
         },
 
         onAddChartStylesPreview: function(styles){
-            if (this._isEditType) return;
+            if (this._isEditType || !this.cmbChartStyle) return;
 
             if (styles && styles.length>0){
                 var stylesStore = this.cmbChartStyle.menuPicker.store;

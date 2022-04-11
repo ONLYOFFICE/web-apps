@@ -11,6 +11,7 @@ class DocumentSettingsController extends Component {
         this.getMargins = this.getMargins.bind(this);
         this.applyMargins = this.applyMargins.bind(this);
         this.onFormatChange = this.onFormatChange.bind(this);
+        this.onColorSchemeChange = this.onColorSchemeChange.bind(this);
     }
 
     onPageOrientation (value){
@@ -107,6 +108,7 @@ class DocumentSettingsController extends Component {
     onColorSchemeChange(newScheme) {
         const api = Common.EditorApi.get();
         api.asc_ChangeColorSchemeByIdx(+newScheme);
+        this.props.storeTableSettings.setStyles([], 'default');
     }
 
     render () {
@@ -122,4 +124,4 @@ class DocumentSettingsController extends Component {
     }
 }
 
-export default inject("storeDocumentSettings")(observer(withTranslation()(DocumentSettingsController)));
+export default inject("storeDocumentSettings", 'storeTableSettings')(observer(withTranslation()(DocumentSettingsController)));

@@ -767,6 +767,8 @@ define([
             {
                 this._originalProps = props;
                 this._noApply = true;
+                this._state.isFromImage = !!props.get_FromImage();
+                this._state.isFromSmartArtInternal = !!props.get_FromSmartArtInternal();
 
                 var shapetype = props.asc_getType();
 
@@ -779,10 +781,8 @@ define([
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype);
-                this._state.isFromImage = !!props.get_FromImage();
-                this._state.isFromSmartArtInternal = !!props.get_FromSmartArtInternal();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
-                    this.btnChangeShape.shapePicker.hideTextRect(props.get_FromImage() || props.get_FromSmartArtInternal());
+                    this.btnChangeShape.shapePicker.hideTextRect(props.get_FromImage() || this._state.isFromSmartArtInternal);
                 }
 
                 // background colors
@@ -1850,6 +1850,8 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+            this.btnFlipV.setDisabled(disable || this._state.isFromSmartArtInternal);
+            this.btnFlipH.setDisabled(disable || this._state.isFromSmartArtInternal);
         },
 
         hideShapeOnlySettings: function(value) {

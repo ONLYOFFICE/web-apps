@@ -361,7 +361,12 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja"
+      "txtYes": "Ja",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",

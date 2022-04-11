@@ -397,7 +397,9 @@
     "unknownErrorText": "Errore sconosciuto.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
@@ -647,7 +649,13 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textFastWV": "Fast Web View",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",

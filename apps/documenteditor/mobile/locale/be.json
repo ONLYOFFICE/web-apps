@@ -397,7 +397,9 @@
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
     "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",
@@ -638,16 +640,22 @@
     "textDownloadRtf": "If you continue saving in this format some of the formatting might be lost. Are you sure you want to continue?",
     "textDownloadTxt": "If you continue saving in this format all features except the text will be lost. Are you sure you want to continue?",
     "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
+    "textFastWV": "Fast Web View",
     "textFindAndReplaceAll": "Find and Replace All",
-    "txtDownloadTxt": "Download TXT",
-    "txtIncorrectPwd": "Password is incorrect",
-    "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "txtScheme22": "New Office",
     "textFeedback": "Feedback & Support",
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes",
+    "txtDownloadTxt": "Download TXT",
+    "txtIncorrectPwd": "Password is incorrect",
+    "txtProtected": "Once you enter the password and open the file, the current password will be reset",
+    "txtScheme22": "New Office"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Вы выходзіце з праграмы",

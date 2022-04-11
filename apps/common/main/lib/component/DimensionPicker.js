@@ -49,7 +49,7 @@ define([
     Common.UI.DimensionPicker = Common.UI.BaseView.extend((function(){
         return {
             options: {
-                itemSize    : 18,
+                itemSize    : 20,
                 minRows     : 5,
                 minColumns  : 5,
                 maxRows     : 20,

@@ -66,11 +66,9 @@ const PageStyleOptions = props => {
         isBandVer = tableLook.get_BandVer();
     }
 
-    const openIndicator = () => props.onGetTableStylesPreviews();
-
     return (
         <Page>
-            <Navbar title={_t.textOptions} backLink={_t.textBack} onBackClick={openIndicator}>
+            <Navbar title={_t.textOptions} backLink={_t.textBack} onBackClick={props.onGetTableStylesPreviews}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>

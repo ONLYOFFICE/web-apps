@@ -72,15 +72,19 @@ define([
                 emptyText: this.txtEmpty,
                 emptyItemText: this.txtEmptyItem,
                 style: 'border: none;',
-                delayRenderTips: true
+                delayRenderTips: true,
+                minScrollbarLength: 25
             });
             this.viewNavigationList.cmpEl.off('click');
             this.navigationMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [{
+                        iconCls     : 'menu__icon promote',
                         caption     : this.txtPromote,
                         value: 'promote'
                     },
                     {
+                        iconCls     : 'menu__icon demote',
                         caption     : this.txtDemote,
                         value: 'demote'
                     },
@@ -103,6 +107,7 @@ define([
                         caption     : '--'
                     },
                     {
+                        iconCls     : 'menu__icon select-all',
                         caption     : this.txtSelect,
                         value: 'select'
                     },
@@ -110,10 +115,12 @@ define([
                         caption     : '--'
                     },
                     {
+                        iconCls     : 'menu__icon expand-all',
                         caption     : this.txtExpand,
                         value: 'expand'
                     },
                     {
+                        iconCls     : 'menu__icon collapse-all',
                         caption     : this.txtCollapse,
                         value: 'collapse'
                     },
@@ -158,7 +165,8 @@ define([
         txtCollapse: 'Collapse all',
         txtExpandToLevel: 'Expand to level...',
         txtEmpty: 'There are no headings in the document.<br>Apply a heading style to the text so that it appears in the table of contents.',
-        txtEmptyItem: 'Empty Heading'
+        txtEmptyItem: 'Empty Heading',
+        txtEmptyViewer: 'There are no headings in the document.'
 
     }, DE.Views.Navigation || {}));
 });

@@ -20,7 +20,7 @@ export class storeDocumentInfo {
     symbolsWSCount: 0,
   };
 
-  isLoaded = false;
+  isLoaded = true;
   dataDoc;
 
   switchIsLoaded(value) {

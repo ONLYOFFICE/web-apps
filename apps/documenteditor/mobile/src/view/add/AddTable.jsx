@@ -6,7 +6,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 const AddTable = props => {
     const storeTableSettings = props.storeTableSettings;
-    const styles = storeTableSettings.arrayStyles;
+    const styles = storeTableSettings.arrayStylesDefault;
 
     return (
         <div className={'table-styles dataview'}>

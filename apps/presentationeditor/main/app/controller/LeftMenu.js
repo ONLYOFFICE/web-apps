@@ -349,6 +349,10 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
+            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("pe-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
             /** coauthoring end **/
 
@@ -371,6 +375,14 @@ define([
                     value = Common.localStorage.getBool("pe-settings-spellcheck", true);
                     Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
                     this.api.asc_setSpellCheck(value);
+                    var spprops = new AscCommon.CSpellCheckSettings();
+                    value = Common.localStorage.getBool("pe-spellcheck-ignore-uppercase-words", true);
+                    Common.Utils.InternalSettings.set("pe-spellcheck-ignore-uppercase-words", value);
+                    spprops.put_IgnoreWordsInUppercase(value);
+                    value = Common.localStorage.getBool("pe-spellcheck-ignore-numbers-words", true);
+                    Common.Utils.InternalSettings.set("pe-spellcheck-ignore-numbers-words", value);
+                    spprops.put_IgnoreWordsWithNumbers(value);
+                    this.api.asc_setSpellCheckSettings(spprops);
                 }
 
                 value = parseInt(Common.localStorage.getItem("pe-settings-paste-button"));

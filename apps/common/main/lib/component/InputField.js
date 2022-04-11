@@ -605,6 +605,14 @@ define([
                     this.passwordHide(e);
                     this.hidePwd = true;
                 }
+                var me = this;
+                var prevstart = me._input[0].selectionStart,
+                    prevend = me._input[0].selectionEnd;
+                setTimeout(function () {
+                    me.focus();
+                    me._input[0].selectionStart = prevstart;
+                    me._input[0].selectionEnd = prevend;
+                }, 1);
             },
 
             passwordShow: function (e) {
@@ -643,6 +651,14 @@ define([
                 else {
                     this._btnElm.off('mouseup', this.passwordHide);
                     this._btnElm.off('mouseout', this.passwordHide);
+                    var me = this;
+                    var prevstart = me._input[0].selectionStart,
+                        prevend = me._input[0].selectionEnd;
+                    setTimeout(function () {
+                        me.focus();
+                        me._input[0].selectionStart = prevstart;
+                        me._input[0].selectionEnd = prevend;
+                    }, 1);
                 }
             },
             textHintShowPwd: 'Show password',

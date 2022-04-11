@@ -174,7 +174,7 @@ define([
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            me.addNewEffect(value.activeEffect, value.activeGroupValue, value.activeGroup, replace);
+                            me.addNewEffect(value.activeEffect, value.activeGroupValue, value.activeGroup, replace, undefined, !Common.Utils.InternalSettings.get("pe-animation-no-preview"));
                         }
                     }
                 }
@@ -187,10 +187,9 @@ define([
             this.addNewEffect(type, group, record.get('group'), false);
         },
 
-        addNewEffect: function (type, group, groupName, replace, parametr) {
-            if (this._state.Effect == type && this._state.EffectGroup == group && replace) return;
+        addNewEffect: function (type, group, groupName, replace, parametr, preview) {
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
-            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-preview"));
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, preview);
         },
 
         onDurationChange: function(before,combo, record, e) {
@@ -205,7 +204,7 @@ define([
                 if (!item) {
                     var expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(' + me.view.txtSec + ')?\\s*$');
                     if (!expr.exec(record.value)) {
-                        combo.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
+                        combo.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : '');
                         e.preventDefault();
                         return false;
                     }
@@ -348,8 +347,11 @@ define([
         onFocusObject: function(selectedObjects) {
             this.AnimationProperties = null;
             for (var i = 0; i<selectedObjects.length; i++) {
-                if (selectedObjects[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Animation) {
+                var type = selectedObjects[i].get_ObjectType();
+                if (type == Asc.c_oAscTypeSelectElement.Animation) {
                     this.AnimationProperties = selectedObjects[i].get_ObjectValue();
+                } else if (type==Asc.c_oAscTypeSelectElement.Slide) {
+                    this._state.timingLock = selectedObjects[i].get_ObjectValue().get_LockTiming();
                 }
             }
             if (this._state.onactivetab)
@@ -396,7 +398,6 @@ define([
                         }
                         view.listEffects.selectRecord(item);
                         view.listEffects.fillComboView(item, true, forceFill);
-                        view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
                     } else {
                         store.remove(store.findWhere({isCustom: true})); // remove custom effects
                         if (this._state.Effect==AscFormat.ANIM_PRESET_MULTIPLE) { // add and select "multiple" item
@@ -409,26 +410,24 @@ define([
                                 displayValue: view.textMultiple
                             }), {at:1}));
                             view.listEffects.menuPicker.deselectAll();
-                            view.btnParameters.setIconCls('toolbar__icon icon animation-none');
                         } else { // add custom effect to appropriate group
                             if (group) {
                                 var items = store.where({group: group.get('id')});
-                                var index = (items && items.length>0) ? store.indexOf(items.at(items.length-1)) : store.length-1;
+                                var index = (items && items.length>0) ? store.indexOf(items[items.length-1]) : store.length-1;
                                 var rec = _.findWhere(Common.define.effectData.getEffectFullData(), {group: group.get('id'), value: this._state.Effect});
                                 item = store.add(new Common.UI.DataViewModel({
                                     group: group.get('id'),
                                     value: this._state.Effect,
                                     iconCls: group.get('iconClsCustom'),
                                     displayValue: rec ? rec.displayValue : '',
+                                    tip: rec ? rec.displayValue : '',
                                     isCustom: true
                                 }), {at:index+1});
                                 view.listEffects.selectRecord(item);
                                 view.listEffects.fillComboView(item, true, true);
-                                view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('iconCls'));
                             } else {
                                 view.listEffects.fieldPicker.deselectAll();
                                 view.listEffects.menuPicker.deselectAll();
-                                view.btnParameters.setIconCls('toolbar__icon icon animation-none');
                             }
                         }
                     }
@@ -446,7 +445,7 @@ define([
                 if (this._state.noAnimationDuration)
                     view.cmbDuration.setValue('');
                 else
-                    view.cmbDuration.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : 1);
+                    view.cmbDuration.setValue(this._state.Duration, this._state.Duration>=0 ? this._state.Duration + ' ' + this.view.txtSec : '');
 
                 value = this.AnimationProperties.asc_getDelay();
                 if (Math.abs(this._state.Delay - value) > 0.001 ||
@@ -476,9 +475,12 @@ define([
                     this._state.TriggerValue = this.AnimationProperties.asc_getTriggerObjectClick();
                 }
                 this.setTriggerList();
+            } else {
+                this._state.Effect = this._state.EffectGroup = this._state.EffectOption = undefined;
+                if (this.view && this.view.listEffects)
+                    this.view.listEffects.fieldPicker.deselectAll();
             }
             this.setLocked();
-
         },
 
         setTriggerList: function (){
@@ -552,6 +554,8 @@ define([
                 this.lockToolbar(Common.enumLock.noAnimationRepeat, this._state.noAnimationRepeat);
             if (this._state.noAnimationDuration != undefined)
                 this.lockToolbar(Common.enumLock.noAnimationDuration, this._state.noAnimationDuration);
+            if (this._state.timingLock != undefined)
+                this.lockToolbar(Common.enumLock.timingLock, this._state.timingLock);
         }
 
     }, PE.Controllers.Animation || {}));

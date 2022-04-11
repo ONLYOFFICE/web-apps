@@ -764,6 +764,8 @@ define([
                 this._originalProps = shapeprops;
 
                 this._noApply = true;
+                this._state.isFromImage = !!shapeprops.get_FromImage();
+                this._state.isFromSmartArtInternal = !!shapeprops.asc_getFromSmartArtInternal();
 
                 this.disableControls(this._locked, !shapeprops.asc_getCanFill());
                 this.hideShapeOnlySettings(shapeprops.asc_getFromChart() || !!shapeprops.asc_getFromImage());
@@ -774,10 +776,8 @@ define([
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype);
-                this._state.isFromImage = !!shapeprops.get_FromImage();
-                this._state.isFromSmartArtInternal = !!shapeprops.asc_getFromSmartArtInternal();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
-                    this.btnChangeShape.shapePicker.hideTextRect(shapeprops.get_FromImage() || shapeprops.asc_getFromSmartArtInternal());
+                    this.btnChangeShape.shapePicker.hideTextRect(shapeprops.get_FromImage() || this._state.isFromSmartArtInternal);
                 }
 
                 // background colors
@@ -1868,6 +1868,8 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+            this.btnFlipV.setDisabled(disable || this._state.isFromSmartArtInternal);
+            this.btnFlipH.setDisabled(disable || this._state.isFromSmartArtInternal);
         },
 
         hideShapeOnlySettings: function(value) {

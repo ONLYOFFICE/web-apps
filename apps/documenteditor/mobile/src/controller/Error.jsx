@@ -181,6 +181,14 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 config.msg = _t.errorLoadingFont;
                 break;
 
+            case Asc.c_oAscError.ID.ComplexFieldEmptyTOC:
+                config.msg = _t.errorEmptyTOC;
+                break;
+
+            case Asc.c_oAscError.ID.ComplexFieldNoTOC:
+                config.msg = _t.errorNoTOC;
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

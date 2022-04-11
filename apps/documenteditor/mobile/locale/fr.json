@@ -397,7 +397,9 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -617,6 +619,7 @@
     "textUnitOfMeasurement": "Unité de mesure",
     "textUploaded": "Chargé",
     "textWords": "Mots",
+    "textYes": "Oui",
     "txtDownloadTxt": "Télécharger le TXT",
     "txtIncorrectPwd": "Mot de passe incorrect",
     "txtOk": "Ok",
@@ -647,7 +650,12 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textFastWV": "Fast Web View",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",

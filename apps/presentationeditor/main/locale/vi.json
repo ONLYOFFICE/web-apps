@@ -13,6 +13,7 @@
   "Common.define.chartData.textPoint": "XY (Phân tán)",
   "Common.define.chartData.textStock": "Cổ phiếu",
   "Common.define.chartData.textSurface": "Bề mặt",
+  "Common.UI.ButtonColored.textNewColor": "Màu tùy chỉnh",
   "Common.UI.ComboBorderSize.txtNoBorders": "Không viền",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Không viền",
   "Common.UI.ComboDataView.emptyComboText": "Không có kiểu",

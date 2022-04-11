@@ -473,6 +473,9 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
+                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
+
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
@@ -1167,6 +1170,17 @@ define([
                 me.api.asc_setSpellCheck(value);
                 Common.NotificationCenter.trigger('spelling:turn', value ? 'on' : 'off', true); // only toggle buttons
 
+                if (Common.UI.FeaturesManager.canChange('spellcheck')) { // get settings for spellcheck from local storage
+                    value = Common.localStorage.getBool("de-spellcheck-ignore-uppercase-words", true);
+                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-uppercase-words", value);
+                    value = Common.localStorage.getBool("de-spellcheck-ignore-numbers-words", true);
+                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-numbers-words", value);
+                    value = new AscCommon.CSpellCheckSettings();
+                    value.put_IgnoreWordsInUppercase(Common.Utils.InternalSettings.get("de-spellcheck-ignore-uppercase-words"));
+                    value.put_IgnoreWordsWithNumbers(Common.Utils.InternalSettings.get("de-spellcheck-ignore-numbers-words"));
+                    this.api.asc_setSpellCheckSettings(value);
+                }
+
                 value = Common.localStorage.getBool("de-settings-compatible", false);
                 Common.Utils.InternalSettings.set("de-settings-compatible", value);
 
@@ -1234,6 +1248,7 @@ define([
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
+                application.getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
 
@@ -1532,7 +1547,9 @@ define([
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
-                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+                // change = true by default in editor, change = false by default in viewer
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
+                                                    !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===true) ;
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
@@ -1579,6 +1596,16 @@ define([
                     Common.Utils.InternalSettings.set((fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
                     fastCoauth = true;
+                }  else if (!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && !this.appOptions.isOffline) { // viewer
+                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'strict' by default
+                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
+                    } else {
+                        value = Common.localStorage.getItem("de-settings-view-coauthmode");
+                        if (value===null) {
+                            value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
+                        }
+                    }
+                    fastCoauth = (parseInt(value) == 1);
                 } else {
                     fastCoauth = false;
                     autosave = 0;
@@ -1615,6 +1642,12 @@ define([
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
                 this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
+
+                var value = Common.localStorage.getItem('de-settings-unit');
+                value = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[this.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("de-settings-unit", value);
             },
 
             applyModeEditorElements: function() {
@@ -1663,11 +1696,7 @@ define([
                         toolbarView.on('insertcontrol', _.bind(me.onInsertControl, me));
                     }
 
-                    var value = Common.localStorage.getItem('de-settings-unit');
-                    value = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[this.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
-                    (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
-                    Common.Utils.Metric.setCurrentMetric(value);
-                    Common.Utils.InternalSettings.set("de-settings-unit", value);
+                    var value = Common.Utils.InternalSettings.get("de-settings-unit");
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     value = Common.localStorage.itemExists('de-hidden-rulers') ? Common.localStorage.getBool('de-hidden-rulers') : (this.appOptions.customization && !!this.appOptions.customization.hideRulers);
@@ -1866,24 +1895,24 @@ define([
                         config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
                         break;
 
-                   case Asc.c_oAscError.ID.MailToClientMissing:
+                    case Asc.c_oAscError.ID.MailToClientMissing:
                         config.msg = this.errorEmailClient;
                         break;
 
-                   case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
                         config.msg = this.errorFileSizeExceed;
                         break;
 
-                   case Asc.c_oAscError.ID.UpdateVersion:
+                    case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         config.maxwidth = 600;
                         break;
 
-                   case Asc.c_oAscError.ID.DirectUrl:
+                    case Asc.c_oAscError.ID.DirectUrl:
                         config.msg = this.errorDirectUrl;
                         break;
 
-                   case Asc.c_oAscError.ID.CannotCompareInCoEditing:
+                    case Asc.c_oAscError.ID.CannotCompareInCoEditing:
                         config.msg = this.errorCompare;
                         break;
 
@@ -1901,6 +1930,15 @@ define([
 
                     case Asc.c_oAscError.ID.LoadingFontError:
                         config.msg = this.errorLoadingFont;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComplexFieldEmptyTOC:
+                        config.maxwidth = 600;
+                        config.msg = this.errorEmptyTOC;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComplexFieldNoTOC:
+                        config.msg = this.errorNoTOC;
                         break;
 
                     default:
@@ -3130,7 +3168,9 @@ define([
             textDisconnect: 'Connection is lost',
             textReconnect: 'Connection is restored',
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
-            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.'
+            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
+            errorEmptyTOC: 'Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.',
+            errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.'
         }
     })(), DE.Controllers.Main || {}))
 });

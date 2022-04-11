@@ -397,7 +397,9 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "S'estan carregant les dades...",
@@ -570,6 +572,7 @@
     "textEnableAll": "Habilita-ho tot",
     "textEnableAllMacrosWithoutNotification": "Habilita totes les macros sense notificació",
     "textEncoding": "Codificació",
+    "textFastWV": "Vista Web Ràpida",
     "textFind": "Cerca",
     "textFindAndReplace": "Cerca i substitueix",
     "textFindAndReplaceAll": "Cerca i substitueix-ho tot",
@@ -588,6 +591,7 @@
     "textMargins": "Marges",
     "textMarginsH": "Els marges superior i inferior són massa alts per a una alçada de pàgina determinada",
     "textMarginsW": "Els marges esquerre i dret són massa amples per a una amplada de pàgina determinada",
+    "textNo": "No",
     "textNoCharacters": "Caràcters que no es poden imprimir",
     "textNoTextFound": "No s'ha trobat el text",
     "textOk": "D'acord",
@@ -595,7 +599,10 @@
     "textOrientation": "Orientació",
     "textOwner": "Propietari",
     "textPages": "Pàgines",
+    "textPageSize": "Mida Pàgina",
     "textParagraphs": "Paràgrafs",
+    "textPdfTagged": "PDF Etiquetat",
+    "textPdfVer": "Versió PDF",
     "textPoint": "Punt",
     "textPortrait": "Orientació vertical",
     "textPrint": "Imprimeix",
@@ -617,6 +624,7 @@
     "textUnitOfMeasurement": "Unitat de mesura",
     "textUploaded": "S'ha carregat",
     "textWords": "Paraules",
+    "textYes": "Sí",
     "txtDownloadTxt": "Baixa TXT",
     "txtIncorrectPwd": "La contrasenya no és correcta",
     "txtOk": "D'acord",
@@ -642,12 +650,12 @@
     "txtScheme6": "Esplanada",
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
-    "txtScheme9": "Foneria",
     "textFeedback": "Feedback & Support",
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "txtScheme9": "Foneria"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

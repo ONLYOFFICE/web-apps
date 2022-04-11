@@ -354,7 +354,8 @@ define([
                     addEvent(me.el, eventname, handleDocumentWheel);
                 }
 
-                $(document).on('mousewheel', handleDocumentWheel);
+                !Common.Utils.isChrome ? $(document).on('mousewheel', handleDocumentWheel) :
+                    document.addEventListener('mousewheel', handleDocumentWheel, {passive: false});
                 $(document).on('keydown', handleDocumentKeyDown);
                 $(window).on('resize', onDocumentHolderResize);
                 var viewport = PE.getController('Viewport').getView('Viewport');
@@ -1622,6 +1623,7 @@ define([
                     if (me.mode.isEdit===true) {
                         me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
                         me.api.asc_registerCallback('asc_doubleClickOnChart', _.bind(me.editChartClick, me));
+                        me.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(me.onDoubleClickOnTableOleObject, me));
                         me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
                         me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
                         me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
@@ -1758,6 +1760,17 @@ define([
                         chart = this.api.asc_getChartObject(chart, placeholder);
                     diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
                     diagramEditor.setPlaceholder(placeholder);
+                }
+            }
+        },
+
+        onDoubleClickOnTableOleObject: function(chart) {
+            if (this.mode.isEdit && !this._isDisabled) {
+                var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor && chart) {
+                    oleEditor.setEditMode(true);
+                    oleEditor.show();
+                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
                 }
             }
         },
@@ -3581,8 +3594,11 @@ define([
                     mnuArrangeBackward.setDisabled(inSmartartInternal);
 
                     menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
-                    if (menuImgShapeRotate.isVisible())
+                    if (menuImgShapeRotate.isVisible()) {
                         menuImgShapeRotate.setDisabled(disabled || (value.shapeProps && value.shapeProps.value.get_FromSmartArt()));
+                        menuImgShapeRotate.menu.items[3].setDisabled(inSmartartInternal);
+                        menuImgShapeRotate.menu.items[4].setDisabled(inSmartartInternal);
+                    }
 
                     // image properties
                     menuImgOriginalSize.setVisible(isimage);

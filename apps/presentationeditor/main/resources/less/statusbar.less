@@ -4,15 +4,10 @@
 
     .status-label {
         position: relative;
-        top: 1px;
     }
 
     #status-label-pages, #status-label-zoom {
         cursor: pointer;
-    }
-
-    #status-label-pages, #status-label-action {
-        margin-top: 2px;
     }
 
     #status-users-icon, #status-users-count {
@@ -44,9 +39,18 @@
         display: table-cell;
         white-space: nowrap;
         vertical-align: top;
-        padding-top: 3px;
         &.dropup {
             position: static;
+        }
+
+        .status-label.margin-top-large {
+            margin-top: 6px;
+        }
+
+        button.margin-top-small,
+        .margin-top-small > button,
+        .margin-top-small > .btn-group {
+            margin-top: 3px;
         }
     }
 
@@ -55,7 +59,6 @@
 
         &.short {
             height: 25px;
-            margin-top: -2px;
         }
 
         &.space {
@@ -72,7 +75,8 @@
 
     .cnt-zoom {
         display: inline-block;
-
+        vertical-align: middle;
+        margin-top: 4px;
         .dropdown-menu {
             min-width: 80px;
             margin-left: -4px;

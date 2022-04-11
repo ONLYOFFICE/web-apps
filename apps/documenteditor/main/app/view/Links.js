@@ -81,6 +81,13 @@ define([
                 }, 10);
             });
 
+            this.btnAddText.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('links:addtext', [item.value]);
+            });
+            this.btnAddText.menu.on('show:after', function (menu, e) {
+                me.fireEvent('links:addtext-open', [menu]);
+            });
+
             this.btnsNotes.forEach(function(button) {
                 button.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('links:notes', [item.value]);
@@ -174,7 +181,7 @@ define([
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-contents-update'),
-                    cls: 'btn-toolbar x-huge icon-top',
+                    cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-update',
                     lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnContentsUpdate,
@@ -182,9 +189,24 @@ define([
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: '0, -8'
                 });
                 this.paragraphControls.push(this.btnContentsUpdate);
+
+                this.btnAddText = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-add-text'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon add-text',
+                    lock: [ _set.cantAddTextTOF, _set.inHeader, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                    caption: this.capBtnAddText,
+                    menu: new Common.UI.Menu({
+                        items: []
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.paragraphControls.push(this.btnAddText);
 
                 this.btnBookmarks = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-bookmarks'),
@@ -294,6 +316,8 @@ define([
                         ]
                     }));
 
+                    me.btnAddText.updateHint(me.tipAddText);
+
                     me.contentsUpdateMenu = new Common.UI.Menu({
                         items: [
                             {caption: me.textUpdateAll, value: 'all'},
@@ -386,6 +410,27 @@ define([
                 });
             },
 
+            fillAddTextMenu: function(menu, endlevel, current) {
+                endlevel = Math.max(endlevel || 3, current+1);
+                menu.removeAll();
+                menu.addItem(new Common.UI.MenuItem({
+                    caption: this.txtDontShowTof,
+                    value: -1,
+                    checkable: true,
+                    checked: current<0,
+                    toggleGroup : 'addTextGroup'
+                }));
+                for (var i=0; i<endlevel; i++) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption: this.txtLevel + ' ' + (i+1),
+                        value: i,
+                        checkable: true,
+                        checked: current===i,
+                        toggleGroup : 'addTextGroup'
+                    }));
+                }
+            },
+
             show: function () {
                 Common.UI.BaseView.prototype.show.call(this);
                 this.fireEvent('show', this);
@@ -437,7 +482,11 @@ define([
             tipTableFiguresUpdate: 'Refresh table of figures',
             tipTableFigures: 'Insert table of figures',
             confirmReplaceTOF: 'Do you want to replace the selected table of figures?',
-            titleUpdateTOF: 'Refresh Table of Figures'
+            titleUpdateTOF: 'Refresh Table of Figures',
+            capBtnAddText: 'Add Text',
+            tipAddText: 'Include heading in the Table of Contents',
+            txtDontShowTof: 'Do Not Show in Table of Contents',
+            txtLevel: 'Level'
         }
     }()), DE.Views.Links || {}));
 });

@@ -397,7 +397,9 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -647,7 +649,13 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textFastWV": "Fast Web View",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nem mentett módosításai vannak. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",

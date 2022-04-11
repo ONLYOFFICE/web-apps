@@ -22,7 +22,7 @@
   "Common.define.chartData.textStock": "Zbiory",
   "Common.define.chartData.textSurface": "Powierzchnia",
   "Common.UI.ButtonColored.textAutoColor": "Automatyczny",
-  "Common.UI.ButtonColored.textNewColor": "Dodaj Nowy Niestandardowy Kolor",
+  "Common.UI.ButtonColored.textNewColor": "Nowy niestandardowy kolor",
   "Common.UI.ComboBorderSize.txtNoBorders": "Bez krawędzi",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Bez krawędzi",
   "Common.UI.ComboDataView.emptyComboText": "Brak styli",

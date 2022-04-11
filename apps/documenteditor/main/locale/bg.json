@@ -1638,6 +1638,7 @@
   "DE.Views.Navigation.txtDemote": "Понижавам",
   "DE.Views.Navigation.txtEmpty": "Този документ не съдържа заглавия",
   "DE.Views.Navigation.txtEmptyItem": "Празно заглавие",
+  "DE.Views.Navigation.txtEmptyViewer": "Този документ не съдържа заглавия.",
   "DE.Views.Navigation.txtExpand": "Разгънете всички",
   "DE.Views.Navigation.txtExpandToLevel": "Разширяване до ниво",
   "DE.Views.Navigation.txtHeadingAfter": "Нова позиция след",

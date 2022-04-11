@@ -2204,6 +2204,10 @@ define([
                     this.api.GoToHeader(this.api.getCurrentPage());
                 else if (item.value == 'footer')
                     this.api.GoToFooter(this.api.getCurrentPage());
+                else if (item.value == 'header-remove')
+                    this.api.asc_RemoveHeader(this.api.getCurrentPage());
+                else if (item.value == 'footer-remove')
+                    this.api.asc_RemoveFooter(this.api.getCurrentPage());
                 else
                     return;
 

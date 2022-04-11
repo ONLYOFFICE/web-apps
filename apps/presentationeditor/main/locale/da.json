@@ -51,7 +51,7 @@
   "Common.Translation.warnFileLockedBtnEdit": "Opret en kopi",
   "Common.Translation.warnFileLockedBtnView": "Åben for visning",
   "Common.UI.ButtonColored.textAutoColor": "Automatisk",
-  "Common.UI.ButtonColored.textNewColor": "Tilføj ny brugerdefineret farve",
+  "Common.UI.ButtonColored.textNewColor": "Brugerdefineret farve",
   "Common.UI.ComboBorderSize.txtNoBorders": "Ingen rammer",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Ingen rammer",
   "Common.UI.ComboDataView.emptyComboText": "Ingen stilarter",
