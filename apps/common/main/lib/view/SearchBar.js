@@ -90,28 +90,32 @@ define([
             this.btnBack = new Common.UI.Button({
                 parentEl: $('#search-bar-back'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-arrow-up'
+                iconCls: 'toolbar__icon btn-arrow-up',
+                hint: this.tipPreviousResult
             });
             this.btnBack.on('click', _.bind(this.onBtnNextClick, this, 'back'));
 
             this.btnNext = new Common.UI.Button({
                 parentEl: $('#search-bar-next'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-arrow-down'
+                iconCls: 'toolbar__icon btn-arrow-down',
+                hint: this.tipNextResult
             });
             this.btnNext.on('click', _.bind(this.onBtnNextClick, this, 'next'));
 
             this.btnOpenPanel = new Common.UI.Button({
                 parentEl: $('#search-bar-open-panel'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon more-vertical'
+                iconCls: 'toolbar__icon more-vertical',
+                hint: this.tipOpenAdvancedSettings
             });
             this.btnOpenPanel.on('click', _.bind(this.onOpenPanel, this));
 
             this.btnClose = new Common.UI.Button({
                 parentEl: $('#search-bar-close'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-close'
+                iconCls: 'toolbar__icon btn-close',
+                hint: this.tipCloseSearch
             });
             this.btnClose.on('click', _.bind(function () {
                 this.hide();
@@ -180,7 +184,11 @@ define([
             this.btnNext.setDisabled(disable || resultNumber + 1 === allResults);
         },
 
-        textFind: 'Find'
+        textFind: 'Find',
+        tipPreviousResult: 'Previous result',
+        tipNextResult: 'Next result',
+        tipOpenAdvancedSettings: 'Open advanced settings',
+        tipCloseSearch: 'Close search'
 
     }, Common.UI.SearchBar || {}));
 });
