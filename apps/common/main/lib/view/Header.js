@@ -340,10 +340,10 @@ define([
             me.isSaveDocName =false;
             if(me.withoutExt) return;
             var name = me.cutDocName(me.labelDocName.val());
-            _.delay(function(){
-                me.labelDocName.val(name);
-            },100);
             me.withoutExt = true;
+            _.delay(function(){
+                me.setDocTile(name,true);
+            },100);
         }
 
         function onDocNameKeyDown(e) {
@@ -372,8 +372,8 @@ define([
                         name = me.cutDocName(name);
                         me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
                         name += me.fileExtention;
-                        me.labelDocName.val(name);
                         me.withoutExt = false;
+                        me.setDocTile(name);
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
 
@@ -490,7 +490,7 @@ define([
                     if ( !me.labelDocName ) {
                         me.labelDocName = $html.find('#rib-doc-name');
                         if ( me.documentCaption ) {
-                            me.labelDocName.val(me.documentCaption);
+                            me.setDocTile(me.documentCaption);
                         }
                     } else {
                         $html.find('#rib-doc-name').hide();
@@ -569,7 +569,8 @@ define([
 
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
                     me.labelDocName = $html.find('#title-doc-name');
-                    me.labelDocName.val( me.documentCaption );
+                    me.setDocTile( me.documentCaption );
+
                     me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
                     if (config.user.guest && config.canRenameAnonymous) {
@@ -723,16 +724,14 @@ define([
                             'blur': function (e) {
                                 me.imgCrypted && me.imgCrypted.attr('hidden', false);
                                 if(!me.isSaveDocName) {
-                                    me.labelDocName.val(me.documentCaption);
                                     me.withoutExt = false;
+                                    me.setDocTile(me.documentCaption);
                                 }
                             },
                             'paste': function (e) {
                                 setTimeout(function() {
                                     var name = me.cutDocName(me.labelDocName.val());
-                                    me.labelDocName.val(name);
-                                    me.labelDocName.attr('size', name.length + me.fileExtention.length > 10  ? name.length + me.fileExtention.length : 10);
-                                });
+                                    me.setDocTile(name, true);                                });
                             }
                         });
 
@@ -754,6 +753,12 @@ define([
                 var idx =name.length - this.fileExtention.length;
 
                 return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
+            },
+            setDocTile: function(name){
+                this.labelDocName.val(name);
+                var ln = this.withoutExt ? this.fileExtention.length : 0;
+                this.labelDocName.attr('size', name.length + ln > 10  ? name.length + ln : 10);
+
             },
 
             setUserName: function(name) {
