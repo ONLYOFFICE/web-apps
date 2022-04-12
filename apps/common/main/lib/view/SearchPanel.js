@@ -86,13 +86,11 @@ define([
                     style: 'width: 100%;'
                 });
 
-                this.$reaultsNumber = $('#search-adv-results-number');
-                this.updateResultsNumber('no-results');
-
                 this.btnBack = new Common.UI.Button({
                     parentEl: $('#search-adv-back'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-arrow-up',
+                    hint: this.tipPreviousResult,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
@@ -102,6 +100,7 @@ define([
                     parentEl: $('#search-adv-next'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-arrow-down',
+                    hint: this.tipNextResult,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
@@ -116,6 +115,9 @@ define([
                     el: $('#search-adv-replace-all')
                 });
                 this.btnReplaceAll.on('click', _.bind(this.onReplaceClick, this, 'replaceall'));
+
+                this.$reaultsNumber = $('#search-adv-results-number');
+                this.updateResultsNumber('no-results');
 
                 this.chCaseSensitive = new Common.UI.CheckBox({
                     el: $('#search-adv-case-sensitive'),
@@ -310,6 +312,7 @@ define([
                 text = current === 'no-results' ? this.textNoSearchResults : (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count));
             }
             this.$reaultsNumber.text(text);
+            this.disableReplaceButtons(!count);
         },
 
         onClickClosePanel: function() {
@@ -387,6 +390,8 @@ define([
         textNoSearchResults: 'No search results',
         textItemEntireCell: 'Entire cell contents',
         textTooManyResults: 'There are too many results to show here',
+        tipPreviousResult: 'Previous result',
+        tipNextResult: 'Next result',
         textName: 'Name',
         textCell: 'Cell',
         textValue: 'Value',

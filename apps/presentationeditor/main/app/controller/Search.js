@@ -118,6 +118,12 @@ define([
                     this._state.useRegExp = checked;
                     break;
             }
+            if (this._state.searchText !== '' && this.onQuerySearch()) {
+                this.hideResults();
+                clearInterval(this.searchTimer);
+                this.searchTimer = undefined;
+                this.api.asc_StartTextAroundSearch();
+            }
         },
 
         onSearchNext: function (type, text, e) {

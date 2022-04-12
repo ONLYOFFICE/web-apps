@@ -108,7 +108,7 @@ define([
             this.btnSearchBar = new Common.UI.Button({
                 action: 'advancedsearch',
                 el: $markup.elementById('#left-btn-searchbar'),
-                hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
+                hint: this.tipSearch,
                 disabled: true,
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'

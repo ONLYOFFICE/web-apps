@@ -356,6 +356,10 @@ define([
 
             if ( me.btnOptions )
                 me.btnOptions.updateHint(me.tipViewSettings);
+
+            if (me.btnSearch)
+                me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
+
         }
 
         function onFocusDocName(e){
@@ -870,7 +874,8 @@ define([
             tipViewSettings: 'View Settings',
             textRemoveFavorite: 'Remove from Favorites',
             textAddFavorite: 'Mark as favorite',
-            textHideNotes: 'Hide Notes'
+            textHideNotes: 'Hide Notes',
+            tipSearch: 'Search'
         }
     }(), Common.Views.Header || {}))
 });
