@@ -97,14 +97,6 @@ define([
         render: function () {
             var $markup = $(this.template({}));
 
-            this.btnSearch = new Common.UI.Button({
-                action: 'search',
-                el: $markup.elementById('#left-btn-search'),
-                hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
-                disabled: true,
-                enableToggle: true
-            });
-
             this.btnSearchBar = new Common.UI.Button({
                 action: 'advancedsearch',
                 el: $markup.elementById('#left-btn-searchbar'),
@@ -174,7 +166,6 @@ define([
             });
             this.btnNavigation.on('click',         this.onBtnMenuClick.bind(this));
 
-            this.btnSearch.on('click',          this.onBtnMenuClick.bind(this));
             this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
             this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
 
@@ -202,9 +193,6 @@ define([
                 btn.panel['show']();
                 if (!this._state.pluginIsRunning)
                     this.$el.width(SCALE_MIN);
-
-                if (this.btnSearch.isActive())
-                    this.btnSearch.toggle(false);
             } else {
                 btn.panel['hide']();
             }
@@ -370,7 +358,6 @@ define([
         },
 
         disableMenu: function(menu, disable) {
-            this.btnSearch.setDisabled(false);
             this.btnSearchBar.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);

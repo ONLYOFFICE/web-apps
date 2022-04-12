@@ -82,8 +82,6 @@ define([
                     'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
                 },
                 'FileMenu': {
-                    'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
-                    'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'filemenu:hide': _.bind(this.menuFilesHide, this),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
@@ -97,13 +95,6 @@ define([
                     'file:open': this.clickToolbarTab.bind(this, 'file'),
                     'file:close': this.clickToolbarTab.bind(this, 'other'),
                     'save:disabled' : this.changeToolbarSaveState.bind(this)
-                },
-                'SearchDialog': {
-                    'hide': _.bind(this.onSearchDlgHide, this),
-                    'search:back': _.bind(this.onQuerySearch, this, 'back'),
-                    'search:next': _.bind(this.onQuerySearch, this, 'next'),
-                    'search:replace': _.bind(this.onQueryReplace, this),
-                    'search:replaceall': _.bind(this.onQueryReplaceAll, this)
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
@@ -121,7 +112,6 @@ define([
 
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
-            this.leftMenu.btnSearch.on('toggle', _.bind(this.onMenuSearch, this));
             this.leftMenu.btnThumbs.on('toggle', _.bind(this.onShowTumbnails, this));
             this.isThumbsShown = true;
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
@@ -150,7 +140,6 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
-            this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -442,66 +431,6 @@ define([
         },
         /** coauthoring end **/
 
-        onQuerySearch: function(d, w, opts) {
-            if (opts.textsearch && opts.textsearch.length) {
-                if (!this.api.findText(opts.textsearch, d != 'back', opts.matchcase)) {
-                    var me = this;
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
-                        callback: function() {
-                            me.dlgSearch.focus();
-                        }
-                    });
-                }
-            }
-        },
-
-        onQueryReplace: function(w, opts) {
-            if (!_.isEmpty(opts.textsearch)) {
-                if (!this.api.asc_replaceText(opts.textsearch, opts.textreplace, false, opts.matchcase)) {
-                    var me = this;
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
-                        callback: function() {
-                            me.dlgSearch.focus();
-                        }
-                    });
-                }
-            }
-        },
-
-        onQueryReplaceAll: function(w, opts) {
-            if (!_.isEmpty(opts.textsearch)) {
-                this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase);
-            }
-        },
-
-        showSearchDlg: function(show,action) {
-            if ( !this.dlgSearch ) {
-                this.dlgSearch = (new Common.UI.SearchDialog({
-                    matchcase: true
-                }));
-                var me = this;
-                Common.NotificationCenter.on('preview:start', function() {
-                    me.dlgSearch.hide();
-                });
-            }
-
-            if (show) {
-                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
-                if (this.dlgSearch.isVisible()) {
-                    this.dlgSearch.setMode(mode);
-                    this.dlgSearch.focus();
-                } else {
-                    this.dlgSearch.show(mode);
-                }
-            } else this.dlgSearch['hide']();
-        },
-
-        onMenuSearch: function(obj, show) {
-            this.showSearchDlg(show);
-        },
-
         onShowTumbnails: function(obj, show) {
             this.api.ShowThumbnails(show);
 
@@ -515,29 +444,9 @@ define([
             this.isThumbsShown = isShow;
         },
 
-        onSearchDlgHide: function() {
-            this.leftMenu.btnSearch.toggle(false, true);
-            $(this.leftMenu.btnSearch.el).blur();
-            this.api.asc_enableKeyEvents(true);
-//            this.api.asc_selectSearchingResults(false);
-        },
-
-        onApiTextReplaced: function(found,replaced) {
-            var me = this;
-            if (found) {
-                !(found - replaced > 0) ?
-                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
-                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
-            } else {
-                Common.UI.info({msg: this.textNoTextFound});
-            }
-        },
-
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-
-            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
         },
@@ -553,10 +462,6 @@ define([
             this.leftMenu.btnPlugins.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
-            if ( this.dlgSearch ) {
-                this.leftMenu.btnSearch.toggle(false, true);
-                this.dlgSearch['hide']();
-            }
         },
 
         onApiCountPages: function(count) {
@@ -625,15 +530,6 @@ define([
                     this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
                 }
-            }
-        },
-
-        menuFilesShowHide: function(state) {
-            if ( this.dlgSearch ) {
-                if ( state == 'show' )
-                    this.dlgSearch.suspendKeyEvents();
-                else
-                    Common.Utils.asyncCall(this.dlgSearch.resumeKeyEvents, this.dlgSearch);
             }
         },
 

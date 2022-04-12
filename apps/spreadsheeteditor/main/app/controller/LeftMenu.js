@@ -89,14 +89,6 @@ define([
                     'file:close': this.clickToolbarTab.bind(this, 'other'),
                     'save:disabled' : this.changeToolbarSaveState.bind(this)
                 },
-                'SearchDialog': {
-                    'hide': _.bind(this.onSearchDlgHide, this),
-                    'search:back': _.bind(this.onQuerySearch, this, 'back'),
-                    'search:next': _.bind(this.onQuerySearch, this, 'next'),
-                    'search:replace': _.bind(this.onQueryReplace, this),
-                    'search:replaceall': _.bind(this.onQueryReplaceAll, this),
-                    'search:highlight': _.bind(this.onSearchHighlight, this)
-                },
                 'Common.Views.ReviewChanges': {
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
                 },
@@ -115,7 +107,6 @@ define([
 
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
-            this.leftMenu.btnSearch.on('toggle', _.bind(this.onMenuSearch, this));
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
 
             Common.util.Shortcuts.delegateShortcuts({
@@ -560,169 +551,9 @@ define([
         },
         /** coauthoring end **/
 
-        onQuerySearch: function(d, w, opts) {
-            // if (opts.textsearch && opts.textsearch.length) {
-                var options = this.dlgSearch.findOptions;
-                options.asc_setFindWhat(opts.textsearch);
-                options.asc_setScanForward(d != 'back');
-                options.asc_setIsMatchCase(opts.matchcase);
-                options.asc_setIsWholeCell(opts.matchword);
-                options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-                options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
-
-                if (!this.api.asc_findText(options)) {
-                    var me = this;
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
-                        callback: function() {
-                            me.dlgSearch.focus();
-                        }
-                    });
-                }
-            // }
-        },
-
-        onQueryReplace: function(w, opts) {
-            // if (!_.isEmpty(opts.textsearch)) {
-                this.api.isReplaceAll = false;
-
-                var options = this.dlgSearch.findOptions;
-                options.asc_setFindWhat(opts.textsearch);
-                options.asc_setReplaceWith(opts.textreplace);
-                options.asc_setIsMatchCase(opts.matchcase);
-                options.asc_setIsWholeCell(opts.matchword);
-                options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-                options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
-                options.asc_setIsReplaceAll(false);
-
-                this.api.asc_replaceText(options);
-            // }
-        },
-
-        onQueryReplaceAll: function(w, opts) {
-            // if (!_.isEmpty(opts.textsearch)) {
-                this.api.isReplaceAll = true;
-
-                var options = this.dlgSearch.findOptions;
-                options.asc_setFindWhat(opts.textsearch);
-                options.asc_setReplaceWith(opts.textreplace);
-                options.asc_setIsMatchCase(opts.matchcase);
-                options.asc_setIsWholeCell(opts.matchword);
-                options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
-                options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
-                options.asc_setIsReplaceAll(true);
-
-                this.api.asc_replaceText(options);
-            // }
-        },
-
-        onSearchHighlight: function(w, highlight) {
-            this.api.asc_selectSearchingResults(highlight);
-        },
-
-        showSearchDlg: function(show,action) {
-            if ( !this.dlgSearch ) {
-                var menuWithin = new Common.UI.MenuItem({
-                    caption     : this.textWithin,
-                    menu        : new Common.UI.Menu({
-                        menuAlign   : 'tl-tr',
-                        items       : [{
-                                caption     : this.textSheet,
-                                toggleGroup : 'searchWithih',
-                                checkable   : true,
-                                checked     : true
-                            },{
-                                caption     : this.textWorkbook,
-                                toggleGroup : 'searchWithih',
-                                checkable   : true,
-                                checked     : false
-                        }]
-                    })
-                });
-
-                var menuSearch = new Common.UI.MenuItem({
-                    caption     : this.textSearch,
-                    menu        : new Common.UI.Menu({
-                        menuAlign   : 'tl-tr',
-                        items       : [{
-                                caption     : this.textByRows,
-                                toggleGroup : 'searchByrows',
-                                checkable   : true,
-                                checked     : true
-                            },{
-                                caption     : this.textByColumns,
-                                toggleGroup : 'searchByrows',
-                                checkable   : true,
-                                checked     : false
-                        }]
-                    })
-                });
-
-                var menuLookin = new Common.UI.MenuItem({
-                    caption     : this.textLookin,
-                    menu        : new Common.UI.Menu({
-                        menuAlign   : 'tl-tr',
-                        items       : [{
-                                caption     : this.textFormulas,
-                                toggleGroup : 'searchLookin',
-                                checkable   : true,
-                                checked     : true
-                            },{
-                                caption     : this.textValues,
-                                toggleGroup : 'searchLookin',
-                                checkable   : true,
-                                checked     : false
-                        }]
-                    })
-                });
-
-                this.dlgSearch = (new Common.UI.SearchDialog({
-                    matchcase: true,
-                    matchword: true,
-                    matchwordstr: this.textItemEntireCell,
-                    markresult: {applied: true},
-                    extraoptions : [menuWithin,menuSearch,menuLookin]
-                }));
-
-                this.dlgSearch.menuWithin = menuWithin;
-                this.dlgSearch.menuSearch = menuSearch;
-                this.dlgSearch.menuLookin = menuLookin;
-                this.dlgSearch.findOptions = new Asc.asc_CFindOptions();
-            }
-
-            if (show) {
-                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
-
-                if (this.dlgSearch.isVisible()) {
-                    this.dlgSearch.setMode(mode);
-                    this.dlgSearch.focus();
-                } else {
-                    this.dlgSearch.show(mode);
-                }
-
-                this.api.asc_closeCellEditor();
-            } else this.dlgSearch['hide']();
-        },
-
-        onMenuSearch: function(obj, show) {
-            this.showSearchDlg(show);
-        },
-
-        onSearchDlgHide: function() {
-            this.leftMenu.btnSearch.toggle(false, true);
-            this.api.asc_selectSearchingResults(false);
-            $(this.leftMenu.btnSearch.el).blur();
-            this.api.asc_enableKeyEvents(true);
-        },
-
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-
-            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
         },
@@ -739,10 +570,6 @@ define([
             this.leftMenu.btnSpellcheck.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
-            if ( this.dlgSearch ) {
-                this.leftMenu.btnSearch.toggle(false, true);
-                this.dlgSearch['hide']();
-            }
         },
 
         /** coauthoring begin **/
