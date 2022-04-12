@@ -342,7 +342,7 @@ define([
             var name = me.cutDocName(me.labelDocName.val());
             me.withoutExt = true;
             _.delay(function(){
-                me.setDocTile(name,true);
+                me.setDocTile(name);
             },100);
         }
 
@@ -731,7 +731,7 @@ define([
                             'paste': function (e) {
                                 setTimeout(function() {
                                     var name = me.cutDocName(me.labelDocName.val());
-                                    me.setDocTile(name, true);                                });
+                                    me.setDocTile(name);                                });
                             }
                         });
 
