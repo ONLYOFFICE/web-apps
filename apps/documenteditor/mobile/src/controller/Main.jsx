@@ -617,6 +617,7 @@ class MainController extends Component {
                 default: 
                     storeTextSettings.resetBullets(-1);
                     storeTextSettings.resetNumbers(-1);
+                    storeTextSettings.resetMultiLevel(-1);
             }
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
