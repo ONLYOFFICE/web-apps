@@ -286,11 +286,11 @@ const PageMultiLevel = observer(props => {
         <View className='multilevels dataview'>
                 <List className="row" style={{listStyle: 'none'}}>
                     {arrayMultiLevel.map((item) => (
-                        <ListItem key={'multi-level-' + item.type} data-type={item.type} className={item.type === typeMultiLevel ? 'active' : ''}
-                        onClick={(e) => {
-                                item.type === -1 ? storeTextSettings.resetMultiLevel(-1) : storeTextSettings.resetMultiLevel(null);
-                                props.onMultiLevelList(item.type);
-                            }}>
+                        <ListItem 
+                        key={'multi-level-' + item.type} 
+                        data-type={item.type} 
+                        className={item.type === typeMultiLevel && storeTextSettings.listType === -1  ? 'active' : ''}
+                        onClick={() => props.onMultiLevelList(item.type)}>
                             {item.thumb.length < 1 ?
                                 <Icon className="thumb" style={{position: 'relative'}}>
                                     <label>{t('Edit.textNone')}</label>
