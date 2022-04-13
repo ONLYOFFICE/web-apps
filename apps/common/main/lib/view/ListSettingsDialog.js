@@ -566,11 +566,15 @@ define([
                         this._changedProps = bullet;
                         type = 0;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) {
-                        this.imageProps = {id: bullet.asc_getImageId(), redraw: true};
-                        if (!this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}))
-                            this.cmbBulletFormat.store.add({ displayValue: this.txtImage + ':', value: _BulletTypes.image}, {at: this.cmbBulletFormat.store.length-2});
-                        this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
-                        this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
+                        var id = bullet.asc_getImageId();
+                        if (id) {
+                            this.imageProps = {id: id, redraw: true};
+                            if (!this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}))
+                                this.cmbBulletFormat.store.add({ displayValue: this.txtImage + ':', value: _BulletTypes.image}, {at: this.cmbBulletFormat.store.length-2});
+                            this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
+                            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
+                        } else
+                            this.cmbBulletFormat.setValue('');
                         this._changedProps = bullet;
                         type = 0;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM) {
