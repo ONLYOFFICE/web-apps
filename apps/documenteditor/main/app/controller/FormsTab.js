@@ -41,7 +41,8 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/FormsTab'
+    'documenteditor/main/app/view/FormsTab',
+    'documenteditor/main/app/view/RolesManagerDlg'
 ], function () {
     'use strict';
 
@@ -66,7 +67,7 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onChangeSpecialFormsGlobalSettings', _.bind(this.onChangeSpecialFormsGlobalSettings, this));
+                // this.api.asc_registerCallback('asc_onChangeSpecialFormsGlobalSettings', _.bind(this.onChangeSpecialFormsGlobalSettings, this));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
                 this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
                 this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
@@ -90,12 +91,13 @@ define([
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
                     'forms:clear': this.onClearClick,
-                    'forms:no-color': this.onNoControlsColor,
-                    'forms:select-color': this.onSelectControlsColor,
+                    // 'forms:no-color': this.onNoControlsColor,
+                    // 'forms:select-color': this.onSelectControlsColor,
                     'forms:mode': this.onModeClick,
                     'forms:goto': this.onGoTo,
                     'forms:submit': this.onSubmitClick,
-                    'forms:save': this.onSaveFormClick
+                    'forms:save': this.onSaveFormClick,
+                    'forms:manager': this.onManagerClick
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab
@@ -195,6 +197,7 @@ define([
         onModeClick: function(state) {
             if (this.api) {
                 this.disableEditing(state);
+                this.view && this.view.setPreviewMode(state);
                 this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
@@ -410,6 +413,20 @@ define([
                 });
                 me.tipSaveForm.show();
             }
+        },
+
+        onManagerClick: function() {
+            var me = this;
+            (new DE.Views.RolesManagerDlg({
+                api: me.api,
+                handler: function(result) {
+                    Common.component.Analytics.trackEvent('ToolBar', 'Roles Manager');
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                },
+                roles: [],
+                props : undefined
+            })).on('close', function(win){
+            }).show();
         },
 
         onActiveTab: function(tab) {

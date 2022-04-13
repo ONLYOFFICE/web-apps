@@ -49,7 +49,7 @@ define([
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
         '<section class="panel" data-tab="forms">' +
-            '<div class="group" style="display: none;">' +
+            '<div class="group forms" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-field"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-dropdown"></span>' +
@@ -58,22 +58,15 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
             '</div>' +
             '<div class="separator long forms" style="display: none;"></div>' +
-            '<div class="group no-group-mask inner-elset small" style="display: none;">' +
-                '<div class="elset no-group-mask form-view">' +
-                    '<span class="btn-slot text" id="slot-form-clear-fields"></span>' +
-                '</div>' +
-                '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-form-highlight"></span>' +
-                '</div>' +
+            '<div class="group forms" style="display: none;">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-manager"></span>' +
             '</div>' +
-            '<div class="group no-group-mask form-view">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
+            '<div class="separator long forms" style="display: none;"></div>' +
+            '<div class="group no-group-mask" style="">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-view"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
-            '</div>' +
-            '<div class="separator long submit" style="display: none;"></div>' +
-            '<div class="group no-group-mask form-view" style="display: none;">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-view"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-save"></span>' +
             '</div>' +
@@ -102,8 +95,8 @@ define([
             this.btnViewForm && this.btnViewForm.on('click', function (b, e) {
                 me.fireEvent('forms:mode', [b.pressed]);
             });
-            this.btnClearFields && this.btnClearFields.on('click', function (b, e) {
-                me.fireEvent('forms:clear');
+            this.btnManager && this.btnManager.on('click', function (b, e) {
+                me.fireEvent('forms:manager');
             });
             this.btnClear && this.btnClear.on('click', function (b, e) {
                 me.fireEvent('forms:clear');
@@ -145,11 +138,7 @@ define([
                 var _set = Common.enumLock;
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
-                    this.btnClear = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon clear-style',
-                        caption: this.textClear
-                    });
+
                 } else {
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -217,6 +206,18 @@ define([
                     });
                     this.paragraphControls.push(this.btnImageField);
 
+                    this.btnManager = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-ic-sharing',
+                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        caption: this.capBtnManager,
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnManager);
+
                     this.btnViewForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-sheet-view',
@@ -229,48 +230,48 @@ define([
                     });
                     this.paragraphControls.push(this.btnViewForm);
 
-                    this.btnClearFields = new Common.UI.Button({
-                        cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-clearstyle',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
-                        caption     : this.textClearFields,
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnClearFields);
-
-                    this.btnHighlight = new Common.UI.ButtonColored({
-                        cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-highlight',
-                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
-                        caption     : this.textHighlight,
-                        menu        : true,
-                        additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
-                                              id: 'id-toolbar-menu-no-highlight-form',
-                                              caption: this.textNoHighlight,
-                                              checkable: true,
-                                              style: 'padding-left: 20px;'
-                                          }),
-                                          {caption: '--'}],
-                        colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
-                                    '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
-                                    '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
-                                    '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
-                                ],
-                        paletteHeight: 94,
-                        dataHint: '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnHighlight);
+                    // this.btnHighlight = new Common.UI.ButtonColored({
+                    //     cls         : 'btn-toolbar',
+                    //     iconCls     : 'toolbar__icon btn-highlight',
+                    //     lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                    //     caption     : this.textHighlight,
+                    //     menu        : true,
+                    //     additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
+                    //                           id: 'id-toolbar-menu-no-highlight-form',
+                    //                           caption: this.textNoHighlight,
+                    //                           checkable: true,
+                    //                           style: 'padding-left: 20px;'
+                    //                       }),
+                    //                       {caption: '--'}],
+                    //     colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                    //                 '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                    //                 '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                    //                 '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
+                    //             ],
+                    //     paletteHeight: 94,
+                    //     dataHint: '1',
+                    //     dataHintDirection: 'left',
+                    //     dataHintOffset: 'small'
+                    // });
+                    // this.paragraphControls.push(this.btnHighlight);
                 }
+
+                this.btnClear = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon clear-style',
+                    caption: this.textClear,
+                    visible: false,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon previous-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnPrev,
+                    visible: false,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -283,6 +284,7 @@ define([
                     iconCls: 'toolbar__icon next-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnNext,
+                    visible: false,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -333,15 +335,15 @@ define([
                     accept();
                 })).then(function(){
                     if (config.isEdit && config.canFeatureContentControl && config.canFeatureForms) {
-                        if (config.canEditContentControl) {
-                            me.btnHighlight.setMenu();
-                            me.mnuFormsColorPicker = me.btnHighlight.getPicker();
-                            me.btnHighlight.currentColor && me.mnuFormsColorPicker.selectByRGB(me.btnHighlight.currentColor, true);
-                            me.mnuNoFormsColor.setChecked(me.btnHighlight.currentColor === null);
-                            me.btnHighlight.setColor(me.btnHighlight.currentColor || 'transparent');
-                        } else {
-                            me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
-                        }
+                        // if (config.canEditContentControl) {
+                        //     me.btnHighlight.setMenu();
+                        //     me.mnuFormsColorPicker = me.btnHighlight.getPicker();
+                        //     me.btnHighlight.currentColor && me.mnuFormsColorPicker.selectByRGB(me.btnHighlight.currentColor, true);
+                        //     me.mnuNoFormsColor.setChecked(me.btnHighlight.currentColor === null);
+                        //     me.btnHighlight.setColor(me.btnHighlight.currentColor || 'transparent');
+                        // } else {
+                        //     me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
+                        // }
 
                         me.btnTextField.updateHint(me.tipTextField);
                         me.btnComboBox.updateHint(me.tipComboBox);
@@ -350,9 +352,9 @@ define([
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
                         me.btnViewForm.updateHint(me.tipViewForm);
-                    } else {
-                        me.btnClear.updateHint(me.textClearFields);
+                        me.btnManager.updateHint(me.tipManager);
                     }
+                    me.btnClear.updateHint(me.textClearFields);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
                     me.btnSubmit && me.btnSubmit.updateHint(me.tipSubmit);
@@ -370,8 +372,6 @@ define([
                 this.appConfig.canDownloadForms && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
-                    this.btnClear.render($host.find('#slot-btn-form-clear'));
-                    (this.btnSubmit || this.btnSaveForm) && $host.find('.separator.submit').show().next('.group').show();
                 } else {
                     this.btnTextField.render($host.find('#slot-btn-form-field'));
                     this.btnComboBox.render($host.find('#slot-btn-form-combobox'));
@@ -380,14 +380,12 @@ define([
                     this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                     this.btnImageField.render($host.find('#slot-btn-form-image'));
                     this.btnViewForm.render($host.find('#slot-btn-form-view'));
-                    this.btnClearFields.render($host.find('#slot-form-clear-fields'));
-                    this.btnHighlight.render($host.find('#slot-form-highlight'));
+                    this.btnManager.render($host.find('#slot-btn-manager'));
+                    // this.btnHighlight.render($host.find('#slot-form-highlight'));
 
-                    var separator_forms = $host.find('.separator.forms');
-                    separator_forms.prev('.group').show();
-                    separator_forms.show().next('.group').show();
-                    $host.find('.separator.submit').show().next('.group').show();
+                    $host.find('.forms').show();
                 }
+                this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
 
@@ -401,6 +399,14 @@ define([
 
             getButtons: function() {
                 return this.paragraphControls;
+            },
+
+            setPreviewMode: function(state) {
+                this.btnClear.setVisible(state);
+                this.btnPrevForm.setVisible(state);
+                this.btnNextForm.setVisible(state);
+                this.btnSubmit && this.btnSubmit.setVisible(!state);
+                this.btnSaveForm && this.btnSaveForm.setVisible(!state);
             },
 
             SetDisabled: function (state) {
@@ -442,7 +448,9 @@ define([
             tipSaveForm: 'Save a file as a fillable OFORM document',
             txtUntitled: 'Untitled',
             textCreateForm: 'Add fields and create a fillable OFORM document',
-            textGotIt: 'Got it'
+            textGotIt: 'Got it',
+            capBtnManager: 'Manage Roles',
+            tipManager: 'Manage Roles'
         }
     }()), DE.Views.FormsTab || {}));
 });

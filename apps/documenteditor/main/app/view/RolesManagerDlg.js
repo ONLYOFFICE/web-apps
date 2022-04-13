@@ -41,7 +41,8 @@
 
 define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView'
+    'common/main/lib/component/ListView',
+    // 'documenteditor/main/app/view/RoleEditDlg'
 ], function (contentTemplate) {
     'use strict';
 
@@ -73,6 +74,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.roles      = options.roles;
 
             this.rolesStore = new Common.UI.DataViewStore();
 
@@ -87,9 +89,8 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             var me = this;
 
             this.rolesList = new Common.UI.ListView({
-                el: $('#name-manager-range-list', this.$window),
+                el: $('#roles-manager-roles-list', this.$window),
                 store: new Common.UI.DataViewStore(),
-                simpleAddMode: true,
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
@@ -116,25 +117,41 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 .on('entervalue', _.bind(this.onDblClickItem, this));
 
             this.btnNewRole = new Common.UI.Button({
-                el: $('#name-manager-btn-new')
+                el: $('#roles-manager-btn-new', this.$window)
             });
             this.btnNewRole.on('click', _.bind(this.onEditRole, this, false));
 
             this.btnEditRole = new Common.UI.Button({
-                el: $('#name-manager-btn-edit')
+                el: $('#roles-manager-btn-edit', this.$window)
             });
             this.btnEditRole.on('click', _.bind(this.onEditRole, this, true));
 
             this.btnDeleteRole = new Common.UI.Button({
-                el: $('#name-manager-btn-delete')
+                el: $('#roles-manager-btn-delete', this.$window)
             });
             this.btnDeleteRole.on('click', _.bind(this.onDeleteRole, this));
+
+            this.btnUp = new Common.UI.Button({
+                parentEl: $('#roles-manager-btn-up', this.$window),
+                cls: 'btn-toolbar bg-white',
+                iconCls: 'caret-up',
+                hint: this.textUp
+            });
+            this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
+
+            this.btnDown = new Common.UI.Button({
+                parentEl: $('#roles-manager-btn-down', this.$window),
+                cls: 'btn-toolbar bg-white',
+                iconCls: 'caret-down',
+                hint: this.textDown
+            });
+            this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [ this.rolesList, this.btnNewRole, this.btnEditRole, this.btnDeleteRole ];
+            return [ this.btnUp, this.btnDown, this.rolesList, this.btnNewRole, this.btnEditRole, this.btnDeleteRole ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -151,7 +168,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         onRefreshRolesList: function(roles) {
-            this.refreshRangeList(roles);
+            this.refreshRolesList(roles);
         },
 
         refreshRolesList: function(roles, selectedItem) {
@@ -164,65 +181,46 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                         type = this.roles[i].asc_getType();
                     arr.push({
                         name: this.roles[i].asc_getName(true),
-                        lock: (id!==null && id!==undefined),
-                        lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText,
                         type: type,
                         isTable: type===Asc.c_oAscDefNameType.table,
                         isSlicer: type===Asc.c_oAscDefNameType.slicer
                     });
                 }
                 this.rolesStore.reset(arr);
-                this.rolesList.setEmptyText((this.rolesStore.length>0) ? this.textnoNames : this.textEmpty);
             }
 
             var me = this,
                 store = this.rolesList.store,
                 models = this.rolesStore.models,
-                val = this.cmbFilter.getValue(),
-                isTableFilter = (val<3) ? (val==2) : -1,
-                isWorkbook = (val>2) ? (val==4) : -1;
-            if (val>0)
-                models = this.rolesStore.filter(function(item) {
-                    if (isTableFilter!==-1)
-                        return (isTableFilter===item.get('isTable'));
-                    if (isWorkbook!==-1)
-                        return (isWorkbook===(item.get('scope')===null));
-                    return false;
-                });
-
-            store.reset(models, {silent: false});
-
-            val = store.length;
+                val = store.length;
             this.btnEditRole.setDisabled(!val);
             this.btnDeleteRole.setDisabled(!val);
             if (val>0) {
                 if (selectedItem===undefined || selectedItem===null) selectedItem = 0;
                 if (_.isNumber(selectedItem)) {
                     if (selectedItem>val-1) selectedItem = val-1;
-                    this.rangeList.selectByIndex(selectedItem);
+                    this.rolesList.selectByIndex(selectedItem);
                     setTimeout(function() {
-                        me.rangeList.scrollToRecord(store.at(selectedItem));
+                        me.rolesList.scrollToRecord(store.at(selectedItem));
                     }, 50);
 
                 } else if (selectedItem){ // object
                     var rec = store.findWhere({name: selectedItem.asc_getName(true), scope: selectedItem.asc_getScope()});
                     if (rec) {
-                        this.rangeList.selectRecord(rec);
+                        this.rolesList.selectRecord(rec);
                         setTimeout(function() {
-                            me.rangeList.scrollToRecord(rec);
+                            me.rolesList.scrollToRecord(rec);
                         }, 50);
                     }
                 }
-
-                if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
-                    this.rangeList.cmpEl.on('mouseover',  _.bind(me.onMouseOverLock, me)).on('mouseout',  _.bind(me.onMouseOutLock, me));
             }
             _.delay(function () {
-                me.rangeList.scroller.update({alwaysVisibleY: true});
+                me.rolesList.scroller.update({alwaysVisibleY: true});
             }, 100, this);
+            this.updateButtons();
         },
 
-        onEditRange: function (isEdit) {
+        onEditRole: function (isEdit) {
             if (this._isWarningVisible) return;
 
             if (this.locked) {
@@ -231,24 +229,19 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             }
             var me = this,
                 xy = me.$window.offset(),
-                rec = this.rangeList.getSelectedRec(),
-                idx = _.indexOf(this.rangeList.store.models, rec),
-                oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true) : null;
+                rec = this.rolesList.getSelectedRec(),
+                props = (isEdit && rec) ? {name: rec.get('name'), color: rec.get('color')} : null;
 
-            var win = new SSE.Views.NamedRangeEditDlg({
+            var win = new DE.Views.RoleEditDlg({
                 api: me.api,
-                sheets  : this.sheets,
-                props   : (isEdit) ? oldname : this.props,
+                props   : props,
                 isEdit  : isEdit,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
                         if (isEdit) {
-                            me.currentNamedRange = settings;
-                            me.api.asc_editDefinedNames(oldname, settings);
+                            me.api.asc_editRole(settings);
                         } else {
-                            me.cmbFilter.setValue(0);
-                            me.currentNamedRange = settings;
-                            me.api.asc_setDefinedNames(settings);
+                            me.api.asc_addRole(settings);
                         }
                     }
                 }
@@ -259,10 +252,11 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
             me.hide();
             win.show(xy.left + 65, xy.top + 77);
+            this.updateButtons();
         },
 
-        onDeleteRange: function () {
-            var rec = this.rangeList.getSelectedRec();
+        onDeleteRole: function () {
+            var rec = this.rolesList.getSelectedRec();
             if (rec) {
                 var me = this;
                 me._isWarningVisible = true;
@@ -271,14 +265,14 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {
                         if (btn == 'ok') {
-                            me.currentNamedRange = _.indexOf(me.rangeList.store.models, rec);
-                            me.api.asc_delDefinedNames(new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true));
+                            me.api.asc_delRole(rec.get('name'));
                         }
                         setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
                         me._isWarningVisible = false;
                     }
                 });
             }
+            this.updateButtons();
         },
 
         getSettings: function() {
@@ -297,29 +291,51 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         onSelectRoleItem: function(lisvView, itemView, record) {
             if (!record) return;
 
-            this.userTipHide();
-            var rawData = {},
-                isViewSelect = _.isFunction(record.toJSON);
+            // var rawData = {},
+            //     isViewSelect = _.isFunction(record.toJSON);
+            //
+            // if (isViewSelect){
+            //     if (record.get('selected')) {
+            //         rawData = record.toJSON();
+            //     } else {// record deselected
+            //         return;
+            //     }
+            // }
+            this.updateMoveButtons();
+        },
 
-            if (isViewSelect){
-                if (record.get('selected')) {
-                    rawData = record.toJSON();
-                } else {// record deselected
-                    return;
-                }
-                this.currentNamedRange = _.indexOf(this.rangeList.store.models, record);
-                this.btnEditRange.setDisabled(rawData.lock);
-                this.btnDeleteRange.setDisabled(rawData.lock || rawData.isTable || rawData.isSlicer);
+        onMoveClick: function(up) {
+            var store = this.rolesList.store,
+                length = store.length,
+                rec = this.rolesList.getSelectedRec();
+            if (rec) {
+                var index = store.indexOf(rec);
+                store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
+                this.rolesList.selectRecord(rec);
+                this.rolesList.scrollToRecord(rec);
             }
+            this.updateMoveButtons();
+        },
+
+        updateButtons: function() {
+            this.btnEditRole.setDisabled(this.rolesList.store.length<1);
+            this.btnDeleteRole.setDisabled(this.rolesList.store.length<1);
+            this.updateMoveButtons();
+            this.rolesList.scroller && this.rolesList.scroller.update();
+        },
+
+        updateMoveButtons: function() {
+            var rec = this.rolesList.getSelectedRec(),
+                index = rec ? this.rolesList.store.indexOf(rec) : -1;
+            this.btnUp.setDisabled(index<1);
+            this.btnDown.setDisabled(index<0 || index==this.rolesList.store.length-1);
         },
 
         hide: function () {
-            this.userTipHide();
             Common.UI.Window.prototype.hide.call(this);
         },
 
         close: function () {
-            this.userTipHide();
             this.api.asc_unregisterCallback('asc_onRefreshRolesList', this.wrapEvents.onRefreshRolesList);
 
             Common.UI.Window.prototype.close.call(this);
@@ -340,8 +356,11 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         textNew: 'New',
         textEdit: 'Edit',
         textDelete: 'Delete',
-        textEmpty: 'No named ranges have been created yet.<br>Create at least one named range and it will appear in this field.',
-        warnDelete: 'Are you sure you want to delete the role {0}?'
+        textEmpty: 'No roles have been created yet.<br>Create at least one role and it will appear in this field.',
+        warnDelete: 'Are you sure you want to delete the role {0}?',
+        textUp: 'Move role up',
+        textDown: 'Move role down',
+        textDescription: 'Add roles and set the order in which the fillers receive and sign the document'
 
     }, DE.Views.RolesManagerDlg || {}));
 });
