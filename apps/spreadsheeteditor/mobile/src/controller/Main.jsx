@@ -171,7 +171,7 @@ class MainController extends Component {
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
-                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                    if (this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
                         docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
 
                     const appOptions = this.props.storeAppOptions;
