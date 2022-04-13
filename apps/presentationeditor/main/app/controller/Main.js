@@ -429,9 +429,7 @@ define([
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-
-                    if (this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
-                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
+                    docInfo.put_CoEditingMode(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' ? this.editorConfig.coEditing.mode || 'fast' : 'fast');
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
