@@ -473,7 +473,7 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
-                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
+                    if (this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
                         docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
@@ -1548,8 +1548,8 @@ define([
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
                 // change = true by default in editor, change = false by default in viewer
-                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
-                                                    !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===true) ;
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && this.editorConfig.coEditing.change===false) ||
+                                                    !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && (this.editorConfig.coEditing && this.editorConfig.coEditing.change===true) ;
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
