@@ -330,6 +330,7 @@ define([
                 this.printSettings.txtNumberPage.checkValidate();
             }
             this._isPreviewVisible = true;
+            !!pageCount && this.updatePreview();
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
