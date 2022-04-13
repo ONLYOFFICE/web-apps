@@ -452,7 +452,8 @@ define([
         },
 
         ShowHideElem: function(value) {
-            var isImage = value==0 && (this.cmbBulletFormat.getValue()===_BulletTypes.image || this.cmbBulletFormat.getValue()===_BulletTypes.newImage);
+            var isImage = value==0 && (this.cmbBulletFormat.getValue()===_BulletTypes.image || this.cmbBulletFormat.getValue()===_BulletTypes.newImage ||
+                                      (this.cmbBulletFormat.getValue()===undefined || this.cmbBulletFormat.getValue()==='') && this.originalType === AscFormat.BULLET_TYPE_BULLET_BLIP);
             this.numberingControls.toggleClass('hidden', value==0);
             this.imageControls.toggleClass('hidden', !isImage);
             this.colorControls.toggleClass('hidden', isImage);
