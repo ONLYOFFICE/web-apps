@@ -1,5 +1,9 @@
 
 +function init_themes() {
+    if ( localStorage.getItem("ui-theme-use-system") == '1' ) {
+        localStorage.removeItem("ui-theme-id");
+    }
+
     var objtheme = localStorage.getItem("ui-theme");
     if ( typeof(objtheme) == 'string' &&
             objtheme.startsWith("{") && objtheme.endsWith("}") )
