@@ -97,13 +97,14 @@ define([
                 'keyup:after': _.bind(this.onKeyupPageNumber, this)
             });
             this.printSettings.txtNumberPage.cmpEl.find('input').on('blur', _.bind(this.onBlurPageNumber, this));
-            this.printSettings.chIgnorePrintArea.on('change', _.bind(this.updatePreview, this));
+            this.printSettings.chIgnorePrintArea.on('change', _.bind(this.updatePreview, this, true));
 
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
+                    this.notUpdateSheetSettings = true;
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 }
             }, this));
@@ -248,7 +249,7 @@ define([
             menu.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
 
             if (!isDlg) {
-                this.updatePreview();
+                this.updatePreview(true);
             }
         },
 
@@ -329,6 +330,7 @@ define([
                 this.printSettings.txtNumberPage.checkValidate();
             }
             this._isPreviewVisible = true;
+            !!pageCount && this.updatePreview();
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -700,7 +702,7 @@ define([
             }
         },
 
-        updatePreview: function () {
+        updatePreview: function (needUpdate) {
             if (this._isPreviewVisible) {
                 var adjPrintParams = new Asc.asc_CAdjustPrint(),
                     printType = this.printSettings.getRange();
@@ -723,6 +725,7 @@ define([
                     newPage = this._navigationPreview.currentPage;
                 }
 
+                this.notUpdateSheetSettings = !needUpdate;
                 this.api.asc_drawPrintPreview(newPage);
 
                 this.updateNavigationButtons(newPage, pageCount);
@@ -730,6 +733,10 @@ define([
         },
 
         onApiChangePreviewSheet: function (index) {
+            if (this.notUpdateSheetSettings) {
+                this.notUpdateSheetSettings = false;
+                return
+            }
             var item = this.printSettings.cmbSheet.store.findWhere({value: index});
             if (item) {
                 this.printSettings.cmbSheet.setValue(item.get('value'));
