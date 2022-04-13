@@ -679,7 +679,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
-                me.chDarkMode.setDisabled(record.themeType!=='dark');
+                me.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme(record.value));
             });
 
             this.chDarkMode = new Common.UI.CheckBox({
