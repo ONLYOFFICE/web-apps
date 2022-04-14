@@ -42,7 +42,8 @@
 define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/ListView',
-    'documenteditor/main/app/view/RoleEditDlg'
+    'documenteditor/main/app/view/RoleEditDlg',
+    'documenteditor/main/app/view/RoleDeleteDlg'
 ], function (contentTemplate) {
     'use strict';
 
@@ -247,28 +248,64 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         onDeleteRole: function () {
-            var rec = this.rolesList.getSelectedRec();
-            if (rec) {
-                var me = this,
-                    store = this.rolesList.store;
+            var me = this,
+                store = this.rolesList.store,
+                rec = this.rolesList.getSelectedRec();
+
+            if (!rec) return;
+
+            if (store.length===1 && rec.get('fields')>0) {
+                Common.UI.warning({
+                    msg: me.warnCantDelete,
+                    buttons: ['ok']
+                });
+                return;
+            }
+
+            var callback = function(toRole) {
+                var index = store.indexOf(rec);
+                if (toRole) {
+                    var item = store.findWhere({name: toRole});
+                    item && item.set('fields', item.get('fields') + rec.get('fields'));
+                    //     me.api.asc_moveFieldsToRole(rec.get('name'), toRole); // from - to
+                }
+                // me.api.asc_delRole(rec.get('name'));
+                store.remove(rec);
+                me.refreshRolesIndexes();
+                (store.length>0) && me.rolesList.selectByIndex(index<store.length ? index : store.length-1);
+                me.rolesList.scrollToRecord(me.rolesList.getSelectedRec());
+                me.updateButtons();
+            };
+
+            if (rec.get('fields')<1) {
                 me._isWarningVisible = true;
                 Common.UI.warning({
                     msg: Common.Utils.String.format(me.warnDelete, rec.get('name')),
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {
                         if (btn == 'ok') {
-                            var index = store.indexOf(rec);
-                            // me.api.asc_delRole(rec.get('name'));
-                            store.remove(rec);
-                            me.refreshRolesIndexes();
-                            (store.length>0) && me.rolesList.selectByIndex(index<store.length ? index : store.length-1);
-                            me.rolesList.scrollToRecord(me.rolesList.getSelectedRec());
-                            me.updateButtons();
+                            callback();
                         }
                         setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
                         me._isWarningVisible = false;
                     }
                 });
+            } else {
+                var xy = me.$window.offset();
+                var win = new DE.Views.RoleDeleteDlg({
+                    props   : {roles: this.rolesList.store, excludeName: rec.get('name')},
+                    handler : function(result, settings) {
+                        if (result == 'ok' && settings) {
+                            callback(settings);
+                        }
+                    }
+                }).on('close', function() {
+                    me.show();
+                    setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
+                });
+
+                me.hide();
+                win.show(xy.left + 65, xy.top + 77);
             }
         },
 
@@ -356,6 +393,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         textDelete: 'Delete',
         textEmpty: 'No roles have been created yet.<br>Create at least one role and it will appear in this field.',
         warnDelete: 'Are you sure you want to delete the role {0}?',
+        warnCantDelete: 'You cannot delete this role because it has associated fields.',
         textUp: 'Move role up',
         textDown: 'Move role down',
         textDescription: 'Add roles and set the order in which the fillers receive and sign the document'
