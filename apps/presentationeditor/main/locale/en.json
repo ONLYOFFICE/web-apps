@@ -275,7 +275,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Classic Light",
   "Common.UI.Themes.txtThemeDark": "Dark",
   "Common.UI.Themes.txtThemeLight": "Light",
-  "Common.UI.Themes.txtThemeSystem": "Auto",
+  "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Cancel",
   "Common.UI.Window.closeButtonText": "Close",
   "Common.UI.Window.noButtonText": "No",

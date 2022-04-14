@@ -17,7 +17,7 @@ define([
         const THEME_TYPE_SYSTEM = 'system';
         var themes_map = {
             'theme-system': {
-                text: locale.txtThemeSystem || 'Auto',
+                text: locale.txtThemeSystem || 'Same as system',
                 type: THEME_TYPE_SYSTEM,
                 source: 'static',
             },
