@@ -95,3 +95,41 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+.advanced-settings-dlg {
+    .roles-tableview {
+        .list-item {
+            display: flex;
+            align-items: center;
+
+            span.color {
+                display: block;
+                width: 12px;
+                height: 12px;
+                border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+                border: @scaled-one-px-value solid @border-color-shading;
+            }
+        }
+        .list-item > div{
+            vertical-align: middle;
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: pre;
+        }
+
+        .listitem-icon {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .selected {
+            .listitem-icon {
+                background-position-x: -20px;
+                background-position-x: @button-small-active-icon-offset-x;
+            }
+        }
+    }
+}

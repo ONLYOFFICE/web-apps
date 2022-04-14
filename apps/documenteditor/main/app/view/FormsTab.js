@@ -211,7 +211,6 @@ define([
                         iconCls: 'toolbar__icon btn-ic-sharing',
                         lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnManager,
-                        enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'

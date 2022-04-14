@@ -423,7 +423,11 @@ define([
                     Common.component.Analytics.trackEvent('ToolBar', 'Roles Manager');
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 },
-                roles: [],
+                roles: [
+                    {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                    {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                    {name: 'manager', color: null, fields: 10}
+                ],
                 props : undefined
             })).on('close', function(win){
             }).show();

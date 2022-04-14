@@ -42,7 +42,7 @@
 define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/ListView',
-    // 'documenteditor/main/app/view/RoleEditDlg'
+    'documenteditor/main/app/view/RoleEditDlg'
 ], function (contentTemplate) {
     'use strict';
 
@@ -51,7 +51,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
     DE.Views.RolesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'RolesManagerDlg',
-            contentWidth: 525,
+            contentWidth: 500,
             height: 353,
             buttons: null
         },
@@ -76,8 +76,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             this.props      = options.props;
             this.roles      = options.roles;
 
-            this.rolesStore = new Common.UI.DataViewStore();
-
             this.wrapEvents = {
                 onRefreshRolesList: _.bind(this.onRefreshRolesList, this)
             };
@@ -93,24 +91,18 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 store: new Common.UI.DataViewStore(),
                 emptyText: this.textEmpty,
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
-                    '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
-                    '<div style="width:141px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div style="width:117px;padding-right: 5px;"><%= scopeName %></div>',
-                    '<div style="width:204px;"><%= range %></div>',
-                    '<% if (lock) { %>',
-                    '<div class="lock-user"><%=lockuser%></div>',
-                    '<% } %>',
+                    '<div id="<%= id %>" class="list-item" style="">',
+                    '<div class="listitem-icon toolbar__icon <%= scope.getIconCls(index) %>"></div>',
+                    '<div style="min-width: 25px;text-align:center; padding-right: 5px;"><%= index+1 %></div>',
+                    '<div style="min-width: 25px;">',
+                        '<span class="color" style="background: <% if (color) { %>#<%= Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) %><% } else { %> transparent <% } %>;"></span>',
+                    '</div>',
+                    '<div style="flex-grow: 1;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '<div style="min-width: 25px;text-align: right;opacity: 0.8;"><%= fields %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1
             });
-            this.rolesList.store.comparator = function(item1, item2) {
-                var n1 = item1.get(me.sort.type).toLowerCase(),
-                    n2 = item2.get(me.sort.type).toLowerCase();
-                if (n1==n2) return 0;
-                return (n1<n2) ? -me.sort.direction : me.sort.direction;
-            };
             this.rolesList.on('item:select', _.bind(this.onSelectRoleItem, this))
                 .on('item:keydown', _.bind(this.onKeyDown, this))
                 .on('item:dblclick', _.bind(this.onDblClickItem, this))
@@ -176,57 +168,40 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 this.roles = roles;
                 var arr = [];
                 for (var i=0; i<this.roles.length; i++) {
-                    var scope = this.roles[i].asc_getScope(),
-                        id = this.roles[i].asc_getIsLock(),
-                        type = this.roles[i].asc_getType();
+                    var role = this.roles[i];
                     arr.push({
-                        name: this.roles[i].asc_getName(true),
-                        type: type,
-                        isTable: type===Asc.c_oAscDefNameType.table,
-                        isSlicer: type===Asc.c_oAscDefNameType.slicer
+                        name: role.name,//role.asc_getName(),
+                        color: role.color,//role.asc_getColor(),
+                        fields: role.fields,//role.asc_getFields(),
+                        index: i,
+                        scope: this
                     });
                 }
-                this.rolesStore.reset(arr);
+                this.rolesList.store.reset(arr);
             }
-
-            var me = this,
-                store = this.rolesList.store,
-                models = this.rolesStore.models,
-                val = store.length;
-            this.btnEditRole.setDisabled(!val);
-            this.btnDeleteRole.setDisabled(!val);
-            if (val>0) {
-                if (selectedItem===undefined || selectedItem===null) selectedItem = 0;
-                if (_.isNumber(selectedItem)) {
-                    if (selectedItem>val-1) selectedItem = val-1;
-                    this.rolesList.selectByIndex(selectedItem);
-                    setTimeout(function() {
-                        me.rolesList.scrollToRecord(store.at(selectedItem));
-                    }, 50);
-
-                } else if (selectedItem){ // object
-                    var rec = store.findWhere({name: selectedItem.asc_getName(true), scope: selectedItem.asc_getScope()});
-                    if (rec) {
-                        this.rolesList.selectRecord(rec);
-                        setTimeout(function() {
-                            me.rolesList.scrollToRecord(rec);
-                        }, 50);
-                    }
-                }
+            if (this.rolesList.store.length>0) {
+                var me = this;
+                this.rolesList.selectByIndex(0);
+                setTimeout(function() {
+                    me.rolesList.scrollToRecord(me.rolesList.store.at(0));
+                }, 50);
             }
-            _.delay(function () {
-                me.rolesList.scroller.update({alwaysVisibleY: true});
-            }, 100, this);
             this.updateButtons();
+        },
+
+        refreshRolesIndexes: function() {
+            this.rolesList.store.each(function(item, index) {
+                item.set('index', index);
+            });
+        },
+
+        getIconCls: function(index) {
+            return (index===0) ? 'btn-arrow-up' : (index===this.rolesList.store.length-1 ? 'btn-arrow-down' : 'btn-border-insidevert');
         },
 
         onEditRole: function (isEdit) {
             if (this._isWarningVisible) return;
 
-            if (this.locked) {
-                Common.NotificationCenter.trigger('namedrange:locked');
-                return;
-            }
             var me = this,
                 xy = me.$window.offset(),
                 rec = this.rolesList.getSelectedRec(),
@@ -238,10 +213,26 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 isEdit  : isEdit,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
+                        var color = settings.color,
+                            name = settings.name,
+                            store = me.rolesList.store;
                         if (isEdit) {
-                            me.api.asc_editRole(settings);
+                            // me.api.asc_editRole(settings);
+                            rec.set('name', name);
+                            rec.set('color', color);
                         } else {
-                            me.api.asc_addRole(settings);
+                            // me.api.asc_addRole(settings);
+                            rec = store.push({
+                                name: name,
+                                color: color,
+                                fields: 0,
+                                index: store.length,
+                                scope: me
+                            });
+                            if (rec) {
+                                me.rolesList.selectRecord(rec);
+                                me.rolesList.scrollToRecord(rec);
+                            }
                         }
                     }
                 }
@@ -258,21 +249,27 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         onDeleteRole: function () {
             var rec = this.rolesList.getSelectedRec();
             if (rec) {
-                var me = this;
+                var me = this,
+                    store = this.rolesList.store;
                 me._isWarningVisible = true;
                 Common.UI.warning({
                     msg: Common.Utils.String.format(me.warnDelete, rec.get('name')),
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {
                         if (btn == 'ok') {
-                            me.api.asc_delRole(rec.get('name'));
+                            var index = store.indexOf(rec);
+                            // me.api.asc_delRole(rec.get('name'));
+                            store.remove(rec);
+                            me.refreshRolesIndexes();
+                            (store.length>0) && me.rolesList.selectByIndex(index<store.length ? index : store.length-1);
+                            me.rolesList.scrollToRecord(me.rolesList.getSelectedRec());
+                            me.updateButtons();
                         }
                         setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
                         me._isWarningVisible = false;
                     }
                 });
             }
-            this.updateButtons();
         },
 
         getSettings: function() {
@@ -314,6 +311,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                 this.rolesList.selectRecord(rec);
                 this.rolesList.scrollToRecord(rec);
             }
+            this.refreshRolesIndexes();
             this.updateMoveButtons();
         },
 
