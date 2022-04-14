@@ -5,17 +5,23 @@
 
     #navigation-header {
         position: absolute;
-        height: 38px;
+        height: 40px;
         left: 0;
         top: 0;
         width: 100%;
-        .font-weight-bold();
         padding: 10px 12px;
+        overflow: hidden;
         border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
+        label {
+            font-size: 12px;
+            .font-weight-bold();
+            margin-top: 2px;
+        }
     }
 
     #navigation-list {
+        padding-top: 40px;
         height: 100%;
         overflow: hidden;
         font-size: 12px;
@@ -31,13 +37,24 @@
                 }
             }
         }
-
+        &.small{
+            font-size: 10px;
+        }
+        &.medium{
+            font-size: 12px;
+        }
+        &.large{
+            font-size: 14px;
+        }
         .name.not-header {
             font-style: italic;
         }
 
-        .name {
+        &.wrap .name{
             white-space: pre-wrap;
+        }
+
+        .name {
             word-break: break-all;
             max-height: 350px;
         }
