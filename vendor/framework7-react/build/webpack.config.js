@@ -101,7 +101,7 @@ module.exports = {
             {
                 loader: 'postcss-loader',
                 options: {
-                    config: {
+                  postcssOptions: {
                         path: path.resolve(__dirname, '..'),
                     }
                 },
@@ -121,7 +121,7 @@ module.exports = {
             {
                 loader: 'postcss-loader',
                 options: {
-                    config: {
+                  postcssOptions: {
                         path: path.resolve(__dirname, '..'),
                     }
                 },

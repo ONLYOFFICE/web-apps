@@ -1,0 +1,103 @@
+[dir="rtl"].device-android {
+
+    .wrap-comment, .comment-list{
+        .comment-header .initials {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+    }
+
+    .comment-list .item-inner{
+        .comment-header {
+            .right {
+                justify-content: space-between;
+                .comment-resolve {
+                    margin-right: 0px;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    .actions-modal {
+        .actions-button-text {
+            text-align: right;
+        }
+    }
+}
+
+[dir="rtl"].device-ios .app-layout{
+    
+    .subnavbar,.navbar .left a + a {
+        margin-right: 0;
+    }
+
+    .subnavbar,.navbar .right a + a {
+        margin-right: 0;
+    }
+
+    .tab-buttons {
+        .tab-link.tab-link:first-child {
+            border-radius: 0px 5px 5px 0px;
+        }
+
+        .tab-link.tab-link:last-child {
+            border-radius: 5px 0px 0px 5px;
+        }
+    }
+
+    .list {
+        .item-inner {
+            .item-after .segmented {
+                margin-left: 0px;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+[dir="rtl"] {
+    i.icon {
+        &.icon-search, &.icon-link, &.icon-edit-settings, &.icon-app-settings, &.icon-add-shape, &.icon-add-image, 
+        &.icon-image-library, &.icon-text-align-right, &.icon-text-align-left, &.icon-table-add-column-left,
+        &.icon-table-add-column-right, &.icon-table-add-row-above, &.icon-table-add-row-below, &.icon-table-remove-row,
+        &.icon-table-remove-column, &.icon-paste, &.icon-copy, &.icon-table-borders-left, &.icon-table-borders-right {
+            transform: scaleX(-1);
+        }
+    }
+
+    .shapes {
+        .thumb {
+            transform: scaleX(-1);
+        }
+    }
+
+    .settings-popup,
+    #settings-popover{
+        .link {
+            display: inline;
+        }
+    }
+
+    #edit-table-style {
+        ul {
+            padding-right: 0;
+        }
+    }
+
+    .color-schemes-menu {
+        .item-title{
+            margin-right: 20px;
+        }
+    }
+
+    .list [slot="root-start"] {
+        padding: 15px 15px 0 0px;
+    }
+
+    .numbers, .bullets, .multilevels {
+        .item-content {
+            padding-right: 0;
+        }
+    }
+}
