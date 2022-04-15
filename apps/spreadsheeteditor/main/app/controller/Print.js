@@ -326,7 +326,7 @@ define([
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
-            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
             var pageCount = this.api.asc_initPrintPreview('print-preview', opts);
 
@@ -412,7 +412,7 @@ define([
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
                     Common.localStorage.setItem("sse-print-settings-range", printType);
 
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
                     Common.NotificationCenter.trigger('edit:complete', view);
@@ -717,7 +717,7 @@ define([
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
 
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(adjPrintParams);
 
                 var pageCount = this.api.asc_updatePrintPreview(opts);
