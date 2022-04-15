@@ -33,13 +33,13 @@
       "textTryUndoRedo": "빠른 공동 편집 모드에서 실행 취소 / 다시 실행 기능을 사용할 수 없습니다.",
       "textUsers": "사용자"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "채우기 없음"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "사용자 정의 색상",
       "textStandartColors": "표준 색상",
       "textThemeColors": "테마 색"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -107,9 +107,12 @@
       "textHasMacros": "파일에 자동 매크로가 포함되어 있습니다. <br> 매크로를 실행 하시겠습니까?",
       "textNo": "아니오",
       "textNoLicenseTitle": "라이센스 수를 제한했습니다.",
+      "textNoTextFound": "텍스트를 찾을 수 없습니다",
       "textOpenFile": "파일을 열려면 암호를 입력하십시오.",
       "textPaidFeature": "유료기능",
       "textRemember": "선택사항을 저장",
+      "textReplaceSkipped": "대체가 이루어졌습니다. {0} 건은 건너 뛰었습니다.",
+      "textReplaceSuccess": "검색이 완료되었습니다. 발생 횟수가 대체되었습니다 : {0}",
       "textYes": "확인",
       "titleLicenseExp": "라이센스 만료",
       "titleServerVersion": "편집기가 업데이트되었습니다.",
@@ -123,10 +126,7 @@
       "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
-      "textNoTextFound": "Text not found",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다."
     }
   },
   "Error": {
@@ -228,6 +228,7 @@
       "textLinkTo": "링크 대상",
       "textLinkType": "링크 유형",
       "textNextSlide": "다음 슬라이드",
+      "textOk": "확인",
       "textOther": "기타",
       "textPictureFromLibrary": "그림 라이브러리에서",
       "textPictureFromURL": "URL에서 그림",
@@ -240,8 +241,7 @@
       "textSlideNumber": "슬라이드 번호",
       "textTable": "표",
       "textTableSize": "표 크기",
-      "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
-      "textOk": "Ok"
+      "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다."
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",
@@ -261,6 +261,7 @@
       "textAllCaps": "모든 대문자",
       "textApplyAll": "모든 슬라이드에 적용",
       "textAuto": "자동",
+      "textAutomatic": "자동",
       "textBack": "뒤로",
       "textBandedColumn": "줄무늬 열",
       "textBandedRow": "줄무늬 행",
@@ -285,6 +286,7 @@
       "textDefault": "선택한 텍스트",
       "textDelay": "지연",
       "textDeleteSlide": "슬라이드 삭제",
+      "textDesign": "디자인",
       "textDisplay": "표시",
       "textDistanceFromText": "텍스트 간격",
       "textDistributeHorizontally": "수평 분포",
@@ -336,6 +338,7 @@
       "textNoTextFound": "텍스트를 찾을 수 없습니다",
       "textNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "textNumbers": "숫자",
+      "textOk": "확인",
       "textOpacity": "투명도",
       "textOptions": "옵션",
       "textPictureFromLibrary": "그림 라이브러리에서",
@@ -389,10 +392,7 @@
       "textZoom": "확대/축소",
       "textZoomIn": "확대",
       "textZoomOut": "축소",
-      "textZoomRotate": "확대 / 축소 및 회전",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "확대 / 축소 및 회전"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",

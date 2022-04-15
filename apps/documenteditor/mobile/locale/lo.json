@@ -57,10 +57,10 @@
     "textStartAt": "ເລີ່ມຈາກ",
     "textTable": "ຕາຕະລາງ",
     "textTableSize": "ຂະໜາດຕາຕະລາງ",
+    "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
     "textTableContents": "Table of Contents",
     "textWithPageNumbers": "With Page Numbers",
-    "textWithBlueLinks": "With Blue Links",
-    "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\""
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -171,8 +171,6 @@
     }
   },
   "ContextMenu": {
-    "textRefreshEntireTable": "Refresh entire table",
-    "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "errorCopyCutPaste": "ການກ໋ອບປີ້,ຕັດ ແລະ ວາງ ການດຳເນີນການໂດຍໃຊ້ເມນູ ຈະດຳເນີນການພາຍໃນຟາຍປັດຈຸບັນເທົ່ານັ້ນ",
     "menuAddComment": "ເພີ່ມຄຳເຫັນ",
     "menuAddLink": "ເພີ່ມລິ້ງ",
@@ -198,7 +196,9 @@
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
     "textNumberingValue": "ມູນຄ່າ ໝາຍ ເລກ",
     "textOk": "ຕົກລົງ",
-    "textRows": "ແຖວ"
+    "textRows": "ແຖວ",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "ເຕືອນ",
@@ -335,6 +335,7 @@
     "textWe": "ພວກເຮົາ",
     "textWrap": "ຫໍ່",
     "textInFront": "In Front of Text",
+    "textInline": "In Line with Text",
     "textTableOfCont": "TOC",
     "textPageNumbers": "Page Numbers",
     "textSimple": "Simple",
@@ -356,8 +357,7 @@
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textStyles": "Styles",
-    "textAmountOfLevels": "Amount of Levels",
-    "textInline": "In Line with Text"
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "ໝົດເວລາການປ່ຽນແປງ.",
@@ -397,9 +397,9 @@
     "unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິດຜາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
+    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
-    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",
@@ -648,14 +648,14 @@
     "txtScheme7": "ຄວາມເທົ່າທຽມກັນ",
     "txtScheme8": "ຂະບວນການ",
     "txtScheme9": "ໂຮງຫລໍ່",
+    "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading",
-    "textFastWV": "Fast Web View",
-    "textPdfTagged": "Tagged PDF",
-    "textPdfVer": "PDF Version"
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",

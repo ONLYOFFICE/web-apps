@@ -299,8 +299,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
-    "textTabColor": "Tab Color"
+    "textTabColor": "Tab Color",
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
     "leaveButtonText": "Forlad denne side",
@@ -648,6 +648,7 @@
       "advDRMEnterPassword": "Your password, please:",
       "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support",
       "textNoTextFound": "Text not found",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
@@ -679,8 +680,7 @@
       "txtScheme21": "Verve",
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
-      "txtTab": "Tab",
-      "textFeedback": "Feedback & Support"
+      "txtTab": "Tab"
     }
   }
 }
