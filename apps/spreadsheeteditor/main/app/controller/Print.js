@@ -83,7 +83,13 @@ define([
         onAfterRender: function(view) {
             var me = this;
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
-            this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
+            this.printSettings.cmbSheet.on('selected', _.bind(function (combo, record) {
+                this.comboSheetsChange(this.printSettings, combo, record);
+                if (this._isPreviewVisible) {
+                    this.notUpdateSheetSettings = true;
+                    this.api.asc_drawPrintPreview(undefined, record.value);
+                }
+            }, this));
             this.printSettings.btnsSave.forEach(function (btn) {
                 btn.on('click', _.bind(me.querySavePrintSettings, me, false));
             });
@@ -117,6 +123,7 @@ define([
             this.api = o;
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
+            this.api.asc_registerCallback('asc_onPrintPreviewPageChanged', _.bind(this.onApiChangePreviewPage, this));
         },
 
         updateSheetsInfo: function() {
@@ -769,6 +776,14 @@ define([
         onOpenHeaderSettings: function () {
             var pageSetup = this._changedProps[this.printSettings.cmbSheet.getValue()].asc_getPageSetup();
             SSE.getController('Toolbar').onEditHeaderClick(pageSetup);
+        },
+
+        onApiChangePreviewPage: function (page) {
+            if (this._navigationPreview.currentPage !== page) {
+                this._navigationPreview.currentPage = page;
+                this.updateNavigationButtons(page, this._navigationPreview.pageCount);
+                this.disableNavButtons();
+            }
         },
 
         warnCheckMargings:      'Margins are incorrect',
