@@ -68,7 +68,7 @@ define([
             this.viewNavigationList = new Common.UI.TreeView({
                 el: $('#navigation-list'),
                 store: this.storeNavigation,
-                enableKeyEvents: false,
+                enableKeyEvents: true,
                 emptyText: this.txtEmpty,
                 emptyItemText: this.txtEmptyItem,
                 style: 'border: none;',
