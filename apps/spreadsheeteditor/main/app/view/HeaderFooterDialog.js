@@ -63,6 +63,7 @@ define([
             this.api = this.options.api;
             this.props = this.options.props;
             this.fontStore = this.options.fontStore;
+            this.pageSetup = this.options.pageSetup;
             this.isFooter = false;
             this.currentCanvas = null;
             this.headerControls = [];
@@ -619,7 +620,7 @@ define([
             Common.UI.Window.prototype.close.apply(this, arguments);
 
             if (this.HFObject)
-                this.HFObject.destroy();
+                this.HFObject.destroy(false, this.pageSetup);
         },
 
         afterRender: function () {
@@ -631,7 +632,7 @@ define([
             this.cmbFonts[1].fillFonts(this.fontStore);
             this.updateThemeColors();
 
-            this.HFObject = new Asc.asc_CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
+            this.HFObject = new Asc.asc_CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205, undefined, this.pageSetup);
             this._setDefaults(this.props);
             this.editorCanvas = this.$window.find('#ce-canvas-menu');
             var me = this;
@@ -697,7 +698,7 @@ define([
 
         _handleInput: function(state) {
             if (this.HFObject) {
-                var id = this.HFObject.destroy(state=='ok');
+                var id = this.HFObject.destroy(state=='ok', this.pageSetup);
                 if (id)  {
                     var me = this;
                     this.showError(function() {

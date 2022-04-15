@@ -2681,7 +2681,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         openHeaderSettings: function() {
-            SSE.getController('Toolbar').onEditHeaderClick();
+            this.fireEvent('openheader', this);
         },
 
         updateCountOfPages: function (count) {

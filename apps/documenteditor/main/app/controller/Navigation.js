@@ -65,6 +65,8 @@ define([
                             if (me.panelNavigation && me.panelNavigation.viewNavigationList && me.panelNavigation.viewNavigationList.scroller)
                                 me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
                         }
+                        if (!me.mode.isEdit && !me.mode.isRestrictedEdit)
+                            me.panelNavigation.viewNavigationList.focus();
                     },
                     'hide': function() {
                         if (!this.canUseViwerNavigation) {
@@ -103,8 +105,10 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.canUseViwerNavigation = this.mode.canUseViwerNavigation;
-            if (this.panelNavigation && this.panelNavigation.viewNavigationList)
+            if (this.panelNavigation && this.panelNavigation.viewNavigationList) {
                 this.panelNavigation.viewNavigationList.setEmptyText(this.mode.isEdit ? this.panelNavigation.txtEmpty : this.panelNavigation.txtEmptyViewer);
+                this.panelNavigation.viewNavigationList.enableKeyEvents = !this.mode.isEdit && !this.mode.isRestrictedEdit;
+            }
             return this;
         },
 
@@ -232,7 +236,7 @@ define([
             } else if (this._viewerNavigationObject) {
                 this.api.asc_viewerNavigateTo(record.get('index'));
             }
-            Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
+            (this.mode.isEdit || this.mode.isRestrictedEdit) && Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
         },
 
         onItemAdd: function(picker, item, record, e){

@@ -419,7 +419,7 @@ define([
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
                 toolbar.btnsEditHeader.forEach(function(button) {
-                    button.on('click', _.bind(me.onEditHeaderClick, me));
+                    button.on('click', _.bind(me.onEditHeaderClick, me, undefined));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
                 toolbar.chPrintGridlines.on('change',                        _.bind(this.onPrintGridlinesChange, this));
@@ -4076,7 +4076,7 @@ define([
                 this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
         },
 
-        onEditHeaderClick: function(btn) {
+        onEditHeaderClick: function(pageSetup, btn) {
             var me = this;
             if (_.isUndefined(me.fontStore)) {
                 me.fontStore = new Common.Collections.Fonts();
@@ -4093,6 +4093,7 @@ define([
             var win = new SSE.Views.HeaderFooterDialog({
                 api: me.api,
                 fontStore: me.fontStore,
+                pageSetup: pageSetup,
                 handler: function(dlg, result) {
                     if (result === 'ok') {
                         me.getApplication().getController('Print').updatePreview();
