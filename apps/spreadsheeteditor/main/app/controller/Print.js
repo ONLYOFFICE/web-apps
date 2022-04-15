@@ -85,7 +85,10 @@ define([
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
             this.printSettings.cmbSheet.on('selected', _.bind(function (combo, record) {
                 this.comboSheetsChange(this.printSettings, combo, record);
-                this._isPreviewVisible && this.api.asc_drawPrintPreview(undefined, record.value);
+                if (this._isPreviewVisible) {
+                    this.notUpdateSheetSettings = true;
+                    this.api.asc_drawPrintPreview(undefined, record.value);
+                }
             }, this));
             this.printSettings.btnsSave.forEach(function (btn) {
                 btn.on('click', _.bind(me.querySavePrintSettings, me, false));
