@@ -349,6 +349,7 @@
   "Common.Views.Comments.textResolved": "Vyřešeno",
   "Common.Views.Comments.textSort": "Řadit komentáře",
   "Common.Views.Comments.textViewResolved": "Nemáte oprávnění pro opětovné otevírání komentářů",
+  "Common.Views.Comments.txtEmpty": "Dokument neobsahuje komentáře.",
   "Common.Views.CopyWarningDialog.textDontShow": "Tuto zprávu už nezobrazovat",
   "Common.Views.CopyWarningDialog.textMsg": "Akce kopírovat, vyjmout a vložit použitím lišty nástrojů editoru a kontextové nabídky budou prováděny pouze v tomto okně editoru.<br><br>Pro kopírování do nebo vkládání z aplikací mimo okno editoru použijte následující klávesové zkratky:",
   "Common.Views.CopyWarningDialog.textTitle": "Akce kopírovat, vyjmout a vložit",
