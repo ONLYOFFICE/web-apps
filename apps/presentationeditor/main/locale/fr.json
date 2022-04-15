@@ -349,6 +349,7 @@
   "Common.Views.Comments.textResolved": "Résolu",
   "Common.Views.Comments.textSort": "Trier les commentaires",
   "Common.Views.Comments.textViewResolved": "Vous n'avez pas la permission de rouvrir le commentaire",
+  "Common.Views.Comments.txtEmpty": "Il n'y a pas de commentaires dans le document.",
   "Common.Views.CopyWarningDialog.textDontShow": "Ne plus afficher ce message",
   "Common.Views.CopyWarningDialog.textMsg": "Vous pouvez réaliser les actions de copier, couper et coller en utilisant les boutons de la barre d'outils et à l'aide du menu contextuel à partir de cet onglet uniquement.<br><br>Pour copier ou coller de / vers les applications en dehors de l'onglet de l'éditeur, utilisez les combinaisons de touches suivantes :",
   "Common.Views.CopyWarningDialog.textTitle": "Fonctions de Copier, Couper et Coller",
