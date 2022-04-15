@@ -64,6 +64,7 @@ define([
             '<div class="separator long forms" style="display: none;"></div>' +
             '<div class="group no-group-mask" style="">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-view"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-view-roles"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
@@ -95,6 +96,16 @@ define([
             this.btnViewForm && this.btnViewForm.on('click', function (b, e) {
                 me.fireEvent('forms:mode', [b.pressed]);
             });
+            this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
+                var item = b.menu.getChecked();
+                me.fireEvent('forms:mode', [b.pressed, item ? item.caption : undefined]);
+            });
+            this.btnViewFormRoles.menu.on('item:toggle', _.bind(function (menu, item, state) {
+                if (!!state) {
+                    me.btnViewFormRoles.toggle(true, true);
+                    me.fireEvent('forms:mode', [true, item.caption]);
+                }
+            }, me));
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
             });
@@ -229,6 +240,25 @@ define([
                     });
                     this.paragraphControls.push(this.btnViewForm);
 
+                    this.btnViewFormRoles = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-sheet-view',
+                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        caption: this.capBtnView,
+                        split: true,
+                        menu: new Common.UI.Menu({
+                            cls: 'menu-roles',
+                            maxHeight: 270,
+                            items: []
+                        }),
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small',
+                        visible: false
+                    });
+                    this.paragraphControls.push(this.btnViewFormRoles);
+
                     // this.btnHighlight = new Common.UI.ButtonColored({
                     //     cls         : 'btn-toolbar',
                     //     iconCls     : 'toolbar__icon btn-highlight',
@@ -351,6 +381,7 @@ define([
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
                         me.btnViewForm.updateHint(me.tipViewForm);
+                        me.btnViewFormRoles.updateHint(me.tipViewForm);
                         me.btnManager.updateHint(me.tipManager);
                     }
                     me.btnClear.updateHint(me.textClearFields);
@@ -379,6 +410,7 @@ define([
                     this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                     this.btnImageField.render($host.find('#slot-btn-form-image'));
                     this.btnViewForm.render($host.find('#slot-btn-form-view'));
+                    this.btnViewFormRoles.render($host.find('#slot-btn-form-view-roles'));
                     this.btnManager.render($host.find('#slot-btn-manager'));
                     // this.btnHighlight.render($host.find('#slot-form-highlight'));
 
@@ -389,6 +421,35 @@ define([
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
 
                 return this.$el;
+            },
+
+            fillRolesMenu: function(roles, lastRole) {
+                var checkedIndex = 0,
+                    me = this;
+
+                this.btnViewFormRoles.menu.removeAll();
+
+                roles && roles.forEach(function(item, index) {
+                    if (item.name===lastRole)
+                        checkedIndex = index;
+                    me.btnViewFormRoles.menu.addItem(new Common.UI.MenuItem({
+                        caption: item.name,
+                        color: item.color ? '#' + Common.Utils.ThemeColor.getHexColor(item.color.get_r(), item.color.get_g(), item.color.get_b()) : 'transparent',
+                        checkable: true,
+                        toggleGroup: 'formtab-view-role',
+                        template: _.template([
+                            '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>">',
+                            '<span class="color" style="background: <%= options.color %>;"></span>',
+                            '<%= caption %>',
+                            '</a>'
+                        ].join(''))
+                    }));
+                });
+
+                var len = this.btnViewFormRoles.menu.items.length>0;
+                len && this.btnViewFormRoles.menu.items[checkedIndex].setChecked(true, true);
+                this.btnViewFormRoles.setVisible(len);
+                this.btnViewForm.setVisible(!len);
             },
 
             show: function () {

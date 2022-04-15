@@ -59,6 +59,7 @@ define([
         },
         onLaunch: function () {
             this._state = {};
+            this.roles = [];
         },
 
         setApi: function (api) {
@@ -73,6 +74,7 @@ define([
                 this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
+                this.api.asc_registerCallback('asc_onRefreshRolesList', _.bind(this.onRefreshRolesList, this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
@@ -194,13 +196,14 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onModeClick: function(state) {
+        onModeClick: function(state, lastRole) {
             if (this.api) {
                 this.disableEditing(state);
-                this.view && this.view.setPreviewMode(state);
+                this.view && this.view.setPreviewMode(state); // sent role name - lastRole
                 this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
+                state && (this._state.lastRole = lastRole);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -366,6 +369,13 @@ define([
                     me.view.btnHighlight.currentColor = clr;
                 }
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showCreateFormTip(); // show tip only when create form in docxf
+
+                // change to event asc_onRefreshRolesList
+                me.onRefreshRolesList([
+                    {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                    {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                    {name: 'manager', color: null, fields: 10}
+                ]);
             });
         },
 
@@ -415,19 +425,22 @@ define([
             }
         },
 
+        onRefreshRolesList: function(roles) {
+            this.roles = roles;
+            this.view && this.view.fillRolesMenu(roles, this._state.lastRole);
+        },
+
         onManagerClick: function() {
             var me = this;
             (new DE.Views.RolesManagerDlg({
                 api: me.api,
-                handler: function(result) {
+                handler: function(result, settings) {
+                    me.roles = settings;
+                    me.onRefreshRolesList(me.roles);
                     Common.component.Analytics.trackEvent('ToolBar', 'Roles Manager');
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 },
-                roles: [
-                    {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
-                    {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
-                    {name: 'manager', color: null, fields: 10}
-                ],
+                roles: me.roles,
                 props : undefined
             })).on('close', function(win){
             }).show();

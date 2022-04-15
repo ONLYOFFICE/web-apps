@@ -232,9 +232,12 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                             });
                             if (rec) {
                                 me.rolesList.selectRecord(rec);
-                                me.rolesList.scrollToRecord(rec);
+                                setTimeout(function() {
+                                    me.rolesList.scrollToRecord(rec);
+                                }, 50);
                             }
                         }
+                        me.updateButtons();
                     }
                 }
             }).on('close', function() {
@@ -244,7 +247,6 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
 
             me.hide();
             win.show(xy.left + 65, xy.top + 77);
-            this.updateButtons();
         },
 
         onDeleteRole: function () {
@@ -310,7 +312,15 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         getSettings: function() {
-            return this.sort;
+            var arr = [];
+            this.rolesList.store.each(function(item, index) {
+                arr.push({
+                    name: item.get('name'),
+                    color: item.get('color'),
+                    fields: item.get('fields')
+                });
+            });
+            return arr;
         },
 
         onPrimary: function() {
@@ -318,7 +328,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         onDlgBtnClick: function(event) {
-            this.handler && this.handler.call(this, event.currentTarget.attributes['result'].value);
+            this.handler && this.handler.call(this, event.currentTarget.attributes['result'].value, this.getSettings());
             this.close();
         },
 
