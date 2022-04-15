@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const WebpackRTLPlugin = require('webpack-rtl-plugin');
 // const rtlcss = require('rtlcss');
-const postcssRTLCSS = require('postcss-rtlcss');
-const { Mode } = require('postcss-rtlcss/options');
+// const postcssRTLCSS = require('postcss-rtlcss');
+// const { Mode } = require('postcss-rtlcss/options');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -107,9 +107,9 @@ module.exports = {
             options: {
               postcssOptions: {
                 path: path.resolve(__dirname, '..'),
-                plugins: [
-                  postcssRTLCSS({mode: Mode.combined})
-                ]
+                // plugins: [
+                //   postcssRTLCSS({mode: Mode.combined})
+                // ]
               },
             },
           },
@@ -130,9 +130,9 @@ module.exports = {
               options: {
                 postcssOptions: {
                   path: path.resolve(__dirname, '..'),
-                  plugins: [
-                    postcssRTLCSS({mode: Mode.combined})
-                  ]
+                  // plugins: [
+                  //   postcssRTLCSS({mode: Mode.combined})
+                  // ]
                 },
               },
             },

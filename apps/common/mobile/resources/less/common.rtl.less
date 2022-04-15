@@ -1,0 +1,69 @@
+.device-ios[dir=rtl] {
+    .app-layout {
+        .tab-buttons .tab-link:last-child {
+            border-radius: 5px 0 0 5px;
+        }
+        .tab-buttons .tab-link:first-child {
+            border-radius: 0 5px 5px 0;
+        }
+        .popover li:last-child .segmented a:first-child {
+            border-radius: 0 var(--f7-button-border-radius) var(--f7-button-border-radius) 0;
+        }
+        .popover li:last-child .segmented a:last-child {
+            border-radius: var(--f7-button-border-radius) 0 0 var(--f7-button-border-radius);
+        }
+        .list .item-inner .item-after .segmented {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+        #editor-navbar.navbar .right a + a, #editor-navbar.navbar .left a + a {
+            margin-right: 0;
+        }
+        .searchbar-inner__right .buttons-row a.next {
+            margin-left: 0;
+            margin-right: 15px;
+        }
+        .searchbar-inner__left {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+        .navbar .searchbar-input-wrap {
+            // margin-left: 10px;
+            margin-right: 0;
+        }
+    }
+}
+
+@media (max-width: 550px) {
+    .device-ios[dir=rtl] .app-layout .searchbar-expandable.searchbar-enabled .searchbar-inner__right {
+        margin-right: 10px;
+        margin-left: 0;
+    }
+}
+
+.device-android[dir=rtl] {
+
+}
+
+[dir=rtl] {
+    .color-schemes-menu .item-title {
+        margin-right: 20px;
+    }
+    .popup .list .range-number, .popover .list .range-number, .sheet-modal .list .range-number {
+        text-align: left;
+    }
+    .popup .list .inner-range-title, .popover .list .inner-range-title, .sheet-modal .list .inner-range-title {
+        padding-left: 0;
+        padding-right: 15px;
+    }
+    #color-picker .right-block {
+        margin-right: 20px;
+    }
+    .page-review .toolbar #btn-reject-change {
+        margin-left: 0;
+        margin-right: 20px;
+    }
+    .list li.no-indicator .item-link .item-inner {
+        padding-right: 0;
+    }
+}

@@ -74,6 +74,8 @@
         
         .range-number {
             color: @text-normal;  
+            min-width: 60px;
+            text-align: right;
         }
     }
     .page-content {
@@ -173,6 +175,7 @@
     
     .row.list .item-content {
         padding-left: 0;
+        padding-right: 0;
         min-height: 68px;
         .item-inner{
             padding: 0;
@@ -184,7 +187,7 @@
 }
 
 .popover {
-    .list {
+    .page .list {
         ul {
             background-color: var(--f7-list-bg-color);
             li:first-child, li:last-child {

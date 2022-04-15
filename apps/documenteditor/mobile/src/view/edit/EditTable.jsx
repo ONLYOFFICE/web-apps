@@ -55,7 +55,7 @@ const PageTableOptions = props => {
                                onRangeChanged={(value) => {props.onCellMargins(value)}}
                         ></Range>
                     </div>
-                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                    <div className='range-number' slot='inner-end'>
                         {stateDistance + ' ' + metricText}
                     </div>
                 </ListItem>
@@ -160,7 +160,7 @@ const PageWrap = props => {
                                        onRangeChanged={(value) => {props.onWrapDistance(value)}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateDistance + ' ' + metricText}
                             </div>
                         </ListItem>
@@ -434,7 +434,7 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
                            onRangeChanged={(value) => {storeTableSettings.updateCellBorderWidth(borderSizeTransform.sizeByIndex(value));}}
                     ></Range>
                 </div>
-                <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                <div className='range-number' slot='inner-end'>
                     {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                 </div>
             </ListItem>
