@@ -115,7 +115,8 @@ define([
         cantArrange:    'cant-arrange',
         noObjectSelected:  'no-object',
         lostConnect:    'disconnect',
-        disableOnStart: 'on-start'
+        disableOnStart: 'on-start',
+        formsNoRoles: 'no-roles'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

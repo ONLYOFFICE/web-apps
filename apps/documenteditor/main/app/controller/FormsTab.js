@@ -155,20 +155,20 @@ define([
             Common.Utils.lockControls(Common.enumLock.contentLock,   content_locked,     {array: arr});
         },
 
-        onChangeSpecialFormsGlobalSettings: function() {
-            if (this.view && this.view.mnuFormsColorPicker) {
-                var clr = this.api.asc_GetSpecialFormsHighlightColor(),
-                    show = !!clr;
-                this.view.mnuNoFormsColor.setChecked(!show, true);
-                this.view.mnuFormsColorPicker.clearSelection();
-                if (clr) {
-                    clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
-                    this.view.mnuFormsColorPicker.selectByRGB(clr, true);
-                }
-                this.view.btnHighlight.currentColor = clr;
-                this.view.btnHighlight.setColor(this.view.btnHighlight.currentColor || 'transparent');
-            }
-        },
+        // onChangeSpecialFormsGlobalSettings: function() {
+        //     if (this.view && this.view.mnuFormsColorPicker) {
+        //         var clr = this.api.asc_GetSpecialFormsHighlightColor(),
+        //             show = !!clr;
+        //         this.view.mnuNoFormsColor.setChecked(!show, true);
+        //         this.view.mnuFormsColorPicker.clearSelection();
+        //         if (clr) {
+        //             clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
+        //             this.view.mnuFormsColorPicker.selectByRGB(clr, true);
+        //         }
+        //         this.view.btnHighlight.currentColor = clr;
+        //         this.view.btnHighlight.setColor(this.view.btnHighlight.currentColor || 'transparent');
+        //     }
+        // },
 
         onControlsSelect: function(type) {
             if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl && this.toolbar.mode.canFeatureForms)) return;
@@ -215,21 +215,21 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onNoControlsColor: function(item) {
-            if (!item.isChecked())
-                this.api.asc_SetSpecialFormsHighlightColor(201, 200, 255);
-            else
-                this.api.asc_SetSpecialFormsHighlightColor();
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
+        // onNoControlsColor: function(item) {
+        //     if (!item.isChecked())
+        //         this.api.asc_SetSpecialFormsHighlightColor(201, 200, 255);
+        //     else
+        //         this.api.asc_SetSpecialFormsHighlightColor();
+        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        // },
 
-        onSelectControlsColor: function(color) {
-            var clr = Common.Utils.ThemeColor.getRgbColor(color);
-            if (this.api) {
-                this.api.asc_SetSpecialFormsHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
+        // onSelectControlsColor: function(color) {
+        //     var clr = Common.Utils.ThemeColor.getRgbColor(color);
+        //     if (this.api) {
+        //         this.api.asc_SetSpecialFormsHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+        //     }
+        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        // },
 
         onGoTo: function(type) {
             if (this.api)
@@ -363,11 +363,11 @@ define([
             (new Promise(function (accept, reject) {
                 accept();
             })).then(function(){
-                if (config.canEditContentControl && me.view.btnHighlight) {
-                    var clr = me.api.asc_GetSpecialFormsHighlightColor();
-                    clr && (clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b()));
-                    me.view.btnHighlight.currentColor = clr;
-                }
+                // if (config.canEditContentControl && me.view.btnHighlight) {
+                //     var clr = me.api.asc_GetSpecialFormsHighlightColor();
+                //     clr && (clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b()));
+                //     me.view.btnHighlight.currentColor = clr;
+                // }
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showCreateFormTip(); // show tip only when create form in docxf
 
                 // change to event asc_onRefreshRolesList

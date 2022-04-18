@@ -93,9 +93,6 @@ define([
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
             });
-            this.btnViewForm && this.btnViewForm.on('click', function (b, e) {
-                me.fireEvent('forms:mode', [b.pressed]);
-            });
             this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
                 var item = b.menu.getChecked();
                 me.fireEvent('forms:mode', [b.pressed, item ? item.caption : undefined]);
@@ -112,14 +109,14 @@ define([
             this.btnClear && this.btnClear.on('click', function (b, e) {
                 me.fireEvent('forms:clear');
             });
-            if (this.mnuFormsColorPicker) {
-                this.btnHighlight.on('color:select', function(btn, color) {
-                    me.fireEvent('forms:select-color', [color]);
-                });
-                this.mnuNoFormsColor.on('click', function (item) {
-                    me.fireEvent('forms:no-color', [item]);
-                });
-            }
+            // if (this.mnuFormsColorPicker) {
+            //     this.btnHighlight.on('color:select', function(btn, color) {
+            //         me.fireEvent('forms:select-color', [color]);
+            //     });
+            //     this.mnuNoFormsColor.on('click', function (item) {
+            //         me.fireEvent('forms:no-color', [item]);
+            //     });
+            // }
             this.btnPrevForm && this.btnPrevForm.on('click', function (b, e) {
                 me.fireEvent('forms:goto', ['prev']);
             });
@@ -228,22 +225,10 @@ define([
                     });
                     this.paragraphControls.push(this.btnManager);
 
-                    this.btnViewForm = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-sheet-view',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
-                        caption: this.capBtnView,
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnViewForm);
-
                     this.btnViewFormRoles = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-sheet-view',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnView,
                         split: true,
                         menu: new Common.UI.Menu({
@@ -254,8 +239,7 @@ define([
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: 'small',
-                        visible: false
+                        dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnViewFormRoles);
 
@@ -380,7 +364,6 @@ define([
                         me.btnCheckBox.updateHint(me.tipCheckBox);
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
-                        me.btnViewForm.updateHint(me.tipViewForm);
                         me.btnViewFormRoles.updateHint(me.tipViewForm);
                         me.btnManager.updateHint(me.tipManager);
                     }
@@ -409,7 +392,6 @@ define([
                     this.btnCheckBox.render($host.find('#slot-btn-form-checkbox'));
                     this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                     this.btnImageField.render($host.find('#slot-btn-form-image'));
-                    this.btnViewForm.render($host.find('#slot-btn-form-view'));
                     this.btnViewFormRoles.render($host.find('#slot-btn-form-view-roles'));
                     this.btnManager.render($host.find('#slot-btn-manager'));
                     // this.btnHighlight.render($host.find('#slot-form-highlight'));
@@ -448,8 +430,7 @@ define([
 
                 var len = this.btnViewFormRoles.menu.items.length>0;
                 len && this.btnViewFormRoles.menu.items[checkedIndex].setChecked(true, true);
-                this.btnViewFormRoles.setVisible(len);
-                this.btnViewForm.setVisible(!len);
+                Common.Utils.lockControls(Common.enumLock.formsNoRoles, !len,{array: [this.btnViewFormRoles]});
             },
 
             show: function () {
