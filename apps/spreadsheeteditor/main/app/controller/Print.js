@@ -124,6 +124,7 @@ define([
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
             this.api.asc_registerCallback('asc_onPrintPreviewPageChanged', _.bind(this.onApiChangePreviewPage, this));
+            this.api.asc_registerCallback('asc_onPrintPreviewSheetDataChanged', _.bind(this.onApiPreviewSheetDataChanged, this));
         },
 
         updateSheetsInfo: function() {
@@ -152,6 +153,8 @@ define([
                        panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
                 panel.cmbSheet.setValue(item.get('value'));
+                panel.updateActiveSheet(item.get('displayValue'));
+                this.updatePreview();
             }
         },
 
@@ -711,6 +714,8 @@ define([
 
         updatePreview: function (needUpdate) {
             if (this._isPreviewVisible) {
+                this.printSettings.$previewBox.removeClass('hidden');
+
                 var adjPrintParams = new Asc.asc_CAdjustPrint(),
                     printType = this.printSettings.getRange();
                 adjPrintParams.asc_setPrintType(printType);
@@ -721,6 +726,8 @@ define([
                 opts.asc_setAdvancedOptions(adjPrintParams);
 
                 var pageCount = this.api.asc_updatePrintPreview(opts);
+                this.printSettings.$previewBox.toggleClass('hidden', !pageCount);
+                this.printSettings.$previewEmpty.toggleClass('hidden', !!pageCount);
 
                 var newPage;
                 if (this._currentPrintType !== printType) {
@@ -740,16 +747,14 @@ define([
         },
 
         onApiChangePreviewSheet: function (index) {
+            var item = this.printSettings.cmbSheet.store.findWhere({value: index});
+            this.printSettings.updateActiveSheet(item.get('displayValue'));
+
             if (this.notUpdateSheetSettings) {
                 this.notUpdateSheetSettings = false;
-                return
-            }
-            var item = this.printSettings.cmbSheet.store.findWhere({value: index});
-            if (item) {
+            } else if (item) {
                 this.printSettings.cmbSheet.setValue(item.get('value'));
                 this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
-                var sheetName = this.api.asc_getWorksheetName(index);
-                this.printSettings.updateActiveSheet(sheetName);
             }
         },
 
@@ -783,6 +788,16 @@ define([
                 this._navigationPreview.currentPage = page;
                 this.updateNavigationButtons(page, this._navigationPreview.pageCount);
                 this.disableNavButtons();
+            }
+        },
+
+        onApiPreviewSheetDataChanged: function (needUpdate) {
+            if (needUpdate) {
+                this.updatePreview();
+            } else {
+                this.notUpdateSheetSettings = true;
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+                this.updateNavigationButtons(this._navigationPreview.currentPage, this._navigationPreview.pageCount);
             }
         },
 
