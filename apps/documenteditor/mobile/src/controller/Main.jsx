@@ -80,8 +80,8 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
-                const _t = this._t;
-
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
                 EditorUIController.isSupportEditFeature();
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
@@ -183,13 +183,15 @@ class MainController extends Component {
             const onEditorPermissions = params => {
                 const licType = params.asc_getLicenseType();
 
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
                 // check licType
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
                     Asc.c_oLicenseResult.ExpiredTrial === licType) {
                     f7.dialog.create({
-                        title   : this._t.titleLicenseExp,
-                        text    : this._t.warnLicenseExp
+                        title   : _t.titleLicenseExp,
+                        text    : _t.warnLicenseExp
                     }).open();
                     return;
                 }
@@ -409,7 +411,9 @@ class MainController extends Component {
                 this.api.asc_continueSaving();
             }, 500);
 
-            return this._t.leavePageText;
+            const { t } = this.props;
+            const _t = t('Main', {returnObjects:true});
+            return _t.leavePageText;
         }
     }
 
@@ -536,7 +540,8 @@ class MainController extends Component {
 
     onServerVersion (buildVersion) {
         if (this.changeServerVersion) return true;
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Main', {returnObjects:true});
 
         if (About.appVersion() !== buildVersion && !About.compareVersions()) {
             this.changeServerVersion = true;
@@ -807,7 +812,9 @@ class MainController extends Component {
         this.api.asc_OnSaveEnd(data.result);
 
         if (data && data.result === false) {
-            const _t = this._t;
+            const { t } = this.props;
+            const _t = t('Main', {returnObjects:true});
+
             f7.dialog.alert(
                 (!data.message) ? _t.errorProcessSaveResult : data.message,
                 _t.criticalErrorTitle
@@ -824,7 +831,9 @@ class MainController extends Component {
             Common.Notifications.trigger('api:disconnect');
 
             if (!old_rights) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
+
                 f7.dialog.alert(
                     (!data.message) ? _t.warnProcessRightsChange : data.message,
                     _t.notcriticalErrorTitle,
@@ -837,7 +846,9 @@ class MainController extends Component {
     onDownloadAs () {
         const appOptions = this.props.storeAppOptions;
         if ( !appOptions.canDownload && !appOptions.canDownloadOrigin) {
-            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this._t.errorAccessDeny);
+            const { t } = this.props;
+            const _t = t('Main', {returnObjects:true});
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
 
@@ -864,7 +875,8 @@ class MainController extends Component {
     }
 
     onUpdateVersion (callback) {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Main', {returnObjects:true});
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
@@ -956,7 +968,8 @@ class MainController extends Component {
             if (value === 1) {
                 this.api.asc_runAutostartMacroses();
             } else if (value === 0) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text: _t.textHasMacros,

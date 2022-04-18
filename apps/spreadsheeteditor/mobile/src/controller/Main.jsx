@@ -91,7 +91,8 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
 
                 EditorUIController.isSupportEditFeature();
 
@@ -749,7 +750,8 @@ class MainController extends Component {
             if (value === 1) {
                 this.api.asc_runAutostartMacroses();
             } else if (value === 0) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text: _t.textHasMacros,
@@ -796,7 +798,8 @@ class MainController extends Component {
     }
 
     onBeforeUnload () {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
 
         LocalStorage.save();
 
@@ -818,7 +821,8 @@ class MainController extends Component {
     }
 
     onUpdateVersion (callback) {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
@@ -837,7 +841,8 @@ class MainController extends Component {
 
     onServerVersion (buildVersion) {
         if (this.changeServerVersion) return true;
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
 
         if (About.appVersion() !== buildVersion && !About.compareVersions()) {
             this.changeServerVersion = true;
@@ -923,7 +928,8 @@ class MainController extends Component {
         this.api.asc_OnSaveEnd(data.result);
 
         if (data && data.result === false) {
-            const _t = this._t;
+            const { t } = this.props;
+            const _t = t('Controller.Main', {returnObjects:true});
             f7.dialog.alert(
                 (!data.message) ? _t.errorProcessSaveResult : data.message,
                 _t.criticalErrorTitle
@@ -940,7 +946,8 @@ class MainController extends Component {
             Common.Notifications.trigger('api:disconnect');
 
             if (!old_rights) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
                 f7.dialog.alert(
                     (!data.message) ? _t.warnProcessRightsChange : data.message,
                     _t.notcriticalErrorTitle,
@@ -952,7 +959,9 @@ class MainController extends Component {
 
     onDownloadAs () {
         if ( this.props.storeAppOptions.canDownload) {
-            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this._t.errorAccessDeny);
+            const { t } = this.props;
+            const _t = t('Controller.Main', {returnObjects:true});
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
         this._state.isFromGatewayDownloadAs = true;
