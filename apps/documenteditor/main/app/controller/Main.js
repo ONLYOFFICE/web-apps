@@ -1527,7 +1527,7 @@ define([
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
-                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
