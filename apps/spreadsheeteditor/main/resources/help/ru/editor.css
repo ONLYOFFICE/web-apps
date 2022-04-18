@@ -1,4 +1,5 @@
-﻿body
+﻿@import "../scroll.css";
+body
 {
 font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
 font-size: 12px;
