@@ -7,18 +7,6 @@
         }
     }
 
-    .comment-list .item-inner{
-        .comment-header {
-            .right {
-                justify-content: space-between;
-                .comment-resolve {
-                    margin-right: 0px;
-                    margin-left: 10px;
-                }
-            }
-        }
-    }
-
     .actions-modal {
         .actions-button-text {
             text-align: right;
@@ -37,13 +25,23 @@
     }
 
     .tab-buttons {
-        .tab-link.tab-link:first-child {
+        .tab-link:first-child {
             border-radius: 0px 5px 5px 0px;
         }
 
-        .tab-link.tab-link:last-child {
+        .tab-link:last-child {
             border-radius: 5px 0px 0px 5px;
         }
+    }
+
+    .popover li:first-child .segmented a:first-child
+    .popover li:last-child .segmented a:first-child {
+        border-radius: 0 var(--f7-button-border-radius) var(--f7-button-border-radius) 0;
+    }
+
+    .popover li:first-child .segmented a:last-child,
+    .popover li:last-child .segmented a:last-child {
+        border-radius: var(--f7-button-border-radius) 0 0 var(--f7-button-border-radius);
     }
 
     .list {
@@ -54,6 +52,27 @@
             }
         }
     }
+
+    .searchbar-inner__right .buttons-row a.next {
+        margin-left: 0;
+        margin-right: 15px;
+    }
+
+    .searchbar-inner__left {
+        margin-right: 0;
+        margin-left: 10px;
+    }
+
+    .navbar .searchbar-input-wrap {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 550px) {
+    .device-ios[dir=rtl] .app-layout .searchbar-expandable.searchbar-enabled .searchbar-inner__right {
+        margin-right: 10px;
+        margin-left: 0;
+    }
 }
 
 [dir="rtl"] {
@@ -63,6 +82,18 @@
         &.icon-table-add-column-right, &.icon-table-add-row-above, &.icon-table-add-row-below, &.icon-table-remove-row,
         &.icon-table-remove-column, &.icon-paste, &.icon-copy, &.icon-table-borders-left, &.icon-table-borders-right {
             transform: scaleX(-1);
+        }
+    }
+
+    .comment-list .item-content .item-inner{
+        .comment-header {
+            .right {
+                justify-content: space-between;
+                .comment-resolve {
+                    margin-right: 0px;
+                    margin-left: 10px;
+                }
+            }
         }
     }
 
@@ -99,5 +130,14 @@
         .item-content {
             padding-right: 0;
         }
+    }
+
+    .dataview .active::after {
+        left: -5px;
+        right: unset;
+    }
+
+    .popup .list .range-number, .popover .list .range-number, .sheet-modal .list .range-number {
+        text-align: left;
     }
 }
