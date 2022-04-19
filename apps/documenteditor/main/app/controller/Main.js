@@ -1618,6 +1618,10 @@ define([
                         value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='strict' ? 0 : 1;
                     }
                     fastCoauth = (parseInt(value) == 1);
+
+                    // don't show collaborative marks in live viewer
+                    Common.Utils.InternalSettings.set("de-settings-showchanges-fast", 'none');
+                    Common.Utils.InternalSettings.set("de-settings-showchanges-strict", 'none');
                 } else {
                     fastCoauth = false;
                     autosave = 0;
