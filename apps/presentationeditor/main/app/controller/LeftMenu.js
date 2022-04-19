@@ -349,7 +349,7 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
-            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
                 fast_coauth = Common.localStorage.getBool("pe-settings-view-coauthmode", false);
                 Common.Utils.InternalSettings.set("pe-settings-coauthmode", fast_coauth);
                 this.api.asc_SetFastCollaborative(fast_coauth);

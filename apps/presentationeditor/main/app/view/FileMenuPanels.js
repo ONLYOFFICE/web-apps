@@ -593,7 +593,7 @@ define([
             /** coauthoring begin **/
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
-            $('tr.live-viewer', this.el)[!mode.isEdit && !mode.isRestrictedEdit && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
+            $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
 
@@ -683,7 +683,7 @@ define([
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && this.mode.canChangeCoAuthoring) {
                 Common.localStorage.setItem("pe-settings-coauthmode", this.rbCoAuthModeFast.getValue());
-            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
                 Common.localStorage.setItem("pe-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
             /** coauthoring end **/
