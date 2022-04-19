@@ -124,7 +124,10 @@ class MainController extends Component {
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
-                    // docInfo.put_CoEditingMode(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' ? this.editorConfig.coEditing.mode || 'fast' : 'fast');
+                    // var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                    //     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+                    //         this.editorConfig.coEditing.mode || 'fast';
+                    // docInfo.put_CoEditingMode(coEditMode);
                     docInfo.put_CoEditingMode('strict'); // need to change!!!
 
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
