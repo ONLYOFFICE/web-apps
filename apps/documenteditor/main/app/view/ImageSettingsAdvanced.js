@@ -1408,7 +1408,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this._setShapeDefaults(shapeprops);
                     this.setTitle(this.textTitleShape);
                     value = props.asc_getLockAspect();
-                    this.chRatio.setValue(value);
+                    this.chRatio.setValue(value, true); 
 
                     this.spnShapeWidth.setMaxValue(this.sizeMax.width);
                     this.spnShapeHeight.setMaxValue(this.sizeMax.height);
