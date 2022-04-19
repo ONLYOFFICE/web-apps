@@ -154,7 +154,6 @@ define([
             if (item) {
                 panel.cmbSheet.setValue(item.get('value'));
                 panel.updateActiveSheet(item.get('displayValue'));
-                this.updatePreview();
             }
         },
 
