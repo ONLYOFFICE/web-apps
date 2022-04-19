@@ -153,7 +153,7 @@ define([
                        panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
                 panel.cmbSheet.setValue(item.get('value'));
-                panel.updateActiveSheet(item.get('displayValue'));
+                panel.updateActiveSheet && panel.updateActiveSheet(item.get('displayValue'));
             }
         },
 
@@ -733,7 +733,7 @@ define([
                     newPage = 0;
                     this._currentPrintType = printType;
                 } else if (this._navigationPreview.currentPage > pageCount - 1) {
-                    newPage = pageCount - 1;
+                    newPage = Math.max(0, pageCount - 1);
                 } else {
                     newPage = this._navigationPreview.currentPage;
                 }
