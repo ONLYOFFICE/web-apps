@@ -94,11 +94,11 @@ export class storeAppOptions {
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
-        this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
+        this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly) || !permissions.editCommentAuthorOnly;
         this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canPrint = (permissions.print !== false);
-        this.isRestrictedEdit = !this.isEdit && this.canComments;
+        this.isRestrictedEdit = !this.isEdit && this.canComments && isSupportEditFeature;
         this.trialMode = params.asc_getLicenseMode();
 
         const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
