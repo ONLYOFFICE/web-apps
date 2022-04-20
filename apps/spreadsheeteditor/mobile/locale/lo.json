@@ -169,6 +169,7 @@
     "criticalErrorTitle": "ຂໍ້ຜິດພາດ",
     "downloadErrorText": "ດາວໂຫຼດບໍ່ສຳເລັດ.",
     "errorAccessDeny": "ທ່ານກໍາລັງພະຍາຍາມດໍາເນີນການໃນໜ້າທີ່ທ່ານບໍ່ມີສິດສໍາລັບດໍາເນີນການ.<br>ກະລຸນາ, ຕິດຕໍ່ແອດມີນລະບົບຂອງທ່ານ.",
+    "errorArgsRange": "ເກີດຄວາມຜິດພາດໃນສູດຄຳນວນ .<br>ໄລຍະອາກິວເມັນບໍ່ຖືກຕ້ອງ.",
     "errorAutoFilterChange": "ຄຳສັ່ງດັ່ງກ່າວບໍ່ຖືກອະນຸຍາດ ເນື່ອງຈາກມັນກຳລັງພະຍາຍາມປ່ຽນເຊລໃນຕາຕະລາງໃນແຜ່ນງານຂອງເຈົ້າ.",
     "errorAutoFilterChangeFormatTable": "ການດຳເນີນການບໍ່ສາມາດເຮັດໄດ້ສຳລັບຕາລາງທີ່ເລືອກ ເນື່ອງຈາກທ່ານບໍ່ສາມາດຍ້າຍສ່ວນໃດນຶ່ງຂອງຕາຕາລາງໄດ້.<br>ເລືອກໄລຍະຂໍ້ມູນອື່ນເພື່ອໃຫ້ຕາຕະລາງທັງໝົດຖືກປ່ຽນ ແລະລອງໃໝ່ອີກ.",
     "errorAutoFilterDataRange": "ການດຳເນີນການດັ່ງກ່າວບໍ່ສາມາດເຮັດໄດ້ສຳລັບຊ່ວງຕາລາງທີ່ເລືອກ.<br>ເລືອກຊ່ວງຂໍ້ມູນທີ່ເປັນເອກະພາບພາຍໃນ ຫຼື ນອກຕາຕະລາງ ແລ້ວລອງໃໝ່ອີກຄັ້ງ.",
@@ -198,6 +199,7 @@
     "errorFrmlMaxLength": "ທ່ານບໍ່ສາມາດເພີ່ມສູດນີ້ໄດ້ເນື່ອງຈາກຄວາມຍາວຂອງມັນເກີນຈຳນວນຕົວອັກສອນທີ່ອະນຸຍາດ.<br>ກະລຸນາແກ້ໄຂແລ້ວລອງໃໝ່ອີກຄັ້ງ.",
     "errorFrmlMaxReference": "ທ່ານບໍ່ສາມາດໃສ່ສູດນີ້ເພາະມັນມີຄ່າ, <br> ເອກະສານອ້າງອີງຂອງເຊວ, ແລະ/ຫຼື ຊື່ຕ່າງໆຫລາຍເກີນໄປ.",
     "errorFrmlMaxTextLength": "ຄ່າຂໍ້ຄວາມໃນສູດຄຳນວນຖືກຈຳກັດໄວ້ທີ່ 255 ຕົວອັກສອນ.<br>ໃຊ້ຟັງຊັນ CONCATENATE ຫຼື ຕົວດຳເນີນການຕໍ່ກັນ (&)",
+    "errorFrmlWrongReferences": "ຟັງຊັນຫມາຍເຖິງໜ້າຕະລາງທີ່ບໍ່ມີຢູ່.<br>ກະລຸນາກວດສອບຂໍ້ມູນແລ້ວລອງໃໝ່ອີກຄັ້ງ.",
     "errorInvalidRef": "ປ້ອນຊື່ໃຫ້ຖືກຕ້ອງສໍາລັບການເລືອກ ຫຼື ການອ້າງອີງທີ່ຖືກຕ້ອງ.",
     "errorKeyEncrypt": "ບໍ່ຮູ້ຄຳອະທິບາຍຫຼັກ",
     "errorKeyExpire": "ລະຫັດໝົດອາຍຸ",
@@ -232,9 +234,7 @@
     "unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິພາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
-    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
-    "errorArgsRange": "An error in the formula.<br>Incorrect arguments range.",
-    "errorFrmlWrongReferences": "The function refers to a sheet that does not exist.<br>Please, check the data and try again."
+    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "ລະຫັດຜ່ານ",

@@ -245,7 +245,7 @@
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
-      "textActualSize": "既定のサイズ",
+      "textActualSize": "既定サイズ",
       "textAddCustomColor": "ユーザーの色を追加する",
       "textAdditional": "追加",
       "textAdditionalFormatting": "追加の書式設定",
