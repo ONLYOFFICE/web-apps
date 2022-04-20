@@ -130,6 +130,12 @@ define([
         updateSheetsInfo: function() {
             if (this.printSettings.isVisible()) {
                 this.updateSettings(this.printSettings);
+                this.printSettings.cmbSheet.store.each(function (item) {
+                    var sheetIndex = item.get('value');
+                    if (!this._changedProps[sheetIndex]) {
+                        this._changedProps[sheetIndex] = this.api.asc_getPageOptions(sheetIndex, true, true);
+                    }
+                }, this);
             } else {
                 this.isFillSheets = false;
             }
