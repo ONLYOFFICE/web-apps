@@ -578,6 +578,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this.radioFit.setDisabled(true);
                     this.chFlipHor.setDisabled(true);
                     this.chFlipVert.setDisabled(true);
+                    this.btnsCategory[0].setDisabled(true);
                 }
 
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
@@ -587,7 +588,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     this._nRatio = props.get_Width()/props.get_Height();
 
                 var value = props.asc_getLockAspect();
-                this.btnRatio.toggle(value);
+                this.btnRatio.toggle(value || props.get_FromSmartArt());
+                this.btnRatio.setDisabled(!!props.get_FromSmartArt()); // can resize smart art only proportionately
 
                 this._setShapeDefaults(props);
 
