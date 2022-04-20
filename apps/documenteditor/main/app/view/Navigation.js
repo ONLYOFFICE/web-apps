@@ -54,7 +54,7 @@ define([
                 '<div id="navigation-btn-close" style="float:right;margin-left: 4px;"></div>',
                 '<div id="navigation-btn-settings" style="float:right;"></div>',
             '</div>',
-                '<div id="navigation-list" class="medium">',
+                '<div id="navigation-list" class="">',
                 '</div>',
             '</div>'
         ].join('')),
@@ -67,8 +67,11 @@ define([
         render: function(el) {
             el = el || this.el;
             $(el).html(this.template({scope: this}));
+            var isWrap = Common.localStorage.getBool("de-outline-wrap",true);
+            var fontSizeClass = Common.localStorage.getItem("de-outline-fontsize");
             this.$el = $(el);
-            this.fontSizeClass = 'medium';
+
+
             this.btnClose = new Common.UI.Button({
                 parentEl: $('#navigation-btn-close', this.$el),
                 cls: 'btn-toolbar',
@@ -99,7 +102,7 @@ define([
                             caption: this.txtExpandToLevel,
                             value: 'expand-level',
                             menu: new Common.UI.Menu({
-                                    menuAlign: 'tl-br',
+                                    menuAlign: 'tl-tr',
                                     style: 'min-width: auto;',
                                     items: [{ caption : '1', value: 1 }, { caption : '2', value: 2 }, { caption : '3', value: 3 },
                                         { caption : '4', value: 4 }, { caption : '5', value: 5 }, { caption : '6', value: 6 },
@@ -114,25 +117,27 @@ define([
                             caption: this.txtFontSize,
                             value: 'font-size',
                             menu: new Common.UI.Menu({
-                                menuAlign: 'tl-br',
+                                menuAlign: 'tl-tr',
                                 style: 'min-width: auto;',
                                 items: [
                                     {
                                         caption: this.txtSmall,
                                         checkable: true,
                                         value: 'small',
+                                        checked: fontSizeClass == 'small',
                                         toggleGroup: 'fontsize'
                                     },
                                     {
                                         caption: this.txtMedium,
                                         checkable: true,
                                         value: 'medium',
-                                        checked: true,
+                                        checked: fontSizeClass == 'medium',
                                         toggleGroup: 'fontsize'
                                     },
                                     {
                                         caption: this.txtLarge,
                                         checkable: true,
+                                        checked: fontSizeClass == 'large',
                                         value: 'large',
                                         toggleGroup: 'fontsize'
                                     }
@@ -146,6 +151,7 @@ define([
                         {
                             caption: this.txtWrapHeadings,
                             checkable: true,
+                            checked: isWrap,
                             value: 'wrap'
                         }
                     ]
@@ -165,6 +171,8 @@ define([
             });
 
             this.viewNavigationList.cmpEl.off('click');
+            this.viewNavigationList.$el.addClass( fontSizeClass);
+            isWrap && this.viewNavigationList.$el.addClass( 'wrap');
             this.navigationMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [{
@@ -226,7 +234,6 @@ define([
                     }
                 ]
             });
-
             this.trigger('render:after', this);
             return this;
         },
@@ -242,17 +249,25 @@ define([
         },
 
         changeWrapHeadings: function(){
+            Common.localStorage.setBool("de-outline-wrap", this.btnSettingsMenu.items[6].checked);
             if(!this.btnSettingsMenu.items[6].checked)
                 this.viewNavigationList.$el.removeClass('wrap');
             else
                 this.viewNavigationList.$el.addClass('wrap');
         },
+
         changeFontSize: function (value){
+            Common.localStorage.setItem("de-outline-fontsize", value);
             this.viewNavigationList.$el.removeClass();
             this.viewNavigationList.$el.addClass( value);
             this.changeWrapHeadings();
         },
+
         ChangeSettings: function(props) {
+
+            this.btnSettingsMenu.items[4].menu.items.forEach(function (item){
+                item.checked = (item.value==fontsize);
+            });
         },
 
         txtPromote: 'Promote',

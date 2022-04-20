@@ -244,6 +244,7 @@ define([
 
         onMenuItemClick: function (menu, item) {
             if (!this._navigationObject && !this._viewerNavigationObject) return;
+            var index = parseInt(menu.cmpEl.attr('data-value'));
             if (item.value == 'promote') {
                 this._navigationObject.promote(index);
             } else if (item.value == 'demote') {
@@ -262,6 +263,7 @@ define([
                 this.panelNavigation.viewNavigationList.collapseAll();
             }
         },
+
         onMenuSettingsItemClick: function (menu, item){
             switch (item.value){
                 case 'expand':
