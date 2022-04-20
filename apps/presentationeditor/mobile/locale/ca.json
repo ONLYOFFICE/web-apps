@@ -11,7 +11,7 @@
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": "Advertiment",
-      "textAddComment": "Afegeix un comentari",
+      "textAddComment": "Afegir comentari",
       "textAddReply": "Afegeix una resposta",
       "textBack": "Enrere",
       "textCancel": "Cancel·la",
@@ -44,8 +44,8 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Les accions de copiar, tallar i enganxar mitjançant el menú contextual només es realitzaran en el fitxer actual.",
-    "menuAddComment": "Afegeix un comentari",
-    "menuAddLink": "Afegeix un enllaç",
+    "menuAddComment": "Afegir comentari",
+    "menuAddLink": "Afegir Enllaç",
     "menuCancel": "Cancel·la",
     "menuDelete": "Suprimeix",
     "menuDeleteTable": "Suprimeix la taula",
@@ -246,7 +246,7 @@
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
       "textActualSize": "Mida real",
-      "textAddCustomColor": "Afegeix un color personalitzat",
+      "textAddCustomColor": "Afegir Color Personalitzat",
       "textAdditional": "Addicional",
       "textAdditionalFormatting": "Format addicional",
       "textAddress": "Adreça",

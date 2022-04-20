@@ -148,6 +148,7 @@
       "textStrikeout": "ຂີດຂ້າອອກ",
       "textSubScript": "ຕົວຫ້ອຍ",
       "textSuperScript": "ຕົວຍົກ",
+      "textTableChanged": "ປ່ຽນການຕັ້ງຄ່າຕາຕະລາງແລ້ວ",
       "textTableRowsAdd": "ເພີ່ມແຖວຕາຕະລາງແລ້ວ",
       "textTableRowsDel": "ລຶບແຖວຕາຕະລາງແລ້ວ",
       "textTabs": "ປ່ຽນຂັ້ນ",
@@ -155,8 +156,7 @@
       "textTryUndoRedo": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
       "textUnderline": "ີຂີດກ້ອງ",
       "textUsers": "ຜຸ້ໃຊ້",
-      "textWidow": "ໜ້າຄວບຄຸມ",
-      "textTableChanged": "Table Settings Changed"
+      "textWidow": "ໜ້າຄວບຄຸມ"
     },
     "HighlightColorPalette": {
       "textNoFill": "ບໍ່ມີການຕື່ມຂໍ້ມູນໃສ່"
@@ -255,6 +255,8 @@
     "textHyperlink": "ົໄຮເປີລີ້ງ",
     "textImage": "ຮູບພາບ",
     "textImageURL": "URL ຮູບພາບ",
+    "textInFront": "ຢູ່ທາງຫນ້າຂອງຂໍ້ຄວາມ",
+    "textInline": "ໃນແຖວທີ່ມີຂໍ້ຄວາມ",
     "textJanuary": "ເດືອນກຸມພາ",
     "textJuly": "ເດືອນກໍລະກົດ",
     "textJune": "ເດືອນມິຖຸນາ",
@@ -328,9 +330,7 @@
     "textTu": "ວັນອັງຄານ",
     "textType": "ພິມ",
     "textWe": "ພວກເຮົາ",
-    "textWrap": "ຫໍ່",
-    "textInFront": "In Front of Text",
-    "textInline": "In Line with Text"
+    "textWrap": "ຫໍ່"
   },
   "Error": {
     "convertationTimeoutText": "ໝົດເວລາການປ່ຽນແປງ.",
@@ -430,6 +430,7 @@
       "Error! Bookmark not defined": "ຜິດພາດ! ບໍ່ໄດ້ກຳນົດບຸກມາກ.",
       "Error! Main Document Only": "ຜິດພາດ! ເອກະສານຫຼັກຢ່າງດຽວ",
       "Error! No text of specified style in document": "ຜິດພາດ! ບໍ່ມີຂໍ້ຄວາມບົ່ງບອກ",
+      "Error! Not a valid bookmark self-reference": "ຜິດພາດ! ບໍ່ແມ່ນຈຸດຂັ້ນທີ່ຖືໜ້າກຕ້ອງການອ້າງອີງຕົນເອງ.",
       "Even Page ": "ໜ້າງານ",
       "First Page ": "ໜ້າທຳອິດ",
       "Footer": "ສ່ວນທ້າຍ",
@@ -446,6 +447,7 @@
       "Heading 9": "ຫົວເລື່ອງ9",
       "Hyperlink": "ົໄຮເປີລີ້ງ",
       "Index Too Large": "ດັດສະນີໃຫຍ່ເກີນໄປ",
+      "Intense Quote": "ຄຳເວົ້າທີ່ເຂັ້ມຂຸ້ນ",
       "Is Not In Table": "ບໍ່ຢູ່ໃນຕາຕະລາງ",
       "List Paragraph": "ລາຍການຫຍໍ້ໜ້າ",
       "Missing Argument": "ບໍ່ມີອາກິວເມັ້ນ",
@@ -474,9 +476,7 @@
       "X Axis": "ແກນ X (XAS)",
       "Y Axis": "ແກນ Y",
       "Your text here": "ເນື້ອຫາຂອງທ່ານຢູ່ນີ້",
-      "Zero Divide": "ສູນແບ່ງ",
-      "Error! Not a valid bookmark self-reference": "Error! Not a valid bookmark self-reference.",
-      "Intense Quote": "Intense Quote"
+      "Zero Divide": "ສູນແບ່ງ"
     },
     "textAnonymous": "ບໍ່ລະບຸຊື່",
     "textBuyNow": "ເຂົ້າໄປຍັງເວັບໄຊ",
@@ -543,6 +543,7 @@
     "textEnableAll": "ເປີດທັງໝົດ",
     "textEnableAllMacrosWithoutNotification": "ເປີດໃຊ້ແຈ້ງເຕືອນທົ່ວໄປໂດຍບໍ່ມີການແຈ້ງການ",
     "textEncoding": "ການເຂົ້າລະຫັດ",
+    "textFastWV": "ເບິ່ງເວັບລ່ວງໜ້າ",
     "textFind": "ຄົ້ນຫາ",
     "textFindAndReplace": "ຄົ້ນຫາແລະປ່ຽນແທນ",
     "textFindAndReplaceAll": "ຄົ້ນຫາ ແລະ ປ່ຽນແທນທັງໝົດ",
@@ -571,6 +572,8 @@
     "textPages": "ໜ້າ",
     "textPageSize": "ຂະໜາດໜ້າ",
     "textParagraphs": "ວັກ",
+    "textPdfTagged": "ໝາຍ PDF",
+    "textPdfVer": "ສະບັບ PDF",
     "textPoint": "ຈຸດ",
     "textPortrait": "ລວງຕັ້ງ",
     "textPrint": "ພິມ",
@@ -618,10 +621,7 @@
     "txtScheme6": "ເປັນກຸ່ມ",
     "txtScheme7": "ຄວາມເທົ່າທຽມກັນ",
     "txtScheme8": "ຂະບວນການ",
-    "txtScheme9": "ໂຮງຫລໍ່",
-    "textFastWV": "Fast Web View",
-    "textPdfTagged": "Tagged PDF",
-    "textPdfVer": "PDF Version"
+    "txtScheme9": "ໂຮງຫລໍ່"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
