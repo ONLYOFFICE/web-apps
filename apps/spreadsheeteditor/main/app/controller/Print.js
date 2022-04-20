@@ -160,9 +160,6 @@ define([
         comboSheetsChange: function(panel, combo, record) {
             var currentSheet = record.value;
             this.fillPageOptions(panel, this._changedProps[currentSheet] ? this._changedProps[currentSheet] : this.api.asc_getPageOptions(currentSheet, true), currentSheet);
-            if (!this._changedProps[currentSheet]) {
-                this._changedProps[currentSheet] = this.getPageOptions(this.printSettings, currentSheet);
-            }
         },
 
         fillPageOptions: function(panel, props, sheet) {
@@ -318,6 +315,7 @@ define([
         },
 
         onShowMainSettingsPrint: function() {
+            var me = this;
             this._changedProps = [];
             this.printSettings.$previewBox.removeClass('hidden');
 
@@ -325,6 +323,11 @@ define([
                 this.isFillSheets = true;
                 this.updateSettings(this.printSettings);
             }
+            this.printSettings.cmbSheet.store.each(function (item) {
+                var sheetIndex = item.get('value');
+                me._changedProps[sheetIndex] = me.api.asc_getPageOptions(sheetIndex, true, true);
+            }, this);
+            this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
