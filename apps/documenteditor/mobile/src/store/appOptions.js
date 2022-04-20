@@ -114,15 +114,20 @@ export class storeAppOptions {
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
-        this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
+        this.canEditComments = this.isOffline || !permissions.editCommentAuthorOnly;
         this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
+        if ((typeof (this.customization) == 'object') && this.customization.commentAuthorOnly===true) {
+            console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+            if (permissions.editCommentAuthorOnly===undefined && permissions.deleteCommentAuthorOnly===undefined)
+                this.canEditComments = this.canDeleteComments = this.isOffline;
+        }
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.fileKey = document.key;
         const typeForm = /^(?:(oform))$/.exec(document.fileType); // can fill forms only in oform format
         this.canFillForms = this.canLicense && !!(typeForm && typeof typeForm[1] === 'string') && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
-        this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms);
+        this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms) && isSupportEditFeature;
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;
         this.trialMode = params.asc_getLicenseMode();
