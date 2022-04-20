@@ -356,7 +356,7 @@ define([
                     width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
-                    maxValue: 300,
+                    maxValue: 60,
                     minValue: 0,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     dataHint: '1',
