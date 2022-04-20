@@ -171,11 +171,10 @@ class MainController extends Component {
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
-                    // var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
-                    //     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
-                    //         this.editorConfig.coEditing.mode || 'fast';
-                    // docInfo.put_CoEditingMode(coEditMode);
-                    docInfo.put_CoEditingMode('strict'); // need to change!!!
+                    let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                                    this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+                                    this.editorConfig.coEditing.mode || 'fast';
+                    docInfo.put_CoEditingMode(coEditMode);
 
                     const appOptions = this.props.storeAppOptions;
                     let enable = !appOptions.customization || (appOptions.customization.macros !== false);
@@ -622,6 +621,9 @@ class MainController extends Component {
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
 
+        if (licType !== undefined && appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS))
+            this._state.licenseType = licType;
+
         if (this._isDocReady && this._state.licenseType)
             this.applyLicense();
     }
@@ -653,7 +655,13 @@ class MainController extends Component {
             return;
         }
 
-        if (this._state.licenseType) {
+        if (appOptions.config.mode === 'view') {
+            if (appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS)) {
+                appOptions.canLiveView = false;
+                this.api.asc_SetFastCollaborative(false);
+            }
+            Common.Notifications.trigger('toolbar:activatecontrols');
+        } else if (this._state.licenseType) {
             let license = this._state.licenseType;
             let buttons = [{text: 'OK'}];
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
