@@ -670,3 +670,18 @@
 .font-size-large {
     .fontsize(@font-size-large);
 }
+
+.input-field-btn {
+    .select-button {
+        display: none;
+    }
+
+    .input-error {
+        &:before {
+            right: 3px;
+        }
+    }
+    input {
+        padding-right: 0;
+    }
+}
