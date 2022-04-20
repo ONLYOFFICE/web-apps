@@ -1320,6 +1320,7 @@
   "PE.Views.Animation.txtAnimationPane": "Область анимации",
   "PE.Views.Animation.txtParameters": "Параметры",
   "PE.Views.Animation.txtPreview": "Просмотр",
+  "PE.Views.Animation.textAutoPreview": "Автопросмотр",
   "PE.Views.Animation.txtSec": "сек",
   "PE.Views.AnimationDialog.textPreviewEffect": "Просмотр эффекта",
   "PE.Views.AnimationDialog.textTitle": "Другие эффекты",

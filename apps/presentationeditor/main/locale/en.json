@@ -1321,6 +1321,7 @@
   "PE.Views.Animation.txtParameters": "Parameters",
   "PE.Views.Animation.txtPreview": "Preview",
   "PE.Views.Animation.txtSec": "s",
+  "PE.Views.Animation.textAutoPreview": "AutoPreview",
   "PE.Views.AnimationDialog.textPreviewEffect": "Preview Effect",
   "PE.Views.AnimationDialog.textTitle": "More Effects",
   "PE.Views.ChartSettings.textAdvanced": "Show advanced settings",

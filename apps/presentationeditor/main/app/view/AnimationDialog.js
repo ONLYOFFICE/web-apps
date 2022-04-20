@@ -44,7 +44,7 @@ define([
     PE.Views.AnimationDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
-            height: 426,
+            height: 396,
             header: true,
             cls: 'animation-dlg',
             buttons: ['ok', 'cancel']
@@ -57,8 +57,8 @@ define([
                 '<div class="box" style="width: 318px; margin: 0 auto">',
                     '<div class = "input-row" id = "animation-group"></div>',
                     '<div class = "input-row" id = "animation-level" ></div>',
-                    '<div class = "input-row" id = "animation-list" style = "margin-top: 16px;  height: 216px;"></div>',
-                    '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
+                    '<div class = "input-row" id = "animation-list" style = "margin: 16px 0;  height: 216px;"></div>',
+                    // '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
                 '</div>'
             ].join('');
             this.allEffects = Common.define.effectData.getEffectFullData();
@@ -125,11 +125,11 @@ define([
             });
             this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
 
-            this.chPreview = new  Common.UI.CheckBox({
-                el      : $('#animation-setpreview'),
-                labelText : this.textPreviewEffect,
-                value: !Common.Utils.InternalSettings.get("pe-animation-no-preview")
-            }).on('change', _.bind(this.onPreviewChange, this));
+            // this.chPreview = new  Common.UI.CheckBox({
+            //     el      : $('#animation-setpreview'),
+            //     labelText : this.textPreviewEffect,
+            //     value: !Common.Utils.InternalSettings.get("pe-animation-no-preview")
+            // }).on('change', _.bind(this.onPreviewChange, this));
 
             this.cmbGroup.setValue(this._state.activeGroupValue);
             this.fillLevel();
@@ -138,7 +138,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList, this.chPreview];
+            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/];
         },
 
         getDefaultFocusableComponent: function () {

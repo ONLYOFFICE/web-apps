@@ -174,7 +174,7 @@ define([
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            me.addNewEffect(value.activeEffect, value.activeGroupValue, value.activeGroup, replace, undefined, !Common.Utils.InternalSettings.get("pe-animation-no-preview"));
+                            me.addNewEffect(value.activeEffect, value.activeGroupValue, value.activeGroup, replace, undefined);
                         }
                     }
                 }
@@ -189,7 +189,7 @@ define([
 
         addNewEffect: function (type, group, groupName, replace, parametr, preview) {
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
-            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, preview);
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
         },
 
         onDurationChange: function(before,combo, record, e) {
