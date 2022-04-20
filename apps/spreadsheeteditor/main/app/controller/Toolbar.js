@@ -3806,6 +3806,7 @@ define([
                         var wbtab = me.getApplication().getController('WBProtection');
                         $panel.append(wbtab.createToolbarPanel());
                         me.toolbar.addTab(tab, $panel, 7);
+                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                         Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                     }
 
