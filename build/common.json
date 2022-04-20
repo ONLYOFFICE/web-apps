@@ -113,7 +113,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img",
-                    "src": "**/*_s.svg",
+                    "src": "**/*.svg",
                     "dest": "../deploy/web-apps/apps/common/main/resources/img"
                 }
             ]
