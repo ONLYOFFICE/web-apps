@@ -229,6 +229,7 @@ define([
 
                 case Asc.c_oAscError.ID.UpdateVersion:
                     config.msg = this.errorUpdateVersionOnDisconnect;
+                    config.maxwidth = 600;
                     break;
 
                 case Asc.c_oAscError.ID.AccessDeny:
@@ -248,6 +249,7 @@ define([
                 case Asc.c_oAscError.ID.ForceSaveButton:
                 case Asc.c_oAscError.ID.ForceSaveTimeout:
                     config.msg = this.errorForceSave;
+                    config.maxwidth = 600;
                     break;
 
                 case Asc.c_oAscError.ID.LoadingFontError:
