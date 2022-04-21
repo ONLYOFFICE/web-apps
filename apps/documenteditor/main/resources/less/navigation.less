@@ -36,12 +36,21 @@
                     }
                 }
             }
+            .tree-item {
+                min-height: 25px;
+                .name {
+                    padding: 5px 0;
+                }
+            }
         }
         &.small{
             font-size: 10px;
         }
         &.medium{
             font-size: 12px;
+            .name {
+                padding: 4px 0;
+            }
         }
         &.large{
             font-size: 14px;
@@ -55,7 +64,7 @@
         }
 
         .name {
-            word-break: break-all;
+            word-break: break-word;
             max-height: 350px;
         }
     }
