@@ -69,7 +69,10 @@ define([
             $(el).html(this.template({scope: this}));
             var isWrap = Common.localStorage.getBool("de-outline-wrap",true);
             var fontSizeClass = Common.localStorage.getItem("de-outline-fontsize");
+            if(!fontSizeClass) fontSizeClass='medium';
             this.$el = $(el);
+            /*Common.localStorage.removeItem("de-outline-wrap");
+            Common.localStorage.removeItem("de-outline-fontsize");*/
 
 
             this.btnClose = new Common.UI.Button({
