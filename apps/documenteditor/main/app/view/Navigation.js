@@ -69,11 +69,8 @@ define([
             $(el).html(this.template({scope: this}));
             var isWrap = Common.localStorage.getBool("de-outline-wrap",true);
             var fontSizeClass = Common.localStorage.getItem("de-outline-fontsize");
-            if(!fontSizeClass) fontSizeClass='medium';
+            if(!fontSizeClass) fontSizeClass = 'medium';
             this.$el = $(el);
-            /*Common.localStorage.removeItem("de-outline-wrap");
-            Common.localStorage.removeItem("de-outline-fontsize");*/
-
 
             this.btnClose = new Common.UI.Button({
                 parentEl: $('#navigation-btn-close', this.$el),
@@ -110,7 +107,6 @@ define([
                                     items: [{ caption : '1', value: 1 }, { caption : '2', value: 2 }, { caption : '3', value: 3 },
                                         { caption : '4', value: 4 }, { caption : '5', value: 5 }, { caption : '6', value: 6 },
                                         { caption : '7', value: 7 }, { caption : '8', value: 8 },  { caption : '9', value: 9 }]})
-
                         },
                         {
                             caption: '--',
