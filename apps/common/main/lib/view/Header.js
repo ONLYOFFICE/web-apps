@@ -598,19 +598,6 @@ define([
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z');
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y');
 
-                    if ( me.btnSave.$icon.is('svg') ) {
-                        me.btnSave.$icon.addClass('icon-save btn-save');
-                        var _create_use = function (extid, intid) {
-                            var _use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-                            _use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', extid);
-                            _use.setAttribute('id', intid);
-
-                            return $(_use);
-                        };
-
-                        _create_use('#svg-btn-save-coauth', 'coauth').appendTo(me.btnSave.$icon);
-                        _create_use('#svg-btn-save-sync', 'sync').appendTo(me.btnSave.$icon);
-                    }
                     return $html;
                 }
             },
