@@ -749,7 +749,7 @@ define([
             },
 
             cutDocName: function(name) {
-                if(name.length <= this.fileExtention.length) return;
+                if(name.length <= this.fileExtention.length) return name;
                 var idx =name.length - this.fileExtention.length;
 
                 return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
