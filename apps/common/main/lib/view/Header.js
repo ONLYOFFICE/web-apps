@@ -657,7 +657,7 @@ define([
                     this.fileExtention = this.documentCaption.substring(idx);
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
-                    this.labelDocName.val( value );
+                    this.setDocTile( value );
                     // this.labelDocName.attr('size', value.length);
                     //this.setCanRename(this.options.canRename);
 
@@ -676,7 +676,7 @@ define([
                 var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.labelDocName.val(_name);
+                this.setDocTile(_name);
             },
 
             setCanBack: function (value, text) {
