@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "오류",
       "errorAccessDeny": "권한이 없는 작업을 수행하려고 합니다.<br>관리자에게 문의하십시오.",
+      "errorOpensource": "무료 커뮤니티 버전을 사용하는 경우 열린 파일만 볼 수 있습니다. 모바일 온라인 에디터 기능을 사용하기 위해서는 유료 라이선스가 필요합니다.",
       "errorProcessSaveResult": "저장이 실패했습니다.",
       "errorServerVersion": "편집기 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
       "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
@@ -142,9 +143,14 @@
       "textGuest": "게스트",
       "textHasMacros": "파일에 자동 매크로가 포함되어 있습니다. <br> 매크로를 실행 하시겠습니까?",
       "textNo": "아니오",
+      "textNoChoices": "셀을 채울 선택이 없습니다. <br> 열의 텍스트 값만 대체 할 수 있습니다.",
       "textNoLicenseTitle": "라이센스 수를 제한했습니다.",
+      "textNoTextFound": "텍스트를 찾을 수 없습니다",
+      "textOk": "확정",
       "textPaidFeature": "유료기능",
       "textRemember": "선택사항을 저장",
+      "textReplaceSkipped": "대체가 이루어졌습니다. {0} 건은 건너 뛰었습니다.",
+      "textReplaceSuccess": "검색이 완료되었습니다. {0} 횟수가 대체되었습니다. ",
       "textYes": "확인",
       "titleServerVersion": "편집기가 업데이트되었습니다",
       "titleUpdateVersion": "버전이 변경되었습니다.",
@@ -154,13 +160,7 @@
       "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다."
     }
   },
   "Error": {
@@ -287,8 +287,12 @@
     "textErrNotEmpty": "시트 이름은 비워둘 수 없습니다.",
     "textErrorLastSheet": "통합 문서에는 표시되는 워크시트가 하나 이상 있어야 합니다.",
     "textErrorRemoveSheet": "워크 시트를 삭제할 수 없습니다.",
+    "textHidden": "숨김",
     "textHide": "숨기기",
     "textMore": "자세히",
+    "textMove": "이동",
+    "textMoveBefore": "시트 이전으로 이동",
+    "textMoveToEnd": "(끝으로 이동)",
     "textOk": "확인",
     "textRename": "이름 바꾸기",
     "textRenameSheet": "시트 이름 바꾸기",
@@ -296,10 +300,6 @@
     "textSheetName": "시트 이름",
     "textUnhide": "숨기기 해제",
     "textWarnDeleteSheet": "워크시트에 데이터가 포함될 수 있습니다. 진행 하시겠습니까?",
-    "textHidden": "Hidden",
-    "textMove": "Move",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -343,6 +343,7 @@
       "textLink": "링크",
       "textLinkSettings": "링크 설정",
       "textLinkType": "링크 유형",
+      "textOk": "확정",
       "textOther": "기타",
       "textPictureFromLibrary": "그림 라이브러리에서",
       "textPictureFromURL": "URL로 부터 그림 가져오기",
@@ -364,7 +365,6 @@
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
-      "textOk": "Ok",
       "textThisRowHint": "Choose only this row of the specified column",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
@@ -385,6 +385,7 @@
       "textAngleClockwise": "시계 방향으로 회전",
       "textAngleCounterclockwise": "시계 반대 방향 회전",
       "textAuto": "자동",
+      "textAutomatic": "자동",
       "textAxisCrosses": "교차축",
       "textAxisOptions": "축 옵션",
       "textAxisPosition": "축 위치",
@@ -485,6 +486,7 @@
       "textNoOverlay": "오버레이 없음",
       "textNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "textNumber": "숫자",
+      "textOk": "확정",
       "textOnTickMarks": "눈금 표시",
       "textOpacity": "투명도",
       "textOut": "바깥쪽",
@@ -546,9 +548,7 @@
       "textYen": "엔",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSortHigh2Low": "가장 높은 것부터 가장 낮은 것부터 정렬",
-      "txtSortLow2High": "오름차순 정렬",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "오름차순 정렬"
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",

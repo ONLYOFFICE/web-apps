@@ -679,7 +679,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
-                me.chDarkMode.setDisabled(record.themeType!=='dark');
+                me.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme(record.value));
             });
 
             this.chDarkMode = new Common.UI.CheckBox({
@@ -755,7 +755,7 @@ define([
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
-            $('tr.live-viewer', this.el)[!mode.isEdit && !mode.isRestrictedEdit && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
+            $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
@@ -868,7 +868,7 @@ define([
                 this.mode.canChangeCoAuthoring && Common.localStorage.setItem("de-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
                 Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict",
                     this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
-            } else if (!this.mode.isEdit && !this.mode.isRestrictedEdit && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
                 Common.localStorage.setItem("de-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
             /** coauthoring end **/

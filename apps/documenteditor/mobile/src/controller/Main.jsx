@@ -133,8 +133,11 @@ class MainController extends Component {
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
-                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
-                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
+                    // var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                    //     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+                    //         this.editorConfig.coEditing.mode || 'fast';
+                    // docInfo.put_CoEditingMode(coEditMode);
+                    docInfo.put_CoEditingMode('strict'); // need to change!!!
 
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -620,6 +623,7 @@ class MainController extends Component {
                 default: 
                     storeTextSettings.resetBullets(-1);
                     storeTextSettings.resetNumbers(-1);
+                    storeTextSettings.resetMultiLevel(-1);
             }
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {

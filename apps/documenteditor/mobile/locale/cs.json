@@ -650,12 +650,12 @@
     "txtScheme6": "Hala",
     "txtScheme7": "Rovnost",
     "txtScheme8": "Tok",
+    "txtScheme9": "Slévárna",
     "textFeedback": "Feedback & Support",
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading",
-    "txtScheme9": "Slévárna"
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",

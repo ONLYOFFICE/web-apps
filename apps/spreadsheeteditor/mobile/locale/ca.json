@@ -299,7 +299,7 @@
     "textSheet": "Full",
     "textSheetName": "Nom del full",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?",
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Voleu continuar amb l'operació?",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -679,7 +679,7 @@
       "txtSemicolon": "Punt i coma",
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
+      "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?",
       "textFeedback": "Feedback & Support"
     }
   }

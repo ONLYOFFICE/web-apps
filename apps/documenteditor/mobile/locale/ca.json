@@ -334,8 +334,8 @@
     "textTotalRow": "Fila de total",
     "textTu": "dt.",
     "textType": "Tipus",
+    "textWe": "dc.",
     "textWrap": "Ajustament",
-    "textWe": "We",
     "textTableOfCont": "TOC",
     "textPageNumbers": "Page Numbers",
     "textSimple": "Simple",
@@ -650,12 +650,12 @@
     "txtScheme6": "Esplanada",
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
+    "txtScheme9": "Foneria",
     "textFeedback": "Feedback & Support",
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading",
-    "txtScheme9": "Foneria"
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

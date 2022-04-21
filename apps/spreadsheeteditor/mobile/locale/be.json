@@ -258,8 +258,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
-    "textTabColor": "Tab Color"
+    "textTabColor": "Tab Color",
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "View": {
     "Add": {
@@ -553,6 +553,7 @@
       "textFormulaLanguage": "Formula Language",
       "textFormulas": "Formulas",
       "textHelp": "Help",
+      "textFeedback": "Feedback & Support",
       "textHideGridlines": "Hide Gridlines",
       "textHideHeadings": "Hide Headings",
       "textHighlightRes": "Highlight results",
@@ -632,8 +633,7 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textFeedback": "Feedback & Support"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   },
   "LongActions": {

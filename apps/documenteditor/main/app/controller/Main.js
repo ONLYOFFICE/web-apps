@@ -473,9 +473,6 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
-                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
-                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
-
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
@@ -483,6 +480,12 @@ define([
 //                    docInfo.put_Review(this.permissions.review);
 
                     var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
+                    var coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
+                                    !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                                    this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+                                    this.editorConfig.coEditing.mode || 'fast';
+                    docInfo.put_CoEditingMode(coEditMode);
+
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
                     }
@@ -842,6 +845,12 @@ define([
                 if (prev_options) {
                     this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }
+            },
+
+            disableLiveViewing: function(disable) {
+                this.appOptions.canLiveView = !disable;
+                this.api.asc_SetFastCollaborative(!disable);
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", !disable);
             },
 
             onRequestClose: function() {
@@ -1243,7 +1252,7 @@ define([
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
-                navigationController.setApi(me.api).setMode(this.appOptions);
+                navigationController.setMode(me.appOptions).setApi(me.api);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
@@ -1307,8 +1316,7 @@ define([
                 } else {
                     documentHolderController.getView().createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
-                    if (me.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
-                        me.applyLicense();
+                    me.applyLicense();
                 }
 
                 // TODO bug 43960
@@ -1346,12 +1354,20 @@ define([
                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
+                if (licType !== undefined && this.appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS))
+                    this._state.licenseType = licType;
+
                 if (this._isDocReady)
                     this.applyLicense();
             },
 
             applyLicense: function() {
-                if (this._state.licenseType) {
+                if (this.editorConfig.mode === 'view') {
+                    if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS)) {
+                        // show warning or write to log if Common.Utils.InternalSettings.get("de-settings-coauthmode") was true ???
+                        this.disableLiveViewing(true);
+                    }
+                } else if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = ['ok'],
                         primary = 'ok';
@@ -1547,9 +1563,10 @@ define([
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
                     Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
-                // change = true by default in editor, change = false by default in viewer
-                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
-                                                    !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===true) ;
+                // change = true by default in editor
+                this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view') && !isPDFViewer; // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
+                this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
+                                                       this.appOptions.canLiveView && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
@@ -1596,16 +1613,16 @@ define([
                     Common.Utils.InternalSettings.set((fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
                     fastCoauth = true;
-                }  else if (!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && !this.appOptions.isOffline) { // viewer
-                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'strict' by default
-                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
-                    } else {
-                        value = Common.localStorage.getItem("de-settings-view-coauthmode");
-                        if (value===null) {
-                            value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
-                        }
+                }  else if (this.appOptions.canLiveView && !this.appOptions.isOffline) { // viewer
+                    value = Common.localStorage.getItem("de-settings-view-coauthmode");
+                    if (!this.appOptions.canChangeCoAuthoring || value===null) { // Use coEditing.mode or 'fast' by default
+                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='strict' ? 0 : 1;
                     }
                     fastCoauth = (parseInt(value) == 1);
+
+                    // don't show collaborative marks in live viewer
+                    Common.Utils.InternalSettings.set("de-settings-showchanges-fast", 'none');
+                    Common.Utils.InternalSettings.set("de-settings-showchanges-strict", 'none');
                 } else {
                     fastCoauth = false;
                     autosave = 0;

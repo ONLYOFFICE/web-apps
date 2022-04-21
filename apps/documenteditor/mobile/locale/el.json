@@ -645,17 +645,17 @@
     "txtScheme7": "Μετοχή",
     "txtScheme8": "Ροή",
     "txtScheme9": "Χυτήριο",
-    "textFeedback": "Feedback & Support",
-    "textNavigation": "Navigation",
-    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
-    "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading",
     "textFastWV": "Fast Web View",
+    "textFeedback": "Feedback & Support",
     "textNo": "No",
     "textPageSize": "Page Size",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
-    "textYes": "Yes"
+    "textYes": "Yes",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",

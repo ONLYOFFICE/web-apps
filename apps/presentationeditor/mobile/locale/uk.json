@@ -389,6 +389,7 @@
       "textFindAndReplace": "Find and Replace",
       "textFindAndReplaceAll": "Find and Replace All",
       "textHelp": "Help",
+      "textFeedback": "Feedback & Support",
       "textHighlight": "Highlight Results",
       "textInch": "Inch",
       "textLastModified": "Last Modified",
@@ -435,8 +436,7 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry",
-      "textFeedback": "Feedback & Support"
+      "txtScheme9": "Foundry"
     }
   },
   "LongActions": {
