@@ -659,7 +659,7 @@ define([
                 if ( this.labelDocName ) {
                     this.labelDocName.val( value );
                     // this.labelDocName.attr('size', value.length);
-                    this.setCanRename(this.options.canRename);
+                    //this.setCanRename(this.options.canRename);
 
                     //this.setCanRename(true);
                 }
