@@ -4,6 +4,17 @@
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFillRoles %></label>
+            <div id="form-combo-roles" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
     <tr class="form-keyfield">
         <td class="padding-small">
             <label class="input-label"><%= scope.textKey %></label>

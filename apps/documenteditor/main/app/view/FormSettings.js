@@ -463,6 +463,52 @@ define([
                 yValue = this.sldrPreviewPositionY.getValue();
             this.imagePositionLabel.text(xValue + ',' + yValue);
 
+            // Roles
+
+            var itemsTemplate =
+                [
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding-left: 10px;">',
+                            '<span class="color" style="background: <%= item.color %>;"></span>',
+                            '<%= item.displayValue %>',
+                        '</a></li>',
+                    '<% }); %>'
+                ];
+
+            var template = [
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
+                    '<div style="display: table-cell;"></div>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
+                    '</ul>',
+                '</div>'
+            ]);
+
+            this.cmbRoles = new Common.UI.ComboBoxCustom({
+                el: $markup.findById('#form-combo-roles'),
+                cls: 'menu-roles',
+                menuStyle: 'min-width: 100%;',
+                style: 'width: 100%;',
+                editable: false,
+                template    : _.template(template.join('')),
+                itemsTemplate: _.template(itemsTemplate.join('')),
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                updateFormControl: function(record) {
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record) {
+                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + record.get('displayValue');
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
+            });
+            this.onRefreshRolesList(this.roles);
+            this.lockedControls.push(this.cmbRoles);
+            this.cmbRoles.on('selected', this.onRolesChanged.bind(this));
+
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -471,6 +517,7 @@ define([
             this.api = api;
             if (this.api) {
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
+                this.api.asc_registerCallback('asc_onRefreshRolesList', _.bind(this.onRefreshRolesList, this));
             }
             Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
@@ -900,6 +947,12 @@ define([
                         this._state.arrKey=data;
                     }
 
+                    // val = formPr.get_Role();
+                    // if (this._state.Role!==val) {
+                    //     this.cmbRole.setValue(val ? val : '');
+                    //     this._state.Role=val;
+                    // }
+
                     val = formPr.get_Key();
                     if (this._state.Key!==val) {
                         this.cmbKey.setValue(val ? val : '');
@@ -1303,6 +1356,47 @@ define([
             }
         },
 
+        onRefreshRolesList: function(roles) {
+            if (this._initSettings) {
+                this.roles = roles;
+                return;
+            }
+
+            if (!roles) {
+                // change to event asc_onRefreshRolesList
+                roles = [
+                    {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                    {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                    {name: 'manager', color: null, fields: 10}
+                ];
+            }
+
+            var lastrole = this.cmbRoles.getSelectedRecord();
+            lastrole = lastrole ? lastrole.get('value') : '';
+
+            var arr = [];
+            roles && roles.forEach(function(item) {
+                arr.push({
+                    displayValue: item.name,
+                    value: item.name,
+                    color: item.color ? '#' + Common.Utils.ThemeColor.getHexColor(item.color.get_r(), item.color.get_g(), item.color.get_b()) : 'transparent'
+                });
+            });
+            this.cmbRoles.setData(arr);
+            this.cmbRoles.setValue(lastrole);
+        },
+
+        onRolesChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                // var props   = this._originalProps || new AscCommon.CContentControlPr();
+                // var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                // formPr.put_Role(record.value);
+                // props.put_FormPr(formPr);
+                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                // this.fireEvent('editcomplete', this);
+            }
+        },
+
         textField: 'Text Field',
         textKey: 'Key',
         textPlaceholder: 'Placeholder',
@@ -1342,7 +1436,8 @@ define([
         textTooBig: 'Image is Too Big',
         textTooSmall: 'Image is Too Small',
         textScale: 'When to scale',
-        textBackgroundColor: 'Background Color'
+        textBackgroundColor: 'Background Color',
+        textFillRoles: 'Who needs to fill this out?'
 
     }, DE.Views.FormSettings || {}));
 });
