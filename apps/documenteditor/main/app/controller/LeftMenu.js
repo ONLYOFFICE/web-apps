@@ -816,6 +816,11 @@ define([
                         this.leftMenu.panelThumbnails.hide();
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnThumbnails);
                     }
+                    else if (this.leftMenu.btnNavigation.isActive()) {
+                        this.leftMenu.btnNavigation.toggle(false);
+                        this.leftMenu.panelNavigation.hide();
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnNavigation);
+                    }
                 }
             }
         },

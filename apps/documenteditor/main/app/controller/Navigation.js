@@ -117,6 +117,7 @@ define([
             panelNavigation.btnSettingsMenu.on('item:click',           _.bind(this.onMenuSettingsItemClick, this));
             panelNavigation.btnSettingsMenu.items[2].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
             panelNavigation.btnSettingsMenu.items[4].menu.on('item:click', _.bind(this.onMenuFontSizeClick, this));
+            panelNavigation.btnClose.on('click', _.bind(this.onClickClosePanel, this));
 
             var viewport = this.getApplication().getController('Viewport').getView('Viewport');
             viewport.hlayout.on('layout:resizedrag',  function () {
@@ -262,6 +263,9 @@ define([
             } else  if (item.value == 'collapse') {
                 this.panelNavigation.viewNavigationList.collapseAll();
             }
+        },
+        onClickClosePanel: function() {
+            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
         },
 
         onMenuSettingsItemClick: function (menu, item){

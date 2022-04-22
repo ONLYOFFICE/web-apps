@@ -76,14 +76,14 @@ define([
                 parentEl: $('#navigation-btn-close', this.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-close',
-                hint: this.textClosePanel
+                hint: this.txtClosePanel,
             });
 
             this.btnSettings = new Common.UI.Button({
                 parentEl: $('#navigation-btn-settings', this.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-settings',
-                hint: this.textSort,
+                hint: this.txtSettings,
                 menu: new Common.UI.Menu({
                     menuAlign: 'tr-br',
                     style: 'min-width: auto;',
@@ -282,6 +282,9 @@ define([
         txtFontSize: "Font size",
         txtSmall: "Small",
         txtMedium: "Medium",
-        txtLarge:"Large"
+        txtLarge:"Large",
+        txtClosePanel: "Close outline",
+        txtSettings: "Outline settings"
+
     }, DE.Views.Navigation || {}));
 });
