@@ -263,10 +263,6 @@ define([
         },
 
         ChangeSettings: function(props) {
-
-            this.btnSettingsMenu.items[4].menu.items.forEach(function (item){
-                item.checked = (item.value==fontsize);
-            });
         },
 
         txtPromote: 'Promote',
