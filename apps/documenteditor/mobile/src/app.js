@@ -15,14 +15,30 @@ window.jQuery = jQuery;
 window.$ = jQuery;
 
 // Import Framework7 Styles
-// import 'framework7/framework7-bundle.css';
-import 'framework7/framework7-bundle-rtl.css';
+
+const directionMode = +localStorage.getItem('direction') || 0;
+const htmlElem = document.querySelector('html');
+
+if(directionMode === 1) {
+    import('framework7/framework7-bundle-rtl.css')
+        .then(module => {
+            // console.log(module);
+            htmlElem.setAttribute('dir', 'rtl')
+    });
+} else {
+    import('framework7/framework7-bundle.css')
+        .then(module => {
+            // console.log(module);
+            htmlElem.setAttribute('dir', 'ltr')
+    });
+}
 
 // Import Icons and App Custom Styles
 // import '../css/icons.css';
 import './less/app.less';
 
 // Import App Component
+
 import App from './view/app';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './lib/i18n';

@@ -99,6 +99,10 @@ const PageApplicationSettings = props => {
                 </ListItem>
             </List>
 
+            <List mediaList>
+                <ListItem title={_t.textDirection} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
+            </List>
+
             {_isShowMacros &&
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
@@ -109,6 +113,28 @@ const PageApplicationSettings = props => {
         </Page>
     );
 };
+
+const PageDirection = props => {
+    const { t } = useTranslation();
+    const _t = t("Settings", { returnObjects: true });
+    const store = props.storeApplicationSettings;
+    const directionMode = store.directionMode;
+
+    const changeDirection = value => {
+        store.changeDirectionMode(value);
+        props.changeDirection(value);
+    };
+
+    return (
+        <Page>
+            <Navbar title={_t.textDirection} backLink={_t.textBack} />
+            <List mediaList>
+                <ListItem radio name="direction" title={_t.textLtr} value={0} checked={directionMode === 0} onChange={() => changeDirection(0)}></ListItem>
+                <ListItem radio name="direction" title={_t.textRtl} value={1} checked={directionMode === 1} onChange={() => changeDirection(1)}></ListItem>
+            </List>
+        </Page>
+    );
+}
 
 const PageMacrosSettings = props => {
     const { t } = useTranslation();
@@ -138,5 +164,6 @@ const PageMacrosSettings = props => {
 
 const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
+const Direction = inject("storeApplicationSettings")(observer(PageDirection));
 
-export {ApplicationSettings, MacrosSettings};
+export {ApplicationSettings, MacrosSettings, Direction};

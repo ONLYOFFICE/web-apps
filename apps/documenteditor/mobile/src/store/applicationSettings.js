@@ -1,5 +1,4 @@
 import {makeObservable, action, observable} from 'mobx';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
 
 export class storeApplicationSettings {
     constructor() {
@@ -17,7 +16,9 @@ export class storeApplicationSettings {
             changeShowTableEmptyLine: action, 
             changeDisplayComments: action, 
             changeDisplayResolved: action, 
-            changeMacrosSettings: action
+            changeMacrosSettings: action,
+            directionMode: observable,
+            changeDirectionMode: action
         })
     }
 
@@ -28,6 +29,11 @@ export class storeApplicationSettings {
     isComments = false;
     isResolvedComments = false;
     macrosMode = 0;
+    directionMode = +localStorage.getItem('direction') || 0;
+
+    changeDirectionMode(value) {
+        this.directionMode = +value;
+    }
 
     changeUnitMeasurement(value) {
         this.unitMeasurement = +value;
