@@ -208,7 +208,7 @@ define([
             var target = $(e.target).closest('a');
             var color, cmp;
 
-            if (target.length==0) return;
+            if (target.length==0) return false;
 
             if (target.hasClass('color-transparent') ) {
                 me.clearSelection(true);
