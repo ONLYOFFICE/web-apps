@@ -58,6 +58,7 @@ define([
                 this.colorPicker = new Common.UI.ThemeColorPalette({
                     el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
                     transparent: this.options.transparent,
+                    hideEmptyColors: this.options.hideEmptyColors,
                     value: color,
                     colors: colors
                 });

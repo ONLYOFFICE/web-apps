@@ -54,6 +54,7 @@ define([
             themecolors: 10,
             columns: 10,
             effects: 5,
+            hideEmptyColors: false,
             allowReselect: true,
             transparent: false,
             value: '000000',
@@ -89,11 +90,11 @@ define([
                 '<% }); %>' +
                 '</div>' +
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
-                '<div style="padding: 4px 0 0 12px">' +
+                '<div class="palette-color-dynamiccolors" style="padding: 4px 0 0 12px">' +
                     '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
                     '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
-                        '<a class="color-dynamic-<%=i%> dynamic-empty-color" color="" idx="<%=idx++%>">' +
+                        '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
                     '<% } %>' +
                 '<% } %>' +
@@ -114,6 +115,7 @@ define([
             this.tabindex = me.options.tabindex || 0;
             this.outerMenu = me.options.outerMenu;
             this.lastSelectedIdx = -1;
+            this.emptyColorsClass = me.options.hideEmptyColors ? 'hidden' : '';
 
             me.colorItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -186,7 +188,7 @@ define([
                 var i = -1, colorEl, c = colors.length < this.options.dynamiccolors ? colors.length : this.options.dynamiccolors;
                 while (++i < c) {
                     colorEl = el.find('.color-dynamic-'+ i);
-                    colorEl.removeClass('dynamic-empty-color').attr('color', colors[i]);
+                    colorEl.removeClass('dynamic-empty-color').removeClass(this.emptyColorsClass).attr('color', colors[i]);
                     colorEl.find('span').css({
                         'background-color': '#'+colors[i]
                     });
@@ -196,6 +198,8 @@ define([
                         color = undefined; //select only first found color
                     }
                 }
+
+                el.find('.palette-color-dynamiccolors').toggleClass(this.emptyColorsClass, c===0);
             }
         },
 
@@ -274,10 +278,11 @@ define([
                     child = el.find('.color-dynamic-' + (this.options.dynamiccolors - 1));
                 }
 
-                child.first().removeClass('dynamic-empty-color').addClass(this.selectedCls).attr('color', color[1]);
+                child.first().removeClass('dynamic-empty-color').removeClass(this.emptyColorsClass).addClass(this.selectedCls).attr('color', color[1]);
                 child.first().find('span').css({
                     'background-color': '#'+color[1]
                 });
+                el.find('.palette-color-dynamiccolors').removeClass(this.emptyColorsClass);
                 this.select(color[1], true);
             }
         },
