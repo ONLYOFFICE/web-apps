@@ -561,6 +561,7 @@
     "textMargins": "Margens",
     "textMarginsH": "Margens superior e inferior são muito altas para uma determinada altura da página",
     "textMarginsW": "Margens são muito grandes para uma determinada largura da página",
+    "textNo": "Não",
     "textNoCharacters": "Caracteres não imprimíveis",
     "textNoTextFound": "Texto não encontrado",
     "textOk": "OK",
@@ -568,6 +569,7 @@
     "textOrientation": "Orientação",
     "textOwner": "Proprietário",
     "textPages": "Páginas",
+    "textPageSize": "Tamanho da página",
     "textParagraphs": "Parágrafos",
     "textPoint": "Ponto",
     "textPortrait": "Retrato ",
@@ -590,6 +592,7 @@
     "textUnitOfMeasurement": "Unidade de medida",
     "textUploaded": "Carregado",
     "textWords": "Palavras",
+    "textYes": "Sim",
     "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
     "txtOk": "OK",
@@ -617,11 +620,8 @@
     "txtScheme8": "Fluxo",
     "txtScheme9": "Fundição",
     "textFastWV": "Fast Web View",
-    "textNo": "No",
-    "textPageSize": "Page Size",
     "textPdfTagged": "Tagged PDF",
-    "textPdfVer": "PDF Version",
-    "textYes": "Yes"
+    "textPdfVer": "PDF Version"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
