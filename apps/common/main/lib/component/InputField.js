@@ -444,6 +444,9 @@ define([
                         'class="form-control <%= cls %>" ',
                         'placeholder="<%= placeHolder %>" ',
                         'value="<%= value %>"',
+                        'data-hint="<%= dataHint %>"',
+                        'data-hint-offset="<%= dataHintOffset %>"',
+                        'data-hint-direction="<%= dataHintDirection %>"',
                     '>',
                     '<span class="input-error"></span>',
                     '<div class="select-button">' +
@@ -466,7 +469,10 @@ define([
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
                         iconCls     : this.options.iconCls,
-                        scope       : me
+                        scope       : me,
+                        dataHint    : this.options.dataHint,
+                        dataHintOffset: this.options.dataHintOffset,
+                        dataHintDirection: this.options.dataHintDirection
                     }));
 
                     if (parentEl) {

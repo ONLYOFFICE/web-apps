@@ -70,7 +70,10 @@ define([
                     placeHolder: this.textFind,
                     allowBlank: true,
                     validateOnBlur: false,
-                    style: 'width: 100%;'
+                    style: 'width: 100%;',
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
                 this.inputText._input.on('input', _.bind(function () {
                     this.fireEvent('search:input', [this.inputText._input.val()]);
@@ -83,7 +86,10 @@ define([
                     placeHolder: this.textReplaceWith,
                     allowBlank: true,
                     validateOnBlur: false,
-                    style: 'width: 100%;'
+                    style: 'width: 100%;',
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
                 });
 
                 this.btnBack = new Common.UI.Button({
@@ -155,7 +161,10 @@ define([
                     parentEl: $('#search-btn-close', this.$el),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-close',
-                    hint: this.textCloseSearch
+                    hint: this.textCloseSearch,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'medium'
                 });
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
@@ -174,7 +183,10 @@ define([
                             { value: 0, displayValue: this.textSheet },
                             { value: 1, displayValue: this.textWorkbook },
                             { value: 2, displayValue: this.textSpecificRange}
-                        ]
+                        ],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'big'
                     }).on('selected', function(combo, record) {
                         me.fireEvent('search:options', ['within', record.value]);
                     });
@@ -186,7 +198,10 @@ define([
                         validateOnChange: true,
                         validateOnBlur: true,
                         style: "width: 219px; margin-top: 8px",
-                        disabled: true
+                        disabled: true,
+                        dataHint: '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
                     }).on('keyup:after', function(input, e) {
                         me.fireEvent('search:options', ['range', input.getValue(), e.keyCode !== Common.UI.Keys.RETURN]);
                     });
@@ -200,10 +215,11 @@ define([
                         data: [
                             { value: 0, displayValue: this.textByRows },
                             { value: 1, displayValue: this.textByColumns }
-                        ]
+                        ],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'big'
                     }).on('selected', function(combo, record) {
-                        console.log(record.value);
-                        console.log(!record.value);
                         me.fireEvent('search:options', ['search', !record.value]);
                     });
 
@@ -216,10 +232,11 @@ define([
                         data: [
                             { value: 0, displayValue: this.textFormulas },
                             { value: 1, displayValue: this.textValues }
-                        ]
+                        ],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'big'
                     }).on('selected', function(combo, record) {
-                        console.log(record.value);
-                        console.log(!record.value);
                         me.fireEvent('search:options', ['lookIn', !record.value]);
                     });
 

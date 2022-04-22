@@ -31,7 +31,7 @@
                 </tr>
                 <tr class="search-options-block">
                     <td class="padding-large">
-                        <div id="open-search-options">
+                        <div id="open-search-options" data-hint="1" data-hint-direction="left" data-hint-offset="0, -15">
                             <div class="search-options-caret img-commonctrl"></div>
                             <div class="search-options-txt"><%= scope.textSearchOptions %></div>
                         </div>
