@@ -898,7 +898,8 @@ define([
                                                 checkable: true
                                             }),
                                             {caption: '--'},
-                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
+                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; margin: 10px;display: inline-block;"></div>')},
+                                            {caption: '--'},
                                             {
                                                 id: 'id-toolbar-menu-new-control-color',
                                                 template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')

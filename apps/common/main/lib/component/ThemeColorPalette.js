@@ -62,7 +62,7 @@ define([
 
         template    :
             _.template(
-                '<div style="padding: 8px 12px 12px;">' +
+                '<div style="padding: 4px 12px 12px;">' +
                 '<% var me = this; var idx = 0; %>' +
                 '<% $(colors).each(function(num, item) { %>' +
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
@@ -85,7 +85,9 @@ define([
                 '<% }); %>' +
                 '</div>' +
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
-                '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div><div style="padding: 12px;">' +
+                '<div style="padding: 12px;">' +
+                    '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
+                    '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
                         '<a class="color-dynamic-<%=i%> dynamic-empty-color" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
@@ -483,7 +485,7 @@ define([
             var arr = [],
                 len = (themecolors>0 && effects>0) ? themecolors * effects : 0;
             if (themecolors>0) {
-                arr = [this.textThemeColors, '-'];
+                arr = [this.textThemeColors];
                 for (var i=0; i<themecolors; i++)
                     arr.push({color: 'FFFFFF', effectId: 1});
 
@@ -492,10 +494,10 @@ define([
                     arr.push({color: 'FFFFFF', effectId: 1});
 
                 if (standardcolors)
-                    arr.push('-', '--', '-');
+                    arr.push('-');
             }
             if (standardcolors) {
-                arr.push(this.textStandartColors, '-');
+                arr.push(this.textStandartColors);
                 if (transparent) {
                     arr.push('transparent');
                     standardcolors--;
@@ -503,8 +505,8 @@ define([
                 for (var i=0; i<standardcolors; i++)
                     arr.push('FFFFFF');
             }
-            if (this.options.dynamiccolors && (themecolors || standardcolors))
-                arr.push('-', '--');
+            // if (this.options.dynamiccolors && (themecolors || standardcolors))
+            //     arr.push('-', '--');
             return arr;
         },
 
@@ -640,6 +642,7 @@ define([
         },
 
         textThemeColors         : 'Theme Colors',
-        textStandartColors      : 'Standart Colors'
+        textStandartColors      : 'Standard Colors',
+        textRecentColors        : 'Recent Colors'
     }, Common.UI.ThemeColorPalette || {}));
 });

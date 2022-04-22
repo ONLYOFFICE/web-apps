@@ -80,7 +80,7 @@ define([
         getMenu: function(options) {
             if (typeof this.menu !== 'object') {
                 options = options || this.options;
-                var height = options.paletteHeight || 240,
+                var height = options.paletteHeight ? options.paletteHeight + 'px' : 'auto',
                     id = Common.UI.getId(),
                     auto = [];
                 if (options.auto) {
@@ -98,7 +98,8 @@ define([
                     cls: 'shifted-left',
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
-                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + '; margin: 10px;display: inline-block;"></div>') },
+                        {caption: '--'},
                         {
                             id: id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')
