@@ -409,6 +409,7 @@
       "textColorSchemes": "색 구성표",
       "textComment": "코멘트",
       "textCreated": "생성되었습니다",
+      "textDarkTheme": "다크 테마",
       "textDisableAll": "모두 비활성화",
       "textDisableAllMacrosWithNotification": "알림이 있는 모든 매크로 닫기",
       "textDisableAllMacrosWithoutNotification": "알림 없이 모든 매크로 닫기",
@@ -472,7 +473,6 @@
       "txtScheme7": "같음",
       "txtScheme8": "플로우",
       "txtScheme9": "발견",
-      "textDarkTheme": "Dark Theme",
       "textFeedback": "Feedback & Support"
     }
   }
