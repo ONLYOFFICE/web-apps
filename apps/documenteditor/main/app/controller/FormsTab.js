@@ -42,7 +42,8 @@
 define([
     'core',
     'documenteditor/main/app/view/FormsTab',
-    'documenteditor/main/app/view/RolesManagerDlg'
+    'documenteditor/main/app/view/RolesManagerDlg',
+    'documenteditor/main/app/view/SaveFormDlg'
 ], function () {
     'use strict';
 
@@ -255,8 +256,10 @@ define([
         },
 
         onSaveFormClick: function() {
-            this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM, this.isFromFormSaveAs));
+            this.showRolesList(function() {
+                this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM, this.isFromFormSaveAs));
+            });
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -445,6 +448,20 @@ define([
             })).on('close', function(win){
             }).show();
         },
+
+        showRolesList: function(callback) {
+            var me = this;
+            (new DE.Views.SaveFormDlg({
+                handler: function(result, settings) {
+                    if (result=='ok')
+                        callback.call(me);
+                    else
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                },
+                roles: me.roles
+            })).show();
+        },
+
 
         onActiveTab: function(tab) {
             if (tab !== 'forms') {
