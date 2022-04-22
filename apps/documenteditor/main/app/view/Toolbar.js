@@ -898,7 +898,7 @@ define([
                                                 checkable: true
                                             }),
                                             {caption: '--'},
-                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; margin: 10px;display: inline-block;"></div>')},
+                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 164px; display: inline-block;"></div>')},
                                             {caption: '--'},
                                             {
                                                 id: 'id-toolbar-menu-new-control-color',

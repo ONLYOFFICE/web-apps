@@ -531,7 +531,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
-                                    { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 169px; margin: 10px;display: inline-block;"></div>'), stopPropagation: true },
+                                    { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 164px; display: inline-block;"></div>'), stopPropagation: true },
                                     {caption: '--'},
                                     { template: _.template('<a id="format-rules-borders-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
                                 ]

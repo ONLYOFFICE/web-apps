@@ -52,6 +52,7 @@ define([
             dynamiccolors: 10,
             standardcolors: 10,
             themecolors: 10,
+            columns: 10,
             effects: 5,
             allowReselect: true,
             transparent: false,
@@ -62,7 +63,7 @@ define([
 
         template    :
             _.template(
-                '<div style="padding: 4px 12px 12px;">' +
+                '<div style="padding: 4px 0 0 12px;">' +
                 '<% var me = this; var idx = 0; %>' +
                 '<% $(colors).each(function(num, item) { %>' +
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
@@ -76,6 +77,9 @@ define([
                         '<em><span unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isEffect(item)) { %>' +
+                        '<% if (idx>0 && me.columns>0 && idx%me.columns===0) { %> ' +
+                        '<div style="width:100%;height:0;float:left;"></div>' +
+                        '<% } %>' +
                         '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item.color%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
@@ -85,7 +89,7 @@ define([
                 '<% }); %>' +
                 '</div>' +
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
-                '<div style="padding: 12px;">' +
+                '<div style="padding: 4px 0 0 12px">' +
                     '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
                     '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
@@ -105,6 +109,7 @@ define([
                 el = me.$el || $(this.el);
 
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
+            this.columns = me.options.columns || 0;
             this.enableKeyEvents= me.options.enableKeyEvents;
             this.tabindex = me.options.tabindex || 0;
             this.outerMenu = me.options.outerMenu;
