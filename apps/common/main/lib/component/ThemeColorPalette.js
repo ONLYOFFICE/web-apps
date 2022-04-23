@@ -276,6 +276,9 @@ define([
                 if (child.length==0) {
                     this.updateCustomColors();
                     child = el.find('.color-dynamic-' + (this.options.dynamiccolors - 1));
+                } else {
+                    if (this.options.hideEmptyColors && this._layoutParams) // recalc indexed
+                        this._layoutParams = undefined;
                 }
 
                 child.first().removeClass('dynamic-empty-color').removeClass(this.emptyColorsClass).addClass(this.selectedCls).attr('color', color[1]);
