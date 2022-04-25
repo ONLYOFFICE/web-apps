@@ -1,8 +1,9 @@
 import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
+import {f7, Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
+import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.js";
 
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
@@ -51,6 +52,7 @@ const PageApplicationSettings = props => {
                             </Toggle>
                         </ListItem>
                     </List>
+                    <RTLSetting />
                 </Fragment>
             }
             {/* {_isShowMacros && */}
@@ -63,6 +65,26 @@ const PageApplicationSettings = props => {
         </Page>
     );
 };
+
+const RTLSetting = () => {
+    let direction = LocalStorage.getItem('mode-direction');
+    const [isRTLMode, setRTLMode] = useState(direction === 'rtl' ? true : false);
+
+    const switchRTLMode = rtl => {
+        LocalStorage.setItem("mode-direction", rtl ? 'rtl' : 'ltr');
+        f7.dialog.alert('Please restart the application for the changes to take effect');
+    }
+
+    return (
+        <List>
+            <ListItem title="RTL">
+                <Toggle checked={isRTLMode}
+                    onToggleChange={toggle => {switchRTLMode(!toggle), setRTLMode(!toggle)}}>
+                </Toggle>
+            </ListItem>            
+        </List>
+    )
+}
 
 const PageMacrosSettings = props => {
     const { t } = useTranslation();

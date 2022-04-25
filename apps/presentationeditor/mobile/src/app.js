@@ -14,12 +14,14 @@ import jQuery from 'jquery';
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-// Import Framework7 Styles
-// import 'framework7/framework7-bundle.css';
-import 'framework7/framework7-bundle-rtl.css';
+// Import Framework7 or Framework7-RTL Styles
+let direction = LocalStorage.getItem('mode-direction');
+
+import(`framework7/framework7-bundle${direction === 'rtl' ? '-rtl' : ''}.css`)
+.then(() => direction === 'rtl' ? $$('html').attr('dir', 'rtl') : $$('html').removeAttr('dir'));
 
 // Import App Custom Styles
-import './less/app.less';
+import('./less/app.less');
 
 // Import App Component
 import App from './page/app';
@@ -28,6 +30,7 @@ import i18n from './lib/i18n.js';
 
 import { Provider } from 'mobx-react'
 import { stores } from './store/mainStore'
+import { LocalStorage } from '../../../common/mobile/utils/LocalStorage';
 
 // Init F7 React Plugin
 Framework7.use(Framework7React)
