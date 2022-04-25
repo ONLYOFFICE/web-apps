@@ -202,7 +202,7 @@ define([
                 while (i < this.options.dynamiccolors) {
                     colorEl = el.find('.color-dynamic-'+ i);
                     colorEl.removeAttr('color');
-                    colorEl.addClass('dynamic-empty-color');
+                    colorEl.addClass('dynamic-empty-color').addClass(this.emptyColorsClass);
                     colorEl.find('span').css({
                         'background-color': 'transparent'
                     });
