@@ -64,7 +64,7 @@ class ApplicationSettingsController extends Component {
     }
 
     changeDirection(value) {
-       localStorage.setItem('mode-direction', value);
+       LocalStorage.setItem('mode-direction', value);
     }
 
     render() {
