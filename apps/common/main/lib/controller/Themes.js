@@ -270,17 +270,17 @@ define([
             }
         };
 
-        const is_theme_type_system = id => themes_map[id].type == THEME_TYPE_SYSTEM;
-        const get_system_theme_type = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT;
-        const get_system_default_theme = () => {
+        const is_theme_type_system = function (id) { return themes_map[id].type == THEME_TYPE_SYSTEM; }
+        const get_system_theme_type = function () { return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT; }
+        const get_system_default_theme = function () {
             const id = get_system_theme_type() == THEME_TYPE_DARK ?
-                                id_default_dark_theme : id_default_light_theme;
+                id_default_dark_theme : id_default_light_theme;
 
             return {id: id, info: themes_map[id]};
         };
 
-        const on_system_theme_dark = function (mql)  {
-            if ( Common.localStorage.getBool('ui-theme-use-system', false) ) {
+        const on_system_theme_dark = function (mql) {
+            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
                 this.setTheme('theme-system');
             }
         };
@@ -337,7 +337,8 @@ define([
                 obj.name = theme_name;
                 api.asc_setSkin(obj);
 
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
 
