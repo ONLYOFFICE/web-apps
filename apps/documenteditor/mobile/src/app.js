@@ -16,26 +16,16 @@ window.$ = jQuery;
 
 // Import Framework7 Styles
 
-const directionMode = +localStorage.getItem('direction') || 0;
 const htmlElem = document.querySelector('html');
+const direction = LocalStorage.getItem('mode-direction');
 
-if(directionMode === 1) {
-    import('framework7/framework7-bundle-rtl.css')
-        .then(module => {
-            // console.log(module);
-            htmlElem.setAttribute('dir', 'rtl')
-    });
-} else {
-    import('framework7/framework7-bundle.css')
-        .then(module => {
-            // console.log(module);
-            htmlElem.setAttribute('dir', 'ltr')
-    });
-}
+direction === 'rtl' ? htmlElem.setAttribute('dir', 'rtl') : htmlElem.setAttribute('dir', 'ltr');
+
+import(`framework7/framework7-bundle${direction === 'rtl' ? '-rtl' : ''}.css`);
 
 // Import Icons and App Custom Styles
 // import '../css/icons.css';
-import './less/app.less';
+import('./less/app.less');
 
 // Import App Component
 
@@ -45,6 +35,7 @@ import i18n from './lib/i18n';
 
 import { Provider } from 'mobx-react'
 import { stores } from './store/mainStore'
+import { LocalStorage } from '../../../common/mobile/utils/LocalStorage';
 
 // Init F7 React Plugin
 Framework7.use(Framework7React)
