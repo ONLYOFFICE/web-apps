@@ -15,11 +15,17 @@ window.jQuery = jQuery;
 window.$ = jQuery;
 
 // Import Framework7 Styles
-// import 'framework7/framework7-bundle.css';
-import 'framework7/framework7-bundle-rtl.css';
+
+const htmlElem = document.querySelector('html');
+const direction = LocalStorage.getItem('mode-direction');
+
+direction === 'rtl' ? htmlElem.setAttribute('dir', 'rtl') : htmlElem.setAttribute('dir', 'ltr');
+
+import(`framework7/framework7-bundle${direction === 'rtl' ? '-rtl' : ''}.css`);
 
 // Import App Custom Styles
-import './less/app.less';
+
+import('./less/app.less');
 import '../../../../../sdkjs/cell/css/main-mobile.css'
 
 // Import App Component
@@ -29,6 +35,7 @@ import i18n from './lib/i18n.js';
 
 import { Provider } from 'mobx-react';
 import { stores } from './store/mainStore';
+import { LocalStorage } from '../../../common/mobile/utils/LocalStorage';
 
 // Init F7 React Plugin
 Framework7.use(Framework7React);

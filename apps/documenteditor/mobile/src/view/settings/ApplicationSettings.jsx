@@ -100,7 +100,7 @@ const PageApplicationSettings = props => {
             </List>
 
             <List mediaList>
-                <ListItem title={_t.textDirection} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
+                <ListItem title={t('Settings.textDirection')} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
             </List>
 
             {_isShowMacros &&
@@ -137,10 +137,10 @@ const PageDirection = props => {
 
     return (
         <Page>
-            <Navbar title={_t.textDirection} backLink={_t.textBack} />
+            <Navbar title={t('Settings.textDirection')} backLink={_t.textBack} />
             <List mediaList>
-                <ListItem radio name="direction" title={_t.textLeftToRight} checked={directionMode === 'ltr'} onChange={() => changeDirection('ltr')}></ListItem>
-                <ListItem radio name="direction" title={_t.textRightToLeft} checked={directionMode === 'rtl'} onChange={() => changeDirection('rtl')}></ListItem>
+                <ListItem radio name="direction" title={t('Settings.textLeftToRight')} checked={directionMode === 'ltr'} onChange={() => changeDirection('ltr')}></ListItem>
+                <ListItem radio name="direction" title={t('Settings.textRightToLeft')} checked={directionMode === 'rtl'} onChange={() => changeDirection('rtl')}></ListItem>
             </List>
         </Page>
     );
