@@ -621,7 +621,8 @@
     "txtScheme6": "汇合",
     "txtScheme7": "公平",
     "txtScheme8": "流动",
-    "txtScheme9": "发现"
+    "txtScheme9": "发现",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "你有未保存的修改。点击“留在该页”可等待自动保存完成。点击“离开该页”将丢弃全部未经保存的修改。",

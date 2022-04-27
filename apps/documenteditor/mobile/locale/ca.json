@@ -621,7 +621,8 @@
     "txtScheme6": "Esplanada",
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
-    "txtScheme9": "Foneria"
+    "txtScheme9": "Foneria",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

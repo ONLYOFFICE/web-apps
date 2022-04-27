@@ -1136,8 +1136,8 @@ define([
                         '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
                         '<td class="right"><label id="id-info-modify-by"></label></td>',
                     '</tr>',
-                    '<tr class="divider modify">',
-                    '<tr class="divider modify">',
+                    '<tr class="divider modify"></tr>',
+                    '<tr class="divider modify"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtCreated + '</label></td>',
                         '<td class="right"><label id="id-info-date"></label></td>',
@@ -1149,6 +1149,11 @@ define([
                     '<tr class="pdf-info">',
                         '<td class="left"><label>' + this.txtAuthor + '</label></td>',
                         '<td class="right"><label id="id-lbl-info-author"></label></td>',
+                    '</tr>',
+                    '<tr class="divider pdf-info"></tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfProducer + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-produce"></label></td>',
                     '</tr>',
                     '<tr class="pdf-info">',
                          '<td class="left"><label>' + this.txtPdfVer + '</label></td>',
@@ -1308,6 +1313,7 @@ define([
             this.lblPdfAuthor = $markup.findById('#id-lbl-info-author');
             this.lblPdfVer = $markup.findById('#id-info-pdf-ver');
             this.lblPdfTagged = $markup.findById('#id-info-pdf-tagged');
+            this.lblPdfProducer = $markup.findById('#id-info-pdf-produce');
             this.lblFastWV = $markup.findById('#id-info-fast-wv');
 
             this.btnApply = new Common.UI.Button({
@@ -1394,7 +1400,7 @@ define([
                 this.lblApplication.text(appname);
             } else if (pdfProps) {
                 $('.docx-info', this.el).hide();
-                appname = pdfProps ? pdfProps.Producer || '' : '';
+                appname = pdfProps ? pdfProps.Creator || '' : '';
                 this.lblApplication.text(appname);
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
@@ -1520,6 +1526,10 @@ define([
                 if (value !== undefined)
                     this.lblPdfTagged.text(value===true ? this.txtYes : this.txtNo);
                 this._ShowHideInfoItem(this.lblPdfTagged, value !== undefined);
+
+                value = props.Producer;
+                value && this.lblPdfProducer.text(value);
+                this._ShowHideInfoItem(this.lblPdfProducer, !!value);
 
                 value = props.FastWebView;
                 if (value !== undefined)
@@ -1686,7 +1696,8 @@ define([
         txtPdfTagged: 'Tagged PDF',
         txtFastWV: 'Fast Web View',
         txtYes: 'Yes',
-        txtNo: 'No'
+        txtNo: 'No',
+        txtPdfProducer: 'PDF Producer'
 
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 

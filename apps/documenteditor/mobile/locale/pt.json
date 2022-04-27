@@ -621,7 +621,8 @@
     "txtScheme9": "Fundição",
     "textFastWV": "Fast Web View",
     "textPdfTagged": "Tagged PDF",
-    "textPdfVer": "PDF Version"
+    "textPdfVer": "PDF Version",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

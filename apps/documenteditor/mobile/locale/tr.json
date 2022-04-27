@@ -621,7 +621,8 @@
     "textPdfVer": "PDF Version",
     "textYes": "Yes",
     "txtScheme14": "Oriel",
-    "txtScheme19": "Trek"
+    "txtScheme19": "Trek",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

@@ -1702,6 +1702,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Paragraphs",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfTagged": "Tagged PDF",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfVer": "PDF Version",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtPdfProducer": "PDF Producer",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Location",
   "DE.Views.FileMenuPanels.DocumentInfo.txtRights": "Persons who have rights",
   "DE.Views.FileMenuPanels.DocumentInfo.txtSpaces": "Symbols with spaces",
