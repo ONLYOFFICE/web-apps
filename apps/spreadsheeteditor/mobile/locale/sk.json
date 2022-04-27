@@ -278,9 +278,6 @@
     "waitText": "Prosím čakajte..."
   },
   "Statusbar": {
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward",
-    "textTabColor": "Tab Color",
     "notcriticalErrorTitle": "Upozornenie",
     "textCancel": "Zrušiť",
     "textDelete": "Odstrániť",
@@ -302,7 +299,8 @@
     "textSheet": "List",
     "textSheetName": "Názov listu",
     "textUnhide": "Odkryť",
-    "textWarnDeleteSheet": "Pracovný hárok môže obsahovať údaje. Pokračovať v operácii?"
+    "textWarnDeleteSheet": "Pracovný hárok môže obsahovať údaje. Pokračovať v operácii?",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumente máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",
@@ -659,7 +657,6 @@
       "txtScheme1": "Kancelária",
       "txtScheme10": "Medián",
       "txtScheme11": "Metro",
-      "textFeedback": "Feedback & Support",
       "txtScheme12": "Modul",
       "txtScheme13": "Opulentný",
       "txtScheme14": "Výklenok",
@@ -682,7 +679,8 @@
       "txtSemicolon": "Bodkočiarka",
       "txtSpace": "Priestor",
       "txtTab": "Tabulátor",
-      "warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?"
+      "warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

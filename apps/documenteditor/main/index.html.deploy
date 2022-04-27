@@ -308,7 +308,7 @@
         };
     </script>
 
-    <inline src="resources/img/header/buttons.svg" />
+    <inline src="resources/img/header/icons.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>

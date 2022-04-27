@@ -394,12 +394,12 @@
     "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
     "errorUserDrop": "The file can't be accessed right now.",
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
     "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",
@@ -643,10 +643,6 @@
     "textFastWV": "Fast Web View",
     "textFindAndReplaceAll": "Find and Replace All",
     "textFeedback": "Feedback & Support",
-    "textNavigation": "Navigation",
-    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
-    "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading",
     "textNo": "No",
     "textPageSize": "Page Size",
     "textPdfTagged": "Tagged PDF",
@@ -655,7 +651,11 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "txtScheme22": "New Office"
+    "txtScheme22": "New Office",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Вы выходзіце з праграмы",

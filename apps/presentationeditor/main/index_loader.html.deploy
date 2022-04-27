@@ -318,7 +318,7 @@
         };
     </script>
 
-    <inline src="resources/img/header/buttons.svg" />
+    <inline src="resources/img/header/icons.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
 
