@@ -343,7 +343,9 @@ define([
             me.withoutExt = true;
             _.delay(function(){
                 me.setDocTile(name);
+                me.labelDocName.select();
             },100);
+            me.labelDocName.addClass('active-title');
         }
 
         function onDocNameKeyDown(e) {
@@ -727,6 +729,7 @@ define([
                                     me.withoutExt = false;
                                     me.setDocTile(me.documentCaption);
                                 }
+                                me.labelDocName.removeClass('active-title');
                             },
                             'paste': function (e) {
                                 setTimeout(function() {
