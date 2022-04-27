@@ -495,13 +495,17 @@
         overflow: hidden;
         text-align: center;
         font-size: 12px;
-        line-height: 28px;
+        line-height: 22px;
+        margin: 2px 0;
         background-color: transparent;
         border: 0 none;
         cursor: default;
 
-        &:hover,&.active-title{
-            border: @highlight-header-button-hover solid 2px;
+        &:hover,&:focus{
+            box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
+            box-shadow: 0 0 0 1px @highlight-header-button-hover;
+            /*border:@highlight-header-button-hover-ie solid 1px;
+            border:@highlight-header-button-hover solid 1px;*/
             border-radius: 3px;
             cursor: text;
         }
