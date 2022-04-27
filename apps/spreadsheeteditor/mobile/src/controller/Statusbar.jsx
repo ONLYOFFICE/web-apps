@@ -367,8 +367,13 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
             f7.popover.close('#idx-all-list');
         }
 
-        const tab = $$('.sheet-tabs .tab').eq(sheetIndex);
-        if(tab.offset().left < 0) {
+        let tab = $$('.sheet-tabs .tab').eq(sheetIndex);
+
+        if(tab.length === 0) {
+            tab = $$('.sheet-tabs .tab').eq(sheetIndex - 1);
+            setTimeout(() => $$('.sheet-tabs').scrollLeft( tab.offset().left + tab.width(), 500));
+
+        } else if(tab.offset().left < 0) {
             $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + tab.offset().left - 96, 500);
         } else {
             $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + (tab.offset().left + tab.width() - $$('.sheet-tabs').width()/1.5), 500);
