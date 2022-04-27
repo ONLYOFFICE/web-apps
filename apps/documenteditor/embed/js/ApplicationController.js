@@ -75,6 +75,8 @@ DE.ApplicationController = new(function(){
         embedConfig = $.extend(embedConfig, data.config.embedded);
 
         common.controller.modals.init(embedConfig);
+        common.controller.SearchBar.init(embedConfig);
+
 
         // Docked toolbar
         if (embedConfig.toolbarDocked === 'bottom') {
@@ -448,6 +450,10 @@ DE.ApplicationController = new(function(){
         common.controller.modals.attach({
             share: '#idt-share',
             embed: '#idt-embed'
+        });
+
+        common.controller.SearchBar.attach({
+            search: '#id-search'
         });
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
@@ -912,6 +918,8 @@ DE.ApplicationController = new(function(){
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
             Common.Gateway.appReady();
+
+            common.controller.SearchBar.setApi(api);
         }
 
         return me;
