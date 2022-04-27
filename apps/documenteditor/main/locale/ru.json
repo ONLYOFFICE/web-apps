@@ -1702,6 +1702,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Абзацы",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfTagged": "PDF с тегами",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfVer": "Версия PDF",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtPdfProducer": "Производитель PDF",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Размещение",
   "DE.Views.FileMenuPanels.DocumentInfo.txtRights": "Люди, имеющие права",
   "DE.Views.FileMenuPanels.DocumentInfo.txtSpaces": "Символы с пробелами",
