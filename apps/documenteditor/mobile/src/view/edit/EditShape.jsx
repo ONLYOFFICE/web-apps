@@ -205,7 +205,7 @@ const PageStyle = props => {
                                        onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
                                 ></Range>
                             </div>
-                            <div className='range-number' slot='inner-end' dir="ltr">
+                            <div className='range-number' slot='inner-end'>
                                 {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                             </div>
                         </ListItem>

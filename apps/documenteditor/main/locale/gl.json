@@ -2113,6 +2113,7 @@
   "DE.Views.Navigation.txtDemote": "Degradar",
   "DE.Views.Navigation.txtEmpty": "Non hai títulos no documento.<br>Aplique un estilo do título ao texto para que apareza na táboa de contido.",
   "DE.Views.Navigation.txtEmptyItem": "Cabeceira vacía",
+  "DE.Views.Navigation.txtEmptyViewer": "Non hai títulos no documento.",
   "DE.Views.Navigation.txtExpand": "Expandir todo",
   "DE.Views.Navigation.txtExpandToLevel": "Expandir a nivel",
   "DE.Views.Navigation.txtHeadingAfter": "Novo título despois",

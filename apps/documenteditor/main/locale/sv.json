@@ -2117,6 +2117,7 @@
   "DE.Views.Navigation.txtDemote": "Degradera",
   "DE.Views.Navigation.txtEmpty": "Det finns inga rubriker i dokumentet.<br>Tillämpa en rubrikstil på texten så att den visas i innehållsförteckningen.",
   "DE.Views.Navigation.txtEmptyItem": "Tom rubrik",
+  "DE.Views.Navigation.txtEmptyViewer": "Det finns inga rubriker i dokumentet.",
   "DE.Views.Navigation.txtExpand": "Expandera alla",
   "DE.Views.Navigation.txtExpandToLevel": "Expandera till nivå",
   "DE.Views.Navigation.txtHeadingAfter": "Ny rubrik efter",

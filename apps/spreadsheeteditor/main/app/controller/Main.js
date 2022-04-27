@@ -503,9 +503,7 @@ define([
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-
-                    if (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.mode!==undefined)
-                        docInfo.put_CoEditingMode(this.editorConfig.coEditing.mode);
+                    docInfo.put_CoEditingMode(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' ? this.editorConfig.coEditing.mode || 'fast' : 'fast');
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -1053,7 +1051,7 @@ define([
                     (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
                     || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
-
+                // need to check live view connections!!!
                 if (this._isDocReady)
                     this.applyLicense();
             },
@@ -1282,10 +1280,13 @@ define([
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
 
-                // change = true by default in editor, change = false by default in viewer
+                // change = true by default in editor
+                this.appOptions.canLiveView = true; //params.asc_canLiveViewer(); // viewer: change=false by default when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) && this.appOptions.canCoAuthoring &&
-                                                        !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
-                                                        !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && (typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===true) ;
+                                                        !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
+                                                        !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit &&
+                                                        (this.appOptions.canLiveView ? !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) :
+                                                                                         (this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===true)) ;
 
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle) {
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -1343,13 +1344,11 @@ define([
                 } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
                     fastCoauth = true;
                 }  else if (!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit && !this.appOptions.isOffline) { // viewer
-                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'strict' by default
-                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
-                    } else {
-                        value = Common.localStorage.getItem("sse-settings-view-coauthmode");
-                        if (value===null) {
-                            value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
-                        }
+                    value = Common.localStorage.getItem("sse-settings-view-coauthmode");
+                    if (!this.appOptions.canChangeCoAuthoring || value===null) { // Use coEditing.mode or 'strict' by default for canLiveView=false or 'fast' by default for canLiveView=true
+                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 :
+                            this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='strict' ? 0 :
+                                this.appOptions.canLiveView ? 1 : 0;
                     }
                     fastCoauth = (parseInt(value) == 1);
                 } else {

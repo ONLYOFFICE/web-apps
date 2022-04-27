@@ -2113,6 +2113,7 @@
   "DE.Views.Navigation.txtDemote": "Tieferstufen",
   "DE.Views.Navigation.txtEmpty": "Dieses Dokument enthält keine Überschriften.<br>Wenden Sie ein Überschriftenformat auf den Text an, damit es im Inhaltsverzeichnis angezeigt wird.",
   "DE.Views.Navigation.txtEmptyItem": "Leere Überschrift",
+  "DE.Views.Navigation.txtEmptyViewer": "Dieses Dokument enthält keine Überschriften.",
   "DE.Views.Navigation.txtExpand": "Alle ausklappen",
   "DE.Views.Navigation.txtExpandToLevel": "Auf Ebene erweitern",
   "DE.Views.Navigation.txtHeadingAfter": "Neue Überschrift nach",

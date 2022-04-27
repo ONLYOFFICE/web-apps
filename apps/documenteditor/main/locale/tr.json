@@ -2112,6 +2112,7 @@
   "DE.Views.Navigation.txtDemote": "İndirgeme",
   "DE.Views.Navigation.txtEmpty": "Belgede başlık yok.<br>İçindekiler tablosunda görünmesi için metne bir başlık stili uygulayın.",
   "DE.Views.Navigation.txtEmptyItem": "Boş Başlık",
+  "DE.Views.Navigation.txtEmptyViewer": "Belgede başlık yok.",
   "DE.Views.Navigation.txtExpand": "Hepsini genişlet",
   "DE.Views.Navigation.txtExpandToLevel": "Seviyeye genişlet",
   "DE.Views.Navigation.txtHeadingAfter": "Sonra yeni başlık",

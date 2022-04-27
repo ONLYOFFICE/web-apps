@@ -2100,6 +2100,7 @@
   "DE.Views.Navigation.txtDemote": "Degrader",
   "DE.Views.Navigation.txtEmpty": "Der er ingen overskrifter i dokumentet. <br> Anvend en overskriftstil på teksten, så den vises i indholdsfortegnelsen.",
   "DE.Views.Navigation.txtEmptyItem": "Tom overskrift",
+  "DE.Views.Navigation.txtEmptyViewer": "Der er ingen overskrifter i dokumentet.",
   "DE.Views.Navigation.txtExpand": "Expander alle",
   "DE.Views.Navigation.txtExpandToLevel": "Udvid til niveu",
   "DE.Views.Navigation.txtHeadingAfter": "Ny overskrift efter",

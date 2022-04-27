@@ -19,6 +19,7 @@
     "grunt-json-minify": "^1.1.0",
     "grunt-spritesmith": "^6.9.0",
     "grunt-svgmin": "^6.0.1",
+    "grunt-terser": "^2.0.0",
     "grunt-text-replace": "0.4.0",
     "iconsprite": "file:sprites",
     "iconv-lite": "^0.6.3",
@@ -27,6 +28,7 @@
     "vinyl-fs": "^3.0.3"
   },
   "devDependencies": {
+    "terser": "^5.12.1",
     "chai": "1.9.1",
     "grunt-mocha": "^1.0.0",
     "mocha": "^9.2.0"

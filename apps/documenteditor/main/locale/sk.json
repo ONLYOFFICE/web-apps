@@ -2117,6 +2117,7 @@
   "DE.Views.Navigation.txtDemote": "Zníženie hodnosti",
   "DE.Views.Navigation.txtEmpty": "Tento dokument neobsahuje nadpisy.<br>Pre zahrnutie textu v obsahu použite na text štýl nadpisov.",
   "DE.Views.Navigation.txtEmptyItem": "Prázdne záhlavie",
+  "DE.Views.Navigation.txtEmptyViewer": "Tento dokument neobsahuje nadpisy.",
   "DE.Views.Navigation.txtExpand": "Rozbaliť všetko",
   "DE.Views.Navigation.txtExpandToLevel": "Rozšíriť na úroveň",
   "DE.Views.Navigation.txtHeadingAfter": "Nový nadpis po",

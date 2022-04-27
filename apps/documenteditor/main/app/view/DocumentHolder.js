@@ -4174,9 +4174,10 @@ define([
                     if (frame_pr)
                         menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
 
-                    menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart);
-                    menuStyle.setVisible(me.mode.canEditStyles && !isInChart);
-                    if (me.mode.canEditStyles && !isInChart) {
+                    var edit_style = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
+                    menuStyleSeparator.setVisible(edit_style);
+                    menuStyle.setVisible(edit_style);
+                    if (edit_style) {
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 

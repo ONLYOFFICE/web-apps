@@ -1,15 +1,17 @@
-[dir=rtl] {
+[dir="rtl"] {
+    // Common rtl-icons
     i.icon {
-        &.icon-search, &.icon-link, &.icon-edit-settings, &.icon-app-settings, &.icon-add-shape, &.icon-add-image, &.icon-image-library, &.icon-text-align-right, &.icon-text-align-left, &.icon-table-add-column-left, &.icon-table-add-column-right, &.icon-table-add-row-above, &.icon-table-add-row-below, &.icon-table-remove-row, &.icon-table-remove-column, &.icon-paste, &.icon-copy, &.icon-table-borders-left, &.icon-table-borders-right, &.icon-next, &.icon-prev, &.icon-prev-change, &.icon-next-change {
+        &.icon-next, &.icon-prev, &.icon-text-align-right, &.icon-text-align-left, 
+        &.icon-table-add-column-left, &.icon-table-add-column-right, &.icon-table-remove-column, 
+        &.icon-table-borders-left, &.icon-table-borders-right {
             transform: scaleX(-1);
         }
     }
-}
 
-.device-ios[dir=rtl] {
-   
-}
-
-.device-android[dir=rtl] {
-
+    // [PE] rtl-icons 
+    i.icon {
+        &.icon-align-left, &.icon-align-right {
+            transform: scaleX(-1);
+        }
+    }
 }

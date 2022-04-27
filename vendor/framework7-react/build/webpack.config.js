@@ -2,10 +2,6 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const WebpackRTLPlugin = require('webpack-rtl-plugin');
-// const rtlcss = require('rtlcss');
-// const postcssRTLCSS = require('postcss-rtlcss');
-// const { Mode } = require('postcss-rtlcss/options');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -106,12 +102,9 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                path: path.resolve(__dirname, '..'),
-                // plugins: [
-                //   postcssRTLCSS({mode: Mode.combined})
-                // ]
-              },
-            },
+                    path: path.resolve(__dirname, '..'),
+                }
+            }
           },
         ],
       },
@@ -124,30 +117,27 @@ module.exports = {
               publicPath: '../'
             }
           }),
-            'css-loader?url=false',
-            {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: {
-                  path: path.resolve(__dirname, '..'),
-                  // plugins: [
-                  //   postcssRTLCSS({mode: Mode.combined})
-                  // ]
-                },
-              },
-            },
-            {
-              loader: "less-loader",
-              options: {
-                lessOptions: {
-                  javascriptEnabled: true,
-                  globalVars: {
-                      "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
-                      "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
-                  }
+          'css-loader?url=false',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                    path: path.resolve(__dirname, '..'),
+                }
+            }
+          },
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+                globalVars: {
+                    "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
+                    "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
                 }
               }
-            },
+            }
+          },
         ],
       },
       {
