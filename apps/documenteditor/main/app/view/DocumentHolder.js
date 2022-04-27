@@ -71,1582 +71,10 @@ define([
         },
 
         initialize: function () {
-            var me = this;
-
-            /** coauthoring begin **/
-            var usersStore = DE.getCollection('Common.Collections.Users');
-            /** coauthoring end **/
-
-            me._TtHeight        = 20;
-            me._currentSpellObj = undefined;
-            me._currLang        = {};
-            me.usertips = [];
-            me.fastcoauthtips = [];
-            me._currentMathObj = undefined;
-            me._currentParaObjDisabled = false;
-            me._isDisabled = false;
-            me._state = {};
-            var showPopupMenu = function(menu, value, event, docElement, eOpts){
-                if (!_.isUndefined(menu)  && menu !== null){
-                    Common.UI.Menu.Manager.hideAll();
-
-                    var showPoint = [event.get_X(), event.get_Y()],
-                        menuContainer = $(me.el).find(Common.Utils.String.format('#menu-container-{0}', menu.id));
-
-                    if (!menu.rendered) {
-                        // Prepare menu container
-                        if (menuContainer.length < 1) {
-                            menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
-                            $(me.el).append(menuContainer);
-                        }
-
-                        menu.render(menuContainer);
-                        menu.cmpEl.attr({tabindex: "-1"});
-                    }
-
-                    menuContainer.css({
-                        left: showPoint[0],
-                        top : showPoint[1]
-                    });
-
-                    menu.show();
-
-                    if (_.isFunction(menu.options.initMenu)) {
-                        menu.options.initMenu(value);
-                        menu.alignPosition();
-                    }
-                    _.delay(function() {
-                        menu.cmpEl.focus();
-                    }, 10);
-
-                    me.currentMenu = menu;
-                }
-            };
-
-            var fillMenuProps = function(selectedElements) {
-                if (!selectedElements || !_.isArray(selectedElements)) return;
-                var menu_props = {},
-                    menu_to_show = me.textMenu,
-                    noobject = true;
-                for (var i = 0; i <selectedElements.length; i++) {
-                    var elType = selectedElements[i].get_ObjectType();
-                    var elValue = selectedElements[i].get_ObjectValue();
-                    if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                        //image
-                        menu_to_show = me.pictureMenu;
-                        if (menu_props.imgProps===undefined)
-                            menu_props.imgProps = {};
-                        var shapeprops = elValue.get_ShapeProperties();
-                        var chartprops = elValue.get_ChartProperties();
-                        if (shapeprops) {
-                            if (shapeprops.get_FromChart())
-                                menu_props.imgProps.isChart = true;
-                            else if (shapeprops.get_FromImage())
-                                menu_props.imgProps.isOnlyImg = true;
-                            else {
-                                if (shapeprops.get_FromSmartArt())
-                                    menu_props.imgProps.isSmartArt = true;
-                                if (shapeprops.get_FromSmartArtInternal())
-                                    menu_props.imgProps.isSmartArtInternal = true;
-                                menu_props.imgProps.isShape = true;
-                            }
-                        } else if ( chartprops )
-                            menu_props.imgProps.isChart = true;
-                        else
-                            menu_props.imgProps.isImg = true;
-
-                        menu_props.imgProps.value = elValue;
-                        menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
-
-                        noobject = false;
-                        if ( (shapeprops===undefined || shapeprops===null) && (chartprops===undefined || chartprops===null) )  // not shape and chart
-                            break;
-                    } else if (Asc.c_oAscTypeSelectElement.Table == elType)
-                    {
-                        menu_to_show = me.tableMenu;
-                        menu_props.tableProps = {};
-                        menu_props.tableProps.value = elValue;
-                        menu_props.tableProps.locked = (elValue) ? elValue.get_Locked() : false;
-                        noobject = false;
-                    } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType)
-                    {
-                        menu_props.paraProps = {};
-                        menu_props.paraProps.value = elValue;
-                        menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
-                        if ( menu_props.imgProps && (menu_props.imgProps.isChart || menu_props.imgProps.isShape) && // text in shape, need to show paragraph menu with vertical align
-                            menu_props.tableProps===undefined )
-                            menu_to_show = me.textMenu;
-                        noobject = false;
-                    } else if (Asc.c_oAscTypeSelectElement.Hyperlink == elType) {
-                        if (menu_props.hyperProps)
-                            menu_props.hyperProps.isSeveralLinks = true;
-                        else
-                            menu_props.hyperProps = {};
-                        menu_props.hyperProps.value = elValue;
-                    } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
-                        menu_props.headerProps = {};
-                        menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    } else if (Asc.c_oAscTypeSelectElement.SpellCheck == elType) {
-                        menu_props.spellProps = {};
-                        menu_props.spellProps.value = elValue;
-                        me._currentSpellObj = elValue;
-                    } else if (Asc.c_oAscTypeSelectElement.Math == elType) {
-                        menu_props.mathProps = {};
-                        menu_props.mathProps.value = elValue;
-                        me._currentMathObj = elValue;
-                    }
-                }
-                return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
-            };
-
-            var fillViewMenuProps = function(selectedElements) {
-                if (!selectedElements || !_.isArray(selectedElements)) return;
-
-                if (!me.viewModeMenu)
-                    me.createDelayedElementsViewer();
-                var menu_props = {},
-                    menu_to_show = me.viewModeMenu,
-                    noobject = true;
-                for (var i = 0; i <selectedElements.length; i++) {
-                    var elType = selectedElements[i].get_ObjectType();
-                    var elValue = selectedElements[i].get_ObjectValue();
-                    if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                        //image
-                        menu_props.imgProps = {};
-                        menu_props.imgProps.value = elValue;
-                        noobject = false;
-                    } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType)
-                    {
-                        menu_props.paraProps = {};
-                        menu_props.paraProps.value = elValue;
-                        menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
-                        noobject = false;
-                    } else if (Asc.c_oAscTypeSelectElement.Text == elType)
-                    {
-                        if (!me.viewPDFModeMenu)
-                            me.createDelayedElementsPDFViewer();
-                        menu_to_show = me.viewPDFModeMenu;
-                        noobject = false;
-                    }
-                }
-                return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
-            };
-
-            var showObjectMenu = function(event, docElement, eOpts){
-                if (me.api){
-                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(me.api.getSelectedElements()) : fillViewMenuProps(me.api.getSelectedElements());
-                    if (obj) showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
-                }
-            };
-
-            var onContextMenu = function(event){
-                if (Common.UI.HintManager.isHintVisible())
-                    Common.UI.HintManager.clearHints();
-                if (!event) {
-                    Common.UI.Menu.Manager.hideAll();
-                    return;
-                }
-
-                _.delay(function(){
-                    if (event.get_Type() == 0) {
-                        showObjectMenu.call(me, event);
-                    } else {
-                        showPopupMenu.call(me, me.hdrMenu, {Header: event.is_Header(), PageNum: event.get_PageNum()}, event);
-                    }
-                },10);
-            };
-
-            var onFocusObject = function(selectedElements) {
-                if (me.currentMenu && me.currentMenu.isVisible() && me.currentMenu !== me.hdrMenu){
-                    var obj = (me.mode.isEdit && !me._isDisabled) ? fillMenuProps(selectedElements) : fillViewMenuProps(selectedElements);
-                    if (obj) {
-                        if (obj.menu_to_show===me.currentMenu) {
-                            me.currentMenu.options.initMenu(obj.menu_props);
-                            me.currentMenu.alignPosition();
-                        }
-                    }
-                }
-            };
-            
-            var handleDocumentWheel = function(event) {
-                if (me.api) {
-                    var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
-                    if (_.isUndefined(delta)) {
-                        delta = event.deltaY;
-                    }
-
-                    if ((event.ctrlKey || event.metaKey) && !event.altKey) {
-                        if (delta < 0) {
-                            me.api.zoomOut();
-                        } else if (delta > 0) {
-                            me.api.zoomIn();
-                        }
-
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                }
-            };
-
-            var handleDocumentKeyDown = function(event){
-                if (me.api){
-                    var key = event.keyCode;
-                    if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
-                        if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isGecko && key === Common.UI.Keys.EQUALITY_FF) || (Common.Utils.isOpera && key == 43)){
-                            me.api.zoomIn();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return false;
-                        }
-                        else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
-                            me.api.zoomOut();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return false;
-                        } else if (key === 48 || key === 96) {// 0
-                            me.api.zoom(100);
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return false;
-                        }
-                    }
-                    if (me.currentMenu && me.currentMenu.isVisible()) {
-                        if (key == Common.UI.Keys.UP ||
-                            key == Common.UI.Keys.DOWN) {
-                            $('ul.dropdown-menu', me.currentMenu.el).focus();
-                        }
-                    }
-
-                    if (key == Common.UI.Keys.ESC) {
-                        Common.UI.Menu.Manager.hideAll();
-                        if (!Common.UI.HintManager.isHintVisible())
-                            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
-                    }
-                }
-            };
-
-            var onDocumentHolderResize = function(e){
-                me._XY = [
-                    me.cmpEl.offset().left - $(window).scrollLeft(),
-                    me.cmpEl.offset().top - $(window).scrollTop()
-                ];
-                me._Height = me.cmpEl.height();
-                me._BodyWidth = $('body').width();
-            };
-
-            var onAfterRender = function(ct){
-                var meEl = me.cmpEl;
-                if (meEl) {
-                    meEl.on('contextmenu', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return false;
-                    });
-                    meEl.on('click', function(e){
-                        if (e.target.localName == 'canvas') {
-                            if (me._preventClick)
-                                me._preventClick = false;
-                            else
-                                meEl.focus();
-                        }
-                    });
-                    meEl.on('mousedown', function(e){
-                        if (e.target.localName == 'canvas')
-                            Common.UI.Menu.Manager.hideAll();
-                    });
-
-                    //NOTE: set mouse wheel handler
-
-                    var addEvent = function( elem, type, fn ) {
-                        elem.addEventListener ? elem.addEventListener( type, fn, false ) : elem.attachEvent( "on" + type, fn );
-                    };
-
-                    var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
-                    addEvent(me.el, eventname, handleDocumentWheel);
-                }
-
-                !Common.Utils.isChrome ? $(document).on('mousewheel', handleDocumentWheel) :
-                    document.addEventListener('mousewheel', handleDocumentWheel, {passive: false});
-                $(document).on('keydown', handleDocumentKeyDown);
-
-                $(window).on('resize', onDocumentHolderResize);
-                var viewport = DE.getController('Viewport').getView('Viewport');
-                viewport.hlayout.on('layout:resizedrag', onDocumentHolderResize);
-            };
-
-            /** coauthoring begin **/
-            var getUserName = function(id){
-                if (usersStore){
-                    var rec = usersStore.findUser(id);
-                    if (rec)
-                        return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
-                }
-                return me.guestText;
-            };
-            var isUserVisible = function(id){
-                if (usersStore){
-                    var rec = usersStore.findUser(id);
-                    if (rec)
-                        return !rec.get('hidden');
-                }
-                return true;
-            };
-            /** coauthoring end **/
-
-
-            var screenTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    title: '<br><b>Press Ctrl and click link</b>',
-                    cls: 'link-tooltip'
-//                    style: 'word-wrap: break-word;'
-                }),
-                strTip: '',
-                isHidden: true,
-                isVisible: false
-            };
-
-            /** coauthoring begin **/
-            var userTooltip = true;
-
-            var userTipMousover = function (evt, el, opt) {
-                if (userTooltip===true) {
-                    userTooltip = new Common.UI.Tooltip({
-                        owner: evt.currentTarget,
-                        title: me.tipIsLocked
-                    });
-
-                    userTooltip.show();
-                }
-            };
-
-            var userTipHide = function () {
-                if (typeof userTooltip == 'object') {
-                    userTooltip.hide();
-                    userTooltip = undefined;
-
-                    for (var i=0; i<me.usertips.length; i++) {
-                        me.usertips[i].off('mouseover', userTipMousover);
-                        me.usertips[i].off('mouseout', userTipMousout);
-                    }
-                }
-            };
-
-            var userTipMousout = function (evt, el, opt) {
-                if (typeof userTooltip == 'object') {
-                    if (userTooltip.$element && evt.currentTarget === userTooltip.$element[0]) {
-                        userTipHide();
-                    }
-                }
-            };
-
-            /** coauthoring end **/
-
-            Common.NotificationCenter.on({
-                'window:show': function(e){
-                    screenTip.toolTip.hide();
-                    screenTip.isVisible = false;
-                    /** coauthoring begin **/
-                    userTipHide();
-                    /** coauthoring end **/
-                    me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
-
-                },
-                'modal:show': function(e){
-                    me.hideTips();
-                },
-                'layout:changed': function(e){
-                    screenTip.toolTip.hide();
-                    screenTip.isVisible = false;
-                    /** coauthoring begin **/
-                    userTipHide();
-                    /** coauthoring end **/
-                    me.hideTips();
-                    onDocumentHolderResize();
-                }
-            });
-
-            var onHyperlinkClick = function(url) {
-                if (url) {
-                    if (me.api.asc_getUrlType(url)>0)
-                        window.open(url);
-                    else
-                        Common.UI.warning({
-                            msg: me.txtWarnUrl,
-                            buttons: ['yes', 'no'],
-                            primary: 'yes',
-                            callback: function(btn) {
-                                (btn == 'yes') && window.open(url);
-                            }
-                        });
-                }
-            };
-
-            var onMouseMoveStart = function() {
-                screenTip.isHidden = true;
-                /** coauthoring begin **/
-                if (me.usertips.length>0) {
-                    if (typeof userTooltip == 'object') {
-                        userTooltip.hide();
-                        userTooltip = true;
-                    }
-                    _.each(me.usertips, function(item) {
-                        item.remove();
-                    });
-                }
-                me.usertips = [];
-                me.usertipcount = 0;
-                /** coauthoring end **/
-            };
-
-            var mouseMoveData = null,
-                isTooltipHiding = false;
-
-            var onMouseMoveEnd = function() {
-                if (screenTip.isHidden && screenTip.isVisible) {
-                    screenTip.isVisible = false;
-                    isTooltipHiding = true;
-                    screenTip.toolTip.hide(function(){
-                        isTooltipHiding = false;
-                        if (mouseMoveData) onMouseMove(mouseMoveData);
-                        mouseMoveData = null;
-                    });
-                }
-            };
-
-            var onMouseMove = function(moveData) {
-                if (me._XY === undefined) {
-                    me._XY = [
-                        me.cmpEl.offset().left - $(window).scrollLeft(),
-                        me.cmpEl.offset().top - $(window).scrollTop()
-                    ];
-                    me._Height = me.cmpEl.height();
-                    me._BodyWidth = $('body').width();
-                }
-
-                if (moveData) {
-                    var showPoint, ToolTip,
-                        type = moveData.get_Type();
-
-                    if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
-                        type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode) {
-                        if (isTooltipHiding) {
-                            mouseMoveData = moveData;
-                            return;
-                        }
-
-                        if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) {
-                            var hyperProps = moveData.get_Hyperlink();
-                            if (!hyperProps) return;
-                            ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
-                            if (ToolTip.length>256)
-                                ToolTip = ToolTip.substr(0, 256) + '...';
-                        } else if (type == Asc.c_oAscMouseMoveDataTypes.Footnote) {
-                            ToolTip = moveData.get_FootnoteText();
-                            if (ToolTip.length>1000)
-                                ToolTip = ToolTip.substr(0, 1000) + '...';
-                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Form) {
-                            ToolTip = moveData.get_FormHelpText();
-                            if (ToolTip.length>1000)
-                                ToolTip = ToolTip.substr(0, 1000) + '...';
-                        } else if (type==Asc.c_oAscMouseMoveDataTypes.Review && moveData.get_ReviewChange()) {
-                            var changes = DE.getController("Common.Controllers.ReviewChanges").readSDKChange([moveData.get_ReviewChange()]);
-                            if (changes && changes.length>0)
-                                changes = changes[0];
-                            if (changes) {
-                                ToolTip = '<b>'+ Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(changes.get('username'))) +'  </b>';
-                                ToolTip += '<span style="font-size:10px; opacity: 0.7;">'+ changes.get('date') +'</span><br>';
-                                ToolTip += changes.get('changetext');
-                                if (ToolTip.length>1000)
-                                    ToolTip = ToolTip.substr(0, 1000) + '...';
-                            }
-                        }
-
-                        var recalc = false;
-                        screenTip.isHidden = false;
-
-                        if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
-                            ToolTip = Common.Utils.String.htmlEncode(ToolTip);
-
-                        if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + me.txtPressLink + '</b>') : ToolTip);
-                            screenTip.tipLength = ToolTip.length;
-                            screenTip.strTip = ToolTip;
-                            screenTip.tipType = type;
-                            recalc = true;
-                        }
-
-                        showPoint = [moveData.get_X(), moveData.get_Y()];
-                        showPoint[1] += (me._XY[1]-15);
-                        showPoint[0] += (me._XY[0]+5);
-
-                        if (!screenTip.isVisible || recalc) {
-                            screenTip.isVisible = true;
-                            screenTip.toolTip.show([-10000, -10000]);
-                        }
-
-                        if ( recalc ) {
-                            screenTip.tipHeight = screenTip.toolTip.getBSTip().$tip.height();
-                            screenTip.tipWidth = screenTip.toolTip.getBSTip().$tip.width();
-                        }
-
-                        recalc = false;
-                        if (showPoint[0] + screenTip.tipWidth > me._BodyWidth ) {
-                            showPoint[0] = me._BodyWidth - screenTip.tipWidth;
-                            recalc = true;
-                        }
-                        if (showPoint[1] - screenTip.tipHeight < 0) {
-                            showPoint[1] = (recalc) ? showPoint[1]+30 : 0;
-                        } else
-                            showPoint[1] -= screenTip.tipHeight;
-
-                        screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
-                    }
-                    /** coauthoring begin **/
-                    else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit && isUserVisible(moveData.get_UserId())) { // 2 - locked object
-                        var src;
-                        if (me.usertipcount >= me.usertips.length) {
-                            src = $(document.createElement("div"));
-                            src.addClass('username-tip');
-                            src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', visibility: 'visible'});
-                            $(document.body).append(src);
-                            if (userTooltip) {
-                                src.on('mouseover', userTipMousover);
-                                src.on('mouseout', userTipMousout);
-                            }
-
-                            me.usertips.push(src);
-                        }
-                        src = me.usertips[me.usertipcount];
-                        me.usertipcount++;
-
-                        ToolTip = getUserName(moveData.get_UserId());
-
-                        showPoint = [moveData.get_X()+me._XY[0], moveData.get_Y()+me._XY[1]];
-                        var maxwidth = showPoint[0];
-                        showPoint[0] = me._BodyWidth - showPoint[0];
-                        showPoint[1] -= ((moveData.get_LockedObjectType()==2) ? me._TtHeight : 0);
-
-                        if (showPoint[1] > me._XY[1] && showPoint[1]+me._TtHeight < me._XY[1]+me._Height)  {
-                            src.text(ToolTip);
-                            src.css({visibility: 'visible', top: showPoint[1] + 'px', right: showPoint[0] + 'px', 'max-width': maxwidth + 'px'});
-                        } else {
-                            src.css({visibility: 'hidden'});
-                        }
-                    }
-                    /** coauthoring end **/
-                }
-            };
-
-            var onShowForeignCursorLabel = function(UserId, X, Y, color) {
-                if (!isUserVisible(UserId)) return;
-
-                /** coauthoring begin **/
-                var src;
-                for (var i=0; i<me.fastcoauthtips.length; i++) {
-                    if (me.fastcoauthtips[i].attr('userid') == UserId) {
-                        src = me.fastcoauthtips[i];
-                        break;
-                    }
-                }
-
-                if (!src) {
-                    src = $(document.createElement("div"));
-                    src.addClass('username-tip');
-                    src.attr('userid', UserId);
-                    src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
-                             'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
-                    src.text(getUserName(UserId));
-                    $('#id_main_view').append(src);
-                    me.fastcoauthtips.push(src);
-                    src.fadeIn(150);
-                }
-                src.css({top: (Y-me._TtHeight) + 'px', left: X + 'px'});
-                /** coauthoring end **/
-            };
-
-            var onHideForeignCursorLabel = function(UserId) {
-                /** coauthoring begin **/
-                for (var i=0; i<me.fastcoauthtips.length; i++) {
-                    if (me.fastcoauthtips[i].attr('userid') == UserId) {
-                        var src = me.fastcoauthtips[i];
-                        me.fastcoauthtips[i].fadeOut(150, function(){src.remove()});
-                        me.fastcoauthtips.splice(i, 1);
-                        break;
-                    }
-                }
-                /** coauthoring end **/
-            };
-
-            var onShowSpecialPasteOptions = function(specialPasteShowOptions) {
-                var coord  = specialPasteShowOptions.asc_getCellCoord(),
-                    pasteContainer = me.cmpEl.find('#special-paste-container'),
-                    pasteItems = specialPasteShowOptions.asc_getOptions();
-                if (!pasteItems) return;
-
-                // Prepare menu container
-                if (pasteContainer.length < 1) {
-                    me._arrSpecialPaste = [];
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = me.textNest;
-                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
-
-                    pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
-                    me.cmpEl.find('#id_main_view').append(pasteContainer);
-
-                    me.btnSpecialPaste = new Common.UI.Button({
-                        parentEl: $('#id-document-holder-btn-special-paste'),
-                        cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-paste',
-                        menu        : new Common.UI.Menu({items: []})
-                    });
-                }
-
-                if (pasteItems.length>0) {
-                    var menu = me.btnSpecialPaste.menu;
-                    for (var i = 0; i < menu.items.length; i++) {
-                        menu.removeItem(menu.items[i]);
-                        i--;
-                    }
-
-                    var group_prev = -1;
-                    _.each(pasteItems, function(menuItem, index) {
-                        var mnu = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem],
-                            value: menuItem,
-                            checkable: true,
-                            toggleGroup : 'specialPasteGroup'
-                        }).on('click', function(item, e) {
-                            me.api.asc_SpecialPaste(item.value);
-                            setTimeout(function(){menu.hide();}, 100);
-                        });
-                        menu.addItem(mnu);
-                    });
-                    (menu.items.length>0) && menu.items[0].setChecked(true, true);
-                }
-                if (coord.asc_getX()<0 || coord.asc_getY()<0) {
-                    if (pasteContainer.is(':visible')) pasteContainer.hide();
-                } else {
-                    var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
-                    if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
-                        showPoint = [showPoint[0] - 19, showPoint[1] - 26];
-                    }
-                    pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-                    pasteContainer.show();
-                }
-            };
-
-            var onHideSpecialPasteOptions = function() {
-                var pasteContainer = me.cmpEl.find('#special-paste-container');
-                if (pasteContainer.is(':visible'))
-                    pasteContainer.hide();
-            };
-
-            var onDialogAddHyperlink = function() {
-                var win, props, text;
-                if (me.api && me.mode.isEdit && !me._isDisabled && !DE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
-                    var handlerDlg = function(dlg, result) {
-                        if (result == 'ok') {
-                            props = dlg.getSettings();
-                            (text!==false)
-                                ? me.api.add_Hyperlink(props)
-                                : me.api.change_Hyperlink(props);
-                        }
-
-                        me.fireEvent('editcomplete', me);
-                    };
-
-                    text = me.api.can_AddHyperlink();
-
-                    if (text !== false) {
-                        win = new DE.Views.HyperlinkSettingsDialog({
-                            api: me.api,
-                            handler: handlerDlg
-                        });
-
-                        props = new Asc.CHyperlinkProperty();
-                        props.put_Text(text);
-
-                        win.show();
-                        win.setSettings(props);
-                    } else {
-                        var selectedElements = me.api.getSelectedElements();
-                        if (selectedElements && _.isArray(selectedElements)){
-                            _.each(selectedElements, function(el, i) {
-                                if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
-                                    props = selectedElements[i].get_ObjectValue();
-                            });
-                        }
-                        if (props) {
-                            win = new DE.Views.HyperlinkSettingsDialog({
-                                api: me.api,
-                                handler: handlerDlg
-                            });
-                            win.show();
-                            win.setSettings(props);
-                        }
-                    }
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
-                }
-            };
-
-            var onDoubleClickOnChart = function(chart) {
-                if (me.mode.isEdit && !me._isDisabled) {
-                    var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-                    if (diagramEditor && chart) {
-                        diagramEditor.setEditMode(true);
-                        diagramEditor.show();
-                        diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    }
-                }
-            };
-            
-            var onDoubleClickOnTableOleObject = function(chart) {
-                if (me.mode.isEdit && !me._isDisabled) {
-                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor && chart) {
-                        oleEditor.setEditMode(true);
-                        oleEditor.show();
-                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
-                    }
-                }
-            };
-
-            var onCoAuthoringDisconnect= function() {
-                me.mode.isEdit = false;
-            };
-
-            var onTextLanguage = function(langid) {
-                me._currLang.id = langid;
-            };
-
-            this.changeLanguageMenu = function(menu) {
-                if (me._currLang.id===null || me._currLang.id===undefined) {
-                    menu.clearAll();
-                } else {
-                    var index = _.findIndex(menu.items, {langid: me._currLang.id});
-                    (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
-                }
-            };
-
-            var onSpellCheckVariantsFound = function() {
-                var selectedElements = me.api.getSelectedElements(true);
-                var props;
-                if (selectedElements && _.isArray(selectedElements)){
-                    for (var i = 0; i <selectedElements.length; i++) {
-                        if ( selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.SpellCheck) {
-                            props = selectedElements[i].get_ObjectValue();
-                            me._currentSpellObj = props;
-                            break;
-                        }
-                    }
-                }
-                if (props && props.get_Checked()===false && props.get_Variants() !== null && props.get_Variants() !== undefined) {
-                    me.addWordVariants();
-                    if (me.textMenu && me.textMenu.isVisible()) {
-                        me.textMenu.alignPosition();
-                    }
-                }
-            };
-
-            this.addWordVariants = function(isParagraph) {
-                if (!me.textMenu || !me.textMenu.isVisible() && !me.tableMenu.isVisible()) return;
-
-                if (_.isUndefined(isParagraph)) {
-                    isParagraph = me.textMenu.isVisible();
-                }
-
-                me.clearWordVariants(isParagraph);
-
-                var moreMenu  = (isParagraph) ? me.menuSpellMorePara : me.menuSpellMoreTable;
-                var spellMenu = (isParagraph) ? me.menuSpellPara : me.menuSpellTable;
-                var arr = [],
-                    arrMore = [];
-                var variants = me._currentSpellObj.get_Variants();
-
-                if (variants.length > 0) {
-                    moreMenu.setVisible(variants.length > 3);
-                    moreMenu.setDisabled(me._currentParaObjDisabled);
-
-                    _.each(variants, function(variant, index) {
-                        var mnu = new Common.UI.MenuItem({
-                            caption     : variant,
-                            spellword   : true,
-                            disabled    : me._currentParaObjDisabled
-                        }).on('click', function(item, e) {
-                            if (me.api) {
-                                me.api.asc_replaceMisspelledWord(item.caption, me._currentSpellObj);
-                                me.fireEvent('editcomplete', me);
-                            }
-                        });
-
-                        (index < 3) ? arr.push(mnu) : arrMore.push(mnu);
-                    });
-
-                    if (arr.length > 0) {
-                        if (isParagraph) {
-                            _.each(arr, function(variant, index){
-                                me.textMenu.insertItem(index, variant);
-                            })
-                        } else {
-                            _.each(arr, function(variant, index){
-                                me.menuSpellCheckTable.menu.insertItem(index, variant);
-                            })
-                        }
-                    }
-
-                    if (arrMore.length > 0) {
-                        _.each(arrMore, function(variant, index){
-                            moreMenu.menu.addItem(variant);
-                        });
-                    }
-
-                    spellMenu.setVisible(false);
-                } else {
-                    moreMenu.setVisible(false);
-                    spellMenu.setVisible(true);
-                    spellMenu.setCaption(me.noSpellVariantsText, true);
-                }
-            };
-
-            this.clearWordVariants  = function(isParagraph) {
-                var spellMenu = (isParagraph) ? me.textMenu : me.menuSpellCheckTable.menu;
-
-                for (var i = 0; i < spellMenu.items.length; i++) {
-                    if (spellMenu.items[i].options.spellword) {
-                        if (spellMenu.checkeditem == spellMenu.items[i]) {
-                            spellMenu.checkeditem = undefined;
-                            spellMenu.activeItem  = undefined;
-                        }
-
-                        spellMenu.removeItem(spellMenu.items[i]);
-                        i--;
-                    }
-                }
-                (isParagraph) ? me.menuSpellMorePara.menu.removeAll() : me.menuSpellMoreTable.menu.removeAll();
-
-                me.menuSpellMorePara.menu.checkeditem   = undefined;
-                me.menuSpellMorePara.menu.activeItem    = undefined;
-                me.menuSpellMoreTable.menu.checkeditem  = undefined;
-                me.menuSpellMoreTable.menu.activeItem   = undefined;
-            };
-
-            this.initEquationMenu = function() {
-                if (!me._currentMathObj) return;
-                var type = me._currentMathObj.get_Type(),
-                    value = me._currentMathObj,
-                    mnu, arr = [];
-
-                switch (type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtRemoveAccentChar,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'remove_AccentCharacter'}
-                        });
-                        arr.push(mnu);
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtBorderProps,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tl-tr',
-                                items   : [
-                                    {
-                                        caption: value.get_HideTop() ? me.txtAddTop : me.txtHideTop,
-                                        equationProps: {type: type, callback: 'put_HideTop', value: !value.get_HideTop()}
-                                    },
-                                    {
-                                        caption: value.get_HideBottom() ? me.txtAddBottom : me.txtHideBottom,
-                                        equationProps: {type: type, callback: 'put_HideBottom', value: !value.get_HideBottom()}
-                                    },
-                                    {
-                                        caption: value.get_HideLeft() ? me.txtAddLeft : me.txtHideLeft,
-                                        equationProps: {type: type, callback: 'put_HideLeft', value: !value.get_HideLeft()}
-                                    },
-                                    {
-                                        caption: value.get_HideRight() ? me.txtAddRight : me.txtHideRight,
-                                        equationProps: {type: type, callback: 'put_HideRight', value: !value.get_HideRight()}
-                                    },
-                                    {
-                                        caption: value.get_HideHor() ? me.txtAddHor : me.txtHideHor,
-                                        equationProps: {type: type, callback: 'put_HideHor', value: !value.get_HideHor()}
-                                    },
-                                    {
-                                        caption: value.get_HideVer() ? me.txtAddVer : me.txtHideVer,
-                                        equationProps: {type: type, callback: 'put_HideVer', value: !value.get_HideVer()}
-                                    },
-                                    {
-                                        caption: value.get_HideTopLTR() ? me.txtAddLT : me.txtHideLT,
-                                        equationProps: {type: type, callback: 'put_HideTopLTR', value: !value.get_HideTopLTR()}
-                                    },
-                                    {
-                                        caption: value.get_HideTopRTL() ? me.txtAddLB : me.txtHideLB,
-                                        equationProps: {type: type, callback: 'put_HideTopRTL', value: !value.get_HideTopRTL()}
-                                    }
-                                ]
-                            })
-                        });
-                        arr.push(mnu);
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtRemoveBar,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'remove_Bar'}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? me.txtUnderbar : me.txtOverbar,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? Asc.c_oAscMathInterfaceBarPos.Bottom : Asc.c_oAscMathInterfaceBarPos.Top}
-                        });
-                        arr.push(mnu);
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        var scripttype = value.get_ScriptType();
-                        if (scripttype == Asc.c_oAscMathInterfaceScript.PreSubSup) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtScriptsAfter,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.SubSup}
-                            });
-                            arr.push(mnu);
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtRemScripts,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.None}
-                            });
-                            arr.push(mnu);
-                        } else {
-                            if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) {
-                                mnu = new Common.UI.MenuItem({
-                                    caption     : me.txtScriptsBefore,
-                                    equation    : true,
-                                    disabled    : me._currentParaObjDisabled,
-                                    equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.PreSubSup}
-                                });
-                                arr.push(mnu);
-                            }
-                            if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sub ) {
-                                mnu = new Common.UI.MenuItem({
-                                    caption     : me.txtRemSubscript,
-                                    equation    : true,
-                                    disabled    : me._currentParaObjDisabled,
-                                    equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sup : Asc.c_oAscMathInterfaceScript.None }
-                                });
-                                arr.push(mnu);
-                            }
-                            if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sup ) {
-                                mnu = new Common.UI.MenuItem({
-                                    caption     : me.txtRemSuperscript,
-                                    equation    : true,
-                                    disabled    : me._currentParaObjDisabled,
-                                    equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sub : Asc.c_oAscMathInterfaceScript.None }
-                                });
-                                arr.push(mnu);
-                            }
-                        }
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        var fraction = value.get_FractionType();
-                        if (fraction==Asc.c_oAscMathInterfaceFraction.Skewed || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtFractionStacked,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Bar}
-                            });
-                            arr.push(mnu);
-                        }
-                        if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtFractionSkewed,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Skewed}
-                            });
-                            arr.push(mnu);
-                        }
-                        if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Skewed) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtFractionLinear,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Linear}
-                            });
-                            arr.push(mnu);
-                        }
-                        if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.NoBar) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? me.txtRemFractionBar : me.txtAddFractionBar,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_FractionType', value: (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? Asc.c_oAscMathInterfaceFraction.NoBar : Asc.c_oAscMathInterfaceFraction.Bar}
-                            });
-                            arr.push(mnu);
-                        }
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? me.txtLimitUnder : me.txtLimitOver,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? Asc.c_oAscMathInterfaceLimitPos.Bottom : Asc.c_oAscMathInterfaceLimitPos.Top}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtRemLimit,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceLimitPos.None}
-                        });
-                        arr.push(mnu);
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HidePlaceholder() ? me.txtShowPlaceholder : me.txtHidePlaceholder,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HidePlaceholder', value: !value.get_HidePlaceholder()}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.insertText,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tl-tr',
-                                items   : [
-                                    {
-                                        caption: me.insertRowAboveText,
-                                        equationProps: {type: type, callback: 'insert_MatrixRow', value: true}
-                                    },
-                                    {
-                                        caption: me.insertRowBelowText,
-                                        equationProps: {type: type, callback: 'insert_MatrixRow', value: false}
-                                    },
-                                    {
-                                        caption: me.insertColumnLeftText,
-                                        equationProps: {type: type, callback: 'insert_MatrixColumn', value: true}
-                                    },
-                                    {
-                                        caption: me.insertColumnRightText,
-                                        equationProps: {type: type, callback: 'insert_MatrixColumn', value: false}
-                                    }
-                                ]
-                            })
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.deleteText,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tl-tr',
-                                items   : [
-                                    {
-                                        caption: me.deleteRowText,
-                                        equationProps: {type: type, callback: 'delete_MatrixRow'}
-                                    },
-                                    {
-                                        caption: me.deleteColumnText,
-                                        equationProps: {type: type, callback: 'delete_MatrixColumn'}
-                                    }
-                                ]
-                            })
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtMatrixAlign,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tl-tr',
-                                items   : [
-                                    {
-                                        caption: me.txtTop,
-                                        checkable   : true,
-                                        checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top),
-                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top}
-                                    },
-                                    {
-                                        caption: me.centerText,
-                                        checkable   : true,
-                                        checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center),
-                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center}
-                                    },
-                                    {
-                                        caption: me.txtBottom,
-                                        checkable   : true,
-                                        checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom),
-                                        equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom}
-                                    }
-                                ]
-                            })
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtColumnAlign,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tl-tr',
-                                items   : [
-                                    {
-                                        caption: me.leftText,
-                                        checkable   : true,
-                                        checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Left),
-                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Left}
-                                    },
-                                    {
-                                        caption: me.centerText,
-                                        checkable   : true,
-                                        checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Center),
-                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Center}
-                                    },
-                                    {
-                                        caption: me.rightText,
-                                        checkable   : true,
-                                        checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Right),
-                                        equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Right}
-                                    }
-                                ]
-                            })
-                        });
-                        arr.push(mnu);
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtInsertEqBefore,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'insert_Equation', value: true}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtInsertEqAfter,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'insert_Equation', value: false}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtDeleteEq,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'delete_Equation'}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.alignmentText,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            menu        : new Common.UI.Menu({
-                                cls: 'shifted-right',
-                                menuAlign: 'tl-tr',
-                                items   : [
-                                    {
-                                        caption: me.txtTop,
-                                        checkable   : true,
-                                        checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Top),
-                                        equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Top}
-                                    },
-                                    {
-                                        caption: me.centerText,
-                                        checkable   : true,
-                                        checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Center),
-                                        equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Center}
-                                    },
-                                    {
-                                        caption: me.txtBottom,
-                                        checkable   : true,
-                                        checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Bottom),
-                                        equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Bottom}
-                                    }
-                                ]
-                            })
-                        });
-                        arr.push(mnu);
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtLimitChange,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_LimitLocation', value: (value.get_LimitLocation() == Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr) ? Asc.c_oAscMathInterfaceNaryLimitLocation.SubSup : Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr}
-                        });
-                        arr.push(mnu);
-                        if (value.get_HideUpper() !== undefined) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : value.get_HideUpper() ? me.txtShowTopLimit : me.txtHideTopLimit,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_HideUpper', value: !value.get_HideUpper()}
-                            });
-                            arr.push(mnu);
-                        }
-                        if (value.get_HideLower() !== undefined) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : value.get_HideLower() ? me.txtShowBottomLimit : me.txtHideBottomLimit,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_HideLower', value: !value.get_HideLower()}
-                            });
-                            arr.push(mnu);
-                        }
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtInsertArgBefore,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'insert_DelimiterArgument', value: true}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtInsertArgAfter,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'insert_DelimiterArgument', value: false}
-                        });
-                        arr.push(mnu);
-                        if (value.can_DeleteArgument()) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtDeleteArg,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'delete_DelimiterArgument'}
-                            });
-                            arr.push(mnu);
-                        }
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.has_Separators() ? me.txtDeleteCharsAndSeparators : me.txtDeleteChars,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'remove_DelimiterCharacters'}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideOpeningBracket() ? me.txtShowOpenBracket : me.txtHideOpenBracket,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideOpeningBracket', value: !value.get_HideOpeningBracket()}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideClosingBracket() ? me.txtShowCloseBracket : me.txtHideCloseBracket,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideClosingBracket', value: !value.get_HideClosingBracket()}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtStretchBrackets,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            checkable   : true,
-                            checked     : value.get_StretchBrackets(),
-                            equationProps: {type: type, callback: 'put_StretchBrackets', value: !value.get_StretchBrackets()}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtMatchBrackets,
-                            equation    : true,
-                            disabled    : (!value.get_StretchBrackets() || me._currentParaObjDisabled),
-                            checkable   : true,
-                            checked     : value.get_StretchBrackets() && value.get_MatchBrackets(),
-                            equationProps: {type: type, callback: 'put_MatchBrackets', value: !value.get_MatchBrackets()}
-                        });
-                        arr.push(mnu);
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        if (value.can_ChangePos()) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? me.txtGroupCharUnder : me.txtGroupCharOver,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? Asc.c_oAscMathInterfaceGroupCharPos.Bottom : Asc.c_oAscMathInterfaceGroupCharPos.Top}
-                            });
-                            arr.push(mnu);
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtDeleteGroupChar,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceGroupCharPos.None}
-                            });
-                            arr.push(mnu);
-                        }
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        if (value.get_HideDegree() !== undefined) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : value.get_HideDegree() ? me.txtShowDegree : me.txtHideDegree,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_HideDegree', value: !value.get_HideDegree()}
-                            });
-                            arr.push(mnu);
-                        }
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtDeleteRadical,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'remove_Radical'}
-                        });
-                        arr.push(mnu);
-                        break;
-                }
-                if (value.can_IncreaseArgumentSize()) {
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtIncreaseArg,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'increase_ArgumentSize'}
-                    });
-                    arr.push(mnu);
-                }
-                if (value.can_DecreaseArgumentSize()) {
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtDecreaseArg,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'decrease_ArgumentSize'}
-                    });
-                    arr.push(mnu);
-                }
-                if (value.can_InsertManualBreak()) {
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertBreak,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_ManualBreak'}
-                    });
-                    arr.push(mnu);
-                }
-                if (value.can_DeleteManualBreak()) {
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtDeleteBreak,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'delete_ManualBreak'}
-                    });
-                    arr.push(mnu);
-                }
-                if (value.can_AlignToCharacter()) {
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtAlignToChar,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'align_ToCharacter'}
-                    });
-                    arr.push(mnu);
-                }
-                return arr;
-            };
-
-            this.addEquationMenu = function(isParagraph, insertIdx) {
-                if (_.isUndefined(isParagraph)) {
-                    isParagraph = me.textMenu.isVisible();
-                }
-
-                me.clearEquationMenu(isParagraph, insertIdx);
-
-                var equationMenu = (isParagraph) ? me.textMenu : me.tableMenu,
-                    menuItems = me.initEquationMenu();
-
-                if (menuItems.length > 0) {
-                    _.each(menuItems, function(menuItem, index) {
-                        if (menuItem.menu) {
-                            _.each(menuItem.menu.items, function(item) {
-                                item.on('click', _.bind(me.equationCallback, me, item.options.equationProps));
-                            });
-                        } else
-                            menuItem.on('click', _.bind(me.equationCallback, me, menuItem.options.equationProps));
-                        equationMenu.insertItem(insertIdx, menuItem);
-                        insertIdx++;
-                    });
-                }
-                return menuItems.length;
-            };
-
-            this.clearEquationMenu  = function(isParagraph, insertIdx) {
-                var equationMenu = (isParagraph) ? me.textMenu : me.tableMenu;
-                for (var i = insertIdx; i < equationMenu.items.length; i++) {
-                    if (equationMenu.items[i].options.equation) {
-                        if (equationMenu.items[i].menu) {
-                            _.each(equationMenu.items[i].menu.items, function(item) {
-                                item.off('click');
-                            });
-                        } else
-                            equationMenu.items[i].off('click');
-                        equationMenu.removeItem(equationMenu.items[i]);
-                        i--;
-                    } else
-                        break;
-                }
-            };
-
-            this.equationCallback  = function(eqProps) {
-                if (eqProps) {
-                    var eqObj;
-                    switch (eqProps.type) {
-                        case Asc.c_oAscMathInterfaceType.Accent:
-                            eqObj = new CMathMenuAccent();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.BorderBox:
-                            eqObj = new CMathMenuBorderBox();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Box:
-                            eqObj = new CMathMenuBox();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Bar:
-                            eqObj = new CMathMenuBar();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Script:
-                            eqObj = new CMathMenuScript();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Fraction:
-                            eqObj = new CMathMenuFraction();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Limit:
-                            eqObj = new CMathMenuLimit();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Matrix:
-                            eqObj = new CMathMenuMatrix();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.EqArray:
-                            eqObj = new CMathMenuEqArray();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.LargeOperator:
-                            eqObj = new CMathMenuNary();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Delimiter:
-                            eqObj = new CMathMenuDelimiter();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.GroupChar:
-                            eqObj = new CMathMenuGroupCharacter();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Radical:
-                            eqObj = new CMathMenuRadical();
-                            break;
-                        case Asc.c_oAscMathInterfaceType.Common:
-                            eqObj = new CMathMenuBase();
-                            break;
-                    }
-                    if (eqObj) {
-                        eqObj[eqProps.callback](eqProps.value);
-                        me.api.asc_SetMathProps(eqObj);
-                    }
-                }
-                me.fireEvent('editcomplete', me);
-            };
-
-            this.changePosition = function() {
-                me._XY = [
-                    me.cmpEl.offset().left - $(window).scrollLeft(),
-                    me.cmpEl.offset().top  - $(window).scrollTop()
-                ];
-                me._Height = me.cmpEl.height();
-                me._BodyWidth = $('body').width();
-                onMouseMoveStart();
-            };
-
-            this.hideTips = function() {
-                /** coauthoring begin **/
-                if (typeof userTooltip == 'object') {
-                    userTooltip.hide();
-                    userTooltip = true;
-                }
-                _.each(me.usertips, function(item) {
-                    item.remove();
-                });
-                me.usertips = [];
-                me.usertipcount = 0;
-                /** coauthoring end **/
-            };
-
-            /** coauthoring begin **/
-            var keymap = {};
-            var hkComments = 'alt+h';
-            keymap[hkComments] = function() {
-                if (me.api.can_AddQuotedComment()!==false) {
-                    me.addComment();
-                }
-            };
-            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
-            /** coauthoring end **/
-
-            this.setApi = function(o) {
-                this.api = o;
-
-                if (this.api) {
-                    this.api.asc_registerCallback('asc_onContextMenu',                  _.bind(onContextMenu, this));
-                    this.api.asc_registerCallback('asc_onMouseMoveStart',               _.bind(onMouseMoveStart, this));
-                    this.api.asc_registerCallback('asc_onMouseMoveEnd',                 _.bind(onMouseMoveEnd, this));
-
-                    //hyperlink
-                    this.api.asc_registerCallback('asc_onHyperlinkClick',               _.bind(onHyperlinkClick, this));
-                    this.api.asc_registerCallback('asc_onMouseMove',                    _.bind(onMouseMove, this));
-
-                    if (this.mode.isEdit === true) {
-                        this.api.asc_registerCallback('asc_onImgWrapStyleChanged',      _.bind(this.onImgWrapStyleChanged, this));
-                        this.api.asc_registerCallback('asc_onDialogAddHyperlink',       onDialogAddHyperlink);
-                        this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
-                        this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', onDoubleClickOnTableOleObject);
-                        this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
-                        this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
-                        this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
-                        this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
-                        this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
-                    }
-                    this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
-                    Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
-                    this.api.asc_registerCallback('asc_onTextLanguage',                 _.bind(onTextLanguage, this));
-                    this.api.asc_registerCallback('asc_onParaStyleName',                _.bind(this.onApiParagraphStyleChange, this));
-
-                    this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(onShowForeignCursorLabel, this));
-                    this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(onHideForeignCursorLabel, this));
-                    this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(onFocusObject, this));
-                    this.api.asc_registerCallback('asc_onShowSpecialPasteOptions',      _.bind(onShowSpecialPasteOptions, this));
-                    this.api.asc_registerCallback('asc_onHideSpecialPasteOptions',      _.bind(onHideSpecialPasteOptions, this));
-                    if (this.mode.isEdit || this.mode.isRestrictedEdit && this.mode.canFillForms) {
-                        this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
-                        this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
-                    }
-                }
-
-                return this;
-            };
-
-            this.mode = {};
-            this.setMode = function(m) {
-                this.mode = m;
-                /** coauthoring begin **/
-                !(this.mode.canCoAuthoring && this.mode.canComments)
-                    ? Common.util.Shortcuts.suspendEvents(hkComments)
-                    : Common.util.Shortcuts.resumeEvents(hkComments);
-                /** coauthoring end **/
-                this.editorConfig = {user: m.user};
-                this._fillFormMode = !this.mode.isEdit && this.mode.canFillForms;
-            };
-
-            me.on('render:after', onAfterRender, me);
+            this._currentMathObj = undefined;
+            this._currentSpellObj = undefined;
+            this._currentParaObjDisabled = false;
+            this._currLang        = {};
         },
 
         render: function () {
@@ -1658,432 +86,64 @@ define([
             return this;
         },
 
-        onImgWrapStyleChanged: function(type){
-            switch (type) {
-                case Asc.c_oAscWrapStyle2.Inline:
-                    this.menuImageWrap.menu.items[0].setChecked(true);
-                    break;
-                case Asc.c_oAscWrapStyle2.Square:
-                    this.menuImageWrap.menu.items[2].setChecked(true);
-                    break;
-                case Asc.c_oAscWrapStyle2.Tight:
-                    this.menuImageWrap.menu.items[3].setChecked(true);
-                    break;
-                case Asc.c_oAscWrapStyle2.Through:
-                    this.menuImageWrap.menu.items[4].setChecked(true);
-                    break;
-                case Asc.c_oAscWrapStyle2.TopAndBottom:
-                    this.menuImageWrap.menu.items[5].setChecked(true);
-                    break;
-                case Asc.c_oAscWrapStyle2.Behind:
-                    this.menuImageWrap.menu.items[8].setChecked(true);
-                    break;
-                case Asc.c_oAscWrapStyle2.InFront:
-                    this.menuImageWrap.menu.items[7].setChecked(true);
-                    break;
-            }
+        setApi: function(o) {
+            this.api = o;
+            return this;
         },
 
-        onChangeCropState: function(state) {
-            this.menuImgCrop.menu.items[0].setChecked(state, true);
-        },
-
-        onApiParagraphStyleChange: function(name) {
-            window.currentStyleName = name;
-        },
-
-        advancedParagraphClick: function(item, e, eOpt){
-            var win, me = this;
-            if (me.api){
-                var selectedElements = me.api.getSelectedElements();
-                if (selectedElements && _.isArray(selectedElements)){
-                    for (var i = selectedElements.length - 1; i >= 0; i--) {
-                        var elType, elValue;
-                        elType  = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue();
-
-                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                            win = new DE.Views.ParagraphSettingsAdvanced({
-                                tableStylerRows     : 2,
-                                tableStylerColumns  : 1,
-                                paragraphProps      : elValue,
-                                borderProps         : me.borderAdvancedProps,
-                                isChart             : (item.isChart===true),
-                                isSmartArtInternal  : (item.isSmartArtInternal===true),
-                                api             : me.api,
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            me.borderAdvancedProps = value.borderProps;
-                                            me.api.paraApply(value.paragraphProps);
-                                        }
-                                    }
-                                    me.fireEvent('editcomplete', me);
-                                }
-                            });
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (win) {
-                win.show();
-                return win;
-            }
-        },
-
-        advancedFrameClick: function(isFrame, item, e, eOpt){
-            Common.NotificationCenter.trigger('dropcap:settings', isFrame);
-        },
-
-        advancedTableClick: function(item, e, eOpt){
-            var win, me = this;
-            if (me.api){
-                var selectedElements = me.api.getSelectedElements();
-
-                if (selectedElements && _.isArray(selectedElements)){
-                    for (var i = selectedElements.length - 1; i >= 0; i--) {
-                        var elType, elValue;
-
-                        elType  = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue();
-
-                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                            win = new DE.Views.TableSettingsAdvanced({
-                                tableStylerRows     : (elValue.get_CellBorders().get_InsideH()===null && elValue.get_CellSelect()==true) ? 1 : 2,
-                                tableStylerColumns  : (elValue.get_CellBorders().get_InsideV()===null && elValue.get_CellSelect()==true) ? 1 : 2,
-                                tableProps          : elValue,
-                                borderProps         : me.borderAdvancedProps,
-                                sectionProps        : me.api.asc_GetSectionProps(),
-                                handler             : function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            me.borderAdvancedProps = value.borderProps;
-                                            me.api.tblApply(value.tableProps);
-                                        }
-                                    }
-                                    me.fireEvent('editcomplete', me);
-                                }
-                            });
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (win) {
-                win.show();
-                return win;
-            }
-        },
-
-        onRulerDblClick: function(type) {
-            Common.UI.Menu.Manager.hideAll();
-
-            var win, me = this;
-            if (type == 'tables') {
-                win = this.advancedTableClick();
-                if (win)
-                    win.setActiveCategory(4);
-            } else if (type == 'indents' || type == 'tabs') {
-                win = this.advancedParagraphClick({isChart: false});
-                if (win)
-                    win.setActiveCategory(type == 'indents' ? 0 : 4);
-            } else if (type == 'margins') {
-                if (me._state.lock_doc) return;
-                win = new DE.Views.PageMarginsDialog({
-                    api: me.api,
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            var props = dlg.getSettings();
-                            var mnu = DE.getController('Toolbar').toolbar.btnPageMargins.menu.items[0];
-                            mnu.setVisible(true);
-                            mnu.setChecked(true);
-                            mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                            $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                            Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
-                            Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
-                            Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
-                            Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
-
-                            me.api.asc_SetSectionProps(props);
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }
-                });
-                win.show();
-                win.setSettings(me.api.asc_GetSectionProps());
-            } else if (type == 'columns') {
-                win = new DE.Views.CustomColumnsDialog({
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            me.api.asc_SetColumnsProps(dlg.getSettings());
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }
-                });
-                win.show();
-                win.setSettings(me.api.asc_GetColumnsProps());
-            }
-        },
-
-        editHyperlink: function(item, e, eOpt){
-            var win, me = this;
-            if (me.api){
-                win = new DE.Views.HyperlinkSettingsDialog({
-                    api: me.api,
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            me.api.change_Hyperlink(win.getSettings());
-                        }
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
-                win.show();
-                win.setSettings(item.hyperProps.value);
-            }
-        },
-
-        onMenuSaveStyle:function(item, e, eOpt){
-            var me = this;
-            if (me.api) {
-                Common.NotificationCenter.trigger('style:commitsave', me.api.asc_GetStyleFromFormatting());
-            }
-        },
-
-        onMenuUpdateStyle:function(item, e, eOpt){
-            var me = this;
-            if (me.api) {
-                Common.NotificationCenter.trigger('style:commitchange', me.api.asc_GetStyleFromFormatting());
-            }
-        },
-
-        /** coauthoring begin **/
-        addComment: function(item, e, eOpt){
-            if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
-                this.suppressEditComplete = true;
-
-                var controller = DE.getController('Common.Controllers.Comments');
-                if (controller) {
-                    controller.addDummyComment();
-                }
-            }
-        },
-        /** coauthoring end **/
-
-        addHyperlink: function(item, e, eOpt){
-            var win, me = this;
-            if (me.api){
-                win = new DE.Views.HyperlinkSettingsDialog({
-                    api: me.api,
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            me.api.add_Hyperlink(dlg.getSettings());
-                        }
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
-
-                win.show();
-                win.setSettings(item.hyperProps.value);
-
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
-            }
-        },
-
-        editChartClick: function(){
-            var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.setEditMode(true);
-                diagramEditor.show();
-
-                var chart = this.api.asc_getChartObject();
-                if (chart) {
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                }
-            }
-        },
-
-        onCutCopyPaste: function(item, e) {
-            var me = this;
-            if (me.api) {
-                var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
-                if (!res) {
-                    if (!Common.localStorage.getBool("de-hide-copywarning")) {
-                        (new Common.Views.CopyWarningDialog({
-                            handler: function(dontshow) {
-                                if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
-                                me.fireEvent('editcomplete', me);
-                            }
-                        })).show();
-                    }
-                } 
-            }
-            me.fireEvent('editcomplete', me);
-        },
-
-        onAcceptRejectChange: function(item, e) {
-            if (this.api) {
-                if (item.value == 'accept')
-                    this.api.asc_AcceptChanges();
-                else if (item.value == 'reject')
-                    this.api.asc_RejectChanges();
-            }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onPrintSelection: function(item){
-            if (this.api){
-                var printopt = new Asc.asc_CAdjustPrint();
-                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
-                opts.asc_setAdvancedOptions(printopt);
-                this.api.asc_Print(opts);
-                this.fireEvent('editcomplete', this);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
-            }
-        },
-
-        onControlsSelect: function(item, e) {
-            var me = this;
-            var props = this.api.asc_GetContentControlProperties();
-            if (props) {
-                if (item.value == 'settings') {
-                    (new DE.Views.ControlSettingsDialog({
-                        props: props,
-                        api: me.api,
-                        handler: function (result, value) {
-                            if (result == 'ok') {
-                                me.api.asc_SetContentControlProperties(value, props.get_InternalId());
-                            }
-
-                            me.fireEvent('editcomplete', me);
-                        }
-                    })).show();
-                } else if (item.value == 'remove') {
-                    props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
-                }
-            }
-            me.fireEvent('editcomplete', me);
-        },
-
-        onInsertCaption: function() {
-            this.fireEvent('links:caption');
-        },
-
-        onContinueNumbering: function(item, e) {
-            this.api.asc_ContinueNumbering();
-            this.fireEvent('editcomplete', this);
-        },
-
-        onStartNumbering: function(startfrom, item, e) {
-            if (startfrom == 1)
-                this.api.asc_RestartNumbering(item.value.start);
-            else {
-                var me = this;
-                (new DE.Views.NumberingValueDialog({
-                    title: me.textNumberingValue,
-                    props: item.value,
-                    handler: function (result, value) {
-                        if (result == 'ok')
-                            me.api.asc_RestartNumbering(value);
-                        me.fireEvent('editcomplete', me);
-                    }
-                })).show();
-            }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onCellsRemove: function() {
-            var me = this;
-            (new Common.Views.OptionsDialog({
-                title: me.textTitleCellsRemove,
-                items: [
-                    {caption: this.textLeft, value: 'left'},
-                    {caption: this.textRow, value: 'row'},
-                    {caption: this.textCol, value: 'col'}
-                ],
-                handler: function (dlg, result) {
-                    if (result=='ok') {
-                        var value = dlg.getSettings();
-                        if (value == 'row')
-                            me.api.remRow();
-                        else if (value == 'col')
-                            me.api.remColumn();
-                        else
-                            me.api.asc_RemoveTableCells();
-                    }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
-            this.fireEvent('editcomplete', this);
-        },
-
-        onCellsAdd: function() {
-            var me = this;
-            (new DE.Views.CellsAddDialog({
-                handler: function (result, settings) {
-                    if (result == 'ok') {
-                        if (settings.row) {
-                            settings.before ? me.api.addRowAbove(settings.count) : me.api.addRowBelow(settings.count);
-                        } else {
-                            settings.before ? me.api.addColumnLeft(settings.count) : me.api.addColumnRight(settings.count);
-                        }
-                    }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
-            this.fireEvent('editcomplete', this);
+        setMode: function(m) {
+            this.mode = m;
+            this._fillFormMode = !this.mode.isEdit && this.mode.canFillForms;
+            return this;
         },
 
         createDelayedElementsViewer: function() {
             var me = this;
 
-            var menuViewCopy = new Common.UI.MenuItem({
+            me.menuViewCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption: me.textCopy,
                 value: 'copy'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuViewPaste = new Common.UI.MenuItem({
+            me.menuViewPaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuViewCut = new Common.UI.MenuItem({
+            me.menuViewCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuViewUndo = new Common.UI.MenuItem({
+            me.menuViewUndo = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
             }).on('click', function () {
                 me.api.Undo();
             });
 
-            var menuViewCopySeparator = new Common.UI.MenuItem({
+            me.menuViewCopySeparator = new Common.UI.MenuItem({
                 caption: '--'
             });
 
-            var menuViewAddComment = new Common.UI.MenuItem({
+            me.menuViewAddComment = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-comments',
                 caption: me.addCommentText
-            }).on('click', _.bind(me.addComment, me));
+            });
 
-            var menuSignatureViewSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 }).on('click', _.bind(me.onSignatureClick, me));
-            var menuSignatureDetails    = new Common.UI.MenuItem({caption: this.strDetails,   value: 1 }).on('click', _.bind(me.onSignatureClick, me));
-            var menuSignatureViewSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
-            var menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 }).on('click', _.bind(me.onSignatureClick, me));
-            var menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
+            me.menuSignatureViewSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 });
+            me.menuSignatureDetails    = new Common.UI.MenuItem({caption: this.strDetails,   value: 1 });
+            me.menuSignatureViewSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 });
+            me.menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 });
+            me.menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
 
-            var menuViewPrint = new Common.UI.MenuItem({
+            me.menuViewPrint = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
-            }).on('click', _.bind(me.onPrintSelection, me));
+            });
 
             this.viewModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
@@ -2109,51 +169,51 @@ define([
                         canEditControl = spectype !== undefined && (spectype === Asc.c_oAscContentControlSpecificType.None || spectype === Asc.c_oAscContentControlSpecificType.ComboBox) && !control_lock;
                     }
 
-                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
-                    menuViewCopySeparator.setVisible(isInSign);
+                    me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
+                    me.menuViewCopySeparator.setVisible(isInSign);
 
                     var isRequested = (signProps) ? signProps.asc_getRequested() : false;
-                    menuSignatureViewSign.setVisible(isInSign && isRequested);
-                    menuSignatureDetails.setVisible(isInSign && !isRequested);
-                    menuSignatureViewSetup.setVisible(isInSign);
-                    menuSignatureRemove.setVisible(isInSign && !isRequested);
-                    menuViewSignSeparator.setVisible(canComment);
+                    me.menuSignatureViewSign.setVisible(isInSign && isRequested);
+                    me.menuSignatureDetails.setVisible(isInSign && !isRequested);
+                    me.menuSignatureViewSetup.setVisible(isInSign);
+                    me.menuSignatureRemove.setVisible(isInSign && !isRequested);
+                    me.menuViewSignSeparator.setVisible(canComment);
 
                     if (isInSign) {
-                        menuSignatureViewSign.cmpEl.attr('data-value', signGuid); // sign
-                        menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getId()); // view certificate
-                        menuSignatureViewSetup.cmpEl.attr('data-value', signGuid); // view signature settings
-                        menuSignatureRemove.cmpEl.attr('data-value', signGuid);
+                        me.menuSignatureViewSign.cmpEl.attr('data-value', signGuid); // sign
+                        me.menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getId()); // view certificate
+                        me.menuSignatureViewSetup.cmpEl.attr('data-value', signGuid); // view signature settings
+                        me.menuSignatureRemove.cmpEl.attr('data-value', signGuid);
                     }
 
-                    menuViewAddComment.setVisible(canComment);
-                    menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    me.menuViewAddComment.setVisible(canComment);
+                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
 
                     var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
-                    menuViewCopy.setDisabled(!cancopy);
-                    menuViewCut.setVisible(me._fillFormMode && canEditControl);
-                    menuViewCut.setDisabled(disabled || !cancopy);
-                    menuViewPaste.setVisible(me._fillFormMode && canEditControl);
-                    menuViewPaste.setDisabled(disabled);
-                    menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormwMode);
-                    menuViewPrint.setDisabled(!cancopy);
+                    me.menuViewCopy.setDisabled(!cancopy);
+                    me.menuViewCut.setVisible(me._fillFormMode && canEditControl);
+                    me.menuViewCut.setDisabled(disabled || !cancopy);
+                    me.menuViewPaste.setVisible(me._fillFormMode && canEditControl);
+                    me.menuViewPaste.setDisabled(disabled);
+                    me.menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormwMode);
+                    me.menuViewPrint.setDisabled(!cancopy);
 
                 },
                 items: [
-                    menuViewCut,
-                    menuViewCopy,
-                    menuViewPaste,
-                    menuViewUndo,
-                    menuViewPrint,
-                    menuViewCopySeparator,
-                    menuSignatureViewSign,
-                    menuSignatureDetails,
-                    menuSignatureViewSetup,
-                    menuSignatureRemove,
-                    menuViewSignSeparator,
-                    menuViewAddComment
+                    me.menuViewCut,
+                    me.menuViewCopy,
+                    me.menuViewPaste,
+                    me.menuViewUndo,
+                    me.menuViewPrint,
+                    me.menuViewCopySeparator,
+                    me.menuSignatureViewSign,
+                    me.menuSignatureDetails,
+                    me.menuSignatureViewSetup,
+                    me.menuSignatureRemove,
+                    me.menuViewSignSeparator,
+                    me.menuViewAddComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -2165,24 +225,25 @@ define([
                 me.currentMenu = null;
             });
 
+            this.fireEvent('createdelayedelements', [this, 'view']);
         },
 
         createDelayedElementsPDFViewer: function() {
             var me = this;
 
-            var menuPDFViewCopy = new Common.UI.MenuItem({
+            me.menuPDFViewCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption: me.textCopy,
                 value: 'copy'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
             this.viewPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
-                    menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
+                    me.menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
                 },
                 items: [
-                    menuPDFViewCopy
+                    me.menuPDFViewCopy
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -2194,19 +255,20 @@ define([
                 me.currentMenu = null;
             });
 
+            this.fireEvent('createdelayedelements', [this, 'pdf']);
         },
 
         createDelayedElements: function() {
             var me = this;
 
-            var menuInsertCaption = new Common.UI.MenuItem({
+            me.menuInsertCaption = new Common.UI.MenuItem({
                 caption : me.txtInsertCaption
-            }).on('click', _.bind(me.onInsertCaption, me));
+            });
             var menuInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
 
-            var menuEquationInsertCaption = new Common.UI.MenuItem({
+            me.menuEquationInsertCaption = new Common.UI.MenuItem({
                 caption : me.txtInsertCaption
-            }).on('click', _.bind(me.onInsertCaption, me));
+            });
             var menuEquationInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
 
             var menuImageAlign = new Common.UI.MenuItem({
@@ -2498,9 +560,9 @@ define([
                 }
             });
 
-            var menuChartEdit = new Common.UI.MenuItem({
+            me.menuChartEdit = new Common.UI.MenuItem({
                 caption : me.editChartText
-            }).on('click', _.bind(me.editChartClick, me));
+            });
 
             var menuChartEditSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2565,48 +627,48 @@ define([
                 })
             });
 
-            var menuImgCopy = new Common.UI.MenuItem({
+            me.menuImgCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption : me.textCopy,
                 value : 'copy'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuImgPaste = new Common.UI.MenuItem({
+            me.menuImgPaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuImgCut = new Common.UI.MenuItem({
+            me.menuImgCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuImgAccept = new Common.UI.MenuItem({
+            me.menuImgAccept = new Common.UI.MenuItem({
                 caption : me.textAccept,
                 value : 'accept'
-            }).on('click', _.bind(me.onAcceptRejectChange, me));
+            });
 
-            var menuImgReject = new Common.UI.MenuItem({
+            me.menuImgReject = new Common.UI.MenuItem({
                 caption : me.textReject,
                 value : 'reject'
-            }).on('click', _.bind(me.onAcceptRejectChange, me));
+            });
 
             var menuImgReviewSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuImgPrint = new Common.UI.MenuItem({
+            me.menuImgPrint = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
-            }).on('click', _.bind(me.onPrintSelection, me));
+            });
 
-            var menuSignatureEditSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 }).on('click', _.bind(me.onSignatureClick, me));
-            var menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
+            me.menuSignatureEditSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 });
+            me.menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 });
             var menuEditSignSeparator = new Common.UI.MenuItem({ caption: '--' });
 
-            var menuImgRotate = new Common.UI.MenuItem({
+            me.menuImgRotate = new Common.UI.MenuItem({
                 caption     : me.textRotate,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -2616,23 +678,23 @@ define([
                             iconCls: 'menu__icon btn-rotate-90',
                             caption: this.textRotate90,
                             value  : 1
-                        }).on('click', _.bind(me.onImgRotate, me)),
+                        }),
                         new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-rotate-270',
                             caption: this.textRotate270,
                             value  : 0
-                        }).on('click', _.bind(me.onImgRotate, me)),
+                        }),
                         { caption: '--' },
                         new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-flip-hor',
                             caption: this.textFlipH,
                             value  : 1
-                        }).on('click', _.bind(me.onImgFlip, me)),
+                        }),
                         new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-flip-vert',
                             caption: this.textFlipV,
                             value  : 0
-                        }).on('click', _.bind(me.onImgFlip, me))
+                        })
                     ]
                 })
             });
@@ -2648,29 +710,29 @@ define([
                             checkable: true,
                             allowDepress: true,
                             value  : 0
-                        }).on('click', _.bind(me.onImgCrop, me)),
+                        }),
                         new Common.UI.MenuItem({
                             caption: me.textCropFill,
                             value  : 1
-                        }).on('click', _.bind(me.onImgCrop, me)),
+                        }),
                         new Common.UI.MenuItem({
                             caption: me.textCropFit,
                             value  : 2
-                        }).on('click', _.bind(me.onImgCrop, me))
+                        })
                     ]
                 })
             });
 
-            var menuImgRemoveControl = new Common.UI.MenuItem({
+            me.menuImgRemoveControl = new Common.UI.MenuItem({
                 iconCls: 'menu__icon cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
-            }).on('click', _.bind(me.onControlsSelect, me));
+            });
 
-            var menuImgControlSettings = new Common.UI.MenuItem({
+            me.menuImgControlSettings = new Common.UI.MenuItem({
                 caption: me.textEditControls,
                 value: 'settings'
-            }).on('click', _.bind(me.onControlsSelect, me));
+            });
 
             var menuImgControlSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2757,7 +819,7 @@ define([
                         menuImageAdvanced.setIconCls('menu__icon ' + (value.imgProps.isImg ? 'btn-menu-image' : (value.imgProps.isChart ? 'btn-menu-chart' : 'btn-menu-shape')));
                     }
 
-                    menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
+                    me.menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
 
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
@@ -2767,12 +829,12 @@ define([
                         content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked,
                         is_form = control_props && control_props.get_FormPr();
 
-                    menuImgRemoveControl.setVisible(in_control);
-                    menuImgControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
+                    me.menuImgRemoveControl.setVisible(in_control);
+                    me.menuImgControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuImgControlSeparator.setVisible(in_control);
                     if (in_control) {
-                        menuImgRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                        menuImgRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
+                        me.menuImgRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        me.menuImgRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
                     }
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked) || content_locked;
@@ -2782,20 +844,20 @@ define([
                         menuImgReplace.setDisabled(islocked || pluginGuid===null);
                     menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
-                    menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
-                    if (menuImgRotate.isVisible()) {
-                        menuImgRotate.setDisabled(islocked || value.imgProps.isSmartArt);
-                        menuImgRotate.menu.items[3].setDisabled(value.imgProps.isSmartArtInternal);
-                        menuImgRotate.menu.items[4].setDisabled(value.imgProps.isSmartArtInternal);
+                    me.menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
+                    if (me.menuImgRotate.isVisible()) {
+                        me.menuImgRotate.setDisabled(islocked || value.imgProps.isSmartArt);
+                        me.menuImgRotate.menu.items[3].setDisabled(value.imgProps.isSmartArtInternal);
+                        me.menuImgRotate.menu.items[4].setDisabled(value.imgProps.isSmartArtInternal);
                     }
                     me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(islocked);
 
-                    if (menuChartEdit.isVisible())
-                        menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
+                    if (me.menuChartEdit.isVisible())
+                        me.menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    menuChartEditSeparator.setVisible(menuChartEdit.isVisible());
+                    menuChartEditSeparator.setVisible(me.menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2823,26 +885,26 @@ define([
                                                 (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture && !control_props.get_FormPr()));
 
                     var cancopy = me.api && me.api.can_CopyCut();
-                    menuImgCopy.setDisabled(!cancopy);
-                    menuImgCut.setDisabled(islocked || !cancopy);
-                    menuImgPaste.setDisabled(islocked);
-                    menuImgPrint.setVisible(me.mode.canPrint);
-                    menuImgPrint.setDisabled(!cancopy);
+                    me.menuImgCopy.setDisabled(!cancopy);
+                    me.menuImgCut.setDisabled(islocked || !cancopy);
+                    me.menuImgPaste.setDisabled(islocked);
+                    me.menuImgPrint.setVisible(me.mode.canPrint);
+                    me.menuImgPrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    menuImgAccept.setVisible(!lockreview);
-                    menuImgReject.setVisible(!lockreview);
+                    me.menuImgAccept.setVisible(!lockreview);
+                    me.menuImgReject.setVisible(!lockreview);
                     menuImgReviewSeparator.setVisible(!lockreview);
 
                     var signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = !!signGuid;
-                    menuSignatureEditSign.setVisible(isInSign);
-                    menuSignatureEditSetup.setVisible(isInSign);
+                    me.menuSignatureEditSign.setVisible(isInSign);
+                    me.menuSignatureEditSetup.setVisible(isInSign);
                     menuEditSignSeparator.setVisible(isInSign);
 
                     if (isInSign) {
-                        menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
-                        menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
+                        me.menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
+                        me.menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                     }
 
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
@@ -2851,33 +913,33 @@ define([
                     canEditPoints && menuImgEditPoints.setDisabled(islocked);
                 },
                 items: [
-                    menuImgCut,
-                    menuImgCopy,
-                    menuImgPaste,
-                    menuImgPrint,
+                    me.menuImgCut,
+                    me.menuImgCopy,
+                    me.menuImgPaste,
+                    me.menuImgPrint,
                     { caption: '--' },
-                    menuImgAccept,
-                    menuImgReject,
+                    me.menuImgAccept,
+                    me.menuImgReject,
                     menuImgReviewSeparator,
-                    menuSignatureEditSign,
-                    menuSignatureEditSetup,
+                    me.menuSignatureEditSign,
+                    me.menuSignatureEditSetup,
                     menuEditSignSeparator,
-                    menuImgRemoveControl,
-                    menuImgControlSettings,
+                    me.menuImgRemoveControl,
+                    me.menuImgControlSettings,
                     menuImgControlSeparator,
                     menuImgEditPoints,
                     menuImgEditPointsSeparator,
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
-                    menuImgRotate,
+                    me.menuImgRotate,
                     { caption: '--' },
-                    menuInsertCaption,
+                    me.menuInsertCaption,
                     menuInsertCaptionSeparator,
                     me.menuImgCrop,
                     me.menuOriginalSize,
                     menuImgReplace,
-                    menuChartEdit,
+                    me.menuChartEdit,
                     menuChartEditSeparator,
                     menuImageAdvanced
                 ]
@@ -2888,9 +950,9 @@ define([
 
             /* table menu*/
 
-            var menuTableInsertCaption = new Common.UI.MenuItem({
+            me.menuTableInsertCaption = new Common.UI.MenuItem({
                 caption : me.txtInsertCaption
-            }).on('click', _.bind(me.onInsertCaption, me));
+            });
 
             var mnuTableMerge = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-merge-cells',
@@ -2919,15 +981,7 @@ define([
                 }
             });
 
-            var tableCellsVAlign = function(item, e) {
-                if (me.api) {
-                    var properties = new Asc.CTableProp();
-                    properties.put_CellsVAlign(item.options.valign);
-                    me.api.tblApply(properties);
-                }
-            };
-
-            var menuTableCellAlign = new Common.UI.MenuItem({
+            me.menuTableCellAlign = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-align-top',
                 caption     : me.cellAlignText,
                 menu        : new Common.UI.Menu({
@@ -2942,7 +996,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Top
-                        }).on('click', _.bind(tableCellsVAlign, me)),
+                        }),
                         me.menuTableCellCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
                             caption     : me.textShapeAlignMiddle,
@@ -2951,7 +1005,7 @@ define([
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Center
-                        }).on('click', _.bind(tableCellsVAlign, me)),
+                        }),
                         me.menuTableCellBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
                             caption     : me.textShapeAlignBottom,
@@ -2960,28 +1014,28 @@ define([
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Bottom
-                        }).on('click', _.bind(tableCellsVAlign, me))
+                        })
                     ]
                 })
             });
 
-            var menuTableAdvanced = new Common.UI.MenuItem({
+            me.menuTableAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-table',
                 caption        : me.advancedTableText
-            }).on('click', _.bind(me.advancedTableClick, me));
+            });
 
-            var menuParagraphAdvancedInTable = new Common.UI.MenuItem({
+            me.menuParagraphAdvancedInTable = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paragraph',
                 caption     : me.advancedParagraphText
-            }).on('click', _.bind(me.advancedParagraphClick, me));
+            });
 
             var menuHyperlinkSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuEditHyperlinkTable = new Common.UI.MenuItem({
+            me.menuEditHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.editHyperlinkText
-            }).on('click', _.bind(me.editHyperlink, me));
+            });
 
             var menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
@@ -2997,28 +1051,28 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        menuEditHyperlinkTable,
+                        me.menuEditHyperlinkTable,
                         menuRemoveHyperlinkTable
                     ]
                 })
             });
 
-            var menuTableRemoveForm = new Common.UI.MenuItem({
+            me.menuTableRemoveForm = new Common.UI.MenuItem({
                 iconCls: 'menu__icon cc-remove',
                 caption: me.textRemove,
                 value: 'remove'
-            }).on('click', _.bind(me.onControlsSelect, me));
+            });
 
-            var menuTableRemoveControl = new Common.UI.MenuItem({
+            me.menuTableRemoveControl = new Common.UI.MenuItem({
                 iconCls: 'menu__icon cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
-            }).on('click', _.bind(me.onControlsSelect, me));
+            });
 
-            var menuTableControlSettings = new Common.UI.MenuItem({
+            me.menuTableControlSettings = new Common.UI.MenuItem({
                 caption: me.textSettings,
                 value: 'settings'
-            }).on('click', _.bind(me.onControlsSelect, me));
+            });
 
             var menuTableControl = new Common.UI.MenuItem({
                 caption: me.textContentControls,
@@ -3026,8 +1080,8 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        menuTableRemoveControl,
-                        menuTableControlSettings
+                        me.menuTableRemoveControl,
+                        me.menuTableControlSettings
                     ]
                 })
             });
@@ -3058,20 +1112,20 @@ define([
             });
 
             /** coauthoring begin **/
-            var menuAddCommentTable = new Common.UI.MenuItem({
+            me.menuAddCommentTable = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-comments',
                 caption     : me.addCommentText
-            }).on('click', _.bind(me.addComment, me));
+            });
             /** coauthoring end **/
 
-            var menuAddHyperlinkTable = new Common.UI.MenuItem({
+            me.menuAddHyperlinkTable = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText
-            }).on('click', _.bind(me.addHyperlink, me));
+            });
 
-            var menuTableFollow = new Common.UI.MenuItem({
+            me.menuTableFollow = new Common.UI.MenuItem({
                 caption: me.textFollow
-            }).on('click', _.bind(me.onFollowMove, me));
+            });
 
             me.menuSpellTable = new Common.UI.MenuItem({
                 caption     : me.loadSpellText,
@@ -3161,42 +1215,42 @@ define([
                 })
             });
 
-            var menuTableCopy = new Common.UI.MenuItem({
+            me.menuTableCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption : me.textCopy,
                 value : 'copy'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuTablePaste = new Common.UI.MenuItem({
+            me.menuTablePaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuTableCut = new Common.UI.MenuItem({
+            me.menuTableCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuTableAccept = new Common.UI.MenuItem({
+            me.menuTableAccept = new Common.UI.MenuItem({
                 caption : me.textAccept,
                 value : 'accept'
-            }).on('click', _.bind(me.onAcceptRejectChange, me));
+            });
 
-            var menuTableReject = new Common.UI.MenuItem({
+            me.menuTableReject = new Common.UI.MenuItem({
                 caption : me.textReject,
                 value : 'reject'
-            }).on('click', _.bind(me.onAcceptRejectChange, me));
+            });
 
             var menuTableReviewSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuTablePrint = new Common.UI.MenuItem({
+            me.menuTablePrint = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
-            }).on('click', _.bind(me.onPrintSelection, me));
+            });
 
 
             var menuEquationSeparatorInTable = new Common.UI.MenuItem({
@@ -3265,17 +1319,17 @@ define([
                 })
             });
 
-            var menuTableStartNewList = new Common.UI.MenuItem({
+            me.menuTableStartNewList = new Common.UI.MenuItem({
                 caption: me.textStartNewList
-            }).on('click', _.bind(me.onStartNumbering, me, 1));
+            });
 
-            var menuTableStartNumberingFrom = new Common.UI.MenuItem({
+            me.menuTableStartNumberingFrom = new Common.UI.MenuItem({
                 caption: me.textStartNumberingFrom
-            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
+            });
 
-            var menuTableContinueNumbering = new Common.UI.MenuItem({
+            me.menuTableContinueNumbering = new Common.UI.MenuItem({
                 caption: me.textContinueNumbering
-            }).on('click', _.bind(me.onContinueNumbering, me));
+            });
 
             var menuNumberingTable = new Common.UI.MenuItem({
                 caption     : me.bulletsText,
@@ -3283,9 +1337,9 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        menuTableStartNewList,
-                        menuTableStartNumberingFrom,
-                        menuTableContinueNumbering
+                        me.menuTableStartNewList,
+                        me.menuTableStartNumberingFrom,
+                        me.menuTableContinueNumbering
                     ]
                 })
             });
@@ -3328,7 +1382,7 @@ define([
                             cls = 'menu__icon btn-align-bottom';
                             break;
                     }
-                    menuTableCellAlign.setIconCls(cls);
+                    me.menuTableCellAlign.setIconCls(cls);
                     me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
@@ -3362,20 +1416,20 @@ define([
 
                     menuTableDistRows.setDisabled(disabled);
                     menuTableDistCols.setDisabled(disabled);
-                    menuTableCellAlign.setDisabled(disabled);
+                    me.menuTableCellAlign.setDisabled(disabled);
                     menuTableDirection.setDisabled(disabled);
-                    menuTableAdvanced.setDisabled(disabled);
+                    me.menuTableAdvanced.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
-                    menuTableCopy.setDisabled(!cancopy);
-                    menuTableCut.setDisabled(disabled || !cancopy);
-                    menuTablePaste.setDisabled(disabled);
-                    menuTablePrint.setVisible(me.mode.canPrint);
-                    menuTablePrint.setDisabled(!cancopy);
+                    me.menuTableCopy.setDisabled(!cancopy);
+                    me.menuTableCut.setDisabled(disabled || !cancopy);
+                    me.menuTablePaste.setDisabled(disabled);
+                    me.menuTablePrint.setVisible(me.mode.canPrint);
+                    me.menuTablePrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    menuTableAccept.setVisible(!lockreview);
-                    menuTableReject.setVisible(!lockreview);
+                    me.menuTableAccept.setVisible(!lockreview);
+                    me.menuTableReject.setVisible(!lockreview);
                     menuTableReviewSeparator.setVisible(!lockreview);
 
                     // bullets & numbering
@@ -3386,12 +1440,12 @@ define([
                         var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
-                        menuTableStartNewList.setVisible(numLvl.get_Start()!=start);
-                        menuTableStartNewList.value = {start: numLvl.get_Start()};
-                        menuTableStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
-                        menuTableStartNumberingFrom.value = {format: format, start: start};
-                        menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
-                        menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuTableStartNewList.setVisible(numLvl.get_Start()!=start);
+                        me.menuTableStartNewList.value = {start: numLvl.get_Start()};
+                        me.menuTableStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        me.menuTableStartNumberingFrom.value = {format: format, start: start};
+                        me.menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        me.menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
                     }
 
                     // hyperlink properties
@@ -3399,40 +1453,40 @@ define([
                     if (me.api) {
                         text = me.api.can_AddHyperlink();
                     }
-                    menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
+                    me.menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
 
-                    menuEditHyperlinkTable.hyperProps = value.hyperProps;
+                    me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
                     menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
 
                     if (text!==false) {
-                        menuAddHyperlinkTable.hyperProps = {};
-                        menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
-                        menuAddHyperlinkTable.hyperProps.value.put_Text(text);
+                        me.menuAddHyperlinkTable.hyperProps = {};
+                        me.menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
+                        me.menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
 
                     // review move
                     var data = me.api.asc_GetRevisionsChangesStack(),
                         move = false;
-                    menuTableFollow.value = null;
+                    me.menuTableFollow.value = null;
                     _.each(data, function(item) {
                         if ((item.get_Type()==Asc.c_oAscRevisionsChangeType.TextAdd || item.get_Type() == Asc.c_oAscRevisionsChangeType.TextRem) &&
                             item.get_MoveType()!=Asc.c_oAscRevisionsMove.NoMove) {
-                            menuTableFollow.value = item;
+                            me.menuTableFollow.value = item;
                             move = true;
                         }
                     });
-                    menuTableFollow.setVisible(move);
+                    me.menuTableFollow.setVisible(move);
 
-                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible() || menuTableFollow.isVisible());
+                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible() || menuTableFollow.isVisible());
 
                     // paragraph properties
-                    menuParagraphAdvancedInTable.setVisible(value.paraProps!==undefined);
+                    me.menuParagraphAdvancedInTable.setVisible(value.paraProps!==undefined);
 
                     me._currentParaObjDisabled = disabled = value.paraProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
-                    menuAddHyperlinkTable.setDisabled(disabled);
+                    me.menuAddHyperlinkTable.setDisabled(disabled);
                     menuHyperlinkTable.setDisabled(disabled || value.hyperProps!==undefined && value.hyperProps.isSeveralLinks===true);
-                    menuParagraphAdvancedInTable.setDisabled(disabled);
+                    me.menuParagraphAdvancedInTable.setDisabled(disabled);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
@@ -3468,28 +1522,28 @@ define([
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
                             is_form = control_props && control_props.get_FormPr();
-                        menuTableRemoveForm.setVisible(is_form);
+                        me.menuTableRemoveForm.setVisible(is_form);
                         menuTableControl.setVisible(!is_form);
                         if (is_form) {
-                            menuTableRemoveForm.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                            menuTableRemoveForm.setCaption(me.getControlLabel(control_props));
+                            me.menuTableRemoveForm.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                            me.menuTableRemoveForm.setCaption(me.getControlLabel(control_props));
                         } else {
-                            menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                            menuTableControlSettings.setVisible(me.mode.canEditContentControl);
+                            me.menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                            me.menuTableControlSettings.setVisible(me.mode.canEditContentControl);
                         }
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
                     } else {
                         menuTableControl.setVisible(in_control);
-                        menuTableRemoveForm.setVisible(in_control);
+                        me.menuTableRemoveForm.setVisible(in_control);
                     }
                     menuTableTOC.setVisible(in_toc);
 
                     /** coauthoring begin **/
                         // comments
-                    menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock);
-                    menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
+                    me.menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock);
+                    me.menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
                     /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
@@ -3503,13 +1557,13 @@ define([
                 items: [
                     me.menuSpellCheckTable,
                     menuSpellcheckTableSeparator,
-                    menuTableCut,
-                    menuTableCopy,
-                    menuTablePaste,
-                    menuTablePrint,
+                    me.menuTableCut,
+                    me.menuTableCopy,
+                    me.menuTablePaste,
+                    me.menuTablePrint,
                     { caption: '--' },
-                    menuTableAccept,
-                    menuTableReject,
+                    me.menuTableAccept,
+                    me.menuTableReject,
                     menuTableReviewSeparator,
                     menuEquationSeparatorInTable,
                     menuTableRefreshField,
@@ -3628,25 +1682,25 @@ define([
                     menuTableDistRows,
                     menuTableDistCols,
                     { caption: '--' },
-                    menuTableCellAlign,
+                    me.menuTableCellAlign,
                     menuTableDirection,
                     { caption: '--' },
-                    menuTableInsertCaption,
+                    me.menuTableInsertCaption,
                     { caption: '--' },
-                    menuTableAdvanced,
+                    me.menuTableAdvanced,
                     { caption: '--' },
                 /** coauthoring begin **/
-                    menuAddCommentTable,
+                    me.menuAddCommentTable,
                 /** coauthoring end **/
                     menuNumberingTable,
-                    menuAddHyperlinkTable,
+                    me.menuAddHyperlinkTable,
                     menuHyperlinkTable,
-                    menuTableFollow,
+                    me.menuTableFollow,
                     menuHyperlinkSeparator,
-                    menuTableRemoveForm,
+                    me.menuTableRemoveForm,
                     menuTableControl,
                     menuTableTOC,
-                    menuParagraphAdvancedInTable
+                    me.menuParagraphAdvancedInTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -3766,43 +1820,43 @@ define([
                 })
             });
 
-            var menuParagraphAdvanced = new Common.UI.MenuItem({
+            me.menuParagraphAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paragraph',
                 caption     : me.advancedParagraphText
-            }).on('click', _.bind(me.advancedParagraphClick, me));
+            });
 
-            var menuFrameAdvanced = new Common.UI.MenuItem({
+            me.menuFrameAdvanced = new Common.UI.MenuItem({
                 caption     : me.advancedFrameText
-            }).on('click', _.bind(me.advancedFrameClick, me, true));
+            });
 
-            var menuDropCapAdvanced = new Common.UI.MenuItem({
+            me.menuDropCapAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon dropcap-intext',
                 caption     : me.advancedDropCapText
-            }).on('click', _.bind(me.advancedFrameClick, me, false));
+            });
 
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuAddCommentPara = new Common.UI.MenuItem({
+            me.menuAddCommentPara = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-comments',
                 caption     : me.addCommentText
-            }).on('click', _.bind(me.addComment, me));
+            });
             /** coauthoring end **/
 
             var menuHyperlinkParaSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuAddHyperlinkPara = new Common.UI.MenuItem({
+            me.menuAddHyperlinkPara = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText
-            }).on('click', _.bind(me.addHyperlink, me));
+            });
 
-            var menuEditHyperlinkPara = new Common.UI.MenuItem({
+            me.menuEditHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.editHyperlinkText
-            }).on('click', _.bind(me.editHyperlink, me));
+            });
 
             var menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
@@ -3818,7 +1872,7 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
-                        menuEditHyperlinkPara,
+                        me.menuEditHyperlinkPara,
                         menuRemoveHyperlinkPara
                     ]
                 })
@@ -3833,10 +1887,10 @@ define([
                     items: [
                         me.menuStyleSave = new Common.UI.MenuItem({
                             caption: me.saveStyleText
-                        }).on('click', _.bind(me.onMenuSaveStyle, me)),
+                        }),
                         me.menuStyleUpdate = new Common.UI.MenuItem({
                             caption: me.updateStyleText.replace('%1', window.currentStyleName)
-                        }).on('click', _.bind(me.onMenuUpdateStyle, me))
+                        })
                     ]
                 })
             });
@@ -3898,58 +1952,58 @@ define([
                 caption     : '--'
             });
 
-            var menuParaCopy = new Common.UI.MenuItem({
+            me.menuParaCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption : me.textCopy,
                 value : 'copy'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuParaPaste = new Common.UI.MenuItem({
+            me.menuParaPaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuParaCut = new Common.UI.MenuItem({
+            me.menuParaCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
-            }).on('click', _.bind(me.onCutCopyPaste, me));
+            });
 
-            var menuParaAccept = new Common.UI.MenuItem({
+            me.menuParaAccept = new Common.UI.MenuItem({
                 caption : me.textAccept,
                 value : 'accept'
-            }).on('click', _.bind(me.onAcceptRejectChange, me));
+            });
 
-            var menuParaReject = new Common.UI.MenuItem({
+            me.menuParaReject = new Common.UI.MenuItem({
                 caption : me.textReject,
                 value : 'reject'
-            }).on('click', _.bind(me.onAcceptRejectChange, me));
+            });
 
             var menuParaReviewSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuParaPrint = new Common.UI.MenuItem({
+            me.menuParaPrint = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
-            }).on('click', _.bind(me.onPrintSelection, me));
+            });
 
             var menuEquationSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuParaRemoveControl = new Common.UI.MenuItem({
+            me.menuParaRemoveControl = new Common.UI.MenuItem({
                 iconCls: 'menu__icon cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
-            }).on('click', _.bind(me.onControlsSelect, me));
+            });
 
-            var menuParaControlSettings = new Common.UI.MenuItem(
+            me.menuParaControlSettings = new Common.UI.MenuItem(
             {
                 caption: me.textEditControls,
                 value: 'settings'
-            }).on('click', _.bind(me.onControlsSelect, me));
+            });
 
             var menuParaControlSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -3998,25 +2052,25 @@ define([
                 caption     : '--'
             });
 
-            var menuParaStartNewList = new Common.UI.MenuItem({
+            me.menuParaStartNewList = new Common.UI.MenuItem({
                 caption: me.textStartNewList
-            }).on('click', _.bind(me.onStartNumbering, me, 1));
+            });
 
-            var menuParaStartNumberingFrom = new Common.UI.MenuItem({
+            me.menuParaStartNumberingFrom = new Common.UI.MenuItem({
                 caption: me.textStartNumberingFrom
-            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
+            });
 
-            var menuParaContinueNumbering = new Common.UI.MenuItem({
+            me.menuParaContinueNumbering = new Common.UI.MenuItem({
                 caption: me.textContinueNumbering
-            }).on('click', _.bind(me.onContinueNumbering, me));
+            });
 
             var menuParaNumberingSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
 
-            var menuParaFollow = new Common.UI.MenuItem({
+            me.menuParaFollow = new Common.UI.MenuItem({
                 caption: me.textFollow
-            }).on('click', _.bind(me.onFollowMove, me));
+            });
 
             var menuParaFollowSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -4073,8 +2127,8 @@ define([
                         me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
-                    menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
-                    menuParagraphAdvanced.isSmartArtInternal = (value.imgProps && value.imgProps.isSmartArtInternal);
+                    me.menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
+                    me.menuParagraphAdvanced.isSmartArtInternal = (value.imgProps && value.imgProps.isSmartArtInternal);
                     menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
                     menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
                     if (value.paraProps) {
@@ -4086,53 +2140,53 @@ define([
                     if (me.api) {
                         text = me.api.can_AddHyperlink();
                     }
-                    menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
+                    me.menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
-                    menuHyperlinkParaSeparator.setVisible(menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
-                    menuEditHyperlinkPara.hyperProps = value.hyperProps;
+                    menuHyperlinkParaSeparator.setVisible(me.menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
+                    me.menuEditHyperlinkPara.hyperProps = value.hyperProps;
                     menuRemoveHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
-                        menuAddHyperlinkPara.hyperProps = {};
-                        menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
-                        menuAddHyperlinkPara.hyperProps.value.put_Text(text);
+                        me.menuAddHyperlinkPara.hyperProps = {};
+                        me.menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
+                        me.menuAddHyperlinkPara.hyperProps.value.put_Text(text);
                     }
                     var disabled = value.paraProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     me._currentParaObjDisabled = disabled;
-                    menuAddHyperlinkPara.setDisabled(disabled);
+                    me.menuAddHyperlinkPara.setDisabled(disabled);
                     menuHyperlinkPara.setDisabled(disabled || value.hyperProps!==undefined && value.hyperProps.isSeveralLinks===true);
 
                     // review move
                     var data = me.api.asc_GetRevisionsChangesStack(),
                         move = false;
-                    menuParaFollow.value = null;
+                    me.menuParaFollow.value = null;
                     _.each(data, function(item) {
                         if ((item.get_Type()==Asc.c_oAscRevisionsChangeType.TextAdd || item.get_Type() == Asc.c_oAscRevisionsChangeType.TextRem) &&
                             item.get_MoveType()!=Asc.c_oAscRevisionsMove.NoMove) {
-                            menuParaFollow.value = item;
+                            me.menuParaFollow.value = item;
                             move = true;
                         }
                     });
-                    menuParaFollow.setVisible(move);
+                    me.menuParaFollow.setVisible(move);
                     menuParaFollowSeparator.setVisible(move);
 
                     menuParagraphBreakBefore.setDisabled(disabled || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
                     menuParagraphKeepLines.setDisabled(disabled);
-                    menuParagraphAdvanced.setDisabled(disabled);
-                    menuFrameAdvanced.setDisabled(disabled);
-                    menuDropCapAdvanced.setDisabled(disabled);
+                    me.menuParagraphAdvanced.setDisabled(disabled);
+                    me.menuFrameAdvanced.setDisabled(disabled);
+                    me.menuDropCapAdvanced.setDisabled(disabled);
                     menuParagraphVAlign.setDisabled(disabled);
                     menuParagraphDirection.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
-                    menuParaCopy.setDisabled(!cancopy);
-                    menuParaCut.setDisabled(disabled || !cancopy);
-                    menuParaPaste.setDisabled(disabled);
-                    menuParaPrint.setVisible(me.mode.canPrint);
-                    menuParaPrint.setDisabled(!cancopy);
+                    me.menuParaCopy.setDisabled(!cancopy);
+                    me.menuParaCut.setDisabled(disabled || !cancopy);
+                    me.menuParaPaste.setDisabled(disabled);
+                    me.menuParaPrint.setVisible(me.mode.canPrint);
+                    me.menuParaPrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    menuParaAccept.setVisible(!lockreview);
-                    menuParaReject.setVisible(!lockreview);
+                    me.menuParaAccept.setVisible(!lockreview);
+                    me.menuParaReject.setVisible(!lockreview);
                     menuParaReviewSeparator.setVisible(!lockreview);
 
                     // spellCheck
@@ -4165,14 +2219,14 @@ define([
                     } else
                         me.clearEquationMenu(true, 18);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
-                    menuEquationInsertCaption.setVisible(isEquation);
+                    me.menuEquationInsertCaption.setVisible(isEquation);
                     menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
                     var frame_pr = value.paraProps.value.get_FramePr();
-                    menuFrameAdvanced.setVisible(frame_pr !== undefined);
-                    menuDropCapAdvanced.setVisible(frame_pr !== undefined);
+                    me.menuFrameAdvanced.setVisible(frame_pr !== undefined);
+                    me.menuDropCapAdvanced.setVisible(frame_pr !== undefined);
                     if (frame_pr)
-                        menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
+                        me.menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
 
                     var edit_style = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
                     menuStyleSeparator.setVisible(edit_style);
@@ -4184,13 +2238,13 @@ define([
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
 
-                    menuParaRemoveControl.setVisible(in_control);
-                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
+                    me.menuParaRemoveControl.setVisible(in_control);
+                    me.menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
                         var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
-                        menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                        menuParaRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
+                        me.menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        me.menuParaRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
 
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
@@ -4206,8 +2260,8 @@ define([
                     if (me.mode.compatibleFeatures)
                         isVisible = isVisible && !isInShape;
                     menuCommentSeparatorPara.setVisible(isVisible);
-                    menuAddCommentPara.setVisible(isVisible);
-                    menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    me.menuAddCommentPara.setVisible(isVisible);
+                    me.menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
                     /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
@@ -4221,19 +2275,19 @@ define([
                     var listId = me.api.asc_GetCurrentNumberingId(),
                         in_list = (listId !== null);
                     menuParaNumberingSeparator.setVisible(in_list); // hide when first item is selected
-                    menuParaStartNewList.setVisible(in_list);
-                    menuParaStartNumberingFrom.setVisible(in_list);
-                    menuParaContinueNumbering.setVisible(in_list);
+                    me.menuParaStartNewList.setVisible(in_list);
+                    me.menuParaStartNumberingFrom.setVisible(in_list);
+                    me.menuParaContinueNumbering.setVisible(in_list);
                     if (in_list) {
                         var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
-                        menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
-                        menuParaStartNewList.value = {start: numLvl.get_Start()};
-                        menuParaStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
-                        menuParaStartNumberingFrom.value = {format: format, start: start};
-                        menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
-                        menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
+                        me.menuParaStartNewList.value = {start: numLvl.get_Start()};
+                        me.menuParaStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        me.menuParaStartNumberingFrom.value = {format: format, start: start};
+                        me.menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        me.menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
                     }
                 },
                 items: [
@@ -4245,19 +2299,19 @@ define([
                     menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
-                    menuParaCut,
-                    menuParaCopy,
-                    menuParaPaste,
-                    menuParaPrint,
+                    me.menuParaCut,
+                    me.menuParaCopy,
+                    me.menuParaPaste,
+                    me.menuParaPrint,
                     menuParaReviewSeparator,
-                    menuParaAccept,
-                    menuParaReject,
+                    me.menuParaAccept,
+                    me.menuParaReject,
                     menuEquationInsertCaptionSeparator,
-                    menuEquationInsertCaption,
+                    me.menuEquationInsertCaption,
                     { caption: '--' },
                     menuEquationSeparator,
-                    menuParaRemoveControl,
-                    menuParaControlSettings,
+                    me.menuParaRemoveControl,
+                    me.menuParaControlSettings,
                     menuParaControlSeparator,
                     menuParaRefreshField,
                     menuParaFieldSeparator,
@@ -4268,22 +2322,22 @@ define([
                     menuParagraphKeepLines,
                     menuParagraphVAlign,
                     menuParagraphDirection,
-                    menuParagraphAdvanced,
-                    menuFrameAdvanced,
-                    menuDropCapAdvanced,
+                    me.menuParagraphAdvanced,
+                    me.menuFrameAdvanced,
+                    me.menuDropCapAdvanced,
                 /** coauthoring begin **/
                     menuCommentSeparatorPara,
-                    menuAddCommentPara,
+                    me.menuAddCommentPara,
                 /** coauthoring end **/
                     menuHyperlinkParaSeparator,
-                    menuAddHyperlinkPara,
+                    me.menuAddHyperlinkPara,
                     menuHyperlinkPara,
                     menuParaFollowSeparator,
-                    menuParaFollow,
+                    me.menuParaFollow,
                     menuParaNumberingSeparator,
-                    menuParaStartNewList,
-                    menuParaStartNumberingFrom,
-                    menuParaContinueNumbering,
+                    me.menuParaStartNewList,
+                    me.menuParaStartNumberingFrom,
+                    me.menuParaContinueNumbering,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -4338,6 +2392,667 @@ define([
                 title       : me.textPrevPage + Common.Utils.String.platformKey('Alt+PgUp'),
                 placement   : 'top-right'
             });
+
+            this.fireEvent('createdelayedelements', [this, 'edit']);
+        },
+
+        initEquationMenu: function() {
+            var me = this;
+            if (!me._currentMathObj) return;
+            var type = me._currentMathObj.get_Type(),
+                value = me._currentMathObj,
+                mnu, arr = [];
+
+            switch (type) {
+                case Asc.c_oAscMathInterfaceType.Accent:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtRemoveAccentChar,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'remove_AccentCharacter'}
+                    });
+                    arr.push(mnu);
+                    break;
+                case Asc.c_oAscMathInterfaceType.BorderBox:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtBorderProps,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            menuAlign: 'tl-tr',
+                            items   : [
+                                {
+                                    caption: value.get_HideTop() ? me.txtAddTop : me.txtHideTop,
+                                    equationProps: {type: type, callback: 'put_HideTop', value: !value.get_HideTop()}
+                                },
+                                {
+                                    caption: value.get_HideBottom() ? me.txtAddBottom : me.txtHideBottom,
+                                    equationProps: {type: type, callback: 'put_HideBottom', value: !value.get_HideBottom()}
+                                },
+                                {
+                                    caption: value.get_HideLeft() ? me.txtAddLeft : me.txtHideLeft,
+                                    equationProps: {type: type, callback: 'put_HideLeft', value: !value.get_HideLeft()}
+                                },
+                                {
+                                    caption: value.get_HideRight() ? me.txtAddRight : me.txtHideRight,
+                                    equationProps: {type: type, callback: 'put_HideRight', value: !value.get_HideRight()}
+                                },
+                                {
+                                    caption: value.get_HideHor() ? me.txtAddHor : me.txtHideHor,
+                                    equationProps: {type: type, callback: 'put_HideHor', value: !value.get_HideHor()}
+                                },
+                                {
+                                    caption: value.get_HideVer() ? me.txtAddVer : me.txtHideVer,
+                                    equationProps: {type: type, callback: 'put_HideVer', value: !value.get_HideVer()}
+                                },
+                                {
+                                    caption: value.get_HideTopLTR() ? me.txtAddLT : me.txtHideLT,
+                                    equationProps: {type: type, callback: 'put_HideTopLTR', value: !value.get_HideTopLTR()}
+                                },
+                                {
+                                    caption: value.get_HideTopRTL() ? me.txtAddLB : me.txtHideLB,
+                                    equationProps: {type: type, callback: 'put_HideTopRTL', value: !value.get_HideTopRTL()}
+                                }
+                            ]
+                        })
+                    });
+                    arr.push(mnu);
+                    break;
+                case Asc.c_oAscMathInterfaceType.Bar:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtRemoveBar,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'remove_Bar'}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? me.txtUnderbar : me.txtOverbar,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? Asc.c_oAscMathInterfaceBarPos.Bottom : Asc.c_oAscMathInterfaceBarPos.Top}
+                    });
+                    arr.push(mnu);
+                    break;
+                case Asc.c_oAscMathInterfaceType.Script:
+                    var scripttype = value.get_ScriptType();
+                    if (scripttype == Asc.c_oAscMathInterfaceScript.PreSubSup) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : me.txtScriptsAfter,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.SubSup}
+                        });
+                        arr.push(mnu);
+                        mnu = new Common.UI.MenuItem({
+                            caption     : me.txtRemScripts,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.None}
+                        });
+                        arr.push(mnu);
+                    } else {
+                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) {
+                            mnu = new Common.UI.MenuItem({
+                                caption     : me.txtScriptsBefore,
+                                equation    : true,
+                                disabled    : me._currentParaObjDisabled,
+                                equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.PreSubSup}
+                            });
+                            arr.push(mnu);
+                        }
+                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sub ) {
+                            mnu = new Common.UI.MenuItem({
+                                caption     : me.txtRemSubscript,
+                                equation    : true,
+                                disabled    : me._currentParaObjDisabled,
+                                equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sup : Asc.c_oAscMathInterfaceScript.None }
+                            });
+                            arr.push(mnu);
+                        }
+                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sup ) {
+                            mnu = new Common.UI.MenuItem({
+                                caption     : me.txtRemSuperscript,
+                                equation    : true,
+                                disabled    : me._currentParaObjDisabled,
+                                equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sub : Asc.c_oAscMathInterfaceScript.None }
+                            });
+                            arr.push(mnu);
+                        }
+                    }
+                    break;
+                case Asc.c_oAscMathInterfaceType.Fraction:
+                    var fraction = value.get_FractionType();
+                    if (fraction==Asc.c_oAscMathInterfaceFraction.Skewed || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : me.txtFractionStacked,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Bar}
+                        });
+                        arr.push(mnu);
+                    }
+                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : me.txtFractionSkewed,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Skewed}
+                        });
+                        arr.push(mnu);
+                    }
+                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Skewed) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : me.txtFractionLinear,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Linear}
+                        });
+                        arr.push(mnu);
+                    }
+                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.NoBar) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? me.txtRemFractionBar : me.txtAddFractionBar,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_FractionType', value: (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? Asc.c_oAscMathInterfaceFraction.NoBar : Asc.c_oAscMathInterfaceFraction.Bar}
+                        });
+                        arr.push(mnu);
+                    }
+                    break;
+                case Asc.c_oAscMathInterfaceType.Limit:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? me.txtLimitUnder : me.txtLimitOver,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? Asc.c_oAscMathInterfaceLimitPos.Bottom : Asc.c_oAscMathInterfaceLimitPos.Top}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtRemLimit,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceLimitPos.None}
+                    });
+                    arr.push(mnu);
+                    break;
+                case Asc.c_oAscMathInterfaceType.Matrix:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : value.get_HidePlaceholder() ? me.txtShowPlaceholder : me.txtHidePlaceholder,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'put_HidePlaceholder', value: !value.get_HidePlaceholder()}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.insertText,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            menuAlign: 'tl-tr',
+                            items   : [
+                                {
+                                    caption: me.insertRowAboveText,
+                                    equationProps: {type: type, callback: 'insert_MatrixRow', value: true}
+                                },
+                                {
+                                    caption: me.insertRowBelowText,
+                                    equationProps: {type: type, callback: 'insert_MatrixRow', value: false}
+                                },
+                                {
+                                    caption: me.insertColumnLeftText,
+                                    equationProps: {type: type, callback: 'insert_MatrixColumn', value: true}
+                                },
+                                {
+                                    caption: me.insertColumnRightText,
+                                    equationProps: {type: type, callback: 'insert_MatrixColumn', value: false}
+                                }
+                            ]
+                        })
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.deleteText,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            menuAlign: 'tl-tr',
+                            items   : [
+                                {
+                                    caption: me.deleteRowText,
+                                    equationProps: {type: type, callback: 'delete_MatrixRow'}
+                                },
+                                {
+                                    caption: me.deleteColumnText,
+                                    equationProps: {type: type, callback: 'delete_MatrixColumn'}
+                                }
+                            ]
+                        })
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtMatrixAlign,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            menuAlign: 'tl-tr',
+                            items   : [
+                                {
+                                    caption: me.txtTop,
+                                    checkable   : true,
+                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top),
+                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top}
+                                },
+                                {
+                                    caption: me.centerText,
+                                    checkable   : true,
+                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center),
+                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center}
+                                },
+                                {
+                                    caption: me.txtBottom,
+                                    checkable   : true,
+                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom),
+                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom}
+                                }
+                            ]
+                        })
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtColumnAlign,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            menuAlign: 'tl-tr',
+                            items   : [
+                                {
+                                    caption: me.leftText,
+                                    checkable   : true,
+                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Left),
+                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Left}
+                                },
+                                {
+                                    caption: me.centerText,
+                                    checkable   : true,
+                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Center),
+                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Center}
+                                },
+                                {
+                                    caption: me.rightText,
+                                    checkable   : true,
+                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Right),
+                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Right}
+                                }
+                            ]
+                        })
+                    });
+                    arr.push(mnu);
+                    break;
+                case Asc.c_oAscMathInterfaceType.EqArray:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtInsertEqBefore,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'insert_Equation', value: true}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtInsertEqAfter,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'insert_Equation', value: false}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtDeleteEq,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'delete_Equation'}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.alignmentText,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            menuAlign: 'tl-tr',
+                            items   : [
+                                {
+                                    caption: me.txtTop,
+                                    checkable   : true,
+                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Top),
+                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Top}
+                                },
+                                {
+                                    caption: me.centerText,
+                                    checkable   : true,
+                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Center),
+                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Center}
+                                },
+                                {
+                                    caption: me.txtBottom,
+                                    checkable   : true,
+                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Bottom),
+                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Bottom}
+                                }
+                            ]
+                        })
+                    });
+                    arr.push(mnu);
+                    break;
+                case Asc.c_oAscMathInterfaceType.LargeOperator:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtLimitChange,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'put_LimitLocation', value: (value.get_LimitLocation() == Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr) ? Asc.c_oAscMathInterfaceNaryLimitLocation.SubSup : Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr}
+                    });
+                    arr.push(mnu);
+                    if (value.get_HideUpper() !== undefined) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : value.get_HideUpper() ? me.txtShowTopLimit : me.txtHideTopLimit,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_HideUpper', value: !value.get_HideUpper()}
+                        });
+                        arr.push(mnu);
+                    }
+                    if (value.get_HideLower() !== undefined) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : value.get_HideLower() ? me.txtShowBottomLimit : me.txtHideBottomLimit,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_HideLower', value: !value.get_HideLower()}
+                        });
+                        arr.push(mnu);
+                    }
+                    break;
+                case Asc.c_oAscMathInterfaceType.Delimiter:
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtInsertArgBefore,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'insert_DelimiterArgument', value: true}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtInsertArgAfter,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'insert_DelimiterArgument', value: false}
+                    });
+                    arr.push(mnu);
+                    if (value.can_DeleteArgument()) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : me.txtDeleteArg,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'delete_DelimiterArgument'}
+                        });
+                        arr.push(mnu);
+                    }
+                    mnu = new Common.UI.MenuItem({
+                        caption     : value.has_Separators() ? me.txtDeleteCharsAndSeparators : me.txtDeleteChars,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'remove_DelimiterCharacters'}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : value.get_HideOpeningBracket() ? me.txtShowOpenBracket : me.txtHideOpenBracket,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'put_HideOpeningBracket', value: !value.get_HideOpeningBracket()}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : value.get_HideClosingBracket() ? me.txtShowCloseBracket : me.txtHideCloseBracket,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'put_HideClosingBracket', value: !value.get_HideClosingBracket()}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtStretchBrackets,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        checkable   : true,
+                        checked     : value.get_StretchBrackets(),
+                        equationProps: {type: type, callback: 'put_StretchBrackets', value: !value.get_StretchBrackets()}
+                    });
+                    arr.push(mnu);
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtMatchBrackets,
+                        equation    : true,
+                        disabled    : (!value.get_StretchBrackets() || me._currentParaObjDisabled),
+                        checkable   : true,
+                        checked     : value.get_StretchBrackets() && value.get_MatchBrackets(),
+                        equationProps: {type: type, callback: 'put_MatchBrackets', value: !value.get_MatchBrackets()}
+                    });
+                    arr.push(mnu);
+                    break;
+                case Asc.c_oAscMathInterfaceType.GroupChar:
+                    if (value.can_ChangePos()) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? me.txtGroupCharUnder : me.txtGroupCharOver,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? Asc.c_oAscMathInterfaceGroupCharPos.Bottom : Asc.c_oAscMathInterfaceGroupCharPos.Top}
+                        });
+                        arr.push(mnu);
+                        mnu = new Common.UI.MenuItem({
+                            caption     : me.txtDeleteGroupChar,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceGroupCharPos.None}
+                        });
+                        arr.push(mnu);
+                    }
+                    break;
+                case Asc.c_oAscMathInterfaceType.Radical:
+                    if (value.get_HideDegree() !== undefined) {
+                        mnu = new Common.UI.MenuItem({
+                            caption     : value.get_HideDegree() ? me.txtShowDegree : me.txtHideDegree,
+                            equation    : true,
+                            disabled    : me._currentParaObjDisabled,
+                            equationProps: {type: type, callback: 'put_HideDegree', value: !value.get_HideDegree()}
+                        });
+                        arr.push(mnu);
+                    }
+                    mnu = new Common.UI.MenuItem({
+                        caption     : me.txtDeleteRadical,
+                        equation    : true,
+                        disabled    : me._currentParaObjDisabled,
+                        equationProps: {type: type, callback: 'remove_Radical'}
+                    });
+                    arr.push(mnu);
+                    break;
+            }
+            if (value.can_IncreaseArgumentSize()) {
+                mnu = new Common.UI.MenuItem({
+                    caption     : me.txtIncreaseArg,
+                    equation    : true,
+                    disabled    : me._currentParaObjDisabled,
+                    equationProps: {type: type, callback: 'increase_ArgumentSize'}
+                });
+                arr.push(mnu);
+            }
+            if (value.can_DecreaseArgumentSize()) {
+                mnu = new Common.UI.MenuItem({
+                    caption     : me.txtDecreaseArg,
+                    equation    : true,
+                    disabled    : me._currentParaObjDisabled,
+                    equationProps: {type: type, callback: 'decrease_ArgumentSize'}
+                });
+                arr.push(mnu);
+            }
+            if (value.can_InsertManualBreak()) {
+                mnu = new Common.UI.MenuItem({
+                    caption     : me.txtInsertBreak,
+                    equation    : true,
+                    disabled    : me._currentParaObjDisabled,
+                    equationProps: {type: type, callback: 'insert_ManualBreak'}
+                });
+                arr.push(mnu);
+            }
+            if (value.can_DeleteManualBreak()) {
+                mnu = new Common.UI.MenuItem({
+                    caption     : me.txtDeleteBreak,
+                    equation    : true,
+                    disabled    : me._currentParaObjDisabled,
+                    equationProps: {type: type, callback: 'delete_ManualBreak'}
+                });
+                arr.push(mnu);
+            }
+            if (value.can_AlignToCharacter()) {
+                mnu = new Common.UI.MenuItem({
+                    caption     : me.txtAlignToChar,
+                    equation    : true,
+                    disabled    : me._currentParaObjDisabled,
+                    equationProps: {type: type, callback: 'align_ToCharacter'}
+                });
+                arr.push(mnu);
+            }
+            return arr;
+        },
+
+        addEquationMenu: function(isParagraph, insertIdx) {
+            var me = this;
+            if (_.isUndefined(isParagraph)) {
+                isParagraph = me.textMenu.isVisible();
+            }
+
+            me.clearEquationMenu(isParagraph, insertIdx);
+
+            var equationMenu = (isParagraph) ? me.textMenu : me.tableMenu,
+                menuItems = me.initEquationMenu();
+
+            if (menuItems.length > 0) {
+                _.each(menuItems, function(menuItem, index) {
+                    if (menuItem.menu) {
+                        _.each(menuItem.menu.items, function(item) {
+                            item.on('click', _.bind(me.equationCallback, me, item.options.equationProps));
+                        });
+                    } else
+                        menuItem.on('click', _.bind(me.equationCallback, me, menuItem.options.equationProps));
+                    equationMenu.insertItem(insertIdx, menuItem);
+                    insertIdx++;
+                });
+            }
+            return menuItems.length;
+        },
+
+        clearEquationMenu: function(isParagraph, insertIdx) {
+            var me = this;
+            var equationMenu = (isParagraph) ? me.textMenu : me.tableMenu;
+            for (var i = insertIdx; i < equationMenu.items.length; i++) {
+                if (equationMenu.items[i].options.equation) {
+                    if (equationMenu.items[i].menu) {
+                        _.each(equationMenu.items[i].menu.items, function(item) {
+                            item.off('click');
+                        });
+                    } else
+                        equationMenu.items[i].off('click');
+                    equationMenu.removeItem(equationMenu.items[i]);
+                    i--;
+                } else
+                    break;
+            }
+        },
+
+        equationCallback: function(eqProps) {
+            this.fireEvent('equation:callback', [eqProps]);
+        },
+
+        addWordVariants: function(isParagraph) {
+            var me = this;
+            if (!me.textMenu || !me.textMenu.isVisible() && !me.tableMenu.isVisible()) return;
+
+            if (_.isUndefined(isParagraph)) {
+                isParagraph = me.textMenu.isVisible();
+            }
+
+            me.clearWordVariants(isParagraph);
+
+            var moreMenu  = (isParagraph) ? me.menuSpellMorePara : me.menuSpellMoreTable;
+            var spellMenu = (isParagraph) ? me.menuSpellPara : me.menuSpellTable;
+            var arr = [],
+                arrMore = [];
+            var variants = me._currentSpellObj.get_Variants();
+
+            if (variants.length > 0) {
+                moreMenu.setVisible(variants.length > 3);
+                moreMenu.setDisabled(me._currentParaObjDisabled);
+
+                _.each(variants, function(variant, index) {
+                    var mnu = new Common.UI.MenuItem({
+                        caption     : variant,
+                        spellword   : true,
+                        disabled    : me._currentParaObjDisabled
+                    }).on('click', function(item, e) {
+                        if (me.api) {
+                            me.api.asc_replaceMisspelledWord(item.caption, me._currentSpellObj);
+                            me.fireEvent('editcomplete', me);
+                        }
+                    });
+
+                    (index < 3) ? arr.push(mnu) : arrMore.push(mnu);
+                });
+
+                if (arr.length > 0) {
+                    if (isParagraph) {
+                        _.each(arr, function(variant, index){
+                            me.textMenu.insertItem(index, variant);
+                        })
+                    } else {
+                        _.each(arr, function(variant, index){
+                            me.menuSpellCheckTable.menu.insertItem(index, variant);
+                        })
+                    }
+                }
+
+                if (arrMore.length > 0) {
+                    _.each(arrMore, function(variant, index){
+                        moreMenu.menu.addItem(variant);
+                    });
+                }
+
+                spellMenu.setVisible(false);
+            } else {
+                moreMenu.setVisible(false);
+                spellMenu.setVisible(true);
+                spellMenu.setCaption(me.noSpellVariantsText, true);
+            }
+        },
+
+        clearWordVariants: function(isParagraph) {
+            var me = this;
+            var spellMenu = (isParagraph) ? me.textMenu : me.menuSpellCheckTable.menu;
+
+            for (var i = 0; i < spellMenu.items.length; i++) {
+                if (spellMenu.items[i].options.spellword) {
+                    if (spellMenu.checkeditem == spellMenu.items[i]) {
+                        spellMenu.checkeditem = undefined;
+                        spellMenu.activeItem  = undefined;
+                    }
+
+                    spellMenu.removeItem(spellMenu.items[i]);
+                    i--;
+                }
+            }
+            (isParagraph) ? me.menuSpellMorePara.menu.removeAll() : me.menuSpellMoreTable.menu.removeAll();
+
+            me.menuSpellMorePara.menu.checkeditem   = undefined;
+            me.menuSpellMorePara.menu.activeItem    = undefined;
+            me.menuSpellMoreTable.menu.checkeditem  = undefined;
+            me.menuSpellMoreTable.menu.activeItem   = undefined;
         },
 
         setLanguages: function(langs){
@@ -4381,262 +3096,13 @@ define([
             }
         },
 
-        onSignatureClick: function(item) {
-            var datavalue = item.cmpEl.attr('data-value');
-            switch (item.value) {
-                case 0:
-                    Common.NotificationCenter.trigger('protect:sign', datavalue); //guid
-                    break;
-                case 1:
-                    this.api.asc_ViewCertificate(datavalue); //certificate id
-                    break;
-                case 2:
-                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
-                    break;
-                case 3:
-                    var me = this;
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: this.txtRemoveWarning,
-                        buttons: ['ok', 'cancel'],
-                        primary: 'ok',
-                        callback: function(btn) {
-                            if (btn == 'ok') {
-                                me.api.asc_RemoveSignature(datavalue);
-                            }
-                        }
-                    });
-                    break;
-            }
-        },
-
-        onImgRotate: function(item) {
-            var properties = new Asc.asc_CImgProperty();
-            properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
-            this.api.ImgApply(properties);
-            this.fireEvent('editcomplete', this);
-        },
-
-        onImgFlip: function(item) {
-            var properties = new Asc.asc_CImgProperty();
-            if (item.value==1)
-                properties.asc_putFlipHInvert(true);
-            else
-                properties.asc_putFlipVInvert(true);
-            this.api.ImgApply(properties);
-            this.fireEvent('editcomplete', this);
-        },
-
-        onImgCrop: function(item) {
-            if (item.value == 1) {
-                this.api.asc_cropFill();
-            } else if (item.value == 2) {
-                this.api.asc_cropFit();
+        changeLanguageMenu: function(menu) {
+            if (this._currLang.id===null || this._currLang.id===undefined) {
+                menu.clearAll();
             } else {
-                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+                var index = _.findIndex(menu.items, {langid: this._currLang.id});
+                (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
             }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onFollowMove: function(item) {
-            if (this.api) {
-                this.api.asc_FollowRevisionMove(item.value);
-            }
-            this.fireEvent('editcomplete', this);
-        },
-
-        onHideContentControlsActions: function() {
-            this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
-            var controlsContainer = this.cmpEl.find('#calendar-control-container');
-            if (controlsContainer.is(':visible'))
-                controlsContainer.hide();
-        },
-
-        onShowDateActions: function(obj, x, y) {
-            var props = obj.pr,
-                specProps = props.get_DateTimePr(),
-                controlsContainer = this.cmpEl.find('#calendar-control-container'),
-                me = this;
-
-            this._dateObj = props;
-
-            if (controlsContainer.length < 1) {
-                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
-                this.cmpEl.append(controlsContainer);
-            }
-
-            Common.UI.Menu.Manager.hideAll();
-
-            controlsContainer.css({left: x, top : y});
-            controlsContainer.show();
-
-            if (!this.cmpCalendar) {
-                this.cmpCalendar = new Common.UI.Calendar({
-                    el: this.cmpEl.find('#id-document-calendar-control'),
-                    enableKeyEvents: true,
-                    firstday: 1
-                });
-                this.cmpCalendar.on('date:click', function (cmp, date) {
-                    var specProps = me._dateObj.get_DateTimePr();
-                    specProps.put_FullDate(new  Date(date));
-                    me.api.asc_SetContentControlDatePickerDate(specProps);
-                    controlsContainer.hide();
-                    me.api.asc_UncheckContentControlButtons();
-                    me.fireEvent('editcomplete', me);
-                });
-                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
-                    if (e.keyCode==Common.UI.Keys.ESC) {
-                        controlsContainer.hide();
-                        me.api.asc_UncheckContentControlButtons();
-                    }
-                });
-                $(document).on('mousedown', function(e) {
-                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
-                        controlsContainer.hide();
-                        me.api.asc_UncheckContentControlButtons();
-                    }
-                });
-
-            }
-            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
-
-            // align
-            var offset  = controlsContainer.offset(),
-                docW    = Common.Utils.innerWidth(),
-                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
-                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
-                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
-                buttonOffset = 22,
-                left = offset.left - menuW,
-                top  = offset.top;
-            if (top + menuH > docH) {
-                top = docH - menuH;
-                left -= buttonOffset;
-            }
-            if (top < 0)
-                top = 0;
-            if (left + menuW > docW)
-                left = docW - menuW;
-            this.cmpCalendar.cmpEl.css({left: left, top : top});
-
-            this._preventClick = true;
-        },
-
-        onShowListActions: function(obj, x, y) {
-            var type = obj.type,
-                props = obj.pr,
-                specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-                isForm = !!props.get_FormPr(),
-                menu = this.listControlMenu,
-                menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
-                me = this;
-
-            this._listObj = props;
-
-            this._fromShowContentControls = true;
-            Common.UI.Menu.Manager.hideAll();
-
-            if (!menu) {
-                this.listControlMenu = menu = new Common.UI.Menu({
-                    maxHeight: 207,
-                    menuAlign: 'tr-bl',
-                    items: []
-                });
-                menu.on('item:click', function(menu, item) {
-                    setTimeout(function(){
-                        (item.value!==-1) && me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
-                    }, 1);
-                });
-
-                // Prepare menu container
-                if (!menuContainer || menuContainer.length < 1) {
-                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
-                    this.cmpEl.append(menuContainer);
-                }
-
-                menu.render(menuContainer);
-                menu.cmpEl.attr({tabindex: "-1"});
-                menu.on('hide:after', function(){
-                    me.listControlMenu.removeAll();
-                    if (!me._fromShowContentControls)
-                        me.api.asc_UncheckContentControlButtons();
-                });
-            }
-            if (specProps) {
-                if (isForm){ // for dropdown and combobox form control always add placeholder item
-                    var text = props.get_PlaceholderText();
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : (text.trim()!=='') ? text : this.txtEmpty,
-                        value       : '',
-                        template    : _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= caption %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
-                var count = specProps.get_ItemsCount();
-                for (var i=0; i<count; i++) {
-                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
-                        caption     : specProps.get_ItemDisplayText(i),
-                        value       : specProps.get_ItemValue(i),
-                        template    : _.template([
-                            '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
-                            '<%= Common.Utils.String.htmlEncode(caption) %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
-                if (!isForm && menu.items.length<1) {
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : this.txtEmpty,
-                        value       : -1
-                    }));
-                }
-            }
-
-            menuContainer.css({left: x, top : y});
-            menuContainer.attr('data-value', 'prevent-canvas-click');
-            this._preventClick = true;
-            menu.show();
-
-            _.delay(function() {
-                menu.cmpEl.focus();
-            }, 10);
-            this._fromShowContentControls = false;
-        },
-
-        onShowContentControlsActions: function(obj, x, y) {
-            var type = obj.type;
-            switch (type) {
-                case Asc.c_oAscContentControlSpecificType.DateTime:
-                    this.onShowDateActions(obj, x, y);
-                    break;
-                case Asc.c_oAscContentControlSpecificType.Picture:
-                    if (obj.pr && obj.pr.get_Lock) {
-                        var lock = obj.pr.get_Lock();
-                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
-                            return;
-                    }
-                    this.api.asc_addImage(obj);
-                    var me = this;
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
-                    break;
-                case Asc.c_oAscContentControlSpecificType.DropDownList:
-                case Asc.c_oAscContentControlSpecificType.ComboBox:
-                    this.onShowListActions(obj, x, y);
-                    break;
-            }
-        },
-
-        onApiLockDocumentProps: function() {
-            this._state.lock_doc = true;
-        },
-
-        onApiUnLockDocumentProps: function() {
-            this._state.lock_doc = false;
         },
 
         getControlLabel: function(props) {
