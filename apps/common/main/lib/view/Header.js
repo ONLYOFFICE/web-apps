@@ -204,7 +204,7 @@ define([
         }
 
         function onAppShowed(config) {
-            //config.isCrypted =true; //delete fore merge!
+            // config.isCrypted =true; //delete fore merge!
             if ( this.labelDocName ) {
                 if ( config.isCrypted ) {
                     this.labelDocName.before(
@@ -212,7 +212,6 @@ define([
                             '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
                         '</div>');
                     this.imgCrypted = this.labelDocName.parent().find('.crypted');
-                    this.titleAlign = 'left';
                 }
 
                 if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
@@ -726,6 +725,7 @@ define([
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
                                 me.imgCrypted && me.imgCrypted.attr('hidden', false);
+                                label[0].selectionStart = label[0].selectionEnd = 0;
                                 if(!me.isSaveDocName) {
                                     me.withoutExt = false;
                                     me.setDocTile(me.documentCaption);
@@ -757,22 +757,26 @@ define([
 
                 return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
             },
+
             setDocTile: function(name){
                 if(name)
                     this.labelDocName.val(name);
                 else
                     name = this.labelDocName.val();
-                var font ="12.5px Arial, Helvetica, \"Helvetica Neue\", sans-serif";
-                var align = (this.titleAlign)?'text-align: ' +  this.titleAlign + '; margin-left: 1px; ':'';
-                this.labelDocName.attr('style', align + 'width:'+this.getTextWidth(name,font)+'px');
+                var width = this.getTextWidth(name);
+                (width>=0) && this.labelDocName.width(width);
             },
 
-            getTextWidth: function(text, font) {
-                (!this.canvas) && (this.canvas = document.createElement("canvas"));
-                var ctx = this.canvas.getContext('2d');
-                ctx.font = font;
-                var w = Math.ceil(ctx.measureText(text).width);
-                return (w < 100) ? Math.ceil(w*1.3) : w;
+            getTextWidth: function(text) {
+                if (!this._testCanvas ) {
+                    var font = (this.labelDocName.css('font-size') + ' ' + this.labelDocName.css('font-family')).trim();
+                    if (font) {
+                        var canvas = document.createElement("canvas");
+                        this._testCanvas = canvas.getContext('2d');
+                        this._testCanvas.font = font;
+                    }
+                }
+                return this._testCanvas ? this._testCanvas.measureText(text).width : -1;
             },
 
             setUserName: function(name) {
