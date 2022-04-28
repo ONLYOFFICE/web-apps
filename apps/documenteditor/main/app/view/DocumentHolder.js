@@ -75,6 +75,7 @@ define([
             this._currentSpellObj = undefined;
             this._currentParaObjDisabled = false;
             this._currLang        = {};
+            this._isDisabled = false;
         },
 
         render: function () {
