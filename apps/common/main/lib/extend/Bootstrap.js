@@ -128,8 +128,9 @@ function patchDropDownKeyDown(e) {
                  var mnu = $('> [role=menu]', li),
                     $subitems = mnu.find('> li:not(.divider):not(.disabled):visible > a'),
                     $dataviews = mnu.find('> li:not(.divider):not(.disabled):visible .dataview'),
+                    $palette = mnu.find('> li:not(.divider):not(.disabled):visible .theme-colorpalette.focused'),
                     $internal_menu = mnu.find('> li:not(.divider):not(.disabled):visible ul.internal-menu');
-                if ($subitems.length>0 && $dataviews.length<1 && $internal_menu.length<1)
+                if ($subitems.length>0 && $dataviews.length<1 && $internal_menu.length<1 && $palette.length<1)
                     ($subitems.index($subitems.filter(':focus'))<0) && $subitems.eq(0).focus();
             }, 250);
         }

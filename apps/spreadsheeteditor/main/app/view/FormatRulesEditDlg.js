@@ -548,7 +548,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.btnBorders.on('click', _.bind(this.onBorders, this));
             this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                 el: $('#format-rules-borders-menu-bordercolor'),
-                outerMenu: {menu: this.mnuBorderColor.menu, index: 0}
+                outerMenu: {menu: this.mnuBorderColor.menu, index: 0, focusOnShow: true}
             });
             this.mnuBorderColor.menu.setInnerMenu([{menu: this.mnuBorderColorPicker, index: 0}]);
             this.mnuBorderColorPicker.on('select', _.bind(this.onBordersColor, this));

@@ -377,12 +377,15 @@ define([
                 }).on('render:after', function(btn) {
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
-                            outerMenu: {menu: menuColorItems, index: 0},
+                            outerMenu: {menu: menuColorItems, index: 0, focusOnShow: true},
                             transparent: true
                         });
                         menuColorItems.setInnerMenu([{menu: me.mnuTabColor, index: 0}]);
                         me.mnuTabColor.on('select', function(picker, color) {
                             me.fireEvent('sheet:setcolor', [color]);
+                            setTimeout(function(){
+                                me.tabMenu.hide();
+                            }, 1);
                         });
                     });
 

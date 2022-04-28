@@ -132,6 +132,15 @@ define([
                 this.updateColors(this.options.updateColorsArr[0], this.options.updateColorsArr[1]);
             if (this.options.value)
                 this.select(this.options.value, true);
+            if (this.options.outerMenu && this.options.outerMenu.focusOnShow && this.options.outerMenu.menu) {
+                el.addClass('focused');
+                this.options.outerMenu.menu.on('show:after', function(menu) {
+                    _.delay(function() {
+                        me.showLastSelected();
+                        me.focus();
+                    }, 10);
+                });
+            }
             this.updateCustomColors();
             el.closest('.btn-group').on('show.bs.dropdown', _.bind(this.updateCustomColors, this));
             el.closest('.dropdown-submenu').on('show.bs.dropdown', _.bind(this.updateCustomColors, this));
