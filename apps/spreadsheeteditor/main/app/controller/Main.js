@@ -1263,7 +1263,7 @@ define([
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
 
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && this.appOptions.canCoAuthoring &&
-                                                        !(typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+                                                        !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
 
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge) {
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
