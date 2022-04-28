@@ -2000,9 +2000,9 @@ define([
                     if (this._state.clrhighlight != -1) {
                         this.toolbar.mnuHighlightTransparent.setChecked(true, true);
 
-                        if (this.toolbar.mnuHighlightColorPicker.cmpEl) {
+                        if (this.toolbar.mnuHighlightColorPicker) {
                             this._state.clrhighlight = -1;
-                            this.toolbar.mnuHighlightColorPicker.select(null, true);
+                            this.toolbar.mnuHighlightColorPicker.clearSelection();
                         }
                     }
                 } else if (c !== null) {
@@ -2010,13 +2010,13 @@ define([
                         this.toolbar.mnuHighlightTransparent.setChecked(false);
                         this._state.clrhighlight = c.get_hex().toUpperCase();
 
-                        if ( _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
-                            this.toolbar.mnuHighlightColorPicker.select(this._state.clrhighlight, true);
+                        if ( this.toolbar.mnuHighlightColorPicker && _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
+                            this.toolbar.mnuHighlightColorPicker.selectByRGB(this._state.clrhighlight, true);
                     }
                 }  else {
                     if ( this._state.clrhighlight !== c) {
                         this.toolbar.mnuHighlightTransparent.setChecked(false, true);
-                        this.toolbar.mnuHighlightColorPicker.select(null, true);
+                        this.toolbar.mnuHighlightColorPicker && this.toolbar.mnuHighlightColorPicker.clearSelection();
                         this._state.clrhighlight = c;
                     }
                 }
