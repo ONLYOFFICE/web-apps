@@ -54,7 +54,7 @@ define([
             themecolors: 10,
             columns: 10,
             effects: 5,
-            hideEmptyColors: false,
+            hideEmptyColors: true,
             allowReselect: true,
             transparent: false,
             value: '000000',

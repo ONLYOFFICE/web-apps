@@ -55,13 +55,15 @@ define([
 
         getPicker: function(color, colors) {
             if (!this.colorPicker) {
-                this.colorPicker = new Common.UI.ThemeColorPalette({
+                var config = {
                     el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
-                    transparent: this.options.transparent,
-                    hideEmptyColors: this.options.hideEmptyColors,
                     value: color,
                     colors: colors
-                });
+                };
+                (this.options.transparent!==undefined) && (config['transparent'] = this.options.transparent);
+                (this.options.hideEmptyColors!==undefined) && (config['hideEmptyColors'] = this.options.hideEmptyColors);
+
+                this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
                 if (this.options.auto) {
