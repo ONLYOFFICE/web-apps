@@ -533,7 +533,11 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                                 items       : [
                                     { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 164px; display: inline-block;"></div>'), stopPropagation: true },
                                     {caption: '--'},
-                                    { template: _.template('<a id="format-rules-borders-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
+                                    {
+                                        id: "format-rules-borders-menu-new-bordercolor",
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        stopPropagation: true
+                                    }
                                 ]
                             })
                         })
@@ -543,8 +547,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.btnBorders.menu.on('item:click', _.bind(this.onBordersMenu, this));
             this.btnBorders.on('click', _.bind(this.onBorders, this));
             this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
-                el: $('#format-rules-borders-menu-bordercolor')
+                el: $('#format-rules-borders-menu-bordercolor'),
+                outerMenu: {menu: this.mnuBorderColor.menu, index: 0}
             });
+            this.mnuBorderColor.menu.setInnerMenu([{menu: this.mnuBorderColorPicker, index: 0}]);
             this.mnuBorderColorPicker.on('select', _.bind(this.onBordersColor, this));
             $('#format-rules-borders-menu-new-bordercolor').on('click', _.bind(function() {
                 me.mnuBorderColorPicker.addNewColor();

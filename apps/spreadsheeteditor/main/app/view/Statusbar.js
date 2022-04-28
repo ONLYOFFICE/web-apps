@@ -337,7 +337,10 @@ define([
                     items: [
                         { template: _.template('<div id="id-tab-menu-color" style="width: 164px;display: inline-block;"></div>') },
                         {caption: '--'},
-                        { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                        {
+                            id: "id-tab-menu-new-color",
+                            template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + me.textNewColor + '</a>')
+                        }
                     ]
                 });
 
@@ -374,9 +377,10 @@ define([
                 }).on('render:after', function(btn) {
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
+                            outerMenu: {menu: menuColorItems, index: 0},
                             transparent: true
                         });
-
+                        menuColorItems.setInnerMenu([{menu: me.mnuTabColor, index: 0}]);
                         me.mnuTabColor.on('select', function(picker, color) {
                             me.fireEvent('sheet:setcolor', [color]);
                         });

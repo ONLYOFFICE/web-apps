@@ -2122,15 +2122,21 @@ define([
                                     {caption: '--'},
                                     { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
                                     {caption: '--'},
-                                    { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
+                                    {
+                                        id: "id-toolbar-menu-new-bordercolor",
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        stopPropagation: true
+                                    }
                                 ]
                             })
                         })
                     ]
                 }));
                 this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-bordercolor')
+                    el: $('#id-toolbar-menu-bordercolor'),
+                    outerMenu: {menu: this.mnuBorderColor.menu, index: 2}
                 });
+                this.mnuBorderColor.menu.setInnerMenu([{menu: this.mnuBorderColorPicker, index: 2}]);
             }
 
             if ( this.btnInsertChart ) {
