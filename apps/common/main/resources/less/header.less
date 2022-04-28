@@ -94,6 +94,7 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
+        padding: 4px 0px;
     }
 
     #rib-doc-name {
@@ -102,13 +103,20 @@
         overflow: hidden;
         min-width: 50px;
         text-align: center;
-
         color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
+        padding: 1px 5px;
         cursor: default;
-        line-height: 32px;
+        line-height: 24px;
+
+        &:hover,&:focus {
+            box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
+            box-shadow: 0 0 0 1px @highlight-header-button-hover;
+            border-radius: 1px;
+            cursor: text;
+        }
     }
 
     #rib-save-status {

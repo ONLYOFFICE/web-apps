@@ -352,8 +352,8 @@ define([
             var name = me.labelDocName.val();
             if ( e.keyCode == Common.UI.Keys.RETURN ) {
                 name = name.trim();
-                me.isSaveDocName =true;
                 if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
+                    me.isSaveDocName =true;
                     if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
                         _.defer(function() {
                             Common.UI.error({
@@ -378,7 +378,6 @@ define([
                     }
 
                 } else {
-
                     Common.NotificationCenter.trigger('edit:complete', me);
                 }
             } else
@@ -660,10 +659,6 @@ define([
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
                     this.setDocTile( value );
-                    // this.labelDocName.attr('size', value.length);
-                    //this.setCanRename(this.options.canRename);
-
-                    //this.setCanRename(true);
                 }
                 return value;
             },
@@ -709,7 +704,6 @@ define([
 
             setCanRename: function (rename) {
                 //rename = true;      //comment out for merge
-
                 var me = this;
                 me.options.canRename = rename;
                 if ( me.labelDocName ) {
@@ -734,7 +728,8 @@ define([
                             'paste': function (e) {
                                 setTimeout(function() {
                                     var name = me.cutDocName(me.labelDocName.val());
-                                    me.setDocTile(name);                                });
+                                    me.setDocTile(name);
+                                });
                             }
                         });
 
