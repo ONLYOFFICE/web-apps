@@ -655,7 +655,8 @@
     "textPdfTagged": "Tagged PDF",
     "textFastWV": "Fast Web View",
     "textYes": "Yes",
-    "textNo": "No"
+    "textNo": "No",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

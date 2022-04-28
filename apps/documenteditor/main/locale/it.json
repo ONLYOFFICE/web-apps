@@ -1700,6 +1700,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Titolo documento",
   "DE.Views.FileMenuPanels.DocumentInfo.txtUploaded": "Caricato",
   "DE.Views.FileMenuPanels.DocumentInfo.txtWords": "Parole",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtPdfProducer": "Produttore PDF",
   "DE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Modifica diritti di accesso",
   "DE.Views.FileMenuPanels.DocumentRights.txtRights": "Persone che hanno diritti",
   "DE.Views.FileMenuPanels.ProtectDoc.notcriticalErrorTitle": "Avviso",

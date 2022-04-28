@@ -704,7 +704,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
           clearTimeout(this.timerLoading);
           clearInterval(this.timerDocInfo);
-          storeDocumentInfo.switchIsLoaded(true);
+          storeDocumentInfo.changeCount(this.objectInfo);
         });
 
         // Color Schemes

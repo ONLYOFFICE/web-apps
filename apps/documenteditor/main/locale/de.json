@@ -1700,6 +1700,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Titel",
   "DE.Views.FileMenuPanels.DocumentInfo.txtUploaded": "Hochgeladen",
   "DE.Views.FileMenuPanels.DocumentInfo.txtWords": "Wörter",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtPdfProducer": "PDF-Ersteller",
   "DE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Zugriffsrechte ändern",
   "DE.Views.FileMenuPanels.DocumentRights.txtRights": "Personen mit Berechtigungen",
   "DE.Views.FileMenuPanels.ProtectDoc.notcriticalErrorTitle": "Warnung",

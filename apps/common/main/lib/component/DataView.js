@@ -1652,7 +1652,18 @@ define([
 
             if (recents.length > 0 && diff) {
                 me.recentShapes = recents;
-                me.groups[0].groupStore.reset(me.recentShapes);
+                var resentsStore = new Common.UI.DataViewStore();
+                _.each(me.recentShapes, function (recent) {
+                    var model = {
+                        data: {shapeType: recent.data.shapeType},
+                        tip: recent.tip,
+                        allowSelected: recent.allowSelected,
+                        selected: recent.selected,
+                        groupName: recent.groupName
+                    };
+                    resentsStore.push(model);
+                });
+                me.groups[0].groupStore = resentsStore;
 
                 var store = new Common.UI.DataViewStore();
                 _.each(me.groups, function (group) {
