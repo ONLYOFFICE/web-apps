@@ -355,7 +355,7 @@ define([
                         menu: new Common.UI.Menu({
                             style: 'min-width: 100px;',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
                                 {caption: '--'},
                                 this.mnuHighlightTransparent = new Common.UI.MenuItem({
                                     caption: this.strMenuNoFill,
@@ -2330,15 +2330,19 @@ define([
                 if (this.btnHighlightColor.cmpEl) {
                     this.btnHighlightColor.currentColor = 'FFFF00';
                     this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
-                    this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
+                    this.mnuHighlightColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-highlight'),
                         colors: [
                             'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
                             '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
-                        ]
+                        ],
+                        value: 'FFFF00',
+                        dynamiccolors: 0,
+                        columns: 4,
+                        outerMenu: {menu: this.btnHighlightColor.menu, index: 0, focusOnShow: true}
                     });
-                    this.mnuHighlightColorPicker.select('FFFF00');
                     this.btnHighlightColor.setPicker(this.mnuHighlightColorPicker);
+                    this.btnHighlightColor.menu.setInnerMenu([{menu: this.mnuHighlightColorPicker, index: 0}]);
                 }
 
                 if (this.btnFontColor.cmpEl) {
