@@ -198,7 +198,7 @@ define([
                     me.menuViewCut.setDisabled(disabled || !cancopy);
                     me.menuViewPaste.setVisible(me._fillFormMode && canEditControl);
                     me.menuViewPaste.setDisabled(disabled);
-                    me.menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormwMode);
+                    me.menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormMode);
                     me.menuViewPrint.setDisabled(!cancopy);
 
                 },
@@ -1356,6 +1356,92 @@ define([
                 caption     : '--'
             });
 
+            me.menuTableSelectText = new Common.UI.MenuItem({
+                caption     : me.selectText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    style   : 'width: 100px',
+                    items   : [
+                        new Common.UI.MenuItem({
+                            caption: me.rowText,
+                            value: 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.columnText,
+                            value: 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.cellText,
+                            value: 2
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.tableText,
+                            value: 3
+                        })
+                    ]
+                })
+            });
+
+            me.menuTableInsertText = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-addcell',
+                caption     : me.insertText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        new Common.UI.MenuItem({
+                            caption: me.insertColumnLeftText,
+                            value: 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.insertColumnRightText,
+                            value: 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.insertRowAboveText,
+                            value: 2
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.insertRowBelowText,
+                            value: 3
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textSeveral,
+                            value: 4
+                        })
+                    ]
+                })
+            });
+
+            me.menuTableDeleteText = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-delcell',
+                caption     : me.deleteText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    style   : 'width: 100px',
+                    items   : [
+                        new Common.UI.MenuItem({
+                            caption: me.rowText,
+                            value: 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.columnText,
+                            value: 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.tableText,
+                            value: 2
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textCells,
+                            value: 3
+                        })
+                    ]
+                })
+            });
+
             this.tableMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -1569,113 +1655,9 @@ define([
                     menuEquationSeparatorInTable,
                     menuTableRefreshField,
                     menuTableFieldSeparator,
-                    {
-                        caption     : me.selectText,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            style   : 'width: 100px',
-                            items   : [
-                                new Common.UI.MenuItem({
-                                    caption: me.rowText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.selectRow();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.columnText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.selectColumn();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.cellText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.selectCell();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.tableText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.selectTable();
-                                })
-                            ]
-                        })
-                    },
-                    {
-                        iconCls: 'menu__icon btn-addcell',
-                        caption     : me.insertText,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                new Common.UI.MenuItem({
-                                    caption: me.insertColumnLeftText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addColumnLeft();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.insertColumnRightText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addColumnRight();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.insertRowAboveText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addRowAbove();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.insertRowBelowText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addRowBelow();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.textSeveral
-                                }).on('click', function(item) {
-                                    me.onCellsAdd();
-                                })
-                            ]
-                        })
-                    },
-                    {
-                        iconCls: 'menu__icon btn-delcell',
-                        caption     : me.deleteText,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            style   : 'width: 100px',
-                            items   : [
-                                new Common.UI.MenuItem({
-                                    caption: me.rowText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.remRow();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.columnText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.remColumn();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.tableText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.remTable();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.textCells
-                                }).on('click', function(item) {
-                                    me.onCellsRemove();
-                                })
-                            ]
-                        })
-                    },
+                    me.menuTableSelectText,
+                    me.menuTableInsertText,
+                    me.menuTableDeleteText,
                     { caption: '--' },
                     mnuTableMerge,
                     mnuTableSplit,

@@ -385,7 +385,9 @@ define([
             view.menuDropCapAdvanced.on('click', _.bind(me.advancedFrameClick, me, false));
             view.menuStyleSave.on('click', _.bind(me.onMenuSaveStyle, me));
             view.menuStyleUpdate.on('click', _.bind(me.onMenuUpdateStyle, me));
-
+            view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
+            view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
+            view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
 
         },
 
@@ -1742,7 +1744,7 @@ define([
             else {
                 var me = this;
                 (new DE.Views.NumberingValueDialog({
-                    title: me.textNumberingValue,
+                    title: me.documentHolder.textNumberingValue,
                     props: item.value,
                     handler: function (result, value) {
                         if (result == 'ok')
@@ -1867,5 +1869,67 @@ define([
                 this.api.tblApply(properties);
             }
         },
+
+        tableSelectText: function(menu, item, e) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.selectRow();
+                        break;
+                    case 1:
+                        this.api.selectColumn();
+                        break;
+                    case 2:
+                        this.api.selectCell();
+                        break;
+                    case 3:
+                        this.api.selectTable();
+                        break;
+                }
+            }
+        },
+
+        tableInsertText: function(menu, item, e) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.addColumnLeft();
+                        break;
+                    case 1:
+                        this.api.addColumnRight();
+                        break;
+                    case 2:
+                        this.api.addRowAbove();
+                        break;
+                    case 3:
+                        this.api.addRowBelow();
+                        break;
+                    case 4:
+                        this.onCellsAdd();
+                        break;
+                }
+            }
+        },
+
+        tableDeleteText: function(menu, item, e) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.remRow();
+                        break;
+                    case 1:
+                        this.api.remColumn();
+                        break;
+                    case 2:
+                        this.api.remTable();
+                        break;
+                    case 3:
+                        this.onCellsRemove();
+                        break;
+                }
+            }
+        },
+
+
     });
 });
