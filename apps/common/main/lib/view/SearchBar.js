@@ -165,7 +165,7 @@ define([
 
         onLayoutChanged: function () {
             var top = $('#app-title').height() + $('#toolbar').height() + 2,
-                left = Common.Utils.innerWidth() - $('#right-menu').width() - this.options.width - 32;
+                left = Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32;
             this.$window.css({left: left, top: top});
         },
 

@@ -208,12 +208,7 @@ define([
                 searchSettings.put_MatchCase(this._state.matchCase);
                 searchSettings.put_WholeWords(this._state.matchWord);
                 if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
-                    this.resultItems = [];
-                    this.view.updateResultsNumber(undefined, 0);
-                    this.view.disableReplaceButtons(true);
-                    this._state.currentResult = 0;
-                    this._state.resultsNumber = 0;
-                    this.view.disableNavButtons();
+                    this.allResultsWasRemoved();
                 }
             }
         },
@@ -240,9 +235,18 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.hideResults();
-                this.resultItems = [];
+                this.allResultsWasRemoved();
             }
+        },
+
+        allResultsWasRemoved: function () {
+            this.resultItems = [];
+            this.hideResults();
+            this.view.updateResultsNumber(undefined, 0);
+            this.view.disableReplaceButtons(true);
+            this._state.currentResult = 0;
+            this._state.resultsNumber = 0;
+            this.view.disableNavButtons();
         },
 
         onUpdateSearchCurrent: function (current, all) {
@@ -252,7 +256,7 @@ define([
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
                 this.view.disableNavButtons(current, all);
-                if (this.resultItems.length > 0) {
+                if (this.resultItems && this.resultItems.length > 0) {
                     this.resultItems.forEach(function (item) {
                         item.selected = false;
                     });

@@ -311,12 +311,7 @@ define([
             var me = this;
             if (this.api.isReplaceAll) {
                 if (!found) {
-                    this.resultItems = [];
-                    this.view.updateResultsNumber(undefined, 0);
-                    this.view.disableReplaceButtons(true);
-                    this._state.currentResult = 0;
-                    this._state.resultsNumber = 0;
-                    this.view.disableNavButtons();
+                    this.allResultsWasRemoved();
                 } else {
                     Common.UI.info({
                         msg: !found-replaced ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
@@ -338,14 +333,19 @@ define([
                 options.asc_setScanByRows(this._state.searchByRows);
                 options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                 if (!this.api.asc_findText(options)) {
-                    this.resultItems = [];
-                    this.view.updateResultsNumber(undefined, 0);
-                    this.view.disableReplaceButtons(true);
-                    this._state.currentResult = 0;
-                    this._state.resultsNumber = 0;
-                    this.view.disableNavButtons();
+                    this.allResultsWasRemoved();
                 }
             }
+        },
+
+        allResultsWasRemoved: function () {
+            this.resultItems = [];
+            this.hideResults();
+            this.view.updateResultsNumber(undefined, 0);
+            this.view.disableReplaceButtons(true);
+            this._state.currentResult = 0;
+            this._state.resultsNumber = 0;
+            this.view.disableNavButtons();
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
@@ -366,7 +366,7 @@ define([
             if (this.view) {
                 this.view.updateResultsNumber(current, all);
                 this.view.disableNavButtons(current, all);
-                if (this.resultItems.length > 0) {
+                if (this.resultItems && this.resultItems.length > 0) {
                     this.resultItems.forEach(function (item) {
                         item.selected = false;
                     });
