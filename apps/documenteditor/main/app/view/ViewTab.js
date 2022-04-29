@@ -135,7 +135,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-menu-navigation',
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.textNavigation,
+                    caption: this.textOutline,
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -305,6 +305,7 @@ define([
             },
 
             textNavigation: 'Navigation',
+            textOutline: 'Headings',
             textZoom: 'Zoom',
             textFitToPage: 'Fit To Page',
             textFitToWidth: 'Fit To Width',

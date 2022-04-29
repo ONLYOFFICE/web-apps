@@ -118,6 +118,10 @@ define([
             panelNavigation.viewNavigationList.on('item:add', _.bind(this.onItemAdd, this));
             panelNavigation.navigationMenu.on('item:click',           _.bind(this.onMenuItemClick, this));
             panelNavigation.navigationMenu.items[11].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
+            panelNavigation.btnSettingsMenu.on('item:click',           _.bind(this.onMenuSettingsItemClick, this));
+            panelNavigation.btnSettingsMenu.items[2].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
+            panelNavigation.btnSettingsMenu.items[4].menu.on('item:click', _.bind(this.onMenuFontSizeClick, this));
+            panelNavigation.btnClose.on('click', _.bind(this.onClickClosePanel, this));
 
             var viewport = this.getApplication().getController('Viewport').getView('Viewport');
             viewport.hlayout.on('layout:resizedrag',  function () {
@@ -245,7 +249,6 @@ define([
 
         onMenuItemClick: function (menu, item) {
             if (!this._navigationObject && !this._viewerNavigationObject) return;
-
             var index = parseInt(menu.cmpEl.attr('data-value'));
             if (item.value == 'promote') {
                 this._navigationObject.promote(index);
@@ -265,9 +268,30 @@ define([
                 this.panelNavigation.viewNavigationList.collapseAll();
             }
         },
+        onClickClosePanel: function() {
+            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+        },
+
+        onMenuSettingsItemClick: function (menu, item){
+            switch (item.value){
+                case 'expand':
+                    this.panelNavigation.viewNavigationList.expandAll();
+                    break;
+                case 'collapse':
+                    this.panelNavigation.viewNavigationList.collapseAll();
+                    break;
+                case 'wrap':
+                    this.panelNavigation.changeWrapHeadings();
+                    break;
+            }
+        },
 
         onMenuLevelsItemClick: function (menu, item) {
             this.panelNavigation.viewNavigationList.expandToLevel(item.value-1);
+        },
+
+        onMenuFontSizeClick: function (menu, item){
+            this.panelNavigation.changeFontSize(item.value);
         },
 
         SetDisabled: function(state) {
