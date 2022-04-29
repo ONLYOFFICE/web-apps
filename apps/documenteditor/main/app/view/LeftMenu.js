@@ -501,7 +501,7 @@ define([
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
         tipNavigation: 'Navigation',
-        tipOutline: 'Outline',
+        tipOutline: 'Headings',
         txtLimit: 'Limit Access'
     }, DE.Views.LeftMenu || {}));
 });

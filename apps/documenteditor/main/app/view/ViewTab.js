@@ -305,7 +305,7 @@ define([
             },
 
             textNavigation: 'Navigation',
-            textOutline: 'Outline',
+            textOutline: 'Headings',
             textZoom: 'Zoom',
             textFitToPage: 'Fit To Page',
             textFitToWidth: 'Fit To Width',

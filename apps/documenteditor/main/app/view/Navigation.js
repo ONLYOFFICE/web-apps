@@ -277,14 +277,14 @@ define([
         txtEmpty: 'There are no headings in the document.<br>Apply a heading style to the text so that it appears in the table of contents.',
         txtEmptyItem: 'Empty Heading',
         txtEmptyViewer: 'There are no headings in the document.',
-        strNavigate: "Outline",
+        strNavigate: "Headings",
         txtWrapHeadings: "Wrap long headings",
         txtFontSize: "Font size",
         txtSmall: "Small",
         txtMedium: "Medium",
         txtLarge:"Large",
-        txtClosePanel: "Close outline",
-        txtSettings: "Outline settings"
+        txtClosePanel: "Close headings",
+        txtSettings: "Headings settings"
 
     }, DE.Views.Navigation || {}));
 });
