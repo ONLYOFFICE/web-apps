@@ -759,7 +759,11 @@ define([
                 else
                     name = this.labelDocName.val();
                 var width = this.getTextWidth(name);
-                (width>=0) && this.labelDocName.width(width);
+                if (width>=0)
+                {
+                    this.labelDocName.width(width);
+                    Common.NotificationCenter.trigger('window:resize');
+                }
             },
 
             getTextWidth: function(text) {
