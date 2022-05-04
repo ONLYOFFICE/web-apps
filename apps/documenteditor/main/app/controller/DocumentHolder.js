@@ -281,9 +281,8 @@ define([
                         this.api.asc_onCloseChartFrame();
                         this.api.asc_enableKeyEvents(true);
                     }
-                    var me = this;
                     setTimeout(function(){
-                        view.fireEvent('editcomplete', view);
+                        me.editComplete();
                     }, 10);
                 }, this));
             }
@@ -300,9 +299,8 @@ define([
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
                     }
-                    var me = this;
                     setTimeout(function(){
-                        view.fireEvent('editcomplete', view);
+                        me.editComplete();
                     }, 10);
                 }, this));
             }
@@ -321,9 +319,8 @@ define([
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
                     }
-                    var me = this;
                     setTimeout(function(){
-                        view.fireEvent('editcomplete', view);
+                        me.editComplete();
                     }, 10);
                 }, this));
             }
@@ -826,7 +823,7 @@ define([
                             : me.api.change_Hyperlink(props);
                     }
 
-                    me.documentHolder.fireEvent('editcomplete', me);
+                    me.editComplete();
                 };
 
                 text = me.api.can_AddHyperlink();
@@ -1214,7 +1211,7 @@ define([
                             Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
 
                             me.api.asc_SetSectionProps(props);
-                            me.documentHolder.fireEvent('editcomplete', me);
+                            me.editComplete();
                         }
                     }
                 });
@@ -1225,7 +1222,7 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.asc_SetColumnsProps(dlg.getSettings());
-                            me.documentHolder.fireEvent('editcomplete', me);
+                            me.editComplete();
                         }
                     }
                 });
@@ -1276,7 +1273,7 @@ define([
                     me.api.asc_SetContentControlDatePickerDate(specProps);
                     controlsContainer.hide();
                     me.api.asc_UncheckContentControlButtons();
-                    me.documentHolder.fireEvent('editcomplete', me);
+                    me.editComplete();
                 });
                 this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
                     if (e.keyCode==Common.UI.Keys.ESC) {
@@ -1520,7 +1517,7 @@ define([
                     this.api.asc_SetMathProps(eqObj);
                 }
             }
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         changePosition: function() {
@@ -1544,7 +1541,7 @@ define([
                         if (result == 'ok') {
                             me.api.add_Hyperlink(dlg.getSettings());
                         }
-                        me.documentHolder.fireEvent('editcomplete', me);
+                        me.editComplete();
                     }
                 });
 
@@ -1564,7 +1561,7 @@ define([
                         if (result == 'ok') {
                             me.api.change_Hyperlink(win.getSettings());
                         }
-                        me.documentHolder.fireEvent('editcomplete', me);
+                        me.editComplete();
                     }
                 });
                 win.show();
@@ -1574,7 +1571,7 @@ define([
 
         onRemoveHyperlink: function(item, e){
             this.api && this.api.remove_Hyperlink(item.hyperProps.value);
-            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+            this.editComplete();
         },
 
         editChartClick: function(){
@@ -1616,7 +1613,7 @@ define([
                                             me.api.paraApply(value.paragraphProps);
                                         }
                                     }
-                                    me.documentHolder.fireEvent('editcomplete', me);
+                                    me.editComplete();
                                 }
                             });
                             break;
@@ -1661,7 +1658,7 @@ define([
                                             me.api.tblApply(value.tableProps);
                                         }
                                     }
-                                    me.documentHolder.fireEvent('editcomplete', me);
+                                    me.editComplete();
                                 }
                             });
                             break;
@@ -1712,13 +1709,13 @@ define([
                         (new Common.Views.CopyWarningDialog({
                             handler: function(dontshow) {
                                 if (dontshow) Common.localStorage.setItem("de-hide-copywarning", 1);
-                                me.documentHolder.fireEvent('editcomplete', me);
+                                me.editComplete();
                             }
                         })).show();
                     }
                 }
             }
-            me.documentHolder.fireEvent('editcomplete', me);
+            me.editComplete();
         },
 
         onUndo: function () {
@@ -1732,7 +1729,7 @@ define([
                 else if (item.value == 'reject')
                     this.api.asc_RejectChanges();
             }
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onPrintSelection: function(item){
@@ -1742,7 +1739,7 @@ define([
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
                 opts.asc_setAdvancedOptions(printopt);
                 this.api.asc_Print(opts);
-                this.documentHolder.fireEvent('editcomplete', this);
+                this.editComplete();
                 Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
             }
         },
@@ -1760,14 +1757,14 @@ define([
                                 me.api.asc_SetContentControlProperties(value, props.get_InternalId());
                             }
 
-                            me.documentHolder.fireEvent('editcomplete', me);
+                            me.editComplete();
                         }
                     })).show();
                 } else if (item.value == 'remove') {
                     props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }
             }
-            me.documentHolder.fireEvent('editcomplete', me);
+            me.editComplete();
         },
 
         onInsertCaption: function() {
@@ -1776,7 +1773,7 @@ define([
 
         onContinueNumbering: function(item, e) {
             this.api.asc_ContinueNumbering();
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onStartNumbering: function(startfrom, item, e) {
@@ -1790,11 +1787,11 @@ define([
                     handler: function (result, value) {
                         if (result == 'ok')
                             me.api.asc_RestartNumbering(value);
-                        me.documentHolder.fireEvent('editcomplete', me);
+                        me.editComplete();
                     }
                 })).show();
             }
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onCellsRemove: function() {
@@ -1816,10 +1813,10 @@ define([
                         else
                             me.api.asc_RemoveTableCells();
                     }
-                    me.documentHolder.fireEvent('editcomplete', me);
+                    me.editComplete();
                 }
             })).show();
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onCellsAdd: function() {
@@ -1833,10 +1830,10 @@ define([
                             settings.before ? me.api.addColumnLeft(settings.count) : me.api.addColumnRight(settings.count);
                         }
                     }
-                    me.documentHolder.fireEvent('editcomplete', me);
+                    me.editComplete();
                 }
             })).show();
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onSignatureClick: function(item) {
@@ -1872,7 +1869,7 @@ define([
             var properties = new Asc.asc_CImgProperty();
             properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.api.ImgApply(properties);
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onImgFlip: function(item) {
@@ -1882,7 +1879,7 @@ define([
             else
                 properties.asc_putFlipVInvert(true);
             this.api.ImgApply(properties);
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onImgCrop: function(menu, item) {
@@ -1893,14 +1890,14 @@ define([
             } else {
                 item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
             }
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onFollowMove: function(item) {
             if (this.api) {
                 this.api.asc_FollowRevisionMove(item.value);
             }
-            this.documentHolder.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         tableCellsVAlign: function(menu, item, e) {
@@ -1987,7 +1984,7 @@ define([
                     Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
             }
-            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+            me.editComplete();
         },
 
         onImgArrange: function(menu, item, e) {
@@ -1997,7 +1994,7 @@ define([
                 properties.put_ChangeLevel(item.options.valign);
                 me.api.ImgApply(properties);
             }
-            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+            me.editComplete();
         },
 
         onImgGroup: function(item) {
@@ -2007,7 +2004,7 @@ define([
                 properties.put_Group(1);
                 me.api.ImgApply(properties);
             }
-            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+            me.editComplete();
         },
 
         onImgUnGroup: function(item) {
@@ -2017,12 +2014,12 @@ define([
                 properties.put_Group(-1);
                 me.api.ImgApply(properties);
             }
-            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+            me.editComplete();
         },
 
         onImgWrapPolygon: function(item) {
             this.api && this.api.StartChangeWrapPolygon();
-            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+            this.editComplete();
         },
 
         onImgWrap: function (menu, item, e) {
@@ -2046,7 +2043,7 @@ define([
                 }
                 me.api.ImgApply(properties);
             }
-            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+            me.editComplete();
         },
 
         onImgAdvanced: function(item, e) {
@@ -2079,7 +2076,7 @@ define([
                                             me.api.ImgApply(value.imageProps);
                                         }
                                     }
-                                    me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                                    me.editComplete();
                                 }
                             });
                             win.show();
@@ -2103,7 +2100,7 @@ define([
                 properties.put_Rot(0);
                 me.api.ImgApply(properties);
 
-                me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                me.editComplete();
             }
         },
 
@@ -2122,7 +2119,7 @@ define([
                                 }
                             }
                         }
-                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                        me.editComplete();
                     }
                 })).show();
             } else if (item.value==2) {
@@ -2130,7 +2127,7 @@ define([
             } else {
                 setTimeout(function(){
                     if (me.api) me.api.ChangeImageFromFile();
-                    me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                    me.editComplete();
                 }, 10);
             }
         },
@@ -2155,7 +2152,7 @@ define([
                             }
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
                         }
-                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                        me.editComplete();
                     }
                 })).show();
             }
@@ -2163,17 +2160,17 @@ define([
 
         onIgnoreSpell: function(item, e){
             this.api && this.api.asc_ignoreMisspelledWord(this.documentHolder._currentSpellObj, !!item.value);
-            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+            this.editComplete();
         },
 
         onToDictionary: function(item, e){
             this.api && this.api.asc_spellCheckAddToDictionary(this.documentHolder._currentSpellObj);
-            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+            this.editComplete();
         },
 
         onTableDist: function(item, e){
             this.api && this.api.asc_DistributeTableCells(!!item.value);
-            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+            this.editComplete();
         },
 
         tableDirection: function(menu, item, e) {
@@ -2187,7 +2184,7 @@ define([
 
         onRefreshField: function(item, e){
             this.api && this.api.asc_UpdateComplexField(item.options.fieldProps);
-            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+            this.editComplete();
         },
 
         onParagraphBreakBefore: function(item, e){
@@ -2223,13 +2220,12 @@ define([
                     me.api.put_TextPrLang(item.langid);
 
                 (type=='para') ? (me.documentHolder._currLang.paraid = item.langid) : (me.documentHolder._currLang.tableid = item.langid);
-                me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                me.editComplete();
             }
         },
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
         }
-
     });
 });
