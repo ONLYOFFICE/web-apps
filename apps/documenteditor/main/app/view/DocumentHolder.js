@@ -169,7 +169,7 @@ define([
                     }
 
                     me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
                     me.menuViewCopySeparator.setVisible(isInSign);
 
                     var isRequested = (signProps) ? signProps.asc_getRequested() : false;

@@ -2327,7 +2327,7 @@ define([
                 canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments() && cellinfo.asc_getComments().length < 1;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
-            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
+            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo());
             documentHolder.menuViewCopySeparator.setVisible(isInSign);
 
             var isRequested = (signProps) ? signProps.asc_getRequested() : false;
