@@ -417,7 +417,9 @@ define([
             view.menuParagraphDirection.menu.on('item:click', _.bind(me.paragraphDirection, me));
             view.langParaMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'para'));
             view.langTableMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'table'));
-
+            view.menuTableTOC.menu.on('item:click', _.bind(me.onTOCMenu, me));
+            view.menuParaTOCRefresh.menu.on('item:click', _.bind(me.onTOCMenu, me));
+            view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
         },
 
         getView: function (name) {
@@ -2219,9 +2221,17 @@ define([
                 if (!_.isUndefined(item.langid))
                     me.api.put_TextPrLang(item.langid);
 
-                (type=='para') ? (me.documentHolder._currLang.paraid = item.langid) : (me.documentHolder._currLang.tableid = item.langid);
+                (type==='para') ? (me.documentHolder._currLang.paraid = item.langid) : (me.documentHolder._currLang.tableid = item.langid);
                 me.editComplete();
             }
+        },
+
+        onTOCMenu: function(menu, item, e) {
+            this.documentHolder.fireEvent((item.value==='settings') ? 'links:contents' : 'links:update', [item.value, true]);
+        },
+
+        onParaTOCSettings: function(item, e) {
+            this.documentHolder.fireEvent('links:contents', [item.value, true]);
         },
 
         editComplete: function() {

@@ -905,7 +905,7 @@ define([
                 })
             });
 
-            var menuTableTOC = new Common.UI.MenuItem({
+            me.menuTableTOC = new Common.UI.MenuItem({
                 caption     : me.textTOC,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -925,9 +925,6 @@ define([
                         }
                     ]
                 })
-            });
-            menuTableTOC.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent((item.value=='settings') ? 'links:contents' : 'links:update', [item.value, true]);
             });
 
             /** coauthoring begin **/
@@ -1415,7 +1412,7 @@ define([
                         menuTableControl.setVisible(in_control);
                         me.menuTableRemoveForm.setVisible(in_control);
                     }
-                    menuTableTOC.setVisible(in_toc);
+                    me.menuTableTOC.setVisible(in_toc);
 
                     /** coauthoring begin **/
                         // comments
@@ -1472,7 +1469,7 @@ define([
                     menuHyperlinkSeparator,
                     me.menuTableRemoveForm,
                     menuTableControl,
-                    menuTableTOC,
+                    me.menuTableTOC,
                     me.menuParagraphAdvancedInTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
@@ -1752,14 +1749,12 @@ define([
                 caption     : '--'
             });
 
-            var menuParaTOCSettings = new Common.UI.MenuItem({
+            me.menuParaTOCSettings = new Common.UI.MenuItem({
                 caption: me.textTOCSettings,
                 value: 'settings'
-            }).on('click', function (item, e) {
-                me.fireEvent('links:contents', [item.value, true]);
             });
 
-            var menuParaTOCRefresh = new Common.UI.MenuItem({
+            me.menuParaTOCRefresh = new Common.UI.MenuItem({
                 caption     : me.textUpdateTOC,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -1775,9 +1770,6 @@ define([
                         }
                     ]
                 })
-            });
-            menuParaTOCRefresh.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('links:update', [item.value, true]);
             });
 
             var menuParaTOCSeparator = new Common.UI.MenuItem({
@@ -1991,8 +1983,8 @@ define([
                                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
 
                     }
-                    menuParaTOCSettings.setVisible(in_toc);
-                    menuParaTOCRefresh.setVisible(in_toc);
+                    me.menuParaTOCSettings.setVisible(in_toc);
+                    me.menuParaTOCRefresh.setVisible(in_toc);
                     menuParaTOCSeparator.setVisible(in_toc);
 
                     /** coauthoring begin **/
@@ -2055,8 +2047,8 @@ define([
                     menuParaControlSeparator,
                     me.menuParaRefreshField,
                     menuParaFieldSeparator,
-                    menuParaTOCSettings,
-                    menuParaTOCRefresh,
+                    me.menuParaTOCSettings,
+                    me.menuParaTOCRefresh,
                     menuParaTOCSeparator,
                     me.menuParagraphBreakBefore,
                     me.menuParagraphKeepLines,
