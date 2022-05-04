@@ -388,7 +388,16 @@ define([
             view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
             view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
             view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
-
+            view.menuImageAlign.menu.on('item:click', _.bind(me.onImgAlign, me));
+            view.menuImageArrange.menu.on('item:click', _.bind(me.onImgArrange, me));
+            view.mnuGroup.on('click', _.bind(me.onImgGroup, me));
+            view.mnuUnGroup.on('click', _.bind(me.onImgUnGroup, me));
+            view.menuWrapPolygon.on('click', _.bind(me.onImgWrapPolygon, me));
+            view.menuImageWrap.menu.on('item:click', _.bind(me.onImgWrap, me));
+            view.menuImageAdvanced.on('click', _.bind(me.onImgAdvanced, me));
+            view.menuOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
+            view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
+            view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
         },
 
         getView: function (name) {
@@ -1930,6 +1939,180 @@ define([
             }
         },
 
+        onImgAlign: function(menu, item, e) {
+            var me = this;
+            if (me.api) {
+                var alignto = Common.Utils.InternalSettings.get("de-img-align-to"),
+                    value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
+                if (item.value < 6) {
+                    me.api.put_ShapesAlign(item.value, value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                } else if (item.value == 6) {
+                    me.api.DistributeHorizontally(value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                } else if (item.value == 7){
+                    me.api.DistributeVertically(value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
+                }
+            }
+            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+        },
+
+        onImgArrange: function(menu, item, e) {
+            var me = this;
+            if (me.api && item.options.valign!==undefined) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ChangeLevel(item.options.valign);
+                me.api.ImgApply(properties);
+            }
+            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+        },
+
+        onImgGroup: function(item) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_Group(1);
+                me.api.ImgApply(properties);
+            }
+            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+        },
+
+        onImgUnGroup: function(item) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_Group(-1);
+                me.api.ImgApply(properties);
+            }
+            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+        },
+
+        onImgWrapPolygon: function(item) {
+            this.api && this.api.StartChangeWrapPolygon();
+            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        onImgWrap: function (menu, item, e) {
+            var me = this;
+            if (me.api && item.options.wrapType!==undefined) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_WrappingStyle(item.options.wrapType);
+
+                if (me.documentHolder.menuImageWrap._originalProps.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline && item.wrapType !== Asc.c_oAscWrapStyle2.Inline ) {
+                    properties.put_PositionH(new Asc.CImagePositionH());
+                    properties.get_PositionH().put_UseAlign(false);
+                    properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
+                    var val = me.documentHolder.menuImageWrap._originalProps.get_Value_X(Asc.c_oAscRelativeFromH.Column);
+                    properties.get_PositionH().put_Value(val);
+
+                    properties.put_PositionV(new Asc.CImagePositionV());
+                    properties.get_PositionV().put_UseAlign(false);
+                    properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
+                    val = me.documentHolder.menuImageWrap._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);
+                    properties.get_PositionV().put_Value(val);
+                }
+                me.api.ImgApply(properties);
+            }
+            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+        },
+
+        onImgAdvanced: function(item, e) {
+            var elType, elValue;
+            var me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && _.isArray(selectedElements)) {
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                            var imgsizeOriginal;
+                            if ( !elValue.get_ChartProperties() && !elValue.get_ShapeProperties() && !me.documentHolder.menuOriginalSize.isDisabled() && me.documentHolder.menuOriginalSize.isVisible()) {
+                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                if (imgsizeOriginal)
+                                    imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
+                            }
+
+                            var win = new DE.Views.ImageSettingsAdvanced({
+                                imageProps  : elValue,
+                                sizeOriginal: imgsizeOriginal,
+                                api         : me.api,
+                                sectionProps: me.api.asc_GetSectionProps(),
+                                handler     : function(result, value) {
+                                    if (result == 'ok') {
+                                        if (me.api) {
+                                            me.api.ImgApply(value.imageProps);
+                                        }
+                                    }
+                                    me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                                }
+                            });
+                            win.show();
+                            win.btnOriginalSize.setVisible(me.documentHolder.menuOriginalSize.isVisible());
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onImgOriginalSize: function(item, e) {
+            var me = this;
+            if (me.api){
+                var originalImageSize = me.api.get_OriginalSizeImage();
+
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_Width(originalImageSize.get_ImageWidth());
+                properties.put_Height(originalImageSize.get_ImageHeight());
+                properties.put_ResetCrop(true);
+                properties.put_Rot(0);
+                me.api.ImgApply(properties);
+
+                me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+            }
+        },
+
+        onImgReplace: function(menu, item, e) {
+            var me = this;
+            if (item.value==1) {
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    var props = new Asc.asc_CImgProperty();
+                                    props.put_ImageUrl(checkUrl);
+                                    me.api.ImgApply(props);
+                                }
+                            }
+                        }
+                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'change');
+            } else {
+                setTimeout(function(){
+                    if (me.api) me.api.ChangeImageFromFile();
+                    me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                }, 10);
+            }
+        },
+
+        onImgEditPoints: function(item) {
+            this.api && this.api.asc_editPointsGeometry();
+        },
+
+
+
+
+        editComplete: function() {
+            this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
 
     });
 });
