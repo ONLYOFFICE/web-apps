@@ -122,8 +122,6 @@ define([
             me.menuViewUndo = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
-            }).on('click', function () {
-                me.api.Undo();
             });
 
             me.menuViewCopySeparator = new Common.UI.MenuItem({
@@ -796,31 +794,13 @@ define([
                 caption : me.txtInsertCaption
             });
 
-            var mnuTableMerge = new Common.UI.MenuItem({
+            me.mnuTableMerge = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
-            }).on('click', function(item) {
-                if (me.api)
-                    me.api.MergeCells();
             });
 
-            var mnuTableSplit = new Common.UI.MenuItem({
+            me.mnuTableSplit = new Common.UI.MenuItem({
                 caption     : me.splitCellsText
-            }).on('click', function(item) {
-                if (me.api){
-                    (new Common.Views.InsertTableDialog({
-                        split: true,
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                if (me.api) {
-                                    me.api.SplitCell(value.columns, value.rows);
-                                }
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
-                            }
-                            me.fireEvent('editcomplete', me);
-                        }
-                    })).show();
-                }
             });
 
             me.menuTableCellAlign = new Common.UI.MenuItem({
@@ -879,11 +859,8 @@ define([
                 caption     : me.editHyperlinkText
             });
 
-            var menuRemoveHyperlinkTable = new Common.UI.MenuItem({
+            me.menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
-            }).on('click', function(item, e){
-                me.api && me.api.remove_Hyperlink(item.hyperProps.value);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuHyperlinkTable = new Common.UI.MenuItem({
@@ -894,7 +871,7 @@ define([
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkTable,
-                        menuRemoveHyperlinkTable
+                        me.menuRemoveHyperlinkTable
                     ]
                 })
             });
@@ -1005,29 +982,18 @@ define([
                 })
             });
 
-            var menuIgnoreSpellTable = new Common.UI.MenuItem({
-                caption     : me.ignoreSpellText
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.asc_ignoreMisspelledWord(me._currentSpellObj, false);
-                    me.fireEvent('editcomplete', me);
-                }
+            me.menuIgnoreSpellTable = new Common.UI.MenuItem({
+                caption     : me.ignoreSpellText,
+                value: false
             });
 
-            var menuIgnoreAllSpellTable = new Common.UI.MenuItem({
-                caption     : me.ignoreAllSpellText
-            }).on('click', function(menu) {
-                if (me.api) {
-                    me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
-                    me.fireEvent('editcomplete', me);
-                }
+            me.menuIgnoreAllSpellTable = new Common.UI.MenuItem({
+                caption     : me.ignoreAllSpellText,
+                value: true
             });
 
-            var menuToDictionaryTable = new Common.UI.MenuItem({
+            me.menuToDictionaryTable = new Common.UI.MenuItem({
                 caption     : me.toDictionaryText
-            }).on('click', function(item, e) {
-                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
@@ -1048,9 +1014,9 @@ define([
                         me.menuSpellTable,
                         me.menuSpellMoreTable,
                         menuIgnoreSpellTableSeparator,
-                        menuIgnoreSpellTable,
-                        menuIgnoreAllSpellTable,
-                        menuToDictionaryTable,
+                        me.menuIgnoreSpellTable,
+                        me.menuIgnoreAllSpellTable,
+                        me.menuToDictionaryTable,
                         { caption: '--' },
                         me.langTableMenu
                     ]
@@ -1099,31 +1065,17 @@ define([
                 caption     : '--'
             });
 
-            var menuTableDistRows = new Common.UI.MenuItem({
-                caption : me.textDistributeRows
-            }).on('click', _.bind(function(){
-                 if (me.api)
-                     me.api.asc_DistributeTableCells(false);
-                me.fireEvent('editcomplete', me);
-            }, me));
+            me.menuTableDistRows = new Common.UI.MenuItem({
+                caption : me.textDistributeRows,
+                value: false
+            });
 
-            var menuTableDistCols = new Common.UI.MenuItem({
-                caption : me.textDistributeCols
-            }).on('click', _.bind(function(){
-                if (me.api)
-                    me.api.asc_DistributeTableCells(true);
-                me.fireEvent('editcomplete', me);
-            }, me));
+            me.menuTableDistCols = new Common.UI.MenuItem({
+                caption : me.textDistributeCols,
+                value: true
+            });
 
-            var tableDirection = function(item, e) {
-                if (me.api) {
-                    var properties = new Asc.CTableProp();
-                    properties.put_CellsTextDirection(item.options.direction);
-                    me.api.tblApply(properties);
-                }
-            };
-
-            var menuTableDirection = new Common.UI.MenuItem({
+            me.menuTableDirection = new Common.UI.MenuItem({
                 iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
@@ -1138,7 +1090,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
                             direction      : Asc.c_oAscCellTextDirection.LRTB
-                        }).on('click', _.bind(tableDirection, me)),
+                        }),
                         me.menuTableDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
                             iconCls     : 'menu__icon text-orient-rdown',
@@ -1147,7 +1099,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
                             direction      : Asc.c_oAscCellTextDirection.TBRL
-                        }).on('click', _.bind(tableDirection, me)),
+                        }),
                         me.menuTableDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
                             iconCls     : 'menu__icon text-orient-rup',
@@ -1156,7 +1108,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
                             direction      : Asc.c_oAscCellTextDirection.BTLR
-                        }).on('click', _.bind(tableDirection, me))
+                        })
                     ]
                 })
             });
@@ -1186,11 +1138,8 @@ define([
                 })
             });
 
-            var menuTableRefreshField = new Common.UI.MenuItem({
+            me.menuTableRefreshField = new Common.UI.MenuItem({
                 caption: me.textRefreshField
-            }).on('click', function(item, e){
-                me.api.asc_UpdateComplexField(item.options.fieldProps);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuTableFieldSeparator = new Common.UI.MenuItem({
@@ -1328,7 +1277,7 @@ define([
                             cls = 'menu__icon text-orient-rup';
                             break;
                     }
-                    menuTableDirection.setIconCls(cls);
+                    me.menuTableDirection.setIconCls(cls);
                     me.menuTableDirectH.setChecked(dir == Asc.c_oAscCellTextDirection.LRTB);
                     me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
@@ -1338,14 +1287,14 @@ define([
                     me.tableMenu.items[15].setDisabled(disabled);
 
                     if (me.api) {
-                        mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
-                        mnuTableSplit.setDisabled(disabled || !me.api.CheckBeforeSplitCells());
+                        me.mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
+                        me.mnuTableSplit.setDisabled(disabled || !me.api.CheckBeforeSplitCells());
                     }
 
-                    menuTableDistRows.setDisabled(disabled);
-                    menuTableDistCols.setDisabled(disabled);
+                    me.menuTableDistRows.setDisabled(disabled);
+                    me.menuTableDistCols.setDisabled(disabled);
                     me.menuTableCellAlign.setDisabled(disabled);
-                    menuTableDirection.setDisabled(disabled);
+                    me.menuTableDirection.setDisabled(disabled);
                     me.menuTableAdvanced.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
@@ -1385,7 +1334,7 @@ define([
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
-                    menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
+                    me.menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
 
                     if (text!==false) {
                         me.menuAddHyperlinkTable.hyperProps = {};
@@ -1406,7 +1355,7 @@ define([
                     });
                     me.menuTableFollow.setVisible(move);
 
-                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible() || menuTableFollow.isVisible());
+                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible() || me.menuTableFollow.isVisible());
 
                     // paragraph properties
                     me.menuParagraphAdvancedInTable.setVisible(value.paraProps!==undefined);
@@ -1417,7 +1366,7 @@ define([
                     me.menuParagraphAdvancedInTable.setDisabled(disabled);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
+                    me.menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     
                     me.langTableMenu.setDisabled(disabled);
@@ -1475,11 +1424,11 @@ define([
                     /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
-                    menuTableRefreshField.setVisible(!!in_field);
-                    menuTableRefreshField.setDisabled(disabled);
+                    me.menuTableRefreshField.setVisible(!!in_field);
+                    me.menuTableRefreshField.setDisabled(disabled);
                     menuTableFieldSeparator.setVisible(!!in_field);
                     if (in_field) {
-                        menuTableRefreshField.options.fieldProps = in_field;
+                        me.menuTableRefreshField.options.fieldProps = in_field;
                     }
                 },
                 items: [
@@ -1494,20 +1443,20 @@ define([
                     me.menuTableReject,
                     menuTableReviewSeparator,
                     menuEquationSeparatorInTable,
-                    menuTableRefreshField,
+                    me.menuTableRefreshField,
                     menuTableFieldSeparator,
                     me.menuTableSelectText,
                     me.menuTableInsertText,
                     me.menuTableDeleteText,
                     { caption: '--' },
-                    mnuTableMerge,
-                    mnuTableSplit,
+                    me.mnuTableMerge,
+                    me.mnuTableSplit,
                     { caption: '--' },
-                    menuTableDistRows,
-                    menuTableDistCols,
+                    me.menuTableDistRows,
+                    me.menuTableDistCols,
                     { caption: '--' },
                     me.menuTableCellAlign,
-                    menuTableDirection,
+                    me.menuTableDirection,
                     { caption: '--' },
                     me.menuTableInsertCaption,
                     { caption: '--' },
@@ -1538,29 +1487,17 @@ define([
 
             /* text menu */
 
-            var menuParagraphBreakBefore = new Common.UI.MenuItem({
+            me.menuParagraphBreakBefore = new Common.UI.MenuItem({
                 caption     : me.breakBeforeText,
                 checkable   : true
-            }).on('click', function(item, e) {
-                    me.api.put_PageBreak(item.checked);
             });
 
-            var menuParagraphKeepLines = new Common.UI.MenuItem({
+            me.menuParagraphKeepLines = new Common.UI.MenuItem({
                 caption     : me.keepLinesText,
                 checkable   : true
-            }).on('click', function(item, e) {
-                    me.api.put_KeepLines(item.checked);
             });
 
-            var paragraphVAlign = function(item, e) {
-                if (me.api) {
-                    var properties = new Asc.asc_CImgProperty();
-                    properties.put_VerticalTextAlign(item.options.valign);
-                    me.api.ImgApply(properties);
-                }
-            };
-
-            var menuParagraphVAlign = new Common.UI.MenuItem({
+            me.menuParagraphVAlign = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-align-top',
                 caption     : me.vertAlignText,
                 menu        : new Common.UI.Menu({
@@ -1575,7 +1512,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
                             valign      : Asc.c_oAscVAlign.Top
-                        }).on('click', _.bind(paragraphVAlign, me)),
+                        }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-middle',
                             caption     : me.textShapeAlignMiddle,
@@ -1584,7 +1521,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
                             valign      : Asc.c_oAscVAlign.Center
-                        }).on('click', _.bind(paragraphVAlign, me)),
+                        }),
                         me.menuParagraphBottom = new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-align-bottom',
                             caption     : me.textShapeAlignBottom,
@@ -1593,20 +1530,12 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
                             valign      : Asc.c_oAscVAlign.Bottom
-                        }).on('click', _.bind(paragraphVAlign, me))
+                        })
                     ]
                 })
             });
 
-            var paragraphDirection = function(item, e) {
-                if (me.api) {
-                    var properties = new Asc.asc_CImgProperty();
-                    properties.put_Vert(item.options.direction);
-                    me.api.ImgApply(properties);
-                }
-            };
-
-            var menuParagraphDirection = new Common.UI.MenuItem({
+            me.menuParagraphDirection = new Common.UI.MenuItem({
                 iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
@@ -1621,7 +1550,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.normal
-                        }).on('click', _.bind(paragraphDirection, me)),
+                        }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
                             iconCls     : 'menu__icon text-orient-rdown',
@@ -1630,7 +1559,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert
-                        }).on('click', _.bind(paragraphDirection, me)),
+                        }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
                             iconCls     : 'menu__icon text-orient-rup',
@@ -1639,7 +1568,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert270
-                        }).on('click', _.bind(paragraphDirection, me))
+                        })
                     ]
                 })
             });
@@ -1682,11 +1611,8 @@ define([
                 caption     : me.editHyperlinkText
             });
 
-            var menuRemoveHyperlinkPara = new Common.UI.MenuItem({
+            me.menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
-            }).on('click', function(item, e) {
-                me.api.remove_Hyperlink(item.hyperProps.value);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuHyperlinkPara = new Common.UI.MenuItem({
@@ -1697,7 +1623,7 @@ define([
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkPara,
-                        menuRemoveHyperlinkPara
+                        me.menuRemoveHyperlinkPara
                     ]
                 })
             });
@@ -1747,25 +1673,18 @@ define([
                 })
             });
 
-            var menuIgnoreSpellPara = new Common.UI.MenuItem({
-                caption     : me.ignoreSpellText
-            }).on('click', function(item, e) {
-                me.api.asc_ignoreMisspelledWord(me._currentSpellObj, false);
-                me.fireEvent('editcomplete', me);
+            me.menuIgnoreSpellPara = new Common.UI.MenuItem({
+                caption     : me.ignoreSpellText,
+                value: false
             });
 
-            var menuIgnoreAllSpellPara = new Common.UI.MenuItem({
-                caption     : me.ignoreAllSpellText
-            }).on('click', function(item, e) {
-                me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
-                me.fireEvent('editcomplete', me);
+            me.menuIgnoreAllSpellPara = new Common.UI.MenuItem({
+                caption     : me.ignoreAllSpellText,
+                value: true
             });
 
-            var menuToDictionaryPara = new Common.UI.MenuItem({
+            me.menuToDictionaryPara = new Common.UI.MenuItem({
                 caption     : me.toDictionaryText
-            }).on('click', function(item, e) {
-                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuIgnoreSpellParaSeparator = new Common.UI.MenuItem({
@@ -1865,11 +1784,8 @@ define([
                 caption     : '--'
             });
 
-            var menuParaRefreshField = new Common.UI.MenuItem({
+            me.menuParaRefreshField = new Common.UI.MenuItem({
                 caption: me.textRefreshField
-            }).on('click', function(item, e){
-                me.api.asc_UpdateComplexField(item.options.fieldProps);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuParaFieldSeparator = new Common.UI.MenuItem({
@@ -1912,8 +1828,8 @@ define([
                         control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
                         is_form = control_props && control_props.get_FormPr();
 
-                    menuParagraphVAlign.setVisible(isInShape && !isInChart && !isEquation && !(is_form && control_props.get_FormPr().get_Fixed())); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
-                    menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation && !(is_form && control_props.get_FormPr().get_Fixed())); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
+                    me.menuParagraphVAlign.setVisible(isInShape && !isInChart && !isEquation && !(is_form && control_props.get_FormPr().get_Fixed())); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
+                    me.menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation && !(is_form && control_props.get_FormPr().get_Fixed())); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if ( isInShape || isInChart ) {
                         var align = value.imgProps.value.get_VerticalTextAlign();
                         var cls = '';
@@ -1928,7 +1844,7 @@ define([
                                 cls = 'menu__icon btn-align-bottom';
                                 break;
                         }
-                        menuParagraphVAlign.setIconCls(cls);
+                        me.menuParagraphVAlign.setIconCls(cls);
                         me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
@@ -1946,18 +1862,18 @@ define([
                                 cls = 'menu__icon text-orient-rup';
                                 break;
                         }
-                        menuParagraphDirection.setIconCls(cls);
+                        me.menuParagraphDirection.setIconCls(cls);
                         me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
                         me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     }
                     me.menuParagraphAdvanced.isChart = (value.imgProps && value.imgProps.isChart);
                     me.menuParagraphAdvanced.isSmartArtInternal = (value.imgProps && value.imgProps.isSmartArtInternal);
-                    menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
-                    menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
+                    me.menuParagraphBreakBefore.setVisible(!isInShape && !isInChart && !isEquation);
+                    me.menuParagraphKeepLines.setVisible(!isInShape && !isInChart && !isEquation);
                     if (value.paraProps) {
-                        menuParagraphBreakBefore.setChecked(value.paraProps.value.get_PageBreakBefore());
-                        menuParagraphKeepLines.setChecked(value.paraProps.value.get_KeepLines());
+                        me.menuParagraphBreakBefore.setChecked(value.paraProps.value.get_PageBreakBefore());
+                        me.menuParagraphKeepLines.setChecked(value.paraProps.value.get_KeepLines());
                     }
 
                     var text = null;
@@ -1968,7 +1884,7 @@ define([
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
                     menuHyperlinkParaSeparator.setVisible(me.menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
                     me.menuEditHyperlinkPara.hyperProps = value.hyperProps;
-                    menuRemoveHyperlinkPara.hyperProps = value.hyperProps;
+                    me.menuRemoveHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
                         me.menuAddHyperlinkPara.hyperProps = {};
                         me.menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
@@ -1993,13 +1909,13 @@ define([
                     me.menuParaFollow.setVisible(move);
                     menuParaFollowSeparator.setVisible(move);
 
-                    menuParagraphBreakBefore.setDisabled(disabled || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
-                    menuParagraphKeepLines.setDisabled(disabled);
+                    me.menuParagraphBreakBefore.setDisabled(disabled || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
+                    me.menuParagraphKeepLines.setDisabled(disabled);
                     me.menuParagraphAdvanced.setDisabled(disabled);
                     me.menuFrameAdvanced.setDisabled(disabled);
                     me.menuDropCapAdvanced.setDisabled(disabled);
-                    menuParagraphVAlign.setDisabled(disabled);
-                    menuParagraphDirection.setDisabled(disabled);
+                    me.menuParagraphVAlign.setDisabled(disabled);
+                    me.menuParagraphDirection.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuParaCopy.setDisabled(!cancopy);
@@ -2017,9 +1933,9 @@ define([
                     var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     me.menuSpellPara.setVisible(spell);
                     menuSpellcheckParaSeparator.setVisible(spell);
-                    menuIgnoreSpellPara.setVisible(spell);
-                    menuIgnoreAllSpellPara.setVisible(spell);
-                    menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
+                    me.menuIgnoreSpellPara.setVisible(spell);
+                    me.menuIgnoreAllSpellPara.setVisible(spell);
+                    me.menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
                     me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
                     menuIgnoreSpellParaSeparator.setVisible(spell);
@@ -2089,11 +2005,11 @@ define([
                     /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
-                    menuParaRefreshField.setVisible(!!in_field);
-                    menuParaRefreshField.setDisabled(disabled);
+                    me.menuParaRefreshField.setVisible(!!in_field);
+                    me.menuParaRefreshField.setDisabled(disabled);
                     menuParaFieldSeparator.setVisible(!!in_field);
                     if (in_field) {
-                        menuParaRefreshField.options.fieldProps = in_field;
+                        me.menuParaRefreshField.options.fieldProps = in_field;
                     }
 
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -2118,9 +2034,9 @@ define([
                     me.menuSpellPara,
                     me.menuSpellMorePara,
                     menuSpellcheckParaSeparator,
-                    menuIgnoreSpellPara,
-                    menuIgnoreAllSpellPara,
-                    menuToDictionaryPara,
+                    me.menuIgnoreSpellPara,
+                    me.menuIgnoreAllSpellPara,
+                    me.menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
                     me.menuParaCut,
@@ -2137,15 +2053,15 @@ define([
                     me.menuParaRemoveControl,
                     me.menuParaControlSettings,
                     menuParaControlSeparator,
-                    menuParaRefreshField,
+                    me.menuParaRefreshField,
                     menuParaFieldSeparator,
                     menuParaTOCSettings,
                     menuParaTOCRefresh,
                     menuParaTOCSeparator,
-                    menuParagraphBreakBefore,
-                    menuParagraphKeepLines,
-                    menuParagraphVAlign,
-                    menuParagraphDirection,
+                    me.menuParagraphBreakBefore,
+                    me.menuParagraphKeepLines,
+                    me.menuParagraphVAlign,
+                    me.menuParagraphDirection,
                     me.menuParagraphAdvanced,
                     me.menuFrameAdvanced,
                     me.menuDropCapAdvanced,
@@ -2897,26 +2813,6 @@ define([
                 });
                 me.langParaMenu.menu.resetItems(arrPara);
                 me.langTableMenu.menu.resetItems(arrTable);
-
-                me.langParaMenu.menu.on('item:click', function(menu, item){
-                    if (me.api){
-                        if (!_.isUndefined(item.langid))
-                            me.api.put_TextPrLang(item.langid);
-
-                        me._currLang.paraid = item.langid;
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
-
-                me.langTableMenu.menu.on('item:click', function(menu, item, e){
-                    if (me.api){
-                        if (!_.isUndefined(item.langid))
-                            me.api.put_TextPrLang(item.langid);
-
-                        me._currLang.tableid = item.langid;
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
             }
         },
 

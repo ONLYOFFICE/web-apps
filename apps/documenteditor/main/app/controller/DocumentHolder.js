@@ -250,6 +250,7 @@ define([
                 view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuViewPaste.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuViewCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuViewUndo.on('click', _.bind(me.onUndo, me));
                 view.menuViewAddComment.on('click', _.bind(me.addComment, me));
                 view.menuSignatureViewSign.on('click', _.bind(me.onSignatureClick, me));
                 view.menuSignatureDetails.on('click', _.bind(me.onSignatureClick, me));
@@ -369,10 +370,12 @@ define([
             view.menuParagraphAdvanced.on('click', _.bind(me.advancedParagraphClick, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
-            view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
-            view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
+            view.menuRemoveHyperlinkTable.on('click', _.bind(me.onRemoveHyperlink, me));
+            view.menuRemoveHyperlinkPara.on('click', _.bind(me.onRemoveHyperlink, me));
             view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
             view.menuAddHyperlinkPara.on('click', _.bind(me.addHyperlink, me));
+            view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
+            view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuTableFollow.on('click', _.bind(me.onFollowMove, me));
             view.menuParaFollow.on('click', _.bind(me.onFollowMove, me));
             view.menuTableStartNewList.on('click', _.bind(me.onStartNumbering, me, 1));
@@ -398,6 +401,26 @@ define([
             view.menuOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.mnuTableMerge.on('click', _.bind(me.onTableMerge, me));
+            view.mnuTableSplit.on('click', _.bind(me.onTableSplit, me));
+            view.menuIgnoreSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuIgnoreSpellPara.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuIgnoreAllSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuIgnoreAllSpellPara.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuToDictionaryTable.on('click', _.bind(me.onToDictionary, me));
+            view.menuToDictionaryPara.on('click', _.bind(me.onToDictionary, me));
+            view.menuTableDistRows.on('click', _.bind(me.onTableDist, me));
+            view.menuTableDistCols.on('click', _.bind(me.onTableDist, me));
+            view.menuTableDirection.menu.on('item:click', _.bind(me.tableDirection, me));
+            view.menuTableRefreshField.on('click', _.bind(me.onRefreshField, me));
+            view.menuParaRefreshField.on('click', _.bind(me.onRefreshField, me));
+            view.menuParagraphBreakBefore.on('click', _.bind(me.onParagraphBreakBefore, me));
+            view.menuParagraphKeepLines.on('click', _.bind(me.onParagraphKeepLines, me));
+            view.menuParagraphVAlign.menu.on('item:click', _.bind(me.paragraphVAlign, me));
+            view.menuParagraphDirection.menu.on('item:click', _.bind(me.paragraphDirection, me));
+            view.langParaMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'para'));
+            view.langTableMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'table'));
+
         },
 
         getView: function (name) {
@@ -1549,6 +1572,11 @@ define([
             }
         },
 
+        onRemoveHyperlink: function(item, e){
+            this.api && this.api.remove_Hyperlink(item.hyperProps.value);
+            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
         editChartClick: function(){
             var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
@@ -1691,6 +1719,10 @@ define([
                 }
             }
             me.documentHolder.fireEvent('editcomplete', me);
+        },
+
+        onUndo: function () {
+            this.api.Undo();
         },
 
         onAcceptRejectChange: function(item, e) {
@@ -2107,12 +2139,97 @@ define([
             this.api && this.api.asc_editPointsGeometry();
         },
 
+        onTableMerge: function(item) {
+            this.api && this.api.MergeCells();
+        },
 
+        onTableSplit: function(item) {
+            var me = this;
+            if (me.api){
+                (new Common.Views.InsertTableDialog({
+                    split: true,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.SplitCell(value.columns, value.rows);
+                            }
+                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table');
+                        }
+                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                    }
+                })).show();
+            }
+        },
 
+        onIgnoreSpell: function(item, e){
+            this.api && this.api.asc_ignoreMisspelledWord(this.documentHolder._currentSpellObj, !!item.value);
+            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        onToDictionary: function(item, e){
+            this.api && this.api.asc_spellCheckAddToDictionary(this.documentHolder._currentSpellObj);
+            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        onTableDist: function(item, e){
+            this.api && this.api.asc_DistributeTableCells(!!item.value);
+            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        tableDirection: function(menu, item, e) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.CTableProp();
+                properties.put_CellsTextDirection(item.options.direction);
+                me.api.tblApply(properties);
+            }
+        },
+
+        onRefreshField: function(item, e){
+            this.api && this.api.asc_UpdateComplexField(item.options.fieldProps);
+            this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        onParagraphBreakBefore: function(item, e){
+            this.api && this.api.put_PageBreak(item.checked);
+        },
+
+        onParagraphKeepLines: function(item, e){
+            this.api && this.api.put_KeepLines(item.checked);
+        },
+
+        paragraphVAlign: function(menu, item, e) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_VerticalTextAlign(item.options.valign);
+                me.api.ImgApply(properties);
+            }
+        },
+
+        paragraphDirection: function(menu, item, e) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_Vert(item.options.direction);
+                me.api.ImgApply(properties);
+            }
+        },
+
+        onLangMenu: function(type, menu, item){
+            var me = this;
+            if (me.api){
+                if (!_.isUndefined(item.langid))
+                    me.api.put_TextPrLang(item.langid);
+
+                (type=='para') ? (me.documentHolder._currLang.paraid = item.langid) : (me.documentHolder._currLang.tableid = item.langid);
+                me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+            }
+        },
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
-        },
+        }
 
     });
 });
