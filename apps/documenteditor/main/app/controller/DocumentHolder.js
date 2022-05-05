@@ -1027,7 +1027,7 @@ define([
                     screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                 }
                 /** coauthoring begin **/
-                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit && isUserVisible(moveData.get_UserId())) { // 2 - locked object
+                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
                     var src;
                     if (me.usertipcount >= me.usertips.length) {
                         src = $(document.createElement("div"));
