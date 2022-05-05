@@ -1855,7 +1855,7 @@ define([
                 cls: 'shifted-right',
                 initMenu: function (value) {
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
+                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
                     menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewAddComment.setDisabled(value.locked);

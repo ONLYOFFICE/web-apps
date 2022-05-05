@@ -814,7 +814,7 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').getView().SetDisabled(disable, options.allowProtect, options.fillFormMode);
+                    app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)
@@ -1262,7 +1262,7 @@ define([
                 pluginsController.setApi(me.api);
 
                 documentHolderController.setApi(me.api);
-                documentHolderController.createDelayedElements();
+                // documentHolderController.createDelayedElements();
                 statusbarController.createDelayedElements();
 
                 leftmenuController.getView('LeftMenu').disableMenu('all',false);
@@ -1270,7 +1270,7 @@ define([
                 if (me.appOptions.canBranding)
                     me.getApplication().getController('LeftMenu').leftMenu.getMenu('about').setLicInfo(me.editorConfig.customization);
 
-                documentHolderController.getView().setApi(me.api).on('editcomplete', _.bind(me.onEditComplete, me));
+                documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
@@ -1645,7 +1645,7 @@ define([
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
-                    documentHolder  = app.getController('DocumentHolder').getView(),
+                    documentHolder  = app.getController('DocumentHolder'),
                     toolbarController   = app.getController('Toolbar');
 
                 viewport && viewport.setMode(this.appOptions);
@@ -2259,7 +2259,7 @@ define([
             synchronizeChanges: function() {
                 this.getApplication().getController('Statusbar').synchronizeChanges();
                 this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
-                this.getApplication().getController('DocumentHolder').getView().hideTips();
+                this.getApplication().getController('DocumentHolder').hideTips();
                 /** coauthoring begin **/
                 this.getApplication().getController('Toolbar').getView().synchronizeChanges();
                 /** coauthoring end **/

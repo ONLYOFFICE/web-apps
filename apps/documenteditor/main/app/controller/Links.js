@@ -454,7 +454,8 @@ define([
         onShowTOCActions: function(obj, x, y) {
             var action = obj.button,
                 menu = (action==AscCommon.CCButtonType.Toc) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
-                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                documentHolder  = this.getApplication().getController('DocumentHolder'),
+                documentHolderView  = documentHolder.getView(),
                 menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
                 me = this;
 
@@ -479,7 +480,7 @@ define([
 
             menuContainer.css({left: x, top : y});
             menuContainer.attr('data-value', 'prevent-canvas-click');
-            documentHolderView._preventClick = true;
+            documentHolder._preventClick = true;
             menu.show();
 
             menu.alignPosition();
