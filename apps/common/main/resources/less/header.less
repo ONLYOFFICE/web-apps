@@ -51,6 +51,8 @@
 
     &.right {
         flex-grow: 1;
+        flex-shrink: 0;
+        overflow: hidden;
     }
 
     .status-label {
@@ -94,7 +96,9 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
-        padding: 4px 0px;
+        padding: 4px 2px;
+        overflow: hidden;
+        flex-shrink: 0;
     }
 
     #rib-doc-name {
@@ -495,7 +499,7 @@
         display: flex;
         justify-content: center;
         overflow: hidden;
-        padding: 4px 0px 2px 2px;
+        padding: 4px 2px;
     }
 
     #title-doc-name {

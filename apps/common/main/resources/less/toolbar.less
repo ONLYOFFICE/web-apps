@@ -60,8 +60,7 @@
         position: relative;
         overflow: hidden;
         display: flex;
-
-        min-width: 150px;
+        flex-shrink: 1;
 
         > ul {
             padding: 4px 0 0;
@@ -561,7 +560,7 @@
     }
 
     &.style-skip-docname .toolbar {
-        #box-doc-name > label {
+        #box-doc-name > input {
             display: none;
         }
     }

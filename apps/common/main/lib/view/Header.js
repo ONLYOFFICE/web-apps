@@ -214,14 +214,21 @@ define([
                     this.imgCrypted = this.labelDocName.parent().find('.crypted');
                 }
 
+                var $parent = this.labelDocName.parent();
                 if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
-                    var $parent = this.labelDocName.parent();
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
 
                     if ( _left_width < _right_width )
-                        this.labelDocName.parent().css('padding-left', _right_width - _left_width);
-                    else this.labelDocName.parent().css('padding-right', _left_width - _right_width);
+                        $parent.css('padding-left', Math.max(2, _right_width - _left_width));
+                    else
+                        $parent.css('padding-right', Math.max(2, _left_width - _right_width));
+                }
+
+                if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
+                    var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt(this.labelDocName.css('min-width') || 50); // 2px - box-shadow
+                    $parent.css('flex-basis', Math.ceil(basis) + 'px');
+                    $parent.closest('.extra.right').css('flex-basis', Math.ceil(basis) + $parent.next().outerWidth() + 'px');
                 }
             }
         }
@@ -759,11 +766,7 @@ define([
                 else
                     name = this.labelDocName.val();
                 var width = this.getTextWidth(name);
-                if (width>=0)
-                {
-                    this.labelDocName.width(width);
-                    Common.NotificationCenter.trigger('window:resize');
-                }
+                (width>=0) && this.labelDocName.width(width);
             },
 
             getTextWidth: function(text) {
