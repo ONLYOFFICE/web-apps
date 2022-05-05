@@ -2689,6 +2689,8 @@ define([
             var tipwidth = inputTip.ref.getBSTip().$tip.width();
             if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
                 showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+            if (showPoint[1] < pos[1])
+                showPoint[1] = pos[1] + coord.asc_getY() + coord.asc_getHeight() + 5;
 
             inputTip.ref.getBSTip().$tip.css({
                 top : showPoint[1] + 'px',
