@@ -1786,6 +1786,8 @@ define([
                     event.preventDefault();
                     event.stopPropagation();
                     return false;
+                } else if (key == Common.UI.Keys.ESC && !this.tooltips.input_msg.isHidden && this.tooltips.input_msg.text) {
+                    this.onInputMessage();
                 }
             }
         },
@@ -2726,6 +2728,15 @@ define([
                     });
 
                     inputtip.ref.show([-10000, -10000]);
+
+                    var $tip = inputtip.ref.getBSTip().$tip;
+                    $tip.on('click', function () {
+                        inputtip.ref.hide();
+                        inputtip.ref = undefined;
+                        inputtip.text = '';
+                        inputtip.isHidden = true;
+                    });
+
                     inputtip.isHidden = false;
                 }
 
