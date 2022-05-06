@@ -79,6 +79,10 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (!Common.UI.Themes.available()) {
+                this.view.btnInterfaceTheme.$el.closest('.group').remove();
+                this.view.cmpEl.find('.separator-theme').remove();
+            }
             if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
                 this.view.chStatusbar.$el.remove();
                 var slotChkRulers = this.view.chRulers.$el,
@@ -144,30 +148,32 @@ define([
                             me.view.turnNavigation(state);
                     });
 
-                    var menuItems = [],
-                        currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                    for (var t in Common.UI.Themes.map()) {
-                        menuItems.push({
-                            value: t,
-                            caption: Common.UI.Themes.get(t).text,
-                            checked: t === currentTheme,
-                            checkable: true,
-                            toggleGroup: 'interface-theme'
-                        });
-                    }
+                    if (Common.UI.Themes.available()) {
+                        var menuItems = [],
+                            currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                        for (var t in Common.UI.Themes.map()) {
+                            menuItems.push({
+                                value: t,
+                                caption: Common.UI.Themes.get(t).text,
+                                checked: t === currentTheme,
+                                checkable: true,
+                                toggleGroup: 'interface-theme'
+                            });
+                        }
 
-                    if (menuItems.length) {
-                        me.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                        me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                            var value = item.value;
-                            Common.UI.Themes.setTheme(value);
-                            me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
-                        }, me));
+                        if (menuItems.length) {
+                            me.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                            me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                var value = item.value;
+                                Common.UI.Themes.setTheme(value);
+                                me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                            }, me));
 
-                        setTimeout(function () {
-                            me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
-                            me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
-                        }, 0);
+                            setTimeout(function () {
+                                me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
+                                me.view.btnDarkDocument.setDisabled(!Common.UI.Themes.isDarkTheme());
+                            }, 0);
+                        }
                     }
                 });
             }
@@ -243,7 +249,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view) {
+            if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
                 if ( menu_item ) {

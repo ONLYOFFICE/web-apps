@@ -84,6 +84,10 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (!Common.UI.Themes.available()) {
+                this.view.btnInterfaceTheme.$el.closest('.group').remove();
+                this.view.cmpEl.find('.separator-theme').remove();
+            }
             if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
                 this.view.chStatusbar.$el.remove();
             }
@@ -281,7 +285,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view) {
+            if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
                 if ( !!menu_item ) {

@@ -81,6 +81,10 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (!Common.UI.Themes.available()) {
+                this.view.btnInterfaceTheme.$el.closest('.group').remove();
+                this.view.cmpEl.find('.separator-theme').remove();
+            }
             if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
                 this.view.chStatusbar.$el.remove();
             }
@@ -89,7 +93,7 @@ define([
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
                     'rulers:change': _.bind(this.onChangeRulers, this),
-                    'notes:change': _.bind(this.onChangeNotes, this),
+                    'notes:change': _.bind(this.onChangeNotes, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -150,24 +154,26 @@ define([
                         .on('combo:blur',    _.bind(me.onComboBlur, me, false));
                 });
 
-                var menuItems = [],
-                    currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                for (var t in Common.UI.Themes.map()) {
-                    menuItems.push({
-                        value: t,
-                        caption: Common.UI.Themes.get(t).text,
-                        checked: t === currentTheme,
-                        checkable: true,
-                        toggleGroup: 'interface-theme'
-                    });
-                }
+                if (Common.UI.Themes.available()) {
+                    var menuItems = [],
+                        currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                    for (var t in Common.UI.Themes.map()) {
+                        menuItems.push({
+                            value: t,
+                            caption: Common.UI.Themes.get(t).text,
+                            checked: t === currentTheme,
+                            checkable: true,
+                            toggleGroup: 'interface-theme'
+                        });
+                    }
 
-                if (menuItems.length) {
-                    this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                    this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                        var value = item.value;
-                        Common.UI.Themes.setTheme(value);
-                    }, this));
+                    if (menuItems.length) {
+                        this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                        this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                            var value = item.value;
+                            Common.UI.Themes.setTheme(value);
+                        }, this));
+                    }
                 }
             }
         },
@@ -199,7 +205,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view) {
+            if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
                 if ( !!menu_item ) {
