@@ -270,7 +270,7 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>
                 </div>
-                <div class="separator long"></div>
+                <div class="separator long separator-theme"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-freeze"></span>
                 </div>

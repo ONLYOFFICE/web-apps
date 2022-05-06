@@ -264,7 +264,7 @@ define([
                 this.lockedControls.push(this.chToolbar);
 
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
-
+                this.cmpEl = $host;
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -312,26 +312,27 @@ define([
                     }));
                     me.btnFreezePanes.updateHint(me.tipFreeze);
 
-                    var menuItems = [],
-                        currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                    for (var t in Common.UI.Themes.map()) {
-                        menuItems.push({
-                            value: t,
-                            caption: Common.UI.Themes.get(t).text,
-                            checked: t === currentTheme,
-                            checkable: true,
-                            toggleGroup: 'interface-theme'
-                        });
-                    }
+                    if (Common.UI.Themes.available()) {
+                        var menuItems = [],
+                            currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                        for (var t in Common.UI.Themes.map()) {
+                            menuItems.push({
+                                value: t,
+                                caption: Common.UI.Themes.get(t).text,
+                                checked: t === currentTheme,
+                                checkable: true,
+                                toggleGroup: 'interface-theme'
+                            });
+                        }
 
-                    if (menuItems.length) {
-                        me.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                        me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                            var value = item.value;
-                            Common.UI.Themes.setTheme(value);
-                        }, me));
+                        if (menuItems.length) {
+                            me.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                            me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                var value = item.value;
+                                Common.UI.Themes.setTheme(value);
+                            }, me));
+                        }
                     }
-
                     setEvents.call(me);
                 });
             },
