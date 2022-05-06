@@ -1458,6 +1458,17 @@ define([
 
                 // set dataviews
 
+                this._markersArr = [
+                    {type: Asc.asc_PreviewBulletType.text, text: 'None'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
+                    {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'}
+                ];
                 var _conf = this.mnuMarkersPicker.conf;
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
@@ -1467,15 +1478,15 @@ define([
                     allowScrollbar: false,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1},drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'}, skipRenderOnChange: true, tip: this.tipNone},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7),specialFont: 'Symbol'},      skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: 'o',                               specialFont: 'Courier New'}, skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},  skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},  skipRenderOnChange: true, tip: this.tipMarkersStar},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},  skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},  skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},     skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'},      skipRenderOnChange: true, tip: this.tipMarkersDash}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1},drawdata: this._markersArr[0], skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, drawdata: this._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, drawdata: this._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, drawdata: this._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, drawdata: this._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, drawdata: this._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, drawdata: this._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, drawdata: this._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, drawdata: this._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });

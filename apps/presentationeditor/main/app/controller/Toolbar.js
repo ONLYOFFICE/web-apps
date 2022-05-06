@@ -513,9 +513,53 @@ define([
                 switch(this._state.bullets.type) {
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
+                        var idx,
+                            setDefault = true;
                         if (this._state.bullets.subtype!==undefined)
-                            this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
-                        else
+                            idx = this._state.bullets.subtype;
+                        else {
+                            var selectedElements = this.api.getSelectedElements(),
+                                props;
+                            if (selectedElements && _.isArray(selectedElements)) {
+                                for (var i = 0; i< selectedElements.length; i++) {
+                                    if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                                        props = selectedElements[i].get_ObjectValue();
+                                        break;
+                                    }
+                                }
+                            }
+                            if (props) {
+                                var bullet = props.asc_getBullet();
+                                if (bullet) {
+                                    var type = bullet.asc_getType();
+                                    if (type == AscFormat.BULLET_TYPE_BULLET_CHAR) {
+                                        var symbol = bullet.asc_getSymbol();
+                                        if (symbol) {
+                                            var rec = this.toolbar.mnuMarkersPicker.store.at(8);
+                                            rec.get('data').subtype = undefined;
+                                            rec.set('drawdata', {type: Asc.asc_PreviewBulletType.char, char: symbol, specialFont: bullet.asc_getFont()});
+                                            setDefault = false;
+                                            idx = 8;
+                                        }
+                                    } else if (type == AscFormat.BULLET_TYPE_BULLET_BLIP) {
+                                        var id = bullet.asc_getImageId();
+                                        if (id) {
+                                            var rec = this.toolbar.mnuMarkersPicker.store.at(8);
+                                            rec.get('data').subtype = undefined;
+                                            rec.set('drawdata', {type: Asc.asc_PreviewBulletType.image, imageId: id});
+                                            setDefault = false;
+                                            idx = 8;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (setDefault) {
+                            var rec = this.toolbar.mnuMarkersPicker.store.at(8);
+                            rec.get('data').subtype = 8;
+                            rec.set('drawdata', this.toolbar._markersArr[8]);
+                        }
+                        (idx!==undefined) ? this.toolbar.mnuMarkersPicker.selectByIndex(idx, true) :
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
                         break;
                     case 1:
@@ -1384,11 +1428,31 @@ define([
             }
 
             if (btn) {
-                btn.toggle(rawData.data.subtype > -1, true);
+                btn.toggle(rawData.data.subtype !== -1, true);
             }
 
-            if (this.api)
-                this.api.put_ListType(rawData.data.type, rawData.data.subtype);
+            if (this.api){
+                if (rawData.data.type===0 && rawData.data.subtype===undefined) {// custom bullet
+                    var bullet = new Asc.asc_CBullet();
+                    if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
+                        bullet.asc_putSymbol(rawData.drawdata.char);
+                        bullet.asc_putFont(rawData.drawdata.specialFont);
+                    } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
+                        bullet.asc_fillBulletImage(rawData.drawdata.imageId);
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)) {
+                        for (var i = 0; i< selectedElements.length; i++) {
+                            if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                                var props = selectedElements[i].get_ObjectValue();
+                                props.asc_putBullet(bullet);
+                                this.api.paraApply(props);
+                                break;
+                            }
+                        }
+                    }
+                } else
+                    this.api.put_ListType(rawData.data.type, rawData.data.subtype);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
