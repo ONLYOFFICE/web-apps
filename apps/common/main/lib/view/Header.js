@@ -204,10 +204,9 @@ define([
         }
 
         function onAppShowed(config) {
-            //config.isCrypted =true; //delete fore merge!
+            // config.isCrypted =true; //delete fore merge!
             if ( this.labelDocName ) {
                 if ( config.isCrypted ) {
-                    this.labelDocName.attr({'style':'text-align: left;'});
                     this.labelDocName.before(
                         '<div class="inner-box-icon crypted">' +
                             '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
@@ -215,14 +214,21 @@ define([
                     this.imgCrypted = this.labelDocName.parent().find('.crypted');
                 }
 
+                var $parent = this.labelDocName.parent();
                 if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
-                    var $parent = this.labelDocName.parent();
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
 
                     if ( _left_width < _right_width )
-                        this.labelDocName.parent().css('padding-left', _right_width - _left_width);
-                    else this.labelDocName.parent().css('padding-right', _left_width - _right_width);
+                        $parent.css('padding-left', Math.max(2, _right_width - _left_width));
+                    else
+                        $parent.css('padding-right', Math.max(2, _left_width - _right_width));
+                }
+
+                if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
+                    var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt(this.labelDocName.css('min-width') || 50); // 2px - box-shadow
+                    $parent.css('flex-basis', Math.ceil(basis) + 'px');
+                    $parent.closest('.extra.right').css('flex-basis', Math.ceil(basis) + $parent.next().outerWidth() + 'px');
                 }
             }
         }
@@ -343,6 +349,7 @@ define([
             me.withoutExt = true;
             _.delay(function(){
                 me.setDocTile(name);
+                me.labelDocName.select();
             },100);
         }
 
@@ -352,8 +359,8 @@ define([
             var name = me.labelDocName.val();
             if ( e.keyCode == Common.UI.Keys.RETURN ) {
                 name = name.trim();
-                me.isSaveDocName =true;
                 if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
+                    me.isSaveDocName =true;
                     if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
                         _.defer(function() {
                             Common.UI.error({
@@ -378,14 +385,15 @@ define([
                     }
 
                 } else {
-
                     Common.NotificationCenter.trigger('edit:complete', me);
                 }
             } else
             if ( e.keyCode == Common.UI.Keys.ESC ) {
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
-                me.labelDocName.attr('size', name.length + me.fileExtention.length > 10  ? name.length + me.fileExtention.length : 10);
+                _.delay(function(){
+                    me.setDocTile();
+                },10);
             }
         }
 
@@ -658,10 +666,6 @@ define([
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
                     this.setDocTile( value );
-                    // this.labelDocName.attr('size', value.length);
-                    //this.setCanRename(this.options.canRename);
-
-                    //this.setCanRename(true);
                 }
                 return value;
             },
@@ -707,7 +711,6 @@ define([
 
             setCanRename: function (rename) {
                 //rename = true;      //comment out for merge
-
                 var me = this;
                 me.options.canRename = rename;
                 if ( me.labelDocName ) {
@@ -723,6 +726,7 @@ define([
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
                                 me.imgCrypted && me.imgCrypted.attr('hidden', false);
+                                label[0].selectionStart = label[0].selectionEnd = 0;
                                 if(!me.isSaveDocName) {
                                     me.withoutExt = false;
                                     me.setDocTile(me.documentCaption);
@@ -731,7 +735,8 @@ define([
                             'paste': function (e) {
                                 setTimeout(function() {
                                     var name = me.cutDocName(me.labelDocName.val());
-                                    me.setDocTile(name);                                });
+                                    me.setDocTile(name);
+                                });
                             }
                         });
 
@@ -754,11 +759,26 @@ define([
 
                 return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
             },
-            setDocTile: function(name){
-                this.labelDocName.val(name);
-                var ln = this.withoutExt ? this.fileExtention.length : 0;
-                this.labelDocName.attr('size', name.length + ln > 10  ? name.length + ln : 10);
 
+            setDocTile: function(name){
+                if(name)
+                    this.labelDocName.val(name);
+                else
+                    name = this.labelDocName.val();
+                var width = this.getTextWidth(name);
+                (width>=0) && this.labelDocName.width(width);
+            },
+
+            getTextWidth: function(text) {
+                if (!this._testCanvas ) {
+                    var font = (this.labelDocName.css('font-size') + ' ' + this.labelDocName.css('font-family')).trim();
+                    if (font) {
+                        var canvas = document.createElement("canvas");
+                        this._testCanvas = canvas.getContext('2d');
+                        this._testCanvas.font = font;
+                    }
+                }
+                return this._testCanvas ? this._testCanvas.measureText(text).width : -1;
             },
 
             setUserName: function(name) {
