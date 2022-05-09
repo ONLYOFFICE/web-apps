@@ -504,9 +504,7 @@ define([
                         $html.find('#rib-doc-name').hide();
                     }
 
-                    if ( !_.isUndefined(this.options.canRename) ) {
-                        this.setCanRename(this.options.canRename);
-                    }
+                    this.setCanRename(!!this.options.canRename);
 
                     if ( this.options.canBack === true ) {
                         me.btnGoBack.render($html.find('#slot-btn-back'));
