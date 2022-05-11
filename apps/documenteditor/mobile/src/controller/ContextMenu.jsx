@@ -242,7 +242,7 @@ class ContextMenu extends ContextMenuController {
         } else {
             const { t } = this.props;
             const _t = t("ContextMenu", {returnObjects: true});
-            const { canViewComments, canCoAuthoring, canComments, dataDoc } = this.props;
+            const { canViewComments, canCoAuthoring, canComments } = this.props;
 
             const api = Common.EditorApi.get();
             const inToc = api.asc_GetTableOfContentsPr(true);
@@ -290,7 +290,7 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                if ( canFillForms && dataDoc.fileType !== 'oform' && !locked ) {
+                if ( canFillForms && canCopy && !locked ) {
                     itemsIcon.push({
                         event: 'paste',
                         icon: 'icon-paste'
