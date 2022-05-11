@@ -211,11 +211,8 @@ define([
                 if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
-
-                    if ( _left_width < _right_width )
-                        $parent.css('padding-left', Math.max(2, _right_width - _left_width));
-                    else
-                        $parent.css('padding-right', Math.max(2, _left_width - _right_width));
+                    $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
+                    $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, _left_width - _right_width));
                 }
 
                 if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
@@ -462,6 +459,7 @@ define([
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
+                    'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me, appConfig);},
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
