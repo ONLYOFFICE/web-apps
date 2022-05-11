@@ -708,7 +708,6 @@ define([
             },
 
             setCanRename: function (rename) {
-                //rename = true;      //comment out for merge
                 var me = this;
                 me.options.canRename = rename;
                 if ( me.labelDocName ) {

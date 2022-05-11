@@ -115,7 +115,7 @@
         cursor: default;
         line-height: 24px;
 
-        &:hover,&:focus {
+        &:hover:not(:disabled),&:focus {
             box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
             box-shadow: 0 0 0 1px @highlight-header-button-hover;
             border-radius: 1px;
@@ -517,8 +517,6 @@
         &:hover:not(:disabled),&:focus{
             box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
             box-shadow: 0 0 0 1px @highlight-header-button-hover;
-            /*border:@highlight-header-button-hover-ie solid 1px;
-            border:@highlight-header-button-hover solid 1px;*/
             border-radius: 1px;
             cursor: text;
         }
