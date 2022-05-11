@@ -208,10 +208,11 @@ define([
             if ( this.labelDocName ) {
                 if ( config.isCrypted ) {
                     this.labelDocName.before(
-                        '<div class="inner-box-icon crypted">' +
+                        '<div class="inner-box-icon crypted hidden">' +
                             '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
                         '</div>');
                     this.imgCrypted = this.labelDocName.parent().find('.crypted');
+                    this._showImgCrypted = true;
                 }
 
                 var $parent = this.labelDocName.parent();
@@ -227,6 +228,7 @@ define([
 
                 if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
                     var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt(this.labelDocName.css('min-width') || 50); // 2px - box-shadow
+                    config.isCrypted && (basis += 20);
                     $parent.css('flex-basis', Math.ceil(basis) + 'px');
                     $parent.closest('.extra.right').css('flex-basis', Math.ceil(basis) + $parent.next().outerWidth() + 'px');
                 }
@@ -342,7 +344,7 @@ define([
 
         function onFocusDocName(e){
             var me = this;
-            me.imgCrypted && me.imgCrypted.attr('hidden', true);
+            me.imgCrypted && me.imgCrypted.toggleClass('hidden', true);
             me.isSaveDocName =false;
             if(me.withoutExt) return;
             var name = me.cutDocName(me.labelDocName.val());
@@ -722,7 +724,7 @@ define([
                             'keydown': onDocNameKeyDown.bind(this),
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
-                                me.imgCrypted && me.imgCrypted.attr('hidden', false);
+                                me.imgCrypted && me.imgCrypted.toggleClass('hidden', false);
                                 label[0].selectionStart = label[0].selectionEnd = 0;
                                 if(!me.isSaveDocName) {
                                     me.withoutExt = false;
@@ -764,6 +766,10 @@ define([
                     name = this.labelDocName.val();
                 var width = this.getTextWidth(name);
                 (width>=0) && this.labelDocName.width(width);
+                if (this._showImgCrypted && width>=0) {
+                    this.imgCrypted.toggleClass('hidden', false);
+                    this._showImgCrypted = false;
+                }
             },
 
             getTextWidth: function(text) {
