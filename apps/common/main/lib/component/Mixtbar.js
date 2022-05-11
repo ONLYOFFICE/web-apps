@@ -120,6 +120,7 @@ define([
                 Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
                     this.setVisible(action, visible);
                 }, this));
+                Common.NotificationCenter.on('tab:resize', _.bind(this.onResizeTabs, this));
             },
 
             afterRender: function() {
@@ -229,7 +230,7 @@ define([
                 // optsFold.timer = setTimeout(this.collapse, optsFold.timeout);
             },
 
-            onResize: function(e) {
+            onResizeTabs: function(e) {
                 if ( this.hasTabInvisible() ) {
                     if ( !$boxTabs.parent().hasClass('short') )
                         $boxTabs.parent().addClass('short');
@@ -237,6 +238,10 @@ define([
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
                 }
+            },
+
+            onResize: function(e) {
+                this.onResizeTabs();
                 this.hideMoreBtns();
                 this.processPanelVisible();
             },

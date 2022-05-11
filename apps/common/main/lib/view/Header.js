@@ -52,7 +52,7 @@ define([
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
-        var $userList, $panelUsers, $btnUsers, $btnUserName;
+        var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -186,11 +186,13 @@ define([
             } else {
                 $panelUsers['hide']();
             }
+            updateDocNamePosition(appConfig);
         }
 
         function onLostEditRights() {
             _readonlyRights = true;
             this.btnShare && this.btnShare.setVisible(false);
+            updateDocNamePosition(appConfig);
         }
 
         function onUsersClick(e) {
@@ -203,19 +205,9 @@ define([
             }
         }
 
-        function onAppShowed(config) {
-            // config.isCrypted =true; //delete fore merge!
-            if ( this.labelDocName ) {
-                if ( config.isCrypted ) {
-                    this.labelDocName.before(
-                        '<div class="inner-box-icon crypted hidden">' +
-                            '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
-                        '</div>');
-                    this.imgCrypted = this.labelDocName.parent().find('.crypted');
-                    this._showImgCrypted = true;
-                }
-
-                var $parent = this.labelDocName.parent();
+        function updateDocNamePosition(config) {
+            if ( $labelDocName && config) {
+                var $parent = $labelDocName.parent();
                 if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
@@ -227,11 +219,28 @@ define([
                 }
 
                 if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
-                    var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt(this.labelDocName.css('min-width') || 50); // 2px - box-shadow
+                    var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt($labelDocName.css('min-width') || 50); // 2px - box-shadow
                     config.isCrypted && (basis += 20);
                     $parent.css('flex-basis', Math.ceil(basis) + 'px');
                     $parent.closest('.extra.right').css('flex-basis', Math.ceil(basis) + $parent.next().outerWidth() + 'px');
+                    Common.NotificationCenter.trigger('tab:resize');
                 }
+            }
+        }
+
+        function onAppShowed(config) {
+            // config.isCrypted =true; //delete fore merge!
+            if ( $labelDocName ) {
+                if ( config.isCrypted ) {
+                    $labelDocName.before(
+                        '<div class="inner-box-icon crypted hidden">' +
+                            '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
+                        '</div>');
+                    this.imgCrypted = $labelDocName.parent().find('.crypted');
+                    this._showImgCrypted = true;
+                }
+
+                updateDocNamePosition(config);
             }
         }
 
@@ -257,6 +266,7 @@ define([
                 });
                 me.btnShare.updateHint(me.tipAccessRights);
                 me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
+                updateDocNamePosition(appConfig);
             }
 
             if ( me.logo )
@@ -287,6 +297,7 @@ define([
                 });
                 $btnUsers.on('click', onUsersClick.bind(me));
                 $panelUsers[(editingUsers > 1 && appConfig && (appConfig.isEdit || appConfig.isRestrictedEdit)) ? 'show' : 'hide']();
+                updateDocNamePosition(appConfig);
             }
 
             if (appConfig.user.guest && appConfig.canRenameAnonymous) {
@@ -347,18 +358,18 @@ define([
             me.imgCrypted && me.imgCrypted.toggleClass('hidden', true);
             me.isSaveDocName =false;
             if(me.withoutExt) return;
-            var name = me.cutDocName(me.labelDocName.val());
+            var name = me.cutDocName($labelDocName.val());
             me.withoutExt = true;
             _.delay(function(){
                 me.setDocTitle(name);
-                me.labelDocName.select();
+                $labelDocName.select();
             },100);
         }
 
         function onDocNameKeyDown(e) {
             var me = this;
 
-            var name = me.labelDocName.val();
+            var name = $labelDocName.val();
             if ( e.keyCode == Common.UI.Keys.RETURN ) {
                 name = name.trim();
                 if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
@@ -369,12 +380,11 @@ define([
                                 msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
                                 , callback: function() {
                                     _.delay(function() {
-                                        me.labelDocName.focus();
+                                        $labelDocName.focus();
                                         me.isSaveDocName =true;
                                     }, 50);
                                 }
                             });
-                            //me.labelDocName.blur();
                         })
                     } else
                     if(me.withoutExt) {
@@ -497,8 +507,8 @@ define([
                         textShare: this.textShare
                     }));
 
-                    if ( !me.labelDocName ) {
-                        me.labelDocName = $html.find('#rib-doc-name');
+                    if ( !$labelDocName ) {
+                        $labelDocName = $html.find('#rib-doc-name');
                         if ( me.documentCaption ) {
                             me.setDocTitle(me.documentCaption);
                         }
@@ -575,11 +585,11 @@ define([
                 if ( role == 'title' ) {
                     var $html = $(_.template(templateTitleBox)());
 
-                    !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
-                    me.labelDocName = $html.find('#title-doc-name');
+                    !!$labelDocName && $labelDocName.hide().off();                  // hide document title if it was created in right box
+                    $labelDocName = $html.find('#title-doc-name');
                     me.setDocTitle( me.documentCaption );
 
-                    me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
+                    me.options.wopi && $labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
                     if (config.user.guest && config.canRenameAnonymous) {
                         me.btnUserName = new Common.UI.Button({
@@ -664,7 +674,7 @@ define([
                 if (idx>0)
                     this.fileExtention = this.documentCaption.substring(idx);
                 this.isModified && (value += '*');
-                if ( this.labelDocName ) {
+                if ( $labelDocName ) {
                     this.setDocTitle( value );
                 }
                 return value;
@@ -688,7 +698,7 @@ define([
                 this.btnGoBack[value ? 'show' : 'hide']();
                 if (value)
                     this.btnGoBack.updateHint((text && typeof text == 'string') ? text : this.textBack);
-
+                updateDocNamePosition(appConfig);
                 return this;
             },
 
@@ -701,7 +711,7 @@ define([
                 this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
                 this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
                 this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
-
+                updateDocNamePosition(appConfig);
                 return this;
             },
 
@@ -712,8 +722,8 @@ define([
             setCanRename: function (rename) {
                 var me = this;
                 me.options.canRename = rename;
-                if ( me.labelDocName ) {
-                    var label = me.labelDocName;
+                if ( $labelDocName ) {
+                    var label = $labelDocName;
                     if ( rename ) {
                         label.removeAttr('disabled').tooltip({
                             title: me.txtRename,
@@ -733,7 +743,7 @@ define([
                             },
                             'paste': function (e) {
                                 setTimeout(function() {
-                                    var name = me.cutDocName(me.labelDocName.val());
+                                    var name = me.cutDocName($labelDocName.val());
                                     me.setDocTitle(name);
                                 });
                             }
@@ -761,11 +771,11 @@ define([
 
             setDocTitle: function(name){
                 if(name)
-                    this.labelDocName.val(name);
+                    $labelDocName.val(name);
                 else
-                    name = this.labelDocName.val();
+                    name = $labelDocName.val();
                 var width = this.getTextWidth(name);
-                (width>=0) && this.labelDocName.width(width);
+                (width>=0) && $labelDocName.width(width);
                 if (this._showImgCrypted && width>=0) {
                     this.imgCrypted.toggleClass('hidden', false);
                     this._showImgCrypted = false;
@@ -774,7 +784,7 @@ define([
 
             getTextWidth: function(text) {
                 if (!this._testCanvas ) {
-                    var font = (this.labelDocName.css('font-size') + ' ' + this.labelDocName.css('font-family')).trim();
+                    var font = ($labelDocName.css('font-size') + ' ' + $labelDocName.css('font-family')).trim();
                     if (font) {
                         var canvas = document.createElement("canvas");
                         this._testCanvas = canvas.getContext('2d');
