@@ -350,7 +350,7 @@ define([
             var name = me.cutDocName(me.labelDocName.val());
             me.withoutExt = true;
             _.delay(function(){
-                me.setDocTile(name);
+                me.setDocTitle(name);
                 me.labelDocName.select();
             },100);
         }
@@ -382,7 +382,7 @@ define([
                         me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
                         name += me.fileExtention;
                         me.withoutExt = false;
-                        me.setDocTile(name);
+                        me.setDocTitle(name);
                         Common.NotificationCenter.trigger('edit:complete', me);
                     }
 
@@ -394,7 +394,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 _.delay(function(){
-                    me.setDocTile();
+                    me.setDocTitle();
                 },10);
             }
         }
@@ -500,7 +500,7 @@ define([
                     if ( !me.labelDocName ) {
                         me.labelDocName = $html.find('#rib-doc-name');
                         if ( me.documentCaption ) {
-                            me.setDocTile(me.documentCaption);
+                            me.setDocTitle(me.documentCaption);
                         }
                     } else {
                         $html.find('#rib-doc-name').hide();
@@ -577,7 +577,7 @@ define([
 
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
                     me.labelDocName = $html.find('#title-doc-name');
-                    me.setDocTile( me.documentCaption );
+                    me.setDocTitle( me.documentCaption );
 
                     me.options.wopi && me.labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
@@ -665,7 +665,7 @@ define([
                     this.fileExtention = this.documentCaption.substring(idx);
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
-                    this.setDocTile( value );
+                    this.setDocTitle( value );
                 }
                 return value;
             },
@@ -680,7 +680,7 @@ define([
                 var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.setDocTile(_name);
+                this.setDocTitle(_name);
             },
 
             setCanBack: function (value, text) {
@@ -728,13 +728,13 @@ define([
                                 label[0].selectionStart = label[0].selectionEnd = 0;
                                 if(!me.isSaveDocName) {
                                     me.withoutExt = false;
-                                    me.setDocTile(me.documentCaption);
+                                    me.setDocTitle(me.documentCaption);
                                 }
                             },
                             'paste': function (e) {
                                 setTimeout(function() {
                                     var name = me.cutDocName(me.labelDocName.val());
-                                    me.setDocTile(name);
+                                    me.setDocTitle(name);
                                 });
                             }
                         });
@@ -759,7 +759,7 @@ define([
                 return (name.substring(idx) == this.fileExtention) ? name.substring(0, idx) : name ;
             },
 
-            setDocTile: function(name){
+            setDocTitle: function(name){
                 if(name)
                     this.labelDocName.val(name);
                 else
