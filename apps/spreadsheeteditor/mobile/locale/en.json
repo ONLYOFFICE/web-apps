@@ -74,6 +74,8 @@
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "notcriticalErrorTitle": "Warning",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "SDK": {
         "txtAccent": "Accent",
         "txtAll": "(All)",

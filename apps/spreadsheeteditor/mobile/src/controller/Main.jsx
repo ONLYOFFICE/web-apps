@@ -197,6 +197,25 @@ class MainController extends Component {
 
             const onEditorPermissions = params => {
                 const licType = params.asc_getLicenseType();
+                const { t } = this.props;
+                // const _t = t('Controller.Main', { returnObjects:true });
+               
+                if (Asc.c_oLicenseResult.Expired === licType ||
+                    Asc.c_oLicenseResult.Error === licType ||
+                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+
+                    f7.dialog.create({
+                        title: t('Controller.Main.titleLicenseExp'),
+                        text: t('Controller.Main.warnLicenseExp')
+                    }).open();
+
+                    return;
+                }
+
+                if (Asc.c_oLicenseResult.ExpiredLimited === licType) {
+                    this._state.licenseType = licType;
+                }
+
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const appOptions = this.props.storeAppOptions;
