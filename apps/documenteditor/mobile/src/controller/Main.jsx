@@ -112,6 +112,7 @@ class MainController extends Component {
                     this.permissions = Object.assign(this.permissions, data.doc.permissions);
 
                     const _permissions = Object.assign({}, data.doc.permissions);
+                    const _options = Object.assign({}, data.doc.options, this.editorConfig.actionLink || {});
                     const _userOptions = this.props.storeAppOptions.user;
                     const _user = new Asc.asc_CUserInfo();
                     _user.put_Id(_userOptions.id);
@@ -124,7 +125,7 @@ class MainController extends Component {
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
-                    docInfo.put_Options(data.doc.options);
+                    docInfo.put_Options(_options);
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
