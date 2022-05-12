@@ -259,7 +259,7 @@ const PageNumbers = observer( props => {
                                 <Icon className="thumb" style={{position: 'relative'}}>
                                     <label>{t('Edit.textNone')}</label>
                                 </Icon> :
-                                <Icon className="thumb" style={{backgroundImage: `url('resources/img/numbers/${number.thumb}')`}}></Icon>
+                                <Icon className="thumb" icon={`icon-numbers-${number.type}`} />
                             }
                         </ListItem>
                     ))}
