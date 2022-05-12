@@ -504,21 +504,31 @@ define([
         },
 
         onApiBullets: function(v) {
-            if (this._state.bullets.type != v.get_ListType() || this._state.bullets.subtype != v.get_ListSubType()) {
+            if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===undefined || this._state.bullets.force) {
+                if (!this._state.bullets.force) {
+                    var me = this;
+                    this._state.bullets.force = true;
+                    setTimeout(function(){
+                        me.onApiBullets(v);
+                    }, 100);
+                } else
+                    this._state.bullets.force = false;
                 this._state.bullets.type    = v.get_ListType();
                 this._state.bullets.subtype = v.get_ListSubType();
+
+                var rec = this.toolbar.mnuMarkersPicker.store.at(8),
+                    drawDefBullet = (rec.get('data').subtype===undefined) && (this._state.bullets.type===1 || this._state.bullets.subtype!==undefined);
 
                 this._clearBullets();
 
                 switch(this._state.bullets.type) {
                     case 0:
-                        this.toolbar.btnMarkers.toggle(true, true);
-                        var idx,
-                            setDefault = true;
+                        var idx;
                         if (this._state.bullets.subtype!==undefined)
                             idx = this._state.bullets.subtype;
                         else {
-                            var selectedElements = this.api.getSelectedElements(),
+                            var me = this;
+                            var selectedElements = me.api.getSelectedElements(),
                                 props;
                             if (selectedElements && _.isArray(selectedElements)) {
                                 for (var i = 0; i< selectedElements.length; i++) {
@@ -535,32 +545,30 @@ define([
                                     if (type == AscFormat.BULLET_TYPE_BULLET_CHAR) {
                                         var symbol = bullet.asc_getSymbol();
                                         if (symbol) {
-                                            var rec = this.toolbar.mnuMarkersPicker.store.at(8);
                                             rec.get('data').subtype = undefined;
+                                            rec.set('tip', '');
                                             rec.set('drawdata', {type: Asc.asc_PreviewBulletType.char, char: symbol, specialFont: bullet.asc_getFont()});
-                                            setDefault = false;
+                                            drawDefBullet = false;
                                             idx = 8;
                                         }
                                     } else if (type == AscFormat.BULLET_TYPE_BULLET_BLIP) {
                                         var id = bullet.asc_getImageId();
                                         if (id) {
-                                            var rec = this.toolbar.mnuMarkersPicker.store.at(8);
                                             rec.get('data').subtype = undefined;
+                                            rec.set('tip', '');
                                             rec.set('drawdata', {type: Asc.asc_PreviewBulletType.image, imageId: id});
-                                            setDefault = false;
+                                            drawDefBullet = false;
                                             idx = 8;
                                         }
                                     }
                                 }
                             }
                         }
-                        if (setDefault) {
-                            var rec = this.toolbar.mnuMarkersPicker.store.at(8);
-                            rec.get('data').subtype = 8;
-                            rec.set('drawdata', this.toolbar._markersArr[8]);
-                        }
                         (idx!==undefined) ? this.toolbar.mnuMarkersPicker.selectByIndex(idx, true) :
-                            this.toolbar.mnuMarkersPicker.deselectAll(true);
+                                            this.toolbar.mnuMarkersPicker.deselectAll(true);
+
+                        this.toolbar.btnMarkers.toggle(true, true);
+                        this.toolbar.mnuNumbersPicker.deselectAll(true);
                         break;
                     case 1:
                         var idx = 0;
@@ -589,7 +597,13 @@ define([
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+                        this.toolbar.mnuMarkersPicker.deselectAll(true);
                         break;
+                }
+                if (drawDefBullet) {
+                    rec.get('data').subtype = 8;
+                    rec.set('tip', this.toolbar.tipMarkersDash);
+                    rec.set('drawdata', me.toolbar._markersArr[8]);
                 }
             }
         },
@@ -1439,7 +1453,7 @@ define([
                         bullet.asc_putFont(rawData.drawdata.specialFont);
                     } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
                         bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-                    var selectedElements = me.api.getSelectedElements();
+                    var selectedElements = this.api.getSelectedElements();
                     if (selectedElements && _.isArray(selectedElements)) {
                         for (var i = 0; i< selectedElements.length; i++) {
                             if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
