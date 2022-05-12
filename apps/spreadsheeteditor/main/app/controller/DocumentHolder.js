@@ -2141,8 +2141,9 @@ define([
                                     if (symbol) {
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('tip', '');
                                         rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('tip', '');
+                                        this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
 
                                     }
@@ -2151,8 +2152,9 @@ define([
                                     if (id) {
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('tip', '');
                                         rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('tip', '');
+                                        this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
                                     }
                                 }
@@ -2161,8 +2163,9 @@ define([
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                         if (drawDefBullet) {
                             defrec.set('subtype', 8);
-                            defrec.set('tip', documentHolder.tipMarkersDash);
                             defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('tip', documentHolder.tipMarkersDash);
+                            this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
                         }
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
@@ -3824,6 +3827,16 @@ define([
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
                 this.api.SetDrawImagePreviewBulletForMenu(arrMarker, 0);
                 this.api.SetDrawImagePreviewBulletForMenu(arrNum, 1);
+            }
+        },
+
+        updateBulletTip: function(view, title) {
+            if (view) {
+                var tip = $(view.el).data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = title;
+                    tip.$tip.find('.tooltip-inner').text(title);
+                }
             }
         },
 

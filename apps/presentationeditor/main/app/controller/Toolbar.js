@@ -503,6 +503,16 @@ define([
             }
         },
 
+        updateBulletTip: function(view, title) {
+            if (view) {
+                var tip = $(view.el).data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = title;
+                    tip.$tip.find('.tooltip-inner').text(title);
+                }
+            }
+        },
+
         onApiBullets: function(v) {
             if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===0x1000) {
                 this._state.bullets.type    = v.get_ListType();
@@ -526,8 +536,9 @@ define([
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
                                         rec.get('data').subtype = 0x1000;
-                                        rec.set('tip', '');
                                         rec.set('drawdata', {type: type, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('tip', '');
+                                        this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
                                         idx = 8;
                                     }
@@ -535,8 +546,9 @@ define([
                                     var id = bullet.asc_getImageId();
                                     if (id) {
                                         rec.get('data').subtype = 0x1000;
-                                        rec.set('tip', '');
                                         rec.set('drawdata', {type: type, imageId: id});
+                                        rec.set('tip', '');
+                                        this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
                                         idx = 8;
                                     }
@@ -581,8 +593,9 @@ define([
                 }
                 if (drawDefBullet) {
                     rec.get('data').subtype = 8;
-                    rec.set('tip', this.toolbar.tipMarkersDash);
                     rec.set('drawdata', this.toolbar._markersArr[8]);
+                    rec.set('tip', this.toolbar.tipMarkersDash);
+                    this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], this.toolbar.tipMarkersDash);
                 }
             }
         },
