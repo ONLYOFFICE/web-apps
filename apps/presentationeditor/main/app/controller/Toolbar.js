@@ -504,62 +504,42 @@ define([
         },
 
         onApiBullets: function(v) {
-            if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===undefined || this._state.bullets.force) {
-                if (!this._state.bullets.force) {
-                    var me = this;
-                    this._state.bullets.force = true;
-                    setTimeout(function(){
-                        me.onApiBullets(v);
-                    }, 100);
-                } else
-                    this._state.bullets.force = false;
+            if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===0x1000) {
                 this._state.bullets.type    = v.get_ListType();
                 this._state.bullets.subtype = v.get_ListSubType();
 
                 var rec = this.toolbar.mnuMarkersPicker.store.at(8),
-                    drawDefBullet = (rec.get('data').subtype===undefined) && (this._state.bullets.type===1 || this._state.bullets.subtype!==undefined);
+                    drawDefBullet = (rec.get('data').subtype===0x1000) && (this._state.bullets.type===1 || this._state.bullets.subtype!==0x1000);
 
                 this._clearBullets();
 
                 switch(this._state.bullets.type) {
                     case 0:
                         var idx;
-                        if (this._state.bullets.subtype!==undefined)
+                        if (this._state.bullets.subtype!==0x1000)
                             idx = this._state.bullets.subtype;
-                        else {
-                            var me = this;
-                            var selectedElements = me.api.getSelectedElements(),
-                                props;
-                            if (selectedElements && _.isArray(selectedElements)) {
-                                for (var i = 0; i< selectedElements.length; i++) {
-                                    if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
-                                        props = selectedElements[i].get_ObjectValue();
-                                        break;
+                        else { // custom
+                            var me = this,
+                                bullet = v.asc_getListCustom();
+                            if (bullet) {
+                                var type = bullet.asc_getType();
+                                if (type == Asc.asc_PreviewBulletType.char) {
+                                    var symbol = bullet.asc_getChar();
+                                    if (symbol) {
+                                        rec.get('data').subtype = 0x1000;
+                                        rec.set('tip', '');
+                                        rec.set('drawdata', {type: type, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        drawDefBullet = false;
+                                        idx = 8;
                                     }
-                                }
-                            }
-                            if (props) {
-                                var bullet = props.asc_getBullet();
-                                if (bullet) {
-                                    var type = bullet.asc_getType();
-                                    if (type == AscFormat.BULLET_TYPE_BULLET_CHAR) {
-                                        var symbol = bullet.asc_getSymbol();
-                                        if (symbol) {
-                                            rec.get('data').subtype = undefined;
-                                            rec.set('tip', '');
-                                            rec.set('drawdata', {type: Asc.asc_PreviewBulletType.char, char: symbol, specialFont: bullet.asc_getFont()});
-                                            drawDefBullet = false;
-                                            idx = 8;
-                                        }
-                                    } else if (type == AscFormat.BULLET_TYPE_BULLET_BLIP) {
-                                        var id = bullet.asc_getImageId();
-                                        if (id) {
-                                            rec.get('data').subtype = undefined;
-                                            rec.set('tip', '');
-                                            rec.set('drawdata', {type: Asc.asc_PreviewBulletType.image, imageId: id});
-                                            drawDefBullet = false;
-                                            idx = 8;
-                                        }
+                                } else if (type == Asc.asc_PreviewBulletType.image) {
+                                    var id = bullet.asc_getImageId();
+                                    if (id) {
+                                        rec.get('data').subtype = 0x1000;
+                                        rec.set('tip', '');
+                                        rec.set('drawdata', {type: type, imageId: id});
+                                        drawDefBullet = false;
+                                        idx = 8;
                                     }
                                 }
                             }
@@ -603,7 +583,7 @@ define([
                 if (drawDefBullet) {
                     rec.get('data').subtype = 8;
                     rec.set('tip', this.toolbar.tipMarkersDash);
-                    rec.set('drawdata', me.toolbar._markersArr[8]);
+                    rec.set('drawdata', this.toolbar._markersArr[8]);
                 }
             }
         },
@@ -1446,7 +1426,7 @@ define([
             }
 
             if (this.api){
-                if (rawData.data.type===0 && rawData.data.subtype===undefined) {// custom bullet
+                if (rawData.data.type===0 && rawData.data.subtype===0x1000) {// custom bullet
                     var bullet = new Asc.asc_CBullet();
                     if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
                         bullet.asc_putSymbol(rawData.drawdata.char);
