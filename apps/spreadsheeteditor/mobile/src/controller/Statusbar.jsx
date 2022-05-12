@@ -1,5 +1,5 @@
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import {StatusbarView} from '../view/Statusbar';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
@@ -134,6 +134,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
     const isDisconnected = users.isDisconnected;
     const isProtectedWorkbook = sheets.isProtectedWorkbook;
     const isDisabledEditSheet = sheets.isDisabledEditSheet;
+    const targetRef = useRef();
 
     useEffect(() => {
         const on_main_view_click = e => {
@@ -183,6 +184,7 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
     const onTabClick = (i, target) => {
         const api = Common.EditorApi.get();
         const model = sheets.at(i);
+        targetRef.current = target;
 
         let opened = $$('.document-menu.modal-in').length;
         let index = model.index;
@@ -332,6 +334,9 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
                 api.asc_copyWorksheet(index, name);
                 break;
             case 'ren': renameWorksheet(); break;
+            case 'move': 
+                Device.phone ? f7.sheet.open('.move-sheet') : f7.popover.open('#idx-move-sheet-popover', targetRef.current); 
+                break;
             case 'unhide':
                 f7.popover.open('#idx-hidden-sheets-popover', '.active');
                 break;
@@ -346,12 +351,31 @@ const Statusbar = inject('sheets', 'storeAppOptions', 'users')(observer(props =>
         }
     };
 
+    const onMenuMoveClick = (index) => {
+        const api = Common.EditorApi.get();
+
+        let sheetsCount = api.asc_getWorksheetsCount();
+        let activeIndex = api.asc_getActiveWorksheetIndex();
+
+        api.asc_moveWorksheet(index === -255 ? sheetsCount : index , [activeIndex]);
+    };
+
+    const onTabListClick = (sheetIndex) => {
+        const api = Common.EditorApi.get();
+        if(api && api.asc_getActiveWorksheetIndex() !== sheetIndex) {
+            api.asc_showWorksheet(sheetIndex);
+            f7.popover.close('#idx-all-list');
+        }
+    };
+
     return (
         <StatusbarView 
             onTabClick={onTabClick}
             onTabClicked={onTabClicked}
             onAddTabClicked={onAddTabClicked}
             onTabMenu={onTabMenu}
+            onTabListClick={onTabListClick}
+            onMenuMoveClick = {onMenuMoveClick}
         />
     )
 }));

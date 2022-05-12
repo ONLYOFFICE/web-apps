@@ -13,8 +13,6 @@ body {
         bottom: 0;
 
         #viewport {
-            overflow: auto;
-
             &::-webkit-scrollbar {
                 width: 0;
                 height: 0;
@@ -37,6 +35,7 @@ label {
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     overflow: hidden;
+    scroll-behavior: smooth; // chromium bug890248 (Bug 39614)
 }
 
 .layout-region {

@@ -56,7 +56,8 @@ define([
     'common/main/lib/component/ComboBoxFonts',
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
-    ,'common/main/lib/component/Mixtbar'
+    ,'common/main/lib/component/Mixtbar',
+    'common/main/lib/component/ComboDataViewShape'
 ], function (Backbone, template, template_view) {
     'use strict';
 
@@ -83,7 +84,19 @@ define([
         inEquation: 'in-equation',
         commentLock: 'can-comment',
         noColumns: 'no-columns',
-        transitLock: 'transit-lock'
+        transitLock: 'transit-lock',
+        inSmartart: 'in-smartart',
+        inSmartartInternal: 'in-smartart-internal',
+        noGraphic: 'no-graphic',
+        noAnimation: 'no-animation',
+        noAnimationParam: 'no-animation-params',
+        noTriggerObjects: 'no-trigger-objects',
+        noMoveAnimationEarlier: 'no-move-animation-earlier',
+        noMoveAnimationLater: 'no-move-animation-later',
+        noAnimationPreview: 'no-animation-preview',
+        noAnimationRepeat: 'no-animation-repeat',
+        noAnimationDuration: 'no-animation-duration',
+        timingLock: 'timing-lock'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -128,10 +141,13 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false, dataHintTitle: 'F'},
+                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
-                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'}
+                                {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'},
+                                {caption: me.textTabAnimation, action: 'animate', extcls: 'canedit', dataHintTitle: 'A'},
+                                undefined, undefined,
+                                {caption: me.textTabView, action: 'view', extcls: 'canedit', layoutname: 'toolbar-view', dataHintTitle: 'W'}
                             ]
                         }
                     );
@@ -464,7 +480,7 @@ define([
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-setmarkers',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -479,7 +495,7 @@ define([
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-numbering',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -606,7 +622,7 @@ define([
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.decIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -616,7 +632,7 @@ define([
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.incIndentLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -934,26 +950,26 @@ define([
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
-                                {
+                                me.mnuArrangeFront = new Common.UI.MenuItem({
                                     caption: me.textArrangeFront,
                                     iconCls: 'menu__icon arrange-front',
                                     value: 1
-                                },
-                                {
+                                }),
+                                me.mnuArrangeBack = new Common.UI.MenuItem({
                                     caption: me.textArrangeBack,
                                     iconCls: 'menu__icon arrange-back',
                                     value: 2
-                                },
-                                {
+                                }),
+                                me.mnuArrangeForward = new Common.UI.MenuItem({
                                     caption: me.textArrangeForward,
                                     iconCls: 'menu__icon arrange-forward',
                                     value: 3
-                                },
-                                {
+                                }),
+                                me.mnuArrangeBackward = new Common.UI.MenuItem({
                                     caption: me.textArrangeBackward,
                                     iconCls: 'menu__icon arrange-backward',
                                     value: 4
-                                },
+                                }),
                                 {caption: '--'},
                                 me.mnuGroupShapes = new Common.UI.MenuItem({
                                     caption: me.txtGroup,
@@ -1014,6 +1030,12 @@ define([
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, -4',
+                        delayRenderTips: true,
+                        itemTemplate: _.template([
+                            '<div class="style" id="<%= id %>">',
+                            '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
+                            '</div>'
+                        ].join('')),
                         beforeOpenHandler: function (e) {
                             var cmp = this,
                                 menu = cmp.openButton.menu,
@@ -1052,16 +1074,19 @@ define([
                         }
                     });
 
-                    me.listTheme.fieldPicker.itemTemplate = _.template([
-                        '<div class="style" id="<%= id %>">',
-                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
-                        '</div>'
-                    ].join(''));
-                    me.listTheme.menuPicker.itemTemplate = _.template([
-                        '<div class="style" id="<%= id %>">',
-                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
-                        '</div>'
-                    ].join(''));
+                    this.cmbInsertShape = new Common.UI.ComboDataViewShape({
+                        cls: 'combo-styles shapes',
+                        style: 'min-width: 140px;',
+                        itemWidth: 20,
+                        itemHeight: 20,
+                        menuMaxHeight: 652,
+                        menuWidth: 362,
+                        enableKeyEvents: true,
+                        lock: [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-16, 0'
+                    });
 
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
                         this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
@@ -1085,7 +1110,7 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template_view),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', haspanel:false, dataHintTitle: 'F'}
+                                {caption: me.textTabFile, action: 'file', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'}
                             ]
                         }
                     );
@@ -1205,6 +1230,7 @@ define([
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
+                _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
 
                 this.btnInsAudio && _injectComponent('#slot-btn-insaudio', this.btnInsAudio);
                 this.btnInsVideo && _injectComponent('#slot-btn-insvideo', this.btnInsVideo);
@@ -1261,7 +1287,7 @@ define([
                     btn.updateHint(me.tipInsertShape);
                     btn.setMenu(
                         new Common.UI.Menu({
-                            cls: 'menu-shapes'
+                            cls: 'menu-shapes menu-insert-shape'
                         }).on('hide:after', function (e) {
                             me.fireEvent('insert:shape', ['menu:hide']);
                         })
@@ -1273,12 +1299,20 @@ define([
                     btn.setMenu(
                         new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
+                                {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')},
+                                {caption: '--'},
+                                {
+                                    caption: me.txtDuplicateSlide,
+                                    value: 'duplicate'
+                                }
                             ]
                         })
                     );
                     btn.on('click', function (btn, e) {
                         me.fireEvent('add:slide');
+                    });
+                    btn.menu.on('item:click', function (menu, item) {
+                        (item.value === 'duplicate') && me.fireEvent('duplicate:slide');
                     });
                 });
             },
@@ -1423,16 +1457,17 @@ define([
                     outerMenu:  {menu: this.btnMarkers.menu, index: 0},
                     restoreHeight: 138,
                     allowScrollbar: false,
+                    delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true, tip: this.tipMarkersStar},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true, tip: this.tipMarkersDash}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
@@ -1446,15 +1481,16 @@ define([
                     outerMenu:  {menu: this.btnNumbers.menu, index: 0},
                     restoreHeight: 92,
                     allowScrollbar: false,
+                    delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -1703,39 +1739,42 @@ define([
             },
 
             updateAutoshapeMenu: function (menuShape, collection) {
-                var me = this;
-                var onShowAfter = function(menu) {
-                    for (var i = 0; i < collection.length; i++) {
-                        var shapePicker = new Common.UI.DataViewSimple({
-                            el: $('.shapegroup-' + i, menu.items[i].$el),
-                            store: collection.at(i).get('groupStore'),
-                            parentMenu: menu.items[i].menu,
-                            itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                        });
-                        shapePicker.on('item:click', function(picker, item, record, e) {
-                            if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
-                            if (record)
-                                me.fireEvent('insert:shape', [record.get('data').shapeType]);
-                        });
+                var me = this,
+                    index = $(menuShape.el).prop('id').slice(-1);
+
+                var menuitem = new Common.UI.MenuItem({
+                    template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
+                    index: index
+                });
+                menuShape.addItem(menuitem);
+
+                var recents = Common.localStorage.getItem('pe-recent-shapes');
+                recents = recents ? JSON.parse(recents) : null;
+
+                var shapePicker = new Common.UI.DataViewShape({
+                    el: $('#id-toolbar-menu-insertshape-'+index),
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                    groups: collection,
+                    parentMenu: menuShape,
+                    restoreHeight: 652,
+                    textRecentlyUsed: me.textRecentlyUsed,
+                    recentShapes: recents
+                });
+                shapePicker.on('item:click', function(picker, item, record, e) {
+                    if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
+                    if (record) {
+                        me.fireEvent('insert:shape', [record.get('data').shapeType]);
+                        me.cmbInsertShape.updateComboView(record);
                     }
-                    menu.off('show:after', onShowAfter);
-                };
-                menuShape.on('show:after', onShowAfter);
+                });
 
-                for (var i = 0; i < collection.size(); i++) {
-                    var group = collection.at(i);
+            },
 
-                    var menuitem = new Common.UI.MenuItem({
-                        caption: group.get('groupName'),
-                        menu: new Common.UI.Menu({
-                            menuAlign: 'tl-tr',
-                            items: [
-                                {template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>')}
-                            ]
-                        })
-                    });
-                    menuShape.addItem(menuitem);
-                }
+            updateComboAutoshapeMenu: function (collection) {
+                var me = this,
+                    recents = Common.localStorage.getItem('pe-recent-shapes');
+                recents = recents ? JSON.parse(recents) : null;
+                me.cmbInsertShape.setMenuPicker(collection, recents, me.textRecentlyUsed);
             },
 
             updateAddSlideMenu: function(collection) {
@@ -1747,6 +1786,7 @@ define([
                         var picker = new Common.UI.DataView({
                             el: $('.menu-layouts', menu.$el),
                             parentMenu: menu,
+                            outerMenu:  !change ? {menu: menu, index: 0} : undefined,
                             showLast: change,
                             restoreHeight: 300,
                             restoreWidth: 302,
@@ -1767,6 +1807,7 @@ define([
                         if (menu) {
                             menu.on('show:after', function () {
                                 me.onSlidePickerShowAfter(picker);
+                                !change && me.fireEvent('duplicate:check', [menu]);
                                 picker.scroller.update({alwaysVisibleY: true});
                                 if (change) {
                                     var record = picker.store.findLayoutByIndex(picker.options.layout_index);
@@ -1777,6 +1818,7 @@ define([
                                 } else
                                     picker.scroller.scrollTop(0);
                             });
+                            !change && menu.setInnerMenu([{menu: picker, index: 0}]);
                         }
                         menu.off('show:before', me.binding.onShowBeforeAddSlide);
                         if (change && this.mnuSlidePicker)
@@ -1942,7 +1984,27 @@ define([
             strMenuNoFill: 'No Fill',
             tipHighlightColor: 'Highlight color',
             txtScheme22: 'New Office',
-            textTabTransitions: 'Transitions'
+            textTabTransitions: 'Transitions',
+            textTabAnimation: 'Animation',
+            textRecentlyUsed: 'Recently Used',
+            txtDuplicateSlide: 'Duplicate Slide',
+            tipNumCapitalLetters: 'A. B. C.',
+            tipNumLettersParentheses: 'a) b) c)',
+            tipNumLettersPoints: 'a. b. c.',
+            tipNumNumbersPoint: '1. 2. 3.',
+            tipNumNumbersParentheses: '1) 2) 3)',
+            tipNumRoman: 'I. II. III.',
+            tipNumRomanSmall: 'i. ii. iii.',
+            tipMarkersFRound: 'Filled round bullets',
+            tipMarkersHRound: 'Hollow round bullets',
+            tipMarkersFSquare: 'Filled square bullets',
+            tipMarkersStar: 'Star bullets',
+            tipMarkersArrow: 'Arrow bullets',
+            tipMarkersCheckmark: 'Checkmark bullets',
+            tipMarkersFRhombus: 'Filled rhombus bullets',
+            tipMarkersDash: 'Dash bullets',
+            tipNone: 'None',
+            textTabView: 'View'
         }
     }()), PE.Views.Toolbar || {}));
 });

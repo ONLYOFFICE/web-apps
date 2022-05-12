@@ -45,6 +45,22 @@
             margin-bottom: 5px;
             right: 4px !important;
         }
+
+        .dataview-ct.inner {
+            .empty-text {
+                text-align: center;
+                height: 100%;
+                width: 100%;
+                color: @text-tertiary-ie;
+                color: @text-tertiary;
+                tr {
+                    vertical-align: top;
+                    td {
+                        padding-top: 18px;
+                    }
+                }
+            }
+        }
     }
 
     .add-link-ct {
@@ -277,11 +293,15 @@
         cursor: pointer;
     }
 
-    .btn-edit,.btn-delete, .btn-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
+    .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
         width: 16px;
         height: 16px;
         margin: 0 0 0 5px;
         background-color: transparent;
+    }
+
+    .icon-resolve {
+        float: left;
     }
 
     .btn-edit {
@@ -350,7 +370,7 @@
         }
     }
 
-    .btn-resolve,.btn-accept {
+    .btn-resolve, .btn-accept, .icon-resolve {
         position: relative;
 
         &:after {
@@ -366,7 +386,7 @@
             top: 0px;
         }
 
-        &.comment-resolved {
+        &.comment-resolved, &.i-comment-resolved {
             &:after {
                 border-color: @icon-success-ie;
                 border-color: @icon-success;

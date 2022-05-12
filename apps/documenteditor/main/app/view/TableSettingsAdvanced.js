@@ -948,7 +948,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             _.each(_arrBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[2]),
-                    style: 'margin-left: 5px; margin-bottom: 4px;',
+                    style: 'margin-left: 4px; margin-bottom: 4px;',
                     cls: 'btn-options large border-off',
                     iconCls: item[1],
                     strId   :item[0],
@@ -974,7 +974,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             _.each(_arrTableBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[3]),
-                    style: 'margin-left: 5px; margin-bottom: 4px;',
+                    style: 'margin-left: 4px; margin-bottom: 4px;',
                     cls: 'btn-options large border-off',
                     iconCls: item[2],
                     strCellId  :item[0],

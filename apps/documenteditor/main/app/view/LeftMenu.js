@@ -75,6 +75,7 @@ define([
                 /** coauthoring end **/
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-navigation': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-thumbnails': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -166,6 +167,17 @@ define([
             this.menuFile = new DE.Views.FileMenu();
             this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: 'Document Editor'});
 
+            this.btnThumbnails = new Common.UI.Button({
+                el: $markup.elementById('#left-btn-thumbnails'),
+                hint: this.tipPageThumbnails,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'leftMenuGroup'
+            });
+            this.btnThumbnails.hide();
+
+            this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
+
             this.$el.html($markup);
 
             return this;
@@ -238,6 +250,13 @@ define([
                 } else
                     this.panelNavigation['hide']();
             }
+            if (this.panelThumbnails) {
+                if (this.btnThumbnails.pressed) {
+                    this.panelThumbnails.show();
+                } else {
+                    this.panelThumbnails.hide();
+                }
+            }
             /** coauthoring end **/
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
@@ -262,6 +281,9 @@ define([
             } else
             if (name == 'navigation' && !this.panelNavigation) {
                 this.panelNavigation = panel.render('#left-panel-navigation');
+            } else
+            if (name == 'thumbnails') {
+                this.panelThumbnails = panel.render('#left-panel-thumbnails');
             }
         },
 
@@ -307,6 +329,10 @@ define([
                     this.panelNavigation['hide']();
                     this.btnNavigation.toggle(false, true);
                 }
+                if (this.panelThumbnails) {
+                    this.panelThumbnails['hide']();
+                    this.btnThumbnails.toggle(false, true);
+                }
             }
         },
 
@@ -328,6 +354,7 @@ define([
             /** coauthoring end **/
             this.btnPlugins.setDisabled(false);
             this.btnNavigation.setDisabled(false);
+            this.btnThumbnails.setDisabled(false);
         },
 
         showMenu: function(menu, opts) {
@@ -353,6 +380,13 @@ define([
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
                         this.btnComments.toggle(true);
                         this.onBtnMenuClick(this.btnComments);
+                        this.onCoauthOptions();
+                    }
+                } else if (menu == 'navigation') {
+                    if (this.btnNavigation.isVisible() &&
+                        !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
+                        this.btnNavigation.toggle(true);
+                        this.onBtnMenuClick(this.btnNavigation);
                         this.onCoauthOptions();
                     }
                 }
@@ -462,6 +496,7 @@ define([
         tipSupport  : 'Feedback & Support',
         tipSearch   : 'Search',
         tipPlugins  : 'Plugins',
+        tipPageThumbnails: 'Page Thumbnails',
         txtDeveloper: 'DEVELOPER MODE',
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',

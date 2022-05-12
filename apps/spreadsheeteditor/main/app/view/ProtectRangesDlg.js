@@ -171,7 +171,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                         rangeId: ranges[i].asc_getId(),
                         props: ranges[i],
                         lock: (id!==null && id!==undefined),
-                        lockuser: (id) ? this.getUserName(id) : this.guestText
+                        lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
                 }
                 this.rangeList.store.reset(arr);
@@ -336,6 +336,16 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             return this.guestText;
         },
 
+        isUserVisible: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return !rec.get('hidden');
+            }
+            return true;
+        },
+
         onSelectRangeItem: function(listView, itemView, record) {
             if (!record) return;
 
@@ -397,7 +407,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             var store = this.rangeList.store,
                 rec = store.findWhere({rangeId: rangeId});
             if (rec) {
-                rec.set('lockuser', (userId) ? this.getUserName(userId) : this.guestText);
+                rec.set('lockuser', (userId) ? (this.isUserVisible(userId) ? this.getUserName(userId) : this.lockText) : this.guestText);
                 rec.set('lock', true);
                 this.updateButtons();
             }
@@ -440,7 +450,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
         txtYes: 'Yes',
         txtNo: 'No',
         txtEditRange: 'Edit Range',
-        txtNewRange: 'New Range'
+        txtNewRange: 'New Range',
+        lockText: 'Locked'
 
     }, SSE.Views.ProtectRangesDlg || {}));
 });

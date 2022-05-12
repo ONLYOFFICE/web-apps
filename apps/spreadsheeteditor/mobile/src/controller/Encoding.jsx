@@ -8,11 +8,7 @@ class EncodingController extends Component {
     constructor(props) {
         super(props);
 
-        const { t } = this.props;
-        const _t = t("View.Settings", { returnObjects: true });
-
         this.valuesDelimeter = [4, 2, 3, 1, 5];
-        this.namesDelimeter = [_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace];
         this.onSaveFormat = this.onSaveFormat.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.state = {
@@ -31,6 +27,9 @@ class EncodingController extends Component {
     }
 
     initEncoding(type, advOptions, mode, formatOptions) {
+        const { t } = this.props;
+        const _t = t("View.Settings", { returnObjects: true });
+        
         if(type === Asc.c_oAscAdvancedOptionsID.CSV) {
             Common.Notifications.trigger('preloader:close');
             Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
@@ -39,6 +38,7 @@ class EncodingController extends Component {
             this.advOptions = advOptions;
             this.formatOptions = formatOptions;
             this.encodeData = [];
+            this.namesDelimeter = [_t.txtComma, _t.txtSemicolon, _t.txtColon, _t.txtTab, _t.txtSpace];
         
             const recommendedSettings = this.advOptions.asc_getRecommendedSettings();
 

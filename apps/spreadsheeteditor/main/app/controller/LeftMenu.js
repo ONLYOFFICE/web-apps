@@ -107,6 +107,7 @@ define([
                 if ( !this.leftMenu.panelHistory.isVisible() )
                     this.clickMenuFileItem(null, 'history');
             }, this));
+            Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
         onLaunch: function() {
@@ -239,8 +240,8 @@ define([
                 this.leftMenu.btnComments.hide();
             }
 
-            if (this.mode.isEdit) {
-                this.leftMenu.btnSpellcheck.show();
+            if (this.mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck')) {
+                Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
                 this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
             }
             if (this.mode.canUseHistory)
@@ -482,7 +483,7 @@ define([
         },
 
         applySpellcheckSettings: function(menu) {
-            if (this.mode.isEdit && this.api) {
+            if (this.mode.isEdit && this.api && Common.UI.FeaturesManager.canChange('spellcheck')) {
                 var value = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words");
                 this.api.asc_ignoreUppercase(value);
                 value = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words");
@@ -534,6 +535,10 @@ define([
                 this.leftMenu.menuFile.hide();
         },
 
+        clickToolbarPrint: function () {
+            this.leftMenu.showMenu('file:printpreview');
+        },
+
         changeToolbarSaveState: function (state) {
             var btnSave = this.leftMenu.menuFile.getButton('save');
             btnSave && btnSave.setDisabled(state);
@@ -561,15 +566,15 @@ define([
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
                 options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
 
-                if (!this.api.asc_findText(options)) {
-                    var me = this;
-                    Common.UI.info({
-                        msg: this.textNoTextFound,
+                var me = this;
+                this.api.asc_findText(options, function(resultCount) {
+                    !resultCount && Common.UI.info({
+                        msg: me.textNoTextFound,
                         callback: function() {
                             me.dlgSearch.focus();
                         }
                     });
-                }
+                });
             // }
         },
 
@@ -873,7 +878,8 @@ define([
                         this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
 
-                        this.leftMenu.menuFile.hide();
+                        if ( this.leftMenu.menuFile.isVisible() )
+                            this.leftMenu.menuFile.hide();
                     }
                     return false;
                 case 'save':

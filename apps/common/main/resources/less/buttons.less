@@ -1028,57 +1028,6 @@
     }
 }
 
-.cnt-lang {
-    color: @text-normal-ie;
-    color: @text-normal;
-    height: 20px;
-    line-height: 18px;
-    border: 0;
-    .border-radius(1px);
-    vertical-align: middle;
-
-    .dropdown-toggle {
-        margin: 0 6px 0 4px;
-    }
-
-    &:hover:not(.disabled) {
-        background-color: @highlight-button-hover-ie;
-        background-color: @highlight-button-hover;
-    }
-
-    &[disabled], &.disabled {
-        opacity: @component-disabled-opacity;
-    }
-
-    .caret {
-        width: 4px;
-        height: 4px;
-        border: solid 1px @icon-normal-ie;
-        border: solid 1px @icon-normal;
-        border-bottom: none;
-        border-right: none;
-        background-image: none;
-
-        transition: transform 0.2s ease;
-        transform: rotate(-135deg) translate(1px,1px);
-    }
-
-    &.open:not(.disabled){
-        &, .status-label {
-            color: @text-normal-pressed-ie;
-            color: @text-normal-pressed;
-        }
-
-        background-color: @highlight-button-pressed-ie;
-        background-color: @highlight-button-pressed;
-
-        .caret {
-            transform: rotate(45deg);
-            border-color: @icon-normal-pressed-ie;
-            border-color: @icon-normal-pressed;
-        }
-    }
-}
 // Dialog buttons
 // ------------------------
 

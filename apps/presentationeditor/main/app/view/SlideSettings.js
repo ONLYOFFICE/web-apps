@@ -110,6 +110,9 @@ define([
             this.textureNames = [this.txtCanvas, this.txtCarton, this.txtDarkFabric, this.txtGrain, this.txtGranite, this.txtGreyPaper,
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
 
+            this.gradientColorsStr="#000, #fff";
+            this.typeGradient = 90;
+
             this.render();
 
             var me = this;
@@ -463,10 +466,10 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 174;
                 var record = this.mnuDirectionPicker.store.findWhere({type: this.GradLinearDirectionType});
                 this.mnuDirectionPicker.selectRecord(record, true);
-                if (record)
-                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                if(record)
+                    this.typeGradient = this.GradLinearDirectionType +90;
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
                 this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
                 this.numGradientAngle.setDisabled(this._locked.background);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
@@ -475,9 +478,9 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 58;
                 this.mnuDirectionPicker.selectByIndex(this.GradRadialDirectionIdx, true);
                 if (this.GradRadialDirectionIdx>=0)
-                    this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
+                    this.typeGradient = this._viewDataRadial[this.GradRadialDirectionIdx].type;
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
                 this.numGradientAngle.setValue(0, true);
                 this.numGradientAngle.setDisabled(true);
             }
@@ -516,8 +519,13 @@ define([
                 rawData = record;
             }
 
-            this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
-            (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
+            if (this.GradFillType === Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                this.GradLinearDirectionType = rawData.type;
+                this.typeGradient = rawData.type + 90;
+            } else {
+                this.GradRadialDirectionIdx = 0;
+                this.typeGradient = rawData.type;
+            }
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     this.numGradientAngle.setValue(rawData.type, true);
@@ -591,7 +599,35 @@ define([
                 this.api.setEndPointHistory();
                 this._gradientApplyFunc();
             }
+
+            var arrGrCollors=[];
+            var scale=(this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR)?1:0.7;
+            for (var index=0; index < slider.thumbs.length; index++) {
+                arrGrCollors.push(slider.getColorValue(index)+ ' '+ slider.getValue(index)*scale +'%');
+            }
+            this.btnDirectionRedraw(slider, arrGrCollors.join(', '));
+
             this._sendUndoPoint = true;
+        },
+
+        btnDirectionRedraw: function(slider, gradientColorsStr) {
+            this.gradientColorsStr = gradientColorsStr;
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = gradientColorsStr;
+            });
+            this._viewDataRadial.gradientColorsStr = this.gradientColorsStr;
+            this.mnuDirectionPicker.store.each(function(item){
+                item.set('gradientColorsStr', gradientColorsStr);
+            }, this);
+
+            if (this.typeGradient == -1)
+                this.btnDirection.$icon.css({'background': 'none'});
+            else if (this.typeGradient == 2)
+                this.btnDirection.$icon.css({'background': ('radial-gradient(' + gradientColorsStr + ')')});
+            else
+                this.btnDirection.$icon.css({
+                    'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + gradientColorsStr + ')')
+                });
         },
 
         _gradientApplyFunc: function() {
@@ -671,23 +707,25 @@ define([
         createDelayedControls: function() {
             var me = this;
 
+            var itemWidth = 28,
+                itemHeight = 28;
             this.cmbPattern = new Common.UI.ComboDataView({
-                itemWidth: 28,
-                itemHeight: 28,
+                itemWidth: itemWidth,
+                itemHeight: itemHeight,
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
                 cls: 'combo-pattern',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                itemTemplate: _.template([
+                    '<div class="style" id="<%= id %>">',
+                        '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
+                        'width="' + itemWidth + '" height="' + itemHeight + '" ',
+                        'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
+                    '</div>'
+                ].join(''))
             });
-            this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
-                '<div class="style" id="<%= id %>">',
-                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
-                'width="' + this.cmbPattern.itemWidth + '" height="' + this.cmbPattern.itemHeight + '" ',
-                'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
-                '</div>'
-            ].join(''));
             this.cmbPattern.render($('#slide-combo-pattern'));
             this.cmbPattern.openButton.menu.cmpEl.css({
                 'min-width': 178,
@@ -757,18 +795,21 @@ define([
             this.FillItems.push(this.cmbGradType);
 
             this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+                { type:45,  subtype:-1},
+                { type:90,  subtype:4},
+                { type:135, subtype:5},
+                { type:0,   subtype:6,  cls: 'item-gradient-separator', selected: true},
+                { type:180, subtype:1},
+                { type:315, subtype:2},
+                { type:270, subtype:3},
+                { type:225, subtype:7}
             ];
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = me.gradientColorsStr;
+            });
 
             this._viewDataRadial = [
-                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
+                { type:2, subtype:5, gradientColorsStr: this.gradientColorsStr}
             ];
 
             this.btnDirection = new Common.UI.Button({
@@ -791,7 +832,9 @@ define([
                     parentMenu: btn.menu,
                     restoreHeight: 174,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background: '
+                        +'<% if(type!=2) {%>linear-gradient(<%= type + 90 %>deg,<%= gradientColorsStr %>)'
+                        +' <%} else {%> radial-gradient(<%= gradientColorsStr %>) <%}%>;"></div>')
                 });
             });
             this.btnDirection.render($('#slide-button-direction'));
@@ -1191,7 +1234,7 @@ define([
                             this.onGradTypeSelect(this.cmbGradType, rec.attributes);
                         } else {
                             this.cmbGradType.setValue('');
-                            this.btnDirection.setIconCls('');
+                            this.typeGradient = -1;
                         }
                         this._state.GradFillType = this.GradFillType;
                     }
@@ -1203,9 +1246,9 @@ define([
                             var record = this.mnuDirectionPicker.store.findWhere({type: value});
                             this.mnuDirectionPicker.selectRecord(record, true);
                             if (record)
-                                this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                                this.typeGradient = value + 90;
                             else
-                                this.btnDirection.setIconCls('');
+                                this.typeGradient= -1;
                             this.numGradientAngle.setValue(value, true);
                         }
                     } else
@@ -1238,10 +1281,16 @@ define([
                             me.GradColor.values[index] = position;
                         }
                     });
+
+                    var arrGrCollors=[];
+                    var scale=(this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR)?1:0.7;
                     for (var index=0; index<length; index++) {
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
+                        arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index)*scale +'%');
                     }
+                    this.btnDirectionRedraw(me.sldrGradient, arrGrCollors.join(', '));
+                    
                     if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
                         me.GradColor.currentIdx = 0;
                     }

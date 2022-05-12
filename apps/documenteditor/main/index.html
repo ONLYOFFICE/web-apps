@@ -49,7 +49,7 @@
             border: none;
             background: #e2e2e2;
             background: var(--canvas-background, #e2e2e2);
-            z-index: 1001;
+            z-index: 1002;
         }
 
         .loadmask > .brendpanel {
@@ -245,8 +245,10 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+            document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+        }
     </script>
     <script src="../../common/main/lib/util/themeinit.js"></script>
 
@@ -324,6 +326,9 @@
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/docm.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/oform.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/docxf.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/djvu.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/xps.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/oxps.svg">
     <img class="inline-svg" src="resources/img/blank.svg">
     <img class="inline-svg" src="resources/img/recent-file.svg">
     <img class="inline-svg" src="resources/img/file-template.svg">
@@ -353,6 +358,7 @@
             else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
             else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
             else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+            else if ( lang == 'tr') reqerr = 'Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.';
             else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
 
             return reqerr;

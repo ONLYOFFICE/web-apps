@@ -20,7 +20,7 @@ export class storeTextSettings {
             textColor: observable,
             customTextColors: observable,
             lineSpacing: observable,
-            backgroundColor: observable,
+            highlightColor: observable,
             initEditorFonts: action,
             resetFontName: action,
             resetFontsRecent:action,
@@ -40,7 +40,7 @@ export class storeTextSettings {
             resetTextColor: action,
             changeCustomTextColors: action,
             resetLineSpacing: action,
-            resetBackgroundColor: action,
+            resetHighlightColor: action,
             changeFontFamily: action,
             iconWidth: observable,
             iconHeight: observable,
@@ -80,7 +80,7 @@ export class storeTextSettings {
     textColor = undefined;
     customTextColors = [];
     lineSpacing = undefined;
-    backgroundColor = undefined;
+    highlightColor = undefined;
 
 
     initEditorFonts (fonts, select) {
@@ -246,24 +246,11 @@ export class storeTextSettings {
         this.lineSpacing = line;
     }
 
-    resetBackgroundColor (color) {
-        let value;
-
-        if(color) {
-            if (color.get_auto()) {
-                value = 'transparent'
-            } else {
-                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                    value = {
-                        color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
-                        effectValue: color.get_value()
-                    }
-                } else {
-                    value = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                }
-            }
-        }
-
-        this.backgroundColor = value;
+    resetHighlightColor (color) {
+        if (color == -1) {
+           this.highlightColor = 'transparent';
+        } else {
+            this.highlightColor = color.get_hex();
+        }  
     }
 }

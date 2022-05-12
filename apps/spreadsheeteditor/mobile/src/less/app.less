@@ -1,12 +1,29 @@
-
-@themeColor: #40865c;
-
 @import '../../../../common/mobile/resources/less/variables.less';
 @import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
-
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+
+// @themeColor: #40865c;
+@brandColor: var(--brand-cell);
+
+.device-ios {
+    --toolbar-background: var(--background-primary, #fff);
+    --toolbar-segment: var(--brand-cell, #40865C);
+    --toolbar-icons: var(--brand-cell, #40865C);
+}
+.device-android {
+    --toolbar-background: var(--brand-cell, #40865C);
+
+    .theme-type-dark {
+        --toolbar-icons: var(--brand-cell, #40865C);
+    }
+}
+
+@toolbar-background: var(--toolbar-background);
+@toolbar-segment: var(--toolbar-segment);
+@button-active-opacity: var(--active-opacity-cell);
+
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';
 @import '../../../../common/mobile/resources/less/common-ios.less';
@@ -37,13 +54,25 @@
     //--f7-page-content-extra-padding-top: 37px;
 }
 
-.function-info {
-    padding: 0 15px;
-}
 .page-function-info {
     &.page-content, .page-content {
-        background-color: @white;
+        background-color: @background-primary;
     }
+
+    .function-info {
+        padding: 0 15px;
+        h3 {
+            color: @text-normal;
+        }
+    
+        p {
+            color: @text-secondary;
+        }
+    }
+}
+
+.username-tip {
+    background-color: #ee3525; 
 }
 
 // Skeleton of workbook
@@ -88,5 +117,66 @@
 .item-input-wrap {
     input[type = number] {
         -moz-appearance: textfield;
+    }
+}
+
+.move-sheet {
+    .swipe-container {
+      display: flex;
+      justify-content: center;
+      height: 40px;
+      background-color: @background-primary;
+        .icon-swipe {
+        margin-top: 8px;
+        width: 40px;
+        height: 4px;
+        background: @background-menu-divider;
+        border-radius: 2px;
+        }
+    }
+    .navbar {
+        top: -1px;
+    }
+}
+
+.actions-move-sheet {
+    background-color: @background-secondary;
+}
+
+// All-list sheet
+.all-list {
+    --f7-popover-width: 190px;
+    .item-checkbox{
+        padding-left: 8px;
+        .icon-checkbox{
+            border-color: transparent;
+            margin-right: 8px;
+            &::after{
+                color: @brandColor;
+            }
+        }
+        .item-after div {
+            color: @text-secondary;
+            font-style: italic;
+        }
+        input[type='checkbox']:checked ~ .icon-checkbox {
+            background-color: unset;
+            border-color: transparent;
+        }
+    }
+}
+
+.sheet-filter, .popover-filter {
+    .list {
+        ul li:first-child .list-button{
+            color: @text-normal;
+            &::after {
+                background: @background-menu-divider;
+            }
+        }
+
+        .item-inner {
+            color: @text-normal;
+        }
     }
 }

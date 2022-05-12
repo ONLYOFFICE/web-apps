@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { f7, ListItem, List, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
-const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
+const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeCustomColors }) => {
     return (
         <div className='palette'>
             {themeColors.map((row, rowIndex) => {
@@ -11,7 +11,7 @@ const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
                         {row.map((effect, index) => {
                             return(
                                 <a key={`tc-${rowIndex}-${index}`}
-                                   className={(curColor && ((curColor.color === effect.color && curColor.effectValue === effect.effectValue) || (curColor === effect.color))) ? 'active' : ''}
+                                   className={(curColor && !isTypeCustomColors && ((curColor.color === effect.color && curColor.effectValue === effect.effectValue) || (curColor === effect.color)))  ? 'active' : ''}
                                    style={{ background: `#${effect.color}`}}
                                    onClick={() => {onColorClick(effect.color, effect.effectId, effect.effectValue)}}
                                 ></a>
@@ -108,12 +108,14 @@ const ThemeColorPalette = props => {
         customColors = customColors ? customColors.toLowerCase().split(',') : [];
     }
 
+    let isTypeCustomColors = customColors.some( value => value === curColor );
+
     return (
         <div className={'color-palettes' + (props.cls ? (' ' + props.cls) : '')}>
             <List>
                 <ListItem className='theme-colors'>
                     <div>{ _t.textThemeColors }</div>
-                    <ThemeColors themeColors={themeColors} onColorClick={props.changeColor} curColor={curColor}/>
+                    <ThemeColors isTypeCustomColors={isTypeCustomColors} themeColors={themeColors} onColorClick={props.changeColor} curColor={curColor}/>
                 </ListItem>
                 <ListItem className='standart-colors'>
                     <div>{ _t.textStandartColors }</div>

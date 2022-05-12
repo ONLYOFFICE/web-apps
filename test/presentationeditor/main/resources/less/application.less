@@ -1,0 +1,34 @@
+// Bootstrap core variables and mixins
+@import "../../../../common/main/resources/less/common.less";
+
+.overlay-controls {
+    /*bottom: 15px;*/
+}
+
+.overlay-icon-move-left  { background-position: -64px -120px; }
+.overlay-icon-move-right { background-position: -96px -120px; }
+
+#box-preview {
+    position:absolute;
+    left: 0;
+    top: 0;
+    display:none;
+    width:100%;
+    height:100%;
+    z-index: 10;
+    padding: 48px 0 0 0;
+}
+
+#id-preview {
+    width:100%;
+    height:100%;
+    position: relative;
+}
+
+.svg-icon {
+  &.play {
+    &.pause {
+      background-position: -20px*10 -20px;
+    }
+  }
+}

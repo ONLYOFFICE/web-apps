@@ -12,6 +12,9 @@ i18n.use(initReactI18next)
             loadPath: './locale/{{lng}}.json'
         },
         interpolation: { escapeValue: false },
+        react: {
+            useSuspense: false,
+        },
     });
 
 export default i18n;

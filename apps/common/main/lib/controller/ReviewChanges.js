@@ -179,20 +179,51 @@ define([
             });
         },
 
-        onApiShowChange: function (sdkchange) {
+        isSelectedChangesLocked: function(changes, isShow) {
+            if (!changes || changes.length<1) return true;
+
+            if (isShow)
+                return changes[0].get('lock') || !changes[0].get('editable');
+
+            for (var i=0; i<changes.length; i++) {
+                var change = changes[i];
+                if (change.get('lock') || !change.get('editable'))
+                    return true; // lock button if at least one change is locked
+            }
+            return false;
+        },
+
+        onApiShowChange: function (sdkchange, isShow) {
+            var btnlock = true,
+                changes;
+            if (this.appConfig.canReview && !this.appConfig.isReviewOnly) {
+                if (sdkchange && sdkchange.length>0) {
+                    changes = this.readSDKChange(sdkchange);
+                    btnlock = this.isSelectedChangesLocked(changes, isShow);
+                }
+                if (this._state.lock !== btnlock) {
+                    this.view.btnAccept.setDisabled(btnlock);
+                    this.view.btnReject.setDisabled(btnlock);
+                    if (this.dlgChanges) {
+                        this.dlgChanges.btnAccept.setDisabled(btnlock);
+                        this.dlgChanges.btnReject.setDisabled(btnlock);
+                    }
+                    this._state.lock = btnlock;
+                    Common.Utils.InternalSettings.set(this.view.appPrefix + "accept-reject-lock", btnlock);
+                }
+            }
+
             if (this.getPopover()) {
-                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0) {
+                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0 && isShow) { // show changes balloon only for current position, not selection
                     var i = 0,
-                        changes = this.readSDKChange(sdkchange),
                         posX = sdkchange[0].get_X(),
                         posY = sdkchange[0].get_Y(),
                         animate = ( Math.abs(this._state.posx-posX)>0.001 || Math.abs(this._state.posy-posY)>0.001) || (sdkchange.length !== this._state.changes_length),
                         lock = (sdkchange[0].get_LockUserId()!==null),
-                        lockUser = this.getUserName(sdkchange[0].get_LockUserId()),
-                        editable = changes[0].get('editable');
+                        lockUser = this.getUserName(sdkchange[0].get_LockUserId());
 
                     this.getPopover().hideTips();
-                    this.popoverChanges.reset(changes);
+                    this.popoverChanges.reset(changes || this.readSDKChange(sdkchange));
 
                     if (animate) {
                         if ( this.getPopover().isVisible() ) this.getPopover().hide();
@@ -200,18 +231,6 @@ define([
                     }
 
                     this.getPopover().showReview(animate, lock, lockUser);
-
-                    var btnlock = lock || !editable;
-                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== btnlock) {
-                        this.view.btnAccept.setDisabled(btnlock);
-                        this.view.btnReject.setDisabled(btnlock);
-                        if (this.dlgChanges) {
-                            this.dlgChanges.btnAccept.setDisabled(btnlock);
-                            this.dlgChanges.btnReject.setDisabled(btnlock);
-                        }
-                        this._state.lock = btnlock;
-                        Common.Utils.InternalSettings.set(this.view.appPrefix + "accept-reject-lock", btnlock);
-                    }
                     this._state.posx = posX;
                     this._state.posy = posY;
                     this._state.changes_length = sdkchange.length;
@@ -258,6 +277,9 @@ define([
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     reviewStore : this.popoverChanges,
                     renderTo : this.sdkViewName,
+                    canRequestUsers: (this.appConfig) ? this.appConfig.canRequestUsers : undefined,
+                    canRequestSendNotify: (this.appConfig) ? this.appConfig.canRequestSendNotify : undefined,
+                    mentionShare: (this.appConfig) ? this.appConfig.mentionShare : true,
                     api: this.api
                 });
                 this.popover.setReviewStore(this.popoverChanges);
@@ -586,13 +608,15 @@ define([
             }
         },
 
-        onTurnSpelling: function (state) {
+        onTurnSpelling: function (state, suspend) {
             state = (state == 'on');
-            this.view.turnSpelling(state);
+            this.view && this.view.turnSpelling(state);
 
-            Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
-            this.api.asc_setSpellCheck(state);
-            Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-spellcheck", state);
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && !suspend) {
+                Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
+                this.api.asc_setSpellCheck(state);
+                Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-spellcheck", state);
+            }
         },
 
         onReviewViewClick: function(menu, item, e) {
@@ -767,7 +791,7 @@ define([
                 allowMerge: false,
                 allowSignature: false,
                 allowProtect: false,
-                rightMenu: {clear: true, disable: true},
+                rightMenu: {clear: disable, disable: true},
                 statusBar: true,
                 leftMenu: {disable: false, previewMode: true},
                 fileMenu: {protect: true},
@@ -803,9 +827,6 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", !(config.customization && config.customization.spellcheck===false)))
-                me.view.turnSpelling(true);
-
             if ( config.canReview ) {
                 (new Promise(function (resolve) {
                     resolve();

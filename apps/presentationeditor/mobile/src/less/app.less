@@ -1,10 +1,27 @@
-@themeColor: #aa5252;
-
 @import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
-
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+
+@brandColor: var(--brand-slide);
+
+.device-ios {
+    --toolbar-background: var(--background-primary, #fff);
+    --toolbar-segment: var(--brand-slide, #aa5252);
+    --toolbar-icons: var(--brand-slide, #aa5252);
+}
+.device-android {
+    --toolbar-background: var(--brand-slide, #aa5252);
+
+    .theme-type-dark {
+        --toolbar-icons: var(--brand-slide, #aa5252);
+    }
+}
+
+@toolbar-background: var(--toolbar-background);
+@toolbar-segment: var(--toolbar-segment);
+@button-active-opacity: var(--active-opacity-slide);
+
 @import '../../../../common/mobile/resources/less/collaboration.less';
 @import '../../../../common/mobile/resources/less/common.less';
 @import '../../../../common/mobile/resources/less/common-ios.less';
@@ -19,6 +36,7 @@
 @import './app-ios.less';
 @import './icons-ios.less';
 @import './icons-material.less';
+@import './icons-common.less';
 
 :root {
     --f7-popover-width: 360px;
@@ -100,7 +118,20 @@
     background: @black;
 }
 
-// Theme 
+// Skeleton table
+
+.table-styles .row div:not(:first-child) {
+    margin: 2px auto 0px;
+}
+.table-styles .skeleton-list li, .table-styles .row div {
+    padding: 0;
+}
+.table-styles .row .skeleton-list{
+    display: block;
+    width: 70px;
+    height: 50px;
+}
+// Theme
 
 .slide-theme {
     &__list {

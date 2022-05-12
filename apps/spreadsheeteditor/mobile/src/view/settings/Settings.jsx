@@ -91,9 +91,12 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
     }
 
     const onPrint = () => {
-        closeModal();
         const api = Common.EditorApi.get();
-        api.asc_Print();
+
+        closeModal();
+        setTimeout(() => {
+            api.asc_Print();
+        }, 400);
     };
 
     const showHelp = () => {
@@ -123,7 +126,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
         _canAbout = true,
         _canHelp = true,
         _canPrint = false;
-
+        
     if (appOptions.isDisconnected) {
         _isEdit = false;
         if (!appOptions.enableDownload)

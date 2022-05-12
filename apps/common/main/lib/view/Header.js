@@ -82,7 +82,7 @@ define([
                                     '<div class="btn-slot" id="slot-hbtn-print"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
                                 '</div>' +
-                                '<div class="hedset">' +
+                                '<div class="hedset" data-layout-name="header-users">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                     '<section id="tlb-box-users" class="box-cousers dropdown"">' +
                                         '<div class="btn-users" data-hint="0" data-hint-direction="bottom" data-hint-offset="big">' +
@@ -104,9 +104,11 @@ define([
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-user-name"></div>' +
-                                    '<div class="btn-current-user btn-header hidden">' +
-                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
-                                    '</div>' +
+                                    '<div class="btn-slot">' +
+                                        '<div class="btn-current-user btn-header hidden">' +
+                                            '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                        '</div>' +
+                                    '</div>'
                                 '</div>' +
                             '</section>' +
                         '</section>';
@@ -118,7 +120,7 @@ define([
         var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-save" data-layout-name="header-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
@@ -130,11 +132,11 @@ define([
                             '</section>';
 
         function onResetUsers(collection, opts) {
-            var usercount = collection.getEditingCount();
+            var usercount = collection.getVisibleEditingCount();
             if ( $userList ) {
                 if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit) {
                     $userList.html(templateUserList({
-                        users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
+                        users: collection.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
                         fnEncode: function(username) {
                             return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
@@ -153,7 +155,7 @@ define([
                 }
             }
 
-            applyUsers( usercount, collection.getEditingOriginalCount() );
+            applyUsers( usercount, collection.getVisibleEditingOriginalCount() );
         };
 
         function onUsersChanged(model) {
@@ -270,7 +272,7 @@ define([
                 $panelUsers.find('.cousers-menu')
                     .on('click', function(e) { return false; });
 
-                var editingUsers = storeUsers.getEditingCount();
+                var editingUsers = storeUsers.getVisibleEditingCount();
                 $btnUsers.tooltip({
                     title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
                     titleNorm: me.tipAccessRights,

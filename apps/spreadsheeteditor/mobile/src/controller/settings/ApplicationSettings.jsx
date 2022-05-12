@@ -85,6 +85,7 @@ class ApplicationSettingsController extends Component {
         LocalStorage.setItem("sse-settings-regional", regCode);
         this.initRegSettings();
         if (regCode!==null) api.asc_setLocale(+regCode);
+        Common.Notifications.trigger('changeRegSettings');
     }
 
     render() {
@@ -98,7 +99,7 @@ class ApplicationSettingsController extends Component {
                 clickR1C1Style={this.clickR1C1Style}
                 onChangeMacrosSettings={this.onChangeMacrosSettings}  
                 onFormulaLangChange={this.onFormulaLangChange}     
-                onRegSettings={this.onRegSettings}
+                onRegSettings={this.onRegSettings}   
             />
         )
     }

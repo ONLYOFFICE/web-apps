@@ -73,7 +73,8 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
 
                 EditorUIController.isSupportEditFeature();
 
@@ -121,6 +122,8 @@ class MainController extends Component {
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
 
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -182,7 +185,6 @@ class MainController extends Component {
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
 
                     this.appOptions   = {};
                     this.bindEvents();
@@ -283,7 +285,9 @@ class MainController extends Component {
                 this.api.asc_continueSaving();
             }, 500);
 
-            return this._t.leavePageText;
+            const { t } = this.props;
+            const _t = t('Controller.Main', {returnObjects:true});
+            return _t.leavePageText;
         }
     }
 
@@ -378,8 +382,12 @@ class MainController extends Component {
             storeTextSettings.resetDecreaseIndent(value);
         });
 
-        this.api.asc_registerCallback('asc_onTextColor', (color) => {
+        this.api.asc_registerCallback('asc_onTextColor', color => {
             storeTextSettings.resetTextColor(color);
+        });
+
+        this.api.asc_registerCallback('asc_onTextHighLight', color => {
+            storeTextSettings.resetHighlightColor(color);
         });
 
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {
@@ -493,7 +501,9 @@ class MainController extends Component {
     }
 
     applyLicense () {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
+
         const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
@@ -585,7 +595,8 @@ class MainController extends Component {
     }
 
     onUpdateVersion (callback) {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
@@ -604,7 +615,8 @@ class MainController extends Component {
 
     onServerVersion (buildVersion) {
         if (this.changeServerVersion) return true;
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
 
         if (About.appVersion() !== buildVersion && !window.compareVersions) {
             this.changeServerVersion = true;
@@ -620,9 +632,10 @@ class MainController extends Component {
     }
 
     onAdvancedOptions (type, advOptions) {
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
+        
         if ($$('.dlg-adv-options.modal-in').length > 0) return;
-
-        const _t = this._t;
 
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             Common.Notifications.trigger('preloader:close');
@@ -751,7 +764,8 @@ class MainController extends Component {
             if (value === 1) {
                 this.api.asc_runAutostartMacroses();
             } else if (value === 0) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text: _t.textHasMacros,
@@ -793,7 +807,8 @@ class MainController extends Component {
         this.api.asc_OnSaveEnd(data.result);
 
         if (data && data.result === false) {
-            const _t = this._t;
+            const { t } = this.props;
+            const _t = t('Controller.Main', {returnObjects:true});
             f7.dialog.alert(
                 (!data.message) ? _t.errorProcessSaveResult : data.message,
                 _t.criticalErrorTitle
@@ -810,7 +825,8 @@ class MainController extends Component {
             Common.Notifications.trigger('api:disconnect');
 
             if (!old_rights) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
                 f7.dialog.alert(
                     (!data.message) ? _t.warnProcessRightsChange : data.message,
                     _t.notcriticalErrorTitle,
@@ -848,6 +864,7 @@ class MainController extends Component {
     }
 
     componentDidMount () {
+        Common.EditorApi = {get: () => this.api};
         this.initSdk();
     }
 }

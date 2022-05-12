@@ -33,6 +33,9 @@
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUsers": "Utilisateurs"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Pas de remplissage"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
       "textStandartColors": "Couleurs standard",
@@ -104,9 +107,12 @@
       "textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros?",
       "textNo": "Non",
       "textNoLicenseTitle": "La limite de la licence est atteinte",
+      "textNoTextFound": "Texte non trouvé",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
       "textPaidFeature": "Fonction payante",
       "textRemember": "Se souvenir de mon choix",
+      "textReplaceSkipped": "Le remplacement a été effectué. {0} occurrences ont été sautées.",
+      "textReplaceSuccess": "La recherche a été effectuée. Occurrences remplacées : {0}",
       "textYes": "Oui",
       "titleLicenseExp": "Licence expirée",
       "titleServerVersion": "L'éditeur est mis à jour",
@@ -120,10 +126,7 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
   "Error": {
@@ -225,6 +228,7 @@
       "textLinkTo": "Lien vers",
       "textLinkType": "Type de lien",
       "textNextSlide": "Diapositive suivante",
+      "textOk": "Accepter",
       "textOther": "Autre",
       "textPictureFromLibrary": "Image depuis la bibliothèque",
       "textPictureFromURL": "Image depuis URL",
@@ -237,8 +241,7 @@
       "textSlideNumber": "Numéro de diapositive",
       "textTable": "Tableau",
       "textTableSize": "Taille du tableau",
-      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
-      "textOk": "Ok"
+      "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -258,6 +261,7 @@
       "textAllCaps": "Tout en majuscules",
       "textApplyAll": "Appliquer à toutes les diapositives",
       "textAuto": "Auto",
+      "textAutomatic": "Automatique",
       "textBack": "Retour",
       "textBandedColumn": "Colonne à couleur alternée",
       "textBandedRow": "Ligne à couleur alternée",
@@ -282,6 +286,7 @@
       "textDefault": "Texte sélectionné",
       "textDelay": "Retard",
       "textDeleteSlide": "Supprimer la diapositive",
+      "textDesign": "Design",
       "textDisplay": "Afficher",
       "textDistanceFromText": "Distance du texte",
       "textDistributeHorizontally": "Distribuer horizontalement",
@@ -333,6 +338,7 @@
       "textNoTextFound": "Le texte est introuvable",
       "textNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "textNumbers": "Numérotation",
+      "textOk": "Accepter",
       "textOpacity": "Opacité",
       "textOptions": "Options",
       "textPictureFromLibrary": "Image depuis la bibliothèque",
@@ -376,7 +382,6 @@
       "textTopLeft": "Haut à gauche",
       "textTopRight": "Haut à droite",
       "textTotalRow": "Ligne de total",
-      "textTransition": "Transition",
       "textTransitions": "Transitions",
       "textType": "Type",
       "textUnCover": "Découvrir",
@@ -387,8 +392,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
-      "textZoomRotate": "Zoom et rotation",
-      "textOk": "Ok"
+      "textZoomRotate": "Zoom et rotation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -405,6 +409,7 @@
       "textColorSchemes": "Jeux de couleurs",
       "textComment": "Commentaire",
       "textCreated": "Créé",
+      "textDarkTheme": "Thème sombre",
       "textDisableAll": "Désactiver tout",
       "textDisableAllMacrosWithNotification": "Désactiver toutes les macros avec notification",
       "textDisableAllMacrosWithoutNotification": "Désactiver toutes les macros sans notification",

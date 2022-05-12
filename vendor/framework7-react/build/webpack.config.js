@@ -89,6 +89,7 @@ module.exports = {
 
       {
         test: /\.css$/,
+        exclude: [/skeleton\.css$/i],
         use: [
           (env === 'development' ? 'style-loader' : {
             loader: MiniCssExtractPlugin.loader,
@@ -131,8 +132,7 @@ module.exports = {
                 lessOptions: {
                   javascriptEnabled: true,
                   globalVars: {
-                      "common-image-header-path": env === 'production' ? `../../../${editor}/mobile/resources/img/header` : '../../common/mobile/resources/img/header',
-                      "common-image-about-path": env === 'production' ? `../../../${editor}/mobile/resources/img/about` : '../../common/main/resources/img/about',
+                      "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
                       "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
                   }
                 }
@@ -194,6 +194,9 @@ module.exports = {
       // new webpack.NamedModulesPlugin(),
     ]),
     // new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+    }),
     new HtmlWebpackPlugin({
       filename: `../../../apps/${editor}/mobile/index.html`,
       template: `../../apps/${editor}/mobile/src/index_dev.html`,
@@ -206,14 +209,15 @@ module.exports = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true
       } : false,
+      skeleton: {
+          stylesheet: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
+          htmlscript: fs.readFileSync(`../../apps/common/mobile/utils/htmlutils.js`),
+      },
       system: {
           env: {
               defaultLang: JSON.stringify(process.env.DEFAULT_LANG || "en"),
           }
       },
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
     }),
     new CopyWebpackPlugin({
       patterns: [

@@ -4,16 +4,21 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const _t = t("Error", { returnObjects: true });
 
     useEffect(() => {
-        Common.Notifications.on('engineCreated', (api) => {
-            api.asc_registerCallback('asc_onError', onError);
-        });
+        const on_engine_created = k => { k.asc_registerCallback('asc_onError', onError); };
+
+        const api = Common.EditorApi.get();
+        if ( !api ) Common.Notifications.on('engineCreated', on_engine_created);
+        else on_engine_created(api);
+
         return () => {
             const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onError', onError);
+            if ( api ) api.asc_unregisterCallback('asc_onError', onError);
+
+            Common.Notifications.off('engineCreated', on_engine_created);
         }
     });
 

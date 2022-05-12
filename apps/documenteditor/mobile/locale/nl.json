@@ -162,6 +162,9 @@
       "textCustomColors": "Aangepaste kleuren",
       "textStandartColors": "Standaardkleuren",
       "textThemeColors": "Themakleuren"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -306,7 +309,28 @@
     "textTotalRow": "Totaalrij",
     "textType": "Type",
     "textWrap": "Wikkel",
-    "textOk": "Ok"
+    "textApril": "April",
+    "textAugust": "August",
+    "textDecember": "December",
+    "textDesign": "Design",
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textOk": "Ok",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We"
   },
   "Error": {
     "convertationTimeoutText": "Time-out voor conversie overschreden.",
@@ -477,9 +501,9 @@
     "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
     "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
     "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textNoTextFound": "Text not found"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",
@@ -591,7 +615,14 @@
     "txtScheme6": "Concours",
     "txtScheme7": "Vermogen",
     "txtScheme8": "Stroom",
-    "txtScheme9": "Gieterij"
+    "txtScheme9": "Gieterij",
+    "textFastWV": "Fast Web View",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

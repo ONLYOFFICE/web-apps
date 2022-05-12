@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Errore",
       "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
+      "errorOpensource": "Usando la versione gratuita Community, puoi aprire i documenti solo per visualizzarli. Per accedere agli editor mobili sul web è richiesta una licenza commerciale.",
       "errorProcessSaveResult": "Salvataggio è fallito.",
       "errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare i cambiamenti.",
       "errorUpdateVersion": "La versione del file è stata cambiata. La pagina verrà ricaricata.",
@@ -142,9 +143,14 @@
       "textGuest": "Ospite",
       "textHasMacros": "Il file contiene macro automatiche. <br> Vuoi eseguire le macro?",
       "textNo": "No",
+      "textNoChoices": "Non ci sono alternative per riempire la cella.<br>Solo i valori testo dalla colonna possono essere selezionati per la sostituzione",
       "textNoLicenseTitle": "È stato raggiunto il limite della licenza",
+      "textNoTextFound": "Testo non trovato",
+      "textOk": "OK",
       "textPaidFeature": "Funzionalità a pagamento",
       "textRemember": "Ricordare la mia scelta",
+      "textReplaceSkipped": "La sostituzione è stata effettuata. {0} casi sono stati saltati.",
+      "textReplaceSuccess": "La ricerca è stata effettuata. Casi sostituiti: {0}",
       "textYes": "Sì",
       "titleServerVersion": "L'editor è stato aggiornato",
       "titleUpdateVersion": "La versione è stata cambiata",
@@ -154,10 +160,7 @@
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
   "Error": {
@@ -172,6 +175,7 @@
     "errorAutoFilterDataRange": "Impossibile eseguire l'operazione per l'intervallo di celle selezionato.<br>Seleziona un intervallo di dati uniforme all'interno o all'esterno della tabella e riprova.",
     "errorAutoFilterHiddenRange": "L'operazione non può essere eseguita perché l'area contiene le celle filtrate.<br>Si prega di mostrare gli elementi filtrati e riprovare.",
     "errorBadImageUrl": "URL dell'immagine non è corretto",
+    "errorCannotUseCommandProtectedSheet": "Non è possibile utilizzare questo comando su un foglio protetto. Per utilizzare questo comando, sproteggi il foglio.<br>Potrebbe essere richiesto di inserire una password.",
     "errorChangeArray": "Non puoi cambiare parte di un array.",
     "errorChangeOnProtectedSheet": "La cella o il grafico che stai cercando di modificare si trova su un foglio protetto. Per apportare una modifica, rimuovere la protezione del foglio. Potrebbe esserti richiesto di inserire una password.",
     "errorConnectToServer": "Impossibile salvare questo documento. Controlla le impostazioni di connessione o contatta il tuo amministratore.<br>Quando fai clic sul pulsante \"OK\", ti verrà chiesto di scaricare il documento.",
@@ -283,15 +287,19 @@
     "textErrNotEmpty": "Il nome del foglio non può essere lasciato vuoto",
     "textErrorLastSheet": "Il libro di lavoro deve avere almeno un foglio di calcolo visibile.",
     "textErrorRemoveSheet": "Impossibile cancellare il foglio di calcolo",
+    "textHidden": "Nascosto",
     "textHide": "Nascondere",
     "textMore": "Di più",
+    "textMove": "Sposta",
     "textOk": "OK",
     "textRename": "Rinominare",
     "textRenameSheet": "Rinominare foglio",
     "textSheet": "Foglio",
     "textSheetName": "Nome foglio",
     "textUnhide": "Scoprire",
-    "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?"
+    "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
@@ -334,6 +342,7 @@
       "textLink": "Link",
       "textLinkSettings": "Impostazioni di link",
       "textLinkType": "Tipo di link",
+      "textOk": "OK",
       "textOther": "Altro",
       "textPictureFromLibrary": "Immagine dalla libreria",
       "textPictureFromURL": "Immagine dall'URL",
@@ -352,7 +361,11 @@
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
       "txtYes": "Sì",
-      "textOk": "Ok"
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -371,6 +384,7 @@
       "textAngleClockwise": "Angolo in senso orario",
       "textAngleCounterclockwise": "Angolo in senso antiorario",
       "textAuto": "Auto",
+      "textAutomatic": "Automatico",
       "textAxisCrosses": "Intersezione con l'asse",
       "textAxisOptions": "Opzioni dell'asse",
       "textAxisPosition": "Posizione dell'asse",
@@ -471,6 +485,7 @@
       "textNoOverlay": "Nessuna sovrapposizione",
       "textNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "textNumber": "Numero",
+      "textOk": "OK",
       "textOnTickMarks": "Segni di graduazione",
       "textOpacity": "Opacità",
       "textOut": "All'esterno",
@@ -532,8 +547,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordinare dal più alto al più basso",
-      "txtSortLow2High": "Ordinare dal più basso al più alto",
-      "textOk": "Ok"
+      "txtSortLow2High": "Ordinare dal più basso al più alto"
     },
     "Settings": {
       "advCSVOptions": "Scegliere le opzioni CSV",
@@ -563,6 +577,7 @@
       "textComments": "Commenti",
       "textCreated": "Creato",
       "textCustomSize": "Dimensione personalizzata",
+      "textDarkTheme": "‎Tema scuro‎",
       "textDelimeter": "Delimitatore",
       "textDisableAll": "Disabilitare tutto",
       "textDisableAllMacrosWithNotification": "Disabilitare tutte le macro con notifica",

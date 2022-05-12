@@ -4,16 +4,21 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const _t = t("Error", { returnObjects: true });
 
     useEffect(() => {
-        Common.Notifications.on('engineCreated', (api) => {
-            api.asc_registerCallback('asc_onError', onError);
-        });
+        const on_engine_created = k => { k.asc_registerCallback('asc_onError', onError); };
+
+        const api = Common.EditorApi.get();
+        if ( !api ) Common.Notifications.on('engineCreated', on_engine_created);
+        else on_engine_created(api);
+
         return () => {
             const api = Common.EditorApi.get();
-            api.asc_unregisterCallback('asc_onError', onError);
+            if ( api ) api.asc_unregisterCallback('asc_onError', onError);
+
+            Common.Notifications.off('engineCreated', on_engine_created);
         }
     });
 
@@ -217,6 +222,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
 
             case Asc.c_oAscError.ID.DataValidate:
                 errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
+                config.buttons  = ['OK', 'Cancel'];
                 config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : _t.errorDataValidate;
                 break;
 
@@ -314,6 +320,10 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 config.msg = t('Error.textErrorPasswordIsNotCorrect');
                 break;
 
+            case Asc.c_oAscError.ID.CannotUseCommandProtectedSheet:
+                config.msg = t('Error.errorCannotUseCommandProtectedSheet');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;
@@ -341,8 +351,9 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             Common.Gateway.reportWarning(id, config.msg);
 
             config.title    = config.title || _t.notcriticalErrorTitle;
-            config.callback = (btn) => {
-                if (id == Asc.c_oAscError.ID.DataValidate) {
+            config.buttons  = config.buttons || ['OK'];
+            config.callback = (_, btn) => {
+                if (id == Asc.c_oAscError.ID.DataValidate && btn.target.textContent !== 'OK') {
                     api.asc_closeCellEditor(true);
                 }
                 storeAppOptions.changeEditingRights(false);
@@ -353,12 +364,12 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             cssClass: 'error-dialog',
             title   : config.title,
             text    : config.msg,
-            buttons: [
+            buttons: config.buttons.map( button => (
                 {
-                    text: 'OK',
-                    onClick: () => config.callback
+                    text:button,
+                    onClick: (_, btn) => config.callback(_, btn)
                 }
-            ]
+            ))
         }).open();
 
         Common.component.Analytics.trackEvent('Internal Error', id.toString());

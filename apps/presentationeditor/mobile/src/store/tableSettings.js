@@ -4,32 +4,45 @@ import {f7} from 'framework7-react';
 export class storeTableSettings {
     constructor() {
         makeObservable(this, {
-            _templates: observable,
             cellBorders: observable,
             cellBorderWidth: observable,
             cellBorderColor: observable,
+            arrayStyles: observable,
             initTableTemplates: action,
-            styles: computed,
+            setStyles: action,
             updateCellBorderWidth: action,
             updateCellBorderColor: action,
+            setAutoColor: action,
+            colorAuto: observable,
+            arrayStylesDefault: observable,
         });
     }
 
-    _templates = [];
+    arrayStyles = [];
+    arrayStylesDefault = [];
+    colorAuto = 'auto';
 
-    initTableTemplates (templates) {
-        this._templates = templates;
+    setAutoColor(value) {
+        this.colorAuto = value;
     }
 
-    get styles () {
+    initTableTemplates () {
+        this.arrayStyles = [];
+    }
+
+    setStyles (arrStyles, typeStyles) {
         let styles = [];
-        for (let template of this._templates) {
+        for (let template of arrStyles) {
             styles.push({
                 imageUrl    : template.asc_getImage(),
                 templateId  : template.asc_getId()
             });
         }
-        return styles;
+
+        if(typeStyles === 'default') {
+            return this.arrayStylesDefault = styles;
+        } 
+        return this.arrayStyles = styles;
     }
 
     getTableLook (tableObject) {
@@ -146,7 +159,13 @@ export class storeTableSettings {
             const size = parseFloat(this.cellBorderWidth);
             border.put_Value(1);
             border.put_Size(size * 25.4 / 72.0);
-            const color = Common.Utils.ThemeColor.getRgbColor(this.cellBorderColor);
+            let color;
+            if(this.colorAuto === 'auto') {
+                color = new Asc.asc_CColor();
+                color.put_auto(true);
+            } else {
+                color = Common.Utils.ThemeColor.getRgbColor(this.cellBorderColor);
+            }
             border.put_Color(color);
         }
         else {

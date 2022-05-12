@@ -1,14 +1,9 @@
 .synch-tip-root {
     position: fixed;
     z-index: @zindex-navbar + 2;
-    @tip-width: 300px;
 
     &:not(.simple) {
-        width: @tip-width;
-
-        .tip-text {
-            width: @tip-width - 40px;
-        }
+        max-width: 300px;
     }
 
     &.simple {
@@ -18,17 +13,15 @@
         .tip-arrow {
             display: none;
         }
-
-        .asc-synchronizetip {
-            padding-right: 30px;
-        }
     }
 
     &.no-arrow {
         .tip-arrow {
             display: none;
         }
+    }
 
+    &.closable {
         .asc-synchronizetip {
             padding-right: 30px;
         }
@@ -84,12 +77,6 @@
     }
 
     &.colored {
-        @tip-width: 270px;
-        width: @tip-width;
-        .tip-text {
-            width: @tip-width - 40px;
-        }
-
         .asc-synchronizetip {
             background-color: @background-contrast-popover-ie;
             background-color: @background-contrast-popover;
@@ -208,7 +195,6 @@
                 top: 0;
                 left: 8px;
                 width: 16px;
-                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
             }
         }
     }
@@ -225,7 +211,6 @@
                 top: 0;
                 left: -8px;
                 width: 16px;
-                .box-shadow(0 4px 8px -1px rgba(0, 0, 0, 0.2));
             }
         }
     }
@@ -337,7 +322,6 @@
             &:before {
                 top: -8px;
                 left: -8px;
-                .box-shadow(2px 2px 8px -1px rgba(0, 0, 0, 0.2));
             }
             &:after {
                 top: -6px;
@@ -359,7 +343,6 @@
             &:before {
                 top: 8px;
                 left: 8px;
-                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
             }
             &:after {
                 top: 6px;
@@ -381,7 +364,6 @@
             &:before {
                 top: 8px;
                 left: -8px;
-                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
             }
             &:after {
                 top: 6px;
@@ -425,8 +407,6 @@
             &:before {
                 bottom: -7px;
                 left: -7px;
-                //width: 15px;
-                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
             }
             &:after {
                 top: -2px;
@@ -439,7 +419,7 @@
 }
 
 .asc-synchronizetip {
-    padding: 15px 8px 15px 15px;
+    padding: 10px 15px;
     border-radius: 5px;
     background-color: @background-notification-popover-ie;
     background-color: @background-notification-popover;
@@ -488,7 +468,6 @@
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
 
-    .box-shadow(0 4px 8px -1px rgba(0, 0, 0, 0.2));
     border: @scaled-one-px-value-ie solid @background-notification-popover-ie;
     border: @scaled-one-px-value solid @background-notification-popover;
 }
@@ -528,7 +507,7 @@
     top: 0;
     width: 16px;
     height: 16px;
-    margin: 8px;
+    margin: 5px;
     cursor: pointer;
 
     opacity: 0.7;

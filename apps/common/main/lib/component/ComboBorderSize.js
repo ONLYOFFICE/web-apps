@@ -277,8 +277,24 @@ define([
         },
 
         updateFormControl: function(record) {
-            $(this.el).find('.form-control > .image')
-                .css('background-position', '10px -' + record.get('offsety') + 'px');
+            if (record)
+                $(this.el).find('.form-control > .image')
+                    .css('background-position', '10px -' + record.get('offsety') + 'px').show();
+            else
+                $(this.el).find('.form-control > .image').hide();
+        },
+
+        setValue: function(value) {
+            this._selectedItem = (value===null || value===undefined) ? undefined : _.find(this.store.models, function(item) {
+                if ( value<item.attributes.value+0.01 && value>item.attributes.value-0.01) {
+                    return true;
+                }
+            });
+
+            $('.selected', $(this.el)).removeClass('selected');
+
+            this.updateFormControl(this._selectedItem);
+            this._selectedItem && $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
         }
     }, Common.UI.ComboBorderType || {}));
 

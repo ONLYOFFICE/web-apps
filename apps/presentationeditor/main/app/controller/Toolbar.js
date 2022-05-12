@@ -53,6 +53,7 @@ define([
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/controller/Transitions',
+    'presentationeditor/main/app/controller/Animation',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/HeaderFooterDialog',
@@ -129,6 +130,8 @@ define([
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'add:slide'         : this.onAddSlide.bind(this),
+                    'duplicate:slide'   : this.onDuplicateSlide.bind(this),
+                    'duplicate:check'   : this.onDuplicateCheck.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
                     'add:chart'         : this.onSelectChart
@@ -175,6 +178,9 @@ define([
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
                     }
+                },
+                'ViewTab': {
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this)
                 }
             });
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
@@ -189,16 +195,20 @@ define([
                     btn_id = cmp.closest('button').attr('id');
                 if (btn_id===undefined)
                     btn_id = cmp.closest('.btn-group').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.combo-dataview').attr('id');
 
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
                     if ( me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
-                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) )
+                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) ||
+                            me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id)
                     {
                         me._isAddingShape         = false;
 
                         me._addAutoshape(false);
                         me.toolbar.btnsInsertShape.toggle(false, true);
                         me.toolbar.btnsInsertText.toggle(false, true);
+                        me.toolbar.cmbInsertShape.deactivateRecords();
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     } else
                     if ( me.toolbar.btnsInsertShape.pressed() && me.toolbar.btnsInsertShape.contains(btn_id) ) {
@@ -218,6 +228,9 @@ define([
 
                 if ( this.toolbar.btnsInsertText.pressed() )
                     this.toolbar.btnsInsertText.toggle(false, true);
+
+                if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
+                    this.toolbar.cmbInsertShape.deactivateRecords();
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
@@ -690,7 +703,9 @@ define([
                 in_equation = false,
                 in_chart = false,
                 layout_index = -1,
-                no_columns = false;
+                no_columns = false,
+                in_smartart = false,
+                in_smartart_internal = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -725,6 +740,10 @@ define([
                             || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                             || shapetype=='straightConnector1')
                             no_columns = true;
+                        if (pr.get_FromSmartArt())
+                            in_smartart = true;
+                        if (pr.get_FromSmartArtInternal())
+                            in_smartart_internal = true;
                     }
                     if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Table)
                         no_columns = true;
@@ -791,6 +810,21 @@ define([
                     this.toolbar.btnChangeSlide.mnuSlidePicker.options.layout_index = layout_index;
                 else
                     this.toolbar.btnChangeSlide.mnuSlidePicker = {options: {layout_index: layout_index}};
+            }
+
+            if (this._state.in_smartart !== in_smartart) {
+                this.toolbar.lockToolbar(PE.enumLock.inSmartart, in_smartart, {array: me.toolbar.paragraphControls});
+                this._state.in_smartart = in_smartart;
+            }
+
+            if (this._state.in_smartart_internal !== in_smartart_internal) {
+                this.toolbar.lockToolbar(PE.enumLock.inSmartartInternal, in_smartart_internal, {array: me.toolbar.paragraphControls});
+                this._state.in_smartart_internal = in_smartart_internal;
+
+                this.toolbar.mnuArrangeFront.setDisabled(in_smartart_internal);
+                this.toolbar.mnuArrangeBack.setDisabled(in_smartart_internal);
+                this.toolbar.mnuArrangeForward.setDisabled(in_smartart_internal);
+                this.toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
             }
         },
 
@@ -892,6 +926,20 @@ define([
             }
         },
 
+        onDuplicateSlide: function() {
+            if ( this.api) {
+                this.api.DublicateSlide();
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Duplicate Slide');
+            }
+        },
+
+        onDuplicateCheck: function(menu) {
+            if (this.api)
+                menu.items[2].setDisabled(this.api.getCountPages()<1);
+        },
+
         onChangeSlide: function(type) {
             if (this.api) {
                 this.api.ChangeLayout(type);
@@ -961,7 +1009,7 @@ define([
         
         onPrint: function(e) {
             if (this.api)
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -1224,7 +1272,6 @@ define([
                     !Common.Utils.ModalWindow.isVisible() &&
                     Common.UI.warning({
                         width: 500,
-                        closable: false,
                         msg: this.confirmAddFontName,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
@@ -1277,18 +1324,17 @@ define([
 
                     if (!value) {
                         value = this._getApiTextSize();
-
-                        Common.UI.warning({
-                            msg: this.textFontSizeErr,
-                            callback: function() {
-                                _.defer(function(btn) {
-                                    $('input', combo.cmpEl).focus();
-                                })
-                            }
-                        });
-
+                        setTimeout(function(){
+                            Common.UI.warning({
+                                msg: me.textFontSizeErr,
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        $('input', combo.cmpEl).focus();
+                                    })
+                                }
+                            });
+                        }, 1);
                         combo.setRawValue(value);
-
                         e.preventDefault();
                         return false;
                     }
@@ -2023,13 +2069,30 @@ define([
         },
 
         onResetAutoshapes: function () {
-            var me = this;
+            var me = this,
+                collection = PE.getCollection('ShapeGroups');
             var onShowBefore = function(menu) {
-                me.toolbar.updateAutoshapeMenu(menu, PE.getCollection('ShapeGroups'));
+                me.toolbar.updateAutoshapeMenu(menu, collection);
                 menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnsInsertShape.forEach(function (btn, index) {
                 btn.menu.on('show:before', onShowBefore);
+            });
+            var onComboShowBefore = function (menu) {
+                me.toolbar.updateComboAutoshapeMenu(collection);
+                menu.off('show:before', onComboShowBefore);
+            }
+            me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
+            me.toolbar.cmbInsertShape.fillComboView(collection);
+            me.toolbar.cmbInsertShape.on('click', function (btn, record, cancel) {
+                if (cancel) {
+                    me._addAutoshape(false);
+                    return;
+                }
+                if (record) {
+                    me.toolbar.cmbInsertShape.updateComboView(record);
+                    me.onInsertShape(record.get('data').shapeType);
+                }
             });
         },
 
@@ -2421,11 +2484,11 @@ define([
             }
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U'};
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 4);
-                me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
             }
 
             if ( config.isEdit ) {
@@ -2435,6 +2498,13 @@ define([
                 transitController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
                 Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,transitController.getView().getButtons());
+
+                var viewtab = me.getApplication().getController('ViewTab');
+                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
+
+                var animationController = me.getApplication().getController('Animation');
+                animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
@@ -2453,10 +2523,10 @@ define([
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) { // don't add protect panel to toolbar
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T'};
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)
-                            me.toolbar.addTab(tab, $panel, 4);
+                            me.toolbar.addTab(tab, $panel, 5);
                     }
                 }
             }

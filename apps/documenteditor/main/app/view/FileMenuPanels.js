@@ -98,7 +98,20 @@ define([
         },
 
         render: function() {
-            if (this.mode && !this.mode.canFeatureForms) {
+            if (/^pdf$/.test(this.fileType)) {
+                this.formats[0].splice(1, 1); // remove pdf
+                this.formats[1].splice(1, 1); // remove pdfa
+                this.formats[3].push({name: 'PDF',  imgCls: 'pdf', type: ''}); // original pdf
+            } else if (/^xps|oxps$/.test(this.fileType)) {
+                this.formats[3].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
+            } else if (/^djvu$/.test(this.fileType)) {
+                this.formats = [[
+                    {name: 'DJVU',  imgCls: 'djvu',  type: ''}, // original djvu
+                    {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF}
+                ]];
+            }
+
+            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
                 this.formats[3] = undefined;
@@ -126,7 +139,7 @@ define([
         onFormatClick: function(e) {
             var type = e.currentTarget.attributes['format'];
             if (!_.isUndefined(type) && this.menu) {
-                this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
+                this.menu.fireEvent('saveas:format', [this.menu, type.value ? parseInt(type.value) : undefined]);
             }
         }
     });
@@ -181,7 +194,20 @@ define([
         },
 
         render: function() {
-            if (this.mode && !this.mode.canFeatureForms) {
+            if (/^pdf$/.test(this.fileType)) {
+                this.formats[0].splice(1, 1); // remove pdf
+                this.formats[1].splice(1, 1); // remove pdfa
+                this.formats[3].push({name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // original pdf
+            } else if (/^xps|oxps$/.test(this.fileType)) {
+                this.formats[3].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
+            } else if (/^djvu$/.test(this.fileType)) {
+                this.formats = [[
+                    {name: 'DJVU',  imgCls: 'djvu',  type: '', ext: true}, // original djvu
+                    {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
+                ]];
+            }
+
+            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
                 this.formats[2].splice(1, 2);
                 this.formats[2] = this.formats[2].concat(this.formats[3]);
                 this.formats[3] = undefined;
@@ -210,7 +236,7 @@ define([
             var type = e.currentTarget.attributes['format'],
                 ext = e.currentTarget.attributes['format-ext'];
             if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
-                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
+                this.menu.fireEvent('saveas:format', [this.menu, type.value ? parseInt(type.value) : undefined, ext.value]);
             }
         }
     });
@@ -236,10 +262,10 @@ define([
                     '<td class="left"><label><%= scope.strReviewHover %></label></td>',
                     '<td class="right"><span id="fms-cmb-review-hover"></span></td>',
                 '</tr>','<tr class="divider view-review"></tr>',
-                '<tr class="edit">',
+                '<tr class="edit spellcheck">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider edit spellcheck"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtProofing %></label></td>',
                     '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
@@ -473,7 +499,7 @@ define([
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                     '<% }); %>'
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
@@ -641,6 +667,7 @@ define([
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
+            $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
 
@@ -700,7 +727,8 @@ define([
             if (this.mode.canForcesave)
                 this.chForcesave.setValue(Common.Utils.InternalSettings.get("de-settings-forcesave"));
 
-            this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
+            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+                this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
             this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
 
@@ -754,7 +782,8 @@ define([
                 Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
+            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+                Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
@@ -1065,36 +1094,50 @@ define([
                         '<td class="left"><label>' + this.txtSpaces + '</label></td>',
                         '<td class="right"><label id="id-info-spaces"></label></td>',
                     '</tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtPageSize + '</label></td>',
+                        '<td class="right"><label id="id-info-page-size"></label></td>',
+                    '</tr>',
                     '<tr class="divider"></tr>',
                     '<tr class="divider"></tr>',
                     // '<tr>',
                     //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
                     //     '<td class="right"><label id="id-info-edittime"></label></td>',
                     // '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtTitle + '</label></td>',
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtComment + '</label></td>',
                         '<td class="right"><div id="id-info-comment"></div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr class="divider"></tr>',
+                    '<tr class="divider docx-info"></tr>',
+                    '<tr class="divider docx-info"></tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-title"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-subject"></label></td>',
+                    '</tr>',
+                    '<tr class="divider pdf-info pdf-title"></tr>',
+                    '<tr class="divider pdf-info pdf-title"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
                         '<td class="right"><label id="id-info-modify-date"></label></td>',
                     '</tr>',
                     '<tr>',
-                            '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
-                            '<td class="right"><label id="id-info-modify-by"></label></td>',
+                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-by"></label></td>',
                     '</tr>',
-                    '<tr class="divider modify">',
-                    '<tr class="divider modify">',
+                    '<tr class="divider modify"></tr>',
+                    '<tr class="divider modify"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtCreated + '</label></td>',
                         '<td class="right"><label id="id-info-date"></label></td>',
@@ -1103,7 +1146,28 @@ define([
                          '<td class="left"><label>' + this.txtAppName + '</label></td>',
                          '<td class="right"><label id="id-info-appname"></label></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-author"></label></td>',
+                    '</tr>',
+                    '<tr class="divider pdf-info"></tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfProducer + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-produce"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfVer + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-ver"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfTagged + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-tagged"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtFastWV + '</label></td>',
+                         '<td class="right"><label id="id-info-fast-wv"></label></td>',
+                    '</tr>',
+                    '<tr class="docx-info">',
                         '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
                         '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
                             '<table>',
@@ -1127,7 +1191,6 @@ define([
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
-            this.inProgress = false;
             this.menu = options.menu;
             this.coreProps = null;
             this.authors = [];
@@ -1149,6 +1212,7 @@ define([
             this.lblStatParagraphs = $markup.findById('#id-info-paragraphs');
             this.lblStatSymbols = $markup.findById('#id-info-symbols');
             this.lblStatSpaces = $markup.findById('#id-info-spaces');
+            this.lblPageSize = $markup.findById('#id-info-pages-size');
             // this.lblEditTime = $markup.find('#id-info-edittime');
 
             // edited info
@@ -1242,6 +1306,16 @@ define([
                 }
             }).on('keydown:before', keyDownBefore);
 
+            // pdf info
+            this.lblPageSize = $markup.findById('#id-info-page-size');
+            this.lblPdfTitle = $markup.findById('#id-lbl-info-title');
+            this.lblPdfSubject = $markup.findById('#id-lbl-info-subject');
+            this.lblPdfAuthor = $markup.findById('#id-lbl-info-author');
+            this.lblPdfVer = $markup.findById('#id-info-pdf-ver');
+            this.lblPdfTagged = $markup.findById('#id-info-pdf-tagged');
+            this.lblPdfProducer = $markup.findById('#id-info-pdf-produce');
+            this.lblFastWV = $markup.findById('#id-info-fast-wv');
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fminfo-btn-apply')
             });
@@ -1318,9 +1392,15 @@ define([
                 this._ShowHideDocInfo(false);
             $('tr.divider.general', this.el)[visible?'show':'hide']();
 
+            var pdfProps = (this.api) ? this.api.asc_getPdfProps() : null;
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
+                $('.pdf-info', this.el).hide();
                 appname = (appname.asc_getApplication() || '') + (appname.asc_getAppVersion() ? ' ' : '') + (appname.asc_getAppVersion() || '');
+                this.lblApplication.text(appname);
+            } else if (pdfProps) {
+                $('.docx-info', this.el).hide();
+                appname = pdfProps ? pdfProps.Creator || '' : '';
                 this.lblApplication.text(appname);
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
@@ -1331,7 +1411,8 @@ define([
                 if (value)
                     this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 this._ShowHideInfoItem(this.lblDate, !!value);
-            }
+            } else if (pdfProps)
+                this.updatePdfInfo(pdfProps);
         },
 
         updateFileInfo: function() {
@@ -1343,14 +1424,6 @@ define([
                 value;
 
             this.coreProps = props;
-            // var app = (this.api) ? this.api.asc_getAppProps() : null;
-            // if (app) {
-            //     value = app.asc_getTotalTime();
-            //     if (value)
-            //         this.lblEditTime.text(value + ' ' + this.txtMinutes);
-            // }
-            // this._ShowHideInfoItem(this.lblEditTime, !!value);
-
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
@@ -1383,6 +1456,86 @@ define([
                 !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
             this.SetDisabled();
+        },
+
+        updatePdfInfo: function(props) {
+            if (!this.rendered)
+                return;
+
+            var me = this,
+                value;
+
+            if (props) {
+                value = props.CreationDate;
+                if (value) {
+                    value = new Date(value);
+                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                }
+                this._ShowHideInfoItem(this.lblDate, !!value);
+
+                var visible = false;
+                value = props.ModDate;
+                if (value) {
+                    value = new Date(value);
+                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                }
+                visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
+                visible = this._ShowHideInfoItem(this.lblModifyBy, false) || visible;
+                $('tr.divider.modify', this.el)[visible?'show':'hide']();
+
+                if (props.PageWidth && props.PageHeight && (typeof props.PageWidth === 'number') && (typeof props.PageHeight === 'number')) {
+                    var w = props.PageWidth,
+                        h = props.PageHeight;
+                    switch (Common.Utils.Metric.getCurrentMetric()) {
+                        case Common.Utils.Metric.c_MetricUnits.cm:
+                            w = parseFloat((w* 25.4 / 72000.).toFixed(2));
+                            h = parseFloat((h* 25.4 / 72000.).toFixed(2));
+                            break;
+                        case Common.Utils.Metric.c_MetricUnits.pt:
+                            w = parseFloat((w/100.).toFixed(2));
+                            h = parseFloat((h/100.).toFixed(2));
+                            break;
+                        case Common.Utils.Metric.c_MetricUnits.inch:
+                            w = parseFloat((w/7200.).toFixed(2));
+                            h = parseFloat((h/7200.).toFixed(2));
+                            break;
+                    }
+                    this.lblPageSize.text(w + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' + h + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                    this._ShowHideInfoItem(this.lblPageSize, true);
+                } else
+                    this._ShowHideInfoItem(this.lblPageSize, false);
+
+                value = props.Title;
+                value && this.lblPdfTitle.text(value);
+                visible = this._ShowHideInfoItem(this.lblPdfTitle, !!value);
+
+                value = props.Subject;
+                value && this.lblPdfSubject.text(value);
+                visible = this._ShowHideInfoItem(this.lblPdfSubject, !!value) || visible;
+                $('tr.divider.pdf-title', this.el)[visible?'show':'hide']();
+
+                value = props.Author;
+                value && this.lblPdfAuthor.text(value);
+                this._ShowHideInfoItem(this.lblPdfAuthor, !!value);
+
+                value = props.Version;
+                value && this.lblPdfVer.text(value);
+                this._ShowHideInfoItem(this.lblPdfVer, !!value);
+
+                value = props.Tagged;
+                if (value !== undefined)
+                    this.lblPdfTagged.text(value===true ? this.txtYes : this.txtNo);
+                this._ShowHideInfoItem(this.lblPdfTagged, value !== undefined);
+
+                value = props.Producer;
+                value && this.lblPdfProducer.text(value);
+                this._ShowHideInfoItem(this.lblPdfProducer, !!value);
+
+                value = props.FastWebView;
+                if (value !== undefined)
+                    this.lblFastWV.text(value===true ? this.txtYes : this.txtNo);
+                this._ShowHideInfoItem(this.lblFastWV, value !== undefined);
+            }
         },
 
         _ShowHideInfoItem: function(el, visible) {
@@ -1437,11 +1590,8 @@ define([
 
         _onGetDocInfoStart: function() {
             var me = this;
-            this.inProgress = true;
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
-            _.defer(function(){
-                if (!me.inProgress) return;
-
+            this.timerLoading = setTimeout(function(){
                 me.lblStatPages.text(me.txtLoading);
                 me.lblStatWords.text(me.txtLoading);
                 me.lblStatParagraphs.text(me.txtLoading);
@@ -1452,6 +1602,7 @@ define([
 
         _onDocInfo: function(obj) {
             if (obj) {
+                clearTimeout(this.timerLoading);
                 if (obj.get_PageCount()>-1)
                     this.infoObj.PageCount = obj.get_PageCount();
                 if (obj.get_WordsCount()>-1)
@@ -1462,11 +1613,24 @@ define([
                     this.infoObj.SymbolsCount = obj.get_SymbolsCount();
                 if (obj.get_SymbolsWSCount()>-1)
                     this.infoObj.SymbolsWSCount = obj.get_SymbolsWSCount();
+                if (!this.timerDocInfo) { // start timer for filling info
+                    var me = this;
+                    this.timerDocInfo = setInterval(function(){
+                        me.fillDocInfo();
+                    }, 300);
+                    this.fillDocInfo();
+                }
             }
         },
 
         _onGetDocInfoEnd: function() {
-            this.inProgress = false;
+            clearTimeout(this.timerLoading);
+            clearInterval(this.timerDocInfo);
+            this.timerLoading = this.timerDocInfo = undefined;
+            this.fillDocInfo();
+        },
+
+        fillDocInfo:  function() {
             this.lblStatPages.text(this.infoObj.PageCount);
             this.lblStatWords.text(this.infoObj.WordsCount);
             this.lblStatParagraphs.text(this.infoObj.ParagraphCount);
@@ -1526,7 +1690,15 @@ define([
         txtAddAuthor: 'Add Author',
         txtAddText: 'Add Text',
         txtMinutes: 'min',
-        okButtonText: 'Apply'
+        okButtonText: 'Apply',
+        txtPageSize: 'Page Size',
+        txtPdfVer: 'PDF Version',
+        txtPdfTagged: 'Tagged PDF',
+        txtFastWV: 'Fast Web View',
+        txtYes: 'Yes',
+        txtNo: 'No',
+        txtPdfProducer: 'PDF Producer'
+
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 
     DE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

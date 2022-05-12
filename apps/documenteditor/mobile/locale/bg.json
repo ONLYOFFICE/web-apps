@@ -162,6 +162,9 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -306,6 +309,27 @@
     "textType": "Type",
     "textWrap": "Wrap",
     "textNumbers": "Numbers",
+    "textDesign": "Design",
+    "textSu": "Su",
+    "textMo": "Mo",
+    "textTu": "Tu",
+    "textWe": "We",
+    "textTh": "Th",
+    "textFr": "Fr",
+    "textSa": "Sa",
+    "textJanuary": "January",
+    "textFebruary": "February",
+    "textMarch": "March",
+    "textApril": "April",
+    "textMay": "May",
+    "textJune": "June",
+    "textJuly": "July",
+    "textAugust": "August",
+    "textSeptember": "September",
+    "textOctober": "October",
+    "textNovember": "November",
+    "textDecember": "December",
+    "textEmpty": "Empty",
     "textOk": "Ok"
   },
   "Error": {
@@ -591,7 +615,14 @@
     "textParagraphs": "Paragraphs",
     "textSpaces": "Spaces",
     "textSymbols": "Symbols",
-    "textWords": "Words"
+    "textWords": "Words",
+    "textPageSize": "Page Size",
+    "textPdfVer": "PDF Version",
+    "textPdfTagged": "Tagged PDF",
+    "textFastWV": "Fast Web View",
+    "textYes": "Yes",
+    "textNo": "No",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

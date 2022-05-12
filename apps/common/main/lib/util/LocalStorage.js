@@ -52,13 +52,13 @@ define(['gateway'], function () {
         Common.Gateway.on('internalcommand', ongetstore);
 
         var _refresh = function() {
-            if (!_lsAllowed)
-                Common.Gateway.internalMessage('localstorage', {cmd:'get', keys:_filter});
+            // if (!_lsAllowed)
+            //     Common.Gateway.internalMessage('localstorage', {cmd:'get', keys:_filter});
         };
 
         var _save = function() {
-            if (!_lsAllowed)
-                Common.Gateway.internalMessage('localstorage', {cmd:'set', keys:_store});
+            // if (!_lsAllowed)
+            //     Common.Gateway.internalMessage('localstorage', {cmd:'set', keys:_store});
         };
 
         var _setItem = function(name, value, just) {
@@ -72,14 +72,15 @@ define(['gateway'], function () {
             } else {
                 _store[name] = value;
 
-                if (just===true) {
-                    Common.Gateway.internalMessage('localstorage', {
-                        cmd:'set',
-                        keys: {
-                            name: value
-                        }
-                    });
-                }
+                // if (just===true) {
+                    // TDDO: remove after ver 7.2. using external local storage is depricated
+                    // Common.Gateway.internalMessage('localstorage', {
+                    //     cmd:'set',
+                    //     keys: {
+                    //         name: value
+                    //     }
+                    // });
+                // }
             }
         };
 

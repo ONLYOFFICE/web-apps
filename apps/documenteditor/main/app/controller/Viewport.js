@@ -105,6 +105,14 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
+                },
+                'ViewTab': {
+                    'rulers:hide': function (state) {
+                        me.header.mnuitemHideRulers.setChecked(state, true);
+                    },
+                    'statusbar:hide': function (view, state) {
+                        me.header.mnuitemHideStatusBar.setChecked(state, true);
+                    }
                 }
             });
         },
@@ -163,7 +171,7 @@ define([
 
             var _intvars = Common.Utils.InternalSettings;
             var $filemenu = $('.toolbar-fullview-panel');
-            $filemenu.css('top', _intvars.get('toolbar-height-tabs'));
+            $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
@@ -197,7 +205,7 @@ define([
                 _intvars.set('toolbar-height-compact', _tabs_new_height);
                 _intvars.set('toolbar-height-normal', _tabs_new_height + _intvars.get('toolbar-height-controls'));
 
-                $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _tabs_new_height : 0) + _intvars.get('document-title-height'));
 
                 toolbar = me.getApplication().getController('Toolbar').getView();
                 toolbar.btnCollabChanges = me.header.btnSave;
@@ -231,24 +239,24 @@ define([
                     }, this));
                 }
 
-                var mnuitemHideStatusBar = new Common.UI.MenuItem({
+                me.header.mnuitemHideStatusBar = new Common.UI.MenuItem({
                     caption: me.header.textHideStatusBar,
                     checked: Common.localStorage.getBool("de-hidden-status"),
                     checkable: true,
                     value: 'statusbar'
                 });
 
-                if ( config.canBrandingExt && config.customization && config.customization.statusBar === false )
-                    mnuitemHideStatusBar.hide();
+                if ( config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar'))
+                    me.header.mnuitemHideStatusBar.hide();
 
-                var mnuitemHideRulers = new Common.UI.MenuItem({
+                me.header.mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
                     checked: Common.Utils.InternalSettings.get("de-hidden-rulers"),
                     checkable: true,
                     value: 'rulers'
                 });
                 if (!config.isEdit)
-                    mnuitemHideRulers.hide();
+                    me.header.mnuitemHideRulers.hide();
 
                 me.header.menuItemsDarkMode = new Common.UI.MenuItem({
                     caption: me.txtDarkMode,
@@ -292,8 +300,8 @@ define([
                         style: 'min-width: 180px;',
                         items: [
                             me.header.mnuitemCompactToolbar,
-                            mnuitemHideStatusBar,
-                            mnuitemHideRulers,
+                            me.header.mnuitemHideStatusBar,
+                            me.header.mnuitemHideRulers,
                             {caption:'--'},
                             me.header.menuItemsDarkMode,
                             {caption:'--'},
@@ -421,6 +429,7 @@ define([
                 Common.Utils.InternalSettings.set("de-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
+                me.header.fireEvent('rulers:hide', [item.isChecked()]);
                 break;
             case 'zoom:page':
                 item.isChecked() ? me.api.zoomFitToPage() : me.api.zoomCustomMode();

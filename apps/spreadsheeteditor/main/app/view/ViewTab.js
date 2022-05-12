@@ -58,7 +58,11 @@ define([
             }
 
             me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('viewtab:freeze', [item.value]);
+                if (item.value === 'shadow') {
+                    me.fireEvent('viewtab:freezeshadow', [item.checked]);
+                } else {
+                    me.fireEvent('viewtab:freeze', [item.value]);
+                }
             });
             this.chFormula.on('change', function (field, value) {
                 me.fireEvent('viewtab:formula', [0, value]);
@@ -72,9 +76,22 @@ define([
             this.chZeros.on('change', function (field, value) {
                 me.fireEvent('viewtab:zeros', [3, value]);
             });
-            this.cmbZoom.on('selected', function(combo, record) {
-                me.fireEvent('viewtab:zoom', [record.value]);
+            this.chToolbar.on('change', function (field, value) {
+                me.fireEvent('viewtab:showtoolbar', [field, value !== 'checked']);
             });
+            this.chStatusbar.on('change', function (field, value) {
+                me.fireEvent('statusbar:setcompact', [field, value === 'checked']);
+            });
+            this.cmbZoom.on('selected', function (combo, record) {
+                me.fireEvent('zoom:selected', [combo, record]);
+            }).on('changed:before', function (combo, record) {
+                me.fireEvent('zoom:changedbefore', [true, combo, record]);
+            }).on('changed:after', function (combo, record) {
+                me.fireEvent('zoom:changedafter', [false, combo, record]);
+            }).on('combo:blur', function () {
+                me.fireEvent('editcomplete', me);
+            }).on('combo:focusin', _.bind(this.onComboOpen, this, false))
+              .on('show:after', _.bind(this.onComboOpen, this, true));
         }
 
         return {
@@ -150,7 +167,7 @@ define([
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
                     hint        : me.tipFontSize,
-                    editable    : false,
+                    editable    : true,
                     lock        : [_set.coAuth, _set.lostConnect, _set.editCell],
                     data        : [
                         { displayValue: "50%", value: 50 },
@@ -212,8 +229,42 @@ define([
                 });
                 this.lockedControls.push(this.chZeros);
 
-                $host.find('#slot-lbl-zoom').text(this.textZoom);
+                this.btnInterfaceTheme = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-interface-theme'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon day',
+                    caption: this.textInterfaceTheme,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnInterfaceTheme);
 
+                this.chStatusbar = new Common.UI.CheckBox({
+                    el: $host.findById('#slot-chk-statusbar'),
+                    labelText: this.textCombineSheetAndStatusBars,
+                    value       : Common.localStorage.getBool('sse-compact-statusbar', true),
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chStatusbar);
+
+                this.chToolbar = new Common.UI.CheckBox({
+                    el: $host.findById('#slot-chk-toolbar'),
+                    labelText: this.textAlwaysShowToolbar,
+                    value       : !options.compactToolbar,
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chToolbar);
+
+                $host.find('#slot-lbl-zoom').text(this.textZoom);
+                this.cmpEl = $host;
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -249,11 +300,39 @@ define([
                             {
                                 caption: me.textFreezeCol,
                                 value: Asc.c_oAscFrozenPaneAddType.firstCol
+                            },
+                            { caption: '--' },
+                            {
+                                caption: me.textShowFrozenPanesShadow,
+                                value: 'shadow',
+                                checkable: true,
+                                checked: Common.localStorage.getBool('sse-freeze-shadow', true)
                             }
                         ]
                     }));
                     me.btnFreezePanes.updateHint(me.tipFreeze);
 
+                    if (Common.UI.Themes.available()) {
+                        var menuItems = [],
+                            currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                        for (var t in Common.UI.Themes.map()) {
+                            menuItems.push({
+                                value: t,
+                                caption: Common.UI.Themes.get(t).text,
+                                checked: t === currentTheme,
+                                checkable: true,
+                                toggleGroup: 'interface-theme'
+                            });
+                        }
+
+                        if (menuItems.length) {
+                            me.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                            me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                var value = item.value;
+                                Common.UI.Themes.setTheme(value);
+                            }, me));
+                        }
+                    }
                     setEvents.call(me);
                 });
             },
@@ -325,6 +404,14 @@ define([
                 }, this);
             },
 
+            onComboOpen: function (needfocus, combo) {
+                _.delay(function() {
+                    var input = $('input', combo.cmpEl).select();
+                    if (needfocus) input.focus();
+                    else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+                }, 10);
+            },
+
             capBtnSheetView: 'Sheet View',
             capBtnFreeze: 'Freeze Panes',
             textZoom: 'Zoom',
@@ -342,7 +429,11 @@ define([
             textFreezeRow: 'Freeze Top Row',
             textFreezeCol: 'Freeze First Column',
             textUnFreeze: 'Unfreeze Panes',
-            textZeros: 'Show zeros'
+            textZeros: 'Show zeros',
+            textCombineSheetAndStatusBars: 'Combine sheet and status bars',
+            textAlwaysShowToolbar: 'Always show toolbar',
+            textInterfaceTheme: 'Interface theme',
+            textShowFrozenPanesShadow: 'Show frozen panes shadow'
         }
     }()), SSE.Views.ViewTab || {}));
 });

@@ -286,7 +286,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             ruleChanged: false, // true if was edited in FormatRulesEditDlg or was created, need to send this rule to sdk if true
                             props: rule,
                             lock: (idlock!==null && idlock!==undefined),
-                            lockuser: (idlock) ? this.getUserName(idlock) : this.guestText
+                            lockuser: (idlock) ? (this.isUserVisible(idlock) ? this.getUserName(idlock) : this.lockText) : this.guestText
                         });
                     }
                 }
@@ -816,7 +816,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var store = this.rulesList.store,
                 rec = store.findWhere({ruleId: ruleId});
             if (rec) {
-                rec.set('lockuser', (userId) ? this.getUserName(userId) : this.guestText);
+                rec.set('lockuser', (userId) ? (this.isUserVisible(userId) ? this.getUserName(userId) : this.lockText) : this.guestText);
                 rec.set('lock', true);
                 this.updateButtons();
             }
@@ -843,6 +843,16 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
             }
             return this.guestText;
+        },
+
+        isUserVisible: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return !rec.get('hidden');
+            }
+            return true;
         },
 
         txtTitle: 'Conditional Formatting',
@@ -886,7 +896,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         textDuplicate: 'Duplicate values',
         textUnique: 'Unique values',
         tipIsLocked: 'This element is being edited by another user.',
-        guestText: 'Guest'
+        guestText: 'Guest',
+        lockText: 'Locked'
 
     }, SSE.Views.FormatRulesManagerDlg || {}));
 });

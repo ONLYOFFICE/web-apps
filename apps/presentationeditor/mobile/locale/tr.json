@@ -37,6 +37,9 @@
       "textCustomColors": "Özel Renkler",
       "textStandartColors": "Standart Renkler",
       "textThemeColors": "Tema Renkleri"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -121,9 +124,9 @@
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textNoTextFound": "Text not found",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
     }
   },
   "Error": {
@@ -225,6 +228,7 @@
       "textLinkTo": "Şuna bağlantıla:",
       "textLinkType": "Link Tipi",
       "textNextSlide": "Sonraki slayt",
+      "textOk": "Tamam",
       "textOther": "Diğer",
       "textPictureFromLibrary": "Kütüphaneden Resim",
       "textPictureFromURL": "URL'den resim",
@@ -237,8 +241,7 @@
       "textSlideNumber": "Slayt numarası",
       "textTable": "Tablo",
       "textTableSize": "Tablo Boyutu",
-      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
-      "textOk": "Tamam"
+      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır."
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -333,6 +336,7 @@
       "textNoTextFound": "Metin Bulunamadı",
       "textNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "textNumbers": "Sayılar",
+      "textOk": "Tamam",
       "textOpacity": "Opaklık",
       "textOptions": "Seçenekler",
       "textPictureFromLibrary": "Kütüphaneden Resim",
@@ -375,7 +379,6 @@
       "textTopLeft": "Üst-Sol",
       "textTopRight": "Üst-Sağ",
       "textTotalRow": "Toplam Satır",
-      "textTransition": "Geçiş",
       "textTransitions": "geçişler",
       "textType": "Tip",
       "textUnCover": "Meydana çıkar",
@@ -386,9 +389,10 @@
       "textZoomIn": "Yakınlaştır",
       "textZoomOut": "Uzaklaştır",
       "textZoomRotate": "Büyüt ve Döndür",
+      "textAutomatic": "Automatic",
+      "textDesign": "Design",
       "textPush": "Push",
-      "textWedge": "Wedge",
-      "textOk": "Tamam"
+      "textWedge": "Wedge"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -465,6 +469,7 @@
       "txtScheme7": "Net Değer",
       "txtScheme8": "Yayılma",
       "txtScheme9": "Döküm",
+      "textDarkTheme": "Dark Theme",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
       "txtScheme19": "Trek"

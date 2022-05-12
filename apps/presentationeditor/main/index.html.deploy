@@ -21,7 +21,7 @@
             border: none;
             background: #f0f0f0;
             background: var(--canvas-background, #f0f0f0);
-            z-index: 1001;
+            z-index: 1002;
         }
 
         .loadmask > .brendpanel {
@@ -324,6 +324,7 @@
             else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
             else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
             else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+            else if ( lang == 'tr') reqerr = 'Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.';
             else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
 
             return reqerr;
@@ -344,6 +345,7 @@
 
     <inline src="resources/img/header/buttons.svg" />
     <inline src="resources/img/doc-formats/pptx.svg" />
+    <inline src="resources/img/doc-formats/ppsx.svg" />
     <inline src="resources/img/doc-formats/potx.svg" />
     <inline src="resources/img/doc-formats/pdf.svg" />
     <inline src="resources/img/doc-formats/pdfa.svg" />

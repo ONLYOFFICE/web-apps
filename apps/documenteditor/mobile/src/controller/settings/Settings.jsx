@@ -41,9 +41,11 @@ const Settings = props => {
     };
 
     const onPrint = () => {
+        const api = Common.EditorApi.get();
+
         closeModal();
         setTimeout(() => {
-            Common.EditorApi.get().asc_Print();
+            api.asc_Print();
         }, 400);
     };
 

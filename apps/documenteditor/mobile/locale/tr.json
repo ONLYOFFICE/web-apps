@@ -41,6 +41,7 @@
     "textLocation": "Konum",
     "textNextPage": "Sonraki Sayfa",
     "textOddPage": "Tek Sayfa",
+    "textOk": "Tamam",
     "textOther": "Diğer",
     "textPageBreak": "Sayfa Sonu",
     "textPageNumber": "Sayfa Numarası",
@@ -56,8 +57,7 @@
     "textStartAt": "Başlangıç",
     "textTable": "Tablo",
     "textTableSize": "Tablo Boyutu",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
-    "textOk": "Tamam"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
   },
   "Common": {
     "Collaboration": {
@@ -162,6 +162,9 @@
       "textCustomColors": "Özel Renkler",
       "textStandartColors": "Standart Renkler",
       "textThemeColors": "Tema Renkleri"
+    },
+    "HighlightColorPalette": {
+      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -205,6 +208,8 @@
     "textAlign": "Hizala",
     "textAllCaps": "Tümü büyük harf",
     "textAllowOverlap": "Çakışmaya izin ver",
+    "textApril": "Nisan",
+    "textAugust": "Ağustos",
     "textAuto": "Otomatik",
     "textAutomatic": "Otomatik",
     "textBack": "Geri",
@@ -223,6 +228,8 @@
     "textColor": "Renk",
     "textContinueFromPreviousSection": "Önceki bölümden devam et",
     "textCustomColor": "Özel Renk",
+    "textDecember": "Aralık",
+    "textDesign": "Tasarım",
     "textDifferentFirstPage": "Farklı ilk sayfa",
     "textDifferentOddAndEvenPages": "Farklı tek ve çift sayfalar",
     "textDisplay": "Görüntüle",
@@ -262,6 +269,7 @@
     "textNoStyles": "Bu tip çizelge için stil yok!",
     "textNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
     "textNumbers": "Sayılar",
+    "textOk": "Tamam",
     "textOpacity": "Opaklık",
     "textOptions": "Seçenekler",
     "textOrphanControl": "Tek satır denetimi",
@@ -306,7 +314,23 @@
     "textTotalRow": "Toplam Satır",
     "textType": "Tip",
     "textWrap": "Metni Kaydır",
-    "textOk": "Tamam"
+    "textEmpty": "Empty",
+    "textFebruary": "February",
+    "textFr": "Fr",
+    "textJanuary": "January",
+    "textJuly": "July",
+    "textJune": "June",
+    "textMarch": "March",
+    "textMay": "May",
+    "textMo": "Mo",
+    "textNovember": "November",
+    "textOctober": "October",
+    "textSa": "Sa",
+    "textSeptember": "September",
+    "textSu": "Su",
+    "textTh": "Th",
+    "textTu": "Tu",
+    "textWe": "We"
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
@@ -477,9 +501,9 @@
     "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textNoTextFound": "Text not found"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",
@@ -590,8 +614,15 @@
     "txtScheme7": "Net Değer",
     "txtScheme8": "Yayılma",
     "txtScheme9": "Döküm",
+    "textFastWV": "Fast Web View",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes",
     "txtScheme14": "Oriel",
-    "txtScheme19": "Trek"
+    "txtScheme19": "Trek",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

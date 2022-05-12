@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
+import {observer, inject} from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 
@@ -9,9 +10,7 @@ class AddOtherController extends Component {
     constructor (props) {
         super(props);
         this.onStyleClick = this.onStyleClick.bind(this);
-        this.initStyleTable = this.initStyleTable.bind(this);
-
-        this.initTable = false;
+        this.onGetTableStylesPreviews = this.onGetTableStylesPreviews.bind(this);
     }
 
     closeModal () {
@@ -19,14 +18,6 @@ class AddOtherController extends Component {
             f7.sheet.close('.add-popup', true);
         } else {
             f7.popover.close('#add-popover');
-        }
-    }
-
-    initStyleTable () {
-        if (!this.initTable) {
-            const api = Common.EditorApi.get();
-            api.asc_GetDefaultTableStyles();
-            this.initTable = true;
         }
     }
 
@@ -90,6 +81,13 @@ class AddOtherController extends Component {
         }).open();
     }
 
+    onGetTableStylesPreviews = () => {
+        if(this.props.storeTableSettings.arrayStylesDefault.length == 0) {
+            const api = Common.EditorApi.get();
+            setTimeout(() => this.props.storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);
+        }
+    }
+
     hideAddComment () {
         const api = Common.EditorApi.get();
         const stack = api.getSelectedElements();
@@ -120,13 +118,13 @@ class AddOtherController extends Component {
         return (
             <AddOther closeModal={this.closeModal}
                       onStyleClick={this.onStyleClick}
-                      initStyleTable={this.initStyleTable}
                       hideAddComment={this.hideAddComment}
+                      onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
             />
         )
     }
 }
 
-const AddOtherWithTranslation = withTranslation()(AddOtherController);
+const AddOtherWithTranslation = inject("storeTableSettings")(withTranslation()(AddOtherController));
 
 export {AddOtherWithTranslation as AddOtherController};

@@ -192,6 +192,7 @@
 
                     .inner-box-caption {
                         justify-content: center;
+                        padding: 0 2px;
                     }
                 }
             }
@@ -535,12 +536,10 @@
 
     &.borders--small {
         border-radius: 2px;
-        background-color: @background-normal-ie;
-        background-color: @background-normal;
 
         &:not(:active) {
-            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
-            box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
+            //box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
+            //box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
         }
 
         & {
@@ -567,6 +566,43 @@
     }
 }
 
+#slot-combo-insertshape {
+    width: 150px;
+    height: 46px;
+    .view {
+        padding-right: 14px;
+    }
+    .dataview.field-picker {
+        height: 100%;
+        margin: 0;
+        padding: 2px;
+        .item {
+            margin: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            &:hover {
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
+            &.active {
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
+
+                svg.icon {
+                    fill: @icon-normal-pressed-ie;
+                    fill: @icon-normal-pressed;
+                }
+            }
+        }
+    }
+    .button {
+        width: 14px;
+        .caret {
+            width: 4px;
+            height: 4px;
+        }
+    }
+}
 
 .item-shape {
     .icon {
@@ -720,5 +756,10 @@
         width: 100px;
         height: 20px;
     }
+}
+
+#slot-field-zoom {
+    float: left;
+    min-width: 46px;
 }
 

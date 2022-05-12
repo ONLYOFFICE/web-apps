@@ -59,6 +59,7 @@ define([
         },
         onLaunch: function () {
             this._state = {};
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function (api) {
@@ -77,13 +78,26 @@ define([
 
         setConfig: function(config) {
             this.toolbar = config.toolbar;
+            var mode = config.mode;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: config.mode
+                mode: mode,
+                compactToolbar: this.toolbar.toolbar.isCompactView
             });
+            if (!Common.UI.Themes.available()) {
+                this.view.btnInterfaceTheme.$el.closest('.group').remove();
+                this.view.cmpEl.find('.separator-theme').remove();
+            }
+            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                this.view.chStatusbar.$el.remove();
+            }
             this.addListeners({
                 'ViewTab': {
+                    'zoom:selected': _.bind(this.onSelectedZoomValue, this),
+                    'zoom:changedbefore': _.bind(this.onZoomChanged, this),
+                    'zoom:changedafter': _.bind(this.onZoomChanged, this),
                     'viewtab:freeze': this.onFreeze,
+                    'viewtab:freezeshadow': this.onFreezeShadow,
                     'viewtab:formula': this.onViewSettings,
                     'viewtab:headings': this.onViewSettings,
                     'viewtab:gridlines': this.onViewSettings,
@@ -95,7 +109,20 @@ define([
                     'viewtab:manager': this.onOpenManager
                 },
                 'Statusbar': {
-                    'sheet:changed': this.onApiSheetChanged.bind(this)
+                    'sheet:changed': this.onApiSheetChanged.bind(this),
+                    'view:compact': _.bind(function (statusbar, state) {
+                        this.view.chStatusbar.setValue(state, true);
+                    }, this)
+                },
+                'Toolbar': {
+                    'view:compact': _.bind(function (toolbar, state) {
+                        this.view.chToolbar.setValue(!state, true);
+                    }, this)
+                },
+                'Common.Views.Header': {
+                    'toolbar:freezeshadow': _.bind(function (isChecked) {
+                        this.view.btnFreezePanes.menu.items[4].setChecked(isChecked, true);
+                    }, this)
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
@@ -128,11 +155,41 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onZoom: function(zoom) {
-            if (this.api) {
-                this.api.asc_setZoom(zoom/100);
-            }
+        onFreezeShadow: function (checked) {
+            this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
+            Common.localStorage.setBool('sse-freeze-shadow', checked);
+            this.view.fireEvent('freeze:shadow', [checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        applyZoom: function (value) {
+            var val = Math.max(25, Math.min(500, value));
+            this.api.asc_setZoom(val/100);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onSelectedZoomValue: function (combo, record) {
+            this.applyZoom(record.value);
+        },
+
+        onZoomChanged: function (before, combo, record, e) {
+            var value = parseFloat(record.value);
+            if (this._state.zoomValue === undefined) {
+                this._state.zoomValue = 100;
+            }
+            if (before) {
+                var expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(%)?\\s*$');
+                if (!expr.exec(record.value)) {
+                    this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                }
+            } else {
+                if (this._state.zoomValue !== value && !isNaN(value)) {
+                    this.applyZoom(value);
+                } else if (record.value !== this._state.zoomValue + '%') {
+                    this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
+                }
+            }
         },
 
         onViewSettings: function(type, value){
@@ -224,6 +281,19 @@ define([
         onApiZoomChange: function(zf, type){
             var value = Math.floor((zf + .005) * 100);
             this.view.cmbZoom.setValue(value, value + '%');
+            this._state.zoomValue = value;
+        },
+
+        onThemeChanged: function () {
+            if (this.view && Common.UI.Themes.available()) {
+                var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
+                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
+                if ( !!menu_item ) {
+                    this.view.btnInterfaceTheme.menu.clearAll();
+                    menu_item.setChecked(true, true);
+                }
+            }
         }
+
     }, SSE.Controllers.ViewTab || {}));
 });

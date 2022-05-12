@@ -195,7 +195,7 @@ class SettingsView extends Component {
         const show_popover = this.props.usePopover;
         return (
             show_popover ?
-                <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
+                <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
                     <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>

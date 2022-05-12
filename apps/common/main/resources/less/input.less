@@ -42,7 +42,7 @@
         content: '';
         position: absolute;
         right: 3px;
-        top: 4px;
+        top: 3px;
         width: 16px;
         height: 16px;
         background-position: @input-error-offset-x @input-error-offset-y;
@@ -126,10 +126,12 @@ textarea.form-control:focus {
         position: absolute;
         right: @scaled-one-px-value-ie;
         right: @scaled-one-px-value;
+        top: @scaled-one-px-value-ie;
+        top: @scaled-one-px-value;
 
         > .btn-toolbar {
-            height: 22px;
-            padding-top: 1px;
+            height: 20px;
+            height: calc(22px - @scaled-one-px-value * 2);
         }
     }
 

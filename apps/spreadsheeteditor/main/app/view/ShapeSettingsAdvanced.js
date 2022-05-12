@@ -629,6 +629,17 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             if (props && props.asc_getShapeProperties()){
                 var shapeprops = props.asc_getShapeProperties();
 
+                if (shapeprops.asc_getFromSmartArt()) {
+                    this.btnsCategory[1].setDisabled(true);
+                }
+                if (shapeprops.asc_getFromSmartArtInternal()) {
+                    this.chAutofit.setDisabled(true);
+                    this.chOverflow.setDisabled(true);
+                    this.chFlipHor.setDisabled(true);
+                    this.chFlipVert.setDisabled(true);
+                    this.btnsCategory[0].setDisabled(true);
+                }
+
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getWidth()).toFixed(2), true);
                 this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getHeight()).toFixed(2), true);
 
@@ -636,7 +647,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                     this._nRatio = props.asc_getWidth()/props.asc_getHeight();
 
                 var value = props.asc_getLockAspect();
-                this.btnRatio.toggle(value);
+                this.btnRatio.toggle(value || shapeprops.asc_getFromSmartArt());
+                this.btnRatio.setDisabled(!!shapeprops.asc_getFromSmartArt()); // can resize smart art only proportionately
 
                 this._setShapeDefaults(shapeprops);
 
@@ -657,7 +669,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 this.chOverflow.setValue(shapeprops.asc_getVertOverflowType()==AscFormat.nOTOwerflow);
 
                 var shapetype = shapeprops.asc_getType();
-                this.btnsCategory[4].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                this.btnsCategory[4].setDisabled(shapeprops.asc_getFromSmartArtInternal()
+                    || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1');

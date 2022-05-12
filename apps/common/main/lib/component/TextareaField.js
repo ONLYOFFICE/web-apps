@@ -183,6 +183,7 @@ define([
             },
 
             setDisabled: function(disabled) {
+                disabled = !!disabled;
                 this.disabled = disabled;
                 $(this.el).toggleClass('disabled', disabled);
                 disabled

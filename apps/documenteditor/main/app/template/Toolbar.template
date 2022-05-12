@@ -11,7 +11,7 @@
                     <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-save"></span>
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
                 </div>
             </div>
             <div class="separator long"></div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-copystyle"></span>
-                        <span class="btn-slot" id="slot-btn-mailrecepients"></span>
+                        <span class="btn-slot" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
                     </div>
                 </div>
                 <div class="group small" id="slot-field-styles"></div>
@@ -135,11 +135,11 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
-                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
-                    <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -172,6 +172,49 @@
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-tof-update"></span>
                     </div>
+                </div>
+            </section>
+            <section class="panel" data-tab="view">
+                <div class="group" data-layout-name="toolbar-view-navigation">
+                    <span class="btn-slot text x-huge" id="slot-btn-navigation"></span>
+                </div>
+                <div class="separator long" data-layout-name="toolbar-view-navigation"></div>
+                <div class="group small">
+                    <div class="elset" style="display: flex;">
+                        <span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>
+                    </div>
+                    <div class="elset" style="text-align: center;">
+                        <span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-ftp" style="font-size: 11px;text-align: center;"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-dark-document"></span>
+                </div>
+                <div class="separator long separator-theme"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-toolbar"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
+                    </div>
+                </div>
+                <div class="separator long separator-rulers"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-rulers"></span>
+                    </div>
+                    <div class="elset"></div>
                 </div>
             </section>
         </section>

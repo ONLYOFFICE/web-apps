@@ -97,7 +97,9 @@ define([
                 DisabledControls: false,
                 HideShapeOnlySettings: false,
                 HideChangeTypeSettings: false,
-                isFromImage: false
+                HideRotationSettings: false,
+                isFromImage: false,
+                isFromSmartArtInternal: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -121,6 +123,8 @@ define([
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
 
             this.fillControls = [];
+            this.gradientColorsStr = "#000, #fff";
+            this.typeGradient = 90 ;
 
             this.render();
 
@@ -131,6 +135,7 @@ define([
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
+            this.RotationSettings = $('.shape-rotation');
         },
 
         render: function () {
@@ -390,10 +395,10 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 174;
                 var record = this.mnuDirectionPicker.store.findWhere({type: this.GradLinearDirectionType});
                 this.mnuDirectionPicker.selectRecord(record, true);
-                if (record)
-                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                if(record)
+                    this.typeGradient = this.GradLinearDirectionType +90;
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
                 this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
                 this.numGradientAngle.setDisabled(this._locked);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
@@ -402,9 +407,9 @@ define([
                 this.mnuDirectionPicker.restoreHeight = 58;
                 this.mnuDirectionPicker.selectByIndex(this.GradRadialDirectionIdx, true);
                 if (this.GradRadialDirectionIdx>=0)
-                    this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
+                    this.typeGradient = this._viewDataRadial[this.GradRadialDirectionIdx].type;
                 else
-                    this.btnDirection.setIconCls('');
+                    this.typeGradient= -1;
                 this.numGradientAngle.setValue(0, true);
                 this.numGradientAngle.setDisabled(true);
             }
@@ -443,8 +448,13 @@ define([
                 rawData = record;
             }
 
-            this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
-            (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
+            if (this.GradFillType === Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                this.GradLinearDirectionType = rawData.type;
+                this.typeGradient = rawData.type + 90;
+            } else {
+                this.GradRadialDirectionIdx = 0;
+                this.typeGradient = rawData.type;
+            }
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     this.numGradientAngle.setValue(rawData.type, true);
@@ -518,7 +528,35 @@ define([
                 this.api.setEndPointHistory();
                 this._gradientApplyFunc();
             }
+
+            var arrGrCollors=[];
+            var scale=(this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR)?1:0.7;
+            for (var index=0; index < slider.thumbs.length; index++) {
+                arrGrCollors.push(slider.getColorValue(index)+ ' '+ slider.getValue(index)*scale +'%');
+            }
+
+            this.btnDirectionRedraw(slider, arrGrCollors.join(', '));
             this._sendUndoPoint = true;
+        },
+
+        btnDirectionRedraw: function(slider, gradientColorsStr) {
+            this.gradientColorsStr = gradientColorsStr;
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = gradientColorsStr;
+            });
+            this._viewDataRadial.gradientColorsStr = this.gradientColorsStr;
+            this.mnuDirectionPicker.store.each(function(item){
+                item.set('gradientColorsStr', gradientColorsStr);
+            }, this);
+
+            if (this.typeGradient == -1)
+                this.btnDirection.$icon.css({'background': 'none'});
+            else if (this.typeGradient == 2)
+                this.btnDirection.$icon.css({'background': ('radial-gradient(' + gradientColorsStr + ')')});
+            else
+                this.btnDirection.$icon.css({
+                    'background': ('linear-gradient(' + this.typeGradient + 'deg, ' + gradientColorsStr + ')')
+                });
         },
 
         _gradientApplyFunc: function() {
@@ -728,21 +766,22 @@ define([
             {
                 this._originalProps = props;
                 this._noApply = true;
+                this._state.isFromImage = !!props.get_FromImage();
+                this._state.isFromSmartArtInternal = !!props.get_FromSmartArtInternal();
 
                 var shapetype = props.asc_getType();
 
                 this.disableControls(this._locked==true, props.get_CanFill() !== true);
-                this.hideShapeOnlySettings(props.get_FromChart() || props.get_FromImage());
+                this.hideShapeOnlySettings(props.get_FromChart() || !!props.get_FromImage());
+                this.hideRotationSettings(props.get_FromChart() || !!props.get_FromImage() || props.get_FromSmartArt());
 
-                var hidechangetype = props.get_FromChart() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                var hidechangetype = props.get_FromChart() || props.get_FromSmartArt() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype);
-                this._state.isFromImage = !!props.get_FromImage();
                 if (!hidechangetype && this.btnChangeShape.menu.items.length) {
-                    this.btnChangeShape.menu.items[0].setVisible(props.get_FromImage());
-                    this.btnChangeShape.menu.items[1].setVisible(!props.get_FromImage());
+                    this.btnChangeShape.shapePicker.hideTextRect(props.get_FromImage() || this._state.isFromSmartArtInternal);
                 }
 
                 // background colors
@@ -842,7 +881,7 @@ define([
                             this.onGradTypeSelect(this.cmbGradType, rec.attributes);
                         } else {
                             this.cmbGradType.setValue('');
-                            this.btnDirection.setIconCls('');
+                            this.typeGradient = -1;
                         }
                         this._state.GradFillType = this.GradFillType;
                     }
@@ -854,9 +893,9 @@ define([
                             var record = this.mnuDirectionPicker.store.findWhere({type: value});
                             this.mnuDirectionPicker.selectRecord(record, true);
                             if (record)
-                                this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                                this.typeGradient = value + 90;
                             else
-                                this.btnDirection.setIconCls('');
+                                this.typeGradient= -1;
                             this.numGradientAngle.setValue(value, true);
                         }
                     } else
@@ -889,10 +928,16 @@ define([
                             me.GradColor.values[index] = position;
                         }
                     });
+
+                    var arrGrCollors=[];
+                    var scale=(this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR)?1:0.7;
                     for (var index=0; index<length; index++) {
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
+                        arrGrCollors.push(me.sldrGradient.getColorValue(index)+ ' '+ me.sldrGradient.getValue(index)*scale +'%');
                     }
+                    this.btnDirectionRedraw(me.sldrGradient, arrGrCollors.join(', '));
+
                     if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
                         me.GradColor.currentIdx = 0;
                     }
@@ -1132,23 +1177,25 @@ define([
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
             this.fillControls.push(this.cmbFillSrc);
 
+            var itemWidth = 28,
+                itemHeight = 28;
             this.cmbPattern = new Common.UI.ComboDataView({
-                itemWidth: 28,
-                itemHeight: 28,
+                itemWidth: itemWidth,
+                itemHeight: itemHeight,
                 menuMaxHeight: 300,
                 enableKeyEvents: true,
                 cls: 'combo-pattern',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
+                dataHintOffset: 'big',
+                itemTemplate: _.template([
                     '<div class="style" id="<%= id %>">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
-                        'width="' + this.cmbPattern.itemWidth + '" height="' + this.cmbPattern.itemHeight + '" ',
+                        'width="' + itemWidth + '" height="' + itemHeight + '" ',
                         'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
                     '</div>'
-                ].join(''));
+                ].join(''))
+            });
             this.cmbPattern.render($('#shape-combo-pattern'));
             this.cmbPattern.openButton.menu.cmpEl.css({
                 'min-width': 178,
@@ -1251,23 +1298,26 @@ define([
             this.fillControls.push(this.cmbGradType);
 
             this._viewDataLinear = [
-                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
-                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
-                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
-                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
-                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
-                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
-                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
-                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+                { type:45,  subtype:-1},
+                { type:90,  subtype:4},
+                { type:135, subtype:5},
+                { type:0,   subtype:6,  cls: 'item-gradient-separator', selected: true},
+                { type:180, subtype:1},
+                { type:315, subtype:2},
+                { type:270, subtype:3},
+                { type:225, subtype:7}
             ];
+            _.each(this._viewDataLinear, function(item){
+                item.gradientColorsStr = me.gradientColorsStr;
+            });
 
             this._viewDataRadial = [
-                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
+                { type:2, subtype:5, gradientColorsStr: this.gradientColorsStr}
             ];
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
-                iconCls     : 'item-gradient gradient-left',
+                iconCls     : 'item-gradient',
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
                     menuAlign: 'tr-br',
@@ -1285,7 +1335,9 @@ define([
                     parentMenu: btn.menu,
                     restoreHeight: 174,
                     store: new Common.UI.DataViewStore(me._viewDataLinear),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background: '
+                        +'<% if(type!=2) {%>linear-gradient(<%= type + 90 %>deg,<%= gradientColorsStr %>)'
+                        +' <%} else {%> radial-gradient(<%= gradientColorsStr %>) <%}%>;"></div>')
                 });
             });
             this.btnDirection.render($('#shape-button-direction'));
@@ -1438,7 +1490,7 @@ define([
                 iconCls: 'btn-change-shape',
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tr-br',
-                    cls: 'menu-shapes',
+                    cls: 'menu-shapes menu-change-shape',
                     items: []
                 }),
                 dataHint: '1',
@@ -1641,50 +1693,33 @@ define([
 
         fillAutoShapes: function() {
             var me = this,
-                shapesStore = this.application.getCollection('ShapeGroups'),
-                count = shapesStore.length;
+                recents = Common.localStorage.getItem('pe-recent-shapes');
 
-            var onShowAfter = function(menu) {
-                for (var i=-1; i<count-1 && count>0; i++) {
-                    var store = shapesStore.at(i > -1 ? i : 0).get('groupStore');
-                    if (i<0) {
-                        store = store.clone();
-                        store.shift();
-                    }
-                    var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-shape-menu-shapegroup' + (i+1), menu.items[i+1].$el),
-                        store: store,
-                        parentMenu: menu.items[i+1].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                    });
-                    shapePicker.on('item:click', function(picker, item, record, e) {
-                        if (me.api) {
-                            me.api.ChangeShapeType(record.get('data').shapeType);
-                            me.fireEvent('editcomplete', me);
-                        }
-                        if (e.type !== 'click')
-                            me.btnChangeShape.menu.hide();
-                    });
-                }
-                menu.off('show:after', onShowAfter);
-            };
-            me.btnChangeShape.menu.on('show:after', onShowAfter);
-
-            for (var i=-1; i<count-1 && count>0; i++) {
-                var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
-                var menuItem = new Common.UI.MenuItem({
-                    caption: shapeGroup.get('groupName'),
-                    menu: new Common.UI.Menu({
-                        menuAlign: 'tr-tl',
-                        items: [
-                            { template: _.template('<div id="id-shape-menu-shapegroup' + (i+1) + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                        ]
-                    })
+            var menuitem = new Common.UI.MenuItem({
+                template: _.template('<div id="id-change-shape-menu" class="menu-insertshape"></div>'),
                 });
-                me.btnChangeShape.menu.addItem(menuItem);
-            }
-            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
-            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);
+            me.btnChangeShape.menu.addItem(menuitem);
+
+            me.btnChangeShape.shapePicker = new Common.UI.DataViewShape({
+                el: $('#id-change-shape-menu'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                groups: me.application.getCollection('ShapeGroups'),
+                parentMenu: me.btnChangeShape.menu,
+                restoreHeight: 652,
+                textRecentlyUsed: me.textRecentlyUsed,
+                recentShapes: recents ? JSON.parse(recents) : null,
+                hideTextRect: me._state.isFromImage || me._state.isFromSmartArtInternal,
+                hideLines: true
+            });
+            me.btnChangeShape.shapePicker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
+                    me.api.ChangeShapeType(record.get('data').shapeType);
+                    me.fireEvent('editcomplete', me);
+                }
+                if (e.type !== 'click')
+                    me.btnChangeShape.menu.hide();
+            });
         },
 
         UpdateThemeColors: function() {
@@ -1814,6 +1849,8 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+            this.btnFlipV.setDisabled(disable || this._state.isFromSmartArtInternal);
+            this.btnFlipH.setDisabled(disable || this._state.isFromSmartArtInternal);
         },
 
         hideShapeOnlySettings: function(value) {
@@ -1827,6 +1864,13 @@ define([
             if (this._state.HideChangeTypeSettings !== value) {
                 this._state.HideChangeTypeSettings = value;
                 this.CanChangeType.toggleClass('hidden', value==true);
+            }
+        },
+
+        hideRotationSettings: function(value) {
+            if (this._state.HideRotationSettings !== value) {
+                this._state.HideRotationSettings = value;
+                this.RotationSettings.toggleClass('hidden', value==true);
             }
         },
 
@@ -1955,6 +1999,7 @@ define([
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
         tipRemoveGradientPoint: 'Remove gradient point',
-        textAngle: 'Angle'
+        textAngle: 'Angle',
+        textRecentlyUsed: 'Recently Used'
     }, PE.Views.ShapeSettings || {}));
 });

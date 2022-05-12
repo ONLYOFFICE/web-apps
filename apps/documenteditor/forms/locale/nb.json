@@ -1,8 +1,4 @@
 {
-  "common.view.modals.txtCopy": "Kopier til utklippstavle",
-  "common.view.modals.txtHeight": "Høyde",
-  "common.view.modals.txtShare": "Del link",
-  "common.view.modals.txtWidth": "Bredde",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Feil",
   "DE.Controllers.ApplicationController.downloadErrorText": "Nedlasting feilet.",
   "DE.Controllers.ApplicationController.errorDefaultMessage": "Feilkode: %1",
@@ -15,5 +11,6 @@
   "DE.Controllers.ApplicationController.waitText": "Vennligst vent...",
   "DE.Views.ApplicationView.txtDownload": "Last ned",
   "DE.Views.ApplicationView.txtFullScreen": "Fullskjerm",
+  "DE.Views.ApplicationView.txtPrint": "Skriv ut",
   "DE.Views.ApplicationView.txtShare": "Del"
 }

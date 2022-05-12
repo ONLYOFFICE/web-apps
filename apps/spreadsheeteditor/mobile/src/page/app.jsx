@@ -35,7 +35,7 @@ export default class extends React.Component {
 
     render() {
         return (
-            <App { ...f7params } >
+            <App { ...f7params } className={'app-layout'}>
                 {/* Your main view, should have "view-main" class */}
                 <View main className="safe-areas" url="/" />
                 <MainController />

@@ -24,7 +24,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 1001;
+            z-index: 1002;
         }
 
         .loader-page {
@@ -298,6 +298,7 @@
             else if ( lang == 'es') reqerr = 'La conexión es muy lenta, algunos de los componentes no han podido cargar. Por favor recargue la página.';
             else if ( lang == 'fr') reqerr = 'La connexion est trop lente, certains des composants n\'ons pas pu être chargé. Veuillez recharger la page.';
             else if ( lang == 'ru') reqerr = 'Слишком медленное соединение, не удается загрузить некоторые компоненты. Пожалуйста, обновите страницу.';
+            else if ( lang == 'tr') reqerr = 'Bağlantı çok yavaş, bileşenlerin bazıları yüklenemedi. Lütfen sayfayı yenileyin.';
             else reqerr = 'The connection is too slow, some of the components could not be loaded. Please reload the page.';
 
             return reqerr;
@@ -331,6 +332,9 @@
     <inline src="resources/img/doc-formats/docm.svg" />
     <inline src="resources/img/doc-formats/oform.svg" />
     <inline src="resources/img/doc-formats/docxf.svg" />
+    <inline src="resources/img/doc-formats/djvu.svg" />
+    <inline src="resources/img/doc-formats/xps.svg" />
+    <inline src="resources/img/doc-formats/oxps.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />

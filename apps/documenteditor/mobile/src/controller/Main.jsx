@@ -80,8 +80,8 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
-                const _t = this._t;
-
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
                 EditorUIController.isSupportEditFeature();
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
@@ -130,7 +130,9 @@ class MainController extends Component {
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
-
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+                    
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins !== false);
@@ -175,13 +177,15 @@ class MainController extends Component {
             const onEditorPermissions = params => {
                 const licType = params.asc_getLicenseType();
 
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
                 // check licType
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
                     Asc.c_oLicenseResult.ExpiredTrial === licType) {
                     f7.dialog.create({
-                        title   : this._t.titleLicenseExp,
-                        text    : this._t.warnLicenseExp
+                        title   : _t.titleLicenseExp,
+                        text    : _t.warnLicenseExp
                     }).open();
                     return;
                 }
@@ -281,14 +285,22 @@ class MainController extends Component {
                 .then ( result => {
                     window["flat_desine"] = true;
                     const {t} = this.props;
+                    let _translate = t('Main.SDK', {returnObjects:true});
+                    for (let item in _translate) {
+                        if (_translate.hasOwnProperty(item)) {
+                            const str = _translate[item];
+                            if (item[item.length-1]===' ' && str[str.length-1]!==' ')
+                                _translate[item] += ' ';
+                        }
+                    }
                     this.api = new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        'translate': t('Main.SDK', {returnObjects:true})
+                        'translate': _translate
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
-                    Common.EditorApi = {get: () => this.api};
+                    // Common.EditorApi = {get: () => this.api};
 
                     // Set font rendering mode
                     let value = LocalStorage.getItem("de-settings-fontrender");
@@ -393,7 +405,9 @@ class MainController extends Component {
                 this.api.asc_continueSaving();
             }, 500);
 
-            return this._t.leavePageText;
+            const { t } = this.props;
+            const _t = t('Main', {returnObjects:true});
+            return _t.leavePageText;
         }
     }
 
@@ -405,6 +419,7 @@ class MainController extends Component {
     onLicenseChanged (params) {
         const appOptions = this.props.storeAppOptions;
         const licType = params.asc_getLicenseType();
+    
         if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
             (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
@@ -414,7 +429,9 @@ class MainController extends Component {
     }
 
     applyLicense () {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Main', {returnObjects:true});
+
         const warnNoLicense  = _t.warnNoLicense.replace(/%1/g, __COMPANY_NAME__);
         const warnNoLicenseUsers = _t.warnNoLicenseUsers.replace(/%1/g, __COMPANY_NAME__);
         const textNoLicenseTitle = _t.textNoLicenseTitle.replace(/%1/g, __COMPANY_NAME__);
@@ -507,7 +524,8 @@ class MainController extends Component {
 
     onServerVersion (buildVersion) {
         if (this.changeServerVersion) return true;
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Main', {returnObjects:true});
 
         if (About.appVersion() !== buildVersion && !About.compareVersions()) {
             this.changeServerVersion = true;
@@ -554,10 +572,13 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
+            const storeAppOptions = this.props.storeAppOptions;
+            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected) return;
+
             switch (obj.type) {
-                // case Asc.c_oAscContentControlSpecificType.DateTime:
-                //     this.onShowDateActions(obj, x, y);
-                //     break;
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
                         let lock = obj.pr.get_Lock();
@@ -576,7 +597,6 @@ class MainController extends Component {
             }
         });
 
-        //text settings
         const storeTextSettings = this.props.storeTextSettings;
         storeTextSettings.resetFontsRecent(LocalStorage.getItem('dde-settings-recent-fonts'));
 
@@ -602,6 +622,7 @@ class MainController extends Component {
                 default: 
                     storeTextSettings.resetBullets(-1);
                     storeTextSettings.resetNumbers(-1);
+                    storeTextSettings.resetMultiLevel(-1);
             }
         });
         this.api.asc_registerCallback('asc_onPrAlign', (align) => {
@@ -613,9 +634,14 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {
             storeTextSettings.resetLineSpacing(vc);
         });
-        this.api.asc_registerCallback('asc_onTextShd', (shd) => {
-            let color = shd.get_Color();
-            storeTextSettings.resetBackgroundColor(color);
+
+        this.api.asc_registerCallback('asc_onTextHighLight', color => {
+            let textPr = this.api.get_TextProps().get_TextPr();
+
+            if(textPr) {
+                color = textPr.get_HighLight();
+                storeTextSettings.resetHighlightColor(color);
+            }
         });
 
         // link settings
@@ -638,7 +664,9 @@ class MainController extends Component {
         const storeDocumentInfo = this.props.storeDocumentInfo;
 
         this.api.asc_registerCallback("asc_onGetDocInfoStart", () => {
-            storeDocumentInfo.switchIsLoaded(false);
+            this.timerLoading = setTimeout(() => {
+                storeDocumentInfo.switchIsLoaded(false);
+            }, 2000);
         });
 
         this.api.asc_registerCallback("asc_onGetDocInfoStop", () => {
@@ -646,11 +674,21 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback("asc_onDocInfo", (obj) => {
-            storeDocumentInfo.changeCount(obj);
+            clearTimeout(this.timerLoading);
+
+            this.objectInfo = obj;
+            if(!this.timerDocInfo) {
+                this.timerDocInfo = setInterval(() => {
+                    storeDocumentInfo.changeCount(this.objectInfo);
+                }, 300);
+                storeDocumentInfo.changeCount(this.objectInfo);
+            }
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
-          storeDocumentInfo.switchIsLoaded(true);
+          clearTimeout(this.timerLoading);
+          clearInterval(this.timerDocInfo);
+          storeDocumentInfo.changeCount(this.objectInfo);
         });
 
         // Color Schemes
@@ -695,16 +733,60 @@ class MainController extends Component {
         }
     }
 
+    onShowDateActions(obj, x, y) {
+        const { t } = this.props;
+        const boxSdk = $$('#editor_sdk');
+
+        let props = obj.pr,
+            specProps = props.get_DateTimePr(),
+            isPhone = Device.isPhone,
+            controlsContainer = boxSdk.find('#calendar-target-element'),
+            _dateObj = props;
+
+        if (controlsContainer.length < 1) {
+            controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
+            boxSdk.append(controlsContainer);
+        }
+
+        controlsContainer.css({left: `${x}px`, top: `${y}px`});
+
+        this.cmpCalendar = f7.calendar.create({
+            inputEl: '#calendar-target-element',
+            dayNamesShort: [t('Edit.textSu'), t('Edit.textMo'), t('Edit.textTu'), t('Edit.textWe'), t('Edit.textTh'), t('Edit.textFr'), t('Edit.textSa')],
+            monthNames: [t('Edit.textJanuary'), t('Edit.textFebruary'), t('Edit.textMarch'), t('Edit.textApril'), t('Edit.textMay'), t('Edit.textJune'), t('Edit.textJuly'), t('Edit.textAugust'), t('Edit.textSeptember'), t('Edit.textOctober'), t('Edit.textNovember'), t('Edit.textDecember')],
+            backdrop: isPhone ? false : true,
+            closeByBackdropClick: isPhone ? false : true,
+            value: [new Date(specProps ? specProps.get_FullDate() : undefined)],
+            openIn: isPhone ? 'sheet' : 'popover',
+            on: {
+                change: (calendar, value) => {
+                    if(calendar.initialized && value[0]) {
+                        let specProps = _dateObj.get_DateTimePr();
+                        specProps.put_FullDate(new Date(value[0]));
+                        this.api.asc_SetContentControlDatePickerDate(specProps);
+                        calendar.close();
+                        this.api.asc_UncheckContentControlButtons();
+                    }
+                }
+            }
+        });
+
+        setTimeout(() => {
+            this.cmpCalendar.open();
+        }, 100)
+    }
+
     onShowListActions(obj, x, y) {
         if(!Device.isPhone) {
-            this.dropdownListTarget = this.boxSdk.find('#dropdown-list-target');
+            const boxSdk = $$('#editor_sdk');
+            let dropdownListTarget = boxSdk.find('#dropdown-list-target');
         
-            if (this.dropdownListTarget.length < 1) {
-                this.dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
-                this.boxSdk.append(this.dropdownListTarget);
+            if (dropdownListTarget.length < 1) {
+                dropdownListTarget = $$('<div id="dropdown-list-target" style="position: absolute;"></div>');
+                boxSdk.append(dropdownListTarget);
             }
         
-            this.dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
+            dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
         }
 
         Common.Notifications.trigger('openDropdownList', obj);
@@ -714,7 +796,9 @@ class MainController extends Component {
         this.api.asc_OnSaveEnd(data.result);
 
         if (data && data.result === false) {
-            const _t = this._t;
+            const { t } = this.props;
+            const _t = t('Main', {returnObjects:true});
+
             f7.dialog.alert(
                 (!data.message) ? _t.errorProcessSaveResult : data.message,
                 _t.criticalErrorTitle
@@ -731,7 +815,9 @@ class MainController extends Component {
             Common.Notifications.trigger('api:disconnect');
 
             if (!old_rights) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
+
                 f7.dialog.alert(
                     (!data.message) ? _t.warnProcessRightsChange : data.message,
                     _t.notcriticalErrorTitle,
@@ -744,7 +830,9 @@ class MainController extends Component {
     onDownloadAs () {
         const appOptions = this.props.storeAppOptions;
         if ( !appOptions.canDownload && !appOptions.canDownloadOrigin) {
-            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this._t.errorAccessDeny);
+            const { t } = this.props;
+            const _t = t('Main', {returnObjects:true});
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
 
@@ -771,7 +859,8 @@ class MainController extends Component {
     }
 
     onUpdateVersion (callback) {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Main', {returnObjects:true});
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
@@ -863,7 +952,8 @@ class MainController extends Component {
             if (value === 1) {
                 this.api.asc_runAutostartMacroses();
             } else if (value === 0) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Main', {returnObjects:true});
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text: _t.textHasMacros,
@@ -919,6 +1009,7 @@ class MainController extends Component {
     }
 
     componentDidMount() {
+        Common.EditorApi = {get: () => this.api};
         this.initSdk();
     }
 }

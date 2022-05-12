@@ -11,7 +11,7 @@
                     <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-save"></span>
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
                 </div>
             </div>
             <div class="separator long"></div>
@@ -162,11 +162,20 @@
                     <span class="btn-slot text x-huge" id="slot-btn-printtitles"></span>
                 </div>
                 <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-print-gridlines"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-print-headings"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
-                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -259,6 +268,10 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>
+                </div>
+                <div class="separator long separator-theme"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-freeze"></span>
                 </div>
                 <div class="separator long"></div>
@@ -276,6 +289,15 @@
                     </div>
                     <div class="elset">
                         <span class="btn-slot text" id="slot-chk-zeros"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-toolbar"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
                     </div>
                 </div>
             </section>

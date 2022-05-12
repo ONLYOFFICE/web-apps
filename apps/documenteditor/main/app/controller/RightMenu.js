@@ -71,7 +71,7 @@ define([
         },
 
         onRightMenuAfterRender: function(rightMenu) {
-            rightMenu.shapeSettings.application = rightMenu.textartSettings.application = this.getApplication();
+            rightMenu.imageSettings.application = rightMenu.shapeSettings.application = rightMenu.textartSettings.application = this.getApplication();
 
             this._settings = [];
             this._settings[Common.Utils.documentSettingsType.Paragraph] = {panelId: "id-paragraph-settings",  panel: rightMenu.paragraphSettings,btn: rightMenu.btnText,        hidden: 1, locked: false};
@@ -135,11 +135,11 @@ define([
             this.onFocusObject(SelectedObjects);
         },
 
-        onFocusObject: function(SelectedObjects, forceSignature) {
+        onFocusObject: function(SelectedObjects, forceSignature, forceOpen) {
             if (!this.editMode && !forceSignature)
                 return;
 
-            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
+            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : !!forceOpen;
             this._initSettings = false;
 
             var can_add_table = false, 
@@ -155,7 +155,8 @@ define([
             this._settings[Common.Utils.documentSettingsType.MailMerge].locked = false;
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
-            var isChart = false;
+            var isChart = false,
+                isSmartArtInternal = false;
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_lock = false;
             for (i=0; i<SelectedObjects.length; i++)
@@ -179,6 +180,7 @@ define([
                         settingsType = Common.Utils.documentSettingsType.Chart;
                     } else if (value.get_ShapeProperties() !== null) {
                         isChart = value.get_ShapeProperties().get_FromChart();
+                        isSmartArtInternal = value.get_ShapeProperties().get_FromSmartArtInternal();
                         settingsType = Common.Utils.documentSettingsType.Shape;
                         if (value.get_ShapeProperties().asc_getTextArtProperties()) {
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
@@ -189,6 +191,7 @@ define([
                     control_lock = control_lock || value.get_Locked();
                 } else if (settingsType == Common.Utils.documentSettingsType.Paragraph) {
                     this._settings[settingsType].panel.isChart = isChart;
+                    this._settings[settingsType].panel.isSmartArtInternal = isSmartArtInternal;
                     can_add_table = value.get_CanAddTable();
                     control_lock = control_lock || value.get_Locked();
                 }
@@ -447,7 +450,7 @@ define([
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
-                        this.onFocusObject(selectedElements);
+                        this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("de-hide-right-settings"));
                 }
             }
         },

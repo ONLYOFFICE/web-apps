@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 import {observer, inject} from "mobx-react";
+import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
 
 class ApplicationSettingsController extends Component {
     constructor(props) {

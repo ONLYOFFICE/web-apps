@@ -1,7 +1,7 @@
 {
   "name": "documenteditor",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DocumentEditor",
   "repository": "",
   "license": "UNLICENSED",
@@ -75,5 +75,8 @@
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2",
     "workbox-webpack-plugin": "^6.1.2"
+  },
+  "optionalDependencies": {
+    "fsevents": "~2.3.2"
   }
 }

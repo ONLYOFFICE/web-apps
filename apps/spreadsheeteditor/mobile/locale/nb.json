@@ -155,9 +155,12 @@
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
       "warnProcessRightsChange": "You don't have permission to edit the file.",
+      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
+      "textOk": "Ok",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textNoTextFound": "Text not found",
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
     }
   },
   "Error": {
@@ -230,7 +233,8 @@
     "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
     "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
-    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization."
+    "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -291,7 +295,13 @@
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textMove": "Move",
+    "textMoveBack": "Move back",
+    "textMoveForward": "Move forward",
+    "textHidden": "Hidden",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -352,7 +362,12 @@
       "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
       "txtNo": "No",
       "txtYes": "Yes",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -533,6 +548,7 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
       "txtSortLow2High": "Sort Lowest to Highest",
+      "textAutomatic": "Automatic",
       "textOk": "Ok"
     },
     "Settings": {
@@ -663,7 +679,8 @@
       "txtDownloadCsv": "Download CSV",
       "txtOk": "Ok",
       "txtSemicolon": "Semicolon",
-      "textExample": "Example"
+      "textExample": "Example",
+      "textDarkTheme": "Dark Theme"
     }
   }
 }

@@ -87,10 +87,10 @@
                 '<div class="box">',
                     '<div class="input-row">',
                         '<span class="btn-placeholder" id="search-placeholder-btn-options"></span>',
-                        '<input type="text" id="sd-text-search" class="input-field form-control" maxlength="255" placeholder="'+this.textSearchStart+'">',
+                        '<input type="text" id="sd-text-search" class="input-field form-control" maxlength="255" placeholder="'+this.textSearchStart+'" autocomplete="off">',
                     '</div>',
                     '<div class="input-row">',
-                        '<input type="text" id="sd-text-replace" class="input-field form-control" maxlength="255" placeholder="'+this.textReplaceDef+'">',
+                        '<input type="text" id="sd-text-replace" class="input-field form-control" maxlength="255" placeholder="'+this.textReplaceDef+'" autocomplete="off">',
                     '</div>',
                     '<div class="input-row">',
                         '<label class="link" id="search-label-replace" result="replaceshow">'+this.txtBtnReplace+'</label>',
@@ -171,7 +171,7 @@
             this.txtSearch.on('keydown', null, 'search', _.bind(this.onKeyPress, this));
             this.txtReplace.on('keydown', null, 'replace', _.bind(this.onKeyPress, this));
 
-            this.on('animate:before', _.bind(this.focus, this));
+            this.on('animate:before', _.bind(this.onAnimateBefore, this));
 
             return this;
         },
@@ -191,12 +191,16 @@
             this.focus();
         },
 
-        focus: function() {
-            var me  = this;
+        focus: function(type) {
+            var field = (type==='replace') ? this.txtReplace : this.txtSearch;
             setTimeout(function(){
-                me.txtSearch.focus();
-                me.txtSearch.select();
+                field.focus();
+                field.select();
             }, 10);
+        },
+
+        onAnimateBefore: function() {
+            this.focus();
         },
 
         onKeyPress: function(event) {

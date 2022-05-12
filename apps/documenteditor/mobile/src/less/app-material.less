@@ -1,7 +1,7 @@
 
 // Colors
 @themeColorLight: #a2bdde;
-@navBarIconColor: #fff;
+@navBarIconColor: @toolbar-icons;
 
 
 .device-android {
@@ -79,35 +79,11 @@
             border:none;
 
             input {
-                color: #000;
+                color: @text-normal;
                 font-size: 16px;
                 width: 40px;
                 font-weight: var(--f7-list-item-after-line-height);
             }
         }
-    }
-}
-
-// Color Schemes
-
-.color-schemes-menu {
-    cursor: pointer;
-    display: block;
-    background-color: #fff;
-    .item-inner {
-        justify-content: flex-start;
-    }
-    .color-schema-block {
-        display: flex;
-    }
-    .color {
-        min-width: 26px;
-        min-height: 26px;
-        margin: 0 2px 0 0;
-        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-    }
-    .item-title {
-        margin-left: 20px;
-        color: #212121;
     }
 }

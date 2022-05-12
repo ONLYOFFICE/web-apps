@@ -85,7 +85,7 @@ define([
             me.inputLabel.setValue(this.options.value || '' );
 
             var $window = this.getChild();
-            $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
+            $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
         },
 
         show: function() {
