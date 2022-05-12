@@ -519,8 +519,7 @@ define([
                         if (this._state.bullets.subtype!==0x1000)
                             idx = this._state.bullets.subtype;
                         else { // custom
-                            var me = this,
-                                bullet = v.asc_getListCustom();
+                            var bullet = v.asc_getListCustom();
                             if (bullet) {
                                 var type = bullet.asc_getType();
                                 if (type == Asc.asc_PreviewBulletType.char) {
