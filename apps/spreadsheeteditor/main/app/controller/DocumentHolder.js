@@ -2143,7 +2143,7 @@ define([
                                         rec.set('subtype', 0x1000);
                                         rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
                                         rec.set('tip', '');
-                                        this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
 
                                     }
@@ -2154,7 +2154,7 @@ define([
                                         rec.set('subtype', 0x1000);
                                         rec.set('drawdata', {type: bullettype, imageId: id});
                                         rec.set('tip', '');
-                                        this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
                                     }
                                 }
@@ -2165,7 +2165,7 @@ define([
                             defrec.set('subtype', 8);
                             defrec.set('drawdata', documentHolder._markersArr[7]);
                             defrec.set('tip', documentHolder.tipMarkersDash);
-                            this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
+                            documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
                         }
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();

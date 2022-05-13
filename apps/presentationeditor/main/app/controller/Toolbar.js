@@ -538,7 +538,7 @@ define([
                                         rec.get('data').subtype = 0x1000;
                                         rec.set('drawdata', {type: type, char: symbol, specialFont: bullet.asc_getSpecialFont()});
                                         rec.set('tip', '');
-                                        this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
+                                        this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
                                         idx = 8;
                                     }
@@ -548,7 +548,7 @@ define([
                                         rec.get('data').subtype = 0x1000;
                                         rec.set('drawdata', {type: type, imageId: id});
                                         rec.set('tip', '');
-                                        this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
+                                        this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
                                         drawDefBullet = false;
                                         idx = 8;
                                     }
@@ -595,7 +595,7 @@ define([
                     rec.get('data').subtype = 8;
                     rec.set('drawdata', this.toolbar._markersArr[8]);
                     rec.set('tip', this.toolbar.tipMarkersDash);
-                    this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], this.toolbar.tipMarkersDash);
+                    this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], this.toolbar.tipMarkersDash);
                 }
             }
         },
