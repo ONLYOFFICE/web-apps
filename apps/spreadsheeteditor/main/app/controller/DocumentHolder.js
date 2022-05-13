@@ -3801,6 +3801,7 @@ define([
                 outerMenu:  {menu: view.menuParagraphBullets.menu, index: 0},
                 groups      : view.paraBulletsPicker.groups,
                 store       : view.paraBulletsPicker.store,
+                delayRenderTips: true,
                 itemTemplate: _.template('<% if (type==0) { %>' +
                                             '<div id="<%= id %>" class="item-markerlist"></div>' +
                                         '<% } else if (type==1) { %>' +

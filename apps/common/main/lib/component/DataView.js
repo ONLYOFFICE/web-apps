@@ -476,12 +476,12 @@ define([
                     var me = this,
                         view_el = $(view.el),
                         tip = record.get('tip');
-                    if (tip) {
+                    if (tip!==undefined && tip!==null) {
                         if (this.delayRenderTips)
                             view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
                                 view_el.attr('data-toggle', 'tooltip');
                                 view_el.tooltip({
-                                    title       : tip,
+                                    title       : record.get('tip'), // use actual tip, because it can be changed
                                     placement   : 'cursor',
                                     zIndex : me.tipZIndex
                                 });
@@ -490,7 +490,7 @@ define([
                         else {
                             view_el.attr('data-toggle', 'tooltip');
                             view_el.tooltip({
-                                title       : tip,
+                                title       : record.get('tip'), // use actual tip, because it can be changed
                                 placement   : 'cursor',
                                 zIndex : me.tipZIndex
                             });
