@@ -131,35 +131,43 @@ define([
             };
 
             this.openBinary = function(arrayBuffer) {
+                
+                //var t1 = performance.now();
+
                 var binaryAlpha = new Uint8Array(arrayBuffer);
-                this.width = (binaryAlpha[0] << 24) | (binaryAlpha[1] << 16) | (binaryAlpha[2] << 8) | (binaryAlpha[3] << 0);
-                this.heightOne = (binaryAlpha[4] << 24) | (binaryAlpha[5] << 16) | (binaryAlpha[6] << 8) | (binaryAlpha[7] << 0);
-                this.count = (binaryAlpha[8] << 24) | (binaryAlpha[9] << 16) | (binaryAlpha[10] << 8) | (binaryAlpha[11] << 0);
-                this.height = this.count * this.heightOne;
+                this.width      = (binaryAlpha[0] << 24) | (binaryAlpha[1] << 16) | (binaryAlpha[2] << 8) | (binaryAlpha[3] << 0);
+                this.heightOne  = (binaryAlpha[4] << 24) | (binaryAlpha[5] << 16) | (binaryAlpha[6] << 8) | (binaryAlpha[7] << 0);
+                this.count      = (binaryAlpha[8] << 24) | (binaryAlpha[9] << 16) | (binaryAlpha[10] << 8) | (binaryAlpha[11] << 0);
+                this.height     = this.count * this.heightOne;
 
                 this.data = new Uint8ClampedArray(4 * this.width * this.height);
 
                 var binaryIndex = 12;
                 var binaryLen = binaryAlpha.length;
                 var imagePixels = this.data;
-                var alphaIndex = 3;
+                var index = 0;
 
                 var len0 = 0;
+                var tmpValue = 0;
                 while (binaryIndex < binaryLen) {
-                    imagePixels[alphaIndex] = binaryAlpha[binaryIndex];
-                    binaryIndex++;
-                    alphaIndex += 4;
-
-                    if (0 === binaryAlpha[binaryIndex - 1]) {
-                        len0 = binaryAlpha[binaryIndex++] - 1;
-
+                    tmpValue = binaryAlpha[binaryIndex++];
+                    if (0 == tmpValue) {
+                        len0 = binaryAlpha[binaryIndex++];
                         while (len0 > 0) {
                             len0--;
-                            imagePixels[alphaIndex] = 0;
-                            alphaIndex += 4;
+                            imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255;
+                            imagePixels[index + 3] = 0; // this value is already 0.
+                            index += 4;
                         }
+                    } else {
+                        imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255 - tmpValue;
+                        imagePixels[index + 3] = tmpValue;
+                        index += 4;
                     }
                 }
+
+                //var t2 = performance.now();
+                //console.log(t2 - t1);
             };
 
             this.getImage = function(index, canvas, ctx) {
