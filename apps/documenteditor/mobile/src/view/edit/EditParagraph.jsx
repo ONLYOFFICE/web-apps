@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Toggle, Link} from 'framework7-react';
+import {f7, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Toggle, Link, NavLeft, NavTitle, ListInput} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -191,6 +191,7 @@ const EditParagraph = props => {
     const storeParagraphSettings = props.storeParagraphSettings;
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
     const curStyleName = storeParagraphSettings.styleName;
+    const curStyle = paragraphStyles.find(style => style.name === curStyleName);
     const thumbSize = storeParagraphSettings.styleThumbSize;
 
     const paragraph = props.storeFocusObjects.paragraphObject;
@@ -200,6 +201,14 @@ const EditParagraph = props => {
     
     return (
         <Fragment>
+            <BlockTitle>{t('Edit.textParagraphStyle')}</BlockTitle>
+            <List className={activeStyle} style={{marginBottom: 0}}>
+                <ListItem link="/edit-paragraph-style/" routeProps={{onStyleClick: props.onStyleClick}}>
+                    <div slot="inner"
+                        style={{backgroundImage: 'url(' + curStyle.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
+                    ></div>
+                </ListItem>
+            </List>
             <List>
                 <ListItem title={_t.textBackground} link='/edit-paragraph-back-color/' routeProps={{
                     onBackgroundColor: props.onBackgroundColor
@@ -222,7 +231,33 @@ const EditParagraph = props => {
                     onKeepNext: props.onKeepNext
                 }}></ListItem>
             </List>
-            <BlockTitle>{_t.textParagraphStyles}</BlockTitle>
+        </Fragment>
+    )
+};
+
+const EditParagraphStyle = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const storeParagraphSettings = props.storeParagraphSettings;
+    const paragraphStyles = storeParagraphSettings.paragraphStyles;
+    const curStyleName = storeParagraphSettings.styleName;
+    const thumbSize = storeParagraphSettings.styleThumbSize;
+    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textParagraphStyle')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List style={{marginBottom: 0}}>
+                <ListItem title="Create new text style" href="/create-text-style/"></ListItem>
+            </List>
             <List className={activeStyle}>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
@@ -236,21 +271,113 @@ const EditParagraph = props => {
                         }}
                     >
                         <div slot="inner"
-                             style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
+                            style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
                         ></div>
                     </ListItem>
                 ))}
             </List>
-        </Fragment>
+        </Page>
     )
-};
+}
+
+const CreateTextStyle = () => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const [titleNewStyle, setTitle] = useState('');
+    const [nextParagraphStyle, setParagraph] = useState('Same');
+
+    return (
+        <Page>
+            <Navbar backLink={t('Edit.textBack')}>
+                <NavTitle>{t('Edit.textCreateTextStyle')}</NavTitle>
+                <NavRight>
+                    <Link disabled onClick={() => {
+                        if(titleNewStyle.trim()) {
+                            // console.log(titleNewStyle);
+                        }
+                    }}>{t('Edit.textDone')}</Link>
+                </NavRight>
+            </Navbar>
+            <List inlineLabels className='inputs-list'>
+                <ListInput
+                    label={_t.textTitle}
+                    type="text"
+                    placeholder={_t.textEnterTitleNewStyle}
+                    value={titleNewStyle}
+                    onChange={(event) => {
+                        setTitle(event.target.value)
+                    }}
+                ></ListInput>
+            </List>
+            <BlockTitle>{t('Edit.textNextParagraphStyle')}</BlockTitle>
+            <List>
+                <ListItem style={{paddingLeft: '5px'}} title={nextParagraphStyle === 'Same' ? t('Edit.textSameCreatedNewStyle') : nextParagraphStyle} href="/change-next-paragraph-style/" routeProps={{
+                    nextParagraphStyle,
+                    setParagraph
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const ChangeNextParagraphStyle = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const nextParagraphStyle = props.nextParagraphStyle;
+    const storeParagraphSettings = props.storeParagraphSettings;
+    const paragraphStyles = storeParagraphSettings.paragraphStyles;
+    // const curStyleName = storeParagraphSettings.styleName;
+    const thumbSize = storeParagraphSettings.styleThumbSize;
+    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
+    const [newParagraph, setParagraph] = useState(nextParagraphStyle);
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textNextParagraphStyle')} backLink={_t.textBack}></Navbar>
+            <List className={activeStyle}>
+                <ListItem radio checked={newParagraph === 'Same'} onClick={() => {
+                    if(nextParagraphStyle !== 'Same') {
+                        setParagraph('Same');
+                        props.setParagraph('Same');
+                    }
+                }} title={t('Edit.textSameCreatedNewStyle')}></ListItem>
+                {paragraphStyles.map((style, index) => (
+                    <ListItem
+                        key={index}
+                        radio
+                        checked={newParagraph === style.name}
+                        onClick={() => {
+                            if(nextParagraphStyle !== style.name) {
+                                setParagraph(style.name);
+                                props.setParagraph(style.name);
+                            }
+                        }}
+                    >
+                        <div slot="inner"
+                            style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
+                        ></div>
+                    </ListItem>
+                ))}
+            </List>
+        </Page>
+    )
+
+}
 
 const EditParagraphContainer = inject("storeParagraphSettings", "storeFocusObjects")(observer(EditParagraph));
 const ParagraphAdvSettings = inject("storeParagraphSettings", "storeFocusObjects")(observer(PageAdvancedSettings));
 const PageParagraphBackColor = inject("storeParagraphSettings", "storePalette")(observer(PageBackgroundColor));
 const PageParagraphCustomColor = inject("storeParagraphSettings", "storePalette")(observer(PageCustomBackColor));
+const PageParagraphStyle = inject("storeParagraphSettings")(observer(EditParagraphStyle));
+const PageCreateTextStyle = inject("storeParagraphSettings")(observer(CreateTextStyle));
+const PageChangeNextParagraphStyle = inject("storeParagraphSettings")(observer(ChangeNextParagraphStyle));
 
-export {EditParagraphContainer as EditParagraph,
+export {
+        EditParagraphContainer as EditParagraph,
         ParagraphAdvSettings,
         PageParagraphBackColor,
-        PageParagraphCustomColor};
+        PageParagraphCustomColor,
+        PageParagraphStyle,
+        PageCreateTextStyle,
+        PageChangeNextParagraphStyle
+};
