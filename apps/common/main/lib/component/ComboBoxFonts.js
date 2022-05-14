@@ -92,6 +92,7 @@ define([
             this.supportBinaryFormat = (window['AscDesktopEditor'] && !window['AscDesktopEditor']['isSupportBinaryFontsSprite']) ? false : true;
 
             this.image = null;
+            this.binaryFormat = null;
             this.data = null;
             this.width = 0;
             this.height = 0;
@@ -122,7 +123,7 @@ define([
 
                     xhr.onload = function() {
                         // TODO: check errors
-                        me.openBinary(this.response);
+                        me.binaryFormat = this.response;
                         callback();
                     };
 
@@ -185,6 +186,11 @@ define([
                 }
 
                 if (this.supportBinaryFormat) {
+                    if (!this.data) {
+                        this.openBinary(this.binaryFormat);
+                        delete this.binaryFormat;
+                    }
+
                     var dataTmp = ctx.createImageData(this.width, this.heightOne);
                     var sizeImage = 4 * this.width * this.heightOne;
                     dataTmp.data.set(new Uint8ClampedArray(this.data.buffer, index * sizeImage, sizeImage));
