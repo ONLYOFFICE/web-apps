@@ -420,25 +420,45 @@ define([
                 data.forEach(function (item, ind) {
                     var isSelected = ind === me._state.currentResult;
                     var tr = '<div class="item" style="width: 100%;">' +
-                        '<div>' + item[1] + '</div>' +
-                        '<div>' + item[2] + '</div>' +
-                        '<div>' + item[3] + '</div>' +
-                        '<div>' + item[4] + '</div>' +
-                        '<div>' + item[5] + '</div>' +
+                        '<div class="sheet">' + (item[1] ? item[1] : '') + '</div>' +
+                        '<div class="name">' + (item[2] ? item[2] : '') + '</div>' +
+                        '<div class="cell">' + (item[3] ? item[3] : '') + '</div>' +
+                        '<div class="value">' + (item[4] ? item[4] : '') + '</div>' +
+                        '<div class="formula">' + (item[5] ? item[5] : '') + '</div>' +
                         '</div>';
                     var $item = $(tr).appendTo($innerResults);
                     if (isSelected) {
                         $item.addClass('selected');
                     }
-                    var resultItem = {id: item[0], $el: $item, el: tr, selected: isSelected};
+                    var resultItem = {id: item[0], $el: $item, el: tr, selected: isSelected, data: data};
                     me.resultItems.push(resultItem);
                     $item.on('click', _.bind(function (el) {
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
                     }, me));
+                    me.addTooltips($item, item);
                 });
                 this.view.$resultsContainer.show();
             }
+        },
+
+        addTooltips: function (item, data) {
+            var cells = [item.find('.sheet'), item.find('.name'), item.find('.cell'), item.find('.value'), item.find('.formula')],
+                tips = [data[1], data[2], data[3], data[4], data[5]];
+            cells.forEach(function (el, ind) {
+                var tip = tips[ind];
+                if (tip) {
+                    el.one('mouseenter', function () {
+                        el.attr('data-toggle', 'tooltip');
+                        el.tooltip({
+                            title: tip,
+                            placement: 'cursor',
+                            zIndex: 1000
+                        });
+                        el.mouseenter();
+                    });
+                }
+            });
         },
 
         hideResults: function () {
@@ -496,6 +516,7 @@ define([
                         $('#search-results').find('.item').removeClass('selected');
                         $(el.currentTarget).addClass('selected');
                     });
+                    me.addTooltips($item, item.data);
                 });
                 this.scrollToSelectedResult();
             }
