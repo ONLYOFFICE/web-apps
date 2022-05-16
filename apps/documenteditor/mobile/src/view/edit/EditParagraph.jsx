@@ -203,7 +203,10 @@ const EditParagraph = props => {
         <Fragment>
             <BlockTitle>{t('Edit.textParagraphStyle')}</BlockTitle>
             <List className={activeStyle} style={{marginBottom: 0}}>
-                <ListItem link="/edit-paragraph-style/" routeProps={{onStyleClick: props.onStyleClick}}>
+                <ListItem link="/edit-paragraph-style/" routeProps={{
+                    onStyleClick: props.onStyleClick,
+                    onSaveStyle: props.onSaveStyle
+                }}>
                     <div slot="inner"
                         style={{backgroundImage: 'url(' + curStyle.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
                     ></div>
@@ -256,7 +259,9 @@ const EditParagraphStyle = props => {
                 }
             </Navbar>
             <List style={{marginBottom: 0}}>
-                <ListItem title="Create new text style" href="/create-text-style/"></ListItem>
+                <ListItem title={t('Edit.textCreateTextStyle')} href="/create-text-style/" routeProps={{
+                    onSaveStyle: props.onSaveStyle
+                }}></ListItem>
             </List>
             <List className={activeStyle}>
                 {paragraphStyles.map((style, index) => (
@@ -280,20 +285,21 @@ const EditParagraphStyle = props => {
     )
 }
 
-const CreateTextStyle = () => {
+const CreateTextStyle = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const [titleNewStyle, setTitle] = useState('');
-    const [nextParagraphStyle, setParagraph] = useState('Same');
+    const [nextParagraphStyle, setParagraph] = useState('');
 
     return (
         <Page>
             <Navbar backLink={t('Edit.textBack')}>
                 <NavTitle>{t('Edit.textCreateTextStyle')}</NavTitle>
                 <NavRight>
-                    <Link disabled onClick={() => {
-                        if(titleNewStyle.trim()) {
-                            // console.log(titleNewStyle);
+                    <Link onClick={() => {
+                        let title = titleNewStyle.trim();
+                        if(title) {
+                            props.onSaveStyle(title, nextParagraphStyle);
                         }
                     }}>{t('Edit.textDone')}</Link>
                 </NavRight>
@@ -311,7 +317,7 @@ const CreateTextStyle = () => {
             </List>
             <BlockTitle>{t('Edit.textNextParagraphStyle')}</BlockTitle>
             <List>
-                <ListItem style={{paddingLeft: '5px'}} title={nextParagraphStyle === 'Same' ? t('Edit.textSameCreatedNewStyle') : nextParagraphStyle} href="/change-next-paragraph-style/" routeProps={{
+                <ListItem title={!nextParagraphStyle ? t('Edit.textSameCreatedNewStyle') : nextParagraphStyle} href="/change-next-paragraph-style/" routeProps={{
                     nextParagraphStyle,
                     setParagraph
                 }}></ListItem>
@@ -326,7 +332,6 @@ const ChangeNextParagraphStyle = props => {
     const nextParagraphStyle = props.nextParagraphStyle;
     const storeParagraphSettings = props.storeParagraphSettings;
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
-    // const curStyleName = storeParagraphSettings.styleName;
     const thumbSize = storeParagraphSettings.styleThumbSize;
     const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
     const [newParagraph, setParagraph] = useState(nextParagraphStyle);
@@ -335,10 +340,10 @@ const ChangeNextParagraphStyle = props => {
         <Page>
             <Navbar title={t('Edit.textNextParagraphStyle')} backLink={_t.textBack}></Navbar>
             <List className={activeStyle}>
-                <ListItem radio checked={newParagraph === 'Same'} onClick={() => {
-                    if(nextParagraphStyle !== 'Same') {
-                        setParagraph('Same');
-                        props.setParagraph('Same');
+                <ListItem style={{paddingLeft: '5px'}} radio checked={!newParagraph} onClick={() => {
+                    if(nextParagraphStyle) {
+                        setParagraph('');
+                        props.setParagraph('');
                     }
                 }} title={t('Edit.textSameCreatedNewStyle')}></ListItem>
                 {paragraphStyles.map((style, index) => (
