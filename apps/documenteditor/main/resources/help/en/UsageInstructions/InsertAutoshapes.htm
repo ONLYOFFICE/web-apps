@@ -17,12 +17,13 @@
             <h3>Insert an autoshape</h3>
 			<p>To add an autoshape in the <a href="https://www.onlyoffice.com/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>,</p>
 			<ol>
-                <li>switch to the <b>Insert</b> tab of the top toolbar,</li>
+				<li>switch to the <b>Insert</b> tab of the top toolbar,</li>
 				<li>click the <img alt="Shape icon" src="../images/insertautoshape.png" /> <b>Shape</b> icon on the top toolbar,</li>
-				<li>select one of the available autoshape groups: basic shapes, figured arrows, math, charts, stars &amp; ribbons, callouts, buttons, rectangles, lines,</li>
+				<li>select one of the available autoshape groups from the <b>Shape Gallery</b>: <em>Recently Used</em>, <em>Basic Shapes</em>, <em>Figured Arrows</em>, <em>Math</em>, <em>Charts</em>, <em>Stars & Ribbons</em>, <em>Callouts</em>, <em>Buttons</em>, <em>Rectangles</em>, <em>Lines</em>,</li>
 				<li>click the necessary autoshape within the selected group,</li>
 				<li>place the mouse cursor where the shape should be added,</li>
-				<li>once the autoshape is added, you can change its size, position and properties.
+				<li>
+					once the autoshape is added, you can change its size, position and properties.
 					<p class="note"><b>Note</b>: to add a caption to an autoshape, make sure the required shape is selected on the page and start typing your text. The added text becomes a part of the autoshape (when you move or rotate the shape, the text moves or rotates with it).</p>
 				</li>
 			</ol>
@@ -45,11 +46,27 @@
             <p id ="shape_rightclickmenu">To align and arrange autoshapes, use the <b>right-click menu</b>. The menu options are:</p>
 			<ul>
 				<li><b>Cut, Copy, Paste</b> - standard options which are used to cut or copy the selected text/object and paste the previously cut/copied text passage or object to the current cursor position.</li>
+				<li><b>Print selection</b> is used to print out only a selected portion of the document.</li>
+				<li><b>Accept / Reject changes</b> is used to accept or to reject tracked changes in a shared document.</li>
+				<li><b>Edit Points</b> is used to customize or to change the curvature of your shape.
+					<ol>
+						<li>To activate a shape’s editable anchor points, right-click the shape and choose <b>Edit Points</b> from the menu. The black squares that become active are the points where two lines meet, and the red line outlines the shape. Click and drag it to reposition the point, and to change the shape outline.</li>
+						<li>
+							Once you click the anchor point, two blue lines with white squares at the ends will appear. These are Bezier handles that allow you to create a curve and to change a curve’s smoothness.
+							<p><img alt="Edit Points" src="../images/editpoints_example.png" /></p>
+						</li>
+						<li>
+							As long as the anchor points are active, you can add and delete them.
+							<p><b>To add a point to a shape</b>, hold <b>Ctrl</b> and click the position where you want to add an anchor point.</p>
+							<p><b>To delete a point</b>, hold <b>Ctrl</b> and click the unnecessary point.</p>
+						</li>
+					</ol>
+				</li>
 				<li><b>Arrange</b> is used to bring the selected autoshape to foreground, send it to background, move forward or backward as well as group or ungroup shapes to perform operations with several of them at once. To learn more on how to arrange objects, please refer to <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">this page</a>.</li>
 				<li><b>Align</b> is used to align the shape to the left, in the center, to the right, at the top, in the middle, at the bottom. To learn more on how to align objects, please refer to <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">this page</a>.</li>
 				<li><b>Wrapping Style</b> is used to select a text wrapping style from the available ones - inline, square, tight, through, top and bottom, in front, behind - or edit the wrap boundary. The <b>Edit Wrap Boundary</b> option is available only if you select a wrapping style other than Inline. Drag wrap points to customize the boundary. To create a new wrap point, click anywhere on the red line and drag it to the necessary position. <img alt="Editing Wrap Boundary" src="../images/wrap_boundary.png" /></li>
-                <li><b>Rotate</b> is used to rotate the shape by 90 degrees clockwise or counterclockwise as well as to flip the shape horizontally or vertically.</li>
-                <li><b>Shape Advanced Settings</b> is used to open the 'Shape - Advanced Settings' window.</li>
+				<li><b>Rotate</b> is used to rotate the shape by 90 degrees clockwise or counterclockwise as well as to flip the shape horizontally or vertically.</li>
+				<li><b>Shape Advanced Settings</b> is used to open the 'Shape - Advanced Settings' window.</li>
 			</ul>
 			<hr />
 			<p>Some of the autoshape settings can be altered using the <b>Shape settings</b> tab of the right sidebar. To activate it click the shape and choose the <b>Shape settings</b> <img alt="Shape settings icon" src="../images/shape_settings_icon.png" /> icon on the right. Here you can change the following properties:</p>
@@ -68,7 +85,7 @@
                         <li>
                             <b>Style</b> - choose between <b>Linear</b> or <b>Radial</b>:
                             <ul>
-                                <li><b>Linear</b> is used  when you need your colors to flow from left-to-right, top-to-bottom, or at any angle you chose in a single direction. Click <b>Direction</b> to choose a preset direction and click <b>Angle</b> for a precise gradient angle.</li>
+								<li><b>Linear</b> is used  when you need your colors to flow from left-to-right, top-to-bottom, or at any angle you chose in a single direction. The <b>Direction</b> preview window displays the selected gradient color, click the arrow to choose a preset gradient direction. Use <b>Angle</b> settings for a precise gradient angle.</li>
                                 <li><b>Radial</b> is used to move from the center as it starts at a single point and emanates outward.</li>
                             </ul>
                         </li>
