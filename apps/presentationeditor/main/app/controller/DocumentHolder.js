@@ -93,7 +93,9 @@ define([
             this.addListeners({
                 'DocumentHolder': {
                     'createdelayedelements': this.createDelayedElements,
-                    'equation:callback': this.equationCallback
+                    'equation:callback': this.equationCallback,
+                    'layout:change': this.onLayoutChange,
+                    'theme:change': this.onThemeChange
                 }
             });
 
@@ -295,7 +297,10 @@ define([
             if (type=='view') {
                 view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuViewAddComment.on('click', _.bind(me.addComment, me));
-
+                view.menuViewUndo.on('click', _.bind(me.onUndo, me));
+                view.mnuPreview.on('click', _.bind(me.onPreview, me));
+                view.mnuSelectAll.on('click', _.bind(me.onSelectAll, me));
+                view.mnuPrintSelection.on('click', _.bind(me.onPrintSelection, me));
                 return;
             }
 
@@ -357,6 +362,8 @@ define([
             view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
             view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
             view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
+            view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
+            view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
@@ -364,6 +371,52 @@ define([
             view.menuAddToLayoutImg.on('click', _.bind(me.addToLayout, me));
             view.menuAddToLayoutTable.on('click', _.bind(me.addToLayout, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
+            view.langParaMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'para'));
+            view.langTableMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'table'));
+            view.mnuPreview.on('click', _.bind(me.onPreview, me));
+            view.mnuSelectAll.on('click', _.bind(me.onSelectAll, me));
+            view.mnuPrintSelection.on('click', _.bind(me.onPrintSelection, me));
+            view.mnuNewSlide.on('click', _.bind(me.onNewSlide, me));
+            view.mnuDuplicateSlide.on('click', _.bind(me.onDuplicateSlide, me));
+            view.mnuDeleteSlide.on('click', _.bind(me.onDeleteSlide, me));
+            view.mnuResetSlide.on('click', _.bind(me.onResetSlide, me));
+            view.mnuMoveSlideToStart.on('click', _.bind(me.onMoveSlideToStart, me));
+            view.mnuMoveSlideToEnd.on('click', _.bind(me.onMoveSlideToEnd, me));
+            view.menuSlideSettings.on('click', _.bind(me.onSlideSettings, me));
+            view.mnuSlideHide.on('click', _.bind(me.onSlideHide, me));
+            view.mnuTableMerge.on('click', _.bind(me.onTableMerge, me));
+            view.mnuTableSplit.on('click', _.bind(me.onTableSplit, me));
+            view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
+            view.menuTableDistRows.on('click', _.bind(me.onTableDistRows, me));
+            view.menuTableDistCols.on('click', _.bind(me.onTableDistCols, me));
+            view.menuIgnoreSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuIgnoreSpellPara.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuIgnoreAllSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuIgnoreAllSpellPara.on('click', _.bind(me.onIgnoreSpell, me));
+            view.menuToDictionaryTable.on('click', _.bind(me.onToDictionary, me));
+            view.menuToDictionaryPara.on('click', _.bind(me.onToDictionary, me));
+            view.menuTableAdvanced.on('click', _.bind(me.onTableAdvanced, me));
+            view.menuImageAdvanced.on('click', _.bind(me.onImageAdvanced, me));
+            view.menuImgOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
+            view.menuImgShapeRotate.menu.items[0].on('click', _.bind(me.onImgRotate, me));
+            view.menuImgShapeRotate.menu.items[1].on('click', _.bind(me.onImgRotate, me));
+            view.menuImgShapeRotate.menu.items[3].on('click', _.bind(me.onImgFlip, me));
+            view.menuImgShapeRotate.menu.items[4].on('click', _.bind(me.onImgFlip, me));
+            view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
+            view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+            view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
+            view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
+            view.mnuGroupImg.on('click', _.bind(me.onGroupImg, me));
+            view.mnuUnGroupImg.on('click', _.bind(me.onUnGroupImg, me));
+            view.mnuArrangeFront.on('click', _.bind(me.onArrangeFront, me));
+            view.mnuArrangeBack.on('click', _.bind(me.onArrangeBack, me));
+            view.mnuArrangeForward.on('click', _.bind(me.onArrangeForward, me));
+            view.mnuArrangeBackward.on('click', _.bind(me.onArrangeBackward, me));
+            view.menuImgShapeAlign.menu.on('item:click', _.bind(me.onImgShapeAlign, me));
+            view.menuParagraphVAlign.menu.on('item:click', _.bind(me.onParagraphVAlign, me));
+            view.menuParagraphDirection.menu.on('item:click', _.bind(me.onParagraphDirection, me));
+
+
 
         },
 
@@ -1228,6 +1281,16 @@ define([
             }
         },
 
+        removeHyperlink: function(item) {
+            if (this.api){
+                this.api.remove_Hyperlink();
+            }
+
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
+        },
+
+
         /** coauthoring begin **/
         addComment: function(item, e, eOpt){
             if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
@@ -1448,6 +1511,463 @@ define([
                     me.onInsertImage();
                 }, 10);
             }
+        },
+
+        onLangMenu: function(type, menu, item){
+            var me = this;
+            if (me.api){
+                if (!_.isUndefined(item.langid))
+                    me.api.put_TextPrLang(item.langid);
+
+                (type==='para') ? (me.documentHolder._currLang.paraid = item.langid) : (me.documentHolder._currLang.tableid = item.langid);
+                me.editComplete();
+            }
+        },
+
+        onUndo: function () {
+            this.api.Undo();
+        },
+
+        onPreview: function () {
+            var current = this.api.getCurrentPage();
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
+        },
+
+        onSelectAll: function () {
+            if (this.api){
+                this.api.SelectAllSlides();
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Select All Slides');
+            }
+        },
+
+        onPrintSelection: function () {
+            if (this.api){
+                var printopt = new Asc.asc_CAdjustPrint();
+                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
+                opts.asc_setAdvancedOptions(printopt);
+                this.api.asc_Print(opts);
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+            }
+        },
+
+        onNewSlide: function () {
+            if (this.api){
+                this._isFromSlideMenu = true;
+                this.api.AddSlide();
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Slide');
+            }
+        },
+
+        onDuplicateSlide: function () {
+            if (this.api){
+                this._isFromSlideMenu = true;
+                this.api.DublicateSlide();
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Dublicate Slide');
+            }
+        },
+
+        onDeleteSlide: function () {
+            if (this.api){
+                this._isFromSlideMenu = true;
+                this.api.DeleteSlide();
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Slide');
+            }
+        },
+
+        onResetSlide: function () {
+            if (this.api){
+                this.api.ResetSlide();
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Reset Slide');
+            }
+        },
+
+        onMoveSlideToStart: function () {
+            if (this.api){
+                this.api.asc_moveSelectedSlidesToStart();
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to Start');
+            }
+        },
+
+        onMoveSlideToEnd: function () {
+            if (this.api){
+                this.api.asc_moveSelectedSlidesToEnd();
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to End');
+            }
+        },
+
+        onSlideSettings: function (item) {
+            PE.getController('RightMenu').onDoubleClickOnObject(item.options.value);
+        },
+
+        onSlideHide: function (item) {
+            if (this.api){
+                this.api.asc_HideSlides(item.checked);
+
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Hide Slides');
+            }
+        },
+
+        onLayoutChange: function (record) {
+            if (this.api) {
+                this.api.ChangeLayout(record.get('data').idx);
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Change Layout');
+            }
+        },
+
+        onThemeChange: function (record) {
+            if (this.api) {
+                this.api.ChangeTheme(record.get('themeId'), true);
+                this.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Change Layout');
+            }
+        },
+
+        onTableMerge: function () {
+            this.api && this.api.MergeCells();
+        },
+
+        onTableSplit: function () {
+            var me = this.api;
+            if (me.api) {
+                (new Common.Views.InsertTableDialog({
+                    split: true,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.SplitCell(value.columns, value.rows);
+                            }
+                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
+                        }
+                        me.editComplete();
+                    }
+                })).show();
+            }
+        },
+
+        tableCellsVAlign: function(menu, item, e) {
+            if (this.api) {
+                var properties = new Asc.CTableProp();
+                properties.put_CellsVAlign(item.value);
+                this.api.tblApply(properties);
+            }
+
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Cell Align');
+        },
+
+        onTableDistRows: function () {
+            this.api && this.api.asc_DistributeTableCells(false);
+            this.editComplete();
+        },
+
+        onTableDistCols: function () {
+            this.api && this.api.asc_DistributeTableCells(true);
+            this.editComplete();
+        },
+
+        onIgnoreSpell: function(item, e){
+            this.api && this.api.asc_ignoreMisspelledWord(this.documentHolder._currentSpellObj, !!item.value);
+            this.editComplete();
+        },
+
+        onToDictionary: function(item, e){
+            this.api && this.api.asc_spellCheckAddToDictionary(this.documentHolder._currentSpellObj);
+            this.editComplete();
+        },
+
+        onTableAdvanced: function(item, e){
+            var me = this;
+            if (me.api) {
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
+                            (new PE.Views.TableSettingsAdvanced(
+                                {
+                                    tableProps: elValue,
+                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.tblApply(value.tableProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Table Settings Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onImageAdvanced: function(item) {
+            var me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length>0){
+                    var elType, elValue;
+
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                            var imgsizeOriginal;
+
+                            if (!me.documentHolder.menuImgOriginalSize.isDisabled()) {
+                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                if (imgsizeOriginal)
+                                    imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
+                            }
+
+                            (new PE.Views.ImageSettingsAdvanced(
+                                {
+                                    imageProps: elValue,
+                                    sizeOriginal: imgsizeOriginal,
+                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ImgApply(value.imageProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Settings Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onImgOriginalSize: function(item){
+            var me = this;
+            if (me.api){
+                var originalImageSize = me.api.get_OriginalSizeImage();
+
+                if (originalImageSize) {
+                    var properties = new Asc.asc_CImgProperty();
+
+                    properties.put_Width(originalImageSize.get_ImageWidth());
+                    properties.put_Height(originalImageSize.get_ImageHeight());
+                    properties.put_ResetCrop(true);
+                    properties.put_Rot(0);
+                    me.api.ImgApply(properties);
+                }
+
+                me.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
+            }
+        },
+
+        onImgRotate: function(item) {
+            var properties = new Asc.asc_CShapeProperty();
+            properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.api.ShapeApply(properties);
+            this.editComplete();
+        },
+
+        onImgFlip: function(item) {
+            var properties = new Asc.asc_CShapeProperty();
+            if (item.value==1)
+                properties.asc_putFlipHInvert(true);
+            else
+                properties.asc_putFlipVInvert(true);
+            this.api.ShapeApply(properties);
+            this.editComplete();
+        },
+
+        onImgCrop: function(menu, item) {
+            if (item.value == 1) {
+                this.api.asc_cropFill();
+            } else if (item.value == 2) {
+                this.api.asc_cropFit();
+            } else {
+                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            this.editComplete();
+        },
+
+        onImgEditPoints: function(item) {
+            this.api && this.api.asc_editPointsGeometry();
+        },
+
+        onShapeAdvanced: function(item) {
+            var me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length>0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+                        if (Asc.c_oAscTypeSelectElement.Shape == elType) {
+                            (new PE.Views.ShapeSettingsAdvanced(
+                                {
+                                    shapeProps: elValue,
+                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ShapeApply(value.shapeProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onParagraphAdvanced: function(item) {
+            var me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                            (new PE.Views.ParagraphSettingsAdvanced(
+                                {
+                                    paragraphProps: elValue,
+                                    api: me.api,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.paraApply(value.paragraphProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Paragraph Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onGroupImg: function(item) {
+            this.api && this.api.groupShapes();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Group Image');
+        },
+
+        onUnGroupImg: function(item) {
+            this.api && this.api.unGroupShapes();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'UnGroup Image');
+        },
+
+        onArrangeFront: function(item) {
+            this.api && this.api.shapes_bringToFront();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Front');
+        },
+
+        onArrangeBack: function(item) {
+            this.api && this.api.shapes_bringToBack();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Back');
+        },
+
+        onArrangeForward: function(item) {
+            this.api && this.api.shapes_bringForward();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Forward');
+        },
+
+        onArrangeBackward: function(item) {
+            this.api && this.api.shapes_bringBackward();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Backward');
+        },
+
+        onImgShapeAlign: function (menu, item) {
+            var me = this;
+            if (me.api) {
+                var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pe-align-to-slide");
+                value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                if (item.value < 6) {
+                    me.api.put_ShapesAlign(item.value, value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                } else if (item.value == 6) {
+                    me.api.DistributeHorizontally(value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                } else if (item.value == 7){
+                    me.api.DistributeVertically(value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
+                }
+                me.editComplete();
+            }
+        },
+
+        onParagraphVAlign: function (menu, item) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.put_VerticalTextAlign(item.value);
+
+                me.api.ShapeApply(properties);
+            }
+
+            me.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Vertical Align');
+        },
+
+        onParagraphDirection: function(menu, item) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.put_Vert(item.options.direction);
+                me.api.ShapeApply(properties);
+            }
+            me.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
+        },
+
+
+
+        SetDisabled: function(state) {
+            this._isDisabled = state;
+            this.documentHolder.SetDisabled(state);
         },
 
         editComplete: function() {

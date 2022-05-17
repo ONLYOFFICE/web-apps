@@ -797,11 +797,9 @@ define([
                 value: 'copy'
             });
 
-            var menuViewUndo = new Common.UI.MenuItem({
+            me.menuViewUndo = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
-            }).on('click', function () {
-                me.api.Undo();
             });
 
             var menuViewCopySeparator = new Common.UI.MenuItem({
@@ -816,15 +814,15 @@ define([
             this.viewModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
-                    menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
+                    me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
                     menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     me.menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     me.menuViewAddComment.setDisabled(value.locked);
                 },
                 items: [
                     me.menuViewCopy,
-                    menuViewUndo,
+                    me.menuViewUndo,
                     menuViewCopySeparator,
                     me.menuViewAddComment
                 ]
@@ -838,53 +836,33 @@ define([
                 me.currentMenu = null;
             });
 
-            var mnuPreview = new Common.UI.MenuItem({
+            me.mnuPreview = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-preview',
                 caption : me.txtPreview
-            }).on('click', function(item) {
-                var current = me.api.getCurrentPage();
-                Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
             });
 
-            var mnuSelectAll = new Common.UI.MenuItem({
+            me.mnuSelectAll = new Common.UI.MenuItem({
                 caption : me.txtSelectAll
-            }).on('click', function(item){
-                if (me.api){
-                    me.api.SelectAllSlides();
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Select All Slides');
-                }
             });
 
-            var mnuPrintSelection = new Common.UI.MenuItem({
+            me.mnuPrintSelection = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
-            }).on('click', function(item){
-                if (me.api){
-                    var printopt = new Asc.asc_CAdjustPrint();
-                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
-                    opts.asc_setAdvancedOptions(printopt);
-                    me.api.asc_Print(opts);
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
-                }
             });
 
             this.viewModeMenuSlide = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
-                    mnuSelectAll.setDisabled(me.slidesCount<2);
-                    mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
-                    mnuPrintSelection.setDisabled(me.slidesCount<1);
-                    mnuPreview.setDisabled(me.slidesCount<1);
+                    me.mnuSelectAll.setDisabled(me.slidesCount<2);
+                    me.mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
+                    me.mnuPrintSelection.setDisabled(me.slidesCount<1);
+                    me.mnuPreview.setDisabled(me.slidesCount<1);
                 },
                 items: [
-                    mnuSelectAll,
-                    mnuPrintSelection,
+                    me.mnuSelectAll,
+                    me.mnuPrintSelection,
                     {caption: '--'},
-                    mnuPreview
+                    me.mnuPreview
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -902,19 +880,11 @@ define([
         createDelayedElements: function(){
             var me = this;
 
-            var mnuDeleteSlide = new Common.UI.MenuItem({
+            me.mnuDeleteSlide = new Common.UI.MenuItem({
                 caption     : me.txtDeleteSlide
-            }).on('click', function(item) {
-                if (me.api){
-                    me._isFromSlideMenu = true;
-                    me.api.DeleteSlide();
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Delete Slide');
-                }
             });
 
-            var mnuChangeSlide = new Common.UI.MenuItem({
+            me.mnuChangeSlide = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-changeslide',
                 caption     : me.txtChangeLayout,
                 menu        : new Common.UI.Menu({
@@ -925,15 +895,16 @@ define([
                 })
             });
 
-            var mnuResetSlide = new Common.UI.MenuItem({
+            me.mnuResetSlide = new Common.UI.MenuItem({
                 caption     : me.txtResetLayout
-            }).on('click', function(item) {
-                if (me.api){
-                    me.api.ResetSlide();
+            });
 
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Reset Slide');
-                }
+            me.mnuNewSlide = new Common.UI.MenuItem({
+                caption     : me.txtNewSlide
+            });
+
+            me.mnuDuplicateSlide = new Common.UI.MenuItem({
+                caption     : me.txtDuplicateSlide
             });
 
             var mnuChangeTheme = new Common.UI.MenuItem({
@@ -946,60 +917,26 @@ define([
                 })
             });
 
-            var mnuPreview = new Common.UI.MenuItem({
+            me.mnuPreview = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-preview',
                 caption : me.txtPreview
-            }).on('click', function(item) {
-                var current = me.api.getCurrentPage();
-                Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
             });
 
-            var mnuSelectAll = new Common.UI.MenuItem({
+            me.mnuSelectAll = new Common.UI.MenuItem({
                 caption : me.txtSelectAll
-            }).on('click', function(item){
-                if (me.api){
-                    me.api.SelectAllSlides();
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Select All Slides');
-                }
             });
 
-            var mnuPrintSelection = new Common.UI.MenuItem({
+            me.mnuPrintSelection = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
-            }).on('click', function(item){
-                if (me.api){
-                    var printopt = new Asc.asc_CAdjustPrint();
-                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
-                    opts.asc_setAdvancedOptions(printopt);
-                    me.api.asc_Print(opts);
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
-                }
             });
 
-            var mnuMoveSlideToStart = new  Common.UI.MenuItem({
+            me.mnuMoveSlideToStart = new  Common.UI.MenuItem({
                 caption: me.txtMoveSlidesToStart
-            }).on('click', function(item){
-                if (me.api) {
-                    me.api.asc_moveSelectedSlidesToStart();
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to Start');
-                }
             });
 
-            var mnuMoveSlideToEnd = new  Common.UI.MenuItem({
+            me.mnuMoveSlideToEnd = new  Common.UI.MenuItem({
                 caption: me.txtMoveSlidesToEnd
-            }).on('click', function(item){
-                if (me.api) {
-                    me.api.asc_moveSelectedSlidesToEnd();
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Move Slide to End');
-                }
             });
 
             me.menuSlidePaste = new Common.UI.MenuItem({
@@ -1008,25 +945,16 @@ define([
                 value : 'paste'
             });
 
-            var menuSlideSettings = new Common.UI.MenuItem({
+            me.menuSlideSettings = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-slide',
                 caption : me.textSlideSettings,
                 value : null
-            }).on('click', function(item){
-                PE.getController('RightMenu').onDoubleClickOnObject(item.options.value);
             });
 
-            var mnuSlideHide = new Common.UI.MenuItem({
+            me.mnuSlideHide = new Common.UI.MenuItem({
                 caption : me.txtSlideHide,
                 checkable: true,
                 checked: false
-            }).on('click', function(item){
-                if (me.api){
-                    me.api.asc_HideSlides(item.checked);
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Hide Slides');
-                }
             });
 
             me.slideMenu = new Common.UI.Menu({
@@ -1038,18 +966,18 @@ define([
                     me.menuSlidePaste.setVisible(value.fromThumbs!==true);
                     me.slideMenu.items[1].setVisible(value.fromThumbs===true); // New Slide
                     me.slideMenu.items[2].setVisible(value.isSlideSelect===true); // Duplicate Slide
-                    mnuDeleteSlide.setVisible(value.isSlideSelect===true);
-                    mnuSlideHide.setVisible(value.isSlideSelect===true);
-                    mnuSlideHide.setChecked(value.isSlideHidden===true);
+                    me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
+                    me.mnuSlideHide.setVisible(value.isSlideSelect===true);
+                    me.mnuSlideHide.setChecked(value.isSlideHidden===true);
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    mnuResetSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.mnuResetSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    menuSlideSettings.options.value = null;
+                    me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    me.menuSlideSettings.options.value = null;
                     me.slideMenu.items[13].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
-                    mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
-                    mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
+                    me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
+                    me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
                     me.slideMenu.items[16].setVisible(value.fromThumbs===true);
                     me.slideMenu.items[17].setVisible(value.fromThumbs===true);
                     
@@ -1057,7 +985,7 @@ define([
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
 
-                    mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
+                    me.mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
 
                     var selectedElements = me.api.getSelectedElements(),
                         locked           = false,
@@ -1070,7 +998,7 @@ define([
                                 locked          = elValue.get_LockDelete();
                                 lockedDeleted   = elValue.get_LockRemove();
                                 lockedLayout    = elValue.get_LockLayout();
-                                menuSlideSettings.options.value = element;
+                                me.menuSlideSettings.options.value = element;
                                 me.slideLayoutMenu.options.layout_index = elValue.get_LayoutIndex();
                                 return false;
                             }
@@ -1079,54 +1007,34 @@ define([
                     for (var i = 0; i < 3; i++) {
                         me.slideMenu.items[i].setDisabled(locked);
                     }
-                    mnuPreview.setDisabled(me.slidesCount<1);
-                    mnuSelectAll.setDisabled(me.slidesCount<2);
-                    mnuDeleteSlide.setDisabled(lockedDeleted || locked);
-                    mnuChangeSlide.setDisabled(lockedLayout || locked);
-                    mnuResetSlide.setDisabled(lockedLayout || locked);
+                    me.mnuPreview.setDisabled(me.slidesCount<1);
+                    me.mnuSelectAll.setDisabled(me.slidesCount<2);
+                    me.mnuDeleteSlide.setDisabled(lockedDeleted || locked);
+                    me.mnuChangeSlide.setDisabled(lockedLayout || locked);
+                    me.mnuResetSlide.setDisabled(lockedLayout || locked);
                     mnuChangeTheme.setDisabled(me._state.themeLock || locked );
-                    mnuSlideHide.setDisabled(lockedLayout || locked);
-                    mnuPrintSelection.setDisabled(me.slidesCount<1);
+                    me.mnuSlideHide.setDisabled(lockedLayout || locked);
+                    me.mnuPrintSelection.setDisabled(me.slidesCount<1);
                 },
                 items: [
                     me.menuSlidePaste,
-                    new Common.UI.MenuItem({
-                        caption : me.txtNewSlide
-                    }).on('click', function(item) {
-                        if (me.api) {
-                            me._isFromSlideMenu = true;
-                            me.api.AddSlide();
-
-                            me.fireEvent('editcomplete', me);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Add Slide');
-                        }
-                    }),
-                    new Common.UI.MenuItem({
-                        caption : me.txtDuplicateSlide
-                    }).on('click', function(item){
-                        if (me.api) {
-                            me._isFromSlideMenu = true;
-                            me.api.DublicateSlide();
-
-                            me.fireEvent('editcomplete', me);
-                            Common.component.Analytics.trackEvent('DocumentHolder', 'Dublicate Hyperlink');
-                        }
-                    }),
-                    mnuDeleteSlide,
-                    mnuSlideHide,
+                    me.mnuNewSlide,
+                    me.mnuDuplicateSlide,
+                    me.mnuDeleteSlide,
+                    me.mnuSlideHide,
                     {caption: '--'},
-                    mnuChangeSlide,
-                    mnuResetSlide,
+                    me.mnuChangeSlide,
+                    me.mnuResetSlide,
                     mnuChangeTheme,
-                    menuSlideSettings,
+                    me.menuSlideSettings,
                     {caption: '--'},
-                    mnuSelectAll,
-                    mnuPrintSelection,
+                    me.mnuSelectAll,
+                    me.mnuPrintSelection,
                     {caption: '--'},
-                    mnuMoveSlideToStart,
-                    mnuMoveSlideToEnd,
+                    me.mnuMoveSlideToStart,
+                    me.mnuMoveSlideToEnd,
                     {caption: '--'},
-                    mnuPreview
+                    me.mnuPreview
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -1139,7 +1047,7 @@ define([
             }).on('render:after', function(cmp) {
                 me.slideLayoutMenu = new Common.UI.DataView({
                     el          : $('#id-docholder-menu-changeslide'),
-                    parentMenu  : mnuChangeSlide.menu,
+                    parentMenu  : me.mnuChangeSlide.menu,
                     style: 'max-height: 300px;',
                     restoreWidth: 302,
                     store       : PE.getCollection('SlideLayouts'),
@@ -1150,17 +1058,13 @@ define([
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        me.api.ChangeLayout(record.get('data').idx);
-                        if (e.type !== 'click')
-                            me.slideMenu.hide();
-                        me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Change Layout');
-                    }
+                    if (e.type !== 'click')
+                        me.slideMenu.hide();
+                    me.fireEvent('layout:change', [record]);
                 });
 
                 if (me.slideMenu) {
-                    mnuChangeSlide.menu.on('show:after', function (menu) {
+                    me.mnuChangeSlide.menu.on('show:after', function (menu) {
                         me.onSlidePickerShowAfter(me.slideLayoutMenu);
                         me.slideLayoutMenu.scroller.update({alwaysVisibleY: true});
 
@@ -1188,13 +1092,9 @@ define([
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        me.api.ChangeTheme(record.get('themeId'), true);
-                        if (e.type !== 'click')
-                            me.slideMenu.hide();
-                        me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Change Theme');
-                    }
+                    if (e.type !== 'click')
+                        me.slideMenu.hide();
+                    me.fireEvent('theme:change', [record]);
                 });
 
                 if (me.slideMenu) {
@@ -1208,96 +1108,57 @@ define([
                 }
             });
 
-            var mnuTableMerge = new Common.UI.MenuItem({
+            me.mnuTableMerge = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
-            }).on('click', function(item) {
-                if (me.api)
-                    me.api.MergeCells();
             });
 
-            var mnuTableSplit = new Common.UI.MenuItem({
+            me.mnuTableSplit = new Common.UI.MenuItem({
                 caption     : me.splitCellsText
-            }).on('click', function(item) {
-                if (me.api) {
-                    (new Common.Views.InsertTableDialog({
-                        split: true,
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                if (me.api) {
-                                    me.api.SplitCell(value.columns, value.rows);
-                                }
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
-                            }
-                            me.fireEvent('editcomplete', me);
-                        }
-                    })).show();
-                }
             });
 
-            var menuTableCellAlign = new Common.UI.MenuItem({
+            me.menuTableCellAlign = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-align-top',
-                caption     : me.cellAlignText,
-                menu    : (function(){
-                    function onItemClick(item, e) {
-                        if (me.api) {
-                            var properties = new Asc.CTableProp();
-                            properties.put_CellsVAlign(item.value);
-                            me.api.tblApply(properties);
-                        }
-
-                        me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Table Cell Align');
-                    }
-
-                    return new Common.UI.Menu({
-                        cls: 'shifted-right',
-                        menuAlign: 'tl-tr',
-                        items: [
-                            me.menuTableCellTop = new Common.UI.MenuItem({
-                                iconCls: 'menu__icon btn-align-top',
-                                caption     : me.textShapeAlignTop,
-                                checkable   : true,
-                                checkmark   : false,
-                                toggleGroup : 'popuptablecellalign',
-                                value       : Asc.c_oAscVertAlignJc.Top
-                            }).on('click', _.bind(onItemClick, me)),
-                            me.menuTableCellCenter = new Common.UI.MenuItem({
-                                iconCls: 'menu__icon btn-align-middle',
-                                caption     : me.textShapeAlignMiddle,
-                                checkable   : true,
-                                checkmark   : false,
-                                toggleGroup : 'popuptablecellalign',
-                                value       : Asc.c_oAscVertAlignJc.Center
-                            }).on('click', _.bind(onItemClick, me)),
-                            me.menuTableCellBottom = new Common.UI.MenuItem({
-                                iconCls: 'menu__icon btn-align-bottom',
-                                caption     : me.textShapeAlignBottom,
-                                checkable   : true,
-                                checkmark   : false,
-                                toggleGroup : 'popuptablecellalign',
-                                value       : Asc.c_oAscVertAlignJc.Bottom
-                            }).on('click', _.bind(onItemClick, me))
-                        ]
-                    })
-                })()
+                caption  : me.cellAlignText,
+                menu    : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuTableCellTop = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-top',
+                            caption     : me.textShapeAlignTop,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellalign',
+                            value       : Asc.c_oAscVertAlignJc.Top
+                        }),
+                        me.menuTableCellCenter = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-middle',
+                            caption     : me.textShapeAlignMiddle,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellalign',
+                            value       : Asc.c_oAscVertAlignJc.Center
+                        }),
+                        me.menuTableCellBottom = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-bottom',
+                            caption     : me.textShapeAlignBottom,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popuptablecellalign',
+                            value       : Asc.c_oAscVertAlignJc.Bottom
+                        })
+                    ]
+                })
             });
 
-            var menuTableDistRows = new Common.UI.MenuItem({
+            me.menuTableDistRows = new Common.UI.MenuItem({
                 caption : me.textDistributeRows
-            }).on('click', _.bind(function(){
-                if (me.api)
-                    me.api.asc_DistributeTableCells(false);
-                me.fireEvent('editcomplete', me);
-            }, me));
+            });
 
-            var menuTableDistCols = new Common.UI.MenuItem({
+            me.menuTableDistCols = new Common.UI.MenuItem({
                 caption : me.textDistributeCols
-            }).on('click', _.bind(function(){
-                if (me.api)
-                    me.api.asc_DistributeTableCells(true);
-                me.fireEvent('editcomplete', me);
-            }, me));
+            });
 
             me.menuSpellTable = new Common.UI.MenuItem({
                 caption     : me.loadSpellText,
@@ -1334,29 +1195,18 @@ define([
                 })
             });
 
-            var menuIgnoreSpellTable = new Common.UI.MenuItem({
-                caption     : me.ignoreSpellText
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.asc_ignoreMisspelledWord(me._currentSpellObj, false);
-                    me.fireEvent('editcomplete', me);
-                }
+            me.menuIgnoreSpellTable = new Common.UI.MenuItem({
+                caption     : me.ignoreSpellText,
+                value: false
             });
 
-            var menuIgnoreAllSpellTable = new Common.UI.MenuItem({
-                caption     : me.ignoreAllSpellText
-            }).on('click', function(menu) {
-                if (me.api) {
-                    me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
-                    me.fireEvent('editcomplete', me);
-                }
+            me.menuIgnoreAllSpellTable = new Common.UI.MenuItem({
+                caption     : me.ignoreAllSpellText,
+                value: true
             });
 
-            var menuToDictionaryTable = new Common.UI.MenuItem({
+            me.menuToDictionaryTable = new Common.UI.MenuItem({
                 caption     : me.toDictionaryText
-            }).on('click', function(item, e) {
-                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
@@ -1377,9 +1227,9 @@ define([
                         me.menuSpellTable,
                         me.menuSpellMoreTable,
                         menuIgnoreSpellTableSeparator,
-                        menuIgnoreSpellTable,
-                        menuIgnoreAllSpellTable,
-                        menuToDictionaryTable,
+                        me.menuIgnoreSpellTable,
+                        me.menuIgnoreAllSpellTable,
+                        me.menuToDictionaryTable,
                         { caption: '--' },
                         me.langTableMenu
                     ]
@@ -1414,25 +1264,18 @@ define([
                 })
             });
 
-            var menuIgnoreSpellPara = new Common.UI.MenuItem({
-                caption     : me.ignoreSpellText
-            }).on('click', function(item, e) {
-                me.api.asc_ignoreMisspelledWord(me._currentSpellObj, false);
-                me.fireEvent('editcomplete', me);
+            me.menuIgnoreSpellPara = new Common.UI.MenuItem({
+                caption     : me.ignoreSpellText,
+                value: false
             });
 
-            var menuIgnoreAllSpellPara = new Common.UI.MenuItem({
-                caption     : me.ignoreAllSpellText
-            }).on('click', function(item, e) {
-                me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
-                me.fireEvent('editcomplete', me);
+            me.menuIgnoreAllSpellPara = new Common.UI.MenuItem({
+                caption     : me.ignoreAllSpellText,
+                value: true
             });
 
-            var menuToDictionaryPara = new Common.UI.MenuItem({
+            me.menuToDictionaryPara = new Common.UI.MenuItem({
                 caption     : me.toDictionaryText
-            }).on('click', function(item, e) {
-                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
-                me.fireEvent('editcomplete', me);
             });
 
             var menuIgnoreSpellParaSeparator = new Common.UI.MenuItem({
@@ -1443,151 +1286,24 @@ define([
                 caption     : '--'
             });
 
-            var menuTableAdvanced = new Common.UI.MenuItem({
+            me.menuTableAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-table',
                 caption     : me.advancedTableText
-            }).on('click', function(item) {
-                if (me.api) {
-                    var selectedElements = me.api.getSelectedElements();
-
-                    if (selectedElements && selectedElements.length > 0){
-                        var elType, elValue;
-                        for (var i = selectedElements.length - 1; i >= 0; i--) {
-                            elType  = selectedElements[i].get_ObjectType();
-                            elValue = selectedElements[i].get_ObjectValue();
-
-                            if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                                (new PE.Views.TableSettingsAdvanced(
-                                    {
-                                        tableProps: elValue,
-                                        slideSize: PE.getController('Toolbar').currentPageSize,
-                                        handler: function(result, value) {
-                                            if (result == 'ok') {
-                                                if (me.api) {
-                                                    me.api.tblApply(value.tableProps);
-                                                }
-                                            }
-                                            me.fireEvent('editcomplete', me);
-                                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Settings Advanced');
-                                        }
-                                    })).show();
-                                break;
-                            }
-                        }
-                    }
-                }
             });
 
-            var menuImageAdvanced = new Common.UI.MenuItem({
+            me.menuImageAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-image',
                 caption     : me.advancedImageText
-            }).on('click', function(item) {
-                if (me.api){
-                    var selectedElements = me.api.getSelectedElements();
-                    if (selectedElements && selectedElements.length>0){
-                        var elType, elValue;
-
-                        for (var i = selectedElements.length - 1; i >= 0; i--) {
-                            elType  = selectedElements[i].get_ObjectType();
-                            elValue = selectedElements[i].get_ObjectValue();
-
-                            if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                                var imgsizeOriginal;
-
-                                if (!menuImgOriginalSize.isDisabled()) {
-                                    imgsizeOriginal = me.api.get_OriginalSizeImage();
-                                    if (imgsizeOriginal)
-                                        imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
-                                }
-
-                                (new PE.Views.ImageSettingsAdvanced(
-                                    {
-                                        imageProps: elValue,
-                                        sizeOriginal: imgsizeOriginal,
-                                        slideSize: PE.getController('Toolbar').currentPageSize,
-                                        handler: function(result, value) {
-                                            if (result == 'ok') {
-                                                if (me.api) {
-                                                    me.api.ImgApply(value.imageProps);
-                                                }
-                                            }
-                                            me.fireEvent('editcomplete', me);
-                                            Common.component.Analytics.trackEvent('DocumentHolder', 'Image Settings Advanced');
-                                        }
-                                    })).show();
-                                break;
-                            }
-                        }
-                    }
-                }
             });
 
-            var menuShapeAdvanced = new Common.UI.MenuItem({
+            me.menuShapeAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-shape',
                 caption     : me.advancedShapeText
-            }).on('click', function(item) {
-                if (me.api){
-                    var selectedElements = me.api.getSelectedElements();
-                    if (selectedElements && selectedElements.length>0){
-                        var elType, elValue;
-                        for (var i = selectedElements.length - 1; i >= 0; i--) {
-                            elType = selectedElements[i].get_ObjectType();
-                            elValue = selectedElements[i].get_ObjectValue();
-                            if (Asc.c_oAscTypeSelectElement.Shape == elType) {
-                                (new PE.Views.ShapeSettingsAdvanced(
-                                    {
-                                        shapeProps: elValue,
-                                        slideSize: PE.getController('Toolbar').currentPageSize,
-                                        handler: function(result, value) {
-                                            if (result == 'ok') {
-                                                if (me.api) {
-                                                    me.api.ShapeApply(value.shapeProps);
-                                                }
-                                            }
-                                            me.fireEvent('editcomplete', me);
-                                            Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Advanced');
-                                        }
-                                    })).show();
-                                break;
-                            }
-                        }
-                    }
-                }
             });
 
-            var menuParagraphAdvanced = new Common.UI.MenuItem({
+            me.menuParagraphAdvanced = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paragraph',
                 caption     : me.advancedParagraphText
-            }).on('click', function(item) {
-                if (me.api){
-                    var selectedElements = me.api.getSelectedElements();
-
-                    if (selectedElements && selectedElements.length > 0){
-                        var elType, elValue;
-                        for (var i = selectedElements.length - 1; i >= 0; i--) {
-                            elType  = selectedElements[i].get_ObjectType();
-                            elValue = selectedElements[i].get_ObjectValue();
-
-                            if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                                (new PE.Views.ParagraphSettingsAdvanced(
-                                    {
-                                        paragraphProps: elValue,
-                                        api: me.api,
-                                        handler: function(result, value) {
-                                            if (result == 'ok') {
-                                                if (me.api) {
-                                                    me.api.paraApply(value.paragraphProps);
-                                                }
-                                            }
-                                            me.fireEvent('editcomplete', me);
-                                            Common.component.Analytics.trackEvent('DocumentHolder', 'Image Paragraph Advanced');
-                                        }
-                                    })).show();
-                                break;
-                            }
-                        }
-                    }
-                }
             });
 
             var menuCommentParaSeparator = new Common.UI.MenuItem({
@@ -1603,15 +1319,8 @@ define([
                 caption : me.editHyperlinkText
             });
 
-            var menuRemoveHyperlinkPara = new Common.UI.MenuItem({
+            me.menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption : me.removeHyperlinkText
-            }).on('click', function(item) {
-                if (me.api){
-                    me.api.remove_Hyperlink();
-                }
-
-                me.fireEvent('editcomplete', me);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
             });
 
             var menuHyperlinkPara = new Common.UI.MenuItem({
@@ -1622,7 +1331,7 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuEditHyperlinkPara,
-                        menuRemoveHyperlinkPara
+                        me.menuRemoveHyperlinkPara
                     ]
                 })
             });
@@ -1636,15 +1345,8 @@ define([
                 caption     : me.editHyperlinkText
             });
 
-            var menuRemoveHyperlinkTable = new Common.UI.MenuItem({
+            me.menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
-            }).on('click', function(item) {
-                if (me.api){
-                    me.api.remove_Hyperlink();
-                }
-
-                me.fireEvent('editcomplete', me);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink Table');
             });
 
             var menuHyperlinkTable = new Common.UI.MenuItem({
@@ -1655,7 +1357,7 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuEditHyperlinkTable,
-                        menuRemoveHyperlinkTable
+                        me.menuRemoveHyperlinkTable
                     ]
                 })
             });
@@ -1664,76 +1366,34 @@ define([
                 caption     : '--'
             });
 
-            var mnuGroupImg = new Common.UI.MenuItem({
+            me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
                 iconCls     : 'menu__icon shape-group'
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.groupShapes();
-                }
-
-                me.fireEvent('editcomplete', this);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Group Image');
             });
 
-            var mnuUnGroupImg = new Common.UI.MenuItem({
+            me.mnuUnGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtUngroup,
                 iconCls     : 'menu__icon shape-ungroup'
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.unGroupShapes();
-                }
-
-                me.fireEvent('editcomplete', this);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Ungroup Image');
             });
 
-            var mnuArrangeFront = new Common.UI.MenuItem({
+            me.mnuArrangeFront = new Common.UI.MenuItem({
                 caption     : this.textArrangeFront,
                 iconCls     : 'menu__icon arrange-front'
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.shapes_bringToFront();
-                }
-
-                me.fireEvent('editcomplete', me);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Front');
             });
 
-            var mnuArrangeBack = new Common.UI.MenuItem({
+            me.mnuArrangeBack = new Common.UI.MenuItem({
                 caption     : this.textArrangeBack,
                 iconCls     : 'menu__icon arrange-back'
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.shapes_bringToBack();
-                }
-
-                me.fireEvent('editcomplete', me);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Back');
             });
 
-            var mnuArrangeForward = new Common.UI.MenuItem({
+            me.mnuArrangeForward = new Common.UI.MenuItem({
                 caption     : this.textArrangeForward,
                 iconCls     : 'menu__icon arrange-forward'
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.shapes_bringForward();
-                }
-
-                me.fireEvent('editcomplete', me);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Send Forward');
             });
 
-            var mnuArrangeBackward = new Common.UI.MenuItem({
+            me.mnuArrangeBackward = new Common.UI.MenuItem({
                 caption     : this.textArrangeBackward,
                 iconCls     : 'menu__icon arrange-backward'
-            }).on('click', function(item) {
-                if (me.api) {
-                    me.api.shapes_bringBackward();
-                }
-
-                me.fireEvent('editcomplete', me);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Send Backward');
             });
 
             var menuImgShapeArrange = new Common.UI.MenuItem({
@@ -1742,86 +1402,66 @@ define([
                     cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
-                        mnuArrangeFront,
-                        mnuArrangeBack,
-                        mnuArrangeForward,
-                        mnuArrangeBackward,
+                        me.mnuArrangeFront,
+                        me.mnuArrangeBack,
+                        me.mnuArrangeForward,
+                        me.mnuArrangeBackward,
                         {caption: '--'},
-                        mnuGroupImg,
-                        mnuUnGroupImg
+                        me.mnuGroupImg,
+                        me.mnuUnGroupImg
                     ]
                 })
             });
 
-            var menuImgShapeAlign = new Common.UI.MenuItem({
+            me.menuImgShapeAlign = new Common.UI.MenuItem({
                 caption     : me.txtAlign,
-                menu        : (function(){
-                    function onItemClick(item) {
-                        if (me.api) {
-                            var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pe-align-to-slide");
-                            value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
-                            if (item.value < 6) {
-                                me.api.put_ShapesAlign(item.value, value);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
-                            } else if (item.value == 6) {
-                                me.api.DistributeHorizontally(value);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
-                            } else if (item.value == 7){
-                                me.api.DistributeVertically(value);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
-                            }
-                        }
-                        me.fireEvent('editcomplete', me);
-                    }
-
-                    return new Common.UI.Menu({
-                        cls: 'shifted-right',
-                        menuAlign: 'tl-tr',
-                        items: [
-                            new Common.UI.MenuItem({
-                                caption     : me.textShapeAlignLeft,
-                                iconCls     : 'menu__icon shape-align-left',
-                                value       : Asc.c_oAscAlignShapeType.ALIGN_LEFT
-                            }).on('click', _.bind(onItemClick, me)),
-                            new Common.UI.MenuItem({
-                                caption     : me.textShapeAlignCenter,
-                                iconCls     : 'menu__icon shape-align-center',
-                                value       : Asc.c_oAscAlignShapeType.ALIGN_CENTER
-                            }).on('click', _.bind(onItemClick, me)),
-                            new Common.UI.MenuItem({
-                                caption     : me.textShapeAlignRight,
-                                iconCls     : 'menu__icon shape-align-right',
-                                value       : Asc.c_oAscAlignShapeType.ALIGN_RIGHT
-                            }).on('click', _.bind(onItemClick, me)),
-                            new Common.UI.MenuItem({
-                                caption     : me.textShapeAlignTop,
-                                iconCls     : 'menu__icon shape-align-top',
-                                value       : Asc.c_oAscAlignShapeType.ALIGN_TOP
-                            }).on('click', _.bind(onItemClick, me)),
-                            new Common.UI.MenuItem({
-                                caption     : me.textShapeAlignMiddle,
-                                iconCls     : 'menu__icon shape-align-middle',
-                                value       : Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
-                            }).on('click', _.bind(onItemClick, me)),
-                            new Common.UI.MenuItem({
-                                caption     : me.textShapeAlignBottom,
-                                iconCls     : 'menu__icon shape-align-bottom',
-                                value       : Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
-                            }).on('click', _.bind(onItemClick, me)),
-                            {caption    : '--'},
-                            new Common.UI.MenuItem({
-                                caption     : me.txtDistribHor,
-                                iconCls     : 'menu__icon shape-distribute-hor',
-                                value       : 6
-                            }).on('click', _.bind(onItemClick, me)),
-                            new Common.UI.MenuItem({
-                                caption     : me.txtDistribVert,
-                                iconCls     : 'menu__icon shape-distribute-vert',
-                                value       : 7
-                            }).on('click', _.bind(onItemClick, me))
-                        ]
-                    })
-                })()
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption     : me.textShapeAlignLeft,
+                            iconCls     : 'menu__icon shape-align-left',
+                            value       : Asc.c_oAscAlignShapeType.ALIGN_LEFT
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.textShapeAlignCenter,
+                            iconCls     : 'menu__icon shape-align-center',
+                            value       : Asc.c_oAscAlignShapeType.ALIGN_CENTER
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.textShapeAlignRight,
+                            iconCls     : 'menu__icon shape-align-right',
+                            value       : Asc.c_oAscAlignShapeType.ALIGN_RIGHT
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.textShapeAlignTop,
+                            iconCls     : 'menu__icon shape-align-top',
+                            value       : Asc.c_oAscAlignShapeType.ALIGN_TOP
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.textShapeAlignMiddle,
+                            iconCls     : 'menu__icon shape-align-middle',
+                            value       : Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.textShapeAlignBottom,
+                            iconCls     : 'menu__icon shape-align-bottom',
+                            value       : Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
+                        }),
+                        {caption    : '--'},
+                        new Common.UI.MenuItem({
+                            caption     : me.txtDistribHor,
+                            iconCls     : 'menu__icon shape-distribute-hor',
+                            value       : 6
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.txtDistribVert,
+                            iconCls     : 'menu__icon shape-distribute-vert',
+                            value       : 7
+                        })
+                    ]
+                })
             });
 
             me.menuChartEdit = new Common.UI.MenuItem({
@@ -1829,66 +1469,42 @@ define([
                 caption     : me.editChartText
             });
 
-            var menuParagraphVAlign = new Common.UI.MenuItem({
+            me.menuParagraphVAlign = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-align-top',
                 caption     : me.vertAlignText,
-                menu        : (function(){
-                    function onItemClick(item) {
-                        if (me.api) {
-                            var properties = new Asc.asc_CShapeProperty();
-                            properties.put_VerticalTextAlign(item.value);
-
-                            me.api.ShapeApply(properties);
-                        }
-
-                        me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Text Vertical Align');
-                    }
-
-                    return new Common.UI.Menu({
-                        cls: 'shifted-right',
-                        menuAlign: 'tl-tr',
-                        items: [
-                            me.menuParagraphTop = new Common.UI.MenuItem({
-                                iconCls: 'menu__icon btn-align-top',
-                                caption     : me.textShapeAlignTop,
-                                checkable   : true,
-                                checkmark   : false,
-                                toggleGroup : 'popupparagraphvalign',
-                                value       : Asc.c_oAscVAlign.Top
-                            }).on('click', _.bind(onItemClick, me)),
-                            me.menuParagraphCenter = new Common.UI.MenuItem({
-                                iconCls: 'menu__icon btn-align-middle',
-                                caption     : me.textShapeAlignMiddle,
-                                checkable   : true,
-                                checkmark   : false,
-                                toggleGroup : 'popupparagraphvalign',
-                                value       : Asc.c_oAscVAlign.Center
-                            }).on('click', _.bind(onItemClick, me)),
-                            me.menuParagraphBottom = new Common.UI.MenuItem({
-                                iconCls: 'menu__icon btn-align-bottom',
-                                caption     : me.textShapeAlignBottom,
-                                checkable   : true,
-                                checkmark   : false,
-                                toggleGroup : 'popupparagraphvalign',
-                                value       : Asc.c_oAscVAlign.Bottom
-                            }).on('click', _.bind(onItemClick, me))
-                        ]
-                    })
-                })()
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.menuParagraphTop = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-top',
+                            caption     : me.textShapeAlignTop,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphvalign',
+                            value       : Asc.c_oAscVAlign.Top
+                        }),
+                        me.menuParagraphCenter = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-middle',
+                            caption     : me.textShapeAlignMiddle,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphvalign',
+                            value       : Asc.c_oAscVAlign.Center
+                        }),
+                        me.menuParagraphBottom = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-bottom',
+                            caption     : me.textShapeAlignBottom,
+                            checkable   : true,
+                            checkmark   : false,
+                            toggleGroup : 'popupparagraphvalign',
+                            value       : Asc.c_oAscVAlign.Bottom
+                        })
+                    ]
+                })
             });
 
-            var paragraphDirection = function(item, e) {
-                if (me.api) {
-                    var properties = new Asc.asc_CShapeProperty();
-                    properties.put_Vert(item.options.direction);
-                    me.api.ShapeApply(properties);
-                }
-                me.fireEvent('editcomplete', me);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
-            };
-
-            var menuParagraphDirection = new Common.UI.MenuItem({
+            me.menuParagraphDirection = new Common.UI.MenuItem({
                 iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
@@ -1903,7 +1519,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.normal
-                        }).on('click', _.bind(paragraphDirection, me)),
+                        }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
                             iconCls     : 'menu__icon text-orient-rdown',
@@ -1912,7 +1528,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert
-                        }).on('click', _.bind(paragraphDirection, me)),
+                        }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
                             iconCls     : 'menu__icon text-orient-rup',
@@ -1921,7 +1537,7 @@ define([
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert270
-                        }).on('click', _.bind(paragraphDirection, me))
+                        })
                     ]
                 })
             });
@@ -1930,25 +1546,8 @@ define([
                 caption     : '--'
             });
 
-            var menuImgOriginalSize = new Common.UI.MenuItem({
+            me.menuImgOriginalSize = new Common.UI.MenuItem({
                 caption     : me.originalSizeText
-            }).on('click', function(item){
-                if (me.api){
-                    var originalImageSize = me.api.get_OriginalSizeImage();
-
-                    if (originalImageSize) {
-                        var properties = new Asc.asc_CImgProperty();
-
-                        properties.put_Width(originalImageSize.get_ImageWidth());
-                        properties.put_Height(originalImageSize.get_ImageHeight());
-                        properties.put_ResetCrop(true);
-                        properties.put_Rot(0);
-                        me.api.ImgApply(properties);
-                    }
-
-                    me.fireEvent('editcomplete', me);
-                    Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
-                }
             });
 
             me.menuImgReplace = new Common.UI.MenuItem({
@@ -1973,24 +1572,7 @@ define([
                 })
             });
 
-            var onImgRotate = function(item) {
-                var properties = new Asc.asc_CShapeProperty();
-                properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
-                me.api.ShapeApply(properties);
-                me.fireEvent('editcomplete', me);
-            };
-
-            var onImgFlip = function(item) {
-                var properties = new Asc.asc_CShapeProperty();
-                if (item.value==1)
-                    properties.asc_putFlipHInvert(true);
-                else
-                    properties.asc_putFlipVInvert(true);
-                me.api.ShapeApply(properties);
-                me.fireEvent('editcomplete', me);
-            };
-
-            var menuImgShapeRotate = new Common.UI.MenuItem({
+            me.menuImgShapeRotate = new Common.UI.MenuItem({
                 caption     : me.textRotate,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -2000,37 +1582,26 @@ define([
                             iconCls: 'menu__icon btn-rotate-90',
                             caption: me.textRotate90,
                             value  : 1
-                        }).on('click', _.bind(onImgRotate, me)),
+                        }),
                         new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-rotate-270',
                             caption: me.textRotate270,
                             value  : 0
-                        }).on('click', _.bind(onImgRotate, me)),
+                        }),
                         { caption: '--' },
                         new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-flip-hor',
                             caption: me.textFlipH,
                             value  : 1
-                        }).on('click', _.bind(onImgFlip, me)),
+                        }),
                         new Common.UI.MenuItem({
                             iconCls: 'menu__icon btn-flip-vert',
                             caption: me.textFlipV,
                             value  : 0
-                        }).on('click', _.bind(onImgFlip, me))
+                        })
                     ]
                 })
             });
-
-            var onImgCrop = function(item) {
-                if (item.value == 1) {
-                    me.api.asc_cropFill();
-                } else if (item.value == 2) {
-                    me.api.asc_cropFit();
-                } else {
-                    item.checked ? me.api.asc_startEditCrop() : me.api.asc_endEditCrop();
-                }
-                me.fireEvent('editcomplete', me);
-            };
 
             me.menuImgCrop = new Common.UI.MenuItem({
                 caption     : me.textCrop,
@@ -2043,15 +1614,15 @@ define([
                             checkable: true,
                             allowDepress: true,
                             value  : 0
-                        }).on('click', _.bind(onImgCrop, me)),
+                        }),
                         new Common.UI.MenuItem({
                             caption: me.textCropFill,
                             value  : 1
-                        }).on('click', _.bind(onImgCrop, me)),
+                        }),
                         new Common.UI.MenuItem({
                             caption: me.textCropFit,
                             value  : 2
-                        }).on('click', _.bind(onImgCrop, me))
+                        })
                     ]
                 })
             });
@@ -2151,10 +1722,8 @@ define([
                 caption     : me.addToLayoutText
             });
 
-            var menuImgEditPoints = new Common.UI.MenuItem({
+            me.menuImgEditPoints = new Common.UI.MenuItem({
                 caption: me.textEditPoints
-            }).on('click', function(item) {
-                me.api && me.api.asc_editPointsGeometry();
             });
 
             var menuImgEditPointsSeparator = new Common.UI.MenuItem({
@@ -2173,8 +1742,8 @@ define([
                     var isEquation= (value.mathProps && value.mathProps.value);
                     me._currentParaObjDisabled = disabled;
 
-                    menuParagraphVAlign.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
-                    menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
+                    me.menuParagraphVAlign.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
+                    me.menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if (isInShape || isInChart) {
                         var align = value.shapeProps.value.get_VerticalTextAlign();
                         var cls = '';
@@ -2189,7 +1758,7 @@ define([
                                 cls = 'menu__icon btn-align-bottom';
                                 break;
                         }
-                        menuParagraphVAlign.setIconCls(cls);
+                        me.menuParagraphVAlign.setIconCls(cls);
                         me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
@@ -2207,16 +1776,16 @@ define([
                                 cls = 'menu__icon text-orient-rup';
                                 break;
                         }
-                        menuParagraphDirection.setIconCls(cls);
+                        me.menuParagraphDirection.setIconCls(cls);
                         me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
                         me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
                     } else {
-                        menuParagraphVAlign.setIconCls('');
-                        menuParagraphDirection.setIconCls('');
+                        me.menuParagraphVAlign.setIconCls('');
+                        me.menuParagraphDirection.setIconCls('');
                     }
-                    menuParagraphVAlign.setDisabled(disabled);
-                    menuParagraphDirection.setDisabled(disabled);
+                    me.menuParagraphVAlign.setDisabled(disabled);
+                    me.menuParagraphDirection.setDisabled(disabled);
 
                     var text = null;
 
@@ -2247,7 +1816,7 @@ define([
                     me.menuAddCommentPara.setDisabled(disabled);
                     /** coauthoring end **/
 
-                    menuParagraphAdvanced.setDisabled(disabled);
+                    me.menuParagraphAdvanced.setDisabled(disabled);
                     me.menuParaCut.setDisabled(disabled);
                     me.menuParaPaste.setDisabled(disabled);
 
@@ -2255,9 +1824,9 @@ define([
                     var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     me.menuSpellPara.setVisible(spell);
                     menuSpellcheckParaSeparator.setVisible(spell);
-                    menuIgnoreSpellPara.setVisible(spell);
-                    menuIgnoreAllSpellPara.setVisible(spell);
-                    menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
+                    me.menuIgnoreSpellPara.setVisible(spell);
+                    me.menuIgnoreAllSpellPara.setVisible(spell);
+                    me.menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
                     me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
                     menuIgnoreSpellParaSeparator.setVisible(spell);
@@ -2286,9 +1855,9 @@ define([
                     me.menuSpellPara,
                     me.menuSpellMorePara,
                     menuSpellcheckParaSeparator,
-                    menuIgnoreSpellPara,
-                    menuIgnoreAllSpellPara,
-                    menuToDictionaryPara,
+                    me.menuIgnoreSpellPara,
+                    me.menuIgnoreAllSpellPara,
+                    me.menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
                     me.menuParaCut,
@@ -2296,9 +1865,9 @@ define([
                     me.menuParaPaste,
                     menuEquationSeparator,
                     { caption: '--' },
-                    menuParagraphVAlign,
-                    menuParagraphDirection,
-                    menuParagraphAdvanced,
+                    me.menuParagraphVAlign,
+                    me.menuParagraphDirection,
+                    me.menuParagraphAdvanced,
                     menuCommentParaSeparator,
                 /** coauthoring begin **/
                     me.menuAddCommentPara,
@@ -2344,23 +1913,23 @@ define([
                             cls = 'menu__icon btn-align-bottom';
                             break;
                     }
-                    menuTableCellAlign.setIconCls(cls);
+                    me.menuTableCellAlign.setIconCls(cls);
                     me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
                     if (me.api) {
-                        mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
-                        mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
+                        me.mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
+                        me.mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
                     }
-                    menuTableDistRows.setDisabled(value.tableProps.locked || disabled);
-                    menuTableDistCols.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableDistRows.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableDistCols.setDisabled(value.tableProps.locked || disabled);
 
                     me.tableMenu.items[7].setDisabled(value.tableProps.locked || disabled);
                     me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
 
-                    menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
-                    menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
                     me.menuTableCut.setDisabled(value.tableProps.locked || disabled);
                     me.menuTablePaste.setDisabled(value.tableProps.locked || disabled);
 
@@ -2502,15 +2071,15 @@ define([
                         })
                     }),
                     { caption: '--' },
-                    mnuTableMerge,
-                    mnuTableSplit,
+                    me.mnuTableMerge,
+                    me.mnuTableSplit,
                     { caption: '--' },
-                    menuTableDistRows,
-                    menuTableDistCols,
+                    me.menuTableDistRows,
+                    me.menuTableDistCols,
                     { caption: '--' },
-                    menuTableCellAlign,
+                    me.menuTableCellAlign,
                     { caption: '--' },
-                    menuTableAdvanced,
+                    me.menuTableAdvanced,
                     menuHyperlinkSeparator,
                 /** coauthoring begin **/
                     me.menuAddCommentTable,
@@ -2535,8 +2104,8 @@ define([
                 restoreHeightAndTop: true,
                 initMenu: function(value){
                     if (me.api) {
-                        mnuUnGroupImg.setDisabled(!me.api.canUnGroup());
-                        mnuGroupImg.setDisabled(!me.api.canGroup());
+                        me.mnuUnGroupImg.setDisabled(!me.api.canUnGroup());
+                        me.mnuGroupImg.setDisabled(!me.api.canGroup());
                     }
 
                     var isimage = (_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps),
@@ -2547,22 +2116,22 @@ define([
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
                         inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal();
 
-                    mnuArrangeFront.setDisabled(inSmartartInternal);
-                    mnuArrangeBack.setDisabled(inSmartartInternal);
-                    mnuArrangeForward.setDisabled(inSmartartInternal);
-                    mnuArrangeBackward.setDisabled(inSmartartInternal);
+                    me.mnuArrangeFront.setDisabled(inSmartartInternal);
+                    me.mnuArrangeBack.setDisabled(inSmartartInternal);
+                    me.mnuArrangeForward.setDisabled(inSmartartInternal);
+                    me.mnuArrangeBackward.setDisabled(inSmartartInternal);
 
-                    menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
-                    if (menuImgShapeRotate.isVisible()) {
-                        menuImgShapeRotate.setDisabled(disabled || (value.shapeProps && value.shapeProps.value.get_FromSmartArt()));
-                        menuImgShapeRotate.menu.items[3].setDisabled(inSmartartInternal);
-                        menuImgShapeRotate.menu.items[4].setDisabled(inSmartartInternal);
+                    me.menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
+                    if (me.menuImgShapeRotate.isVisible()) {
+                        me.menuImgShapeRotate.setDisabled(disabled || (value.shapeProps && value.shapeProps.value.get_FromSmartArt()));
+                        me.menuImgShapeRotate.menu.items[3].setDisabled(inSmartartInternal);
+                        me.menuImgShapeRotate.menu.items[4].setDisabled(inSmartartInternal);
                     }
 
                     // image properties
-                    menuImgOriginalSize.setVisible(isimage);
-                    if (menuImgOriginalSize.isVisible())
-                        menuImgOriginalSize.setDisabled(disabled || _.isNull(value.imgProps.value.get_ImageUrl()) || _.isUndefined(value.imgProps.value.get_ImageUrl()));
+                    me.menuImgOriginalSize.setVisible(isimage);
+                    if (me.menuImgOriginalSize.isVisible())
+                        me.menuImgOriginalSize.setDisabled(disabled || _.isNull(value.imgProps.value.get_ImageUrl()) || _.isUndefined(value.imgProps.value.get_ImageUrl()));
 
                     me.menuImgReplace.setVisible(isimage && (pluginGuid===null || pluginGuid===undefined));
                     if (me.menuImgReplace.isVisible())
@@ -2574,28 +2143,28 @@ define([
                         me.menuImgCrop.setDisabled(disabled);
 
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
-                    menuImgEditPoints.setVisible(canEditPoints);
+                    me.menuImgEditPoints.setVisible(canEditPoints);
                     menuImgEditPointsSeparator.setVisible(canEditPoints);
-                    canEditPoints && menuImgEditPoints.setDisabled(disabled);
+                    canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
 
-                    menuImageAdvanced.setVisible(isimage);
-                    menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
+                    me.menuImageAdvanced.setVisible(isimage);
+                    me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    menuImgShapeSeparator.setVisible(menuImageAdvanced.isVisible() || menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible());
+                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible());
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuCommentSeparatorImg.setVisible(me.menuAddCommentImg.isVisible());
                     me.menuAddCommentImg.setDisabled(disabled);
                     /** coauthoring end **/
-                    menuImgShapeAlign.setDisabled(disabled);
+                    me.menuImgShapeAlign.setDisabled(disabled);
                     if (!disabled) {
                         var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
                             slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
-                        menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
-                        menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
+                        me.menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
+                        me.menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
                     }
-                    menuImageAdvanced.setDisabled(disabled);
-                    menuShapeAdvanced.setDisabled(disabled);
+                    me.menuImageAdvanced.setDisabled(disabled);
+                    me.menuShapeAdvanced.setDisabled(disabled);
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(disabled);
 
@@ -2609,17 +2178,17 @@ define([
                     me.menuImgCopy,
                     me.menuImgPaste,
                     { caption: '--' },
-                    menuImgEditPoints,
+                    me.menuImgEditPoints,
                     menuImgEditPointsSeparator,
                     menuImgShapeArrange,
-                    menuImgShapeAlign,
-                    menuImgShapeRotate,
+                    me.menuImgShapeAlign,
+                    me.menuImgShapeRotate,
                     menuImgShapeSeparator,
                     me.menuImgCrop,
-                    menuImgOriginalSize,
+                    me.menuImgOriginalSize,
                     me.menuImgReplace,
-                    menuImageAdvanced,
-                    menuShapeAdvanced
+                    me.menuImageAdvanced,
+                    me.menuShapeAdvanced
                     ,me.menuChartEdit
                 /** coauthoring begin **/
                     ,menuCommentSeparatorImg,
@@ -2672,26 +2241,6 @@ define([
                 });
                 me.langParaMenu.menu.resetItems(arrPara);
                 me.langTableMenu.menu.resetItems(arrTable);
-
-                me.langParaMenu.menu.on('item:click', function(menu, item){
-                    if (me.api){
-                        if (!_.isUndefined(item.langid))
-                            me.api.put_TextPrLang(item.langid);
-
-                        me._currLang.paraid = item.langid;
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
-
-                me.langTableMenu.menu.on('item:click', function(menu, item, e){
-                    if (me.api){
-                        if (!_.isUndefined(item.langid))
-                            me.api.put_TextPrLang(item.langid);
-
-                        me._currLang.tableid = item.langid;
-                        me.fireEvent('editcomplete', me);
-                    }
-                });
             }
         },
 
