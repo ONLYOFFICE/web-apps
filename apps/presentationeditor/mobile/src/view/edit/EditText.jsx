@@ -143,6 +143,8 @@ const EditText = props => {
                         <ListItem title={_t.textBulletsAndNumbers} link='/edit-bullets-and-numbers/' routeProps={{
                             onBullet: props.onBullet,
                             onNumber: props.onNumber,
+                            getIconsBulletsAndNumbers: props.getIconsBulletsAndNumbers
+                            
                         }}>
                             <div className="preview">{previewList}</div>
                             {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
@@ -491,24 +493,43 @@ const PageAdditionalFormatting = props => {
 };
 
 const PageBullets = observer(props => {
-    const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
-    const bulletArrays = [
-        [
-            {type: -1, thumb: ''},
-            {type: 1, thumb: 'bullet-01.png'},
-            {type: 2, thumb: 'bullet-02.png'},
-            {type: 3, thumb: 'bullet-03.png'}
-        ],
-        [
-            {type: 4, thumb: 'bullet-04.png'},
-            {type: 5, thumb: 'bullet-05.png'},
-            {type: 6, thumb: 'bullet-06.png'},
-            {type: 7, thumb: 'bullet-07.png'}
-        ]
-    ];
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
+    const markersArr = [
+        {type: Asc.asc_PreviewBulletType.text, text: 'None'},
+        {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
+        {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
+        {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
+        {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
+        {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
+        {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
+        {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
+    ];
+
+    const bulletArrays = [
+        [
+            { type: 0, subtype: -1 },
+            { type: 0, subtype: 1 },
+            { type: 0, subtype: 2 },
+            { type: 0, subtype: 3 }
+        ],
+        [
+            { type: 0, subtype: 4 },
+            { type: 0, subtype: 5 },
+            { type: 0, subtype: 6 },
+            { type: 0, subtype: 7 }
+        ]
+    ];
+
+    useEffect(() => {
+        const arrayItemNumber = $$('.item-marker');
+        const arr = [];
+
+        arrayItemNumber.forEach( (item, index) => {
+            arr.push({...markersArr[index], divId: item.id});
+        });
+        props.getIconsBulletsAndNumbers(arr, 0);
+    }, []);
 
     const paragraph = props.storeFocusObjects.paragraphObject;
     const shapeObj = props.storeFocusObjects.shapeObject;
@@ -522,18 +543,15 @@ const PageBullets = observer(props => {
             {bulletArrays.map((bullets, index) => (
                     <List className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
                         {bullets.map((bullet) => (
-                            <ListItem key={'bullet-' + bullet.type} data-type={bullet.type} className={(bullet.type === typeBullets) && 
+                            <ListItem key={'bullet-' + bullet.subtype} data-type={bullet.subtype} className={(bullet.subtype === typeBullets) && 
                                 (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
                                 onClick={() => {
-                                    storeTextSettings.resetBullets(bullet.type);
-                                    props.onBullet(bullet.type);
+                                    storeTextSettings.resetBullets(bullet.subtype);
+                                    props.onBullet(bullet.subtype);
                                 }}>
-                                {bullet.thumb.length < 1 ?
-                                    <Icon className="thumb" style={{position: 'relative'}}>
-                                        <label>{_t.textNone}</label>
-                                    </Icon> :
-                                    <Icon className="thumb" style={{backgroundImage: `url('resources/img/bullets/${bullet.thumb}')`}}></Icon>
-                                }
+                                <div id={`id-markers-${bullet.subtype}`} className='item-marker'>
+                                
+                                </div>
                             </ListItem>
                         ))}
                     </List>
@@ -543,25 +561,43 @@ const PageBullets = observer(props => {
 });
 
 const PageNumbers = observer(props => {
-    const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
+    const storeTextSettings = props.storeTextSettings;
+    const typeNumbers = storeTextSettings.typeNumbers;
+    const numbersArr = [
+        {type: Asc.asc_PreviewBulletType.text, text: 'None'},
+        {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left},
+        {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left},
+        {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left},
+        {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right},
+        {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right},
+        {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right},
+        {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right},
+    ];
     const numberArrays = [
         [
-            {type: -1, thumb: ''},
-            {type: 4, thumb: 'number-01.png'},
-            {type: 5, thumb: 'number-02.png'},
-            {type: 6, thumb: 'number-03.png'}
+            {type: 1, subtype: -1},
+            {type: 1, subtype: 4},
+            {type: 1, subtype: 5},
+            {type: 1, subtype: 6}
         ],
         [
-            {type: 1, thumb: 'number-04.png'},
-            {type: 2, thumb: 'number-05.png'},
-            {type: 3, thumb: 'number-06.png'},
-            {type: 7, thumb: 'number-07.png'}
+            {type: 1, subtype: 1},
+            {type: 1, subtype: 2},
+            {type: 1, subtype: 3},
+            {type: 1, subtype: 7}
         ]
     ];
 
-    const storeTextSettings = props.storeTextSettings;
-    const typeNumbers = storeTextSettings.typeNumbers;
+    useEffect(() => {
+        const arrayItemNumber = $$('.item-number');
+        const arr = [];
+
+        arrayItemNumber.forEach( (item, index) => {
+            arr.push({...numbersArr[index], divId: item.id});
+        });
+
+        props.getIconsBulletsAndNumbers(arr, 1);
+    }, []);
 
     const paragraph = props.storeFocusObjects.paragraphObject;
     const shapeObj = props.storeFocusObjects.shapeObject;
@@ -575,18 +611,15 @@ const PageNumbers = observer(props => {
             {numberArrays.map((numbers, index) => (
                 <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
                     {numbers.map((number) => (
-                        <ListItem key={'number-' + number.type} data-type={number.type} className={(number.type === typeNumbers) && 
+                        <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) && 
                             (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                             onClick={() => {
-                                storeTextSettings.resetNumbers(number.type);
-                                props.onNumber(number.type);
+                                storeTextSettings.resetNumbers(number.subtype);
+                                props.onNumber(number.subtype);
                             }}>
-                            {number.thumb.length < 1 ?
-                                <Icon className="thumb" style={{position: 'relative'}}>
-                                    <label>{_t.textNone}</label>
-                                </Icon> :
-                                <Icon className="thumb" style={{backgroundImage: `url('resources/img/numbers/${number.thumb}')`}}></Icon>
-                            }
+                            <div id={`id-numbers-${number.subtype}`} className='item-number'>
+
+                            </div>
                         </ListItem>
                     ))}
                 </List>
@@ -613,8 +646,24 @@ const PageBulletsAndNumbers = props => {
                 }
             </Navbar>
             <Swiper pagination>
-                <SwiperSlide> <PageNumbers f7router={props.f7router} storeFocusObjects={storeFocusObjects} storeTextSettings={storeTextSettings} onNumber={props.onNumber}/></SwiperSlide> 
-                <SwiperSlide> <PageBullets f7router={props.f7router} storeFocusObjects={storeFocusObjects} storeTextSettings={storeTextSettings} onBullet={props.onBullet}/></SwiperSlide>
+                <SwiperSlide> 
+                    <PageNumbers 
+                        f7router={props.f7router} 
+                        storeFocusObjects={storeFocusObjects} 
+                        storeTextSettings={storeTextSettings} 
+                        onNumber={props.onNumber}
+                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                    />
+                </SwiperSlide> 
+                <SwiperSlide> 
+                    <PageBullets 
+                        f7router={props.f7router} 
+                        storeFocusObjects={storeFocusObjects} 
+                        storeTextSettings={storeTextSettings} 
+                        onBullet={props.onBullet}
+                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                    />
+                </SwiperSlide>
             </Swiper>
         </Page>
     )
