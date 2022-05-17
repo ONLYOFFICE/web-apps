@@ -242,6 +242,9 @@ define([
                     //'<td class="left"><label><%= scope.textRefStyle %></label></td>',
                     '<td colspan="2"><div id="fms-chb-r1c1-style"></div></td>',
                 '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td><span id="fms-cmb-theme"></span></td>',
@@ -358,6 +361,14 @@ define([
             this.chR1C1Style = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-r1c1-style'),
                 labelText: this.strReferenceStyle,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chUseAltKey = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-use-alt-key'),
+                labelText: Common.Utils.isMac ? this.txtUseOptionKey : this.txtUseAltKey,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -774,6 +785,7 @@ define([
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("sse-settings-use-alt-key"));
 
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
@@ -904,6 +916,8 @@ define([
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+            Common.localStorage.setItem("sse-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("sse-settings-use-alt-key", Common.localStorage.getBool("sse-settings-use-alt-key"));
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
             /** coauthoring begin **/
@@ -1129,6 +1143,8 @@ define([
         strShowResolvedComments: 'Show resolved comments',
         txtWorkspace: 'Workspace',
         strReferenceStyle: 'R1C1 reference style',
+        txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         txtRegion: 'Region',
         txtProofing: 'Proofing',
         strDictionaryLanguage: 'Dictionary language',

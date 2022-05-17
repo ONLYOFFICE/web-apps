@@ -1645,6 +1645,8 @@
   "PE.Views.FileMenuPanels.Settings.txtFitSlide": "Fit to Slide",
   "PE.Views.FileMenuPanels.Settings.txtFitWidth": "Fit to Width",
   "PE.Views.FileMenuPanels.Settings.txtHieroglyphs": "Hieroglyphs",
+  "PE.Views.FileMenuPanels.Settings.txtUseAltKey": "Use Alt key to navigate the user interface using the keyboard",
+  "PE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Use Option key to navigate the user interface using the keyboard",
   "PE.Views.FileMenuPanels.Settings.txtInch": "Inch",
   "PE.Views.FileMenuPanels.Settings.txtInput": "Alternate Input",
   "PE.Views.FileMenuPanels.Settings.txtLast": "View Last",

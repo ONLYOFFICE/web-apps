@@ -2094,6 +2094,8 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strPasteButton": "Show the Paste Options button when the content is pasted",
   "del_SSE.Views.FileMenuPanels.MainSettingsGeneral.strR1C1": "Turn on R1C1 style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1 reference style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtUseAltKey": "Use Alt key to navigate the user interface using the keyboard",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtUseOptionKey": "Use Option key to navigate the user interface using the keyboard",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Regional Settings",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Example: ",
   "del_SSE.Views.FileMenuPanels.MainSettingsGeneral.strResolvedComment": "Turn on display of the resolved comments",
