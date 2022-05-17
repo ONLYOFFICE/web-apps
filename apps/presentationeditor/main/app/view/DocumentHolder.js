@@ -1160,6 +1160,83 @@ define([
                 caption : me.textDistributeCols
             });
 
+            me.menuTableSelectText = new Common.UI.MenuItem({
+                caption     : me.selectText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption     : me.rowText,
+                            value: 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.columnText,
+                            value: 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.cellText,
+                            value: 2
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.tableText,
+                            value: 3
+                        })
+                    ]
+                })
+            });
+
+            me.menuTableInsertText = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-addcell',
+                caption     : me.insertText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    style   : 'width: 100px',
+                    items   : [
+                        new Common.UI.MenuItem({
+                            caption: me.insertColumnLeftText,
+                            value: 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.insertColumnRightText,
+                            value: 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.insertRowAboveText,
+                            value: 2
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.insertRowBelowText,
+                            value: 3
+                        })
+                    ]
+                })
+            });
+
+            me.menuTableDeleteText = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-delcell',
+                caption     : me.deleteText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption     : me.rowText,
+                            value: 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.columnText,
+                            value: 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : me.tableText,
+                            value: 2
+                        })
+                    ]
+                })
+            });
+
             me.menuSpellTable = new Common.UI.MenuItem({
                 caption     : me.loadSpellText,
                 disabled    : true
@@ -1963,7 +2040,7 @@ define([
                     menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() /** coauthoring begin **/|| me.menuAddCommentTable.isVisible()/** coauthoring end **/);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
+                    me.menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
 
                     me.langTableMenu.setDisabled(disabled);
@@ -1995,81 +2072,9 @@ define([
                     me.menuTableCopy,
                     me.menuTablePaste,
                     { caption: '--' },
-                    new Common.UI.MenuItem({
-                        caption     : me.selectText,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items: [
-                                new Common.UI.MenuItem({
-                                    caption     : me.rowText
-                                }).on('click', function() {if (me.api) me.api.selectRow()}),
-                                new Common.UI.MenuItem({
-                                    caption     : me.columnText
-                                }).on('click', function() {if (me.api) me.api.selectColumn()}),
-                                new Common.UI.MenuItem({
-                                    caption     : me.cellText
-                                }).on('click', function() {if (me.api) me.api.selectCell()}),
-                                new Common.UI.MenuItem({
-                                    caption     : me.tableText
-                                }).on('click', function() {if (me.api) me.api.selectTable()})
-                            ]
-                        })
-                    }),
-                    {
-                        iconCls: 'menu__icon btn-addcell',
-                        caption     : me.insertText,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            style   : 'width: 100px',
-                            items   : [
-                                new Common.UI.MenuItem({
-                                    caption: me.insertColumnLeftText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addColumnLeft();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.insertColumnRightText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addColumnRight();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.insertRowAboveText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addRowAbove();
-                                }),
-                                new Common.UI.MenuItem({
-                                    caption: me.insertRowBelowText
-                                }).on('click', function(item) {
-                                    if (me.api)
-                                        me.api.addRowBelow();
-                                })
-                            ]
-                        })
-                    },
-                    new Common.UI.MenuItem({
-                        iconCls: 'menu__icon btn-delcell',
-                        caption     : me.deleteText,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items: [
-                                new Common.UI.MenuItem({
-                                    caption     : me.rowText
-                                }).on('click', function() {if (me.api) me.api.remRow()}),
-                                new Common.UI.MenuItem({
-                                    caption     : me.columnText
-                                }).on('click', function() {if (me.api) me.api.remColumn()}),
-                                new Common.UI.MenuItem({
-                                    caption     : me.tableText
-                                }).on('click', function() {if (me.api) me.api.remTable()})
-                            ]
-                        })
-                    }),
+                    me.menuTableSelectText,
+                    me.menuTableInsertText,
+                    me.menuTableDeleteText,
                     { caption: '--' },
                     me.mnuTableMerge,
                     me.mnuTableSplit,

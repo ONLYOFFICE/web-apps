@@ -415,9 +415,9 @@ define([
             view.menuImgShapeAlign.menu.on('item:click', _.bind(me.onImgShapeAlign, me));
             view.menuParagraphVAlign.menu.on('item:click', _.bind(me.onParagraphVAlign, me));
             view.menuParagraphDirection.menu.on('item:click', _.bind(me.onParagraphDirection, me));
-
-
-
+            view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
+            view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
+            view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
         },
 
         getView: function (name) {
@@ -1963,6 +1963,59 @@ define([
             Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
         },
 
+        tableSelectText: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.selectRow();
+                        break;
+                    case 1:
+                        this.api.selectColumn();
+                        break;
+                    case 2:
+                        this.api.selectCell();
+                        break;
+                    case 3:
+                        this.api.selectTable();
+                        break;
+                }
+            }
+        },
+
+        tableInsertText: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.addColumnLeft();
+                        break;
+                    case 1:
+                        this.api.addColumnRight();
+                        break;
+                    case 2:
+                        this.api.addRowAbove();
+                        break;
+                    case 3:
+                        this.api.addRowBelow();
+                        break;
+                }
+            }
+        },
+
+        tableDeleteText: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.remRow();
+                        break;
+                    case 1:
+                        this.api.remColumn();
+                        break;
+                    case 2:
+                        this.api.remTable();
+                        break;
+                }
+            }
+        },
 
 
         SetDisabled: function(state) {
