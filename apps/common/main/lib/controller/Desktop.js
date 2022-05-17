@@ -313,6 +313,15 @@ define([
                 // return webapp.getController('Main').api.asc_isOffline();
                 return webapp.getController('Main').appOptions.isOffline;
             },
+            isFeatureAvailable: function (feature) {
+                return !!native && !!native[feature];
+            },
+            call: function (name) {
+                if ( native[name] ) {
+                    let args = [].slice.call(arguments, 1);
+                    return native[name](...args);
+                }
+            },
         };
     };
 
