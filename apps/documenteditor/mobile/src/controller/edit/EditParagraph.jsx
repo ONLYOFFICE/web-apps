@@ -9,6 +9,7 @@ class EditParagraphController extends Component {
 
         this.onStyleClick = this.onStyleClick.bind(this);
         this.onSaveStyle = this.onSaveStyle.bind(this);
+        this.onStyleMenuDelete = this.onStyleMenuDelete.bind(this);
     }
 
     onStyleClick (name) {
@@ -21,17 +22,18 @@ class EditParagraphController extends Component {
 
     onSaveStyle(title, nextParagraphStyle) {
         const api = Common.EditorApi.get();
-        const curStyleName = this.props.storeParagraphSettings.styleName;
-        let newStyle = new Asc.asc_CStyle();
+        const style = api.asc_GetStyleFromFormatting();
 
-        newStyle.put_Name(title);
-        // console.log(newStyle.get_Name());
-        newStyle.put_Next(nextParagraphStyle ? nextParagraphStyle : null);
-        newStyle.put_BasedOn(curStyleName);
-        // console.log(newStyle);
+        style.put_Name(title);
+        style.put_Next(nextParagraphStyle ? nextParagraphStyle : null);
+        
+        api.asc_AddNewStyle(style);
+        this.props.storeParagraphSettings.changeParaStyleName(title);
+    }
 
-        api.asc_AddNewStyle(newStyle);
-        this.props.storeParagraphSettings.changeParaStyleName(newStyle.get_Name());
+    onStyleMenuDelete(styleName) {
+        const api = Common.EditorApi.get();
+        api.asc_RemoveStyle(styleName);
     }
 
     onDistanceBefore (distance, isDecrement) {
@@ -174,6 +176,7 @@ class EditParagraphController extends Component {
                            onKeepNext={this.onKeepNext}
                            onBackgroundColor={this.onBackgroundColor}
                            onSaveStyle={this.onSaveStyle}
+                           onStyleMenuDelete={this.onStyleMenuDelete}
             />
         )
     }

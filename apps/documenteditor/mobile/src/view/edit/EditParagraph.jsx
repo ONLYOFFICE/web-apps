@@ -205,7 +205,8 @@ const EditParagraph = props => {
             <List className={activeStyle} style={{marginBottom: 0}}>
                 <ListItem link="/edit-paragraph-style/" routeProps={{
                     onStyleClick: props.onStyleClick,
-                    onSaveStyle: props.onSaveStyle
+                    onSaveStyle: props.onSaveStyle,
+                    onStyleMenuDelete: props.onStyleMenuDelete
                 }}>
                     <div slot="inner"
                         style={{backgroundImage: 'url(' + curStyle.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
@@ -240,6 +241,7 @@ const EditParagraph = props => {
 
 const EditParagraphStyle = props => {
     const { t } = useTranslation();
+    const api = Common.EditorApi.get();
     const _t = t('Edit', {returnObjects: true});
     const storeParagraphSettings = props.storeParagraphSettings;
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
@@ -259,15 +261,18 @@ const EditParagraphStyle = props => {
                 }
             </Navbar>
             <List style={{marginBottom: 0}}>
-                <ListItem title={t('Edit.textCreateTextStyle')} href="/create-text-style/" routeProps={{
+                <ListItem className="create-style-link" title={t('Edit.textCreateTextStyle')} href="/create-text-style/" routeProps={{
                     onSaveStyle: props.onSaveStyle
-                }}></ListItem>
+                }}>
+                    {Device.android && <Icon slot="media" icon="icon-create-style"></Icon>}
+                </ListItem>
             </List>
             <List className={activeStyle}>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
                         key={index}
                         radio
+                        radioIcon="start"
                         checked={curStyleName === style.name}
                         onClick={() => {
                             if(curStyleName !== style.name) {
@@ -278,6 +283,16 @@ const EditParagraphStyle = props => {
                         <div slot="inner"
                             style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
                         ></div>
+                        {!api.asc_IsStyleDefault(style.name) && (
+                            <div slot="inner-end">
+                                <Link onClick={async () => {
+                                    await props.f7router.back();
+                                    await props.onStyleMenuDelete(style.name);
+                                }}>
+                                    <Icon icon="icon-remove-style" />
+                                </Link>
+                            </div>
+                        )}
                     </ListItem>
                 ))}
             </List>
@@ -293,16 +308,14 @@ const CreateTextStyle = props => {
 
     return (
         <Page>
-            <Navbar backLink={t('Edit.textBack')}>
-                <NavTitle>{t('Edit.textCreateTextStyle')}</NavTitle>
-                <NavRight>
-                    <Link onClick={() => {
-                        let title = titleNewStyle.trim();
-                        if(title) {
-                            props.onSaveStyle(title, nextParagraphStyle);
-                        }
-                    }}>{t('Edit.textDone')}</Link>
-                </NavRight>
+            <Navbar title={t('Edit.textCreateTextStyle')} backLink={t('Edit.textBack')}>
+                <Link slot="right" className={`${!titleNewStyle.trim() && 'disabled'}`} onClick={() => {
+                    let title = titleNewStyle.trim();
+                    if(title) {
+                        props.onSaveStyle(title, nextParagraphStyle);
+                        props.f7router.back();
+                    }
+                }}>{t('Edit.textDone')}</Link>
             </Navbar>
             <List inlineLabels className='inputs-list'>
                 <ListInput
@@ -340,8 +353,8 @@ const ChangeNextParagraphStyle = props => {
         <Page>
             <Navbar title={t('Edit.textNextParagraphStyle')} backLink={_t.textBack}></Navbar>
             <List className={activeStyle}>
-                <ListItem style={{paddingLeft: '5px'}} radio checked={!newParagraph} onClick={() => {
-                    if(nextParagraphStyle) {
+                <ListItem style={{paddingLeft: '5px'}} radio radioIcon="start" checked={!newParagraph} onClick={() => {
+                    if(newParagraph) {
                         setParagraph('');
                         props.setParagraph('');
                     }
@@ -350,9 +363,10 @@ const ChangeNextParagraphStyle = props => {
                     <ListItem
                         key={index}
                         radio
+                        radioIcon="start"
                         checked={newParagraph === style.name}
                         onClick={() => {
-                            if(nextParagraphStyle !== style.name) {
+                            if(newParagraph !== style.name) {
                                 setParagraph(style.name);
                                 props.setParagraph(style.name);
                             }
