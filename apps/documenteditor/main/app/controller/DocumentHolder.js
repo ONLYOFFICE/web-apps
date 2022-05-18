@@ -1689,7 +1689,6 @@ define([
             }
         },
 
-        /** coauthoring begin **/
         addComment: function(item, e, eOpt){
             if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
                 this.documentHolder.suppressEditComplete = true;
@@ -1700,7 +1699,6 @@ define([
                 }
             }
         },
-        /** coauthoring end **/
 
         onCutCopyPaste: function(item, e) {
             var me = this;
