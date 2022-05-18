@@ -1785,6 +1785,8 @@
   "DE.Views.FileMenuPanels.Settings.txtFitPage": "Fit to Page",
   "DE.Views.FileMenuPanels.Settings.txtFitWidth": "Fit to Width",
   "DE.Views.FileMenuPanels.Settings.txtHieroglyphs": "Hieroglyphs",
+  "DE.Views.FileMenuPanels.Settings.txtUseAltKey": "Use Alt key to navigate the user interface using the keyboard",
+  "DE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Use Option key to navigate the user interface using the keyboard",
   "DE.Views.FileMenuPanels.Settings.txtInch": "Inch",
   "DE.Views.FileMenuPanels.Settings.txtInput": "Alternate Input",
   "DE.Views.FileMenuPanels.Settings.txtLast": "View Last",

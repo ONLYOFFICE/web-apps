@@ -117,7 +117,8 @@ Common.UI.HintManager = new(function() {
         _inputTimer,
         _isDocReady = false,
         _isEditDiagram = false,
-        _usedTitles = [];
+        _usedTitles = [],
+        _appPrefix;
 
     var _api;
 
@@ -436,6 +437,10 @@ Common.UI.HintManager = new(function() {
 
     var _init = function(api) {
         _api = api;
+
+        var filter = Common.localStorage.getKeysFilter();
+        _appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
                 var lang = mode.lang ? mode.lang.toLowerCase() : 'en';
@@ -594,7 +599,7 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (!e.shiftKey && e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
             if (e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
