@@ -322,7 +322,7 @@ define([
                     }
                     var me = this;
                     setTimeout(function(){
-                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                        me.editComplete();
                     }, 10);
                 }, this));
             }
@@ -343,7 +343,7 @@ define([
                     }
                     var me = this;
                     setTimeout(function(){
-                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                        me.editComplete();
                     }, 10);
                 }, this));
             }
@@ -852,14 +852,14 @@ define([
                     }
                 }
                 /** coauthoring begin **/
-                else if (moveData.get_Type()==2 && me.mode.isEdit && isUserVisible(moveData.get_UserId())) { // 2 - locked object
+                else if (moveData.get_Type()==2 && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
                     var src;
                     if (me.usertipcount >= me.usertips.length) {
                         src = $(document.createElement("div"));
                         src.addClass('username-tip');
                         src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', visibility: 'visible'});
                         $(document.body).append(src);
-                        if (userTooltip) {
+                        if (me.userTooltip) {
                             src.on('mouseover', me.wrapEvents.userTipMousover);
                             src.on('mouseout', me.wrapEvents.userTipMousout);
                         }
@@ -1242,7 +1242,7 @@ define([
                         if (result == 'ok') {
                             me.api.add_Hyperlink(dlg.getSettings());
                         }
-                        me.fireEvent('editcomplete', me);
+                        me.editComplete();
                     },
                     slides: _arr
                 });
@@ -1270,7 +1270,7 @@ define([
                         if (result == 'ok') {
                             me.api.change_Hyperlink(win.getSettings());
                         }
-                        me.fireEvent('editcomplete', me);
+                        me.editComplete();
                     },
                     slides: _arr
                 });
@@ -1459,7 +1459,7 @@ define([
                 });
                 picker.on('select', function(picker, columns, rows){
                     me.api.put_Table(columns, rows, me._state.placeholderObj);
-                    me.fireEvent('editcomplete', me);
+                    me.editComplete();
                 });
                 menu.on('item:click', function(menu, item, e){
                     if (item.value === 'custom') {
@@ -1467,7 +1467,7 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok')
                                     me.api.put_Table(value.columns, value.rows, me._state.placeholderObj);
-                                me.fireEvent('editcomplete', me);
+                                me.editComplete();
                             }
                         })).show();
                     }
@@ -1497,7 +1497,7 @@ define([
             } else if (type == AscCommon.PlaceholderButtonType.Audio) {
                 this.api.asc_AddAudio(obj);
             }
-            this.fireEvent('editcomplete', this);
+            this.editComplete();
         },
 
         onImgReplace: function(menu, item, e) {
@@ -1645,7 +1645,7 @@ define([
         },
 
         onTableSplit: function () {
-            var me = this.api;
+            var me = this;
             if (me.api) {
                 (new Common.Views.InsertTableDialog({
                     split: true,
