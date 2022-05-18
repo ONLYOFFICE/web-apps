@@ -237,7 +237,14 @@ class EditTextController extends Component {
 
     getIconsBulletsAndNumbers(arrayElements, type) {
         const api = Common.EditorApi.get();
-        if (api) api.SetDrawImagePreviewBulletForMenu(arrayElements, type);
+        const arr = [];
+
+        arrayElements.forEach( item => {
+            let data = item.drawdata;
+            data['divId'] = item.id;
+            arr.push(data);
+        });
+        if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);
     }
 
     onLineSpacing(value) {

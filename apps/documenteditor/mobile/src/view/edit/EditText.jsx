@@ -184,18 +184,14 @@ const PageBullets = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
     const bulletArrays = [
-        [
-            { type: 0, subtype: -1 },
-            { type: 0, subtype: 1 },
-            { type: 0, subtype: 2 },
-            { type: 0, subtype: 3 }
-        ],
-        [
-            { type: 0, subtype: 4 },
-            { type: 0, subtype: 5 },
-            { type: 0, subtype: 6 },
-            { type: 0, subtype: 7 }
-        ]
+        { type: 0, subtype: -1 },
+        { type: 0, subtype: 1 },
+        { type: 0, subtype: 2 },
+        { type: 0, subtype: 3 },
+        { type: 0, subtype: 4 },
+        { type: 0, subtype: 5 },
+        { type: 0, subtype: 6 },
+        { type: 0, subtype: 7 }
     ];
 
     useEffect(() => {
@@ -204,22 +200,20 @@ const PageBullets = observer( props => {
     
     return(
         <View className='bullets dataview'>
-            {bulletArrays.map((bullets, index) => (
-                    <List className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
-                        {bullets.map((bullet) => (
-                            <ListItem key={'bullet-' + bullet.subtype} data-type={bullet.subtype} className={(bullet.subtype === typeBullets) && 
-                                (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
-                                onClick={() => {
-                                    storeTextSettings.resetBullets(bullet.subtype);
-                                    props.onBullet(bullet.subtype);
-                                }}>
-                                <div id={`id-markers-${bullet.subtype}`} className='item-marker'>
-                                
-                                </div>
-                            </ListItem>
-                        ))}
-                    </List>
-            ))}
+            <List className="row" style={{listStyle: 'none'}}>
+                {bulletArrays.map( bullet => (
+                    <ListItem key={'bullet-' + bullet.subtype} data-type={bullet.subtype} className={(bullet.subtype === typeBullets) && 
+                        (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
+                        onClick={() => {
+                            storeTextSettings.resetBullets(bullet.subtype);
+                            props.onBullet(bullet.subtype);
+                        }}>
+                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'>
+                        
+                        </div>
+                    </ListItem>
+                ))}
+            </List>
         </View>
     )
 });
@@ -228,18 +222,14 @@ const PageNumbers = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
     const numberArrays = [
-        [
-            { type: 1, subtype: -1},
-            { type: 1, subtype: 4 },
-            { type: 1, subtype: 5 },
-            { type: 1, subtype: 6 }
-        ],
-        [
-            { type: 1, subtype: 1 },
-            { type: 1, subtype: 2 },
-            { type: 1, subtype: 3 },
-            { type: 1, subtype: 7 }
-        ]
+        { type: 1, subtype: -1},
+        { type: 1, subtype: 4 },
+        { type: 1, subtype: 5 },
+        { type: 1, subtype: 6 },
+        { type: 1, subtype: 1 },
+        { type: 1, subtype: 2 },
+        { type: 1, subtype: 3 },
+        { type: 1, subtype: 7 }
     ];
 
     useEffect(() => {
@@ -248,22 +238,20 @@ const PageNumbers = observer( props => {
     
     return(
         <View className='numbers dataview'>
-            {numberArrays.map((numbers, index) => (
-                <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
-                    {numbers.map((number) => (
-                        <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) && 
-                            (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
-                            onClick={() => {
-                                storeTextSettings.resetNumbers(number.subtype);
-                                props.onNumber(number.subtype);
-                            }}>
-                            <div id={`id-numbers-${number.subtype}`} className='item-number'>
+            <List className="row" style={{listStyle: 'none'}}>
+                {numberArrays.map(number => (
+                    <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) && 
+                        (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
+                        onClick={() => {
+                            storeTextSettings.resetNumbers(number.subtype);
+                            props.onNumber(number.subtype);
+                        }}>
+                        <div id={`id-numbers-${number.subtype}`} className='item-number'>
 
-                            </div>
-                        </ListItem>
-                    ))}
-                </List>
-            ))}
+                        </div>
+                    </ListItem>
+                ))}
+            </List>
         </View>
     )
 });
