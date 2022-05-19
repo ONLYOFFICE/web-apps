@@ -443,6 +443,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onMacrosPermissionRequest', _.bind(this.onMacrosPermissionRequest, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
@@ -2280,6 +2281,20 @@ define([
                 }
             },
 
+            onMacrosPermissionRequest: function(url, callback) {
+                Common.UI.warning({
+                    msg: this.textRequestMacros.replace('%1', url),
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    maxwidth: 600,
+                    callback: function(btn){
+                        setTimeout(function() {
+                            if (callback) callback(btn == 'yes');
+                        }, 1);
+                    }
+                });
+            },
+
             loadAutoCorrectSettings: function() {
                 // autocorrection
                 var me = this;
@@ -2933,7 +2948,8 @@ define([
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More',
-            textReconnect: 'Connection is restored'
+            textReconnect: 'Connection is restored',
+            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?'
         }
     })(), PE.Controllers.Main || {}))
 });

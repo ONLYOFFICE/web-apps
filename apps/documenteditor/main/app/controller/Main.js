@@ -509,6 +509,7 @@ define([
                 }
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onMacrosPermissionRequest', _.bind(this.onMacrosPermissionRequest, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
@@ -2711,6 +2712,20 @@ define([
                 }
             },
 
+            onMacrosPermissionRequest: function(url, callback) {
+                Common.UI.warning({
+                    msg: this.textRequestMacros.replace('%1', url),
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    maxwidth: 600,
+                    callback: function(btn){
+                        setTimeout(function() {
+                            if (callback) callback(btn == 'yes');
+                        }, 1);
+                    }
+                });
+            },
+
             loadAutoCorrectSettings: function() {
                 // autocorrection
                 var me = this;
@@ -3190,7 +3205,8 @@ define([
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
             errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             errorEmptyTOC: 'Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.',
-            errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.'
+            errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.',
+            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?'
         }
     })(), DE.Controllers.Main || {}))
 });
