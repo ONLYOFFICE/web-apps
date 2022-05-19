@@ -169,6 +169,8 @@ define([
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
+                this.stackMacrosRequests = [];
+
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
                 this.languages = null;
 
@@ -435,6 +437,9 @@ define([
                 } else
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("de-macros-mode", value);
+
+                value = Common.localStorage.getItem("de-allow-macros-request");
+                Common.Utils.InternalSettings.set("de-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
 
@@ -2713,17 +2718,44 @@ define([
             },
 
             onMacrosPermissionRequest: function(url, callback) {
-                Common.UI.warning({
-                    msg: this.textRequestMacros.replace('%1', url),
-                    buttons: ['yes', 'no'],
-                    primary: 'yes',
-                    maxwidth: 600,
-                    callback: function(btn){
-                        setTimeout(function() {
-                            if (callback) callback(btn == 'yes');
-                        }, 1);
+                if (url && callback) {
+                    this.stackMacrosRequests.push({url: url, callback: callback});
+                    if (this.stackMacrosRequests.length>1) {
+                        return;
                     }
-                });
+                } else if (this.stackMacrosRequests.length>0) {
+                    url = this.stackMacrosRequests[0].url;
+                    callback = this.stackMacrosRequests[0].callback;
+                } else
+                    return;
+
+                var me = this;
+                var value = Common.Utils.InternalSettings.get("de-allow-macros-request");
+                if (value>0) {
+                    callback && callback(value === 1);
+                    this.stackMacrosRequests.shift();
+                    this.onMacrosPermissionRequest();
+                } else {
+                    Common.UI.warning({
+                        msg: this.textRequestMacros.replace('%1', url),
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        textDontShow: this.textRememberMacros,
+                        maxwidth: 600,
+                        callback: function(btn, dontshow){
+                            if (dontshow) {
+                                Common.Utils.InternalSettings.set("de-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                                Common.localStorage.setItem("de-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                            }
+                            setTimeout(function() {
+                                if (callback) callback(btn == 'yes');
+                                me.stackMacrosRequests.shift();
+                                me.onMacrosPermissionRequest();
+                            }, 1);
+                        }
+                    });
+                }
             },
 
             loadAutoCorrectSettings: function() {
@@ -3181,7 +3213,7 @@ define([
             txtEnterDate: 'Enter a date',
             txtTypeEquation: 'Type equation here',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
-            textRemember: 'Remember my choice',
+            textRemember: 'Remember my choice for all files',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
             saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
@@ -3206,7 +3238,8 @@ define([
             errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
             errorEmptyTOC: 'Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.',
             errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.',
-            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?'
+            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
+            textRememberMacros: 'Remember my choice for all macros'
         }
     })(), DE.Controllers.Main || {}))
 });

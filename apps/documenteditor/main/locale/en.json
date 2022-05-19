@@ -622,6 +622,7 @@
   "DE.Controllers.Main.textPaidFeature": "Paid feature",
   "DE.Controllers.Main.textReconnect": "Connection is restored",
   "DE.Controllers.Main.textRemember": "Remember my choice for all files",
+  "DE.Controllers.Main.textRememberMacros": "Remember my choice for all macros",
   "DE.Controllers.Main.textRenameError": "User name must not be empty.",
   "DE.Controllers.Main.textRenameLabel": "Enter a name to be used for collaboration",
   "DE.Controllers.Main.textShape": "Shape",
