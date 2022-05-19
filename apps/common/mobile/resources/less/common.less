@@ -137,11 +137,12 @@
             &:before, &:after {
                 display: none;
             }
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, auto);
             justify-content: space-around;
+            grid-gap: 10px;
             width: 100%;
             padding: 5px;
-
             li {
                 width: 70px;
                 height: 70px;
@@ -167,6 +168,11 @@
                         color: @fill-black;
                     }
                 }
+
+                .item-number, .item-marker, .item-multilevellist {
+                    width: 68px;
+                    height: 68px;
+                }
             }
         }
     }
@@ -184,7 +190,7 @@
 }
 
 .popover {
-    .page .list{
+    .page {
         ul {
             background-color: var(--f7-list-bg-color);
             li:first-child, li:last-child {
