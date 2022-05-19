@@ -205,6 +205,8 @@ define([
                     this.inputPwd = new Common.UI.InputFieldBtnPassword({
                         el: $('#id-password-txt'),
                         type: 'password',
+                        showCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' btn-sheet-view',
+                        hideCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' hide-password',
                         validateOnBlur: false,
                         showPwdOnClick: true,
                         validation  : function(value) {
