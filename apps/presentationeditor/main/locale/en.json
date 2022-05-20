@@ -680,6 +680,7 @@
   "PE.Controllers.Main.textPaidFeature": "Paid feature",
   "PE.Controllers.Main.textReconnect": "Connection is restored",
   "PE.Controllers.Main.textRemember": "Remember my choice for all files",
+  "PE.Controllers.Main.textRememberMacros": "Remember my choice for all macros",
   "PE.Controllers.Main.textRenameError": "User name must not be empty.",
   "PE.Controllers.Main.textRenameLabel": "Enter a name to be used for collaboration",
   "PE.Controllers.Main.textShape": "Shape",

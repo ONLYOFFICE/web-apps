@@ -788,6 +788,7 @@
   "SSE.Controllers.Main.textPleaseWait": "The operation might take more time than expected. Please wait...",
   "SSE.Controllers.Main.textReconnect": "Connection is restored",
   "SSE.Controllers.Main.textRemember": "Remember my choice for all files",
+  "SSE.Controllers.Main.textRememberMacros": "Remember my choice for all macros",
   "SSE.Controllers.Main.textRenameError": "User name must not be empty.",
   "SSE.Controllers.Main.textRenameLabel": "Enter a name to be used for collaboration",
   "SSE.Controllers.Main.textShape": "Shape",

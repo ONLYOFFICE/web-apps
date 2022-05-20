@@ -152,6 +152,7 @@ define([
                     strongCompare   : function(obj1, obj2){return obj1.type === obj2.type;},
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
+                this.stackMacrosRequests = [];
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -392,6 +393,9 @@ define([
                 } else
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("pe-macros-mode", value);
+
+                value = Common.localStorage.getItem("pe-allow-macros-request");
+                Common.Utils.InternalSettings.set("pe-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
                 
@@ -2282,17 +2286,44 @@ define([
             },
 
             onMacrosPermissionRequest: function(url, callback) {
-                Common.UI.warning({
-                    msg: this.textRequestMacros.replace('%1', url),
-                    buttons: ['yes', 'no'],
-                    primary: 'yes',
-                    maxwidth: 600,
-                    callback: function(btn){
-                        setTimeout(function() {
-                            if (callback) callback(btn == 'yes');
-                        }, 1);
+                if (url && callback) {
+                    this.stackMacrosRequests.push({url: url, callback: callback});
+                    if (this.stackMacrosRequests.length>1) {
+                        return;
                     }
-                });
+                } else if (this.stackMacrosRequests.length>0) {
+                    url = this.stackMacrosRequests[0].url;
+                    callback = this.stackMacrosRequests[0].callback;
+                } else
+                    return;
+
+                var me = this;
+                var value = Common.Utils.InternalSettings.get("pe-allow-macros-request");
+                if (value>0) {
+                    callback && callback(value === 1);
+                    this.stackMacrosRequests.shift();
+                    this.onMacrosPermissionRequest();
+                } else {
+                    Common.UI.warning({
+                        msg: this.textRequestMacros.replace('%1', url),
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        textDontShow: this.textRememberMacros,
+                        maxwidth: 600,
+                        callback: function(btn, dontshow){
+                            if (dontshow) {
+                                Common.Utils.InternalSettings.set("pe-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                                Common.localStorage.setItem("pe-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                            }
+                            setTimeout(function() {
+                                if (callback) callback(btn == 'yes');
+                                me.stackMacrosRequests.shift();
+                                me.onMacrosPermissionRequest();
+                            }, 1);
+                        }
+                    });
+                }
             },
 
             loadAutoCorrectSettings: function() {
@@ -2949,7 +2980,8 @@ define([
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More',
             textReconnect: 'Connection is restored',
-            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?'
+            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
+            textRememberMacros: 'Remember my choice for all macros'
         }
     })(), PE.Controllers.Main || {}))
 });

@@ -230,7 +230,7 @@ define([
                     strongCompare   : this._compareActionWeak,
                     weakCompare     : this._compareActionWeak
                 });
-
+                this.stackMacrosRequests = [];
                 this.isShowOpenDialog = false;
 
                 // Initialize api gateway
@@ -462,6 +462,9 @@ define([
                 } else
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("sse-macros-mode", value);
+
+                value = Common.localStorage.getItem("sse-allow-macros-request");
+                Common.Utils.InternalSettings.set("sse-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
                 
@@ -2843,17 +2846,44 @@ define([
             },
 
             onMacrosPermissionRequest: function(url, callback) {
-                Common.UI.warning({
-                    msg: this.textRequestMacros.replace('%1', url),
-                    buttons: ['yes', 'no'],
-                    primary: 'yes',
-                    maxwidth: 600,
-                    callback: function(btn){
-                        setTimeout(function() {
-                            if (callback) callback(btn == 'yes');
-                        }, 1);
+                if (url && callback) {
+                    this.stackMacrosRequests.push({url: url, callback: callback});
+                    if (this.stackMacrosRequests.length>1) {
+                        return;
                     }
-                });
+                } else if (this.stackMacrosRequests.length>0) {
+                    url = this.stackMacrosRequests[0].url;
+                    callback = this.stackMacrosRequests[0].callback;
+                } else
+                    return;
+
+                var me = this;
+                var value = Common.Utils.InternalSettings.get("sse-allow-macros-request");
+                if (value>0) {
+                    callback && callback(value === 1);
+                    this.stackMacrosRequests.shift();
+                    this.onMacrosPermissionRequest();
+                } else {
+                    Common.UI.warning({
+                        msg: this.textRequestMacros.replace('%1', url),
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        textDontShow: this.textRememberMacros,
+                        maxwidth: 600,
+                        callback: function(btn, dontshow){
+                            if (dontshow) {
+                                Common.Utils.InternalSettings.set("sse-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                                Common.localStorage.setItem("sse-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                            }
+                            setTimeout(function() {
+                                if (callback) callback(btn == 'yes');
+                                me.stackMacrosRequests.shift();
+                                me.onMacrosPermissionRequest();
+                            }, 1);
+                        }
+                    });
+                }
             },
 
             loadAutoCorrectSettings: function() {
@@ -3553,7 +3583,8 @@ define([
             textFormulaFilledFirstRowsOtherHaveData: 'Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.',
             textReconnect: 'Connection is restored',
             errorCannotUseCommandProtectedSheet: 'You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.',
-            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?'
+            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
+            textRememberMacros: 'Remember my choice for all macros'
         }
     })(), SSE.Controllers.Main || {}))
 });
