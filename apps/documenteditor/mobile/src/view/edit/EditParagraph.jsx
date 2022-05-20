@@ -286,7 +286,7 @@ const EditParagraphStyle = props => {
                         {!api.asc_IsStyleDefault(style.name) && (
                             <div slot="inner-end">
                                 <Link onClick={async () => {
-                                    await props.f7router.back();
+                                    await storeParagraphSettings.changeParaStyleName('Normal');
                                     await props.onStyleMenuDelete(style.name);
                                 }}>
                                     <Icon icon="icon-remove-style" />
