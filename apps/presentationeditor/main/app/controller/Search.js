@@ -272,7 +272,7 @@ define([
 
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
-                if (data.length > 300) return;
+                if (data.length > 300 || !data.length) return;
                 var me = this;
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
@@ -321,11 +321,12 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = findText || this.api.asc_GetSelectedText() || this._state.searchText;
+            var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
             if (text) {
                 this.view.setFindText(text);
-            } else if (text !== undefined) {
+            } else if (text !== undefined) { // panel was opened from empty searchbar, clear to start new search
                 this.view.setFindText('');
+                this._state.searchText = undefined;
             }
 
             this.hideResults();

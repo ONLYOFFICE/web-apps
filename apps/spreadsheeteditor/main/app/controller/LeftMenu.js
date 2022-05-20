@@ -683,7 +683,7 @@ define([
                         if (this.isSearchPanelVisible()) {
                             selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                             this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                            this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText);
+                            this.leftMenu.fireEvent('search:aftershow', [selectedText]);
                             return false;
                         } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                             var viewport = this.getApplication().getController('Viewport');
@@ -840,7 +840,7 @@ define([
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
                 this.leftMenu.showMenu('advancedsearch');
-                this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
+                this.leftMenu.fireEvent('search:aftershow', [findText]);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);

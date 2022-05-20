@@ -413,7 +413,7 @@ define([
 
         onApiGetTextAroundSearch: function (data) { // [id, sheet, name, cell, value, formula]
             if (this.view && this._state.isStartedAddingResults) {
-                if (data.length > 300) return;
+                if (data.length > 300 || !data.length) return;
                 var me = this,
                     $innerResults = me.view.$resultsContainer.find('.search-items');
                 me.resultItems = [];
@@ -474,20 +474,21 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = findText || this.api.asc_GetSelectedText() || this._state.searchText;
+            var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 &&
                 (!this._state.matchCase && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
                     this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                 return;
             }
-            if (text && text !== this.view.inputText.getValue()) {
+            if (text) {
                 this.view.setFindText(text);
-            } else if (text !== undefined) {
+            } else if (text !== undefined) { // panel was opened from empty searchbar, clear to start new search
                 this.view.setFindText('');
+                this._state.searchText = undefined;
             }
 
             this.hideResults();
-            if (text !== '') { // search was made
+            if (text !== '' && text === this._state.searchText) { // search was made
                 this.view.disableReplaceButtons(false);
                 this.api.asc_StartTextAroundSearch();
             } else if (text !== '') { // search wasn't made
