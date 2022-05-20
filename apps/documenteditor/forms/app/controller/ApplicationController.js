@@ -802,6 +802,7 @@ define([
                     warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
+                    iconType: 'svg',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {
