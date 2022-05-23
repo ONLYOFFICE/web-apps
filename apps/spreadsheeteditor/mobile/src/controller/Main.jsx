@@ -818,12 +818,13 @@ class MainController extends Component {
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
                 text: _t.textRequestMacros.replace('%1', url),
+                cssClass: 'dlg-macros-request',
                 content: `<div class="checkbox-in-modal">
                       <label class="checkbox">
                         <input type="checkbox" name="checkbox-show-macros" />
                         <i class="icon-checkbox"></i>
                       </label>
-                      <span class="right-text">${_t.textRememberMacros}</span>
+                      <span class="right-text">${_t.textRemember}</span>
                       </div>`,
                 buttons: [{
                     text: _t.textYes,
