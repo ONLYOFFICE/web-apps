@@ -843,7 +843,7 @@ class MainController extends Component {
             this.onMacrosPermissionRequest();
         } else {
             const { t } = this.props;
-            const _t = t('Main', {returnObjects:true});
+            const _t = t('Controller.Main', {returnObjects:true});
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
                 text: _t.textRequestMacros.replace('%1', url),
