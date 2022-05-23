@@ -11,13 +11,15 @@ export class storeApplicationSettings {
             isComments: observable, 
             isResolvedComments: observable, 
             macrosMode: observable, 
-            changeSpellCheck: action, 
+            macrosRequest: observable,
+            changeSpellCheck: action,
             changeUnitMeasurement: action, 
             changeNoCharacters: action, 
             changeShowTableEmptyLine: action, 
             changeDisplayComments: action, 
             changeDisplayResolved: action, 
-            changeMacrosSettings: action
+            changeMacrosSettings: action,
+            changeMacrosRequest: action
         })
     }
 
@@ -28,6 +30,7 @@ export class storeApplicationSettings {
     isComments = false;
     isResolvedComments = false;
     macrosMode = 0;
+    macrosRequest = 0;
 
     changeUnitMeasurement(value) {
         this.unitMeasurement = +value;
@@ -56,5 +59,9 @@ export class storeApplicationSettings {
 
     changeMacrosSettings(value) {
         this.macrosMode = +value;
+    }
+
+    changeMacrosRequest(value) {
+        this.macrosRequest = value;
     }
 }
