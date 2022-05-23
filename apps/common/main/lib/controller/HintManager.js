@@ -171,6 +171,8 @@ Common.UI.HintManager = new(function() {
         } else {
             _hintVisible = false;
         }
+
+        Common.NotificationCenter.trigger('hints:show', _hintVisible, _currentLevel);
     };
 
     var _hideHints = function() {
@@ -179,6 +181,8 @@ Common.UI.HintManager = new(function() {
             item.remove()
         });
         clearInterval(_inputTimer);
+
+        Common.NotificationCenter.trigger('hints:show', false);
     };
 
     var _nextLevel = function(level) {
