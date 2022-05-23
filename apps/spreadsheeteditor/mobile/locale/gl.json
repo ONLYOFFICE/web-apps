@@ -160,7 +160,8 @@
       "warnLicenseUsersExceeded": "Alcanzou o límite de usuarios para os editores de %1. Por favor, contacte co se uadministrador para recibir máis información.",
       "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
-      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro."
+      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {

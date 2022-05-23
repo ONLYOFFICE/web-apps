@@ -532,7 +532,8 @@
     "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken.",
     "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",
