@@ -126,7 +126,8 @@
       "warnLicenseUsersExceeded": "Heu arribat al límit d'usuari per a %1 editors. Contacteu amb l'administrador per a més informació.",
       "warnNoLicense": "Heu arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacteu amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels vostres serveis.",
-      "warnProcessRightsChange": "No teniu permís per editar el fitxer."
+      "warnProcessRightsChange": "No teniu permís per editar el fitxer.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {

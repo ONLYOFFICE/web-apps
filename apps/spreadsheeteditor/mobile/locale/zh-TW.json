@@ -160,7 +160,8 @@
       "warnLicenseUsersExceeded": "您已達到 %1 個編輯器的使用者限制。請聯繫您的管理員以了解更多資訊。",
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-      "warnProcessRightsChange": "您沒有編輯此文件的權限。"
+      "warnProcessRightsChange": "您沒有編輯此文件的權限。",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
