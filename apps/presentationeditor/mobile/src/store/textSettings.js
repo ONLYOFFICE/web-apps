@@ -133,9 +133,129 @@ export class storeTextSettings {
     }
 
     loadSprite() {
-        this.spriteThumbs = new Image();
-        this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
-        this.spriteThumbs.src = this.thumbs[this.thumbIdx].path;
+        function CThumbnailLoader() {
+            this.supportBinaryFormat = (window['AscDesktopEditor'] && !window['AscDesktopEditor']['isSupportBinaryFontsSprite']) ? false : true;
+
+            this.image = null;
+            this.binaryFormat = null;
+            this.data = null;
+            this.width = 0;
+            this.height = 0;
+            this.heightOne = 0;
+            this.count = 0;
+
+            this.load = function(url, callback) {
+                if (!callback)
+                    return;
+
+                if (!this.supportBinaryFormat) {
+                    this.width = thumbs[thumbIdx].width;
+                    this.heightOne = thumbs[thumbIdx].height;
+
+                    this.image = new Image();
+                    this.image.onload = callback;
+                    this.image.src = thumbs[thumbIdx].path;
+                } else {
+                    var me = this;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', url + ".bin", true);
+                    xhr.responseType = 'arraybuffer';
+
+                    if (xhr.overrideMimeType)
+                        xhr.overrideMimeType('text/plain; charset=x-user-defined');
+                    else
+                        xhr.setRequestHeader('Accept-Charset', 'x-user-defined');
+
+                    xhr.onload = function() {
+                        // TODO: check errors
+                        me.binaryFormat = this.response;
+                        callback();
+                    };
+
+                    xhr.send(null);
+                }
+            };
+
+            this.openBinary = function(arrayBuffer) {
+
+                //var t1 = performance.now();
+
+                var binaryAlpha = new Uint8Array(arrayBuffer);
+                this.width      = (binaryAlpha[0] << 24) | (binaryAlpha[1] << 16) | (binaryAlpha[2] << 8) | (binaryAlpha[3] << 0);
+                this.heightOne  = (binaryAlpha[4] << 24) | (binaryAlpha[5] << 16) | (binaryAlpha[6] << 8) | (binaryAlpha[7] << 0);
+                this.count      = (binaryAlpha[8] << 24) | (binaryAlpha[9] << 16) | (binaryAlpha[10] << 8) | (binaryAlpha[11] << 0);
+                this.height     = this.count * this.heightOne;
+
+                this.data = new Uint8ClampedArray(4 * this.width * this.height);
+
+                var binaryIndex = 12;
+                var binaryLen = binaryAlpha.length;
+                var imagePixels = this.data;
+                var index = 0;
+
+                var len0 = 0;
+                var tmpValue = 0;
+                while (binaryIndex < binaryLen) {
+                    tmpValue = binaryAlpha[binaryIndex++];
+                    if (0 == tmpValue) {
+                        len0 = binaryAlpha[binaryIndex++];
+                        while (len0 > 0) {
+                            len0--;
+                            imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255;
+                            imagePixels[index + 3] = 0; // this value is already 0.
+                            index += 4;
+                        }
+                    } else {
+                        imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255 - tmpValue;
+                        imagePixels[index + 3] = tmpValue;
+                        index += 4;
+                    }
+                }
+
+                //var t2 = performance.now();
+                //console.log(t2 - t1);
+            };
+
+            this.getImage = function(index, canvas, ctx) {
+
+                //var t1 = performance.now();
+                if (!canvas)
+                {
+                    canvas = document.createElement("canvas");
+                    canvas.width = this.width;
+                    canvas.height = this.heightOne;
+                    canvas.style.width = iconWidth + "px";
+                    canvas.style.height = iconHeight + "px";
+
+                    ctx = canvas.getContext("2d");
+                }
+
+                if (this.supportBinaryFormat) {
+                    if (!this.data) {
+                        this.openBinary(this.binaryFormat);
+                        delete this.binaryFormat;
+                    }
+
+                    var dataTmp = ctx.createImageData(this.width, this.heightOne);
+                    var sizeImage = 4 * this.width * this.heightOne;
+                    dataTmp.data.set(new Uint8ClampedArray(this.data.buffer, index * sizeImage, sizeImage));
+                    ctx.putImageData(dataTmp, 0, 0);
+                } else {
+                    ctx.clearRect(0, 0, this.width, this.heightOne);
+                    ctx.drawImage(this.image, 0, -this.heightOne * index);
+                }
+
+                //var t2 = performance.now();
+                //console.log(t2 - t1);
+
+                return canvas;
+            };
+        }
+
+        this.spriteThumbs = new CThumbnailLoader();
+        this.spriteThumbs.load(this.thumbs[this.thumbIdx].path, () => {
+            this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+        });
     }
 
     resetFontName (font) {
