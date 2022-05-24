@@ -111,7 +111,7 @@ const PageFonts = props => {
                         <ListItem className="font-item" key={index} radio checked={curFontName === (item || fonts[index]).name} onClick={() => {
                             storeTextSettings.changeFontFamily((item || fonts[index]).name);
                             props.changeFontFamily((item || fonts[index]).name);
-                            storeTextSettings.addFontToRecent((item || fonts[index]));
+                            storeTextSettings.addFontToRecent(item || fonts[index]);
                             addRecentStorage();
                         }}>
                             {vlFonts.vlData.images[index] && <img src={vlFonts.vlData.images[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />}
