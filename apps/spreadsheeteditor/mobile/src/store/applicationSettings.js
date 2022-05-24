@@ -24,10 +24,13 @@ export class storeApplicationSettings {
             changeDisplayComments: action, 
             changeDisplayResolved: action, 
             changeRefStyle: action, 
-            changeFormulaLang: action
+            changeFormulaLang: action,
+            directionMode: observable,
+            changeDirectionMode: action
         });
     }
-
+    
+    directionMode = LocalStorage.getItem('mode-direction') || 'ltr';
     unitMeasurement = Common.Utils.Metric.getCurrentMetric();
     macrosMode = 0;
     macrosRequest = 0;
@@ -38,6 +41,10 @@ export class storeApplicationSettings {
     isRefStyle = false;
     isComments = true;
     isResolvedComments = true; 
+
+    changeDirectionMode(value) {
+        this.directionMode = value;
+    }
 
     getFormulaLanguages() {
         const dataLang = [

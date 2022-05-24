@@ -205,7 +205,7 @@ const PageStyle = props => {
                                        onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                             </div>
                         </ListItem>
@@ -229,7 +229,7 @@ const PageStyle = props => {
                                        onRangeChanged={(value) => {props.onOpacity(value)}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateOpacity + ' %'}
                             </div>
                         </ListItem>

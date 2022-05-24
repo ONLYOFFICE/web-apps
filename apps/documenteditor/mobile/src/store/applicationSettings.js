@@ -19,6 +19,8 @@ export class storeApplicationSettings {
             changeDisplayComments: action, 
             changeDisplayResolved: action, 
             changeMacrosSettings: action,
+            directionMode: observable,
+            changeDirectionMode: action,
             changeMacrosRequest: action
         })
     }
@@ -30,6 +32,13 @@ export class storeApplicationSettings {
     isComments = false;
     isResolvedComments = false;
     macrosMode = 0;
+
+    directionMode = LocalStorage.getItem('mode-direction') || 'ltr';
+
+    changeDirectionMode(value) {
+        this.directionMode = value;
+    }
+
     macrosRequest = 0;
 
     changeUnitMeasurement(value) {

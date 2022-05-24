@@ -1,0 +1,204 @@
+.device-ios[dir=rtl] {
+    .app-layout {
+        .subnavbar,.navbar .left a + a {
+            margin-right: 0;
+        }
+    
+        .subnavbar,.navbar .right a + a {
+            margin-right: 0;
+        }
+
+        .tab-buttons {
+            .tab-link:last-child {
+                border-radius: 5px 0 0 5px;
+            }
+            .tab-link:first-child {
+                border-radius: 0 5px 5px 0;
+            }
+        }
+
+        .popover {
+            li:last-child, li:first-child {
+                .segmented a:first-child {
+                    border-radius: 0 var(--f7-button-border-radius) var(--f7-button-border-radius) 0;
+                }
+                .segmented a:last-child {
+                    border-radius: var(--f7-button-border-radius) 0 0 var(--f7-button-border-radius);
+                }
+            } 
+        }
+
+        .list .item-inner .item-after .segmented {
+            margin-right: 10px;
+            margin-left: 0;
+        }
+
+        #editor-navbar.navbar .right a + a, #editor-navbar.navbar .left a + a {
+            margin-right: 0;
+        }
+
+        .searchbar-inner__right .buttons-row a.next {
+            margin-left: 0;
+            margin-right: 15px;
+        }
+
+        .searchbar-inner__left {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .navbar .searchbar-input-wrap {
+            margin-left: 10px;
+            margin-right: 0;
+        }
+    }
+
+    .comment-list .item-content .item-inner .comment-header {
+        padding-left: 16px;
+    }
+}
+
+.device-android[dir=rtl] {
+    .app-layout {
+        .searchbar input {
+            padding-right: 24px;
+            padding-left: 36px;
+            background-position: right;
+        }
+    }
+
+    .wrap-comment, .comment-list{
+        .comment-header .initials {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+    }
+
+    .actions-modal {
+        .actions-button-text {
+            text-align: right;
+        }
+    }
+
+    .comment-list .item-content .item-inner .comment-header {
+        padding-left: 0;
+    }
+
+    .navigation-sheet {
+        &__title {
+            padding-left: 0;
+            padding-right: 16px;
+        }
+    }
+}
+
+[dir=rtl] {
+    .color-schemes-menu .item-title {
+        margin-right: 20px;
+    }
+
+    .popup .list .range-number, .popover .list .range-number, .sheet-modal .list .range-number {
+        text-align: left;
+    }
+
+    .popup .list .inner-range-title, .popover .list .inner-range-title, .sheet-modal .list .inner-range-title {
+        padding-left: 0;
+        padding-right: 15px;
+    }
+
+    #color-picker .right-block {
+        margin-right: 20px;
+    }
+
+    .page-review .toolbar #btn-reject-change {
+        margin-left: 0;
+        margin-right: 20px;
+    }
+
+    .list li.no-indicator .item-link .item-inner {
+        padding-right: 0;
+        padding-left: 15px;
+    }
+
+    .numbers, .bullets, .multilevels {
+        .item-content {
+            padding-right: 0;
+        }
+    }
+
+    .settings-popup, #settings-popover{
+        .link {
+            display: inline;
+        }
+    }
+
+    .comment-list {
+        .item-content .item-inner {
+            padding-left: 0;
+            .comment-header {
+                padding-right: 0;
+                .right {
+                    justify-content: space-between;
+                    .comment-resolve {
+                        margin-right: 0px;
+                        margin-left: 10px;
+                    }
+                }
+
+                .name {
+                    text-align: right;
+                }
+            }
+        }
+
+        .comment-quote {
+            border-right: 1px solid var(--text-secondary);
+            border-left: 0;
+            padding-left: 16px;
+            padding-right: 10px;
+        }
+
+        .comment-text, .reply-text {
+            padding-right: 0;
+            padding-left: 15px;
+        }
+    }
+
+    #add-comment-dialog .dialog .dialog-inner .wrap-comment .name, #edit-comment-dialog .dialog .dialog-inner .wrap-comment .name, #add-reply-dialog .dialog .dialog-inner .wrap-comment .name, #edit-reply-dialog .dialog .dialog-inner .wrap-comment .name, #add-comment-dialog .dialog .dialog-inner .wrap-comment .comment-date, #edit-comment-dialog .dialog .dialog-inner .wrap-comment .comment-date, #add-reply-dialog .dialog .dialog-inner .wrap-comment .comment-date, #edit-reply-dialog .dialog .dialog-inner .wrap-comment .comment-date, #add-comment-dialog .dialog .dialog-inner .wrap-comment .reply-date, #edit-comment-dialog .dialog .dialog-inner .wrap-comment .reply-date, #add-reply-dialog .dialog .dialog-inner .wrap-comment .reply-date, #edit-reply-dialog .dialog .dialog-inner .wrap-comment .reply-date {
+        text-align: right;
+    }
+
+    #view-comment-popover .page .page-content {
+        padding: 16px 0 60px 16px;
+    }
+
+    .wrap-comment {
+        padding: 16px 16px 0 24px;
+    }
+
+    .inline-labels .item-label + .item-input-wrap, .inline-label .item-label + .item-input-wrap, .inline-labels .item-floating-label + .item-input-wrap, .inline-label .item-floating-label + .item-input-wrap {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 550px) {
+    .device-ios[dir=rtl] {
+        .app-layout {
+            .searchbar-expandable.searchbar-enabled .searchbar-inner__right {
+                margin-right: 10px;
+                margin-left: 0;
+            }
+            .navbar .searchbar-input-wrap {
+                margin-left: 0;
+            }
+        }   
+    }
+    .device-android[dir=rtl] {
+        .app-layout {
+            .searchbar-expandable.searchbar-enabled .searchbar-inner__left {
+                margin-right: 0;
+                margin-left: 33px;
+            }
+        }
+    }
+}

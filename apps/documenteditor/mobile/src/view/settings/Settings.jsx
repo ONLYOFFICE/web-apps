@@ -10,7 +10,7 @@ import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DownloadController } from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
-import { MacrosSettings } from "./ApplicationSettings";
+import { MacrosSettings, Direction } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
 
@@ -61,6 +61,13 @@ const routes = [
     {
         path: '/navigation/',
         component: NavigationController
+    },
+
+    // Direction 
+
+    {
+        path: '/direction/',
+        component: Direction
     }
 ];
 

@@ -236,24 +236,29 @@ const PageNumbers = observer( props => {
         props.getIconsBulletsAndNumbers($$('.item-number'), 1);
     }, []);
     
-    return(
+    return (
         <View className='numbers dataview'>
-            <List className="row" style={{listStyle: 'none'}}>
-                {numberArrays.map(number => (
-                    <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) && 
-                        (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
-                        onClick={() => {
-                            storeTextSettings.resetNumbers(number.subtype);
-                            props.onNumber(number.subtype);
-                        }}>
-                        <div id={`id-numbers-${number.subtype}`} className='item-number'>
-
-                        </div>
-                    </ListItem>
-                ))}
-            </List>
+            {numberArrays.map((numbers, index) => (
+                <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
+                    {numbers.map((number) => (
+                        <ListItem key={'number-' + number.type} data-type={number.type} className={(number.type === typeNumbers) && 
+                            (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
+                            onClick={() => {
+                                storeTextSettings.resetNumbers(number.type);
+                                props.onNumber(number.type);
+                            }}>
+                            {number.thumb.length < 1 ?
+                                <Icon className="thumb" style={{position: 'relative'}}>
+                                    <label>{t('Edit.textNone')}</label>
+                                </Icon> :
+                                <Icon className="thumb" icon={`icon-numbers-${number.type}`} />
+                            }
+                        </ListItem>
+                    ))}
+                </List>
+            ))}
         </View>
-    )
+    );
 });
 
 const PageMultiLevel = observer( props => {
