@@ -107,16 +107,19 @@ const PageFonts = props => {
                 renderExternal: renderExternal
             }}>
                 <ul>
-                    {vlFonts.vlData.items.map((item, index) => (
-                        <ListItem className="font-item" key={index} radio checked={curFontName === (item || fonts[index]).name} onClick={() => {
-                            storeTextSettings.changeFontFamily((item || fonts[index]).name);
-                            props.changeFontFamily((item || fonts[index]).name);
-                            storeTextSettings.addFontToRecent(item || fonts[index]);
+                    {vlFonts.vlData.items.map((item, index) => {
+                        const font = item || fonts[index];
+                        const fontName = font.name;
+                        return (<ListItem className="font-item" key={index} radio checked={curFontName === fontName} onClick={() => {
+                            storeTextSettings.changeFontFamily(fontName);
+                            props.changeFontFamily(fontName);
+                            storeTextSettings.addFontToRecent(font);
                             addRecentStorage();
                         }}>
                             {vlFonts.vlData.images[index] && <img src={vlFonts.vlData.images[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />}
                         </ListItem>
-                    ))}
+                        )
+                    })}
                 </ul>
             </List>
         </Page>
