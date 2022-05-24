@@ -46,11 +46,15 @@ const PageFonts = props => {
 
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
-            let fonts = [...prevState.vlData.items];
-            fonts.splice(vlData.fromIndex, vlData.toIndex, ...vlData.items);
+            let fonts = [...prevState.vlData.items],
+                drawFonts = [...vlData.items];
 
-            let images = getImageUri(fonts);
-
+            let images = [],
+                drawImages = getImageUri(drawFonts);
+            for (let i = 0; i < drawFonts.length; i++) {
+                fonts[i + vlData.fromIndex] = drawFonts[i];
+                images[i + vlData.fromIndex] = drawImages[i];
+            }
             return {vlData: {
                     items: fonts,
                     images,
@@ -104,13 +108,13 @@ const PageFonts = props => {
             }}>
                 <ul>
                     {vlFonts.vlData.items.map((item, index) => (
-                        <ListItem className="font-item" key={index} radio checked={curFontName === item.name} onClick={() => {
-                            storeTextSettings.changeFontFamily(item.name); 
-                            props.changeFontFamily(item.name);
-                            storeTextSettings.addFontToRecent(item); 
+                        <ListItem className="font-item" key={index} radio checked={curFontName === (item || fonts[index]).name} onClick={() => {
+                            storeTextSettings.changeFontFamily((item || fonts[index]).name);
+                            props.changeFontFamily((item || fonts[index]).name);
+                            storeTextSettings.addFontToRecent((item || fonts[index]));
                             addRecentStorage();
                         }}>
-                            <img src={vlFonts.vlData.images[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />
+                            {vlFonts.vlData.images[index] && <img src={vlFonts.vlData.images[index]} style={{width: `${iconWidth}px`, height: `${iconHeight}px`}} />}
                         </ListItem>
                     ))}
                 </ul>
