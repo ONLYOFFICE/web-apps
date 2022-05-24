@@ -32,10 +32,8 @@ const PageFonts = props => {
 
     const getImageUri = fonts => {
         return fonts.map(font => {
-            thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
-            thumbContext.drawImage(spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(font.imgidx / spriteCols));
-
-            return thumbCanvas.toDataURL();
+            let index = Math.floor(font.imgidx/spriteCols);
+            return spriteThumbs.getImage(index, thumbCanvas, thumbContext).toDataURL();
         });
     };
 
