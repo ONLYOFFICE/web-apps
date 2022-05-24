@@ -287,6 +287,9 @@ define([
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     reviewStore : this.popoverChanges,
                     renderTo : this.sdkViewName,
+                    canRequestUsers: (this.appConfig) ? this.appConfig.canRequestUsers : undefined,
+                    canRequestSendNotify: (this.appConfig) ? this.appConfig.canRequestSendNotify : undefined,
+                    mentionShare: (this.appConfig) ? this.appConfig.mentionShare : true,
                     api: this.api
                 });
                 this.popover.setReviewStore(this.popoverChanges);

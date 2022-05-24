@@ -341,6 +341,9 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
                 '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td>',
@@ -395,6 +398,14 @@ define([
             this.chInputMode = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-input-mode'),
                 labelText: this.txtHieroglyphs,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chUseAltKey = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-use-alt-key'),
+                labelText: Common.Utils.isMac ? this.txtUseOptionKey : this.txtUseAltKey,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -776,6 +787,8 @@ define([
         updateSettings: function() {
             this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
 
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-use-alt-key"));
+
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
@@ -858,6 +871,8 @@ define([
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-use-alt-key", Common.localStorage.getBool("de-settings-use-alt-key"));
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
 
@@ -996,6 +1011,8 @@ define([
         txtShowTrackChanges: 'Show track changes',
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
+        txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         strShowComments: 'Show comments in text',
         strShowResolvedComments: 'Show resolved comments',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
@@ -1240,8 +1257,8 @@ define([
                         '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
                         '<td class="right"><label id="id-info-modify-by"></label></td>',
                     '</tr>',
-                    '<tr class="divider modify">',
-                    '<tr class="divider modify">',
+                    '<tr class="divider modify"></tr>',
+                    '<tr class="divider modify"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtCreated + '</label></td>',
                         '<td class="right"><label id="id-info-date"></label></td>',
@@ -1253,6 +1270,11 @@ define([
                     '<tr class="pdf-info">',
                         '<td class="left"><label>' + this.txtAuthor + '</label></td>',
                         '<td class="right"><label id="id-lbl-info-author"></label></td>',
+                    '</tr>',
+                    '<tr class="divider pdf-info"></tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfProducer + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-produce"></label></td>',
                     '</tr>',
                     '<tr class="pdf-info">',
                          '<td class="left"><label>' + this.txtPdfVer + '</label></td>',
@@ -1412,6 +1434,7 @@ define([
             this.lblPdfAuthor = $markup.findById('#id-lbl-info-author');
             this.lblPdfVer = $markup.findById('#id-info-pdf-ver');
             this.lblPdfTagged = $markup.findById('#id-info-pdf-tagged');
+            this.lblPdfProducer = $markup.findById('#id-info-pdf-produce');
             this.lblFastWV = $markup.findById('#id-info-fast-wv');
 
             this.btnApply = new Common.UI.Button({
@@ -1498,7 +1521,7 @@ define([
                 this.lblApplication.text(appname);
             } else if (pdfProps) {
                 $('.docx-info', this.el).hide();
-                appname = pdfProps ? pdfProps.Producer || '' : '';
+                appname = pdfProps ? pdfProps.Creator || '' : '';
                 this.lblApplication.text(appname);
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
@@ -1624,6 +1647,10 @@ define([
                 if (value !== undefined)
                     this.lblPdfTagged.text(value===true ? this.txtYes : this.txtNo);
                 this._ShowHideInfoItem(this.lblPdfTagged, value !== undefined);
+
+                value = props.Producer;
+                value && this.lblPdfProducer.text(value);
+                this._ShowHideInfoItem(this.lblPdfProducer, !!value);
 
                 value = props.FastWebView;
                 if (value !== undefined)
@@ -1790,7 +1817,8 @@ define([
         txtPdfTagged: 'Tagged PDF',
         txtFastWV: 'Fast Web View',
         txtYes: 'Yes',
-        txtNo: 'No'
+        txtNo: 'No',
+        txtPdfProducer: 'PDF Producer'
 
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 

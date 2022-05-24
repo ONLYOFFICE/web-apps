@@ -104,7 +104,8 @@
                 offset      : opts.offset,
                 cls         : opts.cls,
                 html        : opts.html,
-                hideonclick : opts.hideonclick
+                hideonclick : opts.hideonclick,
+                keepvisible: opts.keepvisible
             });
 
             if (opts.hideonclick) {

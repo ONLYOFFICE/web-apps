@@ -66,12 +66,12 @@ define([
             spriteCols     = 1,
             applicationPixelRatio = Common.Utils.applicationPixelRatio();
 
-        if (typeof window['AscDesktopEditor'] === 'object') {
-            thumbs[0].path     = window['AscDesktopEditor'].getFontsSprite('');
-            thumbs[1].path     = window['AscDesktopEditor'].getFontsSprite('@1.25x');
-            thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite('@1.5x');
-            thumbs[3].path     = window['AscDesktopEditor'].getFontsSprite('@1.75x');
-            thumbs[4].path     = window['AscDesktopEditor'].getFontsSprite('@2x');
+        if ( Common.Controllers.Desktop.isActive() ) {
+            thumbs[0].path     = Common.Controllers.Desktop.call('getFontsSprite');
+            thumbs[1].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.25x');
+            thumbs[2].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.5x');
+            thumbs[3].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.75x');
+            thumbs[4].path     = Common.Controllers.Desktop.call('getFontsSprite', '@2x');
         }
 
         var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);

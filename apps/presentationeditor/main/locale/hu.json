@@ -1120,6 +1120,7 @@
   "PE.Views.Animation.str20": "20 s (rendkívül lassú)",
   "PE.Views.Animation.str3": "3 s (lassú)",
   "PE.Views.Animation.str5": "5 s (nagyon lassú)",
+  "PE.Views.Animation.textAutoPreview": "AutoElőnézet",
   "PE.Views.Animation.textNoRepeat": "(nincs)",
   "PE.Views.Animation.textStartAfterPrevious": "Az előző után",
   "PE.Views.Animation.txtAddEffect": "Animáció hozzáadása",

@@ -11,7 +11,8 @@ export class storeApplicationSettings {
             isComments: observable, 
             isResolvedComments: observable, 
             macrosMode: observable, 
-            changeSpellCheck: action, 
+            macrosRequest: observable,
+            changeSpellCheck: action,
             changeUnitMeasurement: action, 
             changeNoCharacters: action, 
             changeShowTableEmptyLine: action, 
@@ -19,7 +20,8 @@ export class storeApplicationSettings {
             changeDisplayResolved: action, 
             changeMacrosSettings: action,
             directionMode: observable,
-            changeDirectionMode: action
+            changeDirectionMode: action,
+            changeMacrosRequest: action
         })
     }
 
@@ -30,11 +32,14 @@ export class storeApplicationSettings {
     isComments = false;
     isResolvedComments = false;
     macrosMode = 0;
+
     directionMode = LocalStorage.getItem('mode-direction') || 'ltr';
 
     changeDirectionMode(value) {
         this.directionMode = value;
     }
+
+    macrosRequest = 0;
 
     changeUnitMeasurement(value) {
         this.unitMeasurement = +value;
@@ -63,5 +68,9 @@ export class storeApplicationSettings {
 
     changeMacrosSettings(value) {
         this.macrosMode = +value;
+    }
+
+    changeMacrosRequest(value) {
+        this.macrosRequest = value;
     }
 }

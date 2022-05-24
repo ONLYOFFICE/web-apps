@@ -88,6 +88,9 @@ class DocumentInfoController extends Component {
             value = props.Version;
             if(value) this.docInfoObject.version = value;
 
+            value = props.Producer;
+            if(value) this.docInfoObject.producer = value;
+
             value = props.Tagged;
             if (value !== undefined)
                 this.docInfoObject.tagged = (value===true ? _t.textYes : _t.textNo);
@@ -120,7 +123,7 @@ class DocumentInfoController extends Component {
            
             return appName || '';
         } else if (this.pdfProps) {
-            appName = this.pdfProps ? this.pdfProps.Producer || '' : '';
+            appName = this.pdfProps ? this.pdfProps.Creator || '' : '';
             return appName;
         }
     }

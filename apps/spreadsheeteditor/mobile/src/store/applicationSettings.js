@@ -5,7 +5,8 @@ export class storeApplicationSettings {
     constructor() {
         makeObservable(this, {
             unitMeasurement: observable, 
-            macrosMode: observable, 
+            macrosMode: observable,
+            macrosRequest: observable,
             formulaLang: observable, 
             regCode: observable, 
             regExample: observable, 
@@ -18,7 +19,8 @@ export class storeApplicationSettings {
             changeRegCode: action, 
             setRegExample: action, 
             changeUnitMeasurement: action, 
-            changeMacrosSettings: action, 
+            changeMacrosSettings: action,
+            changeMacrosRequest: action,
             changeDisplayComments: action, 
             changeDisplayResolved: action, 
             changeRefStyle: action, 
@@ -31,6 +33,7 @@ export class storeApplicationSettings {
     directionMode = LocalStorage.getItem('mode-direction') || 'ltr';
     unitMeasurement = Common.Utils.Metric.getCurrentMetric();
     macrosMode = 0;
+    macrosRequest = 0;
     formulaLang = LocalStorage.getItem('sse-settings-func-lang') || this.getFormulaLanguages()[0].value;
     regCode = undefined;
     regExample = '';
@@ -107,6 +110,10 @@ export class storeApplicationSettings {
 
     changeMacrosSettings(value) {
         this.macrosMode = +value;
+    }
+
+    changeMacrosRequest(value) {
+        this.macrosRequest = value;
     }
 
     changeDisplayComments(value) {

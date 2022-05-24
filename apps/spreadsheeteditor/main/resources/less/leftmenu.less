@@ -41,28 +41,28 @@
 
     .svg-format- {
         &xlsx {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/xlsx.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/xlsx.svg') no-repeat center";
         }
         &pdf {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/pdf.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
         }
         &ods {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/ods.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/ods.svg') no-repeat center";
         }
         &csv {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/csv.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/csv.svg') no-repeat center";
         }
         &xltx {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/xltx.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/xltx.svg') no-repeat center";
         }
         &pdfa {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/pdfa.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
         }
         &ots {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/ots.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/ots.svg') no-repeat center";
         }
         &xlsm {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/xlsm.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/xlsm.svg') no-repeat center";
         }
     }
 
@@ -83,10 +83,10 @@
     cursor: pointer;
 
     .svg-format-blank {
-        background: ~"url(../../../apps/common/main/resources/img/doc-formats/blank.svg) no-repeat center" ;
+        background: ~"url(@{common-image-const-path}/doc-formats/blank.svg) no-repeat center" ;
     }
     .svg-file-template{
-        background: ~"url(resources/img/file-template.svg) no-repeat center" ;
+        background: ~"url(@{app-image-const-path}/file-template.svg) no-repeat center" ;
     }
 
     div {
@@ -117,6 +117,7 @@
                     background-color: @highlight-button-pressed;
 
                     > a {
+                        color: @text-normal-pressed-ie;
                         color: @text-normal-pressed;
                     }
                 }
@@ -425,7 +426,7 @@
                         width: 100%;
                         height: 100%;
                         .svg-file-recent {
-                            background: ~"url(resources/img/recent-file.svg) no-repeat top";
+                            background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
                         }
                     }
                 }

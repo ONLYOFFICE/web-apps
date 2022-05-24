@@ -152,6 +152,7 @@ define([
                     strongCompare   : function(obj1, obj2){return obj1.type === obj2.type;},
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
+                this.stackMacrosRequests = [];
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -393,6 +394,9 @@ define([
                     value = parseInt(value);
                 Common.Utils.InternalSettings.set("pe-macros-mode", value);
 
+                value = Common.localStorage.getItem("pe-allow-macros-request");
+                Common.Utils.InternalSettings.set("pe-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
+
                 this.appOptions.wopi = this.editorConfig.wopi;
                 
                 Common.Controllers.Desktop.init(this.appOptions);
@@ -443,6 +447,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onMacrosPermissionRequest', _.bind(this.onMacrosPermissionRequest, this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
@@ -586,7 +591,7 @@ define([
                     toolbarView.btnHighlightColor.toggle(false, false);
                 }
                 
-                application.getController('DocumentHolder').getView('DocumentHolder').focus();
+                application.getController('DocumentHolder').getView().focus();
                 if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave,
@@ -847,6 +852,9 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
+                value = Common.localStorage.getBool("pe-settings-use-alt-key", true);
+                Common.Utils.InternalSettings.set("pe-settings-use-alt-key", value);
+
                 /** coauthoring begin **/
                 me._state.fastCoauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
@@ -875,7 +883,7 @@ define([
                 pluginsController.setApi(me.api);
 
                 documentHolderController.setApi(me.api);
-                documentHolderController.createDelayedElements();
+                // documentHolderController.createDelayedElements();
                 statusbarController.createDelayedElements();
 
                 leftmenuController.getView('LeftMenu').disableMenu('all',false);
@@ -883,7 +891,7 @@ define([
                 if (me.appOptions.canBranding)
                     me.getApplication().getController('LeftMenu').leftMenu.getMenu('about').setLicInfo(me.editorConfig.customization);
 
-                documentHolderController.getView('DocumentHolder').setApi(me.api).on('editcomplete', _.bind(me.onEditComplete, me));
+                documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 //                if (me.isThumbnailsShow) me.getMainMenu().onThumbnailsShow(me.isThumbnailsShow);
                 application.getController('Viewport').getView('DocumentPreview').setApi(me.api).setMode(me.appOptions).on('editcomplete', _.bind(me.onEditComplete, me));
 
@@ -909,7 +917,7 @@ define([
 
                             toolbarController.createDelayedElements();
 
-                            documentHolderController.getView('DocumentHolder').createDelayedElements();
+                            documentHolderController.getView().createDelayedElements();
                             me.setLanguages();
 
                             me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
@@ -931,7 +939,7 @@ define([
                         }
                     }, 50);
                 } else {
-                    documentHolderController.getView('DocumentHolder').createDelayedElementsViewer();
+                    documentHolderController.getView().createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
                 }
@@ -1079,7 +1087,7 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
                 }
                 if (options.documentHolder) {
-                    app.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+                    app.getController('DocumentHolder').SetDisabled(disable);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)
@@ -1282,7 +1290,7 @@ define([
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
-                    documentHolder  = app.getController('DocumentHolder').getView('DocumentHolder'),
+                    documentHolder  = app.getController('DocumentHolder'),
                     toolbarController = app.getController('Toolbar');
 
                 viewport && viewport.setMode(this.appOptions, true);
@@ -1854,7 +1862,7 @@ define([
 
             synchronizeChanges: function() {
                 this.getApplication().getController('Statusbar').setStatusCaption('');
-                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').hideTips();
+                this.getApplication().getController('DocumentHolder').hideTips();
                 /** coauthoring begin **/
                 this.getApplication().getController('Toolbar').getView('Toolbar').synchronizeChanges();
                 /** coauthoring end **/
@@ -2072,7 +2080,7 @@ define([
                     this.loadLanguages([]);
                 }
                 if (this.languages && this.languages.length>0) {
-                    this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(this.languages);
+                    this.getApplication().getController('DocumentHolder').getView().setLanguages(this.languages);
                     this.getApplication().getController('Statusbar').setLanguages(this.languages);
                     this.getApplication().getController('Common.Controllers.ReviewChanges').setLanguages(this.languages);
                 }
@@ -2274,6 +2282,47 @@ define([
                             }
                         });
                     }
+                }
+            },
+
+            onMacrosPermissionRequest: function(url, callback) {
+                if (url && callback) {
+                    this.stackMacrosRequests.push({url: url, callback: callback});
+                    if (this.stackMacrosRequests.length>1) {
+                        return;
+                    }
+                } else if (this.stackMacrosRequests.length>0) {
+                    url = this.stackMacrosRequests[0].url;
+                    callback = this.stackMacrosRequests[0].callback;
+                } else
+                    return;
+
+                var me = this;
+                var value = Common.Utils.InternalSettings.get("pe-allow-macros-request");
+                if (value>0) {
+                    callback && callback(value === 1);
+                    this.stackMacrosRequests.shift();
+                    this.onMacrosPermissionRequest();
+                } else {
+                    Common.UI.warning({
+                        msg: this.textRequestMacros.replace('%1', url),
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        textDontShow: this.textRememberMacros,
+                        maxwidth: 600,
+                        callback: function(btn, dontshow){
+                            if (dontshow) {
+                                Common.Utils.InternalSettings.set("pe-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                                Common.localStorage.setItem("pe-allow-macros-request", (btn == 'yes') ? 1 : 2);
+                            }
+                            setTimeout(function() {
+                                if (callback) callback(btn == 'yes');
+                                me.stackMacrosRequests.shift();
+                                me.onMacrosPermissionRequest();
+                            }, 1);
+                        }
+                    });
                 }
             },
 
@@ -2930,7 +2979,9 @@ define([
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
             textLearnMore: 'Learn More',
-            textReconnect: 'Connection is restored'
+            textReconnect: 'Connection is restored',
+            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
+            textRememberMacros: 'Remember my choice for all macros'
         }
     })(), PE.Controllers.Main || {}))
 });

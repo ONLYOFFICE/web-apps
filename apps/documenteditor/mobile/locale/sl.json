@@ -532,7 +532,8 @@
     "warnProcessRightsChange": "You don't have permission to edit this file.",
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textNoTextFound": "Text not found"
+    "textNoTextFound": "Text not found",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -655,7 +656,8 @@
     "textPdfTagged": "Tagged PDF",
     "textFastWV": "Fast Web View",
     "textYes": "Yes",
-    "textNo": "No"
+    "textNo": "No",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

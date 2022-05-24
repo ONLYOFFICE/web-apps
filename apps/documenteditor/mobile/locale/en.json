@@ -292,7 +292,14 @@
     "textPageBreakBefore": "Page Break Before",
     "textPageNumbering": "Page Numbering",
     "textParagraph": "Paragraph",
-    "textParagraphStyles": "Paragraph Styles",
+    "textCreateTextStyle": "Create new text style",
+    "textDone": "Done",
+    "textTitle": "Title",
+    "textEnterTitleNewStyle": "Enter title of a new style",
+    "textNextParagraphStyle": "Next paragraph style",
+    "textSameCreatedNewStyle": "Same as created new style",
+    "del_textParagraphStyles": "Paragraph Styles",
+    "textParagraphStyle": "Paragraph Style",
     "textPictureFromLibrary": "Picture from Library",
     "textPictureFromURL": "Picture from URL",
     "textPt": "pt",
@@ -532,7 +539,8 @@
     "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
     "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
     "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-    "warnProcessRightsChange": "You don't have permission to edit this file."
+    "warnProcessRightsChange": "You don't have permission to edit this file.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -608,6 +616,7 @@
     "textParagraphs": "Paragraphs",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
+    "textPdfProducer": "PDF Producer",
     "textPoint": "Point",
     "textPortrait": "Portrait",
     "textPrint": "Print",

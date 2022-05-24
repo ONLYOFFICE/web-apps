@@ -154,7 +154,7 @@ define([
 
             this.btnNavigation = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-navigation'),
-                hint: this.tipNavigation,
+                hint: this.tipOutline,
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
@@ -501,6 +501,7 @@ define([
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
         tipNavigation: 'Navigation',
+        tipOutline: 'Headings',
         txtLimit: 'Limit Access'
     }, DE.Views.LeftMenu || {}));
 });

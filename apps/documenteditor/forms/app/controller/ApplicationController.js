@@ -229,6 +229,7 @@ define([
 
                 case Asc.c_oAscError.ID.UpdateVersion:
                     config.msg = this.errorUpdateVersionOnDisconnect;
+                    config.maxwidth = 600;
                     break;
 
                 case Asc.c_oAscError.ID.AccessDeny:
@@ -248,6 +249,7 @@ define([
                 case Asc.c_oAscError.ID.ForceSaveButton:
                 case Asc.c_oAscError.ID.ForceSaveTimeout:
                     config.msg = this.errorForceSave;
+                    config.maxwidth = 600;
                     break;
 
                 case Asc.c_oAscError.ID.LoadingFontError:
@@ -800,6 +802,7 @@ define([
                     warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
+                    iconType: 'svg',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {

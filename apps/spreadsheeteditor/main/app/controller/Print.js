@@ -124,11 +124,18 @@ define([
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
             this.api.asc_registerCallback('asc_onPrintPreviewPageChanged', _.bind(this.onApiChangePreviewPage, this));
+            this.api.asc_registerCallback('asc_onPrintPreviewSheetDataChanged', _.bind(this.onApiPreviewSheetDataChanged, this));
         },
 
         updateSheetsInfo: function() {
             if (this.printSettings.isVisible()) {
                 this.updateSettings(this.printSettings);
+                this.printSettings.cmbSheet.store.each(function (item) {
+                    var sheetIndex = item.get('value');
+                    if (!this._changedProps[sheetIndex]) {
+                        this._changedProps[sheetIndex] = this.api.asc_getPageOptions(sheetIndex, true, true);
+                    }
+                }, this);
             } else {
                 this.isFillSheets = false;
             }
@@ -152,15 +159,13 @@ define([
                        panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
                 panel.cmbSheet.setValue(item.get('value'));
+                panel.updateActiveSheet && panel.updateActiveSheet(item.get('displayValue'));
             }
         },
 
         comboSheetsChange: function(panel, combo, record) {
             var currentSheet = record.value;
             this.fillPageOptions(panel, this._changedProps[currentSheet] ? this._changedProps[currentSheet] : this.api.asc_getPageOptions(currentSheet, true), currentSheet);
-            if (!this._changedProps[currentSheet]) {
-                this._changedProps[currentSheet] = this.getPageOptions(this.printSettings, currentSheet);
-            }
         },
 
         fillPageOptions: function(panel, props, sheet) {
@@ -316,6 +321,7 @@ define([
         },
 
         onShowMainSettingsPrint: function() {
+            var me = this;
             this._changedProps = [];
             this.printSettings.$previewBox.removeClass('hidden');
 
@@ -323,10 +329,15 @@ define([
                 this.isFillSheets = true;
                 this.updateSettings(this.printSettings);
             }
+            this.printSettings.cmbSheet.store.each(function (item) {
+                var sheetIndex = item.get('value');
+                me._changedProps[sheetIndex] = me.api.asc_getPageOptions(sheetIndex, true, true);
+            }, this);
+            this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
-            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
             var pageCount = this.api.asc_initPrintPreview('print-preview', opts);
 
@@ -412,7 +423,7 @@ define([
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
                     Common.localStorage.setItem("sse-print-settings-range", printType);
 
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
                     Common.NotificationCenter.trigger('edit:complete', view);
@@ -711,23 +722,27 @@ define([
 
         updatePreview: function (needUpdate) {
             if (this._isPreviewVisible) {
+                this.printSettings.$previewBox.removeClass('hidden');
+
                 var adjPrintParams = new Asc.asc_CAdjustPrint(),
                     printType = this.printSettings.getRange();
                 adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
 
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(adjPrintParams);
 
                 var pageCount = this.api.asc_updatePrintPreview(opts);
+                this.printSettings.$previewBox.toggleClass('hidden', !pageCount);
+                this.printSettings.$previewEmpty.toggleClass('hidden', !!pageCount);
 
                 var newPage;
                 if (this._currentPrintType !== printType) {
                     newPage = 0;
                     this._currentPrintType = printType;
                 } else if (this._navigationPreview.currentPage > pageCount - 1) {
-                    newPage = pageCount - 1;
+                    newPage = Math.max(0, pageCount - 1);
                 } else {
                     newPage = this._navigationPreview.currentPage;
                 }
@@ -740,16 +755,14 @@ define([
         },
 
         onApiChangePreviewSheet: function (index) {
+            var item = this.printSettings.cmbSheet.store.findWhere({value: index});
+            this.printSettings.updateActiveSheet(item.get('displayValue'));
+
             if (this.notUpdateSheetSettings) {
                 this.notUpdateSheetSettings = false;
-                return
-            }
-            var item = this.printSettings.cmbSheet.store.findWhere({value: index});
-            if (item) {
+            } else if (item) {
                 this.printSettings.cmbSheet.setValue(item.get('value'));
                 this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
-                var sheetName = this.api.asc_getWorksheetName(index);
-                this.printSettings.updateActiveSheet(sheetName);
             }
         },
 
@@ -783,6 +796,16 @@ define([
                 this._navigationPreview.currentPage = page;
                 this.updateNavigationButtons(page, this._navigationPreview.pageCount);
                 this.disableNavButtons();
+            }
+        },
+
+        onApiPreviewSheetDataChanged: function (needUpdate) {
+            if (needUpdate) {
+                this.updatePreview();
+            } else {
+                this.notUpdateSheetSettings = true;
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+                this.updateNavigationButtons(this._navigationPreview.currentPage, this._navigationPreview.pageCount);
             }
         },
 

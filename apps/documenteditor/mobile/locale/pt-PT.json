@@ -532,7 +532,8 @@
     "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
     "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
     "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
+    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protegido",
@@ -655,7 +656,8 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

@@ -60,10 +60,8 @@ define([
 
             events: function() {
                 return {
-                    'click #status-btn-tabfirst': _.bind(this.onBtnTabScroll, this, 'first'),
                     'click #status-btn-tabback': _.bind(this.onBtnTabScroll, this, 'backward'),
-                    'click #status-btn-tabnext': _.bind(this.onBtnTabScroll, this, 'forward'),
-                    'click #status-btn-tablast': _.bind(this.onBtnTabScroll, this, 'last')
+                    'click #status-btn-tabnext': _.bind(this.onBtnTabScroll, this, 'forward')
                 };
             },
 
@@ -100,13 +98,6 @@ define([
                     hintAnchor: 'top-right'
                 });
 
-                this.btnScrollFirst = new Common.UI.Button({
-                    el: $('#status-btn-tabfirst',this.el),
-                    hint: this.tipFirst,
-                    disabled: true,
-                    hintAnchor: 'top'
-                });
-
                 this.btnScrollBack = new Common.UI.Button({
                     el: $('#status-btn-tabback',this.el),
                     hint: this.tipPrev,
@@ -117,13 +108,6 @@ define([
                 this.btnScrollNext = new Common.UI.Button({
                     el: $('#status-btn-tabnext',this.el),
                     hint: this.tipNext,
-                    disabled: true,
-                    hintAnchor: 'top'
-                });
-
-                this.btnScrollLast = new Common.UI.Button({
-                    el: $('#status-btn-tablast',this.el),
-                    hint: this.tipLast,
                     disabled: true,
                     hintAnchor: 'top'
                 });
@@ -335,8 +319,12 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 240px;"></div>') },
-                        { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 164px;display: inline-block;"></div>') },
+                        {caption: '--'},
+                        {
+                            id: "id-tab-menu-new-color",
+                            template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + me.textNewColor + '</a>')
+                        }
                     ]
                 });
 
@@ -373,11 +361,15 @@ define([
                 }).on('render:after', function(btn) {
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
+                            outerMenu: {menu: menuColorItems, index: 0, focusOnShow: true},
                             transparent: true
                         });
-
+                        menuColorItems.setInnerMenu([{menu: me.mnuTabColor, index: 0}]);
                         me.mnuTabColor.on('select', function(picker, color) {
                             me.fireEvent('sheet:setcolor', [color]);
+                            setTimeout(function(){
+                                me.tabMenu.hide();
+                            }, 1);
                         });
                     });
 
@@ -520,8 +512,6 @@ define([
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 if (this.mode.isEditOle) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
-                    this.btnScrollFirst.$el.find('button').addBack().filter('button').attr('data-hint', '1');
-                    this.btnScrollLast.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.btnScrollBack.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.btnScrollNext.$el.find('button').addBack().filter('button').attr('data-hint', '1');
                     this.cntSheetList.$el.find('button').attr('data-hint', '1');
@@ -817,13 +807,11 @@ define([
             },
 
             onTabInvisible: function(obj, opts) {
-                if (this.btnScrollFirst.isDisabled() !== (!opts.first)) {
-                    this.btnScrollFirst.setDisabled(!opts.first);
+                if (this.btnScrollBack.isDisabled() !== (!opts.first)) {
                     this.btnScrollBack.setDisabled(!opts.first);
                 }
                 if (this.btnScrollNext.isDisabled() !== (!opts.last)) {
                     this.btnScrollNext.setDisabled(!opts.last);
-                    this.btnScrollLast.setDisabled(!opts.last);
                 }
                 this.hasTabInvisible = opts.first || opts.last;
             },
@@ -850,8 +838,8 @@ define([
                     if (this.boxAction.is(':visible')) {
                         var tabsWidth = this.tabbar.getWidth();
                         var actionWidth = this.actionWidth || 140;
-                        if (Common.Utils.innerWidth() - right - 175 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
-                            var left = tabsWidth + 175;
+                        if (Common.Utils.innerWidth() - right - 129 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
+                            var left = tabsWidth + 129;
                             this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
                             this.boxAction.find('.separator').css('border-left-color', 'transparent');
                         } else {
@@ -904,7 +892,7 @@ define([
             changeViewMode: function (mode) {
                 var edit = mode.isEdit;
                 if (edit) {
-                    this.tabBarBox.css('left',  '175px');
+                    this.tabBarBox.css('left', '129px');
                 } else {
                     this.tabBarBox.css('left', '');
                 }
@@ -1035,8 +1023,6 @@ define([
             tipZoomIn           : 'Zoom In',
             tipZoomOut          : 'Zoom Out',
             tipZoomFactor       : 'Magnification',
-            tipFirst            : 'First Sheet',
-            tipLast             : 'Last Sheet',
             tipPrev             : 'Previous Sheet',
             tipNext             : 'Next Sheet',
             tipAddTab           : 'Add Worksheet',
