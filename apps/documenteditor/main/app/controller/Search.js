@@ -121,21 +121,28 @@ define([
                     this._state.useRegExp = checked;
                     break;
             }
-            if (this._state.searchText !== '' && this.onQuerySearch()) {
+            if (this._state.searchText !== '') {
                 this.hideResults();
-                clearInterval(this.searchTimer);
-                this.searchTimer = undefined;
-                this.api.asc_StartTextAroundSearch();
+                if (this.onQuerySearch()) {
+                    if (this.searchTimer) {
+                        clearInterval(this.searchTimer);
+                        this.searchTimer = undefined;
+                    }
+                    this.api.asc_StartTextAroundSearch();
+                }
             }
         },
 
         onSearchNext: function (type, text, e) {
-            if (text && text.length > 0 && (type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN || type !== 'keydown')) {
+            var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
+            if (text && text.length > 0 && (isReturnKey || type !== 'keydown')) {
                 this._state.searchText = text;
-                if (this.onQuerySearch(type) && this.searchTimer) {
+                if (this.onQuerySearch(type) && (this.searchTimer || isReturnKey)) {
                     this.hideResults();
-                    clearInterval(this.searchTimer);
-                    this.searchTimer = undefined;
+                    if (this.searchTimer) {
+                        clearInterval(this.searchTimer);
+                        this.searchTimer = undefined;
+                    }
                     if (this.view.$el.is(':visible')) {
                         this.api.asc_StartTextAroundSearch();
                     }
