@@ -318,8 +318,9 @@ define([
                 if (!found) {
                     this.allResultsWasRemoved();
                 } else {
+                    !(found-replaced) && this.allResultsWasRemoved();
                     Common.UI.info({
-                        msg: !found-replaced ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
+                        msg: !(found-replaced) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
                         callback: function() {
                             me.view.focus();
                         }
