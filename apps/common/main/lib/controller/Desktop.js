@@ -195,6 +195,13 @@ define([
             native.execCommand('althints:show', JSON.stringify(visible && !(level > 0)));
         }
 
+        var _onKeyDown = function (e) {
+            if ( Common.UI.HintManager.isHintVisible() ) {
+                native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
+                console.log('hint keydown', e.keyCode);
+            }
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -287,6 +294,8 @@ define([
                             },
                         },
                     }, {id: 'desktop'});
+
+                    $(document).on('keydown', _onKeyDown.bind(this));
                 }
             },
             process: function (opts) {
