@@ -202,6 +202,12 @@ define([
             }
         }
 
+        var testObj = {
+            method: function (p1, p2) {
+                console.log(`str1 is "${p1}" and str is "${p2}"`);
+            }
+        };
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -337,7 +343,8 @@ define([
             call: function (name) {
                 if ( native[name] ) {
                     let args = [].slice.call(arguments, 1);
-                    return native[name](...args);
+                    // return native[name](...args);
+                    return native[name].apply(this, args);
                 }
             },
         };
