@@ -625,7 +625,7 @@ define([
                     delta = event.deltaY;
                 }
 
-                if ((event.ctrlKey || event.metaKey) && !event.altKey) {
+                if (event.ctrlKey && !event.altKey) {
                     if (delta < 0) {
                         me.api.zoomOut();
                     } else if (delta > 0) {

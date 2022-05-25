@@ -23,11 +23,13 @@
     {
         "src": "ProgramInterface/ReferencesTab.htm",
         "name": "Onglet Références"
+    },    
+    {"src": "ProgramInterface/FormsTab.htm", "name": "Onglet Formulaires"},
+    {
+        "src": "ProgramInterface/ReviewTab.htm",
+        "name": "Onglet Collaboration"
     },
-  {
-    "src": "ProgramInterface/ReviewTab.htm",
-    "name": "Onglet Collaboration"
-  },
+    {"src": "ProgramInterface/ViewTab.htm", "name": "Onglet Affichage"},
   {
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Onglet Modules complémentaires"
@@ -164,6 +166,7 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
+    {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Prise en charge des graphiques SmartArt" },
     { "src": "UsageInstructions/AddCaption.htm", "name": "Ajouter une légende" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
@@ -179,10 +182,12 @@
     "src": "UsageInstructions/AlignArrangeObjects.htm",
     "name": "Aligner et organiser des objets sur une page"
   },
-  {
-    "src": "UsageInstructions/ChangeWrappingStyle.htm",
-    "name": "Changer le style d'habillage"
-  },
+    {
+        "src": "UsageInstructions/ChangeWrappingStyle.htm",
+        "name": "Changer le style d'habillage"
+    },
+     { "src": "UsageInstructions/CreateFillableForms.htm", "name": "Créer des formulaires à remplir", "headername": "Formulaires à remplir" },
+    { "src": "UsageInstructions/FillingOutForm.htm", "name": "Remplir un formulaire" },
   {
     "src": "UsageInstructions/UseMailMerge.htm",
     "name": "Utiliser le publipostage",
@@ -225,10 +230,11 @@
     "src": "HelpfulHints/AdvancedSettings.htm",
     "name": "Paramètres avancés de Document Editor"
   },
-  {
-    "src": "HelpfulHints/Navigation.htm",
-    "name": "Paramètres d'affichage et outils de navigation"
-  },
+    {
+        "src": "HelpfulHints/Navigation.htm",
+        "name": "Paramètres d'affichage et outils de navigation"
+    },
+    {"src": "HelpfulHints/Viewer.htm", "name": "Lecteur de documents ONLYOFFICE"},
   {
     "src": "HelpfulHints/Search.htm",
     "name": "Fonctions de recherche et remplacement"
