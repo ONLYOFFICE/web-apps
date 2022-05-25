@@ -833,7 +833,9 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsSlideNum);
 
-                    if (window["AscDesktopEditor"] && window["AscDesktopEditor"]["IsSupportMedia"] && window["AscDesktopEditor"]["IsSupportMedia"]()) {
+                    if (Common.Controllers.Desktop.isActive() &&
+                            Common.Controllers.Desktop.isFeatureAvailable("IsSupportMedia") && Common.Controllers.Desktop.call("IsSupportMedia"))
+                    {
                         me.btnInsAudio = new Common.UI.Button({
                             id: 'tlbtn-insaudio',
                             cls: 'btn-toolbar x-huge icon-top',

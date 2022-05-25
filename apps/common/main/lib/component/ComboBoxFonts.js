@@ -89,7 +89,7 @@ define([
         thumbCanvas.width   = thumbs[thumbIdx].width;
 
         function CThumbnailLoader() {
-            this.supportBinaryFormat = (window['AscDesktopEditor'] && !window['AscDesktopEditor']['isSupportBinaryFontsSprite']) ? false : true;
+            this.supportBinaryFormat = !(Common.Controllers.Desktop.isActive() && !Common.Controllers.isFeatureAvailable('isSupportBinaryFontsSprite'));
 
             this.image = null;
             this.binaryFormat = null;
@@ -132,7 +132,6 @@ define([
             };
 
             this.openBinary = function(arrayBuffer) {
-                
                 //var t1 = performance.now();
 
                 var binaryAlpha = new Uint8Array(arrayBuffer);
