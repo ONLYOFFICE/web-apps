@@ -142,9 +142,9 @@ require([
             'Print',
             'Toolbar',
             'Statusbar',
-            'Spellcheck',
             'RightMenu',
             'LeftMenu',
+            'Spellcheck',
             'Main',
             'PivotTable',
             'DataTab',
@@ -156,6 +156,7 @@ require([
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
+            ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
         ]
@@ -163,14 +164,17 @@ require([
 
     Common.Locale.apply(function(){
         require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/controller/Themes',
+            'common/main/lib/controller/Desktop',
             'spreadsheeteditor/main/app/controller/Viewport',
             'spreadsheeteditor/main/app/controller/DocumentHolder',
             'spreadsheeteditor/main/app/controller/CellEditor',
             'spreadsheeteditor/main/app/controller/Toolbar',
             'spreadsheeteditor/main/app/controller/Statusbar',
-            'spreadsheeteditor/main/app/controller/Spellcheck',
             'spreadsheeteditor/main/app/controller/RightMenu',
             'spreadsheeteditor/main/app/controller/LeftMenu',
+            'spreadsheeteditor/main/app/controller/Spellcheck',
             'spreadsheeteditor/main/app/controller/Main',
             'spreadsheeteditor/main/app/controller/Print',
             'spreadsheeteditor/main/app/controller/PivotTable',
@@ -189,16 +193,14 @@ require([
             'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
             'spreadsheeteditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
-            'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Fonts',
             'common/main/lib/controller/History',
             'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
             'common/main/lib/controller/Plugins'
+            ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
-            ,'common/main/lib/controller/Themes'
-            ,'common/main/lib/controller/Desktop'
         ], function() {
             window.compareVersions = true;
             app.start();

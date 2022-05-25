@@ -80,6 +80,7 @@
 @import "../../../../common/main/resources/less/spinner.less";
 @import "../../../../common/main/resources/less/checkbox.less";
 @import "../../../../common/main/resources/less/opendialog.less";
+@import "../../../../common/main/resources/less/advanced-settings-window.less";
 
 @toolbarBorderColor:            @border-toolbar-ie;
 @toolbarBorderColor:            @border-toolbar;
@@ -438,7 +439,7 @@
 
 .svg-icon {
     background: data-uri('../../../../common/forms/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: @icon-width*24 @icon-height*2;
+    background-size: @icon-width*27 @icon-height*2;
 
     &.download {
         background-position: -@icon-width 0;
@@ -529,6 +530,18 @@
     &.redo {
         background-position: -@icon-width*23 0;
         background-position: -@icon-width*23 @icon-normal-top;
+    }
+    &.search {
+        background-position: -@icon-width*24 0;
+        background-position: -@icon-width*24 @icon-normal-top;
+    }
+    &.btn-sheet-view {
+        background-position: -@icon-width*25 0;
+        background-position: -@icon-width*25 @icon-normal-top;
+    }
+    &.hide-password {
+        background-position: -@icon-width*26 0;
+        background-position: -@icon-width*26 @icon-normal-top;
     }
 }
 

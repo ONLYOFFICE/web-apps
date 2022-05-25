@@ -61,9 +61,6 @@ define([
                 'Statusbar': {
                     'langchanged': this.onLangMenu
                 },
-                'Common.Views.Header': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
-                },
                 'ViewTab': {
                     'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }
@@ -87,7 +84,9 @@ define([
 
             this.bindViewEvents(this.statusbar, this.events);
 
-            $('#status-label-zoom').css('min-width', 80);
+            var lblzoom = $('#status-label-zoom');
+            lblzoom.css('min-width', 80);
+            lblzoom.text(Common.Utils.String.format(this.zoomText, 100));
 
             this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));

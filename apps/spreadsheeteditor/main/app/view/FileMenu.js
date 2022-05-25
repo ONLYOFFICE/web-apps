@@ -336,7 +336,7 @@ define([
             
             if (!this.panels) {
                 this.panels = {
-                    'opts'      : (new SSE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
+                    'opts'      : (new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu:this})).render(this.$el.find('#panel-settings-general')),
                     'info'      : (new SSE.Views.FileMenuPanels.DocumentInfo({menu:this})).render(this.$el.find('#panel-info')),
                     'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:this})).render(this.$el.find('#panel-rights'))
                 };
@@ -448,7 +448,7 @@ define([
             if (this.mode.canPrint) {
                 var printPanel = SSE.getController('Print').getView('PrintWithPreview');
                 printPanel.menu = this;
-                this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print'));
+                !this.panels['printpreview'] && (this.panels['printpreview'] = printPanel.render(this.$el.find('#panel-print')));
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {

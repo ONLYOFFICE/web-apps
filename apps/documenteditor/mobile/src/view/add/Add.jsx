@@ -13,6 +13,7 @@ import {AddOtherController} from "../../controller/add/AddOther";
 
 import {PageImageLinkSettings} from "../add/AddImage";
 import {PageAddNumber, PageAddBreak, PageAddSectionBreak, PageAddFootnote} from "../add/AddOther";
+import AddTableContentsController from '../../controller/add/AddTableContents';
 
 const routes = [
     // Image
@@ -41,6 +42,10 @@ const routes = [
         path: '/add-footnote/',
         component: PageAddFootnote,
     },
+    {
+        path: '/add-table-contents/',
+        component: AddTableContentsController
+    }
 ];
 
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
@@ -179,9 +184,12 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
             component: <AddLinkController noNavbar={true}/>
         });
     }
+
     const onGetTableStylesPreviews = () => {
-        const api = Common.EditorApi.get();
-        setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true)), 1);
+        if(storeTableSettings.arrayStylesDefault.length == 0) {
+            const api = Common.EditorApi.get();
+            setTimeout(() => storeTableSettings.setStyles(api.asc_getTableStylesPreviews(true), 'default'), 1);
+        }
     }
 
     return (

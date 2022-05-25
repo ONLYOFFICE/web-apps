@@ -159,7 +159,7 @@ define([
 
             this.btnNavigation = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-navigation'),
-                hint: this.tipNavigation,
+                hint: this.tipOutline,
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
@@ -346,6 +346,10 @@ define([
                     this.panelSearch['hide']();
                     this.btnSearchBar.toggle(false, true);
                 }
+                if (this.panelThumbnails) {
+                    this.panelThumbnails['hide']();
+                    this.btnThumbnails.toggle(false, true);
+                }
             }
         },
 
@@ -523,6 +527,7 @@ define([
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
         tipNavigation: 'Navigation',
+        tipOutline: 'Headings',
         txtLimit: 'Limit Access'
     }, DE.Views.LeftMenu || {}));
 });

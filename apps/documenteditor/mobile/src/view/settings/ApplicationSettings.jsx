@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, f7 } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
 
@@ -50,11 +50,6 @@ const PageApplicationSettings = props => {
                                     }}
                             />
                         </ListItem>
-                        <ListItem title={'Dark theme'}>
-                            <Toggle checked={isThemeDark}
-                                onToggleChange={toggle => {Themes.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
-                            </Toggle>
-                        </ListItem>
                     </List>
                     <List>
                         <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
@@ -95,6 +90,19 @@ const PageApplicationSettings = props => {
                     />
                 </ListItem>
             </List>
+            
+            <List>
+                <ListItem title={'Dark theme'}>
+                    <Toggle checked={isThemeDark}
+                        onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
+                    </Toggle>
+                </ListItem>
+            </List>
+
+            <List mediaList>
+                <ListItem title={t('Settings.textDirection')} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
+            </List>
+
             {_isShowMacros &&
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
@@ -105,6 +113,38 @@ const PageApplicationSettings = props => {
         </Page>
     );
 };
+
+const PageDirection = props => {
+    const { t } = useTranslation();
+    const _t = t("Settings", { returnObjects: true });
+    const store = props.storeApplicationSettings;
+    const directionMode = store.directionMode;
+
+    const changeDirection = value => {
+        store.changeDirectionMode(value);
+        props.changeDirection(value);
+
+        f7.dialog.create({
+            title: _t.notcriticalErrorTitle,
+            text: t('Settings.textRestartApplication'),
+            buttons: [
+                {
+                    text: _t.textOk
+                }
+            ]
+        }).open();
+    };
+
+    return (
+        <Page>
+            <Navbar title={t('Settings.textDirection')} backLink={_t.textBack} />
+            <List mediaList>
+                <ListItem radio name="direction" title={t('Settings.textLeftToRight')} checked={directionMode === 'ltr'} onChange={() => changeDirection('ltr')}></ListItem>
+                <ListItem radio name="direction" title={t('Settings.textRightToLeft')} checked={directionMode === 'rtl'} onChange={() => changeDirection('rtl')}></ListItem>
+            </List>
+        </Page>
+    );
+}
 
 const PageMacrosSettings = props => {
     const { t } = useTranslation();
@@ -134,5 +174,6 @@ const PageMacrosSettings = props => {
 
 const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
+const Direction = inject("storeApplicationSettings")(observer(PageDirection));
 
-export {ApplicationSettings, MacrosSettings};
+export {ApplicationSettings, MacrosSettings, Direction};

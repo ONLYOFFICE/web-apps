@@ -85,6 +85,11 @@ class ApplicationSettingsController extends Component {
         LocalStorage.setItem("sse-settings-regional", regCode);
         this.initRegSettings();
         if (regCode!==null) api.asc_setLocale(+regCode);
+        Common.Notifications.trigger('changeRegSettings');
+    }
+
+    changeDirection(value) {
+        LocalStorage.setItem('mode-direction', value);
     }
 
     render() {
@@ -99,6 +104,7 @@ class ApplicationSettingsController extends Component {
                 onChangeMacrosSettings={this.onChangeMacrosSettings}  
                 onFormulaLangChange={this.onFormulaLangChange}     
                 onRegSettings={this.onRegSettings}   
+                changeDirection={this.changeDirection}
             />
         )
     }

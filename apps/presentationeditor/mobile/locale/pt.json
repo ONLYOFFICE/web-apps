@@ -126,7 +126,8 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -382,7 +383,6 @@
       "textTopLeft": "Parte superior esquerda",
       "textTopRight": "Parte superior direita",
       "textTotalRow": "Linha total",
-      "textTransition": "Transição",
       "textTransitions": "Transições",
       "textType": "Tipo",
       "textUnCover": "Descobrir",
@@ -473,7 +473,8 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

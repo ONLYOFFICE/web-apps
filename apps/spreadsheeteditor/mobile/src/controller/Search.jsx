@@ -123,9 +123,9 @@ class SESearchView extends SearchView {
     }
 
     onSearchbarShow(isshowed, bar) {
-        super.onSearchbarShow(isshowed, bar);
-
+        // super.onSearchbarShow(isshowed, bar);
         const api = Common.EditorApi.get();
+
         if ( isshowed && this.state.searchQuery.length ) {
             const checkboxMarkResults = f7.toggle.get('.toggle-mark-results');
             api.asc_selectSearchingResults(checkboxMarkResults.checked);
@@ -165,9 +165,9 @@ const Search = withTranslation()(props => {
 
             if (params.highlight) api.asc_selectSearchingResults(true);
 
-            if (!api.asc_findText(options)) {
-                f7.dialog.alert(null, _t.textNoTextFound);
-            }
+            api.asc_findText(options, function(resultCount) {
+                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
+            });
         }
     };
 

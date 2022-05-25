@@ -61,12 +61,15 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         setApi: function (api) {
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onZoomChange, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
             return this;
         },
@@ -79,15 +82,6 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                this.view.chStatusbar.$el.remove();
-                var slotChkRulers = this.view.chRulers.$el,
-                    groupRulers = slotChkRulers.closest('.group'),
-                    groupToolbar = this.view.chToolbar.$el.closest('.group');
-                groupToolbar.find('.elset')[1].append(slotChkRulers[0]);
-                groupRulers.remove();
-                this.view.cmpEl.find('.separator-rulers').remove();
-            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
@@ -104,11 +98,6 @@ define([
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
                     }, this)
-                },
-                'Common.Views.Header': {
-                    'rulers:hide': _.bind(function (isChecked) {
-                        this.view.chRulers.setValue(!isChecked, true);
-                    }, this)
                 }
             });
         },
@@ -117,13 +106,17 @@ define([
             this.view && this.view.SetDisabled(state);
         },
 
+        createToolbarPanel: function() {
+            return this.view.getPanel();
+        },
+
         getView: function(name) {
             return !name && this.view ?
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
 
         onCoAuthoringDisconnect: function() {
-            this.SetDisabled(true);
+            Common.Utils.lockControls(Common.enumLock.lostConnect, true, {array: this.view.lockedControls});
         },
 
         onAppReady: function (config) {
@@ -133,6 +126,25 @@ define([
                     accept();
                 })).then(function(){
                     me.view.setEvents();
+
+                    if (!Common.UI.Themes.available()) {
+                        me.view.btnInterfaceTheme.$el.closest('.group').remove();
+                        me.view.$el.find('.separator-theme').remove();
+                    }
+                    if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                        me.view.chStatusbar.$el.remove();
+                        var slotChkRulers = me.view.chRulers.$el,
+                            groupRulers = slotChkRulers.closest('.group'),
+                            groupToolbar = me.view.chToolbar.$el.closest('.group');
+                        groupToolbar.find('.elset')[1].append(slotChkRulers[0]);
+                        groupRulers.remove();
+                        me.view.$el.find('.separator-rulers').remove();
+                    }
+
+                    if (!config.isEdit) { // if view tab will be visible in view/restricted-editing mode
+                        me.view.chRulers.hide();
+                        me.view.$el.find('.separator-rulers').remove();
+                    }
 
                     me.view.cmbZoom.on('selected', _.bind(me.onSelectedZoomValue, me))
                         .on('changed:before',_.bind(me.onZoomChanged, me, true))
@@ -144,33 +156,39 @@ define([
                             me.view.turnNavigation(state);
                     });
 
-                    var menuItems = [],
-                        currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                    for (var t in Common.UI.Themes.map()) {
-                        menuItems.push({
-                            value: t,
-                            caption: Common.UI.Themes.get(t).text,
-                            checked: t === currentTheme,
-                            checkable: true,
-                            toggleGroup: 'interface-theme'
-                        });
-                    }
+                    if (Common.UI.Themes.available()) {
+                        var menuItems = [],
+                            currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                        for (var t in Common.UI.Themes.map()) {
+                            menuItems.push({
+                                value: t,
+                                caption: Common.UI.Themes.get(t).text,
+                                checked: t === currentTheme,
+                                checkable: true,
+                                toggleGroup: 'interface-theme'
+                            });
+                        }
 
-                    if (menuItems.length) {
-                        me.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                        me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                            var value = item.value;
-                            Common.UI.Themes.setTheme(value);
-                            Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
-                        }, me));
+                        if (menuItems.length) {
+                            me.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                            me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                var value = item.value;
+                                Common.UI.Themes.setTheme(value);
+                                Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
+                            }, me));
 
-                        setTimeout(function () {
-                            me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
-                            Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
-                        }, 0);
+                            setTimeout(function () {
+                                me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
+                                Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
+                            }, 0);
+                        }
                     }
                 });
             }
+        },
+
+        onDocumentReady: function() {
+            Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
         },
 
         onZoomChange: function (percent, type) {
@@ -229,7 +247,6 @@ define([
             Common.localStorage.setBool('de-hidden-rulers', !checked);
             Common.Utils.InternalSettings.set("de-hidden-rulers", !checked);
             this.api.asc_SetViewRulers(checked);
-            this.view.fireEvent('rulers:hide', [!checked]);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -243,11 +260,13 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view) {
+            if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
-                this.view.btnInterfaceTheme.menu.clearAll();
-                menu_item.setChecked(true, true);
+                if ( menu_item ) {
+                    this.view.btnInterfaceTheme.menu.clearAll();
+                    menu_item.setChecked(true, true);
+                }
                 Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [this.view.btnDarkDocument]});
             }
         },

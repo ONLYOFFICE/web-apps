@@ -34,6 +34,6 @@ export const stores = {
     storePalette: new storePalette(),
     storeReview: new storeReview(),
     storeComments: new storeComments(),
-    storeToolbarSettings: new storeToolbarSettings()
+    storeToolbarSettings: new storeToolbarSettings(),
 };
 

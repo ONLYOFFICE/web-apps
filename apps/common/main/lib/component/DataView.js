@@ -223,6 +223,7 @@ define([
             listenStoreEvents: true,
             allowScrollbar: true,
             scrollAlwaysVisible: false,
+            minScrollbarLength: 40,
             showLast: true,
             useBSKeydown: false,
             cls: ''
@@ -272,10 +273,12 @@ define([
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.minScrollbarLength = me.options.minScrollbarLength || 40;
             me.tabindex = me.options.tabindex || 0;
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
+            me.delaySelect = me.options.delaySelect || false;
             me.rendered       = false;
             me.dataViewItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -354,7 +357,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -396,13 +399,7 @@ define([
                 });
 
                 if (record) {
-                    if (Common.Utils.isSafari) {
-                        setTimeout(function () {
-                            record.set({selected: true});
-                        }, 200);
-                    } else {
-                        record.set({selected: true});
-                    }
+                    record.set({selected: true});
                 }
             } else {
                 if (record)
@@ -479,12 +476,12 @@ define([
                     var me = this,
                         view_el = $(view.el),
                         tip = record.get('tip');
-                    if (tip) {
+                    if (tip!==undefined && tip!==null) {
                         if (this.delayRenderTips)
                             view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
                                 view_el.attr('data-toggle', 'tooltip');
                                 view_el.tooltip({
-                                    title       : tip,
+                                    title       : record.get('tip'), // use actual tip, because it can be changed
                                     placement   : 'cursor',
                                     zIndex : me.tipZIndex
                                 });
@@ -493,7 +490,7 @@ define([
                         else {
                             view_el.attr('data-toggle', 'tooltip');
                             view_el.tooltip({
-                                title       : tip,
+                                title       : record.get('tip'), // use actual tip, because it can be changed
                                 placement   : 'cursor',
                                 zIndex : me.tipZIndex
                             });
@@ -553,7 +550,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -606,14 +603,30 @@ define([
 
             window._event = e;  //  for FireFox only
 
-            if (this.showLast) this.selectRecord(record);
+            if (this.showLast) {
+                if (!this.delaySelect) {
+                    this.selectRecord(record);
+                } else {
+                    _.each(this.store.where({selected: true}), function(rec){
+                        rec.set({selected: false});
+                    });
+                    if (record) {
+                        setTimeout(_.bind(function () {
+                            record.set({selected: true});
+                            this.trigger('item:click', this, view, record, e);
+                        }, this), 300);
+                    }
+                }
+            }
             this.lastSelectedRec = null;
 
             var tip = view.$el.data('bs.tooltip');
             if (tip) (tip.tip()).remove();
 
             if (!this.isSuspendEvents) {
-                this.trigger('item:click', this, view, record, e);
+                if (!this.delaySelect) {
+                    this.trigger('item:click', this, view, record, e);
+                }
             }
         },
 
@@ -792,6 +805,12 @@ define([
 
         setEmptyText: function(emptyText) {
             this.emptyText = emptyText;
+
+            if (this.store.length < 1) {
+                var el = $(this.el).find('.inner').addBack().filter('.inner').find('.empty-text td');
+                if ( el.length>0 )
+                    el.text(this.emptyText);
+            }
         },
 
         alignPosition: function() {
@@ -805,7 +824,7 @@ define([
                 paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top')),
-                props = {minScrollbarLength  : 40};
+                props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
@@ -976,7 +995,7 @@ define([
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
+                    minScrollbarLength  : this.minScrollbarLength,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1068,7 +1087,7 @@ define([
             this.scroller = new Common.UI.Scroller({
                 el: $(this.el).find('.inner').addBack().filter('.inner'),
                 useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                minScrollbarLength  : 40,
+                minScrollbarLength  : this.minScrollbarLength,
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             });
@@ -1276,7 +1295,7 @@ define([
                 paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top')),
-                props = {minScrollbarLength  : 40};
+                props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
@@ -1386,6 +1405,39 @@ define([
 
             me.recentShapes = recentArr;
 
+            // check lang
+            if (me.recentShapes.length > 0) {
+                var isTranslated = _.findWhere(me.groups, {groupName: me.recentShapes[0].groupName});
+                if (!isTranslated) {
+                    for (var r = 0; r < me.recentShapes.length; r++) {
+                        var type = me.recentShapes[r].data.shapeType,
+                            record;
+                        for (var g = 0; g < me.groups.length; g++) {
+                            var store = me.groups[g].groupStore,
+                                groupName = me.groups[g].groupName;
+                            for (var i = 0; i < store.length; i++) {
+                                if (store.at(i).get('data').shapeType === type) {
+                                    record = store.at(i).toJSON();
+                                    me.recentShapes[r] = {
+                                        data: record.data,
+                                        tip: record.tip,
+                                        allowSelected: record.allowSelected,
+                                        selected: false,
+                                        groupName: groupName
+                                    };
+                                    break;
+                                }
+                            }
+                            if (record) {
+                                record = undefined;
+                                break;
+                            }
+                        }
+                    }
+                    Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+                }
+            }
+
             // Add default recent
 
             if (me.recentShapes.length < 12) {
@@ -1442,7 +1494,7 @@ define([
                 var models = group.groupStore.models;
                 if (index > 0) {
                     for (var i = 0; i < models.length; i++) {
-                        models.at(i).set({groupName: group.groupName})
+                        models[i].set({groupName: group.groupName});
                     }
                 }
                 store.add(models);
@@ -1578,11 +1630,8 @@ define([
                     selected: false,
                     groupName: groupName
                 };
-            me.recentShapes.unshift(model);
-            if (me.recentShapes.length > 12) {
-                me.recentShapes.splice(12, 1);
-            }
-            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(me.recentShapes));
+            var arr = [model].concat(me.recentShapes.slice(0, 11));
+            Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(arr));
             me.recentShapes = undefined;
         },
         updateRecents: function () {
@@ -1603,7 +1652,18 @@ define([
 
             if (recents.length > 0 && diff) {
                 me.recentShapes = recents;
-                me.groups[0].groupStore.reset(me.recentShapes);
+                var resentsStore = new Common.UI.DataViewStore();
+                _.each(me.recentShapes, function (recent) {
+                    var model = {
+                        data: {shapeType: recent.data.shapeType},
+                        tip: recent.tip,
+                        allowSelected: recent.allowSelected,
+                        selected: recent.selected,
+                        groupName: recent.groupName
+                    };
+                    resentsStore.push(model);
+                });
+                me.groups[0].groupStore = resentsStore;
 
                 var store = new Common.UI.DataViewStore();
                 _.each(me.groups, function (group) {

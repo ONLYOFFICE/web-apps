@@ -17,6 +17,15 @@ const Download = props => {
                 <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
                     <Icon slot="media" icon="icon-format-docx"></Icon>
                 </ListItem>
+                {dataDoc.fileType === 'docxf' || dataDoc.fileType === 'docx' ? [
+                    <ListItem title="DOCXF" key="DOCXF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCXF)}>
+                        <Icon slot="media" icon="icon-format-docxf"></Icon>
+                    </ListItem>,
+                    <ListItem title="OFORM" key="OFORM" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OFORM)}>
+                        <Icon slot="media" icon="icon-format-oform"></Icon>
+                    </ListItem>
+                    ] 
+                : null}
                 <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
                     <Icon slot="media" icon="icon-format-pdf"></Icon>
                 </ListItem>

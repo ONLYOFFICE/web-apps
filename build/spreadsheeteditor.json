@@ -346,6 +346,7 @@
                 "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/main/lib/util/LanguageInfo.js",
                 "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
                 "../apps/common/embed/lib/view/LoadMask.js",

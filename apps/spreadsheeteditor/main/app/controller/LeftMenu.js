@@ -56,7 +56,6 @@ define([
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
@@ -171,7 +170,7 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
@@ -246,7 +245,7 @@ define([
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
-            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 Common.NotificationCenter.on('cells:range',   _.bind(this.onCellsRange, this));
             return this;
         },
@@ -446,6 +445,10 @@ define([
                     Common.Utils.InternalSettings.set("sse-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("sse-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("sse-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
             /** coauthoring end **/
 
@@ -670,6 +673,7 @@ define([
 
             if (this.mode.isEditDiagram && s!='escape') return false;
             if (this.mode.isEditMailMerge && s!='escape' && s!='search') return false;
+            if (this.mode.isEditOle && s!='escape' && s!='search') return false;
 
             switch (s) {
                 case 'replace':
@@ -677,7 +681,8 @@ define([
                     if (!this.leftMenu.btnSearchBar.isDisabled()) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.btnAbout.toggle(false);
-                        this.leftMenu.menuFile.hide();
+                        if ( this.leftMenu.menuFile.isVisible() )
+                            this.leftMenu.menuFile.hide();
 
                         var selectedText = this.api.asc_GetSelectedText();
                         if (this.isSearchPanelVisible()) {
@@ -760,7 +765,7 @@ define([
                         }
                         return false;
                     }
-                    if (this.mode.isEditDiagram || this.mode.isEditMailMerge) {
+                    if (this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) {
                         menu_opened = $(document.body).find('.open > .dropdown-menu');
                         if (!this.api.isCellEdited && !menu_opened.length) {
                             Common.Gateway.internalMessage('shortcut', {key:'escape'});

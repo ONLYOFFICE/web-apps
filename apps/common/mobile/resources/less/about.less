@@ -1,22 +1,22 @@
 // @text-normal: #000;
-// @common-image-about-path - defined in webpack config
+// @common-image-path - defined in webpack config
 
 .about {
     .page-content {
-        text-align: center;
+        text-align: center /*rtl:ignore*/;
     }
 
     .content-block:first-child {
-        margin: 15px 0;
+        margin: 15px 0 /*rtl:append20px*/;
     }
 
     .content-block {
         margin: 0 auto 15px;
 
-       a {
+        a {
             color: @text-normal;
         }
-}
+    }
 
     .settings-about-logo {
         display: flex;
@@ -49,18 +49,18 @@
         display: inline-block;
         width: 100%;
         height: 55px;
-        background: ~"url(@{common-image-about-path}/logo_s.svg) no-repeat center";
+        background: ~"url(@{common-image-path}/about/logo_s.svg) no-repeat center";
     }
 
     .theme-type-dark {
         .about .logo {
-            background: ~"url(@{common-image-about-path}/logo-white_s.svg) no-repeat center";
+            background: ~"url(@{common-image-path}/about/logo-white_s.svg) no-repeat center";
         }
     } 
 }
 
 .theme-type-dark {
     .about .logo {
-        background: ~"url(@{common-image-about-path}/logo-white_s.svg) no-repeat center";
+        background: ~"url(@{common-image-path}/about/logo-white_s.svg) no-repeat center";
     }
 }

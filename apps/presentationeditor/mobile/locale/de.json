@@ -33,13 +33,13 @@
       "textTryUndoRedo": "Die Optionen Rückgängig machen/Wiederholen sind für den Schnellmodus deaktiviert.",
       "textUsers": "Benutzer"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Keine Füllung"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Benutzerdefinierte Farben",
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Farben des Themas"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -107,9 +107,12 @@
       "textHasMacros": "Die Datei beinhaltet automatische Makros.<br>Möchten Sie Makros ausführen?",
       "textNo": "Nein",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
+      "textNoTextFound": "Der Text wurde nicht gefunden.",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
+      "textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
+      "textReplaceSuccess": "Der Suchvorgang wurde durchgeführt. Vorkommen wurden ersetzt:{0}",
       "textYes": "Ja",
       "titleLicenseExp": "Lizenz ist abgelaufen",
       "titleServerVersion": "Editor wurde aktualisiert",
@@ -124,9 +127,7 @@
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "textNoTextFound": "Text not found",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -228,6 +229,7 @@
       "textLinkTo": "Verknüpfen mit",
       "textLinkType": "Linktyp",
       "textNextSlide": "Nächste Folie",
+      "textOk": "OK",
       "textOther": "Sonstiges",
       "textPictureFromLibrary": "Bild aus dem Verzeichnis",
       "textPictureFromURL": "Bild aus URL",
@@ -240,8 +242,7 @@
       "textSlideNumber": "Foliennummer",
       "textTable": "Tabelle",
       "textTableSize": "Tabellengröße",
-      "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
-      "textOk": "Ok"
+      "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein."
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",
@@ -261,6 +262,7 @@
       "textAllCaps": "Alle Großbuchstaben",
       "textApplyAll": "Auf alle Folien anwenden",
       "textAuto": "auto",
+      "textAutomatic": "Automatisch",
       "textBack": "Zurück",
       "textBandedColumn": "Gebänderte Spalten",
       "textBandedRow": "Gebänderte Zeilen",
@@ -285,6 +287,7 @@
       "textDefault": "Ausgewählter Text",
       "textDelay": "Verzögern",
       "textDeleteSlide": "Folie löschen",
+      "textDesign": "Design",
       "textDisplay": "Anzeigen",
       "textDistanceFromText": "Abstand vom Text",
       "textDistributeHorizontally": "Horizontal verteilen",
@@ -336,6 +339,7 @@
       "textNoTextFound": "Der Text wurde nicht gefunden",
       "textNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "textNumbers": "Nummern",
+      "textOk": "OK",
       "textOpacity": "Undurchsichtigkeit",
       "textOptions": "Optionen",
       "textPictureFromLibrary": "Bild aus dem Verzeichnis",
@@ -379,7 +383,6 @@
       "textTopLeft": "Oben links",
       "textTopRight": "Oben rechts",
       "textTotalRow": "Ergebniszeile",
-      "textTransition": "Übergang",
       "textTransitions": "Übergänge",
       "textType": "Typ",
       "textUnCover": "Aufdecken",
@@ -390,10 +393,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Vergrößern",
       "textZoomOut": "Verkleinern",
-      "textZoomRotate": "Vergrößern und drehen",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "Vergrößern und drehen"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -410,6 +410,7 @@
       "textColorSchemes": "Farbschemata",
       "textComment": "Kommentar",
       "textCreated": "Erstellt",
+      "textDarkTheme": "Dunkelmodus",
       "textDisableAll": "Alle deaktivieren",
       "textDisableAllMacrosWithNotification": "Alle Makros mit Benachrichtigung deaktivieren",
       "textDisableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung deaktivieren",
@@ -473,7 +474,7 @@
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Fluss",
       "txtScheme9": "Gießerei",
-      "textDarkTheme": "Dark Theme"
+      "textFeedback": "Feedback & Support"
     }
   }
 }

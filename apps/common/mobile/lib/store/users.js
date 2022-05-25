@@ -44,7 +44,7 @@ export class storeUsers {
                 }
             }
         }
-        !changed && change && (this.users[change.asc_getId()] = change);
+        !changed && change && (this.users.push(change));
     }
 
     resetDisconnected (isDisconnected) {

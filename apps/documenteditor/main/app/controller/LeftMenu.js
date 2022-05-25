@@ -46,7 +46,7 @@ define([
     'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/ViewTab',
+    'documenteditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 
@@ -64,7 +64,6 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
@@ -310,7 +309,6 @@ define([
                 options.asc_setTextParams(textParams);
                 if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                     Common.UI.warning({
-                        closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
                         buttons: ['ok', 'cancel'],
@@ -363,26 +361,28 @@ define([
         clickSaveAsFormat: function(menu, format, ext) { // ext isn't undefined for save copy as
             var me = this,
                 fileType = this.getApplication().getController('Main').document.fileType;
-            if ( /^pdf|xps|oxps$/.test(fileType)) {
-                if (format===undefined || format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA || format == Asc.c_oAscFileType.XPS)
+            if ( /^pdf|xps|oxps|djvu$/.test(fileType)) {
+                if (format===undefined) {
                     this._saveAsFormat(undefined, format, ext); // download original
+                    menu && menu.hide();
+                } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA)
+                    this._saveAsFormat(menu, format, ext);
                 else {
-                    (new Common.Views.OptionsDialog({
-                        width: 300,
-                        title: this.titleConvertOptions,
-                        label: this.textGroup,
-                        items: [
-                            {caption: this.textChar, value: Asc.c_oAscTextAssociation.Char, checked: true},
-                            {caption: this.textLine, value: Asc.c_oAscTextAssociation.Line, checked: false},
-                            {caption: this.textParagraph, value: Asc.c_oAscTextAssociation.Block, checked: false}
-                        ],
-                        handler: function (dlg, result) {
-                            if (result=='ok') {
-                                me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(dlg.getSettings()));
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        }
-                    })).show();
+                    if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) // don't show message about pdf/xps/oxps
+                        me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                    else {
+                        Common.UI.warning({
+                            width: 600,
+                            title: this.notcriticalErrorTitle,
+                            msg: Common.Utils.String.format(this.warnDownloadAsPdf, fileType.toUpperCase()),
+                            buttons: ['ok', 'cancel'],
+                            callback: _.bind(function(btn){
+                                if (btn == 'ok') {
+                                    me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                                }
+                            }, this)
+                        });
+                    }
                 }
             } else
                 this._saveAsFormat(menu, format, ext);
@@ -454,6 +454,10 @@ define([
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("de-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("de-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
 
             value = Common.localStorage.getBool("de-settings-livecomment", true);
@@ -489,6 +493,14 @@ define([
                     value = Common.localStorage.getBool("de-settings-spellcheck", true);
                     Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
                     this.api.asc_setSpellCheck(value);
+                    var spprops = new AscCommon.CSpellCheckSettings();
+                    value = Common.localStorage.getBool("de-spellcheck-ignore-uppercase-words", true);
+                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-uppercase-words", value);
+                    spprops.put_IgnoreWordsInUppercase(value);
+                    value = Common.localStorage.getBool("de-spellcheck-ignore-numbers-words", true);
+                    Common.Utils.InternalSettings.set("de-spellcheck-ignore-numbers-words", value);
+                    spprops.put_IgnoreWordsWithNumbers(value);
+                    this.api.asc_setSpellCheckSettings(spprops);
                 }
 
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
@@ -681,10 +693,16 @@ define([
                         this.api.asc_enableKeyEvents(true);
                     } else if (this.leftMenu.btnThumbnails.isActive()) {
                         this.leftMenu.btnThumbnails.toggle(false);
+                        this.leftMenu.panelThumbnails.hide();
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnThumbnails);
                     } else if (this.leftMenu.btnSearchBar.isActive()) {
                         this.leftMenu.btnSearchBar.toggle(false);
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+                    }
+                    else if (this.leftMenu.btnNavigation.isActive()) {
+                        this.leftMenu.btnNavigation.toggle(false);
+                        this.leftMenu.panelNavigation.hide();
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnNavigation);
                     }
                 }
             }
@@ -883,11 +901,8 @@ define([
         warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
-        titleConvertOptions: 'Grouping options',
-        textGroup: 'Group by',
-        textChar: 'Char',
-        textLine: 'Line',
-        textParagraph: 'Paragraph'
+        warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
+        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
 
     }, DE.Controllers.LeftMenu || {}));
 });

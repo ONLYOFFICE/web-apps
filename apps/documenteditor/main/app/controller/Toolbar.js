@@ -125,7 +125,6 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
-                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
@@ -725,21 +724,23 @@ define([
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
                 plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
 
-            this.toolbar.lockToolbar(Common.enumLock.cantAddQuotedComment, !this.api.can_AddQuotedComment(), {array: this.btnsComment});
-            this.toolbar.lockToolbar(Common.enumLock.imageLock, image_locked, {array: this.btnsComment});
-            this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
-            if (this.api.asc_IsContentControl()) {
-                var control_props = this.api.asc_GetContentControlProperties(),
-                    spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
-                this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
-                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,   {array: this.btnsComment});
+            if (this.btnsComment) {
+                this.toolbar.lockToolbar(Common.enumLock.cantAddQuotedComment, !this.api.can_AddQuotedComment(), {array: this.btnsComment});
+                this.toolbar.lockToolbar(Common.enumLock.imageLock, image_locked, {array: this.btnsComment});
+                this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
+                if (this.api.asc_IsContentControl()) {
+                    var control_props = this.api.asc_GetContentControlProperties(),
+                        spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,   {array: this.btnsComment});
+                }
+                this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.btnsComment});
+                this.toolbar.lockToolbar(Common.enumLock.headerLock,    header_locked,      {array: this.btnsComment});
+                this.toolbar.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.btnsComment});
+                this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.btnsComment});
+                this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: this.btnsComment});
+                this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: this.btnsComment});
             }
-            this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.btnsComment});
-            this.toolbar.lockToolbar(Common.enumLock.headerLock,    header_locked,      {array: this.btnsComment});
-            this.toolbar.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.btnsComment});
-            this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.btnsComment});
-            this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: this.btnsComment});
-            this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: this.btnsComment});
         },
 
         onApiFocusObject: function(selectedObjects) {
@@ -815,9 +816,9 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
             this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
 
-            this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: this.btnsComment.concat(toolbar.btnsPageBreak).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
+            this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
                                                                                     toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
-            this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: this.btnsComment.concat(toolbar.btnsPageBreak).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
+            this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
                                                                                     toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
 
             this.toolbar.lockToolbar(Common.enumLock.inChart,       in_chart,           {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnInsertEquation])});
@@ -889,15 +890,17 @@ define([
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
-            // comments
-            this.toolbar.lockToolbar(Common.enumLock.cantAddQuotedComment, !this.api.can_AddQuotedComment(), {array: this.btnsComment});
-            this.toolbar.lockToolbar(Common.enumLock.imageLock, image_locked, {array: this.btnsComment});
-            this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
-            if (control_props) {
-                var spectype = control_props.get_SpecificType();
-                this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
-                                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,
-                                        {array: this.btnsComment});
+            if (this.btnsComment) {
+                // comments
+                this.toolbar.lockToolbar(Common.enumLock.cantAddQuotedComment, !this.api.can_AddQuotedComment(), {array: this.btnsComment});
+                this.toolbar.lockToolbar(Common.enumLock.imageLock, image_locked, {array: this.btnsComment});
+                this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
+                if (control_props) {
+                    var spectype = control_props.get_SpecificType();
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,
+                        {array: this.btnsComment});
+                }
             }
             if (frame_pr) {
                 this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
@@ -988,9 +991,9 @@ define([
                     if (this._state.clrhighlight != -1) {
                         this.toolbar.mnuHighlightTransparent.setChecked(true, true);
 
-                        if (this.toolbar.mnuHighlightColorPicker.cmpEl) {
+                        if (this.toolbar.mnuHighlightColorPicker) {
                             this._state.clrhighlight = -1;
-                            this.toolbar.mnuHighlightColorPicker.select(null, true);
+                            this.toolbar.mnuHighlightColorPicker.clearSelection();
                         }
                     }
                 } else if (c !== null) {
@@ -998,13 +1001,13 @@ define([
                         this.toolbar.mnuHighlightTransparent.setChecked(false);
                         this._state.clrhighlight = c.get_hex().toUpperCase();
 
-                        if ( _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
-                            this.toolbar.mnuHighlightColorPicker.select(this._state.clrhighlight, true);
+                        if ( this.toolbar.mnuHighlightColorPicker && _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
+                            this.toolbar.mnuHighlightColorPicker.selectByRGB(this._state.clrhighlight, true);
                     }
                 }  else {
                     if ( this._state.clrhighlight !== c) {
                         this.toolbar.mnuHighlightTransparent.setChecked(false, true);
-                        this.toolbar.mnuHighlightColorPicker.select(null, true);
+                        this.toolbar.mnuHighlightColorPicker && this.toolbar.mnuHighlightColorPicker.clearSelection();
                         this._state.clrhighlight = c;
                     }
                 }
@@ -1256,7 +1259,6 @@ define([
                     !Common.Utils.ModalWindow.isVisible() &&
                     Common.UI.warning({
                         width: 500,
-                        closable: false,
                         msg: this.confirmAddFontName,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
@@ -1309,18 +1311,17 @@ define([
 
                     if (!value) {
                         value = this._getApiTextSize();
-
-                        Common.UI.warning({
-                            msg: this.textFontSizeErr,
-                            callback: function() {
-                                _.defer(function(btn) {
-                                    $('input', combo.cmpEl).focus();
-                                })
-                            }
-                        });
-
+                        setTimeout(function(){
+                            Common.UI.warning({
+                                msg: me.textFontSizeErr,
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        $('input', combo.cmpEl).focus();
+                                    })
+                                }
+                            });
+                        }, 1);
                         combo.setRawValue(value);
-
                         e.preventDefault();
                         return false;
                     }
@@ -2207,6 +2208,10 @@ define([
                     this.api.GoToHeader(this.api.getCurrentPage());
                 else if (item.value == 'footer')
                     this.api.GoToFooter(this.api.getCurrentPage());
+                else if (item.value == 'header-remove')
+                    this.api.asc_RemoveHeader(this.api.getCurrentPage());
+                else if (item.value == 'footer-remove')
+                    this.api.asc_RemoveFooter(this.api.getCurrentPage());
                 else
                     return;
 
@@ -2637,7 +2642,7 @@ define([
                 itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
-                restoreHeight: 640,
+                restoreHeight: 652,
                 textRecentlyUsed: me.textRecentlyUsed,
                 recentShapes: recents ? JSON.parse(recents) : null
             });
@@ -3184,11 +3189,8 @@ define([
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
-
-                var viewtab = me.getApplication().getController('ViewTab');
-                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
             }
+
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {
                     tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
@@ -3204,12 +3206,22 @@ define([
                 }
             }
             config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
+
+            tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+            var viewtab = me.getApplication().getController('ViewTab');
+            viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+            $panel = viewtab.createToolbarPanel();
+            if ($panel) {
+                me.toolbar.addTab(tab, $panel, 7);
+                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
+            }
         },
 
         onAppReady: function (config) {
             var me = this;
             me.appOptions = config;
 
+            this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,

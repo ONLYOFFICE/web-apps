@@ -6,6 +6,10 @@
 
 .wrap-comment {
   padding: 16px 24px 0 16px;
+  background-color: @background-tertiary;
+  .comment-date {
+    color: @text-secondary;
+  }
   .name {
     font-weight: 600;
     font-size: 16px;
@@ -23,6 +27,9 @@
       padding: 5px 0;
       color: @text-normal;
     }
+  }
+  .reply-date {
+    color: @text-secondary;
   }
 }
 #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
@@ -221,6 +228,10 @@
   z-index: 14000;
   max-height: 100%;
   overflow: auto;
+
+  .item-content .item-input-wrap::after {
+    background-color: @text-normal;
+  }
 }
 
 .dialog-backdrop.backdrop-in {
@@ -235,6 +246,9 @@
 
 .actions-modal.modal-in {
   z-index: 13700;
+  .actions-group::after {
+    background-color: @background-menu-divider;
+  }
 }
 
 .actions-backdrop.backdrop-in {

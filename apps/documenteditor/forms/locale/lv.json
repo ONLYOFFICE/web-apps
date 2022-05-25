@@ -15,5 +15,7 @@
   "DE.Controllers.ApplicationController.unknownErrorText": "Nezināma kļūda.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Jūsu pārlūkprogramma nav atbalstīta.",
   "DE.Views.ApplicationView.txtDownload": "Lejupielādēt",
+  "DE.Views.ApplicationView.txtFileLocation": "Iet uz Dokumenti",
+  "DE.Views.ApplicationView.txtPrint": "Drukāt",
   "DE.Views.ApplicationView.txtShare": "Dalīties"
 }

@@ -10,11 +10,11 @@ export class storeFunctions {
 
     functions = {};
 
-    initFunctions (groups, data) {
-        this.functions = this.getFunctions(groups, data);
+    initFunctions (groups, data, separator) {
+        this.functions = this.getFunctions(groups, data, separator);
     }
 
-    getFunctions (groups, data) {
+    getFunctions (groups, data, separator) {
         const functions = {};
         for (let g in groups) {
             const group = groups[g];
@@ -28,7 +28,7 @@ export class storeFunctions {
                     type: _name,
                     group: groupname,
                     caption: func.asc_getLocaleName(),
-                    args: (data && data[_name]) ? data[_name].a : '',
+                    args: ((data && data[_name]) ? data[_name].a : '').replace(/[,;]/g, separator),
                     descr: (data && data[_name]) ? data[_name].d : ''
                 };
             }

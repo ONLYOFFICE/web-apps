@@ -275,7 +275,7 @@ const PageChartBorder = props => {
                                    onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
                             ></Range>
                         </div>
-                        <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                        <div className='range-number' slot='inner-end'>
                             {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                         </div>
                     </ListItem>
@@ -435,7 +435,7 @@ const PageWrap = props => {
                                        onRangeChanged={(value) => {props.onWrapDistance(value)}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateDistance + ' ' + metricText}
                             </div>
                         </ListItem>

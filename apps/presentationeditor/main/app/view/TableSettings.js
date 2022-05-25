@@ -72,7 +72,7 @@ define([
             this._initSettings = true;
 
             this._state = {
-                TemplateId: 0,
+                TemplateId: undefined,
                 CheckHeader: false,
                 CheckTotal: false,
                 CheckBanded: false,
@@ -82,7 +82,10 @@ define([
                 BackColor: '#000000',
                 DisabledControls: false,
                 Width: null,
-                Height: null
+                Height: null,
+                beginPreviewStyles: true,
+                previewStylesCount: -1,
+                currentStyleFound: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -220,6 +223,9 @@ define([
             this.api = o;
             if (o) {
                 this.api.asc_registerCallback('asc_onInitTableTemplates', _.bind(this.onInitTableTemplates, this));
+                this.api.asc_registerCallback('asc_onBeginTableStylesPreview', _.bind(this.onBeginTableStylesPreview, this));
+                this.api.asc_registerCallback('asc_onAddTableStylesPreview', _.bind(this.onAddTableStylesPreview, this));
+                this.api.asc_registerCallback('asc_onEndTableStylesPreview', _.bind(this.onEndTableStylesPreview, this));
             }
             return this;
         },
@@ -464,19 +470,12 @@ define([
                 //for table-template
                 value = props.get_TableStyle();
                 if (this._state.TemplateId!==value || this._isTemplatesChanged) {
-                    var rec = this.mnuTableTemplatePicker.store.findWhere({
-                        templateId: value
-                    });
-                    if (!rec) {
-                        rec = this.mnuTableTemplatePicker.store.at(0);
-                    }
-                    this.btnTableTemplate.suspendEvents();
-                    this.mnuTableTemplatePicker.selectRecord(rec, true);
-                    this.btnTableTemplate.resumeEvents();
-
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 52px'});
-
                     this._state.TemplateId = value;
+                    var template = this.api.asc_getTableStylesPreviews(false, [this._state.TemplateId]);
+                    if (template && template.length>0)
+                        this.$el.find('.icon-template-table').css({'background-image': 'url(' + template[0].asc_getImage() + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 52px'});
+                    this._state.currentStyleFound = false;
+                    this.selectCurrentTableStyle();
                 }
                 this._isTemplatesChanged = false;
 
@@ -673,6 +672,66 @@ define([
             !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 
+        selectCurrentTableStyle: function() {
+            if (!this.mnuTableTemplatePicker || this._state.beginPreviewStyles) return;
+
+            var rec = this.mnuTableTemplatePicker.store.findWhere({
+                templateId: this._state.TemplateId
+            });
+            if (!rec && this._state.previewStylesCount===this.mnuTableTemplatePicker.store.length) {
+                rec = this.mnuTableTemplatePicker.store.at(0);
+            }
+            if (rec) {
+                this._state.currentStyleFound = true;
+                this.btnTableTemplate.suspendEvents();
+                this.mnuTableTemplatePicker.selectRecord(rec, true);
+                this.btnTableTemplate.resumeEvents();
+                this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 52px'});
+            }
+        },
+
+        onBeginTableStylesPreview: function(count){
+            this._state.beginPreviewStyles = true;
+            this._state.currentStyleFound = false;
+            this._state.previewStylesCount = count;
+        },
+
+        onEndTableStylesPreview: function(){
+            !this._state.currentStyleFound && this.selectCurrentTableStyle();
+            if (this.mnuTableTemplatePicker) {
+                this.mnuTableTemplatePicker.scroller.update({alwaysVisibleY: true});
+                if (this.mnuTableTemplatePicker.isVisible())
+                    this.mnuTableTemplatePicker.scrollToRecord(this.mnuTableTemplatePicker.getSelectedRec());
+            }
+        },
+
+        onAddTableStylesPreview: function(Templates){
+            var self = this;
+            var arr = [];
+            _.each(Templates, function(template){
+                var tip = template.asc_getDisplayName();
+                if (template.asc_getType()==0) {
+                    ['No Style', 'No Grid', 'Table Grid', 'Themed Style', 'Light Style', 'Medium Style', 'Dark Style', 'Accent'].forEach(function(item){
+                        var str = 'txtTable_' + item.replace(' ', '');
+                        if (self[str])
+                            tip = tip.replace(new RegExp(item, 'g'), self[str]);
+                    });
+                }
+                arr.push({
+                    imageUrl: template.asc_getImage(),
+                    id     : Common.UI.getId(),
+                    templateId: template.asc_getId(),
+                    tip    : tip
+                });
+            });
+            if (this._state.beginPreviewStyles) {
+                this._state.beginPreviewStyles = false;
+                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(arr);
+            } else
+                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(arr);
+            !this._state.currentStyleFound && this.selectCurrentTableStyle();
+        },
+
         onInitTableTemplates: function(){
             if (this._initSettings) {
                 this._tableTemplates = true;
@@ -682,7 +741,6 @@ define([
         },
 
         _onInitTemplates: function(){
-            var Templates = this.api.asc_getTableStylesPreviews();
             var self = this;
             this._isTemplatesChanged = true;
 
@@ -713,39 +771,11 @@ define([
                     });
                 });
                 this.btnTableTemplate.render($('#table-btn-template'));
+                this.btnTableTemplate.cmpEl.find('.icon-template-table').css({'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'auto 52px'});
                 this.lockedControls.push(this.btnTableTemplate);
                 this.mnuTableTemplatePicker.on('item:click', _.bind(this.onTableTemplateSelect, this, this.btnTableTemplate));
             }
-
-            var count = self.mnuTableTemplatePicker.store.length;
-            if (count>0 && count==Templates.length) {
-                var data = self.mnuTableTemplatePicker.dataViewItems;
-                data && _.each(Templates, function(template, index){
-                    var img = template.asc_getImage();
-                    data[index].model.set('imageUrl', img, {silent: true});
-                    $(data[index].el).find('img').attr('src', img);
-                });
-            } else {
-                var arr = [];
-                _.each(Templates, function(template){
-                    var tip = template.asc_getDisplayName();
-                    if (template.asc_getType()==0) {
-                        ['No Style', 'No Grid', 'Table Grid', 'Themed Style', 'Light Style', 'Medium Style', 'Dark Style', 'Accent'].forEach(function(item){
-                            var str = 'txtTable_' + item.replace(' ', '');
-                            if (self[str])
-                                tip = tip.replace(new RegExp(item, 'g'), self[str]);
-                        });
-
-                    }
-                    arr.push({
-                        imageUrl: template.asc_getImage(),
-                        id     : Common.UI.getId(),
-                        templateId: template.asc_getId(),
-                        tip    : tip
-                    });
-                });
-                self.mnuTableTemplatePicker.store.reset(arr);
-            }
+            this.api.asc_generateTableStylesPreviews();
         },
 
         openAdvancedSettings: function(e) {
@@ -792,7 +822,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
-                this.linkAdvanced.toggleClass('disabled', disable);
+                this.linkAdvanced && this.linkAdvanced.toggleClass('disabled', disable);
             }
         },
 

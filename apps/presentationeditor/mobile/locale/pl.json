@@ -126,7 +126,8 @@
       "warnProcessRightsChange": "You don't have permission to edit the file.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textNoTextFound": "Text not found",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -473,7 +474,8 @@
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
       "txtScheme9": "Foundry",
-      "textDarkTheme": "Dark Theme"
+      "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support"
     }
   }
 }

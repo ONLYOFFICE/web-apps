@@ -10,8 +10,9 @@ import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DownloadController } from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
-import { MacrosSettings } from "./ApplicationSettings";
+import { MacrosSettings, Direction } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
+import NavigationController from '../../controller/settings/Navigation';
 
 const routes = [
     {
@@ -53,6 +54,20 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+
+    // Navigation
+
+    {
+        path: '/navigation/',
+        component: NavigationController
+    },
+
+    // Direction 
+
+    {
+        path: '/direction/',
+        component: Direction
     }
 ];
 
@@ -79,9 +94,14 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
         }
     };
 
-    const onOpenCollaboration = async () => {
-        await closeModal();
-        await props.openOptions('coauth');
+    const onOpenCollaboration = () => {
+        closeModal();
+        props.openOptions('coauth');
+    }
+
+    const onOpenNavigation = () => {
+        closeModal();
+        props.openOptions('navigation');
     }
 
     // set mode
@@ -121,6 +141,14 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
+                    <ListItem title={t('Settings.textNavigation')} link='#' onClick={() => {
+                        if(Device.phone) {
+                            onOpenNavigation();
+                        } else {
+                            onoptionclick.bind(this, "/navigation/")();
+                        }}}>
+                        <Icon slot="media" icon="icon-navigation"></Icon>
+                    </ListItem>
                     {window.matchMedia("(max-width: 359px)").matches ?
                         <ListItem title={_t.textCollaboration} link="#" onClick={onOpenCollaboration} className='no-indicator'>
                             <Icon slot="media" icon="icon-collaboration"></Icon>
@@ -152,9 +180,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                         </ListItem>
                     }
                     {_canDownloadOrigin &&
-                    <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
-                        <Icon slot="media" icon="icon-download"></Icon>
-                    </ListItem>
+                        <ListItem title={_t.textDownload} link="#" onClick={props.onDownloadOrigin} className='no-indicator'>
+                            <Icon slot="media" icon="icon-download"></Icon>
+                        </ListItem>
                     }
                     {_canPrint &&
                         <ListItem title={_t.textPrint} onClick={props.onPrint} link='#' className='no-indicator'>
@@ -165,7 +193,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
                     {_canHelp &&
-                        <ListItem title={_t.textHelp} link="#" onClick={props.showHelp}>
+                        <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={props.showHelp}>
                             <Icon slot="media" icon="icon-help"></Icon>
                         </ListItem>
                     }
@@ -174,6 +202,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-about"></Icon>
                         </ListItem>
                     }
+                    <ListItem title={t('Settings.textFeedback')} link="#" className='no-indicator' onClick={props.showFeedback}>
+                            <Icon slot="media" icon="icon-feedback"></Icon>
+                    </ListItem>
                 </List>
             </Page>
         </View>
@@ -195,11 +226,11 @@ class SettingsView extends Component {
         const show_popover = this.props.usePopover;
         return (
             show_popover ?
-                <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
+                <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} style={{height: '410px'}} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
                 </Popover> :
                 <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
+                    <SettingsList onOptionClick={this.onoptionclick} openOptions={this.props.openOptions} onReaderMode={this.props.onReaderMode} onPrint={this.props.onPrint} showHelp={this.props.showHelp} showFeedback={this.props.showFeedback} onOrthographyCheck={this.props.onOrthographyCheck} onDownloadOrigin={this.props.onDownloadOrigin}/>
                 </Popup>
         )
     }

@@ -3,7 +3,7 @@
     "textAbout": "Acerca de",
     "textAddress": "Dirección",
     "textBack": "Atrás",
-    "textEmail": "E-mail",
+    "textEmail": "Correo",
     "textPoweredBy": "Con tecnología de",
     "textTel": "Tel",
     "textVersion": "Versión "
@@ -11,8 +11,8 @@
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": "Advertencia",
-      "textAddComment": "Añadir comentario",
-      "textAddReply": "Añadir respuesta",
+      "textAddComment": "Agregar comentario",
+      "textAddReply": "Agregar respuesta",
       "textBack": "Atrás",
       "textCancel": "Cancelar",
       "textCollaboration": "Colaboración",
@@ -33,19 +33,19 @@
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUsers": "Usuarios"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "Sin relleno"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Colores personalizados",
       "textStandartColors": "Colores estándar",
       "textThemeColors": "Colores de tema"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual.",
-    "menuAddComment": "Añadir comentario",
-    "menuAddLink": "Añadir enlace ",
+    "menuAddComment": "Agregar comentario",
+    "menuAddLink": "Agregar enlace ",
     "menuCancel": "Cancelar",
     "menuDelete": "Eliminar",
     "menuDeleteTable": "Eliminar tabla",
@@ -75,8 +75,8 @@
       "notcriticalErrorTitle": "Advertencia",
       "SDK": {
         "Chart": "Gráfico",
-        "Click to add first slide": "Haga clic para añadir la primera diapositiva",
-        "Click to add notes": "Haga clic para añadir notas",
+        "Click to add first slide": "Haga clic para agregar la primera diapositiva",
+        "Click to add notes": "Haga clic para agregar notas",
         "ClipArt": "Imagen prediseñada",
         "Date and time": "Fecha y hora",
         "Diagram": "Diagrama",
@@ -107,9 +107,12 @@
       "textHasMacros": "El archivo contiene macros automáticas.<br>¿Quiere ejecutar macros?",
       "textNo": "No",
       "textNoLicenseTitle": "Se ha alcanzado el límite de licencia",
+      "textNoTextFound": "Texto no encontrado",
       "textOpenFile": "Introduzca la contraseña para abrir el archivo",
       "textPaidFeature": "Característica de pago",
       "textRemember": "Recordar mi elección",
+      "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
+      "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
       "titleServerVersion": "Editor ha sido actualizado",
@@ -120,13 +123,11 @@
       "warnLicenseExp": "Su licencia ha expirado. Por favor, actualícela y recargue la página.",
       "warnLicenseLimitedNoAccess": "La licencia ha expirado. No tiene acceso a la funcionalidad de edición de documentos. Por favor, póngase en contacto con su administrador.",
       "warnLicenseLimitedRenewed": "La licencia necesita renovación. Tiene acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener acceso completo",
-      "warnLicenseUsersExceeded": "Usted ha alcanzado el límite de usuarios para los editores de %1. Por favor, contacte con su administrador para recibir más información.",
+      "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para los editores de %1. Contacte con su administrador para recibir más información.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-      "warnNoLicenseUsers": "Usted ha alcanzado el límite de usuarios para los editores de %1.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
+      "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para los editores de %1. <br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
       "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "textNoTextFound": "Text not found",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -207,7 +208,7 @@
   "View": {
     "Add": {
       "notcriticalErrorTitle": "Advertencia",
-      "textAddLink": "Añadir enlace ",
+      "textAddLink": "Agregar enlace ",
       "textAddress": "Dirección",
       "textBack": "Atrás",
       "textCancel": "Cancelar",
@@ -228,6 +229,7 @@
       "textLinkTo": "Enlace a",
       "textLinkType": "Tipo de enlace",
       "textNextSlide": "Diapositiva siguiente",
+      "textOk": "Aceptar",
       "textOther": "Otro",
       "textPictureFromLibrary": "Imagen desde biblioteca",
       "textPictureFromURL": "Imagen desde URL",
@@ -240,15 +242,14 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Tabla",
       "textTableSize": "Tamaño de tabla",
-      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
-      "textOk": "Ok"
+      "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
-      "textActualSize": "Tamaño actual",
-      "textAddCustomColor": "Añadir color personalizado",
+      "textActualSize": "Tamaño real",
+      "textAddCustomColor": "Agregar color personalizado",
       "textAdditional": "Adicional",
-      "textAdditionalFormatting": "Formateo adicional",
+      "textAdditionalFormatting": "Formato adicional",
       "textAddress": "Dirección",
       "textAfter": "Después",
       "textAlign": "Alinear",
@@ -261,6 +262,7 @@
       "textAllCaps": "Mayúsculas",
       "textApplyAll": "Aplicar a todas las diapositivas",
       "textAuto": "Auto",
+      "textAutomatic": "Automático",
       "textBack": "Atrás",
       "textBandedColumn": "Columna con bandas",
       "textBandedRow": "Fila con bandas",
@@ -285,6 +287,7 @@
       "textDefault": "Texto seleccionado",
       "textDelay": "Retraso",
       "textDeleteSlide": "Eliminar diapositiva",
+      "textDesign": "Diseño",
       "textDisplay": "Mostrar",
       "textDistanceFromText": "Distancia desde el texto",
       "textDistributeHorizontally": "Distribuir horizontalmente",
@@ -336,6 +339,7 @@
       "textNoTextFound": "Texto no encontrado",
       "textNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "textNumbers": "Números",
+      "textOk": "Aceptar",
       "textOpacity": "Opacidad ",
       "textOptions": "Opciones",
       "textPictureFromLibrary": "Imagen desde biblioteca",
@@ -379,7 +383,6 @@
       "textTopLeft": "Arriba a la izquierda",
       "textTopRight": "Arriba a la derecha",
       "textTotalRow": "Fila de totales",
-      "textTransition": "Transición",
       "textTransitions": "Transiciones",
       "textType": "Tipo",
       "textUnCover": "Revelar",
@@ -390,10 +393,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Acercar",
       "textZoomOut": "Alejar",
-      "textZoomRotate": "Zoom y giro",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "Zoom y giro"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -410,13 +410,14 @@
       "textColorSchemes": "Esquemas de color",
       "textComment": "Comentario",
       "textCreated": "Creado",
+      "textDarkTheme": "Tema oscuro",
       "textDisableAll": "Deshabilitar todo",
       "textDisableAllMacrosWithNotification": "Deshabilitar todas las macros con notificación",
       "textDisableAllMacrosWithoutNotification": "Deshabilitar todas las macros sin notificación",
       "textDone": "Listo",
       "textDownload": "Descargar",
       "textDownloadAs": "Descargar como...",
-      "textEmail": "email: ",
+      "textEmail": "correo: ",
       "textEnableAll": "Habilitar todo",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación",
       "textFind": "Buscar",
@@ -473,7 +474,7 @@
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
       "txtScheme9": "Fundición",
-      "textDarkTheme": "Dark Theme"
+      "textFeedback": "Feedback & Support"
     }
   }
 }

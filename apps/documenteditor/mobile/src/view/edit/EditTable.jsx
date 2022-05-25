@@ -55,7 +55,7 @@ const PageTableOptions = props => {
                                onRangeChanged={(value) => {props.onCellMargins(value)}}
                         ></Range>
                     </div>
-                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                    <div className='range-number' slot='inner-end'>
                         {stateDistance + ' ' + metricText}
                     </div>
                 </ListItem>
@@ -160,7 +160,7 @@ const PageWrap = props => {
                                        onRangeChanged={(value) => {props.onWrapDistance(value)}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateDistance + ' ' + metricText}
                             </div>
                         </ListItem>
@@ -226,11 +226,9 @@ const PageStyleOptions = props => {
         isBandVer = tableLook.get_BandVer();
     }
 
-    const openIndicator = () => props.onGetTableStylesPreviews();
-
     return (
         <Page>
-            <Navbar title={_t.textOptions} backLink={_t.textBack} onBackClick={openIndicator}>
+            <Navbar title={_t.textOptions} backLink={_t.textBack} onBackClick={props.onGetTableStylesPreviews}>
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
@@ -436,7 +434,7 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
                            onRangeChanged={(value) => {storeTableSettings.updateCellBorderWidth(borderSizeTransform.sizeByIndex(value));}}
                     ></Range>
                 </div>
-                <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                <div className='range-number' slot='inner-end'>
                     {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                 </div>
             </ListItem>

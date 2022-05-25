@@ -3,6 +3,7 @@
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@import './app.rtl.less';
 
 // @themeColor: #40865c;
 @brandColor: var(--brand-cell);
@@ -54,16 +55,24 @@
     //--f7-page-content-extra-padding-top: 37px;
 }
 
-.function-info {
-    padding: 0 15px;
-}
 .page-function-info {
     &.page-content, .page-content {
         background-color: @background-primary;
     }
+
+    .function-info {
+        padding: 0 15px;
+        h3 {
+            color: @text-normal;
+        }
+    
+        p {
+            color: @text-secondary;
+        }
+    }
 }
 
-.username-tip.active {
+.username-tip {
     background-color: #ee3525; 
 }
 
@@ -126,11 +135,49 @@
         border-radius: 2px;
         }
     }
-    .page{
-        top: 30px;
+    .navbar {
+        top: -1px;
     }
 }
 
 .actions-move-sheet {
     background-color: @background-secondary;
+}
+
+// All-list sheet
+.all-list {
+    --f7-popover-width: 190px;
+    .item-checkbox{
+        padding-left: 8px;
+        .icon-checkbox{
+            border-color: transparent;
+            margin-right: 8px;
+            &::after{
+                color: @brandColor;
+            }
+        }
+        .item-after div {
+            color: @text-secondary;
+            font-style: italic;
+        }
+        input[type='checkbox']:checked ~ .icon-checkbox {
+            background-color: unset;
+            border-color: transparent;
+        }
+    }
+}
+
+.sheet-filter, .popover-filter {
+    .list {
+        ul li:first-child .list-button{
+            color: @text-normal;
+            &::after {
+                background: @background-menu-divider;
+            }
+        }
+
+        .item-inner {
+            color: @text-normal;
+        }
+    }
 }

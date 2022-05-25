@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import CellEditorView from '../view/CellEditor';
 import { f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
+import { useTranslation } from 'react-i18next';
+import {observer, inject} from "mobx-react";
 
-const CellEditor = props => {
+const CellEditor = inject("storeFunctions")(observer(props => {
     useEffect(() => {
         Common.Notifications.on('engineCreated', api => {
             api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection.bind(this));
@@ -13,9 +15,11 @@ const CellEditor = props => {
         });
     }, []);
 
+    const { t } = useTranslation();
     const [cellName, setCellName] = useState('');
     const [stateFunctions, setFunctionshDisabled] = useState(null);
     const [stateFuncArr, setFuncArr] = useState('');
+    const [stateHintArr, setHintArr] = useState('');
 
     const onApiCellSelection = info => {
         setCellName(typeof(info)=='string' ? info : info.asc_getName());
@@ -36,9 +40,63 @@ const CellEditor = props => {
     }
 
     const onFormulaCompleteMenu = funcArr => {
-        setFuncArr(funcArr);
+        const api = Common.EditorApi.get();
+        const storeFunctions = props.storeFunctions;
+        const functions = storeFunctions.functions;
 
         if(funcArr) {
+            funcArr.sort(function (a, b) {
+                let atype = a.asc_getType(),
+                    btype = b.asc_getType();
+                if (atype===btype && (atype === Asc.c_oAscPopUpSelectorType.TableColumnName))
+                    return 0;
+                if (atype === Asc.c_oAscPopUpSelectorType.TableThisRow) return -1;
+                if (btype === Asc.c_oAscPopUpSelectorType.TableThisRow) return 1;
+                if ((atype === Asc.c_oAscPopUpSelectorType.TableColumnName || btype === Asc.c_oAscPopUpSelectorType.TableColumnName) && atype !== btype)
+                    return atype === Asc.c_oAscPopUpSelectorType.TableColumnName ? -1 : 1;
+                let aname = a.asc_getName(true).toLocaleUpperCase(),
+                    bname = b.asc_getName(true).toLocaleUpperCase();
+                if (aname < bname) return -1;
+                if (aname > bname) return 1;
+    
+                return 0;
+            });
+    
+            let hintArr = funcArr.map(item => {
+                let type = item.asc_getType(),
+                    name = item.asc_getName(true),
+                    origName = api.asc_getFormulaNameByLocale(name),
+                    args = functions[origName]?.args || '',
+                    caption = name,
+                    descr = '';
+
+                switch (type) {
+                    case Asc.c_oAscPopUpSelectorType.Func:
+                        descr = functions && functions[origName] ? functions[origName].descr : '';
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableThisRow:
+                        descr = t('View.Add.textThisRowHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableAll:
+                        descr = t('View.Add.textAllTableHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableData:
+                        descr = t('View.Add.textDataTableHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableHeaders:
+                        descr = t('View.Add.textHeadersTableHint');
+                        break;
+                    case Asc.c_oAscPopUpSelectorType.TableTotals:
+                        descr = t('View.Add.textTotalsTableHint');
+                        break;
+                }
+
+                return {name, type, descr, caption, args};
+            });
+    
+            setHintArr(hintArr);
+            setFuncArr(funcArr);
+
             f7.popover.open('#idx-functions-list', '#idx-list-target');
         } else {
             f7.popover.close('#idx-functions-list');
@@ -48,6 +106,7 @@ const CellEditor = props => {
     const insertFormula = (name, type) => {
         const api = Common.EditorApi.get();
         api.asc_insertInCell(name, type, false);
+        f7.popover.close('#idx-functions-list');
     }
     
     return (
@@ -56,9 +115,10 @@ const CellEditor = props => {
             stateFunctions={stateFunctions}
             onClickToOpenAddOptions={props.onClickToOpenAddOptions} 
             funcArr={stateFuncArr}
+            hintArr={stateHintArr}
             insertFormula={insertFormula}
         />
     )
-};
+}));
 
 export default CellEditor;

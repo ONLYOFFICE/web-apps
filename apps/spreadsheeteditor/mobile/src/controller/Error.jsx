@@ -4,6 +4,9 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
+    const { t } = useTranslation();
+    const _t = t("Error", { returnObjects: true });
+
     useEffect(() => {
         const on_engine_created = k => { k.asc_registerCallback('asc_onError', onError); };
 
@@ -20,8 +23,6 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
     });
 
     const onError = (id, level, errData) => {
-        const {t} = useTranslation();
-        const _t = t("Error", { returnObjects: true });
         const api = Common.EditorApi.get();
         
         if (id === Asc.c_oAscError.ID.LoadingScriptError) {
@@ -221,6 +222,7 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
 
             case Asc.c_oAscError.ID.DataValidate:
                 errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
+                config.buttons  = ['OK', 'Cancel'];
                 config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : _t.errorDataValidate;
                 break;
 
@@ -349,8 +351,9 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             Common.Gateway.reportWarning(id, config.msg);
 
             config.title    = config.title || _t.notcriticalErrorTitle;
-            config.callback = (btn) => {
-                if (id == Asc.c_oAscError.ID.DataValidate) {
+            config.buttons  = config.buttons || ['OK'];
+            config.callback = (_, btn) => {
+                if (id == Asc.c_oAscError.ID.DataValidate && btn.target.textContent !== 'OK') {
                     api.asc_closeCellEditor(true);
                 }
                 storeAppOptions.changeEditingRights(false);
@@ -361,12 +364,12 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             cssClass: 'error-dialog',
             title   : config.title,
             text    : config.msg,
-            buttons: [
+            buttons: config.buttons.map( button => (
                 {
-                    text: 'OK',
-                    onClick: () => config.callback
+                    text:button,
+                    onClick: (_, btn) => config.callback(_, btn)
                 }
-            ]
+            ))
         }).open();
 
         Common.component.Analytics.trackEvent('Internal Error', id.toString());

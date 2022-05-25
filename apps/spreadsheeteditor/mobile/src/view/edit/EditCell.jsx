@@ -14,9 +14,8 @@ const EditCell = props => {
     const storeWorksheets = props.storeWorksheets;
     const wsProps = storeWorksheets.wsProps;
     const cellStyles = storeCellSettings.cellStyles;
-    const countSlides = Math.floor(cellStyles.length / 9);
-    const arraySlides = Array(countSlides).fill(countSlides);
-    const styleName = storeCellSettings.styleName;
+    const curStyleName = storeCellSettings.styleName;
+    const curStyle = cellStyles.find(style => style.name === curStyleName);
 
     const fontInfo = storeCellSettings.fontInfo;
     const fontName = fontInfo.name || _t.textFonts;
@@ -44,6 +43,7 @@ const EditCell = props => {
                     onFontSize: props.onFontSize,
                     onFontClick: props.onFontClick
                 }}/>
+            </List>
                 {!wsProps.FormatCells && 
                 <>
                     <List>
@@ -108,30 +108,64 @@ const EditCell = props => {
                             }
                         </ListItem>
                     </List>
-                    <BlockTitle>{_t.textCellStyles}</BlockTitle>
-                    {cellStyles && cellStyles.length ? (
-                        <Swiper pagination={true}>
-                            {arraySlides.map((_, indexSlide) => {
-                                let stylesSlide = cellStyles.slice(indexSlide * 9, (indexSlide * 9) + 9);
-                                
-                                return (
-                                    <SwiperSlide key={indexSlide}>
-                                        <List className="cell-styles-list">
-                                            {stylesSlide.map((elem, index) => (
-                                                <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
-                                                    <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
-                                                </ListItem> 
-                                            ))}
-                                        </List>
-                                    </SwiperSlide>
-                            )})}
-                        </Swiper>
-                    ) : null}
-                </>}
-            </List>    
+                    <List>
+                        <ListItem title={t('View.Edit.textCellStyle')} link="/edit-cell-style/" routeProps={{
+                            onStyleClick: props.onStyleClick
+                        }}>
+                            {!isAndroid && <Icon slot="media" icon="icon-cell-style" />}
+                            <div slot="after">
+                                <div className='preview-cell-style' style={{backgroundImage: `url(${curStyle.image})`}}></div>
+                            </div>
+                        </ListItem>
+                    </List>
+                </>}    
         </Fragment>
     )
 };
+
+const PageCellStyle = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeCellSettings = props.storeCellSettings;
+    const styleName = storeCellSettings.styleName;
+    const cellStyles = storeCellSettings.cellStyles;
+    const countStylesSlide = Device.phone ? 6 : 15;
+    const countSlides = Math.floor(cellStyles.length / countStylesSlide);
+    const arraySlides = Array(countSlides).fill(countSlides);
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textCellStyle')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-expand-down' sheetClose></Link>
+                    </NavRight>
+                }
+            </Navbar>
+            {cellStyles && cellStyles.length ? (
+                <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
+                    <div className="swiper-pagination"></div>
+                    <div className="swiper-wrapper">
+                        {arraySlides.map((_, indexSlide) => {
+                            let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
+                            
+                            return (
+                                <div className="swiper-slide" key={indexSlide}>
+                                    <List className="cell-styles-list">
+                                        {stylesSlide.map((elem, index) => (
+                                            <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                                <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
+                                            </ListItem> 
+                                        ))}
+                                    </List>
+                                </div>
+                        )})}
+                    </div>
+                </div>
+            ) : null}
+        </Page>
+    )
+}
 
 const PageFontsCell = props => {
     const isAndroid = Device.android;
@@ -154,26 +188,10 @@ const PageFontsCell = props => {
     const spriteCols = storeTextSettings.spriteCols;
     const spriteThumbs = storeTextSettings.spriteThumbs;
 
-    useEffect(() => {
-        setRecent(getImageUri(arrayRecentFonts));
-
-        return () => {
-        }
-    }, []);
-
     const addRecentStorage = () => {
-        let arr = [];
-        arrayRecentFonts.forEach(item => arr.push(item));
         setRecent(getImageUri(arrayRecentFonts));
-        LocalStorage.setItem('sse-settings-recent-fonts', JSON.stringify(arr));
-    }
-
-    const [stateRecent, setRecent] = useState([]);
-    const [vlFonts, setVlFonts] = useState({
-        vlData: {
-            items: [],
-        }
-    });
+        LocalStorage.setItem('sse-settings-recent-fonts', JSON.stringify(arrayRecentFonts));
+    };
 
     const getImageUri = fonts => {
         return fonts.map(font => {
@@ -182,7 +200,14 @@ const PageFontsCell = props => {
 
             return thumbCanvas.toDataURL();
         });
-    }; 
+    };
+
+    const [stateRecent, setRecent] = useState(() => getImageUri(arrayRecentFonts));
+    const [vlFonts, setVlFonts] = useState({
+        vlData: {
+            items: [],
+        }
+    });
 
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
@@ -1023,6 +1048,7 @@ const BorderStyleCell = inject("storeCellSettings", "storeFocusObjects")(observe
 const BorderColorCell = inject("storeCellSettings", "storePalette")(observer(PageBorderColorCell));
 const CustomBorderColorCell = inject("storeCellSettings", "storePalette")(observer(PageCustomBorderColorCell));
 const BorderSizeCell = inject("storeCellSettings")(observer(PageBorderSizeCell));
+const CellStyle = inject("storeCellSettings")(observer(PageCellStyle));
 
 export {
     PageEditCell as EditCell,
@@ -1041,5 +1067,6 @@ export {
     PageAccountingFormatCell,
     PageCurrencyFormatCell,
     PageDateFormatCell,
-    PageTimeFormatCell
+    PageTimeFormatCell,
+    CellStyle
 };

@@ -1,5 +1,5 @@
 .dimension-picker {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .dimension-picker div {
@@ -19,13 +19,17 @@
     position: absolute;
 
     //background: transparent repeat scroll 0 0;
-    .background-ximage-all('dimension-picker/dimension-highlighted.png', 18px);
+    .background-ximage-all('dimension-picker/dimension-highlighted.png', 20px);
     background-repeat: repeat;
+
+    .pixel-ratio__1_25 &, .pixel-ratio__1_75 & {
+        image-rendering: pixelated;
+    }
 }
 
 .dimension-picker-unhighlighted {
     //background: transparent repeat scroll 0 0;
-    .background-ximage-all('dimension-picker/dimension-unhighlighted.png', 18px);
+    .background-ximage-all('dimension-picker/dimension-unhighlighted.png', 20px);
     background-repeat: repeat;
 
     .pixel-ratio__1_25 &, .pixel-ratio__1_75 & {

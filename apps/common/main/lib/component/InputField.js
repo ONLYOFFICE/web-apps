@@ -431,7 +431,7 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-select-range',
+                iconCls: 'toolbar__icon btn-select-range',
                 btnHint: ''
             },
 
@@ -450,7 +450,6 @@ define([
                     '>',
                     '<span class="input-error"></span>',
                     '<div class="select-button">' +
-                        '<button type="button" class="btn btn-toolbar"><i class="icon toolbar__icon <%= iconCls %>"></i></button>' +
                     '</div>',
                 '</div>'
             ].join('')),
@@ -468,7 +467,6 @@ define([
                         name        : this.name,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
-                        iconCls     : this.options.iconCls,
                         scope       : me,
                         dataHint    : this.options.dataHint,
                         dataHintOffset: this.options.dataHintOffset,
@@ -489,10 +487,12 @@ define([
                     var el = this.cmpEl;
 
                     this._button = new Common.UI.Button({
-                        el: this.cmpEl.find('button'),
+                        cls: 'btn-toolbar',
                         iconCls: this.options.iconCls,
-                        hint: this.options.btnHint || ''
+                        hint: this.options.btnHint || '',
+                        menu: this.options.menu
                     });
+                    this._button.render(this.cmpEl.find('.select-button'));
                     this._button.on('click', _.bind(this.onButtonClick, this));
 
                     this._input = this.cmpEl.find('input').addBack().filter('input');
@@ -572,7 +572,8 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'btn-sheet-view',
+                showCls: 'toolbar__icon btn-sheet-view',
+                hideCls: 'toolbar__icon hide-password',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true
@@ -581,6 +582,7 @@ define([
             initialize : function(options) {
                 options = options || {};
                 options.btnHint = options.btnHint || this.textHintShowPwd;
+                options.iconCls = options.showCls || this.options.showCls;
 
                 Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
 
@@ -611,11 +613,19 @@ define([
                     this.passwordHide(e);
                     this.hidePwd = true;
                 }
+                var me = this;
+                var prevstart = me._input[0].selectionStart,
+                    prevend = me._input[0].selectionEnd;
+                setTimeout(function () {
+                    me.focus();
+                    me._input[0].selectionStart = prevstart;
+                    me._input[0].selectionEnd = prevend;
+                }, 1);
             },
 
             passwordShow: function (e) {
                 if (this.disabled) return;
-                this._button.setIconCls('hide-password');
+                this._button.setIconCls(this.options.hideCls);
                 this.type = 'text';
 
                 this._input.attr('type', this.type);
@@ -634,7 +644,7 @@ define([
             },
 
             passwordHide: function (e) {
-                this._button.setIconCls('btn-sheet-view');
+                this._button.setIconCls(this.options.showCls);
                 this.type = 'password';
 
                 (this._input.val() !== '') && this._input.attr('type', this.type);
@@ -649,10 +659,80 @@ define([
                 else {
                     this._btnElm.off('mouseup', this.passwordHide);
                     this._btnElm.off('mouseout', this.passwordHide);
+                    var me = this;
+                    var prevstart = me._input[0].selectionStart,
+                        prevend = me._input[0].selectionEnd;
+                    setTimeout(function () {
+                        me.focus();
+                        me._input[0].selectionStart = prevstart;
+                        me._input[0].selectionEnd = prevend;
+                    }, 1);
                 }
             },
             textHintShowPwd: 'Show password',
             textHintHidePwd: 'Hide password'
         }
     })(), Common.UI.InputFieldBtnPassword || {}));
+
+    Common.UI.InputFieldBtnCalendar = Common.UI.InputFieldBtn.extend((function (){
+        return {
+            options: {
+                id: null,
+                cls: '',
+                style: '',
+                value: '',
+                type: 'date',
+                name: '',
+                validation: null,
+                allowBlank: true,
+                placeHolder: '',
+                blankError: null,
+                spellcheck: false,
+                maskExp: '',
+                validateOnChange: false,
+                validateOnBlur: true,
+                disabled: false,
+                editable: true,
+                iconCls: 'toolbar__icon btn-datetime',
+                btnHint: '',
+                menu: true
+            },
+
+            render: function (parentEl) {
+                var me = this;
+                Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
+
+                var id = 'id-' + Common.UI.getId() + 'input-field-datetime',
+                    menu = new Common.UI.Menu({
+                        menuAlign: 'tr-br',
+                        style: 'border: none; padding: 0;',
+                        items: [
+                            {template: _.template('<div id="' + id + '" style=""></div>'), stopPropagation: true}
+                        ]
+                    });
+                $('button', this._button.cmpEl).addClass('no-caret');
+                this._button.setMenu(menu);
+                this._button.menu.on('show:after', function(menu) {
+                    if (!me.cmpCalendar) {
+                        me.cmpCalendar = new Common.UI.Calendar({
+                            el: me.cmpEl.find('#' + id),
+                            enableKeyEvents: true,
+                            firstday: 1
+                        });
+                        me.cmpCalendar.on('date:click', function (cmp, date) {
+                            me.trigger('date:click', me, date);
+                            menu.hide();
+                        });
+                        menu.alignPosition();
+                    }
+                    me.cmpCalendar.focus();
+                })
+            },
+
+            setDate: function(date) {
+                if (this.cmpCalendar && date && date instanceof Date && !isNaN(date))
+                    this.cmpCalendar && this.cmpCalendar.setDate(date);
+            }
+        }
+    })());
 });

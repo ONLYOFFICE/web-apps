@@ -50,6 +50,7 @@ define([
     'common/main/lib/component/Layout',
     'presentationeditor/main/app/view/SlideSettings',
     'common/main/lib/component/MetricSpinner',
+    'common/main/lib/component/Label',
     'common/main/lib/component/Window'
 ], function () {
     'use strict';
@@ -62,7 +63,8 @@ define([
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
                 me.listEffectsMore.on('click', _.bind(function () {
-                    me.fireEvent('animation:additional', [me.listEffects.menuPicker.getSelectedRec().get('value') != AscFormat.ANIM_PRESET_NONE]); // replace effect
+                    var rec = me.listEffects.menuPicker.getSelectedRec();
+                    me.fireEvent('animation:additional', [!(rec && rec.get('value') === AscFormat.ANIM_PRESET_NONE)]); // replace effect
                 }, me));
             }
 
@@ -73,6 +75,12 @@ define([
             if (me.btnPreview) {
                 me.btnPreview.on('click', _.bind(function(btn) {
                     me.fireEvent('animation:preview', [me.btnPreview]);
+                }, me));
+                me.btnPreview.menu.on('item:click', _.bind(function(menu, item, e) {
+                   if (item.value === 'preview')
+                       me.fireEvent('animation:preview', [me.btnPreview]);
+                   else if (item.value === 'auto')
+                       Common.Utils.InternalSettings.set("pe-animation-no-auto-preview", !item.checked);
                 }, me));
             }
 
@@ -88,7 +96,7 @@ define([
 
             if (me.btnParameters) {
                 me.btnParameters.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('animation:parameters', [item.value]);
+                    me.fireEvent('animation:parameters', [item.value, item.toggleGroup]);
                 });
             }
 
@@ -98,9 +106,21 @@ define([
                 }, me));
             }
 
-            if (me.numDuration) {
-                me.numDuration.on('change', function(bth) {
-                    me.fireEvent('animation:duration', [me.numDuration]);
+            if (me.cmbDuration) {
+                me.cmbDuration.on('changed:before', function (combo, record, e) {
+                    me.fireEvent('animation:durationchange', [true, combo, record, e]);
+                }, me);
+                me.cmbDuration.on('changed:after', function (combo, record, e) {
+                    me.fireEvent('animation:durationchange', [false, combo, record, e]);
+                }, me);
+                me.cmbDuration.on('selected', function (combo, record) {
+                    me.fireEvent('animation:durationselected', [combo, record]);
+                }, me);
+                me.cmbDuration.on('show:after', function (combo) {
+                    me.fireEvent('animation:durationfocusin', [true, combo]);
+                }, me);
+                me.cmbDuration.on('combo:focusin', function (combo) {
+                    me.fireEvent('animation:durationfocusin', [false, combo]);
                 }, me);
             }
 
@@ -117,9 +137,21 @@ define([
                 });
             }
 
-            if (me.numRepeat) {
-                me.numRepeat.on('change', function(bth) {
-                    me.fireEvent('animation:repeat', [me.numRepeat]);
+            if (me.cmbRepeat) {
+                me.cmbRepeat.on('changed:before', function (combo, record, e) {
+                    me.fireEvent('animation:repeatchange', [true, combo, record, e]);
+                }, me);
+                me.cmbRepeat.on('changed:after', function (combo, record, e) {
+                    me.fireEvent('animation:repeatchange', [false, combo, record, e]);
+                }, me);
+                me.cmbRepeat.on('selected', function (combo, record) {
+                    me.fireEvent('animation:repeatselected', [combo, record]);
+                }, me);
+                me.cmbRepeat.on('show:after', function (combo) {
+                    me.fireEvent('animation:repeatfocusin', [true, combo]);
+                }, me);
+                me.cmbRepeat.on('combo:focusin', function (combo) {
+                    me.fireEvent('animation:repeatfocusin', [false, combo]);
                 }, me);
             }
 
@@ -157,9 +189,10 @@ define([
                 this.$el = this.toolbar.toolbar.$el.find('#animation-panel');
                 var _set = Common.enumLock;
                 this.lockedControls = [];
-
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
-                _.forEach(this._arrEffectName,function (elm){elm.tip = elm.displayValue;});
+                _.forEach(this._arrEffectName,function (elm){
+                    elm.tip = elm.displayValue;
+                });
                 this._arrEffectOptions = [];
                 var itemWidth = 88,
                     itemHeight = 40;
@@ -170,7 +203,7 @@ define([
                     cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
-                    style: 'min-width:200px;',
+                    style: 'min-width:210px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
@@ -181,7 +214,7 @@ define([
                     store: new Common.UI.DataViewStore(this._arrEffectName),
                     additionalMenuItems: [{caption: '--'}, this.listEffectsMore],
                     enableKeyEvents: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
@@ -213,9 +246,10 @@ define([
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar   x-huge  icon-top', // x-huge icon-top',
                     caption: this.txtPreview,
-                    split: false,
-                    iconCls: 'toolbar__icon transition-fade',
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview],
+                    split: true,
+                    menu: true,
+                    iconCls: 'toolbar__icon animation-preview-start',
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -225,9 +259,9 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon transition-none',
+                    iconCls: 'toolbar__icon icon animation-parameters',
                     menu: new Common.UI.Menu({items: []}),
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -239,7 +273,7 @@ define([
                     caption: this.txtAnimationPane,
                     split: true,
                     iconCls: 'toolbar__icon transition-apply-all',
-                    lock: [_set.slideDeleted, _set.noSlides],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -249,9 +283,9 @@ define([
                 this.btnAddAnimation = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge  icon-top',
                     caption: this.txtAddEffect,
-                    iconCls: 'toolbar__icon icon btn-addslide',
+                    iconCls: 'toolbar__icon icon add-animation',
                     menu: true,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -259,27 +293,40 @@ define([
 
                 this.lockedControls.push(this.btnAddAnimation);
 
-                this.numDuration = new Common.UI.MetricSpinner({
+                this.cmbDuration = new Common.UI.ComboBox({
                     el: this.$el.find('#animation-spin-duration'),
-                    step: 1,
-                    width: 55,
-                    value: '',
-                    defaultUnit: this.txtSec,
-                    maxValue: 300,
-                    minValue: 0,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100%;',
+                    editable: true,
+                    data: [
+                        {value: 20, displayValue: this.str20},
+                        {value: 5, displayValue: this.str5},
+                        {value: 3, displayValue: this.str3},
+                        {value: 2, displayValue: this.str2},
+                        {value: 1, displayValue: this.str1},
+                        {value: 0.5, displayValue: this.str0_5}
+                    ],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.numDuration);
+                this.lockedControls.push(this.cmbDuration);
+
+                this.lblDuration = new Common.UI.Label({
+                    el: this.$el.find('#animation-duration'),
+                    iconCls: 'toolbar__icon animation-duration',
+                    caption: this.strDuration,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationDuration, _set.timingLock]
+                });
+                this.lockedControls.push(this.lblDuration);
 
                 this.cmbTrigger = new Common.UI.Button({
                     parentEl: $('#animation-trigger'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-contents',
+                    iconCls: 'toolbar__icon btn-trigger',
                     caption: this.strTrigger,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.timingLock],
                     menu        : new Common.UI.Menu({
                          items: [
                             {
@@ -310,20 +357,28 @@ define([
                     width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
-                    maxValue: 300,
+                    maxValue: 60,
                     minValue: 0,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
                 });
                 this.lockedControls.push(this.numDelay);
 
+                this.lblDelay = new Common.UI.Label({
+                    el: this.$el.find('#animation-delay'),
+                    iconCls: 'toolbar__icon animation-delay',
+                    caption: this.strDelay,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
+                });
+                this.lockedControls.push(this.lblDelay);
+
                 this.cmbStart = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 100%;',
                     editable: false,
-                    lock: [_set.slideDeleted,  _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    lock: [_set.slideDeleted,  _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     data: [
                         {value: AscFormat.NODE_TYPE_CLICKEFFECT, displayValue: this.textStartOnClick},
                         {value: AscFormat.NODE_TYPE_WITHEFFECT, displayValue: this.textStartWithPrevious},
@@ -335,30 +390,53 @@ define([
                 });
                 this.lockedControls.push(this.cmbStart);
 
+                this.lblStart = new Common.UI.Label({
+                    el: this.$el.find('#animation-label-start'),
+                    iconCls: 'toolbar__icon btn-preview-start',
+                    caption: this.strStart,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock]
+                });
+                this.lockedControls.push(this.lblStart);
+
                 this.chRewind = new Common.UI.CheckBox({
                     el: this.$el.find('#animation-checkbox-rewind'),
                     labelText: this.strRewind,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chRewind);
 
-                this.numRepeat = new Common.UI.MetricSpinner({
+                this.cmbRepeat = new Common.UI.ComboBox({
                     el: this.$el.find('#animation-spin-repeat'),
-                    step: 1,
-                    width: 55,
-                    value: '',
-                    maxValue: 1000,
-                    minValue: 0,
-                    defaultUnit: '',
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation],
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100%;',
+                    editable: true,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat, _set.timingLock],
+                    data: [
+                        {value: 1, displayValue: this.textNoRepeat},
+                        {value: 2, displayValue: "2"},
+                        {value: 3, displayValue: "3"},
+                        {value: 4, displayValue: "4"},
+                        {value: 5, displayValue: "5"},
+                        {value: 10, displayValue: "10"},
+                        {value: AscFormat.untilNextClick, displayValue: this.textUntilNextClick},
+                        {value: AscFormat.untilNextSlide, displayValue: this.textUntilEndOfSlide}
+                    ],
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: 'small'
                 });
-                this.lockedControls.push(this.numRepeat);
+                this.lockedControls.push(this.cmbRepeat);
+
+                this.lblRepeat = new Common.UI.Label({
+                    el: this.$el.find('#animation-repeat'),
+                    iconCls: 'toolbar__icon animation-repeat',
+                    caption: this.strRepeat,
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationRepeat, _set.timingLock]
+                });
+                this.lockedControls.push(this.lblRepeat);
 
                 this.btnMoveEarlier = new Common.UI.Button({
                     parentEl: $('#animation-moveearlier'),
@@ -366,7 +444,7 @@ define([
                     iconCls: 'toolbar__icon btn-arrow-up',
                     style: 'min-width: 82px',
                     caption: this.textMoveEarlier,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationEarlier],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationEarlier, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
@@ -379,17 +457,13 @@ define([
                     iconCls: 'toolbar__icon btn-arrow-down',
                     style: 'min-width: 82px',
                     caption: this.textMoveLater,
-                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationLater],
+                    lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noTriggerObjects, _set.noMoveAnimationLater, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
                 });
                 this.lockedControls.push(this.btnMoveLater);
 
-                this.$el.find('#animation-duration').text(this.strDuration);
-                this.$el.find('#animation-delay').text(this.strDelay);
-                this.$el.find('#animation-label-start').text(this.strStart);
-                this.$el.find('#animation-repeat').text(this.strRepeat);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -441,9 +515,20 @@ define([
                                 me.fireEvent('animation:addanimation', [picker, record]);
                         });
                         menu.off('show:before', onShowBefore);
+                        menu.on('show:after', function () {
+                            picker.scroller.update({alwaysVisibleY: true});
+                        });
                         me.btnAddAnimation.menu.setInnerMenu([{menu: picker, index: 0}]);
                     };
                     me.btnAddAnimation.menu.on('show:before', onShowBefore);
+
+                    me.btnPreview.setMenu( new Common.UI.Menu({
+                        style: "min-width: auto;",
+                        items: [
+                            {caption: me.txtPreview, value: 'preview'},
+                            {caption: me.textAutoPreview, value: 'auto', checkable: true, checked: !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview")}
+                        ]
+                    }));
 
                     setEvents.call(me);
                 });
@@ -456,13 +541,6 @@ define([
                 this.btnAnimationPane && this.btnAnimationPane.render(this.$el.find('#animation-button-pane'));
                 this.btnAddAnimation && this.btnAddAnimation.render(this.$el.find('#animation-button-add-effect'));
                 this.cmbStart && this.cmbStart.render(this.$el.find('#animation-start'));
-                this.renderComponent('#animation-spin-duration', this.numDuration);
-                this.renderComponent('#animation-spin-delay', this.numDelay);
-                this.renderComponent('#animation-spin-repeat', this.numRepeat);
-                this.$el.find("#animation-duration").innerText = this.strDuration;
-                this.$el.find("#animation-delay").innerText = this.strDelay;
-                this.$el.find("#animation-label-start").innerText = this.strStart;
-                this.$el.find("#animation-repeat").innerText = this.strRepeat;
                 return this.$el;
             },
 
@@ -470,8 +548,6 @@ define([
                 var element = this.$el.find(compid);
                 element.parent().append(obj.el);
             },
-
-
 
             show: function () {
                 Common.UI.BaseView.prototype.show.call(this);
@@ -482,36 +558,58 @@ define([
                 return this.lockedControls;
             },
 
-            setMenuParameters: function (effectId, effectGroup, option)
+            setMenuParameters: function (effectId, effectGroup, option) // option = undefined - for add new effect or when selected 2 equal effects with different option (subtype)
             {
-                var arrEffectOptions;
-                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId});
-                if(effect)
+                var arrEffectOptions,selectedElement;
+                var effect = _.findWhere(this.allEffects, {group: effectGroup, value: effectId}),
+                    updateFamilyEffect = true;
+                if (effect) {
                     arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
-                if(!arrEffectOptions) {
+                    updateFamilyEffect = this._familyEffect !== effect.familyEffect || !this._familyEffect; // family of effects are different or both of them = undefined (null)
+                }
+                if((this._effectId != effectId && updateFamilyEffect) || (this._groupName != effectGroup)) {
                     this.btnParameters.menu.removeAll();
-                    this._effectId = effectId
-                    return undefined;
                 }
-                var selectedElement;
-                if (this._effectId != effectId) {
-                    this.btnParameters.menu.removeAll();
-                    arrEffectOptions.forEach(function (opt, index) {
-                        opt.checkable = true;
-                        opt.toggleGroup ='animateeffects';
-                        this.btnParameters.menu.addItem(opt);
-                        (opt.value==option) && (selectedElement = this.btnParameters.menu.items[index]);
-                    }, this);
+                if (arrEffectOptions){
+                    if (this.btnParameters.menu.items.length == 0) {
+                        arrEffectOptions.forEach(function (opt, index) {
+                            opt.checkable = true;
+                            opt.toggleGroup = 'animateeffects';
+                            this.btnParameters.menu.addItem(opt);
+                            (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index]);
+                        }, this);
+                        (effect && effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
+                    } else {
+                        this.btnParameters.menu.clearAll();
+                        this.btnParameters.menu.items.forEach(function (opt) {
+                            if(opt.toggleGroup == 'animateeffects' && (opt.value == option || option===undefined && !!opt.options.defvalue))
+                                selectedElement = opt;
+                        },this);
+                    }
+                    selectedElement && selectedElement.setChecked(true);
                 }
-                else {
-                    this.btnParameters.menu.items.forEach(function (opt) {
-                        (opt.value == option) && (selectedElement = opt);
-                    });
+                if (effect && effect.familyEffect){
+                    if (this._familyEffect != effect.familyEffect) {
+                        var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup, effect.familyEffect);
+                        effectsArray.forEach(function (opt) {
+                            opt.checkable = true;
+                            opt.toggleGroup = 'animatesimilareffects'
+                            this.btnParameters.menu.addItem(opt);
+                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked(true);
+                        }, this);
+                    }
+                    else {
+                        this.btnParameters.menu.items.forEach(function (opt) {
+                            if(opt.toggleGroup == 'animatesimilareffects' && opt.value == effectId)
+                                opt.setChecked(true);
+                        });
+                    }
                 }
-                (selectedElement == undefined) && (selectedElement = this.btnParameters.menu.items[0])
-                selectedElement.setChecked(true);
+
                 this._effectId = effectId;
-                return selectedElement.value;
+                this._groupName = effectGroup;
+                this._familyEffect = effect ? effect.familyEffect : undefined;
+                return selectedElement ? selectedElement.value : undefined;
             },
 
 
@@ -535,7 +633,17 @@ define([
             textMultiple: 'Multiple',
             textMoreEffects: 'Show More Effects',
             textMoveEarlier: 'Move Earlier',
-            textMoveLater:  'Move Later'
+            textMoveLater:  'Move Later',
+            textNoRepeat: '(none)',
+            textUntilNextClick: 'Until Next Click',
+            textUntilEndOfSlide: 'Until End of Slide',
+            str20: '20 s (Extremely Slow)',
+            str5: '5 s (Very Slow)',
+            str3: '3 s (Slow)',
+            str2: '2 s (Medium)',
+            str1: '1 s (Fast)',
+            str0_5: '0.5 s (Very Fast)',
+            textAutoPreview: 'AutoPreview'
         }
     }()), PE.Views.Animation || {}));
 

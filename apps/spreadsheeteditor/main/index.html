@@ -84,6 +84,16 @@
             background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
         }
 
+        .loadmask > .brendpanel .circle {
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            margin: 0 10px;
+            background: rgba(255,255,255,.2);
+            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+        }
+
         .loadmask > .sktoolbar {
             background: #f1f1f1;
             background: var(--background-toolbar, #f1f1f1);
@@ -268,8 +278,10 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+            document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+        }
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
@@ -284,7 +296,7 @@
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;"><div>
             <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div>
-            <div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
             <ul><li/><li class="space"/><li style="width: 219px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li style="width: 340px;"/><li class="fat"/></ul>
@@ -342,20 +354,9 @@
     </script>
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
-    <img class="inline-svg" src="../../common/main/resources/img/header/buttons.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/xlsx.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/xltx.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pdf.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pdfa.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/ods.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/ots.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/csv.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/xlsm.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/blank.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/header/icons.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/shapetypes.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/charttypes.svg">
-    <img class="inline-svg" src="resources/img/recent-file.svg">
-    <img class="inline-svg" src="resources/img/file-template.svg">
     <img class="inline-svg" src="resources/img/cf-icons.svg">
     <script>
         var svgpoints = document.querySelectorAll('img.inline-svg');

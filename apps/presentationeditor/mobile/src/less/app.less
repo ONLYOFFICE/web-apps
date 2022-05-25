@@ -2,6 +2,7 @@
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@import './app-rtl.less';
 
 @brandColor: var(--brand-slide);
 
@@ -36,6 +37,7 @@
 @import './app-ios.less';
 @import './icons-ios.less';
 @import './icons-material.less';
+@import './icons-common.less';
 
 :root {
     --f7-popover-width: 360px;
@@ -122,7 +124,7 @@
 .table-styles .row div:not(:first-child) {
     margin: 2px auto 0px;
 }
-.table-styles li, .table-styles .row div {
+.table-styles .skeleton-list li, .table-styles .row div {
     padding: 0;
 }
 .table-styles .row .skeleton-list{

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { f7 } from 'framework7-react';
+import { inject } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import IrregularStack from "../../../../common/mobile/utils/IrregularStack";
 
-const LongActionsController = () => {
+const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
     const {t} = useTranslation();
     const _t = t("LongActions", { returnObjects: true });
 
@@ -24,11 +25,16 @@ const LongActionsController = () => {
     };
 
     useEffect( () => {
-        Common.Notifications.on('engineCreated', (api) => {
+        const on_engine_created = api => { 
             api.asc_registerCallback('asc_onStartAction', onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction', onLongActionEnd);
             api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
-        });
+        };
+
+        const api = Common.EditorApi.get();
+        if(!api) Common.Notifications.on('engineCreated', on_engine_created);
+        else on_engine_created(api);
+
         Common.Notifications.on('preloader:endAction', onLongActionEnd);
         Common.Notifications.on('preloader:beginAction', onLongActionBegin);
         Common.Notifications.on('preloader:close', closePreloader);
@@ -40,7 +46,8 @@ const LongActionsController = () => {
                 api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
                 api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
             }
-
+            
+            Common.Notifications.off('engineCreated', on_engine_created);
             Common.Notifications.off('preloader:endAction', onLongActionEnd);
             Common.Notifications.off('preloader:beginAction', onLongActionBegin);
             Common.Notifications.off('preloader:close', closePreloader);
@@ -74,96 +81,99 @@ const LongActionsController = () => {
 
     const setLongActionView = (action) => {
         let title = '';
-        let text = '';
+        // let text = '';
+
         switch (action.id) {
             case Asc.c_oAscAsyncAction['Open']:
-                title   = _t.openTitleText;
-                text    = _t.openTextText;
+                // title   = _t.openTitleText;
+                // text    = _t.openTextText;
+                title    = _t.textLoadingDocument;
                 break;
 
             case Asc.c_oAscAsyncAction['Save']:
                 title   = _t.saveTitleText;
-                text    = _t.saveTextText;
+                // text    = _t.saveTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['LoadDocumentFonts']:
+                if ( !storeAppOptions.isDocReady ) return;
                 title   = _t.loadFontsTitleText;
-                text    = _t.loadFontsTextText;
+                // text    = _t.loadFontsTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['LoadDocumentImages']:
                 title   = _t.loadImagesTitleText;
-                text    = _t.loadImagesTextText;
+                // text    = _t.loadImagesTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['LoadFont']:
                 title   = _t.loadFontTitleText;
-                text    = _t.loadFontTextText;
+                // text    = _t.loadFontTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['LoadImage']:
                 title   = _t.loadImageTitleText;
-                text    = _t.loadImageTextText;
+                // text    = _t.loadImageTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['DownloadAs']:
                 title   = _t.downloadTitleText;
-                text    = _t.downloadTextText;
+                // text    = _t.downloadTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['Print']:
                 title   = _t.printTitleText;
-                text    = _t.printTextText;
+                // text    = _t.printTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['UploadImage']:
                 title   = _t.uploadImageTitleText;
-                text    = _t.uploadImageTextText;
+                // text    = _t.uploadImageTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['ApplyChanges']:
                 title   = _t.applyChangesTitleText;
-                text    = _t.applyChangesTextText;
+                // text    = _t.applyChangesTextText;
                 break;
 
             case Asc.c_oAscAsyncAction['PrepareToSave']:
                 title   = _t.savePreparingText;
-                text    = _t.savePreparingTitle;
+                // text    = _t.savePreparingTitle;
                 break;
 
             case Asc.c_oAscAsyncAction['MailMergeLoadFile']:
                 title   = _t.mailMergeLoadFileText;
-                text    = _t.mailMergeLoadFileTitle;
+                // text    = _t.mailMergeLoadFileTitle;
                 break;
 
             case Asc.c_oAscAsyncAction['DownloadMerge']:
                 title   = _t.downloadMergeTitle;
-                text    = _t.downloadMergeText;
+                // text    = _t.downloadMergeText;
                 break;
 
             case Asc.c_oAscAsyncAction['SendMailMerge']:
                 title   = _t.sendMergeTitle;
-                text    = _t.sendMergeText;
+                // text    = _t.sendMergeText;
                 break;
 
             case Asc.c_oAscAsyncAction['Waiting']:
                 title   = _t.waitText;
-                text    = _t.waitText;
+                // text    = _t.waitText;
                 break;
 
             case ApplyEditRights:
                 title   = _t.txtEditingMode;
-                text    = _t.txtEditingMode;
+                // text    = _t.txtEditingMode;
                 break;
 
             case LoadingDocument:
                 title   = _t.loadingDocumentTitleText;
-                text    = _t.loadingDocumentTextText;
+                // text    = _t.loadingDocumentTextText;
                 break;
             default:
                 if (typeof action.id == 'string'){
                     title   = action.id;
-                    text    = action.id;
+                    // text    = action.id;
                 }
                 break;
         }
@@ -194,6 +204,6 @@ const LongActionsController = () => {
     }
 
     return null;
-};
+});
 
 export default LongActionsController;

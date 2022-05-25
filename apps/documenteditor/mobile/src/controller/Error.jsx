@@ -4,6 +4,9 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
+    const { t } = useTranslation();
+    const _t = t("Error", { returnObjects: true });
+
     useEffect(() => {
         const on_engine_created = k => { k.asc_registerCallback('asc_onError', onError); };
 
@@ -20,9 +23,6 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
     });
 
     const onError = (id, level, errData) => {
-        const {t} = useTranslation();
-        const _t = t("Error", { returnObjects: true });
-
         if (id === Asc.c_oAscError.ID.LoadingScriptError) {
             f7.notification.create({
                 title: _t.criticalErrorTitle,
@@ -179,6 +179,14 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
 
             case Asc.c_oAscError.ID.LoadingFontError:
                 config.msg = _t.errorLoadingFont;
+                break;
+
+            case Asc.c_oAscError.ID.ComplexFieldEmptyTOC:
+                config.msg = _t.errorEmptyTOC;
+                break;
+
+            case Asc.c_oAscError.ID.ComplexFieldNoTOC:
+                config.msg = _t.errorNoTOC;
                 break;
 
             default:

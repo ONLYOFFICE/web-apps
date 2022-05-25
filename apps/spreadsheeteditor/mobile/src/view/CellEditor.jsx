@@ -1,5 +1,5 @@
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Input, View, Button, Link, Popover, ListItem, List, Icon, f7, Page, Navbar, NavRight } from 'framework7-react';
 import {observer, inject} from "mobx-react";
 import { __interactionsRef } from 'scheduler/tracing';
@@ -20,15 +20,26 @@ const FunctionInfo = props => {
     const functionObj = props.functionObj;
     const functionInfo = props.functionInfo;
 
+    useEffect(() => {
+        const functionsList = document.querySelector('#functions-list');
+        const height = functionsList.offsetHeight + 'px';
+
+        functionsList.closest('.view').style.height = '200px';
+
+        return () => {
+            functionsList.closest('.view').style.height = height;
+        }
+    }, []);
+
     return (
         <Page className='page-function-info'>
-            <Navbar title={functionInfo.caption} backLink={_t.textBack}>
+            <Navbar title={functionInfo.caption} backLink={_t.textBack} backLinkUrl='/functions-list/'>
                 <NavRight>
                     <Link text={t('View.Add.textInsert')} onClick={() => props.insertFormula(functionObj.name, functionObj.type)}></Link>
                 </NavRight>
             </Navbar>
             <div className='function-info'>
-                <h3>{`${functionInfo.caption} ${functionInfo.args}`}</h3>
+                <h3>{functionInfo.caption && functionInfo.args ? `${functionInfo.caption} ${functionInfo.args}` : functionInfo.name}</h3>
                 <p>{functionInfo.descr}</p>
             </div>
         </Page>
@@ -36,27 +47,37 @@ const FunctionInfo = props => {
 }
 
 const FunctionsList = props => {
-    const { t } = useTranslation();
     const isPhone = Device.isPhone;
     const functions = props.functions;
     const funcArr = props.funcArr;
+    const hintArr = props.hintArr;
+
+    useEffect(() => {
+        const functionsList = document.querySelector('#functions-list');
+        const height = functionsList.offsetHeight + 'px';
+
+        functionsList.closest('.view').style.height = height;
+    }, [funcArr]);
 
     return (
-        <div className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
+        <div id="functions-list" className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
             <List>
-                {funcArr.map((elem, index) => {
+                {funcArr && funcArr.length && funcArr.map((elem, index) => {
                     return (
                         <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
-                            <div slot='after'
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    let functionInfo = functions[elem.name];
-                                    if(functionInfo) {    
-                                        f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
-                                    }
-                                }}>
-                                <Icon icon='icon-info'/>
-                            </div>
+                            {(functions[elem.name] || hintArr[index]?.descr) &&
+                                <div slot='after'
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        let functionInfo = functions[elem.name] || hintArr[index];
+
+                                        if(functionInfo) {    
+                                            f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
+                                        }
+                                    }}>
+                                    <Icon icon='icon-info'/>
+                                </div>
+                            }
                         </ListItem>
                     )
                 })}
@@ -64,8 +85,6 @@ const FunctionsList = props => {
         </div>
     )
 }
-
-
 
 const CellEditorView = props => {
     const [expanded, setExpanded] = useState(false);
@@ -78,6 +97,7 @@ const CellEditorView = props => {
     const functions = storeFunctions.functions;
     const isEdit = storeAppOptions.isEdit;
     const funcArr = props.funcArr;
+    const hintArr = props.hintArr;
 
     const expandClick = e => {
         setExpanded(!expanded);
@@ -115,6 +135,7 @@ const CellEditorView = props => {
                                 <FunctionsList 
                                     functions={functions}
                                     funcArr={funcArr} 
+                                    hintArr={hintArr}
                                     insertFormula={props.insertFormula}
                                 />
                             </Page>
@@ -130,6 +151,10 @@ const routes = [
     {
         path: '/function-info/',
         component: FunctionInfo
+    },
+    {
+        path: '/functions-list/',
+        component: FunctionsList
     }
 ];
 

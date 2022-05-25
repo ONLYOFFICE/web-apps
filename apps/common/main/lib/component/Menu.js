@@ -377,12 +377,12 @@ define([
             onBeforeShowMenu: function(e) {
                 Common.NotificationCenter.trigger('menu:show');
                 this.trigger('show:before', this, e);
-                this.alignPosition();
+                (e && e.target===e.currentTarget) && this.alignPosition();
             },
 
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
-                if (this.scroller) {
+                if (this.scroller && e && e.target===e.currentTarget) {
                     var menuRoot = this.menuRoot;
                     if (this.wheelSpeed===undefined) {
                         var item = menuRoot.find('> li:first'),
@@ -651,7 +651,28 @@ define([
                 if (left < 0)
                     left = 0;
 
-                if (this.options.restoreHeight) {
+                if (this.options.restoreHeightAndTop) { // can change top position, if top<0 - then change menu height
+                    var cg = Common.Utils.croppedGeometry();
+                    docH = cg.height - 10;
+                    menuRoot.css('max-height', 'none');
+                    menuH = menuRoot.outerHeight();
+                    if (top + menuH > docH + cg.top) {
+                        top = docH - menuH;
+                    }
+                    if (top < cg.top)
+                        top = cg.top;
+                    if (top + menuH > docH + cg.top) {
+                        menuRoot.css('max-height', (docH - top) + 'px');
+                        (!this.scroller) && (this.scroller = new Common.UI.Scroller({
+                            el: this.$el.find('> .dropdown-menu '),
+                            minScrollbarLength: 30,
+                            suppressScrollX: true,
+                            alwaysVisibleY: this.scrollAlwaysVisible
+                        }));
+                        this.wheelSpeed = undefined;
+                    }
+                    this.scroller && this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                } else if (this.options.restoreHeight) {
                     if (typeof (this.options.restoreHeight) == "number") {
                         if (top + menuH > docH) {
                             menuRoot.css('max-height', (docH - top) + 'px');
@@ -954,12 +975,12 @@ define([
         onBeforeShowMenu: function(e) {
             Common.NotificationCenter.trigger('menu:show');
             this.trigger('show:before', this, e);
-            this.alignPosition();
+            (e && e.target===e.currentTarget) && this.alignPosition();
         },
 
         onAfterShowMenu: function(e) {
             this.trigger('show:after', this, e);
-            if (this.scroller) {
+            if (this.scroller && e && e.target===e.currentTarget) {
                 this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                 var menuRoot = this.menuRoot,
                     $selected = menuRoot.find('> li .checked');

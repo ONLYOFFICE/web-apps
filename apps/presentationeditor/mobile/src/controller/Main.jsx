@@ -44,6 +44,7 @@ class MainController extends Component {
         };
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
+        this.stackMacrosRequests = [];
 
         const { t } = this.props;
         this._t = t('Controller.Main', {returnObjects:true});
@@ -73,7 +74,8 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
 
                 EditorUIController.isSupportEditFeature();
 
@@ -91,6 +93,9 @@ class MainController extends Component {
                     value = parseInt(value);
                 }
                 this.props.storeApplicationSettings.changeMacrosSettings(value);
+
+                value = localStorage.getItem("pe-mobile-allow-macros-request");
+                this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
             };
 
             const loadDocument = data => {
@@ -103,6 +108,7 @@ class MainController extends Component {
                     this.permissions = Object.assign(this.permissions, data.doc.permissions);
 
                     const _permissions = Object.assign({}, data.doc.permissions);
+                    const _options = Object.assign({}, data.doc.options, this.editorConfig.actionLink || {});
                     const _user = new Asc.asc_CUserInfo();
                     const _userOptions = this.props.storeAppOptions.user;
                     _user.put_Id(_userOptions.id);
@@ -115,7 +121,7 @@ class MainController extends Component {
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
-                    docInfo.put_Options(data.doc.options);
+                    docInfo.put_Options(_options);
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
@@ -123,6 +129,11 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+
+                    let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                                    this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+                                    this.editorConfig.coEditing.mode || 'fast';
+                    docInfo.put_CoEditingMode(coEditMode);
 
                     let enable = !this.editorConfig.customization || (this.editorConfig.customization.macros !== false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -132,6 +143,7 @@ class MainController extends Component {
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
                 this.api.asc_registerCallback('asc_onLicenseChanged', this.onLicenseChanged.bind(this));
+                this.api.asc_registerCallback('asc_onMacrosPermissionRequest', this.onMacrosPermissionRequest.bind(this));
                 this.api.asc_registerCallback('asc_onRunAutostartMacroses', this.onRunAutostartMacroses.bind(this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
@@ -284,7 +296,9 @@ class MainController extends Component {
                 this.api.asc_continueSaving();
             }, 500);
 
-            return this._t.leavePageText;
+            const { t } = this.props;
+            const _t = t('Controller.Main', {returnObjects:true});
+            return _t.leavePageText;
         }
     }
 
@@ -489,10 +503,14 @@ class MainController extends Component {
     onLicenseChanged (params) {
         const appOptions = this.props.storeAppOptions;
         const licType = params.asc_getLicenseType();
-        if (licType !== undefined && appOptions.canEdit && appOptions.config.mode !== 'view' &&
+        if (licType !== undefined && (appOptions.canEdit || appOptions.isRestrictedEdit) && appOptions.config.mode !== 'view' &&
             (licType === Asc.c_oLicenseResult.Connections || licType === Asc.c_oLicenseResult.UsersCount || licType === Asc.c_oLicenseResult.ConnectionsOS || licType === Asc.c_oLicenseResult.UsersCountOS
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
+
+        if (licType !== undefined && appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS))
+            this._state.licenseType = licType;
+
         if (this._isDocReady && this._state.licenseType)
             this.applyLicense();
     }
@@ -524,7 +542,13 @@ class MainController extends Component {
             return;
         }
 
-        if (this._state.licenseType) {
+        if (appOptions.config.mode === 'view') {
+            if (appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS)) {
+                appOptions.canLiveView = false;
+                this.api.asc_SetFastCollaborative(false);
+            }
+            Common.Notifications.trigger('toolbar:activatecontrols');
+        } else if (this._state.licenseType) {
             let license = this._state.licenseType;
             let buttons = [{text: 'OK'}];
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
@@ -592,7 +616,8 @@ class MainController extends Component {
     }
 
     onUpdateVersion (callback) {
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
@@ -611,7 +636,8 @@ class MainController extends Component {
 
     onServerVersion (buildVersion) {
         if (this.changeServerVersion) return true;
-        const _t = this._t;
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
 
         if (About.appVersion() !== buildVersion && !window.compareVersions) {
             this.changeServerVersion = true;
@@ -627,9 +653,10 @@ class MainController extends Component {
     }
 
     onAdvancedOptions (type, advOptions) {
+        const { t } = this.props;
+        const _t = t('Controller.Main', {returnObjects:true});
+        
         if ($$('.dlg-adv-options.modal-in').length > 0) return;
-
-        const _t = this._t;
 
         if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
             Common.Notifications.trigger('preloader:close');
@@ -758,7 +785,8 @@ class MainController extends Component {
             if (value === 1) {
                 this.api.asc_runAutostartMacroses();
             } else if (value === 0) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text: _t.textHasMacros,
@@ -796,11 +824,76 @@ class MainController extends Component {
         }
     }
 
+    onMacrosPermissionRequest (url, callback) {
+        if (url && callback) {
+            this.stackMacrosRequests.push({url: url, callback: callback});
+            if (this.stackMacrosRequests.length>1) {
+                return;
+            }
+        } else if (this.stackMacrosRequests.length>0) {
+            url = this.stackMacrosRequests[0].url;
+            callback = this.stackMacrosRequests[0].callback;
+        } else
+            return;
+
+        const value = this.props.storeApplicationSettings.macrosRequest;
+        if (value>0) {
+            callback && callback(value === 1);
+            this.stackMacrosRequests.shift();
+            this.onMacrosPermissionRequest();
+        } else {
+            const { t } = this.props;
+            const _t = t('Controller.Main', {returnObjects:true});
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.textRequestMacros.replace('%1', url),
+                cssClass: 'dlg-macros-request',
+                content: `<div class="checkbox-in-modal">
+                      <label class="checkbox">
+                        <input type="checkbox" name="checkbox-show-macros" />
+                        <i class="icon-checkbox"></i>
+                      </label>
+                      <span class="right-text">${_t.textRemember}</span>
+                      </div>`,
+                buttons: [{
+                    text: _t.textYes,
+                    onClick: () => {
+                        const dontshow = $$('input[name="checkbox-show-macros"]').prop('checked');
+                        if (dontshow) {
+                            this.props.storeApplicationSettings.changeMacrosRequest(1);
+                            LocalStorage.setItem("pe-mobile-allow-macros-request", 1);
+                        }
+                        setTimeout(() => {
+                            if (callback) callback(true);
+                            this.stackMacrosRequests.shift();
+                            this.onMacrosPermissionRequest();
+                        }, 1);
+                    }},
+                    {
+                        text: _t.textNo,
+                        onClick: () => {
+                            const dontshow = $$('input[name="checkbox-show-macros"]').prop('checked');
+                            if (dontshow) {
+                                this.props.storeApplicationSettings.changeMacrosRequest(2);
+                                LocalStorage.setItem("pe-mobile-allow-macros-request", 2);
+                            }
+                            setTimeout(() => {
+                                if (callback) callback(false);
+                                this.stackMacrosRequests.shift();
+                                this.onMacrosPermissionRequest();
+                            }, 1);
+                        }
+                    }]
+            }).open();
+        }
+    }
+
     onProcessSaveResult (data) {
         this.api.asc_OnSaveEnd(data.result);
 
         if (data && data.result === false) {
-            const _t = this._t;
+            const { t } = this.props;
+            const _t = t('Controller.Main', {returnObjects:true});
             f7.dialog.alert(
                 (!data.message) ? _t.errorProcessSaveResult : data.message,
                 _t.criticalErrorTitle
@@ -817,7 +910,8 @@ class MainController extends Component {
             Common.Notifications.trigger('api:disconnect');
 
             if (!old_rights) {
-                const _t = this._t;
+                const { t } = this.props;
+                const _t = t('Controller.Main', {returnObjects:true});
                 f7.dialog.alert(
                     (!data.message) ? _t.warnProcessRightsChange : data.message,
                     _t.notcriticalErrorTitle,

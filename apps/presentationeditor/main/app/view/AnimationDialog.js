@@ -44,7 +44,7 @@ define([
     PE.Views.AnimationDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
-            height: 426,
+            height: 396,
             header: true,
             cls: 'animation-dlg',
             buttons: ['ok', 'cancel']
@@ -57,8 +57,8 @@ define([
                 '<div class="box" style="width: 318px; margin: 0 auto">',
                     '<div class = "input-row" id = "animation-group"></div>',
                     '<div class = "input-row" id = "animation-level" ></div>',
-                    '<div class = "input-row" id = "animation-list" style = "margin-top: 16px;  height: 216px;"></div>',
-                    '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
+                    '<div class = "input-row" id = "animation-list" style = "margin: 16px 0;  height: 216px;"></div>',
+                    // '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
                 '</div>'
             ].join('');
             this.allEffects = Common.define.effectData.getEffectFullData();
@@ -110,6 +110,7 @@ define([
                 el      : $('#animation-level'),
                 cls: 'input-group-nr',
                 editable: false,
+                valueField: 'id',
                 style   : 'margin-top: 16px; width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true
@@ -119,19 +120,29 @@ define([
             this.lstEffectList = new Common.UI.ListView({
                 el      : $('#animation-list'),
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= displayValue %></div>'),
-                scroll  : true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
 
-            this.chPreview = new  Common.UI.CheckBox({
-                el      : $('#animation-setpreview'),
-                labelText : this.textPreviewEffect
-            });
+            // this.chPreview = new  Common.UI.CheckBox({
+            //     el      : $('#animation-setpreview'),
+            //     labelText : this.textPreviewEffect,
+            //     value: !Common.Utils.InternalSettings.get("pe-animation-no-preview")
+            // }).on('change', _.bind(this.onPreviewChange, this));
 
             this.cmbGroup.setValue(this._state.activeGroupValue);
             this.fillLevel();
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+        },
+
+        getFocusedComponents: function() {
+            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.lstEffectList;
         },
 
         onGroupSelect: function (combo, record) {
@@ -146,7 +157,7 @@ define([
         {
             this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(this._state.activeGroup == 'menu-effect-group-path'));
             var item = (this.activeLevel)?this.cmbLevel.store.findWhere({id: this.activeLevel}):this.cmbLevel.store.at(0);
-            this.cmbLevel.setValue(item.get('displayValue'));
+            this.cmbLevel.setValue(item.get('id'), item.get('displayValue'));
             this.activeLevel = item.get('id');
             this.fillEffect();
         },
@@ -159,11 +170,15 @@ define([
 
         fillEffect: function () {
             var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
+            arr = _.reject(arr, function (item) {
+                return !!item.notsupported;
+            });
             this.lstEffectList.store.reset(arr);
             var  item = this.lstEffectList.store.findWhere({value: this._state.activeEffect});
             if(!item)
                 item = this.lstEffectList.store.at(0);
             this.lstEffectList.selectRecord(item);
+            this.lstEffectList.scrollToRecord(item, true);
             this._state.activeEffect = item.get('value');
         },
 
@@ -171,6 +186,10 @@ define([
             if (record) {
                 this._state.activeEffect = record.get('value');
             }
+        },
+
+        onPreviewChange: function (field, newValue, oldValue, eOpts) {
+            Common.Utils.InternalSettings.set("pe-animation-no-preview", field.getValue()!=='checked');
         },
 
         onBtnClick: function (event)

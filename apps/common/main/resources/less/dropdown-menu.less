@@ -33,6 +33,7 @@
     li {
         & > a {
             padding: 5px 20px;
+            line-height: 16px;
             cursor: pointer;
             color: @text-normal-ie;
             color: @text-normal;
@@ -91,16 +92,17 @@
             float: left;
             width: 20px;
             height: 20px;
-            margin: -3px 5px 0 -15px;
+            margin: -2px 5px 0 -15px;
             background-repeat: no-repeat;
             opacity: @component-normal-icon-opacity;
         }
 
         .no-checkmark.checked {
             .menu-item-icon {
-                background-color: @highlight-button-pressed-ie;
-                background-color: @highlight-button-pressed;
-                border-radius: 2px;
+                background-color: @background-normal-ie;
+                background-color: @background-normal;
+                .box-shadow(0 0 0 2px @border-preview-select-ie);
+                .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
             }
         }
 
@@ -136,7 +138,7 @@
                 padding-left: 28px;
             }
             .menu-item-icon {
-                margin: -3px 0 0 -24px;
+                margin: -2px 0 0 -24px;
             }
             .checked:not(.no-checkmark):before  {
                 margin-left: -22px;
@@ -157,6 +159,7 @@
         height: @scaled-one-px-value;
         background-color: @border-divider-ie;
         background-color: @border-divider;
+        margin: 4px 0;
     }
 
     .dataview {

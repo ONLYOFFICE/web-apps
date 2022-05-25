@@ -63,12 +63,16 @@ define([
             };
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         setApi: function (api) {
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onZoomChange, this));
+                this.api.asc_registerCallback('asc_onNotesShow', _.bind(this.onNotesShow, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
             return this;
         },
@@ -81,15 +85,12 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                this.view.chStatusbar.$el.remove();
-            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
                     'rulers:change': _.bind(this.onChangeRulers, this),
-                    'notes:change': _.bind(this.onChangeNotes, this),
+                    'notes:change': _.bind(this.onChangeNotes, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -100,20 +101,16 @@ define([
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
                     }, this)
-                },
-                'Common.Views.Header': {
-                    'rulers:hide': _.bind(function (isChecked) {
-                        this.view.chRulers.setValue(!isChecked, true);
-                    }, this),
-                    'notes:hide': _.bind(function (isChecked) {
-                        this.view.chNotes.setValue(!isChecked, true);
-                    }, this),
                 }
             });
         },
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
         },
 
         getView: function(name) {
@@ -123,6 +120,10 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onDocumentReady: function() {
+            Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
         },
 
         onZoomChange: function (percent, type) {
@@ -137,6 +138,11 @@ define([
             }
         },
 
+        onNotesShow: function(bIsShow) {
+            this.view.chNotes.setValue(bIsShow, true);
+            Common.localStorage.setBool('pe-hidden-notes', !bIsShow);
+        },
+
         onAppReady: function (config) {
             var me = this;
             if (me.view) {
@@ -144,30 +150,52 @@ define([
                     accept();
                 })).then(function () {
                     me.view.setEvents();
+
+                    if (!Common.UI.Themes.available()) {
+                        me.view.btnInterfaceTheme.$el.closest('.group').remove();
+                        me.view.$el.find('.separator-theme').remove();
+                    }
+                    if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                        me.view.chStatusbar.$el.remove();
+
+                        if (!config.isEdit) {
+                            var slotChkNotes = me.view.chNotes.$el,
+                                groupRulers = slotChkNotes.closest('.group'),
+                                groupToolbar = me.view.chToolbar.$el.closest('.group');
+                            groupToolbar.find('.elset')[1].append(slotChkNotes[0]);
+                            groupRulers.remove();
+                            me.view.$el.find('.separator-rulers').remove();
+                        }
+                    } else if (!config.isEdit) {
+                        me.view.chRulers.hide();
+                    }
+
                     me.view.cmbZoom.on('selected', _.bind(me.onSelectedZoomValue, me))
                         .on('changed:before',_.bind(me.onZoomChanged, me, true))
                         .on('changed:after', _.bind(me.onZoomChanged, me, false))
                         .on('combo:blur',    _.bind(me.onComboBlur, me, false));
                 });
 
-                var menuItems = [],
-                    currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                for (var t in Common.UI.Themes.map()) {
-                    menuItems.push({
-                        value: t,
-                        caption: Common.UI.Themes.get(t).text,
-                        checked: t === currentTheme,
-                        checkable: true,
-                        toggleGroup: 'interface-theme'
-                    });
-                }
+                if (Common.UI.Themes.available()) {
+                    var menuItems = [],
+                        currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                    for (var t in Common.UI.Themes.map()) {
+                        menuItems.push({
+                            value: t,
+                            caption: Common.UI.Themes.get(t).text,
+                            checked: t === currentTheme,
+                            checkable: true,
+                            toggleGroup: 'interface-theme'
+                        });
+                    }
 
-                if (menuItems.length) {
-                    this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                    this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                        var value = item.value;
-                        Common.UI.Themes.setTheme(value);
-                    }, this));
+                    if (menuItems.length) {
+                        this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                        this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                            var value = item.value;
+                            Common.UI.Themes.setTheme(value);
+                        }, this));
+                    }
                 }
             }
         },
@@ -186,7 +214,6 @@ define([
             this.api.asc_SetViewRulers(checked);
             Common.localStorage.setBool('pe-hidden-rulers', !checked);
             Common.Utils.InternalSettings.set("pe-hidden-rulers", !checked);
-            this.view.fireEvent('rulers:hide', [!checked]);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -194,16 +221,17 @@ define([
         onChangeNotes: function (btn, checked) {
             this.api.asc_ShowNotes(checked);
             Common.localStorage.setBool('pe-hidden-notes', !checked);
-            this.view.fireEvent('notes:hide', [!checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         onThemeChanged: function () {
-            if (this.view) {
+            if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
-                this.view.btnInterfaceTheme.menu.clearAll();
-                menu_item.setChecked(true, true);
+                if ( !!menu_item ) {
+                    this.view.btnInterfaceTheme.menu.clearAll();
+                    menu_item.setChecked(true, true);
+                }
             }
         },
 

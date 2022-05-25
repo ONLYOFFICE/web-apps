@@ -63,6 +63,15 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        .loadmask > .brendpanel .circle {
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            margin: 0 10px;
+            background: rgba(255,255,255,.2);
+        }
+
         .loadmask > .sktoolbar {
             background: #f7f7f7;
             background: var(--background-toolbar, #f7f7f7);
@@ -263,7 +272,7 @@
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
-            <div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
             <ul><li/><li class="space" style="width: 76px;"/><li class="split" /><li class="space"/><li style="width: 176px;"/><li class="space"/><li style="width: 115px;"/><li class="space" style="width: 183px;"/><li style="width: 95px;"/><li class="fat"/></ul>
@@ -343,22 +352,9 @@
         };
     </script>
 
-    <inline src="resources/img/header/buttons.svg" />
-    <inline src="resources/img/doc-formats/pptx.svg" />
-    <inline src="resources/img/doc-formats/ppsx.svg" />
-    <inline src="resources/img/doc-formats/potx.svg" />
-    <inline src="resources/img/doc-formats/pdf.svg" />
-    <inline src="resources/img/doc-formats/pdfa.svg" />
-    <inline src="resources/img/doc-formats/odp.svg" />
-    <inline src="resources/img/doc-formats/otp.svg" />
-    <inline src="resources/img/doc-formats/pptm.svg" />
-    <inline src="resources/img/doc-formats/png.svg" />
-    <inline src="resources/img/doc-formats/jpg.svg" />
-    <inline src="resources/img/doc-formats/blank.svg" />
+    <inline src="resources/img/header/icons.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
-    <inline src="resources/img/recent-file.svg" />
-    <inline src="resources/img/file-template.svg" />
 
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>

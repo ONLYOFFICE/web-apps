@@ -56,6 +56,7 @@
                          edit: ["Group1", ""] // current user can edit comments made by users from Group1 and users without a group.
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
                     },
+                    userInfoGroups: ["Group1", ""], // show tooltips/cursors/info in header only for users in userInfoGroups groups. [""] - means users without group, [] - don't show any users, null/undefined/"" - show all users
                     protect: <can protect document> // default = true. show/hide protect tab or protect buttons
                 }
             },
@@ -218,8 +219,9 @@
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                 },
                  coEditing: {
-                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
-                     change: true, // can change co-authoring mode
+                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
+                     // for viewer: 'strict' is default, offline viewer; 'fast' - live viewer, show changes from other users
+                     change: true, // can change co-authoring mode. true - default for editor, false - default for viewer
                  },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -912,7 +914,7 @@
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge')
+            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge' || config.editorConfig.mode === 'editole')
                 index = "/index_internal.html";
 
         }
@@ -931,19 +933,22 @@
                 if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + encodeURIComponent(config.editorConfig.customization.loaderName);
             } else
                 params += "&customer={{APP_CUSTOMER_NAME}}";
-            if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
-                if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
-            } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
-                if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
-                    params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded);
-                else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
-                    config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
-                    config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
+            if (typeof(config.editorConfig.customization) == 'object') {
+                if ( config.editorConfig.customization.loaderLogo && config.editorConfig.customization.loaderLogo !== '') {
+                    params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
+                }
+                if ( config.editorConfig.customization.logo ) {
+                    if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
+                        params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded);
+                    else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
+                        config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
+                        config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
+                    }
                 }
             }
         }
 
-        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge'))
+        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge' || config.editorConfig.mode == 'editole'))
             params += "&internal=true";
 
         if (config.frameEditorId)
@@ -958,8 +963,6 @@
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";
-        else if (config.document && config.document.permissions && (config.document.permissions.edit === false && config.document.permissions.fillForms ))
-            params += "&toolbar=true";
 
         if (config.parentOrigin)
             params += "&parentOrigin=" + config.parentOrigin;
@@ -968,6 +971,25 @@
             params += "&uitheme=" + config.editorConfig.customization.uiTheme;
 
         return params;
+    }
+
+    function getFrameTitle(config) {
+        var title = 'Powerful online editor for text documents, spreadsheets, and presentations';
+        var appMap = {
+            'text': 'text documents',
+            'spreadsheet': 'spreadsheets',
+            'presentation': 'presentations',
+            'word': 'text documents',
+            'cell': 'spreadsheets',
+            'slide': 'presentations'
+        };
+
+        if (typeof config.documentType === 'string') {
+            var app = appMap[config.documentType.toLowerCase()];
+            if (app)
+                title = 'Powerful online editor for ' + app;
+        }
+        return title;
     }
 
     function createIframe(config) {
@@ -979,6 +1001,7 @@
         iframe.align = "top";
         iframe.frameBorder = 0;
         iframe.name = "frameEditor";
+        iframe.title = getFrameTitle(config);
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac

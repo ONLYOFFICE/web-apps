@@ -25,6 +25,7 @@ class ContextMenu extends ContextMenuController {
         this.onApiShowComment = this.onApiShowComment.bind(this);
         this.onApiHideComment = this.onApiHideComment.bind(this);
         this.getUserName = this.getUserName.bind(this);
+        this.isUserVisible = this.isUserVisible.bind(this);
     }
 
     static closeContextMenu() {
@@ -34,6 +35,11 @@ class ContextMenu extends ContextMenuController {
     getUserName(id) {
         const user = this.props.users.searchUserByCurrentId(id);
         return AscCommon.UserInfoParser.getParsedName(user.asc_getUserName());
+    }
+
+    isUserVisible(id) {
+        const user = this.props.users.searchUserByCurrentId(id);
+        return user ? (user.asc_getIdOriginal()===this.props.users.currentUser.asc_getIdOriginal() || AscCommon.UserInfoParser.isUserVisible(user.asc_getUserName())) : true;
     }
 
     componentWillUnmount() {
@@ -196,7 +202,7 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { isEdit } = this.props;
+        const { isEdit, isDisconnected } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -253,18 +259,20 @@ class ContextMenu extends ContextMenuController {
                     icon: 'icon-copy'
                 });
             }
-            if (canViewComments && this.isComments && !isEdit) {
-                itemsText.push({
-                    caption: _t.menuViewComment,
-                    event: 'viewcomment'
-                });
-            }
-
-            if (!isChart && api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked) {
-                itemsText.push({
-                    caption: _t.menuAddComment,
-                    event: 'addcomment'
-                });
+            if(!isDisconnected) {
+                if (canViewComments && this.isComments && !isEdit) {
+                    itemsText.push({
+                        caption: _t.menuViewComment,
+                        event: 'viewcomment'
+                    });
+                }
+    
+                if (!isChart && api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked) {
+                    itemsText.push({
+                        caption: _t.menuAddComment,
+                        event: 'addcomment'
+                    });
+                }
             }
 
             if (isLink) {

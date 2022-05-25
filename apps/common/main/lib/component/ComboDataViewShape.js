@@ -128,6 +128,39 @@ define([
                 recents = Common.localStorage.getItem(this.appPrefix + 'recent-shapes');
             recents = recents ? JSON.parse(recents) : [];
 
+            // check lang
+            if (recents.length > 0) {
+                var isTranslated = _.findWhere(groups, {groupName: recents[0].groupName});
+                if (!isTranslated) {
+                    for (var r = 0; r < recents.length; r++) {
+                        var type = recents[r].data.shapeType,
+                            record;
+                        for (var g = 0; g < groups.length; g++) {
+                            var store = groups[g].groupStore,
+                                groupName = groups[g].groupName;
+                            for (var i = 0; i < store.length; i++) {
+                                if (store.at(i).get('data').shapeType === type) {
+                                    record = store.at(i).toJSON();
+                                    recents[r] = {
+                                        data: record.data,
+                                        tip: record.tip,
+                                        allowSelected: record.allowSelected,
+                                        selected: false,
+                                        groupName: groupName
+                                    };
+                                    break;
+                                }
+                            }
+                            if (record) {
+                                record = undefined;
+                                break;
+                            }
+                        }
+                    }
+                    Common.localStorage.setItem(this.appPrefix + 'recent-shapes', JSON.stringify(recents));
+                }
+            }
+
             if (recents.length < 12) {
                 var count = 12 - recents.length;
 

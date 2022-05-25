@@ -25,26 +25,10 @@ const PageFonts = props => {
     const spriteThumbs = storeTextSettings.spriteThumbs;
     const arrayRecentFonts = storeTextSettings.arrayRecentFonts;
 
-    useEffect(() => {
-        setRecent(getImageUri(arrayRecentFonts));
-
-        return () => {
-        }
-    }, []);
-
     const addRecentStorage = () => {
-        let arr = [];
-        arrayRecentFonts.forEach(item => arr.push(item));
         setRecent(getImageUri(arrayRecentFonts));
-        LocalStorage.setItem('dde-settings-recent-fonts', JSON.stringify(arr));
-    }
-
-    const [stateRecent, setRecent] = useState([]);
-    const [vlFonts, setVlFonts] = useState({
-        vlData: {
-            items: [],
-        }
-    });
+        LocalStorage.setItem('dde-settings-recent-fonts', JSON.stringify(arrayRecentFonts));
+    };
 
     const getImageUri = fonts => {
         return fonts.map(font => {
@@ -54,6 +38,13 @@ const PageFonts = props => {
             return thumbCanvas.toDataURL();
         });
     };
+
+    const [stateRecent, setRecent] = useState(() => getImageUri(arrayRecentFonts));
+    const [vlFonts, setVlFonts] = useState({
+        vlData: {
+            items: [],
+        }
+    });
 
     const renderExternal = (vl, vlData) => {
         setVlFonts((prevState) => {
@@ -190,72 +181,62 @@ const PageAdditionalFormatting = props => {
 };
 
 const PageBullets = observer( props => {
-    const { t } = useTranslation();
-    const bulletArrays = [
-        [
-            {type: -1, thumb: ''},
-            {type: 1, thumb: 'bullet-01.png'},
-            {type: 2, thumb: 'bullet-02.png'},
-            {type: 3, thumb: 'bullet-03.png'}
-        ],
-        [
-            {type: 4, thumb: 'bullet-04.png'},
-            {type: 5, thumb: 'bullet-05.png'},
-            {type: 6, thumb: 'bullet-06.png'},
-            {type: 7, thumb: 'bullet-07.png'}
-        ]
-    ];
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
+    const bulletArrays = [
+        { type: 0, subtype: -1 },
+        { type: 0, subtype: 1 },
+        { type: 0, subtype: 2 },
+        { type: 0, subtype: 3 },
+        { type: 0, subtype: 4 },
+        { type: 0, subtype: 5 },
+        { type: 0, subtype: 6 },
+        { type: 0, subtype: 7 }
+    ];
+
+    useEffect(() => {
+        props.getIconsBulletsAndNumbers($$('.item-marker'), 0);
+    }, []);
     
     return(
         <View className='bullets dataview'>
-            {bulletArrays.map((bullets, index) => (
-                    <List className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
-                        {bullets.map((bullet) => (
-                            <ListItem key={'bullet-' + bullet.type} data-type={bullet.type} className={(bullet.type === typeBullets) && 
-                                (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
-                                onClick={() => {
-                                    if (bullet.type === -1) {
-                                        storeTextSettings.resetBullets(-1);
-                                    }
-                                    props.onBullet(bullet.type);
-                                }}>
-                                {bullet.thumb.length < 1 ?
-                                    <Icon className="thumb" style={{position: 'relative'}}>
-                                        <label>{t('Edit.textNone')}</label>
-                                    </Icon> :
-                                    <Icon className="thumb" style={{backgroundImage: `url('resources/img/bullets/${bullet.thumb}')`}}></Icon>
-                                }
-                            </ListItem>
-                        ))}
-                    </List>
-            ))}
+            <List className="row" style={{listStyle: 'none'}}>
+                {bulletArrays.map( bullet => (
+                    <ListItem key={'bullet-' + bullet.subtype} data-type={bullet.subtype} className={(bullet.subtype === typeBullets) && 
+                        (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
+                        onClick={() => {
+                            storeTextSettings.resetBullets(bullet.subtype);
+                            props.onBullet(bullet.subtype);
+                        }}>
+                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'>
+                        
+                        </div>
+                    </ListItem>
+                ))}
+            </List>
         </View>
     )
 });
 
 const PageNumbers = observer( props => {
-    const { t } = useTranslation();
-    const numberArrays = [
-        [
-            {type: -1, thumb: ''},
-            {type: 4, thumb: 'number-01.png'},
-            {type: 5, thumb: 'number-02.png'},
-            {type: 6, thumb: 'number-03.png'}
-        ],
-        [
-            {type: 1, thumb: 'number-04.png'},
-            {type: 2, thumb: 'number-05.png'},
-            {type: 3, thumb: 'number-06.png'},
-            {type: 7, thumb: 'number-07.png'}
-        ]
-    ];
-
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
+    const numberArrays = [
+        { type: 1, subtype: -1},
+        { type: 1, subtype: 4 },
+        { type: 1, subtype: 5 },
+        { type: 1, subtype: 6 },
+        { type: 1, subtype: 1 },
+        { type: 1, subtype: 2 },
+        { type: 1, subtype: 3 },
+        { type: 1, subtype: 7 }
+    ];
+
+    useEffect(() => {
+        props.getIconsBulletsAndNumbers($$('.item-number'), 1);
+    }, []);
     
-    return(
+    return (
         <View className='numbers dataview'>
             {numberArrays.map((numbers, index) => (
                 <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
@@ -263,53 +244,49 @@ const PageNumbers = observer( props => {
                         <ListItem key={'number-' + number.type} data-type={number.type} className={(number.type === typeNumbers) && 
                             (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                             onClick={() => {
-                                if (number.type === -1) {
-                                    storeTextSettings.resetNumbers(-1);
-                                }
+                                storeTextSettings.resetNumbers(number.type);
                                 props.onNumber(number.type);
                             }}>
                             {number.thumb.length < 1 ?
                                 <Icon className="thumb" style={{position: 'relative'}}>
                                     <label>{t('Edit.textNone')}</label>
                                 </Icon> :
-                                <Icon className="thumb" style={{backgroundImage: `url('resources/img/numbers/${number.thumb}')`}}></Icon>
+                                <Icon className="thumb" icon={`icon-numbers-${number.type}`} />
                             }
                         </ListItem>
                     ))}
                 </List>
             ))}
         </View>
-    )
+    );
 });
 
 const PageMultiLevel = observer( props => {
-    const { t } = useTranslation();
-    
-    const arrayMultiLevel = [
-        {type: -1, thumb: ''},
-        {type: 1, thumb: 'multi-bracket.png'},
-        {type: 2, thumb: 'multi-dot.png'},
-        {type: 3, thumb: 'multi-bullets.png'},
-    ];
-
     const storeTextSettings = props.storeTextSettings;
     const typeMultiLevel = storeTextSettings.typeMultiLevel;
+    const arrayMultiLevel = [
+        { type: 2, subtype: -1 },
+        { type: 2, subtype: 1 },
+        { type: 2, subtype: 2 },
+        { type: 2, subtype: 3 },
+    ];
+
+    useEffect(() => {
+        props.getIconsBulletsAndNumbers($$('.item-multilevellist'), 2);
+    }, []);
 
     return(
         <View className='multilevels dataview'>
                 <List className="row" style={{listStyle: 'none'}}>
                     {arrayMultiLevel.map((item) => (
-                        <ListItem key={'multi-level-' + item.type} data-type={item.type} className={item.type === typeMultiLevel ? 'active' : ''}
-                        onClick={(e) => {
-                            item.type === -1 ? storeTextSettings.resetMultiLevel(-1) : storeTextSettings.resetMultiLevel(null);
-                            props.onMultiLevelList(item.type);
-                            }}>
-                            {item.thumb.length < 1 ?
-                                <Icon className="thumb" style={{position: 'relative'}}>
-                                    <label>{t('Edit.textNone')}</label>
-                                </Icon> :
-                                <Icon className="thumb" style={{backgroundImage: `url('resources/img/multilevels/${item.thumb}')`}}></Icon>
-                            }
+                        <ListItem
+                        key={'multi-level-' + item.subtype} 
+                        data-type={item.subtype} 
+                        className={item.subtype === typeMultiLevel && storeTextSettings.listType === -1  ? 'active' : ''}
+                        onClick={() => props.onMultiLevelList(item.subtype)}>
+                            <div id={`id-multilevellists-${item.subtype}`} className='item-multilevellist'>
+
+                            </div>
                         </ListItem>
                     ))}
                 </List>
@@ -334,9 +311,27 @@ const PageBulletsAndNumbers = props => {
                 }
             </Navbar>
             <Swiper pagination>
-                <SwiperSlide> <PageNumbers storeTextSettings={storeTextSettings} onNumber={props.onNumber}/></SwiperSlide> 
-                <SwiperSlide> <PageBullets storeTextSettings={storeTextSettings} onBullet={props.onBullet}/></SwiperSlide>
-                <SwiperSlide> <PageMultiLevel storeTextSettings={storeTextSettings} onMultiLevelList={props.onMultiLevelList}/> </SwiperSlide>
+                <SwiperSlide>
+                    <PageNumbers 
+                        storeTextSettings={storeTextSettings} 
+                        onNumber={props.onNumber} 
+                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers} 
+                    />
+                </SwiperSlide> 
+                <SwiperSlide>
+                    <PageBullets 
+                        storeTextSettings={storeTextSettings} 
+                        onBullet={props.onBullet} 
+                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                    />
+                </SwiperSlide>
+                <SwiperSlide> 
+                    <PageMultiLevel 
+                        storeTextSettings={storeTextSettings} 
+                        onMultiLevelList={props.onMultiLevelList} 
+                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                    />
+                </SwiperSlide>
             </Swiper>
         </Page>
     )
@@ -611,7 +606,8 @@ const EditText = props => {
                 <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
                     onBullet: props.onBullet,
                     onNumber: props.onNumber,
-                    onMultiLevelList: props.onMultiLevelList
+                    onMultiLevelList: props.onMultiLevelList,
+                    getIconsBulletsAndNumbers: props.getIconsBulletsAndNumbers,
                 }}>
                     <div className="preview">{previewList}</div>
                     {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}

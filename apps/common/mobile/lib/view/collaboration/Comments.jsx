@@ -639,6 +639,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
+    const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
     const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? -1 : 1) : null;
 
     const [clickComment, setComment] = useState();
@@ -674,7 +675,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                             <div className='comment-date'>{comment.date}</div>
                                         </div>
                                     </div>
-                                    {!viewMode &&
+                                    {isEdit && !viewMode &&
                                         <div className='right'>
                                             {(comment.editable && displayMode === 'markup' && !wsProps?.Objects) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
                                             {(displayMode === 'markup' && !wsProps?.Objects) &&
@@ -707,7 +708,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {!viewMode && reply.editable &&
+                                                                    {isEdit && !viewMode && reply.editable &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                  onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
@@ -748,6 +749,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const displayMode = storeReview.displayMode;
 
     const viewMode = !storeAppOptions.canComments;
+    const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
     const comments = storeComments.showComments;
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -784,7 +786,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     return (
         <Fragment>
             <Toolbar position='bottom'>
-                {!viewMode && 
+                {isEdit && !viewMode && 
                     <Link className={`btn-add-reply${wsProps?.Objects ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
                 }
                 <div className='comment-navigation row'>
@@ -804,7 +806,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                         <div className='comment-date'>{comment.date}</div>
                                     </div>
                                 </div>
-                                {!viewMode &&
+                                {isEdit && !viewMode &&
                                 <div className='right'>
                                     {(comment.editable && displayMode === 'markup' && !wsProps?.Objects) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
                                     {(displayMode === 'markup' && !wsProps?.Objects) &&
@@ -837,7 +839,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                                         <div className='reply-date'>{reply.date}</div>
                                                                     </div>
                                                                 </div>
-                                                                {!viewMode && reply.editable &&
+                                                                {isEdit && !viewMode && reply.editable &&
                                                                 <div className='right'>
                                                                     <div className='reply-menu'
                                                                         onClick={() => {setReply(reply); openActionReply(true);}}

@@ -117,7 +117,8 @@ Common.UI.HintManager = new(function() {
         _inputTimer,
         _isDocReady = false,
         _isEditDiagram = false,
-        _usedTitles = [];
+        _usedTitles = [],
+        _appPrefix;
 
     var _api;
 
@@ -170,6 +171,8 @@ Common.UI.HintManager = new(function() {
         } else {
             _hintVisible = false;
         }
+
+        Common.NotificationCenter.trigger('hints:show', _hintVisible, _currentLevel);
     };
 
     var _hideHints = function() {
@@ -178,6 +181,8 @@ Common.UI.HintManager = new(function() {
             item.remove()
         });
         clearInterval(_inputTimer);
+
+        Common.NotificationCenter.trigger('hints:show', false);
     };
 
     var _nextLevel = function(level) {
@@ -436,6 +441,10 @@ Common.UI.HintManager = new(function() {
 
     var _init = function(api) {
         _api = api;
+
+        var filter = Common.localStorage.getKeysFilter();
+        _appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
                 var lang = mode.lang ? mode.lang.toLowerCase() : 'en';
@@ -492,7 +501,9 @@ Common.UI.HintManager = new(function() {
                         match = false;
                     var keyCode = e.keyCode;
                     if (keyCode !== 16 && keyCode !== 17 && keyCode !== 18 && keyCode !== 91) {
-                        curLetter = _lang === 'en' ? ((keyCode > 47 && keyCode < 58 || keyCode > 64 && keyCode < 91) ? String.fromCharCode(e.keyCode) : null) : e.key;
+                        curLetter = _lang === 'en' ?
+                            ((keyCode > 47 && keyCode < 58 || keyCode > 64 && keyCode < 91) ? String.fromCharCode(e.keyCode) : null) :
+                            (/[.*+?^${}()|[\]\\]/g.test(e.key) ? null : e.key);
                     }
                     if (curLetter) {
                         var curr;
@@ -592,9 +603,8 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            var isAlt = e.altKey;
-            _needShow = (isAlt && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
-            if (isAlt && e.keyCode !== 115) {
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            if (e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });
@@ -646,7 +656,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _setMode = function (mode) {
-        _isEditDiagram = mode.isEditDiagram;
+        _isEditDiagram = mode.isEditDiagram || mode.isEditMailMerge || mode.isEditOle;
     };
 
     return {

@@ -68,9 +68,6 @@ define([
                     'sheet:updateColors':   _.bind(this.updateTabsColors, this),
                     'sheet:move':           _.bind(this.moveWorksheet, this)
                 },
-                'Common.Views.Header': {
-                    'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
-                },
                 'ViewTab': {
                     'statusbar:setcompact': _.bind(this.onChangeViewMode, this)
                 }
@@ -89,6 +86,7 @@ define([
             this.statusbar = this.createView('Statusbar').render();
             this.statusbar.$el.css('z-index', 10);
             this.statusbar.labelZoom.css('min-width', 80);
+            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, 100));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
 
             this.bindViewEvents(this.statusbar, this.events);
@@ -258,7 +256,7 @@ define([
             this.statusbar.$el.css('z-index', '');
             this.statusbar.tabMenu.on('item:click', _.bind(this.onTabMenu, this));
             this.statusbar.btnAddWorksheet.on('click', _.bind(this.onAddWorksheetClick, this));
-            if (!Common.UI.LayoutManager.isElementVisible('statusBar-actionStatus')) {
+            if (!Common.UI.LayoutManager.isElementVisible('statusBar-actionStatus') || this.statusbar.mode.isEditOle) {
                 this.statusbar.customizeStatusBarMenu.items[0].setVisible(false);
                 this.statusbar.customizeStatusBarMenu.items[1].setVisible(false);
                 this.statusbar.boxAction.addClass('hide');
@@ -782,9 +780,9 @@ define([
                 this._sheetViewTip.hide();
         },
 
-        onChangeViewMode: function(item, compact) {
+        onChangeViewMode: function(item, compact, suppressEvent) {
             this.statusbar.fireEvent('view:compact', [this.statusbar, compact]);
-            Common.localStorage.setBool('sse-compact-statusbar', compact);
+            !suppressEvent && Common.localStorage.setBool('sse-compact-statusbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'status');
             this.statusbar.onChangeCompact(compact);
 

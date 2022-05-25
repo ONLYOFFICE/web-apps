@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
       "errorProcessSaveResult": "Saving is failed.",
       "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
@@ -159,7 +160,8 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnProcessRightsChange": "You don't have permission to edit the file.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -286,21 +288,19 @@
     "textErrNotEmpty": "Sheet name must not be empty",
     "textErrorLastSheet": "The workbook must have at least one visible worksheet.",
     "textErrorRemoveSheet": "Can't delete the worksheet.",
+    "textHidden": "Hidden",
     "textHide": "Hide",
     "textMore": "More",
     "textMove": "Move",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward",
+    "textMoveBefore": "Move before sheet",
+    "textMoveToEnd": "(Move to end)",
     "textOk": "Ok",
     "textRename": "Rename",
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textMove": "Move",
     "textTabColor": "Tab Color",
-    "textMoveBack": "Move back",
-    "textMoveForward": "Move forward",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
@@ -325,16 +325,19 @@
       "sCatTextAndData": "Text and data",
       "textAddLink": "Add Link",
       "textAddress": "Address",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textBack": "Back",
       "textCancel": "Cancel",
       "textChart": "Chart",
       "textComment": "Comment",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDisplay": "Display",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFilter": "Filter",
       "textFunction": "Function",
       "textGroups": "CATEGORIES",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textImage": "Image",
       "textImageURL": "Image URL",
       "textInsert": "Insert",
@@ -355,6 +358,8 @@
       "textShape": "Shape",
       "textSheet": "Sheet",
       "textSortAndFilter": "Sort and Filter",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
       "txtExpand": "Expand and sort",
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
@@ -395,7 +400,8 @@
       "textBottomBorder": "Bottom Border",
       "textBringToForeground": "Bring to Foreground",
       "textCell": "Cell",
-      "textCellStyles": "Cell Styles",
+      "del_textCellStyles": "Cell Styles",
+      "textCellStyle": "Cell Style",
       "textCenter": "Center",
       "textChart": "Chart",
       "textChartTitle": "Chart Title",
@@ -594,6 +600,7 @@
       "textFormulaLanguage": "Formula Language",
       "textFormulas": "Formulas",
       "textHelp": "Help",
+      "textFeedback": "Feedback & Support",
       "textHideGridlines": "Hide Gridlines",
       "textHideHeadings": "Hide Headings",
       "textHighlightRes": "Highlight results",
@@ -675,7 +682,11 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

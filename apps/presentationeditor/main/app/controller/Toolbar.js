@@ -141,7 +141,6 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
-                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
@@ -504,20 +503,63 @@ define([
             }
         },
 
+        updateBulletTip: function(view, title) {
+            if (view) {
+                var tip = $(view.el).data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = title;
+                    tip.$tip.find('.tooltip-inner').text(title);
+                }
+            }
+        },
+
         onApiBullets: function(v) {
-            if (this._state.bullets.type != v.get_ListType() || this._state.bullets.subtype != v.get_ListSubType()) {
+            if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===0x1000) {
                 this._state.bullets.type    = v.get_ListType();
                 this._state.bullets.subtype = v.get_ListSubType();
+
+                var rec = this.toolbar.mnuMarkersPicker.store.at(8),
+                    drawDefBullet = (rec.get('data').subtype===0x1000) && (this._state.bullets.type===1 || this._state.bullets.subtype!==0x1000);
 
                 this._clearBullets();
 
                 switch(this._state.bullets.type) {
                     case 0:
+                        var idx;
+                        if (this._state.bullets.subtype!==0x1000)
+                            idx = this._state.bullets.subtype;
+                        else { // custom
+                            var bullet = v.asc_getListCustom();
+                            if (bullet) {
+                                var type = bullet.asc_getType();
+                                if (type == Asc.asc_PreviewBulletType.char) {
+                                    var symbol = bullet.asc_getChar();
+                                    if (symbol) {
+                                        rec.get('data').subtype = 0x1000;
+                                        rec.set('drawdata', {type: type, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('tip', '');
+                                        this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
+                                        drawDefBullet = false;
+                                        idx = 8;
+                                    }
+                                } else if (type == Asc.asc_PreviewBulletType.image) {
+                                    var id = bullet.asc_getImageId();
+                                    if (id) {
+                                        rec.get('data').subtype = 0x1000;
+                                        rec.set('drawdata', {type: type, imageId: id});
+                                        rec.set('tip', '');
+                                        this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
+                                        drawDefBullet = false;
+                                        idx = 8;
+                                    }
+                                }
+                            }
+                        }
+                        (idx!==undefined) ? this.toolbar.mnuMarkersPicker.selectByIndex(idx, true) :
+                                            this.toolbar.mnuMarkersPicker.deselectAll(true);
+
                         this.toolbar.btnMarkers.toggle(true, true);
-                        if (this._state.bullets.subtype!==undefined)
-                            this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
-                        else
-                            this.toolbar.mnuMarkersPicker.deselectAll(true);
+                        this.toolbar.mnuNumbersPicker.deselectAll(true);
                         break;
                     case 1:
                         var idx = 0;
@@ -546,7 +588,14 @@ define([
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+                        this.toolbar.mnuMarkersPicker.deselectAll(true);
                         break;
+                }
+                if (drawDefBullet) {
+                    rec.get('data').subtype = 8;
+                    rec.set('drawdata', this.toolbar._markersArr[8]);
+                    rec.set('tip', this.toolbar.tipMarkersDash);
+                    this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], this.toolbar.tipMarkersDash);
                 }
             }
         },
@@ -1248,6 +1297,7 @@ define([
                     api: me.api,
                     props: props,
                     type: type,
+                    storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                     interfaceLang: me.toolbar.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1272,7 +1322,6 @@ define([
                     !Common.Utils.ModalWindow.isVisible() &&
                     Common.UI.warning({
                         width: 500,
-                        closable: false,
                         msg: this.confirmAddFontName,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
@@ -1325,18 +1374,17 @@ define([
 
                     if (!value) {
                         value = this._getApiTextSize();
-
-                        Common.UI.warning({
-                            msg: this.textFontSizeErr,
-                            callback: function() {
-                                _.defer(function(btn) {
-                                    $('input', combo.cmpEl).focus();
-                                })
-                            }
-                        });
-
+                        setTimeout(function(){
+                            Common.UI.warning({
+                                msg: me.textFontSizeErr,
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        $('input', combo.cmpEl).focus();
+                                    })
+                                }
+                            });
+                        }, 1);
                         combo.setRawValue(value);
-
                         e.preventDefault();
                         return false;
                     }
@@ -1361,7 +1409,9 @@ define([
             var store = picker.store;
             var arr = [];
             store.each(function(item){
-                arr.push(item.get('id'));
+                var data = item.get('drawdata');
+                data['divId'] = item.get('id');
+                arr.push(data);
             });
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
@@ -1384,11 +1434,31 @@ define([
             }
 
             if (btn) {
-                btn.toggle(rawData.data.subtype > -1, true);
+                btn.toggle(rawData.data.subtype !== -1, true);
             }
 
-            if (this.api)
-                this.api.put_ListType(rawData.data.type, rawData.data.subtype);
+            if (this.api){
+                if (rawData.data.type===0 && rawData.data.subtype===0x1000) {// custom bullet
+                    var bullet = new Asc.asc_CBullet();
+                    if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
+                        bullet.asc_putSymbol(rawData.drawdata.char);
+                        bullet.asc_putFont(rawData.drawdata.specialFont);
+                    } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
+                        bullet.asc_fillBulletImage(rawData.drawdata.imageId);
+                    var selectedElements = this.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)) {
+                        for (var i = 0; i< selectedElements.length; i++) {
+                            if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                                var props = selectedElements[i].get_ObjectValue();
+                                props.asc_putBullet(bullet);
+                                this.api.paraApply(props);
+                                break;
+                            }
+                        }
+                    }
+                } else
+                    this.api.put_ListType(rawData.data.type, rawData.data.subtype);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
@@ -2003,9 +2073,9 @@ define([
                     if (this._state.clrhighlight != -1) {
                         this.toolbar.mnuHighlightTransparent.setChecked(true, true);
 
-                        if (this.toolbar.mnuHighlightColorPicker.cmpEl) {
+                        if (this.toolbar.mnuHighlightColorPicker) {
                             this._state.clrhighlight = -1;
-                            this.toolbar.mnuHighlightColorPicker.select(null, true);
+                            this.toolbar.mnuHighlightColorPicker.clearSelection();
                         }
                     }
                 } else if (c !== null) {
@@ -2013,13 +2083,13 @@ define([
                         this.toolbar.mnuHighlightTransparent.setChecked(false);
                         this._state.clrhighlight = c.get_hex().toUpperCase();
 
-                        if ( _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
-                            this.toolbar.mnuHighlightColorPicker.select(this._state.clrhighlight, true);
+                        if ( this.toolbar.mnuHighlightColorPicker && _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
+                            this.toolbar.mnuHighlightColorPicker.selectByRGB(this._state.clrhighlight, true);
                     }
                 }  else {
                     if ( this._state.clrhighlight !== c) {
                         this.toolbar.mnuHighlightTransparent.setChecked(false, true);
-                        this.toolbar.mnuHighlightColorPicker.select(null, true);
+                        this.toolbar.mnuHighlightColorPicker && this.toolbar.mnuHighlightColorPicker.clearSelection();
                         this._state.clrhighlight = c;
                     }
                 }
@@ -2503,10 +2573,6 @@ define([
                 Array.prototype.push.apply(me.toolbar.lockControls,transitController.getView().getButtons());
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,transitController.getView().getButtons());
 
-                var viewtab = me.getApplication().getController('ViewTab');
-                viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-                Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
-
                 var animationController = me.getApplication().getController('Animation');
                 animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
 
@@ -2533,6 +2599,15 @@ define([
                             me.toolbar.addTab(tab, $panel, 5);
                     }
                 }
+            }
+
+            tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
+            var viewtab = me.getApplication().getController('ViewTab');
+            viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+            $panel = viewtab.createToolbarPanel();
+            if ($panel) {
+                me.toolbar.addTab(tab, $panel, 6);
+                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
             }
         },
 

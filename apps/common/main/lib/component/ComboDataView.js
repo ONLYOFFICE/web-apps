@@ -95,7 +95,7 @@ define([
             this.delayRenderTips = this.options.delayRenderTips || false;
             this.itemTemplate   = this.options.itemTemplate || _.template([
                 '<div class="style" id="<%= id %>">',
-                    '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '"/>',
+                    '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '" + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     '<% if (typeof title !== "undefined") {%>',
                         '<span class="title"><%= title %></span>',
                     '<% } %>',
@@ -416,6 +416,9 @@ define([
                     if (forceFill || !me.fieldPicker.store.findWhere({'id': record.get('id')})){
                         if (me.itemMarginLeft===undefined) {
                             var div = $($(this.menuPicker.el).find('.inner > div:not(.grouped-data):not(.ps-scrollbar-x-rail):not(.ps-scrollbar-y-rail)')[0]);
+                            if (!div || div.length<1) { // try to find items in groups
+                                div = $($(this.menuPicker.el).find('.inner .group-items-container > div:not(.grouped-data):not(.ps-scrollbar-x-rail):not(.ps-scrollbar-y-rail)')[0]);
+                            }
                             if (div.length > 0) {
                                 me.itemMarginLeft  = parseInt(div.css('margin-left'));
                                 me.itemMarginRight = parseInt(div.css('margin-right'));
@@ -456,6 +459,7 @@ define([
                             me.resumeEvents();
                         }
                     }
+                    return me.fieldPicker.store.models; // return list of visible items
                 }
             }
         },

@@ -14,10 +14,12 @@ export class storeTableSettings {
             updateCellBorderColor: action,
             setAutoColor: action,
             colorAuto: observable,
+            arrayStylesDefault: observable,
         });
     }
 
     arrayStyles = [];
+    arrayStylesDefault = [];
     colorAuto = 'auto';
 
     setAutoColor(value) {
@@ -28,7 +30,7 @@ export class storeTableSettings {
         this.arrayStyles = [];
     }
 
-    setStyles (arrStyles) {
+    setStyles (arrStyles, typeStyles) {
         let styles = [];
         for (let template of arrStyles) {
             styles.push({
@@ -36,6 +38,10 @@ export class storeTableSettings {
                 templateId  : template.asc_getId()
             });
         }
+        
+        if(typeStyles === 'default') {
+           return this.arrayStylesDefault = styles;
+        } 
         return this.arrayStyles = styles;
     }
 

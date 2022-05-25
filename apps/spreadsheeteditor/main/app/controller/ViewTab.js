@@ -84,9 +84,6 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                this.view.chStatusbar.$el.remove();
-            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
@@ -114,11 +111,6 @@ define([
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
                     }, this)
-                },
-                'Common.Views.Header': {
-                    'toolbar:freezeshadow': _.bind(function (isChecked) {
-                        this.view.btnFreezePanes.menu.items[4].setChecked(isChecked, true);
-                    }, this)
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
@@ -126,6 +118,10 @@ define([
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
         },
 
         getView: function(name) {
@@ -154,7 +150,6 @@ define([
         onFreezeShadow: function (checked) {
             this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
             Common.localStorage.setBool('sse-freeze-shadow', checked);
-            this.view.fireEvent('freeze:shadow', [checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -191,10 +186,9 @@ define([
         onViewSettings: function(type, value){
             if (this.api) {
                 switch (type) {
-                    case 0: this.getApplication().getController('Viewport').header.fireEvent('formulabar:hide', [ value!=='checked']); break;
-                    case 1: this.api.asc_setDisplayHeadings(value=='checked'); break;
-                    case 2: this.api.asc_setDisplayGridlines( value=='checked'); break;
-                    case 3: this.api.asc_setShowZeros( value=='checked'); break;
+                    case 1: this.api.asc_setDisplayHeadings(value); break;
+                    case 2: this.api.asc_setDisplayGridlines(value); break;
+                    case 3: this.api.asc_setShowZeros(value); break;
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -256,7 +250,7 @@ define([
         },
 
         onApiSheetChanged: function() {
-            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
+            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge || this.toolbar.mode.isEditOle) return;
 
             var params  = this.api.asc_getSheetViewSettings();
             this.view.chHeadings.setValue(!!params.asc_getShowRowColHeaders(), true);
@@ -281,11 +275,13 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view) {
+            if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
-                this.view.btnInterfaceTheme.menu.clearAll();
-                menu_item.setChecked(true, true);
+                if ( !!menu_item ) {
+                    this.view.btnInterfaceTheme.menu.clearAll();
+                    menu_item.setChecked(true, true);
+                }
             }
         }
 

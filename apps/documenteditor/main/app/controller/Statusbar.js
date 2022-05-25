@@ -64,9 +64,6 @@ define([
                         Common.NotificationCenter.trigger('edit:complete', this.statusbar);
                     }.bind(this)
                 },
-                'Common.Views.Header': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
-                },
                 'ViewTab': {
                     'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }
@@ -93,7 +90,9 @@ define([
                 me.statusbar.render(cfg);
                 me.statusbar.$el.css('z-index', 1);
 
-                $('.statusbar #label-zoom').css('min-width', 80);
+                var lblzoom = $('.statusbar #label-zoom');
+                lblzoom.css('min-width', 80);
+                lblzoom.text(Common.Utils.String.format(me.zoomText, 100));
 
                 if ( cfg.isEdit ) {
                     var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
@@ -119,6 +118,9 @@ define([
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }
+                if (cfg.canUseSelectHandTools) {
+                    me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
+                }
             });
 
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
@@ -131,6 +133,12 @@ define([
                 resolve();
             })).then(function () {
                 me.bindViewEvents(me.statusbar, me.events);
+                if (config.canUseSelectHandTools) {
+                    me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
+                    me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
+                    me.statusbar.btnHandTool.toggle(true, true);
+                    me.api.asc_setViewerTargetType('hand');
+                }
 
                 var statusbarIsHidden = Common.localStorage.getBool("de-hidden-status");
                 if ( config.canReview && !statusbarIsHidden ) {
@@ -342,6 +350,12 @@ define([
         hideDisconnectTip: function() {
             this.disconnectTip && this.disconnectTip.hide();
             this.disconnectTip = null;
+        },
+
+        onSelectTool: function (type, btn, e) {
+            if (this.api) {
+                this.api.asc_setViewerTargetType(type);
+            }
         },
 
         zoomText        : 'Zoom {0}%',

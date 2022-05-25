@@ -181,7 +181,18 @@ define([
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
 
             this.btnEditObject.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_startEditCurrentOleObject();
+                if (this.api) {
+                    var oleobj = this.api.asc_canEditTableOleObject(true);
+                    if (oleobj) {
+                        var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                        if (oleEditor) {
+                            oleEditor.setEditMode(true);
+                            oleEditor.show();
+                            oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                        }
+                    } else
+                        this.api.asc_startEditCurrentOleObject();
+                }
                 this.fireEvent('editcomplete', this);
             }, this));
             this.btnFitMargins.on('click', _.bind(this.setFitMargins, this));
@@ -349,10 +360,10 @@ define([
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: me.application.getCollection('ShapeGroups'),
                     parentMenu: me.btnChangeShape.menu,
-                    restoreHeight: 640,
+                    restoreHeight: 652,
                     textRecentlyUsed: me.textRecentlyUsed,
                     recentShapes: recents ? JSON.parse(recents) : null,
-                    isFromImage: true
+                    hideTextRect: true
                 });
                 shapePicker.on('item:click', function(picker, item, record, e) {
                     if (me.api) {
@@ -424,7 +435,7 @@ define([
 
                 if (this._state.isOleObject) {
                     var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
-                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined || this._locked);
+                    this.btnEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin===null || plugin ===undefined) || this._locked);
                 } else {
                     this.btnSelectImage.setDisabled(pluginGuid===null || this._locked);
                 }

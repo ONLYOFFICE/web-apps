@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import {f7, View, Link, Icon, Popover, Navbar, NavRight, List, ListItem, ListButton, Actions, ActionsGroup, ActionsButton, Sheet, Page } from 'framework7-react';
+import {f7, View, Link, Icon, Popover, Navbar, NavRight, List, ListGroup, ListItem, ListButton, Actions, ActionsGroup, ActionsButton, Sheet, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
@@ -9,48 +9,71 @@ const viewStyle = {
     height: 30
 };
 
-const MoveMenuActions = (props) => {
-    const { t } = useTranslation();
-    let { opened, setOpenActions, onMenuMoveClick, visibleSheets } = props;
-
-    return (
-        <Actions className="actions-move-sheet" opened={opened} onActionsClosed={() => setOpenActions(false)}>
-            <ActionsGroup>
-                <ActionsButton className={visibleSheets[0]?.active ? 'disabled' : ''} onClick={() => onMenuMoveClick("back")}>
-                    {t('Statusbar.textMoveBack')}
-                </ActionsButton>
-                <ActionsButton className={visibleSheets[visibleSheets.length - 1]?.active ? 'disabled' : ''} onClick={() => onMenuMoveClick("forward")}> 
-                    {t('Statusbar.textMoveForward')}
-                </ActionsButton>
-            </ActionsGroup>
-            <ActionsGroup>
-                <ActionsButton>{t('Statusbar.textCancel')}</ActionsButton>
-            </ActionsGroup>
-        </Actions>
-    )
-}
-
 const PageListMove = props => {
+    const { t } = useTranslation();
     const { sheets, onMenuMoveClick } = props;
     const allSheets = sheets.sheets;
-    const visibleSheets = sheets.visibleWorksheets();
-    const [stateActionsOpened, setOpenActions] = useState(false);
 
     return (
-        <Page>
-            <List>
-                { allSheets.map(model => 
-                    model.hidden ? null : 
-                    <ListItem className={model.active ? '' : 'disabled'} key={model.name} title={model.name}>
-                        <div slot='after'
-                        onClick={() => setOpenActions(true) }>
-                            <Icon icon='icon-menu-comment'/>
-                        </div>
-                    </ListItem>)
-                }
-            </List>
-            <MoveMenuActions opened={stateActionsOpened} setOpenActions={setOpenActions} onMenuMoveClick={onMenuMoveClick} visibleSheets={visibleSheets}/>
-        </Page>
+        <View style={!Device.phone ? {height: '420px'} : null}>
+            <Page>
+                <Navbar title={t('Statusbar.textMoveBefore')}/>
+                <List>
+                    <ListGroup>
+                        { allSheets.map((model, index) => 
+                            model.hidden ? null : 
+                            <ListItem 
+                            key={model.name} 
+                            title={model.name} 
+                            onClick={() => onMenuMoveClick(index)} />)
+                        }
+                        <ListItem 
+                        title={t('Statusbar.textMoveToEnd')} 
+                        onClick={() => onMenuMoveClick(-255)}/>
+                    </ListGroup>
+                </List>
+            </Page>
+        </View>
+    )
+};
+
+const PageAllList = (props) => {
+    const { t } = useTranslation();
+    const { sheets, onTabListClick } = props;
+    const allSheets = sheets.sheets;
+
+    useEffect(() => {
+        const tabs = $$('.sheet-tabs .tab');
+        let tab = tabs.eq(sheets.activeWorksheet);
+
+        if(sheets.activeWorksheet !== -1) {
+            if(tab.length === 0) {
+                tab = tabs.eq(tabs.length - 1);
+                $$('.sheet-tabs').scrollLeft( tab.offset().left + tab.width(), 500);
+            } else if(tab.offset().left < 0) {
+                $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + tab.offset().left - 96, 500);
+            } else {
+                $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + (tab.offset().left + tab.width() - $$('.sheet-tabs').width()), 500);
+            }
+        }
+    }, [sheets.activeWorksheet]);
+
+    return (
+        <View style={{height: '240px'}}>
+            <Page>
+                <List>
+                    { allSheets.map( (model,sheetIndex) => 
+                        <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
+                            {model.hidden ?     
+                                <div slot='after'>
+                                    {t('Statusbar.textHidden')}
+                                </div>
+                            : null}
+                        </ListItem>)
+                    }
+                </List>
+            </Page>
+        </View>
     )
 };
 
@@ -81,8 +104,7 @@ const PageCustomTabColor =  inject("storePalette")(observer (props => {
 
 const PageTabColor =  inject("storePalette")(observer(props =>  {
     const { t } = useTranslation();
-    const {sheets} = props;
-    const allSheets = sheets.sheets;
+    const {sheets, allSheets = sheets.sheets} = props;
     const storePalette = props.storePalette;
     const customColors = storePalette.customColors;
     const activeIndex = sheets.activeWorksheet;
@@ -96,7 +118,7 @@ const PageTabColor =  inject("storePalette")(observer(props =>  {
                 sheets.changeTabColor('transparent');
             }
         }
-    }, [allSheets])
+    }, [activeIndex]);
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
@@ -140,6 +162,20 @@ const PageTabColor =  inject("storePalette")(observer(props =>  {
     )
 }));
 
+const PopoverAllList = (props) => {
+    const {sheets, onTabListClick} = props;
+
+    const onScrollList = () => {
+        const listHeight = $$('.list .item-list').height();
+        $$('.all-list .page-content').scrollTop(listHeight*sheets.activeWorksheet);
+    };
+
+    return (
+        <Popover id="idx-all-list" className="all-list" onPopoverOpen={onScrollList}>
+            <PageAllList sheets={sheets} onTabListClick={onTabListClick}/>
+        </Popover>
+    )
+};
 
 const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(props => {
     const { t } = useTranslation();
@@ -159,9 +195,12 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
                 {isEdit &&
-                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled' : ''}`}>
+                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled box-tab' : 'box-tab'}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
-                            <Icon className="icon icon-plus" />
+                            <Icon className={`icon icon-plus ${isAndroid ? 'bold' : ''}`}/>
+                        </Link>
+                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
+                            <Icon className={`icon icon-list ${isAndroid ? 'bold' : ''}`}/>
                         </Link>
                     </div>
                 }
@@ -221,15 +260,18 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                     </ActionsGroup> 
                 </Actions>
             ) : null}
+            {
+                <PopoverAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
+            }
             {isPhone ? 
-                <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true} backdrop={false}>
+                <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true}>
                     <div className='swipe-container'>
                         <Icon icon='icon-swipe'/>
                     </div>
                     <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
                 </Sheet>
                 :
-                <Popover style={{height: '420px'}} id="idx-move-sheet-popover" closeByOutsideClick={false}>
+                <Popover id="idx-move-sheet-popover" closeByOutsideClick={false}>
                     <PageListMove sheets={sheets} onMenuMoveClick={props.onMenuMoveClick}/>
                 </Popover>
             }

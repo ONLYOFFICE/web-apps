@@ -33,13 +33,13 @@
       "textTryUndoRedo": "高速で共同な編集モードでは、元に戻す/やり直し機能が無効になります。",
       "textUsers": "ユーザー"
     },
+    "HighlightColorPalette": {
+      "textNoFill": "塗りつぶしなし"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "ユーザー設定の色",
       "textStandartColors": "標準の色",
       "textThemeColors": "テーマの色"
-    },
-    "HighlightColorPalette": {
-      "textNoFill": "No Fill"
     }
   },
   "ContextMenu": {
@@ -107,26 +107,27 @@
       "textHasMacros": "ファイルには自動マクロが含まれています。<br>マクロを実行しますか？",
       "textNo": "いいえ",
       "textNoLicenseTitle": "ライセンス制限に達しました",
+      "textNoTextFound": "テキストが見つかりませんでした",
       "textOpenFile": "ファイルを開くためにパスワードを入力してください",
       "textPaidFeature": "有料機能",
       "textRemember": "選択を覚える",
+      "textReplaceSkipped": "置換が完了しました。{0}つスキップされました。",
+      "textReplaceSuccess": "検索が完了しました。{0}つが置換されました。",
       "textYes": "はい",
-      "titleLicenseExp": "ライセンスの有効期間が満期した",
+      "titleLicenseExp": "ライセンスの有効期限が切れています",
       "titleServerVersion": "編集者が更新された",
       "titleUpdateVersion": "バージョンが変更されました",
       "txtIncorrectPwd": "パスワードが間違い",
       "txtProtected": "パスワードを入力してファイルを開くと、現在のパスワードがリセットされます",
       "warnLicenseExceeded": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。詳細についてはアドミニストレータを連絡してください。",
-      "warnLicenseExp": "ライセンスが満期しました。ライセンスを更新し、ページを再びお読み込みしてください。",
-      "warnLicenseLimitedNoAccess": "ライセンスが満期しました。編集の汎関数にアクセスがありません。アドミンに連絡してください。",
+      "warnLicenseExp": "ライセンスの有効期限が切れています。ライセンスを更新してページをリロードしてください。",
+      "warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。ドキュメント編集機能にアクセスできません。管理者にご連絡ください。",
       "warnLicenseLimitedRenewed": "ライセンスが書き換えすべきです。文書を変更ためのアクセスが制限付きされました。フル アクセスを再接続ためにアドミニストレータを連絡してください。",
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "textNoTextFound": "Text not found",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -154,7 +155,7 @@
     "errorUpdateVersionOnDisconnect": "インターネットが再接続され、ファイルのバージョンが更新されました。<br>作業を続ける前に、ファイルをダウンロードするか、内容をコピーして、思わぬ変更があった際にも対処できるようにしてから、このページを再読み込みしてください。",
     "errorUserDrop": "現在、このファイルにはアクセスできません。",
     "errorUsersExceed": "料金プランによってユーザ数を超過しました。",
-    "errorViewerDisconnect": "接続が失われました。あなたはまだ文書を見えるけど, <br>接続が復元されたしページが再読み込まれたまで文書をダウンロードと印刷できません。",
+    "errorViewerDisconnect": "接続が失われました。文書の表示は可能ですが、<br>再度接続されてページが再ロードされるまで、ダウンロードまたは印刷することはできません。",
     "notcriticalErrorTitle": " 警告",
     "openErrorText": "ファイルを開く際にエラーが発生しました。",
     "saveErrorText": "ファイルの保存中にエラーが発生された",
@@ -228,6 +229,7 @@
       "textLinkTo": "リンク先",
       "textLinkType": "リンクのタイプ",
       "textNextSlide": "次のスライド",
+      "textOk": "OK",
       "textOther": "その他",
       "textPictureFromLibrary": "ライブラリからのイメージ",
       "textPictureFromURL": "URLからのイメージ",
@@ -240,12 +242,11 @@
       "textSlideNumber": "スライド番号",
       "textTable": "表",
       "textTableSize": "表のサイズ",
-      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある",
-      "textOk": "Ok"
+      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
-      "textActualSize": "既定のサイズ",
+      "textActualSize": "既定サイズ",
       "textAddCustomColor": "ユーザーの色を追加する",
       "textAdditional": "追加",
       "textAdditionalFormatting": "追加の書式設定",
@@ -261,6 +262,7 @@
       "textAllCaps": "全ての大字",
       "textApplyAll": "全てのスライドに適用する",
       "textAuto": "自動",
+      "textAutomatic": "自動",
       "textBack": "戻る",
       "textBandedColumn": "列を交代する",
       "textBandedRow": "行を交代する",
@@ -285,6 +287,7 @@
       "textDefault": "選択したテキスト",
       "textDelay": "遅延",
       "textDeleteSlide": "スタンドを削除する",
+      "textDesign": "デザイン",
       "textDisplay": "表示する",
       "textDistanceFromText": "テキストからの間隔",
       "textDistributeHorizontally": "左右に整列",
@@ -292,7 +295,7 @@
       "textDone": "完了",
       "textDoubleStrikethrough": "二重取り消し線",
       "textDuplicateSlide": "スライドの複製",
-      "textDuration": "期間",
+      "textDuration": "継続時間",
       "textEditLink": "リンクを編集する",
       "textEffect": "効果",
       "textEffects": "効果",
@@ -336,6 +339,7 @@
       "textNoTextFound": "テキストが見つかりませんでした",
       "textNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "textNumbers": "数",
+      "textOk": "OK",
       "textOpacity": "不透明度",
       "textOptions": "設定",
       "textPictureFromLibrary": "ライブラリからのイメージ",
@@ -379,8 +383,7 @@
       "textTopLeft": "左上",
       "textTopRight": "右上",
       "textTotalRow": "合計行",
-      "textTransition": "切り替え​​",
-      "textTransitions": "遷移",
+      "textTransitions": "切り替え効果",
       "textType": "タイプ",
       "textUnCover": "アンカバー",
       "textVerticalIn": "縦（中）",
@@ -390,10 +393,7 @@
       "textZoom": "ズーム",
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
-      "textZoomRotate": "ズームと回転",
-      "textAutomatic": "Automatic",
-      "textDesign": "Design",
-      "textOk": "Ok"
+      "textZoomRotate": "ズームと回転"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
@@ -410,12 +410,13 @@
       "textColorSchemes": "色スキーム",
       "textComment": "コメント",
       "textCreated": "作成された",
+      "textDarkTheme": "デークテーマ",
       "textDisableAll": "全てを無効にする",
       "textDisableAllMacrosWithNotification": "警告を表示して全てのマクロを無効にする",
       "textDisableAllMacrosWithoutNotification": "警告を表示してないすべてのマクロを無効にする",
       "textDone": "完了",
       "textDownload": "ダウンロードする",
-      "textDownloadAs": "としてダウンロードする",
+      "textDownloadAs": "名前を付けてダウンロード",
       "textEmail": "メール：",
       "textEnableAll": "全てを有効にする",
       "textEnableAllMacrosWithoutNotification": "警告を表示してないすべてのマクロを有効にする",
@@ -473,7 +474,7 @@
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
       "txtScheme9": "ファウンドリ",
-      "textDarkTheme": "Dark Theme"
+      "textFeedback": "Feedback & Support"
     }
   }
 }

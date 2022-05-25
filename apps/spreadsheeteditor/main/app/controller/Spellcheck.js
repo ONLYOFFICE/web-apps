@@ -254,6 +254,9 @@ define([
         },
 
         onSpellCheckVariantsFound: function (property) {
+            if (property===null && this._currentSpellObj === property && !(this.panelSpellcheck && this.panelSpellcheck.isVisible()))
+                return;
+
             this._currentSpellObj = property;
 
             var arr = [],

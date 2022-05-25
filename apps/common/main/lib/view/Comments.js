@@ -443,7 +443,8 @@ define([
                         textReply: me.textReply,
                         textClose: me.textClose,
                         maxCommLength: Asc.c_oAscMaxCellOrCommentLength
-                    }))
+                    })),
+                    emptyText: me.txtEmpty
                 });
 
                 var addtooltip = function (dataview, view, record) {
@@ -492,7 +493,7 @@ define([
         },
         updateScrolls: function () {
             if (this.commentsView && this.commentsView.scroller) {
-                this.commentsView.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+                this.commentsView.scroller.update({minScrollbarLength: this.commentsView.minScrollbarLength, alwaysVisibleY: true});
             }
         },
 
@@ -806,7 +807,7 @@ define([
         },
 
         pickEMail: function (commentId, message) {
-            var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._]+\.[A-Z]+\b/gi);
+            var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._-]+\.[A-Z]+\b/gi);
             arr = _.map(arr, function(str){
                 return str.slice(1, str.length);
             });
@@ -860,6 +861,7 @@ define([
         textClosePanel: 'Close comments',
         textViewResolved: 'You have not permission for reopen comment',
         mniFilterGroups: 'Filter by Group',
-        textAll: 'All'
+        textAll: 'All',
+        txtEmpty: 'There are no comments in the document.'
     }, Common.Views.Comments || {}))
 });

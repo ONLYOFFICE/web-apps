@@ -12,6 +12,7 @@ export class storeAppOptions {
             lostEditingRights: observable,
             changeEditingRights: action,
             canBrandingExt: observable,
+            canBranding: observable,
 
             isDocReady: observable,
             changeDocReady: action
@@ -21,6 +22,7 @@ export class storeAppOptions {
     isEdit = false;
     canViewComments = false;
     canBrandingExt = false;
+    canBranding = false;
     config = {};
 
     lostEditingRights = false;
@@ -92,12 +94,17 @@ export class storeAppOptions {
         this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
-        this.canEditComments = this.isOffline || !(typeof (this.customization) == 'object' && this.customization.commentAuthorOnly);
+        this.canEditComments = this.isOffline || !permissions.editCommentAuthorOnly;
         this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
+        if ((typeof (this.customization) == 'object') && this.customization.commentAuthorOnly===true) {
+            console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+            if (permissions.editCommentAuthorOnly===undefined && permissions.deleteCommentAuthorOnly===undefined)
+                this.canEditComments = this.canDeleteComments = this.isOffline;
+        }
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
-        this.isRestrictedEdit = !this.isEdit && this.canComments;
+        this.isRestrictedEdit = !this.isEdit && this.canComments && isSupportEditFeature;
         this.trialMode = params.asc_getLicenseMode();
 
         const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
@@ -110,7 +117,11 @@ export class storeAppOptions {
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
         this.canUseCommentPermissions = this.canLicense && !!permissions.commentGroups;
+        this.canUseUserInfoPermissions = this.canLicense && !!permissions.userInfoGroups;
         this.canUseReviewPermissions && AscCommon.UserInfoParser.setReviewPermissions(permissions.reviewGroups, this.customization.reviewPermissions);
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);
+        this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
+
+        this.canLiveView = !!params.asc_getLiveViewerSupport() && (this.config.mode === 'view') && isSupportEditFeature;
     }
 }

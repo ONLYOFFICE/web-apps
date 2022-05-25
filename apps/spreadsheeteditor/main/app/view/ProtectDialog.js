@@ -368,7 +368,7 @@ define([
             });
 
             this.optionsList.store.reset(arr);
-            this.optionsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            this.optionsList.scroller.update({minScrollbarLength  : this.optionsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
         },
 
         getSettings: function() {
