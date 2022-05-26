@@ -136,9 +136,7 @@ export class storeTextSettings {
             this.binaryFormat = null;
             this.data = null;
             this.width = 0;
-            this.height = 0;
             this.heightOne = 0;
-            this.count = 0;
 
             this.load = function(url, callback) {
                 if (!callback)
@@ -179,10 +177,14 @@ export class storeTextSettings {
                 var binaryAlpha = new Uint8Array(arrayBuffer);
                 this.width      = (binaryAlpha[0] << 24) | (binaryAlpha[1] << 16) | (binaryAlpha[2] << 8) | (binaryAlpha[3] << 0);
                 this.heightOne  = (binaryAlpha[4] << 24) | (binaryAlpha[5] << 16) | (binaryAlpha[6] << 8) | (binaryAlpha[7] << 0);
-                this.count      = (binaryAlpha[8] << 24) | (binaryAlpha[9] << 16) | (binaryAlpha[10] << 8) | (binaryAlpha[11] << 0);
-                this.height     = this.count * this.heightOne;
+                let count      = (binaryAlpha[8] << 24) | (binaryAlpha[9] << 16) | (binaryAlpha[10] << 8) | (binaryAlpha[11] << 0);
+                let height     = count * this.heightOne;
 
-                this.data = new Uint8ClampedArray(4 * this.width * this.height);
+                // this.data = new Uint8ClampedArray(4 * this.width * height);
+                // TODO: limit array size. bug 57315
+                if ( height > 100000 )
+                    height = Math.floor(100000 / 56) * 56;
+                this.data = new Uint8ClampedArray(4 * this.width * height);
 
                 var binaryIndex = 12;
                 var binaryLen = binaryAlpha.length;
@@ -251,6 +253,12 @@ export class storeTextSettings {
         this.spriteThumbs = new CThumbnailLoader();
         this.spriteThumbs.load(this.thumbs[this.thumbIdx].path, () => {
             this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+
+            // if (!this.spriteThumbs.data)
+            {
+                this.spriteThumbs.openBinary(this.spriteThumbs.binaryFormat);
+                delete this.spriteThumbs.binaryFormat;
+            }
         });
     }
 
