@@ -105,6 +105,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-search"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     // '<div class="btn-slot slot-btn-user-name"></div>' +
@@ -348,6 +349,9 @@ define([
                     });
                 }
             }
+
+            if (me.btnSearch)
+                me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
         }
 
         function onFocusDocName(e){
@@ -447,6 +451,15 @@ define([
                     reset   : onResetUsers
                 });
 
+                me.btnSearch = new Common.UI.Button({
+                    cls: 'btn-header no-caret',
+                    iconCls: 'toolbar__icon icon--inverse btn-menu-search',
+                    enableToggle: true,
+                    dataHint: '0',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+
                 me.btnFavorite = new Common.UI.Button({
                     id: 'btn-favorite',
                     cls: 'btn-header',
@@ -540,6 +553,7 @@ define([
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
+                    me.btnSearch.render($html.find('#slot-btn-search'));
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous) {
@@ -875,6 +889,7 @@ define([
             textRemoveFavorite: 'Remove from Favorites',
             textAddFavorite: 'Mark as favorite',
             textHideNotes: 'Hide Notes',
+            tipSearch: 'Search',
             textShare: 'Share'
         }
     }(), Common.Views.Header || {}))
