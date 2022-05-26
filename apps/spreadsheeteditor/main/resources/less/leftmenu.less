@@ -753,8 +753,9 @@
         }
     }
     #search-results {
-        padding-top: 6px;
+        padding: 0;
         .search-table {
+            padding-top: 5px;
             width:100%;
             height: 100%;
             position: relative;
@@ -766,6 +767,7 @@
             text-align: start;
             font-weight: normal;
             padding-left: 4px;
+            padding-top: 2px;
             &:not(:first-child) {
                 border-left: @scaled-one-px-value-ie solid @border-divider-ie;
                 border-left: @scaled-one-px-value solid @border-divider;
@@ -777,7 +779,7 @@
         .search-items {
             height: calc(100% - 24px);
             position: absolute;
-            top: 23px;
+            top: 28px;
             width: 100%;
             overflow: hidden;
             .item {

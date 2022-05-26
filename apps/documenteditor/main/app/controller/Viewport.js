@@ -197,6 +197,8 @@ define([
                 toolbar = me.getApplication().getController('Toolbar').getView();
                 toolbar.btnCollabChanges = me.header.btnSave;
             }
+
+            me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
 
         onAppReady: function (config) {
