@@ -1257,6 +1257,7 @@ define([
                     pluginsController           = application.getController('Common.Controllers.Plugins'),
                     navigationController        = application.getController('Navigation');
 
+
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
