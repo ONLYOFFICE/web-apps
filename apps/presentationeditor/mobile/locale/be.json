@@ -474,7 +474,11 @@
       "textFindAndReplaceAll": "Find and Replace All",
       "textFeedback": "Feedback & Support",
       "textTel": "tel:",
-      "txtScheme22": "New Office"
+      "txtScheme22": "New Office",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

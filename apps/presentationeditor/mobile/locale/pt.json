@@ -474,7 +474,11 @@
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
       "txtScheme9": "Fundição",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

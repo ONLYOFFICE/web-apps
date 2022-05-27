@@ -474,7 +474,11 @@
       "textFeedback": "Feedback & Support",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
-      "txtScheme19": "Trek"
+      "txtScheme19": "Trek",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

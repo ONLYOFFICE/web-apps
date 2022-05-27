@@ -549,7 +549,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
-      "txtSortLow2High": "Sortir Terendah ke Tertinggi"
+      "txtSortLow2High": "Sortir Terendah ke Tertinggi",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "Spasi",
       "txtTab": "Tab",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

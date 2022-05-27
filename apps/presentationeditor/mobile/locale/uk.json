@@ -62,6 +62,7 @@
   },
   "Controller": {
     "Main": {
+      "errorOpensource": "Використовуючи безплатну версію Community, ви можете відкривати документи лише на перегляд. Для доступу до мобільних вебредакторів потрібна комерційна ліцензія.",
       "SDK": {
         "Chart": "Діаграма",
         "Diagram Title": "Заголовок діаграми",
@@ -93,7 +94,6 @@
       "closeButtonText": "Close File",
       "criticalErrorTitle": "Error",
       "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
       "errorProcessSaveResult": "Saving failed.",
       "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
@@ -437,7 +437,11 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   },
   "LongActions": {

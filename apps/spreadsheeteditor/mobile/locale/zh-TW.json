@@ -549,7 +549,8 @@
       "textYen": "日圓",
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSortHigh2Low": "最高到最低排序",
-      "txtSortLow2High": "從最低到最高排序"
+      "txtSortLow2High": "從最低到最高排序",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "選擇CSV選項",
@@ -681,7 +682,11 @@
       "txtSpace": "空間",
       "txtTab": "標籤",
       "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

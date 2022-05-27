@@ -474,7 +474,11 @@
       "txtScheme7": "Margin Sisa",
       "txtScheme8": "Alur",
       "txtScheme9": "Cetakan",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

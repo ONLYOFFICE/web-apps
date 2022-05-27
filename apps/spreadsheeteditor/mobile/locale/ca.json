@@ -549,7 +549,8 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
-      "txtSortLow2High": "Ordena de menor a major"
+      "txtSortLow2High": "Ordena de menor a major",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Trieu les opcions CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
       "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

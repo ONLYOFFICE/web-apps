@@ -549,7 +549,8 @@
       "textYen": "ເງິນເຢັນ",
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "txtSortHigh2Low": "ລຽງລຳດັບຈາກສູງສຸດໄປຫາຕ່ຳສຸດ",
-      "txtSortLow2High": "ລຽງລຳດັບແຕ່ຕ່ຳສຸດໄປຫາສູງສຸດ"
+      "txtSortLow2High": "ລຽງລຳດັບແຕ່ຕ່ຳສຸດໄປຫາສູງສຸດ",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "ເລືອກຕົວເລືອກຂອງ CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "ຍະຫວ່າງ",
       "txtTab": "ແທບ",
       "warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }
