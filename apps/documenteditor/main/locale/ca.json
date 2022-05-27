@@ -1700,6 +1700,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Pàgines",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPageSize": "Mida de la pàgina",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Paràgrafs",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtPdfProducer": "Generador de PDF",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfTagged": "PDF Etiquetat",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfVer": "Versió PDF",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Ubicació",

@@ -171,7 +171,7 @@
     "downloadErrorText": "Falha ao descarregar.",
     "errorAccessDeny": "Está a tentar realizar uma ação para a qual não tem autorização.<br>Por favor, contacte o seu administrador.",
     "errorArgsRange": "Erro na fórmula.<br>Intervalo incorreto de argumentos.",
-    "errorAutoFilterChange": "A operação não é permitida porque está a tentar deslocar células numa tabela da sua folha de cálculo.",
+    "errorAutoFilterChange": "A operação não é permitida porque está a tentar deslocar células numa tabela na sua folha de cálculo.",
     "errorAutoFilterChangeFormatTable": "A operação não pôde ser feita para as células selecionadas, uma vez que não se pode mover uma parte de uma tabela.<br>Selecione outro intervalo de dados para que toda a tabela seja deslocada e tentar novamente.",
     "errorAutoFilterDataRange": "Não foi possível fazer a operação para o intervalo selecionado de células.<br>Selecione um intervalo de dados uniforme dentro ou fora da tabela e tente novamente.",
     "errorAutoFilterHiddenRange": "A operação não pode ser realizada porque a área contém células filtradas.<br>Por favor, escolha mostrar os elementos filtrados e tente novamente.",
@@ -293,7 +293,7 @@
     "textMore": "Mais",
     "textMove": "Mover",
     "textMoveBefore": "Mover antes da folha",
-    "textMoveToEnd": "(Mover para fim)",
+    "textMoveToEnd": "(Mover para o final)",
     "textOk": "Ok",
     "textRename": "Renomear",
     "textRenameSheet": "Mudar nome da folha",
@@ -549,7 +549,8 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSortHigh2Low": "Ordenar do Maior para o Menor",
-      "txtSortLow2High": "Ordenar do Menor para o Maior"
+      "txtSortLow2High": "Ordenar do Menor para o Maior",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "Espaço",
       "txtTab": "Tab",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos exceto o texto serão perdidos.<br>Você tem certeza que quer continuar?",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

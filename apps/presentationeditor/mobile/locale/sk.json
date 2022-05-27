@@ -474,7 +474,11 @@
       "txtScheme7": "Spravodlivosť",
       "txtScheme8": "Tok",
       "txtScheme9": "Zlieváreň",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

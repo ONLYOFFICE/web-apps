@@ -325,16 +325,19 @@
       "sCatTextAndData": "Κείμενο και δεδομένα",
       "textAddLink": "Προσθήκη Συνδέσμου",
       "textAddress": "Διεύθυνση",
+      "textAllTableHint": "Επιστρέφει όλα τα περιεχόμενα από τον πίνακα ή από τις καθορισμένες στήλες του πίνακα συμπεριλαμβανομένων των επικεφαλίδων των στηλών, τα δεδομένα και τις συνολικές σειρές",
       "textBack": "Πίσω",
       "textCancel": "Ακύρωση",
       "textChart": "Γράφημα",
       "textComment": "Σχόλιο",
+      "textDataTableHint": "Επιστρέφει τα κελιά δεδομένων από τον πίνακα ή τις καθορισμένες στήλες του πίνακα",
       "textDisplay": "Προβολή",
       "textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
       "textExternalLink": "Εξωτερικός Σύνδεσμος",
       "textFilter": "Φίλτρο",
       "textFunction": "Συνάρτηση",
       "textGroups": "ΚΑΤΗΓΟΡΙΕΣ",
+      "textHeadersTableHint": "Επιστρέφει τις επικεφαλίδες των στηλών για τον πίνακα ή τις καθορισμένες στήλες του πίνακα",
       "textImage": "Εικόνα",
       "textImageURL": "URL εικόνας",
       "textInsert": "Εισαγωγή",
@@ -355,6 +358,8 @@
       "textShape": "Σχήμα",
       "textSheet": "Φύλλο",
       "textSortAndFilter": "Ταξινόμηση και Φίλτρο",
+      "textThisRowHint": "Επίλεξε μόνο αυτή τη σειρά της καθορισμένης στήλης",
+      "textTotalsTableHint": "Επιστρέφει τις συνολικές σειρές για τον πίνακα ή για τις καθορισμένες στήλες του πίνακα",
       "txtExpand": "Επέκταση και ταξινόμηση",
       "txtExpandSort": "Τα δεδομένα δίπλα στην επιλογή δεν θα ταξινομηθούν. Θέλετε να επεκτείνετε την επιλογή ώστε να συμπεριλάβει τα παρακείμενα δεδομένα ή να συνεχίσετε με την ταξινόμηση μόνο των επιλεγμένων κελιών;",
       "txtLockSort": "Υπάρχουν δεδομένα δίπλα στην επιλογή σας, αλλά δεν έχετε επαρκή δικαιώματα τροποποίησης αυτών των κελιών.<br>Θέλετε να συνεχίσετε με την τρέχουσα επιλογή;",
@@ -362,12 +367,7 @@
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSorting": "Ταξινόμηση",
       "txtSortSelected": "Ταξινόμηση επιλεγμένων",
-      "txtYes": "Ναι",
-      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
-      "textDataTableHint": "Returns the data cells of the table or specified table columns",
-      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
-      "textThisRowHint": "Choose only this row of the specified column",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
+      "txtYes": "Ναι"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",
@@ -549,7 +549,8 @@
       "textYen": "Γιέν",
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSortHigh2Low": "Ταξινόμηση από το Υψηλότερο στο Χαμηλότερο",
-      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο"
+      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Επιλέξτε CSV επιλογές",
@@ -681,7 +682,11 @@
       "txtSpace": "Κενό διάστημα",
       "txtTab": "Καρτέλα",
       "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }
