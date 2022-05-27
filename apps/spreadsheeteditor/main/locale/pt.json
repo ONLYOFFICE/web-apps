@@ -202,6 +202,7 @@
   "Common.Views.Comments.textResolved": "Resolvido",
   "Common.Views.Comments.textSort": "Ordenar comentários",
   "Common.Views.Comments.textViewResolved": "Não tem permissão para reabrir comentários",
+  "Common.Views.Comments.txtEmpty": "Não há comentários na planilha.",
   "Common.Views.CopyWarningDialog.textDontShow": "Não exibir esta mensagem novamente",
   "Common.Views.CopyWarningDialog.textMsg": "As ações copiar, cortar e colar usando os botões da barra de ferramentas do editor e as ações de menu de contexto serão realizadas apenas nesta aba do editor.<br><br>Para copiar ou colar para ou de aplicativos externos a aba do editor, use as seguintes combinações do teclado:",
   "Common.Views.CopyWarningDialog.textTitle": "Ações copiar, cortar e colar",

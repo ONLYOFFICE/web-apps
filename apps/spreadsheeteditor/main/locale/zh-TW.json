@@ -202,6 +202,7 @@
   "Common.Views.Comments.textResolved": "已解決",
   "Common.Views.Comments.textSort": "註釋分類",
   "Common.Views.Comments.textViewResolved": "您沒有權限來重新開啟這個註解",
+  "Common.Views.Comments.txtEmpty": "工作表裡沒有任何註解。",
   "Common.Views.CopyWarningDialog.textDontShow": "不再顯示此消息",
   "Common.Views.CopyWarningDialog.textMsg": "使用編輯器工具欄按鈕進行複制，剪切和粘貼操作以及上下文選單操作僅在此編輯器選項卡中執行。<br> <br>要在“編輯器”選項卡之外的應用程序之間進行複製或粘貼，請使用以下鍵盤組合：",
   "Common.Views.CopyWarningDialog.textTitle": "複製, 剪下, 與貼上之動作",
