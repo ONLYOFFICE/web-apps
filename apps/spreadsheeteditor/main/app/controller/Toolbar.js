@@ -320,6 +320,8 @@ define([
                 toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
                 if (toolbar.cmbNumberFormat.cmpEl)
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
+                toolbar.btnVisibleArea.menu.on('item:click',              _.bind(this.onVisibleAreaMenu, this));
+                toolbar.btnVisibleAreaClose.on('click',                   _.bind(this.onVisibleAreaClose, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
@@ -4217,6 +4219,31 @@ define([
 
         onPrintHeadingsChange: function (field, value) {
             this.api.asc_SetPrintHeadings(value === 'checked');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onVisibleAreaClose: function(btn) {
+            if (this.api)
+                this.api.asc_toggleVisibleAreaOleEditor(false);
+            this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, false);
+            this.toolbar.btnVisibleArea.setVisible(true);
+            this.toolbar.btnVisibleAreaClose.setVisible(false);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onVisibleAreaMenu: function(menu, item, e) {
+            if (this.api) {
+                if (item.value === 'edit') {
+                    this.api.asc_toggleVisibleAreaOleEditor(true);
+                    this.toolbar.btnVisibleArea.setVisible(false);
+                    this.toolbar.btnVisibleAreaClose.setVisible(true);
+                    this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, true);
+                } else { // show or hide
+                    // this.api.asc_showVisibleArea(item.value === 'show');
+                    this.toolbar.btnVisibleArea.menu.items[0].setVisible(item.value !== 'show');
+                    this.toolbar.btnVisibleArea.menu.items[1].setVisible(item.value === 'show');
+                }
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

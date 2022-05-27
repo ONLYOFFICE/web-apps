@@ -119,6 +119,12 @@
                 </div>
             </div>
             <div class="group" style="width: 100%;"></div>
+            <div class="group small" style="padding-right: 5px;">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-visible-area"></span>
+                    <span class="btn-slot" id="slot-btn-visible-area-close"></span>
+                </div>
+            </div>
         </section>
     <% } %>
 </div>

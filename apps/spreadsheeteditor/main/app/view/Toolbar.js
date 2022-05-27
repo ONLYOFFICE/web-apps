@@ -109,7 +109,8 @@ define([
         wsLockShape: 'worksheet-lock-shape',
         wsLockFormat: 'worksheet-lock-format',
         inSmartartInternal: 'in-smartart-internal',
-        wsLockFormatFill: 'worksheet-lock-format-fill'
+        wsLockFormatFill: 'worksheet-lock-format-fill',
+        editVisibleArea: 'is-visible-area'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -243,7 +244,7 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-formula',
                         split       : true,
-                        lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                        lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
                         menu        : new Common.UI.Menu({
                             style : 'min-width: 110px',
                             items : [
@@ -269,7 +270,7 @@ define([
                         id          : 'id-toolbar-btn-decdecimal',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-decdecimal',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -278,7 +279,7 @@ define([
                         id          : 'id-toolbar-btn-incdecimal',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-incdecimal',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -299,7 +300,7 @@ define([
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 180px;',
                         hint        : me.tipNumFormat,
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
                         itemsTemplate: formatTemplate,
                         editable    : false,
                         data        : me.numFormatData,
@@ -357,7 +358,7 @@ define([
                         id          : 'id-toolbar-btn-sort-down',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-sort-down',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.editVisibleArea],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -366,7 +367,7 @@ define([
                         id          : 'id-toolbar-btn-sort-up',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-sort-up',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.editVisibleArea],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
@@ -375,7 +376,7 @@ define([
                         id          : 'id-toolbar-btn-setautofilter',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-autofilter',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.editVisibleArea],
                         enableToggle: true,
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -385,10 +386,40 @@ define([
                         id          : 'id-toolbar-btn-clearfilter',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-clear-filter',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot, _set.editVisibleArea],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });
+                }
+                if ( config.isEditOle ) {
+                    me.btnVisibleArea = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-visible-area',
+                        cls         : 'btn-toolbar btn-icon-default',
+                        iconCls     : 'toolbar__icon btn-sheet-view',
+                        menu        : new Common.UI.Menu({
+                            items: [
+                                {caption: me.textShowVA,   value: 'show'},
+                                {caption: me.textHideVA,   value: 'hide', visible: false},
+                                {caption: me.textEditVA,   value: 'edit'}
+                            ]
+                        }),
+                        lock        : [_set.lostConnect],
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+
+                    me.btnVisibleAreaClose = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-visible-area-close',
+                        cls         : 'btn-toolbar btn-text-default auto',
+                        caption     : me.textDone,
+                        lock        : [_set.lostConnect],
+                        visible     : false,
+                        // style       : 'min-width: 120px;',
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'big'
+                    });
+
                 }
             } else if ( config.isEdit ) {
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
@@ -1701,7 +1732,7 @@ define([
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
-                    me.chPrintGridlines, me.chPrintHeadings
+                    me.chPrintGridlines, me.chPrintHeadings, me.btnVisibleArea, me.btnVisibleAreaClose
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1916,6 +1947,9 @@ define([
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
             _injectComponent('#slot-btn-scale',         this.btnScale);
             _injectComponent('#slot-btn-condformat',    this.btnCondFormat);
+            _injectComponent('#slot-btn-visible-area',  this.btnVisibleArea);
+            _injectComponent('#slot-btn-visible-area-close',  this.btnVisibleAreaClose);
+
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
@@ -1992,6 +2026,7 @@ define([
             _updateHint(this.btnPrintTitles, this.tipPrintTitles);
             _updateHint(this.btnScale, this.tipScale);
             _updateHint(this.btnCondFormat, this.tipCondFormat);
+            _updateHint(this.btnVisibleArea, this.tipVisibleArea);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -2442,7 +2477,7 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( Common.enumLock.lostConnect, true );
                 this.lockToolbar( Common.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo,this.btnSave]} );
+                    {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo,this.btnSave, this.btnVisibleArea, this.btnVisibleAreaClose]} );
                 if ( this.synchTooltip )
                     this.synchTooltip.hide();
                 if (!mode.enableDownload)
@@ -2928,6 +2963,11 @@ define([
         capInsertSpark: 'Sparklines',
         txtScheme22: 'New Office',
         textPrintGridlines: 'Print gridlines',
-        textPrintHeadings: 'Print headings'
+        textPrintHeadings: 'Print headings',
+        textShowVA: 'Show Visible Area',
+        textHideVA: 'Hide Visible Area',
+        textEditVA: 'Edit Visible Area',
+        tipVisibleArea: 'Visible area',
+        textDone: 'Done'
     }, SSE.Views.Toolbar || {}));
 });
