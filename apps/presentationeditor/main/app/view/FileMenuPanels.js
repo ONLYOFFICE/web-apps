@@ -76,9 +76,9 @@ define([
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><div><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="svg-format-<%= item.imgCls %>"></div>',
+                            '</div></div></td>',
                             '<% } %>',
                         '<% }) %>',
                     '</tr>',
@@ -147,9 +147,9 @@ define([
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><div><div class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class="svg-format-<%= item.imgCls %>"></div>',
+                            '</div></div></td>',
                             '<% } %>',
                         '<% }) %>',
                     '</tr>',
@@ -234,6 +234,13 @@ define([
                     '</div></td>',
                 '</tr>',
                 '<tr class ="coauth changes divider-group"></tr>',
+                '<tr class="live-viewer">',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtCollaboration %></label></td>',
+                '</tr>',
+                '<tr class="live-viewer">',
+                    '<td colspan="2"><div id="fms-chb-live-viewer"></div></td>',
+                '</tr>',
+                '<tr class ="live-viewer divider-group"></tr>',
                 '<tr class="edit">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
                 '</tr>',
@@ -258,6 +265,9 @@ define([
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
 
                 '<tr class="themes">',
@@ -342,6 +352,14 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chUseAltKey = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-use-alt-key'),
+                labelText: Common.Utils.isMac ? this.txtUseOptionKey : this.txtUseAltKey,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
@@ -391,6 +409,14 @@ define([
                 dataHintOffset: 'small'
             });
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
+
+            this.chLiveViewer = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-live-viewer'),
+                labelText: this.strShowOthersChanges,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
@@ -578,6 +604,7 @@ define([
             /** coauthoring begin **/
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
+            $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
 
@@ -600,6 +627,8 @@ define([
 
             this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
 
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pe-settings-use-alt-key"));
+
             var value = Common.Utils.InternalSettings.get("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
@@ -610,6 +639,7 @@ define([
             this.rbCoAuthModeFast.setValue(fast_coauth);
             this.rbCoAuthModeStrict.setValue(!fast_coauth);
             /** coauthoring end **/
+            this.chLiveViewer.setValue(Common.Utils.InternalSettings.get("pe-settings-coauthmode"));
 
             value = Common.Utils.InternalSettings.get("pe-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
@@ -661,18 +691,22 @@ define([
                 Common.localStorage.setBool("pe-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
             }
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("pe-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-use-alt-key", Common.localStorage.getBool("pe-settings-use-alt-key"));
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && this.mode.canChangeCoAuthoring) {
                 Common.localStorage.setItem("pe-settings-coauthmode", this.rbCoAuthModeFast.getValue());
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                Common.localStorage.setItem("pe-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
             /** coauthoring end **/
             Common.localStorage.setItem("pe-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("pe-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("pe-settings-unit", this.cmbUnit.getValue());
-            if (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("pe-settings-coauthmode"))
+            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("pe-settings-coauthmode")))
                 Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
@@ -754,10 +788,13 @@ define([
         txtCollaboration: 'Collaboration',
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
+        txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
-        strIgnoreWordsWithNumbers: 'Ignore words with numbers'
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
+        strShowOthersChanges: 'Show changes from other users'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -784,9 +821,9 @@ define([
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
                         '<div class="recent-icon">',
-                            '<svg>',
-                                '<use xlink:href="#svg-file-recent"></use>',
-                            '</svg>',
+                            '<div>',
+                                '<div class="svg-file-recent"></div>',
+                            '</div>',
                         '</div>',
                         '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
                         '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
@@ -835,7 +872,7 @@ define([
                 '<% if (blank) { %> ',
                 '<div class="blank-document">',
                     '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="10, 1">',
-                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
+                        '<div class="btn-blank-format"><div class="svg-format-blank"></div></div>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
                 '</div>',
@@ -846,7 +883,7 @@ define([
                         '<%  if (!_.isEmpty(item.image)) {%> ',
                             ' style="background-image: url(<%= item.image %>);">',
                         ' <%} else {' +
-                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                            'print(\"><div class=\'btn-blank-format\'><div class=\'svg-file-template\'></div></div>\")' +
                         ' } %>',
                         '</div>',
                         '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',

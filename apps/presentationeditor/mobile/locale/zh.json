@@ -86,7 +86,7 @@
         "Image": "图片",
         "Loading": "载入中",
         "Media": "媒体",
-        "None": "没有",
+        "None": "无",
         "Picture": "图片",
         "Series": "系列",
         "Slide number": "幻灯片编号",
@@ -126,7 +126,8 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。"
+      "warnProcessRightsChange": "你没有编辑文件的权限。",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -258,7 +259,7 @@
       "textAlignMiddle": "垂直居中",
       "textAlignRight": "右对齐",
       "textAlignTop": "顶端对齐",
-      "textAllCaps": "全部大写",
+      "textAllCaps": "全部大写字母",
       "textApplyAll": "应用于所有幻灯片",
       "textAuto": "自动",
       "textAutomatic": "自动",
@@ -366,7 +367,7 @@
       "textSlide": "幻灯片",
       "textSlideInThisPresentation": "本演示文件中的幻灯片",
       "textSlideNumber": "幻灯片编号",
-      "textSmallCaps": "小写",
+      "textSmallCaps": "小型大写字母",
       "textSmoothly": "顺利",
       "textSplit": "分开",
       "textStartOnClick": "点击时开始",

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' data: blob:">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
 
   <meta name="theme-color" content="#007aff">
@@ -20,7 +20,6 @@
     <% } else { %>
         <style><%= htmlWebpackPlugin.options.skeleton.stylesheet %></style>
     <% } %>
-
   <!-- built styles file will be auto injected -->
 </head>
 <body>

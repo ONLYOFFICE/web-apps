@@ -20,6 +20,7 @@ label {
     }
 
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 }
@@ -89,6 +90,10 @@ label {
     }
 
     #left-panel-comments {
+        height: 100%;
+    }
+
+    #left-panel-search {
         height: 100%;
     }
 }

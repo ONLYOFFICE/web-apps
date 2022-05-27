@@ -532,7 +532,8 @@
     "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
     "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
     "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo."
+    "warnProcessRightsChange": "Você não tem permissão para editar este arquivo.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Arquivo protegido",
@@ -590,6 +591,7 @@
     "textMargins": "Margens",
     "textMarginsH": "Margens superior e inferior são muito altas para uma determinada altura da página",
     "textMarginsW": "Margens são muito grandes para uma determinada largura da página",
+    "textNo": "Não",
     "textNoCharacters": "Caracteres não imprimíveis",
     "textNoTextFound": "Texto não encontrado",
     "textOk": "OK",
@@ -597,6 +599,7 @@
     "textOrientation": "Orientação",
     "textOwner": "Proprietário",
     "textPages": "Páginas",
+    "textPageSize": "Tamanho da página",
     "textParagraphs": "Parágrafos",
     "textPoint": "Ponto",
     "textPortrait": "Retrato ",
@@ -619,6 +622,7 @@
     "textUnitOfMeasurement": "Unidade de medida",
     "textUploaded": "Carregado",
     "textWords": "Palavras",
+    "textYes": "Sim",
     "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
     "txtOk": "OK",
@@ -645,17 +649,15 @@
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
     "txtScheme9": "Fundição",
+    "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
     "textEmptyHeading": "Empty Heading",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
-    "textFastWV": "Fast Web View",
-    "textYes": "Yes",
-    "textNo": "No"
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

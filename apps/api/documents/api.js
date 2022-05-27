@@ -219,8 +219,9 @@
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                 },
                  coEditing: {
-                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
-                     change: true, // can change co-authoring mode
+                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
+                     // for viewer: 'strict' is default, offline viewer; 'fast' - live viewer, show changes from other users
+                     change: true, // can change co-authoring mode. true - default for editor, false - default for viewer
                  },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],

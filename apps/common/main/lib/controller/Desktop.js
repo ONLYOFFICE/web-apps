@@ -137,6 +137,10 @@ define([
                         if (!!_mr[1]) $('#app-title').show();
                         else if (!!_mr[2]) $('#app-title').hide();
                     }
+                } else
+                if (/althints:show/.test(cmd)) {
+                    if ( param == /false|hide/.test(param) )
+                        Common.NotificationCenter.trigger('hints:clear');
                 }
             };
 
@@ -186,6 +190,17 @@ define([
                 native.execCommand('title:button', JSON.stringify({'disabled': _buttons}));
             }
         };
+
+        var _onHintsShow = function (visible, level) {
+            native.execCommand('althints:show', JSON.stringify(visible && !(level > 0)));
+        }
+
+        var _onKeyDown = function (e) {
+            if ( Common.UI.HintManager.isHintVisible() ) {
+                native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
+                console.log('hint keydown', e.keyCode);
+            }
+        }
 
         return {
             init: function (opts) {
@@ -256,12 +271,13 @@ define([
 
                     Common.NotificationCenter.on({
                         'modal:show': _onModalDialog.bind(this, 'open'),
-                        'modal:close': _onModalDialog.bind(this, 'close')
-                        , 'uitheme:changed' : function (name) {
+                        'modal:close': _onModalDialog.bind(this, 'close'),
+                        'uitheme:changed' : function (name) {
                             var theme = Common.UI.Themes.get(name);
                             if ( theme )
                                 native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
-                        }
+                        },
+                        'hints:show': _onHintsShow.bind(this),
                     });
 
                     webapp.addListeners({
@@ -278,6 +294,8 @@ define([
                             },
                         },
                     }, {id: 'desktop'});
+
+                    $(document).on('keydown', _onKeyDown.bind(this));
                 }
             },
             process: function (opts) {
@@ -312,6 +330,16 @@ define([
             isOffline: function () {
                 // return webapp.getController('Main').api.asc_isOffline();
                 return webapp.getController('Main').appOptions.isOffline;
+            },
+            isFeatureAvailable: function (feature) {
+                return !!native && !!native[feature];
+            },
+            call: function (name) {
+                if ( native[name] ) {
+                    let args = [].slice.call(arguments, 1);
+                    // return native[name](...args);
+                    return native[name].apply(this, args);
+                }
             },
         };
     };

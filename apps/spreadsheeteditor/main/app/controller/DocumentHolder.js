@@ -172,6 +172,9 @@ define([
                     me.hideCoAuthTips();
                     me.hideForeignSelectTips();
                     me.onDocumentResize();
+                    if (me.api && !me.tooltips.input_msg.isHidden && me.tooltips.input_msg.text) {
+                        me.changeInputMessagePosition(me.tooltips.input_msg);
+                    }
                 },
                 'cells:range': function(status){
                     me.onCellsRange(status);
@@ -233,7 +236,7 @@ define([
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
-                view.menuParagraphBullets.menu.on('render:after',   _.bind(me.onBulletMenuShowAfter, me));
+                // view.menuParagraphBullets.menu.on('render:after',   _.bind(me.onBulletMenuShowAfter, me));
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
@@ -915,6 +918,7 @@ define([
                             api: me.api,
                             props: props,
                             type: 0,
+                            storage: me.permissions.canRequestInsertImage || me.permissions.fileChoiceUrl && me.permissions.fileChoiceUrl.indexOf("{documentType}")>-1,
                             interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {
@@ -946,7 +950,25 @@ define([
                 rawData = record;
             }
 
-            if (this.api)
+            if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
+                var bullet = new Asc.asc_CBullet();
+                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
+                    bullet.asc_putSymbol(rawData.drawdata.char);
+                    bullet.asc_putFont(rawData.drawdata.specialFont);
+                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
+                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
+
+                var props;
+                var selectedObjects = this.api.asc_getGraphicObjectProps();
+                for (var i = 0; i < selectedObjects.length; i++) {
+                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                        props = selectedObjects[i].asc_getObjectValue();
+                        props.asc_putBullet(bullet);
+                        this.api.asc_setGraphicObjectProps(props);
+                        break;
+                    }
+                }
+            } else
                 this.api.asc_setListType(rawData.type, rawData.subtype);
 
             if (e.type !== 'click')
@@ -1799,7 +1821,7 @@ define([
                     delta = e.deltaY;
                 }
 
-                if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+                if (e.ctrlKey && !e.altKey) {
                     var factor = this.api.asc_getZoom();
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
@@ -1863,6 +1885,8 @@ define([
                     event.preventDefault();
                     event.stopPropagation();
                     return false;
+                } else if (key == Common.UI.Keys.ESC && !this.tooltips.input_msg.isHidden && this.tooltips.input_msg.text) {
+                    this.onInputMessage();
                 }
             }
         },
@@ -2106,9 +2130,48 @@ define([
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
                         documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
-                        // documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
-                        var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
+                        var type = listtype.get_ListType(),
+                            subtype = listtype.get_ListSubType(),
+                            rec,
+                            defrec = documentHolder.paraBulletsPicker.store.at(7),
+                            drawDefBullet = (defrec.get('subtype')===0x1000) && (type===1 || subtype!==0x1000);
+                        if (type===1 || subtype!==0x1000) {
+                            rec = documentHolder.paraBulletsPicker.store.findWhere({ type: type, subtype: subtype });
+                        } else {
+                            var bullet = listtype.asc_getListCustom();
+                            if (bullet) {
+                                var bullettype = bullet.asc_getType();
+                                if (bullettype === Asc.asc_PreviewBulletType.char) {
+                                    var symbol = bullet.asc_getChar();
+                                    if (symbol) {
+                                        rec = defrec;
+                                        rec.set('subtype', 0x1000);
+                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('tip', '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        drawDefBullet = false;
+
+                                    }
+                                } else if (bullettype === Asc.asc_PreviewBulletType.image) {
+                                    var id = bullet.asc_getImageId();
+                                    if (id) {
+                                        rec = defrec;
+                                        rec.set('subtype', 0x1000);
+                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('tip', '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        drawDefBullet = false;
+                                    }
+                                }
+                            }
+                        }
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
+                        if (drawDefBullet) {
+                            defrec.set('subtype', 8);
+                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('tip', documentHolder.tipMarkersDash);
+                            documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
+                        }
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || documentHolder.pmiTextAdvanced.textInfo.asc_getLocked();
@@ -2327,7 +2390,7 @@ define([
                 canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments() && cellinfo.asc_getComments().length < 1;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
-            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
+            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo());
             documentHolder.menuViewCopySeparator.setVisible(isInSign);
 
             var isRequested = (signProps) ? signProps.asc_getRequested() : false;
@@ -2768,6 +2831,26 @@ define([
             }
         },
 
+        changeInputMessagePosition: function (inputTip) {
+            var pos = [
+                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                ],
+                coord  = this.api.asc_getActiveCellCoord(),
+                showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputTip.ref.getBSTip().$tip.height() - 5];
+            var tipwidth = inputTip.ref.getBSTip().$tip.width();
+            if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+            if (showPoint[1] < pos[1])
+                showPoint[1] = pos[1] + coord.asc_getY() + coord.asc_getHeight() + 5;
+
+            inputTip.ref.getBSTip().$tip.css({
+                top : showPoint[1] + 'px',
+                left: showPoint[0] + 'px',
+                'z-index': 900
+            });
+        },
+
         onInputMessage: function(title, message) {
             var inputtip = this.tooltips.input_msg;
 
@@ -2794,28 +2877,24 @@ define([
                     inputtip.ref = new Common.UI.Tooltip({
                         owner   : inputtip.parentEl,
                         html    : true,
-                        title   : hint
+                        title   : hint,
+                        keepvisible: true
                     });
 
                     inputtip.ref.show([-10000, -10000]);
+
+                    var $tip = inputtip.ref.getBSTip().$tip;
+                    $tip.on('click', function () {
+                        inputtip.ref.hide();
+                        inputtip.ref = undefined;
+                        inputtip.text = '';
+                        inputtip.isHidden = true;
+                    });
+
                     inputtip.isHidden = false;
                 }
 
-                var pos = [
-                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ],
-                    coord  = this.api.asc_getActiveCellCoord(),
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputtip.ref.getBSTip().$tip.height() - 5];
-                var tipwidth = inputtip.ref.getBSTip().$tip.width();
-                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
-                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
-
-                inputtip.ref.getBSTip().$tip.css({
-                    top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px',
-                    'z-index': 900
-                });
+                this.changeInputMessagePosition(inputtip);
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {
                     inputtip.ref.hide();
@@ -3743,6 +3822,7 @@ define([
                 outerMenu:  {menu: view.menuParagraphBullets.menu, index: 0},
                 groups      : view.paraBulletsPicker.groups,
                 store       : view.paraBulletsPicker.store,
+                delayRenderTips: true,
                 itemTemplate: _.template('<% if (type==0) { %>' +
                                             '<div id="<%= id %>" class="item-markerlist"></div>' +
                                         '<% } else if (type==1) { %>' +
@@ -3758,14 +3838,27 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                if (item.get('group')=='menu-list-bullet-group')
-                    arrMarker.push(item.get('id'));
+                var data = item.get('drawdata');
+                data['divId'] = item.get('id');
+                if (item.get('group')==='menu-list-bullet-group')
+                    arrMarker.push(data);
                 else
-                    arrNum.push(item.get('id'));
+                    arrNum.push(data);
             });
+
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
                 this.api.SetDrawImagePreviewBulletForMenu(arrMarker, 0);
                 this.api.SetDrawImagePreviewBulletForMenu(arrNum, 1);
+            }
+        },
+
+        updateBulletTip: function(view, title) {
+            if (view) {
+                var tip = $(view.el).data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = title;
+                    tip.$tip.find('.tooltip-inner').text(title);
+                }
             }
         },
 

@@ -352,6 +352,8 @@
                 "../apps/common/embed/lib/view/LoadMask.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
+                "../apps/common/embed/lib/view/SearchBar.js",
+                "../apps/spreadsheeteditor/embed/js/SearchBar.js",
                 "../apps/spreadsheeteditor/embed/js/ApplicationView.js",
                 "../apps/spreadsheeteditor/embed/js/ApplicationController.js",
                 "../apps/spreadsheeteditor/embed/js/application.js"

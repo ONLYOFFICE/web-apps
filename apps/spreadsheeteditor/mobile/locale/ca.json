@@ -75,11 +75,11 @@
       "leavePageText": "Teniu canvis no desats en aquest document. Feu clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
       "notcriticalErrorTitle": "Advertiment",
       "SDK": {
-        "txtAccent": "Èmfasi",
+        "txtAccent": "Accent",
         "txtAll": "(Tots)",
         "txtArt": "El vostre text aquí",
         "txtBlank": "(en blanc)",
-        "txtByField": "%1 del %2",
+        "txtByField": "%1 de %2",
         "txtClearFilter": "Suprimeix el filtre (Alt + C)",
         "txtColLbls": "Etiquetes de la columna",
         "txtColumn": "Columna",
@@ -160,7 +160,8 @@
       "warnLicenseUsersExceeded": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb el vostre administrador per a més informació.",
       "warnNoLicense": "Heu arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacteu amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels vostres serveis.",
-      "warnProcessRightsChange": "No teniu permís per editar el fitxer."
+      "warnProcessRightsChange": "No teniu permís per editar el fitxer.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -299,7 +300,7 @@
     "textSheet": "Full",
     "textSheetName": "Nom del full",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?",
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Voleu continuar amb l'operació?",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -422,7 +423,7 @@
       "textEditLink": "Edita l'enllaç",
       "textEffects": "Efectes",
       "textEmptyImgUrl": "Cal especificar l'URL de la imatge.",
-      "textEmptyItem": "{En blanc}",
+      "textEmptyItem": "(En blanc) ",
       "textErrorMsg": "Com a mínim heu de triar un valor",
       "textErrorTitle": "Advertiment",
       "textEuro": "Euro",
@@ -557,7 +558,7 @@
       "advDRMPassword": "Contrasenya",
       "closeButtonText": "Tanca el fitxer",
       "notcriticalErrorTitle": "Advertiment",
-      "textAbout": "Quant a...",
+      "textAbout": "Quant a",
       "textAddress": "Adreça",
       "textApplication": "Aplicació",
       "textApplicationSettings": "Configuració de l'aplicació",
@@ -679,7 +680,7 @@
       "txtSemicolon": "Punt i coma",
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
+      "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?",
       "textFeedback": "Feedback & Support"
     }
   }

@@ -129,9 +129,10 @@ export class storeTextSettings {
     }
 
     loadSprite() {
-        this.spriteThumbs = new Image();
-        this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
-        this.spriteThumbs.src = this.thumbs[this.thumbIdx].path;
+        this.spriteThumbs = new Common.Utils.CThumbnailLoader();
+        this.spriteThumbs.load(this.thumbs[this.thumbIdx].path, () => {
+            this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+        });
     }
 
     resetFontName (font) {

@@ -262,7 +262,7 @@ div {
 			var config = {
 				"width": "100%",
 				"height": "100%",
-				"type": "desktop",
+				"type": queryParams.embed==="1" ? "embedded" : "desktop",
 				"documentType": documentType,
 				"token": token,
 				"document": {
@@ -302,7 +302,7 @@ div {
                         "uiTheme": queryParams.thm==="1" ? "default-light" : (queryParams.thm==="2" ? "default-dark" : undefined)
 					},
                     "coEditing": {
-                        "mode": "fast",
+                        "mode": userAuth.mode !== "view" ? "fast" : "strict",
                         "change": false
                     },
                     "wopi": {

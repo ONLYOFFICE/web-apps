@@ -149,7 +149,14 @@
             <section class="panel" data-tab="links">
                 <div class="group">
                     <span class="btn-slot text x-huge btn-contents"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-contents-update"></span>
+                </div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-add-text"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-contents-update"></span>
+                    </div>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

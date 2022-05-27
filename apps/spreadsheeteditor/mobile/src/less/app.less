@@ -3,6 +3,7 @@
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@import './app.rtl.less';
 
 // @themeColor: #40865c;
 @brandColor: var(--brand-cell);
@@ -167,10 +168,16 @@
 }
 
 .sheet-filter, .popover-filter {
-    ul li:first-child .list-button{
-        color: @text-normal;
-        &::after {
-            background: @background-menu-divider;
+    .list {
+        ul li:first-child .list-button{
+            color: @text-normal;
+            &::after {
+                background: @background-menu-divider;
+            }
+        }
+
+        .item-inner {
+            color: @text-normal;
         }
     }
 }

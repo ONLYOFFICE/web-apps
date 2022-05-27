@@ -532,7 +532,8 @@
     "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken.",
     "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",
@@ -645,17 +646,18 @@
     "txtScheme7": "Vermogen",
     "txtScheme8": "Stroom",
     "txtScheme9": "Gieterij",
+    "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
+    "textYes": "Yes",
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
     "textEmptyHeading": "Empty Heading",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
-    "textFastWV": "Fast Web View",
-    "textYes": "Yes",
-    "textNo": "No"
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

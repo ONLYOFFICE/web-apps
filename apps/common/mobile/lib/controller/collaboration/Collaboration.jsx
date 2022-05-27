@@ -46,6 +46,11 @@ class CollaborationController extends Component {
             api.asc_SetFastCollaborative(isFastCoauth);
             window.editorType === 'de' && api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
             api.asc_setAutoSaveGap(1);
+        } else if (appOptions.canLiveView) { // viewer
+            isFastCoauth = !(appOptions.config.coEditing && appOptions.config.coEditing.mode==='strict');
+            api.asc_SetFastCollaborative(isFastCoauth);
+            window.editorType === 'de' && api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+            api.asc_setAutoSaveGap(1);
         } else {
             isFastCoauth = false;
             api.asc_SetFastCollaborative(isFastCoauth);

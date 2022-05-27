@@ -136,7 +136,7 @@ define([
             this.txtMessage.on('keydown', _.bind(this._onKeyDown, this));
 
             this.setupLayout();
-
+            this.trigger('render:after', this);
             return this;
         },
 

@@ -229,6 +229,7 @@ define([
 
                 case Asc.c_oAscError.ID.UpdateVersion:
                     config.msg = this.errorUpdateVersionOnDisconnect;
+                    config.maxwidth = 600;
                     break;
 
                 case Asc.c_oAscError.ID.AccessDeny:
@@ -248,6 +249,7 @@ define([
                 case Asc.c_oAscError.ID.ForceSaveButton:
                 case Asc.c_oAscError.ID.ForceSaveTimeout:
                     config.msg = this.errorForceSave;
+                    config.maxwidth = 600;
                     break;
 
                 case Asc.c_oAscError.ID.LoadingFontError:
@@ -470,8 +472,7 @@ define([
             if (data.doc) {
                 this.permissions = $.extend(this.permissions, data.doc.permissions);
 
-                var _permissions = $.extend({}, data.doc.permissions),
-                    _options = $.extend({}, data.doc.options, this.editorConfig.actionLink || {});
+                var _options = $.extend({}, data.doc.options, this.editorConfig.actionLink || {});
 
                 var _user = new Asc.asc_CUserInfo();
                 _user.put_Id(this.appOptions.user.id);
@@ -488,7 +489,7 @@ define([
                 docInfo.put_UserInfo(_user);
                 docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                 docInfo.put_Token(data.doc.token);
-                docInfo.put_Permissions(_permissions);
+                docInfo.put_Permissions(data.doc.permissions);
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
@@ -800,6 +801,7 @@ define([
                     warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                     warningMsg: advOptions,
                     validatePwd: !!me._isDRM,
+                    iconType: 'svg',
                     handler: function (result, value) {
                         me.isShowOpenDialog = false;
                         if (result == 'ok') {

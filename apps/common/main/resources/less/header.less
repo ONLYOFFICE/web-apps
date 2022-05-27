@@ -51,6 +51,8 @@
 
     &.right {
         flex-grow: 1;
+        flex-shrink: 0;
+        overflow: hidden;
     }
 
     .status-label {
@@ -94,6 +96,9 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
+        padding: 4px 2px;
+        overflow: hidden;
+        flex-shrink: 0;
     }
 
     #rib-doc-name {
@@ -102,13 +107,20 @@
         overflow: hidden;
         min-width: 50px;
         text-align: center;
-
         color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
+        padding: 1px 5px;
         cursor: default;
-        line-height: 32px;
+        line-height: 24px;
+
+        &:hover:not(:disabled),&:focus {
+            box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
+            box-shadow: 0 0 0 1px @highlight-header-button-hover;
+            border-radius: 1px;
+            cursor: text;
+        }
     }
 
     #rib-save-status {
@@ -487,6 +499,7 @@
         display: flex;
         justify-content: center;
         overflow: hidden;
+        padding: 4px 2px;
     }
 
     #title-doc-name {
@@ -495,10 +508,19 @@
         overflow: hidden;
         text-align: center;
         font-size: 12px;
-        line-height: 28px;
+        line-height: 24px;
+        padding: 1px 5px;
         background-color: transparent;
         border: 0 none;
         cursor: default;
+
+        &:hover:not(:disabled),&:focus{
+            box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
+            box-shadow: 0 0 0 1px @highlight-header-button-hover;
+            border-radius: 1px;
+            cursor: text;
+        }
+
    }
 
     .lr-separator {
@@ -510,7 +532,9 @@
     .inner-box-icon.crypted {
         width: 20px;
         position: relative;
-
+        margin-right: 1px;
+        flex-shrink: 0;
+        flex-grow: 0;
         > svg {
             position: absolute;
             width: 20px;

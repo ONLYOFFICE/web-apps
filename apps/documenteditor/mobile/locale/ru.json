@@ -532,7 +532,8 @@
     "warnLicenseUsersExceeded": "Вы достигли лимита на количество пользователей редакторов %1. Свяжитесь с администратором, чтобы узнать больше.",
     "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
     "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
-    "warnProcessRightsChange": "У вас нет прав на редактирование этого файла."
+    "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Защищенный файл",
@@ -572,6 +573,7 @@
     "textEnableAll": "Включить все",
     "textEnableAllMacrosWithoutNotification": "Включить все макросы без уведомления",
     "textEncoding": "Кодировка",
+    "textFastWV": "Быстрый веб-просмотр",
     "textFind": "Поиск",
     "textFindAndReplace": "Поиск и замена",
     "textFindAndReplaceAll": "Найти и заменить все",
@@ -590,6 +592,7 @@
     "textMargins": "Поля",
     "textMarginsH": "Верхнее и нижнее поля слишком высокие для заданной высоты страницы",
     "textMarginsW": "Левое и правое поля слишком широкие для заданной ширины страницы",
+    "textNo": "Нет",
     "textNoCharacters": "Непечатаемые символы",
     "textNoTextFound": "Текст не найден",
     "textOk": "Ok",
@@ -597,7 +600,11 @@
     "textOrientation": "Ориентация",
     "textOwner": "Владелец",
     "textPages": "Страницы",
+    "textPageSize": "Размер страницы",
     "textParagraphs": "Абзацы",
+    "textPdfTagged": "PDF с тегами",
+    "textPdfVer": "Версия PDF",
+    "textPdfProducer": "Производитель PDF",
     "textPoint": "Пункт",
     "textPortrait": "Книжная",
     "textPrint": "Печать",
@@ -619,6 +626,7 @@
     "textUnitOfMeasurement": "Единица измерения",
     "textUploaded": "Загружен",
     "textWords": "Слова",
+    "textYes": "Да",
     "txtDownloadTxt": "Скачать TXT",
     "txtIncorrectPwd": "Неверный пароль",
     "txtOk": "Ok",
@@ -649,13 +657,7 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
-    "textFastWV": "Fast Web View",
-    "textYes": "Yes",
-    "textNo": "No"
+    "textEmptyHeading": "Empty Heading"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",

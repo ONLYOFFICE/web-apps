@@ -639,7 +639,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
 
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
-    const isEdit = storeAppOptions.isEdit;
+    const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
     const sortComments = comments.length > 0 ? [...comments].sort((a, b) => a.time > b.time ? -1 : 1) : null;
 
     const [clickComment, setComment] = useState();
@@ -749,7 +749,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const displayMode = storeReview.displayMode;
 
     const viewMode = !storeAppOptions.canComments;
-    const isEdit = storeAppOptions.isEdit;
+    const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
     const comments = storeComments.showComments;
 
     const [currentIndex, setCurrentIndex] = useState(0);

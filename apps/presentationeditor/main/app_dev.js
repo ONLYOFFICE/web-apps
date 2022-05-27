@@ -144,6 +144,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'Search',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -162,6 +163,9 @@ require([
 
     Common.Locale.apply(function(){
         require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/controller/Themes',
+            'common/main/lib/controller/Desktop',
             'presentationeditor/main/app/controller/Viewport',
             'presentationeditor/main/app/controller/DocumentHolder',
             'presentationeditor/main/app/controller/Toolbar',
@@ -170,6 +174,7 @@ require([
             'presentationeditor/main/app/controller/LeftMenu',
             'presentationeditor/main/app/controller/Main',
             'presentationeditor/main/app/controller/ViewTab',
+            'presentationeditor/main/app/controller/Search',
             'presentationeditor/main/app/view/FileMenuPanels',
             'presentationeditor/main/app/view/ParagraphSettings',
             'presentationeditor/main/app/view/ImageSettings',
@@ -179,7 +184,6 @@ require([
             'presentationeditor/main/app/view/TextArtSettings',
             'presentationeditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
-            'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Fonts',
             'common/main/lib/controller/History'
             /** coauthoring begin **/
@@ -192,8 +196,6 @@ require([
             ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
-            ,'common/main/lib/controller/Themes'
-            ,'common/main/lib/controller/Desktop'
             ,'presentationeditor/main/app/controller/Transitions'
             ,'presentationeditor/main/app/controller/Animation'
         ], function() {

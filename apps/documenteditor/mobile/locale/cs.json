@@ -532,7 +532,8 @@
     "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
     "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
     "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Zabezpečený soubor",
@@ -572,6 +573,7 @@
     "textEnableAll": "Zapnout vše",
     "textEnableAllMacrosWithoutNotification": "Povolit všechna makra bez notifikací",
     "textEncoding": "Kódování",
+    "textFastWV": "Rychlé zobrazení stránky",
     "textFind": "Najít",
     "textFindAndReplace": "Najít a nahradit",
     "textFindAndReplaceAll": "Najít a nahradit vše",
@@ -590,6 +592,7 @@
     "textMargins": "Okraje",
     "textMarginsH": "Horní a spodní okraj je příliš velký vzhledem k dané výšce stránky",
     "textMarginsW": "Okraje vlevo a vpravo jsou příliš velké vzhledem k šířce stránky",
+    "textNo": "Ne",
     "textNoCharacters": "Netisknutelné znaky",
     "textNoTextFound": "Text nebyl nalezen",
     "textOk": "OK",
@@ -597,7 +600,10 @@
     "textOrientation": "Orientace",
     "textOwner": "Vlastník",
     "textPages": "Stránky",
+    "textPageSize": "Velikost stránky",
     "textParagraphs": "Odstavce",
+    "textPdfTagged": "Označené PDF",
+    "textPdfVer": "Verze PDF",
     "textPoint": "Bod",
     "textPortrait": "Na výšku",
     "textPrint": "Tisk",
@@ -619,6 +625,7 @@
     "textUnitOfMeasurement": "Měřit v jednotkách",
     "textUploaded": "Nahráno",
     "textWords": "Slova",
+    "textYes": "Ano",
     "txtDownloadTxt": "Stáhnout TXT",
     "txtIncorrectPwd": "Heslo je chybné",
     "txtOk": "OK",
@@ -650,12 +657,7 @@
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
     "textEmptyHeading": "Empty Heading",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
-    "textFastWV": "Fast Web View",
-    "textYes": "Yes",
-    "textNo": "No"
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",

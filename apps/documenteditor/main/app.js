@@ -158,6 +158,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'Search',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -176,6 +177,9 @@ require([
     Common.Locale.apply(
         function() {
             require([
+                'common/main/lib/util/LocalStorage',
+                'common/main/lib/controller/Themes',
+                'common/main/lib/controller/Desktop',
                 'documenteditor/main/app/controller/Viewport',
                 'documenteditor/main/app/controller/DocumentHolder',
                 'documenteditor/main/app/controller/Toolbar',
@@ -188,6 +192,7 @@ require([
                 'documenteditor/main/app/controller/LeftMenu',
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
+                'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/view/FileMenuPanels',
                 'documenteditor/main/app/view/ParagraphSettings',
                 'documenteditor/main/app/view/HeaderFooterSettings',
@@ -197,7 +202,6 @@ require([
                 'documenteditor/main/app/view/TextArtSettings',
                 'documenteditor/main/app/view/SignatureSettings',
                 'common/main/lib/util/utils',
-                'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'
                 /** coauthoring begin **/
@@ -211,8 +215,6 @@ require([
                 ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/ReviewChanges'
                 ,'common/main/lib/controller/Protection'
-                ,'common/main/lib/controller/Themes'
-                ,'common/main/lib/controller/Desktop'
             ], function() {
                 app.start();
             });

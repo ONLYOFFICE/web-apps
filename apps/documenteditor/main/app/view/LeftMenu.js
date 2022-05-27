@@ -76,6 +76,10 @@ define([
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-navigation': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-thumbnails': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-searchbar': _.bind(function () {
+                    this.onCoauthOptions();
+                    this.fireEvent('search:aftershow', this.leftMenu);
+                }, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -93,12 +97,13 @@ define([
         render: function () {
             var $markup = $(this.template({}));
 
-            this.btnSearch = new Common.UI.Button({
-                action: 'search',
-                el: $markup.elementById('#left-btn-search'),
-                hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
+            this.btnSearchBar = new Common.UI.Button({
+                action: 'advancedsearch',
+                el: $markup.elementById('#left-btn-searchbar'),
+                hint: this.tipSearch,
                 disabled: true,
-                enableToggle: true
+                enableToggle: true,
+                toggleGroup: 'leftMenuGroup'
             });
 
             this.btnAbout = new Common.UI.Button({
@@ -154,14 +159,14 @@ define([
 
             this.btnNavigation = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-navigation'),
-                hint: this.tipNavigation,
+                hint: this.tipOutline,
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnNavigation.on('click',         this.onBtnMenuClick.bind(this));
 
-            this.btnSearch.on('click',          this.onBtnMenuClick.bind(this));
+            this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
             this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
 
             this.menuFile = new DE.Views.FileMenu();
@@ -188,9 +193,6 @@ define([
                 btn.panel['show']();
                 if (!this._state.pluginIsRunning)
                     this.$el.width(SCALE_MIN);
-
-                if (this.btnSearch.isActive())
-                    this.btnSearch.toggle(false);
             } else {
                 btn.panel['hide']();
             }
@@ -257,6 +259,14 @@ define([
                     this.panelThumbnails.hide();
                 }
             }
+            if (this.panelSearch) {
+                if (this.btnSearchBar.pressed) {
+                    this.panelSearch.show();
+                    this.panelSearch.focus();
+                } else {
+                    this.panelSearch.hide();
+                }
+            }
             /** coauthoring end **/
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
@@ -284,6 +294,9 @@ define([
             } else
             if (name == 'thumbnails') {
                 this.panelThumbnails = panel.render('#left-panel-thumbnails');
+            } else
+            if (name == 'advancedsearch') {
+                this.panelSearch = panel.render('#left-panel-search');
             }
         },
 
@@ -329,6 +342,10 @@ define([
                     this.panelNavigation['hide']();
                     this.btnNavigation.toggle(false, true);
                 }
+                if (this.panelSearch) {
+                    this.panelSearch['hide']();
+                    this.btnSearchBar.toggle(false, true);
+                }
                 if (this.panelThumbnails) {
                     this.panelThumbnails['hide']();
                     this.btnThumbnails.toggle(false, true);
@@ -337,7 +354,7 @@ define([
         },
 
         isOpened: function() {
-            var isopened = this.btnSearch.pressed;
+            var isopened = this.btnSearchBar.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
             /** coauthoring end **/
@@ -345,7 +362,7 @@ define([
         },
 
         disableMenu: function(menu, disable) {
-            this.btnSearch.setDisabled(false);
+            this.btnSearchBar.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
             /** coauthoring begin **/
@@ -357,7 +374,7 @@ define([
             this.btnThumbnails.setDisabled(false);
         },
 
-        showMenu: function(menu, opts) {
+        showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
                 if ( !this.menuFile.isVisible() ) {
@@ -388,6 +405,15 @@ define([
                         this.btnNavigation.toggle(true);
                         this.onBtnMenuClick(this.btnNavigation);
                         this.onCoauthOptions();
+                    }
+                } else if (menu == 'advancedsearch') {
+                    if (this.btnSearchBar.isVisible() &&
+                        !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
+                        this.btnSearchBar.toggle(true);
+                        this.onBtnMenuClick(this.btnSearchBar);
+                        this.onCoauthOptions();
+                        this.panelSearch.focus();
+                        !suspendAfter && this.fireEvent('search:aftershow', this);
                     }
                 }
                 /** coauthoring end **/
@@ -501,6 +527,7 @@ define([
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
         tipNavigation: 'Navigation',
+        tipOutline: 'Headings',
         txtLimit: 'Limit Access'
     }, DE.Views.LeftMenu || {}));
 });

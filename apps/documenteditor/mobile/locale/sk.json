@@ -9,9 +9,6 @@
     "textVersion": "Verzia"
   },
   "Add": {
-    "textTableContents": "Table of Contents",
-    "textWithPageNumbers": "With Page Numbers",
-    "textWithBlueLinks": "With Blue Links",
     "notcriticalErrorTitle": "Upozornenie",
     "textAddLink": "Pridať odkaz",
     "textAddress": "Adresa",
@@ -60,7 +57,10 @@
     "textStartAt": "Začať na",
     "textTable": "Tabuľka",
     "textTableSize": "Veľkosť tabuľky",
-    "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\""
+    "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -196,9 +196,9 @@
     "textDoNotShowAgain": "Nezobrazovať znova",
     "textNumberingValue": "Hodnota číslovania",
     "textOk": "OK",
+    "textRows": "Riadky",
     "textRefreshEntireTable": "Refresh entire table",
-    "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "textRows": "Riadky"
+    "textRefreshPageNumbersOnly": "Refresh page numbers only"
   },
   "Edit": {
     "notcriticalErrorTitle": "Upozornenie",
@@ -327,6 +327,15 @@
     "textTable": "Tabuľka",
     "textTableOptions": "Možnosti tabuľky",
     "textText": "Text",
+    "textTh": "št",
+    "textThrough": "Cez",
+    "textTight": "Tesný",
+    "textTopAndBottom": "Hore a dole",
+    "textTotalRow": "Celkový riadok",
+    "textTu": "ut",
+    "textType": "Typ",
+    "textWe": "st",
+    "textWrap": "Zabaliť",
     "textTableOfCont": "TOC",
     "textPageNumbers": "Page Numbers",
     "textSimple": "Simple",
@@ -348,16 +357,7 @@
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textStyles": "Styles",
-    "textAmountOfLevels": "Amount of Levels",
-    "textTh": "št",
-    "textThrough": "Cez",
-    "textTight": "Tesný",
-    "textTopAndBottom": "Hore a dole",
-    "textTotalRow": "Celkový riadok",
-    "textTu": "ut",
-    "textType": "Typ",
-    "textWe": "st",
-    "textWrap": "Zabaliť"
+    "textAmountOfLevels": "Amount of Levels"
   },
   "Error": {
     "convertationTimeoutText": "Prekročený čas konverzie.",
@@ -383,8 +383,6 @@
     "errorSessionIdle": "Dokument nebol dlhší čas upravovaný. Prosím, načítajte stránku znova.",
     "errorSessionToken": "Spojenie so serverom bolo prerušené. Prosím, načítajte stránku znova.",
     "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
-    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorUpdateVersionOnDisconnect": "Internetové pripojenie bolo obnovené a verzia súboru bola zmenená.<br>Predtým, než budete pokračovať v práci, potrebujete si stiahnuť súbor alebo kópiu jeho obsahu, aby sa nič nestratilo. Potom znovu načítajte stránku.",
     "errorUserDrop": "K súboru momentálne nie je možné získať prístup.",
     "errorUsersExceed": "Počet používateľov povolených cenovým plánom bol prekročený",
@@ -399,7 +397,9 @@
     "unknownErrorText": "Neznáma chyba.",
     "uploadImageExtMessage": "Neznámy formát obrázka.",
     "uploadImageFileCountMessage": "Neboli načítané žiadne obrázky.",
-    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB."
+    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Načítavanie dát...",
@@ -532,7 +532,8 @@
     "warnLicenseUsersExceeded": "Dosiahli ste limit %1 editora v režime spolupráce na úpravách. Ohľadne podrobnosti sa obráťte na svojho správcu. ",
     "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
     "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
-    "warnProcessRightsChange": "Nemáte povolenie na úpravu tohto súboru."
+    "warnProcessRightsChange": "Nemáte povolenie na úpravu tohto súboru.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Chránený súbor",
@@ -626,11 +627,6 @@
     "txtScheme1": "Kancelária",
     "txtScheme10": "Medián",
     "txtScheme11": "Metro",
-    "textFeedback": "Feedback & Support",
-    "textNavigation": "Navigation",
-    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
-    "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading",
     "txtScheme12": "Modul",
     "txtScheme13": "Opulentný",
     "txtScheme14": "Výklenok",
@@ -650,12 +646,18 @@
     "txtScheme7": "Spravodlivosť",
     "txtScheme8": "Tok",
     "txtScheme9": "Zlieváreň",
-    "textPageSize": "Page Size",
-    "textPdfVer": "PDF Version",
-    "textPdfTagged": "Tagged PDF",
     "textFastWV": "Fast Web View",
+    "textFeedback": "Feedback & Support",
+    "textNo": "No",
+    "textPageSize": "Page Size",
+    "textPdfTagged": "Tagged PDF",
+    "textPdfVer": "PDF Version",
     "textYes": "Yes",
-    "textNo": "No"
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",
