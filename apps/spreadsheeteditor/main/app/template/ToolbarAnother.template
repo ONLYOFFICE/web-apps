@@ -119,10 +119,10 @@
                 </div>
             </div>
             <div class="group" style="width: 100%;"></div>
-            <div class="group small" style="padding-right: 5px;">
+            <div class="group small" style="padding-right: 10px;">
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-visible-area"></span>
-                    <span class="btn-slot" id="slot-btn-visible-area-close"></span>
+                    <span class="btn-slot" id="slot-btn-visible-area" style="width: auto;"></span>
+                    <span class="btn-slot" id="slot-btn-visible-area-close" style="width: auto;"></span>
                 </div>
             </div>
         </section>
