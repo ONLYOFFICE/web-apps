@@ -12,6 +12,7 @@ import {SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins} from '.
 import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSettings.jsx';
 // import SpreadsheetAbout from './SpreadsheetAbout.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
+import { Direction } from '../../../../../spreadsheeteditor/mobile/src/view/settings/ApplicationSettings';
 
 const routes = [
     {
@@ -61,6 +62,10 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/direction/',
+        component: Direction
     }
 ];
 
@@ -91,9 +96,12 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
     }
 
     const onPrint = () => {
-        closeModal();
         const api = Common.EditorApi.get();
-        api.asc_Print();
+
+        closeModal();
+        setTimeout(() => {
+            api.asc_Print();
+        }, 400);
     };
 
     const showHelp = () => {

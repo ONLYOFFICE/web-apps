@@ -160,7 +160,8 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnProcessRightsChange": "You don't have permission to edit the file.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -258,8 +259,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
-    "textTabColor": "Tab Color"
+    "textTabColor": "Tab Color",
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "View": {
     "Add": {
@@ -277,16 +278,19 @@
       "sCatMathematic": "Math and trigonometry",
       "sCatStatistical": "Statistical",
       "sCatTextAndData": "Text and data",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textBack": "Back",
       "textCancel": "Cancel",
       "textChart": "Chart",
       "textComment": "Comment",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDisplay": "Display",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFilter": "Filter",
       "textFunction": "Function",
       "textGroups": "CATEGORIES",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textImage": "Image",
       "textImageURL": "Image URL",
       "textInsert": "Insert",
@@ -307,6 +311,8 @@
       "textShape": "Shape",
       "textSheet": "Sheet",
       "textSortAndFilter": "Sort and Filter",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
       "txtExpand": "Expand and sort",
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtLockSort": "Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?",
@@ -548,6 +554,7 @@
       "textFormulaLanguage": "Formula Language",
       "textFormulas": "Formulas",
       "textHelp": "Help",
+      "textFeedback": "Feedback & Support",
       "textHideGridlines": "Hide Gridlines",
       "textHideHeadings": "Hide Headings",
       "textHighlightRes": "Highlight results",
@@ -627,8 +634,7 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textFeedback": "Feedback & Support"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   },
   "LongActions": {

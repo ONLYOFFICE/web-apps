@@ -397,7 +397,9 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -530,7 +532,8 @@
     "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
     "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",
@@ -570,6 +573,7 @@
     "textEnableAll": "Se activează toate",
     "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile cu notificare  ",
     "textEncoding": "Codificare",
+    "textFastWV": "Vizualizare rapidă web",
     "textFind": "Găsire",
     "textFindAndReplace": "Găsire și înlocuire",
     "textFindAndReplaceAll": "Găsire și înlocuire totală",
@@ -588,6 +592,7 @@
     "textMargins": "Margini",
     "textMarginsH": "Marginile sus și jos sunt prea ridicate pentru această pagină",
     "textMarginsW": "Marginile stânga și dreapta sunt prea late pentru această pagină",
+    "textNo": "Nu",
     "textNoCharacters": "Caractere neimprimate",
     "textNoTextFound": "Textul nu a fost găsit",
     "textOk": "OK",
@@ -595,7 +600,10 @@
     "textOrientation": "Orientare",
     "textOwner": "Proprietar",
     "textPages": "Pagini",
+    "textPageSize": "Dimensiune pagină",
     "textParagraphs": "Paragrafe",
+    "textPdfTagged": "PDF etichetat",
+    "textPdfVer": "Versiune a PDF",
     "textPoint": "Punct",
     "textPortrait": "Portret",
     "textPrint": "Imprimare",
@@ -617,6 +625,7 @@
     "textUnitOfMeasurement": "Unitate de măsură ",
     "textUploaded": "S-a încărcat",
     "textWords": "Cuvinte",
+    "textYes": "Da",
     "txtDownloadTxt": "Încărcare TXT",
     "txtIncorrectPwd": "Parolă incorectă",
     "txtOk": "OK",
@@ -647,7 +656,8 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

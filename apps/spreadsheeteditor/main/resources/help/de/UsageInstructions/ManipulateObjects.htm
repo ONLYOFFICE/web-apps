@@ -3,82 +3,107 @@
 	<head>
 		<title>Objekte formatieren</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Move, rotate, resize, reshape and arrange autoshapes, images, charts." />
+		<meta name="description" content="Verschieben, drehen, ändern Sie die Größe, formen Sie um und ordnen Sie AutoFormen, Bilder, Diagramme an." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
-		<div class="mainpart">
-        <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
-        </div>
-			<h1>Objekte formatieren</h1>
-			<p>Im <a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabelleneditor</b></a> sie können die Größe von in Ihrem Arbeitsblatt eingefügten AutoFormen, Bildern und Diagrammen ändern und diese verschieben, drehen und anordnen.</p>
-            <p class="note"><b>Hinweis</b>: <a href="../HelpfulHints/KeyboardShortcuts.htm#workwithobjects" onclick="onhyperlinkclick(this)">Hier</a> finden Sie eine Übersicht über die gängigen Tastenkombinationen für die Arbeit mit Objekten.</p>
-			<h3>Größe von Objekten ändern</h3>
-			<p>Um die <b>Größe</b> von AutoFormen, Bildern oder Diagrammen zu ändern, ziehen Sie mit der Maus an den kleinen Quadraten <div class = "icon icon-resize_square"></div> an den Rändern des entsprechenden Objekts. Um das ursprünglichen Seitenverhältnis der ausgewählten Objekte während der Größenänderung beizubehalten, halten Sie Taste <b>UMSCHALT</b> gedrückt und ziehen Sie an einem der Ecksymbole.</p>
-            <p class="note"><b>Hinweis</b>: Sie können die Größe des eingefügten Diagramms oder Bildes auch über die rechte Seitenleiste ändern, diese wird aktiviert, sobald Sie das gewünschte Objekt ausgewählt haben. Um diese zu öffnen, klicken Sie rechts auf das Symbol <b>Diagrammeinstellungen</b> <div class = "icon icon-chartsettingsicon"></div> oder das Symbol <b>Bildeinstellungen</b> <div class = "icon icon-image_settings_icon"></div>.</p>
-			<p><div class = "big big-maintain_proportions"></div></p>
-			<h3>Objekte verschieben</h3>
-			<p>Um die Position von <b>AutoFormen, Bildern und Diagrammen</b> zu ändern, nutzen Sie das Symbol <div class = "icon icon-arrow"></div>, das eingeblendet wird, wenn Sie den Mauszeiger über die AutoForm bewegen. Ziehen Sie das Objekt in die gewünschten Position, ohne die Maustaste loszulassen. Um ein Objekt in 1-Pixel-Stufen zu verschieben, halten Sie die Taste <b>STRG</b> gedrückt und verwenden Sie die Pfeile auf der Tastatur. Um ein Objekt strikt horizontal/vertikal zu bewegen und zu verhindern, dass es sich perpendikular bewegt, halten Sie die <b>UMSCHALT</b>-Taste beim Ziehen gedrückt.</p>
-			<h3>Objekte drehen</h3>
-			<p>Um die Form/das Bild manuell zu <b>drehen</b> zu drehen, bewegen Sie den Cursor über den Drehpunkt <div class = "icon icon-greencircle"></div> und ziehen Sie diesen im oder gegen den Uhrzeigersinn. Um ein Objekt in 15-Grad-Stufen zu drehen, halten Sie die <b>UMSCHALT</b>-Taste bei der Drehung gedrückt.</p>
-            <p>Sobald Sie das gewünschte Objekt ausgewählt haben, wird der Abschnitt <b>Drehen</b> in der rechten Seitenleiste aktiviert. Hier haben Sie die Möglichkeit die Form oder das Bild um 90 Grad im/gegen den Uhrzeigersinn zu drehen oder das Objekt horizontal/vertikal zu drehen. Um die Funktion zu öffnen, klicken Sie rechts auf das Symbol <b>Formeinstellungen</b> <div class = "icon icon-shape_settings_icon"></div> oder das Symbol <b>Bildeinstellungen</b> <div class = "icon icon-image_settings_icon"></div>. Wählen Sie eine der folgenden Optionen:</p>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Objekte formatieren</h1>
+            <p>In der <a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabellenkalkulation</b></a> können Sie die Größe von in Ihrem Arbeitsblatt eingefügten AutoFormen, Bildern und Diagrammen ändern und sie verschieben, drehen und anordnen.</p>
+            <p class="note">
+                <a href="../HelpfulHints/KeyboardShortcuts.htm#workwithobjects" onclick="onhyperlinkclick(this)">Hier</a> finden Sie eine Übersicht über die gängigen Tastenkombinationen für die Arbeit mit Objekten.
+            </p>
+            <h3>Größe von Objekten ändern</h3>
+            <p>Um die <b>Größe</b> von AutoFormen, Bildern oder Diagrammen zu ändern, ziehen Sie mit der Maus an den kleinen Quadraten <img alt="Quadrat" src="../images/resize_square.png" /> an den Rändern des entsprechenden Objekts. Um das ursprünglichen Seitenverhältnis der ausgewählten Objekte während der Größenänderung beizubehalten, halten Sie die <b>UMSCHALT</b>-Taste gedrückt und ziehen Sie an einem der Ecksymbole.</p>
+            <p class="note">Sie können die Größe des eingefügten Diagramms oder Bildes auch über die rechte Seitenleiste ändern, diese wird aktiviert, sobald Sie das gewünschte Objekt ausgewählt haben. Um diese zu öffnen, klicken Sie rechts auf das Symbol <b>Diagrammeinstellungen</b> <img alt="Diagrammeinstellungen" src="../images/chartsettingsicon.png" /> oder das Symbol <b>Bild-Einstellungen</b> <img alt="Bild-Einstellungen" src="../images/image_settings_icon.png" />.</p>
+            <p><img alt="Seitenverhältnis sperren" src="../images/maintain_proportions.png" /></p>
+            <h3>Objekte verschieben</h3>
+            <p>
+                Um die Position von <b>AutoFormen, Bildern und Diagrammen</b> zu ändern, nutzen Sie das Symbol <img alt="Pfeil" src="../images/arrow.png" />, das eingeblendet wird, wenn Sie den Mauszeiger über die AutoForm bewegen. Ziehen Sie das Objekt in die gewünschten Position, ohne die Maustaste loszulassen.
+                Um ein Objekt in 1-Pixel-Stufen zu verschieben, halten Sie die <b>STRG</b>-Taste gedrückt und verwenden Sie die Pfeile auf der Tastatur.
+                Um ein Objekt strikt horizontal/vertikal zu bewegen und zu verhindern, dass es sich perpendikular bewegt, halten Sie die <b>UMSCHALT</b>-Taste beim Ziehen gedrückt.
+            </p>
+            <h3>Objekte drehen</h3>
+            <p>Um die Form/das Bild manuell zu <b>drehen</b>, bewegen Sie den Cursor über den Drehpunkt <img alt="Drehpunkt" src="../images/greencircle.png" /> und ziehen Sie diesen im oder gegen den Uhrzeigersinn. Um ein Objekt in 15-Grad-Stufen zu drehen, halten Sie die <b>UMSCHALT</b>-Taste bei der Drehung gedrückt.</p>
+            <p>Sobald Sie das gewünschte Objekt ausgewählt haben, wird der Abschnitt <b>Rotation</b> in der rechten Seitenleiste aktiviert. Hier haben Sie die Möglichkeit die Form oder das Bild um 90 Grad im/gegen den Uhrzeigersinn oder das Objekt horizontal/vertikal zu drehen. Um die Funktion zu öffnen, klicken Sie rechts auf das Symbol <b>Form-Einstellungen</b> <img alt="Form-Einstellungen" src="../images/shape_settings_icon.png" /> oder das Symbol <b>Bild-Einstellungen</b> <img alt="Bild-Einstellungen" src="../images/image_settings_icon.png" />. Wählen Sie eine der folgenden Optionen:</p>
             <ul>
-                <li><div class = "icon icon-rotatecounterclockwise"></div> - die Form um 90 Grad gegen den Uhrzeigersinn drehen</li>
-                <li><div class = "icon icon-rotateclockwise"></div> - die Form um 90 Grad im Uhrzeigersinn drehen</li>
-                <li><div class = "icon icon-fliplefttoright"></div> - die Form horizontal spiegeln (von links nach rechts)</li>
-                <li><div class = "icon icon-flipupsidedown"></div> - die Form vertikal spiegeln (von oben nach unten)</li>
+                <li><img alt="Gegen den Uhrzeigersinn drehen" src="../images/rotatecounterclockwise.png" /> - die Form um 90 Grad gegen den Uhrzeigersinn drehen.</li>
+                <li><img alt="Im Uhrzeigersinn drehen" src="../images/rotateclockwise.png" /> - die Form um 90 Grad im Uhrzeigersinn drehen.</li>
+                <li><img alt="Horizontal spiegeln" src="../images/fliplefttoright.png" /> - die Form horizontal spiegeln (von links nach rechts).</li>
+                <li><img alt="Vertikal spiegeln" src="../images/flipupsidedown.png" /> - die Form vertikal spiegeln (von oben nach unten).</li>
             </ul>
             <p>Alternativ können Sie mit der rechten Maustaste auf das ausgewählte Bild oder die Form klicken, wählen Sie anschließend im Kontextmenü die Option <b>Drehen</b> aus und nutzen Sie dann eine der verfügbaren Optionen zum Drehen.</p>
             <p>Um ein Bild oder eine Form in einem genau festgelegten Winkel zu drehen, klicken Sie auf das Symbol <b>Erweiterte Einstellungen anzeigen</b> in der rechten Seitenleiste und wählen Sie dann die Option <b>Drehen</b> im Fenster <b>Erweiterte Einstellungen</b>. Geben Sie den erforderlichen Wert in Grad in das Feld <b>Winkel</b> ein und klicken Sie dann auf <b>OK</b>.</p>
             <h3>Die Form einer AutoForm ändern</h3>
-			<p>Bei der Änderung einiger Formen, z.B. geformte Pfeile oder Legenden, ist auch dieses gelbe diamantförmige Symbol <div class = "icon icon-yellowdiamond"></div> verfügbar. Über dieses Symbol können verschiedene Komponenten einer Form geändert werden, z.B. die Länge des Pfeilkopfes.</p>
-			<p><div class = "big big-reshaping"></div></p>
+            <p>Bei der Änderung einiger Formen, z.B. geformte Pfeile oder Legenden, ist auch dieses gelbe diamantförmige Symbol <img alt="Gelber Diamant" src="../images/yellowdiamond.png" /> verfügbar. Über dieses Symbol können verschiedene Komponenten einer Form geändert werden, z.B. die Länge des Pfeilkopfes.</p>
+            <p><img alt="Form einer AutoForm ändern" src="../images/reshaping.png" /></p>
+            <p>Um eine AutoForm umzuformen, können Sie auch die Option <b>Punkte bearbeiten</b> aus dem <b>Kontextmenü</b> verwenden.</p>
+            <p>Die Option <b>Punkte bearbeiten</b> wird verwendet, um die Krümmung Ihrer Form anzupassen oder zu ändern.</p>
+            <ol>
+                <li>
+                    Um die bearbeitbaren Ankerpunkte einer Form zu aktivieren, klicken Sie mit der rechten Maustaste auf die Form und wählen Sie im Menü die Option <b>Punkte bearbeiten</b> aus. Die schwarzen Quadrate, die aktiv werden, sind die Punkte, an denen sich zwei Linien treffen, und die rote Linie umreißt die Form. Klicken und ziehen Sie ihn, um den Punkt neu zu positionieren und den Umriss der Form zu ändern.
+                    <p><img alt="Punkte bearbeiten Menü" src="../images/editpoints_rightclick.png" /></p>
+                </li>
+                <li>
+                    Sobald Sie auf den Ankerpunkt klicken, werden zwei blaue Linien mit weißen Quadraten an den Enden angezeigt. Dies sind Bezier-Ziehpunkte, mit denen Sie eine Kurve erstellen und die Glätte einer Kurve ändern können.
+                    <p><img alt="Punkte bearbeiten" src="../images/editpoints_example.png" /></p>
+                </li>
+                <li>
+                    Solange die Ankerpunkte aktiv sind, können Sie sie hinzufügen und löschen.
+                    <ul>
+                        <li><b>Um einer Form einen Punkt hinzuzufügen</b>, halten Sie die <b>Strg</b>-Taste gedrückt und klicken Sie auf die Position, an der Sie einen Ankerpunkt hinzufügen möchten.</li>
+                        <li><b>Um einen Punkt zu löschen</b>, halten Sie die <b>Strg</b>-Taste gedrückt und klicken Sie auf den unnötigen Punkt.</li>
+                    </ul>
+                </li>
+            </ol>
             <h3>Objekte ausrichten</h3>
-            <p>Für das <b>auszurichten</b> von <em>von zwei oder mehr ausgewählten Objekten</em> mit einem gleichbleibenden Verhältnis zueinander, halten Sie die Taste <b>STRG</b> gedrückt und wählen Sie die Objekte mit der Maus aus. Klicken Sie dann in der oberen Symbolleiste unter der Registerkarte <b>Layout</b> auf das Symbol <div class = "icon icon-align_toptoolbar"></div> <b>Ausrichten</b> und wählen Sie den gewünschten Ausrichtungstyp aus der Liste aus:</p>
+            <p>Um <em>zwei oder mehr</em> ausgewählte Objekte aneinander <b>auszurichten</b>, halten Sie die <b>Strg</b>-Taste gedrückt, während Sie die Objekte mit der Maus auswählen, und klicken Sie dann auf das Symbol <img alt="Ausrichtung Symbol" src="../images/align_toptoolbar.png" /> <b>Ausrichtung</b> auf der Registerkarte <b>Layout</b> in der oberen Symbolleiste und wählen Sie den erforderlichen Ausrichtungstyp aus der Liste aus:</p>
             <ul>
-                <li><b>Linksbündig Ausrichten</b> <div class = "icon icon-alignobjectleft"></div> - Objekte am linken Rand des am weitesten links befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
-                <li><b>Zentrieren</b> <div class = "icon icon-alignobjectcenter"></div> - Objekte in gleichbleibendem Verhältnis zueinander nach ihrem Zentrum ausrichten.</li>
-                <li><b>Rechtsbündig Ausrichten</b> <div class = "icon icon-alignobjectright"></div> - Objekte am rechten Rand des am weitesten rechts befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
-                <li><b>Oben ausrichten</b> <div class = "icon icon-alignobjecttop"></div> - Objekte am oberen Rand des am weitesten oben befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
-                <li><b>Mittig</b> <div class = "icon icon-alignobjectmiddle"></div> - Objekte in gleichbleibendem Verhältnis zueinander nach ihrer Mitte ausrichten.</li>
-                <li><b>Unten ausrichten</b> <div class = "icon icon-alignobjectbottom"></div> - Objekte am unteren Rand des am weitesten unten befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
+                <li><b>Links ausrichten</b> <img alt="Linksbündig ausrichten" src="../images/alignobjectleft.png" />: Objekte am linken Rand des am weitesten links befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
+                <li><b>Zentriert ausrichten</b> <img alt="Zentriert ausrichten" src="../images/alignobjectcenter.png" />: Objekte in gleichbleibendem Verhältnis zueinander nach ihrem Zentrum ausrichten.</li>
+                <li><b>Rechts ausrichten</b> <img alt="Rechtsbündig ausrichten" src="../images/alignobjectright.png" />: Objekte am rechten Rand des am weitesten rechts befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
+                <li><b>Oben ausrichten</b> <img alt="Oben ausrichten" src="../images/alignobjecttop.png" />: Objekte am oberen Rand des am weitesten oben befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
+                <li><b>Mittig ausrichten</b> <img alt="Mittig ausrichten" src="../images/alignobjectmiddle.png" />: Objekte in gleichbleibendem Verhältnis zueinander nach ihrer Mitte ausrichten.</li>
+                <li><b>Unten ausrichten</b> <img alt="Unten ausrichten" src="../images/alignobjectbottom.png" />: Objekte am unteren Rand des am weitesten unten befindlichen Objekts in einem gleichbleibendem Verhältnis zueinander ausrichten.</li>
             </ul>
             <p>Alternativ können Sie mit der rechten Maustaste auf die ausgewählten Objekte klicken, wählen Sie anschließend im Kontextmenü die Option <b>Ausrichten</b> aus und nutzen Sie dann eine der verfügbaren Ausrichtungsoptionen.</p>
-            <p class="note"><b>Hinweis</b>: Die Optionen zum Gruppieren sind deaktiviert, wenn Sie weniger als zwei Objekte auswählen.</p>
+            <p class="note">Die Optionen zum Gruppieren sind deaktiviert, wenn Sie weniger als zwei Objekte auswählen.</p>
             <h3>Objekte verteilen</h3>
-            <p>Um <em>drei oder mehr</em> ausgewählte Objekte horizontal oder vertikal zwischen zwei äußeren ausgewählten Objekten zu <b>verteilen</b>, sodass der gleiche Abstand zwischen Ihnen angezeigt wird, klicken Sie auf das Symbol <div class = "icon icon-align_toptoolbar"></div> <b>Ausrichten</b> auf der Registerkarte <b>Layout</b>, in der oberen Symbolleiste und wählen Sie den gewünschten Verteilungstyp aus der Liste:</p>
-                    <ul>
-                        <li><b>Horizontal verteilen</b> <div class = "icon icon-distributehorizontally"></div> - Objekte gleichmäßig zwischen den am weitesten links und rechts liegenden ausgewählten Objekten verteilen.</li>
-                        <li><b>Vertikal verteilen</b> <div class = "icon icon-distributevertically"></div> - Objekte gleichmäßig zwischen den am weitesten oben und unten liegenden ausgewählten Objekten verteilen.</li>
-                    </ul>
-            <p>Alternativ können Sie mit der rechten Maustaste auf die ausgewählten Objekte klicken, wählen Sie anschließend im Kontextmenü die Option <b>Ausrichten</b> aus und nutzen Sie dann eine der verfügbaren Verteilungsoptionen.</p>
-            <p class="note"><b>Hinweis</b>: Die Verteilungsoptionen sind deaktiviert, wenn Sie weniger als drei Objekte auswählen.</p>
-            <h3>Objekte gruppieren</h3>
-            <p>Um die Form von mehreren Objekten gleichzeitig und gleichmäßig zu verändern, können Sie diese <b>Gruppieren</b>. Halten Sie dazu die Taste <b>STRG</b> gedrückt und wählen Sie die Objekte mit der Maus aus. Klicken Sie dann in der oberen Symbolleiste unter der Registerkarte <b>Layout</b> auf das Symbol <div class = "icon icon-group_toptoolbar"></div> <b>Gruppieren</b> und wählen Sie die gewünschte Option aus der Liste aus:</p>
+            <p>Um <em>drei oder mehr</em> ausgewählte Objekte horizontal oder vertikal zwischen zwei äußeren ausgewählten Objekten zu <b>verteilen</b>, sodass der gleiche Abstand zwischen Ihnen angezeigt wird, klicken Sie auf das Symbol <img alt="Ausrichten" src="../images/align_toptoolbar.png" /> <b>Ausrichten</b> auf der Registerkarte <b>Layout</b>, in der oberen Symbolleiste und wählen Sie den gewünschten Verteilungstyp aus der Liste:</p>
             <ul>
-                <li><b>Gruppieren</b> <div class = "icon icon-group"></div> - um mehrere Objekte zu einer Gruppe zusammenzufügen, so dass sie gleichzeitig gedreht, verschoben, skaliert, ausgerichtet, angeordnet, kopiert, eingefügt und formatiert werden können, wie ein einzelnes Objekt.</li>
-                <li><b>Gruppierung aufheben</b> <div class = "icon icon-ungroup"></div> - um die ausgewählte Gruppe der zuvor gruppierten Objekte aufzulösen.</li>
+                <li><b>Horizontal verteilen</b> <img alt="Horizontal verteilen" src="../images/distributehorizontally.png" />: Objekte gleichmäßig zwischen den am weitesten links und rechts liegenden ausgewählten Objekten verteilen.</li>
+                <li><b>Vertikal verteilen</b> <img alt="Vertikal verteilen" src="../images/distributevertically.png" />: Objekte gleichmäßig zwischen den am weitesten oben und unten liegenden ausgewählten Objekten verteilen.</li>
             </ul>
-            <p>Alternativ können Sie mit der rechten Maustaste auf die ausgewählten Objekte klicken, wählen Sie anschließend im Kontextmenü die Option <b>Anordnung</b> aus und nutzen Sie dann die Optionen <b>Gruppieren</b> oder <b>Gruppierung</b> aufheben.</p>
-            <p class="note"><b>Hinweis</b>: Die Option <b>Gruppieren</b> ist deaktiviert, wenn Sie weniger als zwei Objekte auswählen. Die Option <b>Gruppierung aufheben</b> ist nur verfügbar, wenn Sie eine zuvor gruppierte Objektgruppe auswählen.</p>
+            <p>Alternativ können Sie mit der rechten Maustaste auf die ausgewählten Objekte klicken, wählen Sie anschließend im Kontextmenü die Option <b>Ausrichten</b> aus und nutzen Sie dann eine der verfügbaren Verteilungsoptionen.</p>
+            <p class="note">Die Verteilungsoptionen sind deaktiviert, wenn Sie weniger als drei Objekte auswählen.</p>
+            <h3>Objekte gruppieren</h3>
+            <p>Um die Form von mehreren Objekten gleichzeitig und gleichmäßig zu verändern, können Sie diese <b>Gruppieren</b>. Halten Sie dazu die Taste <b>STRG</b> gedrückt und wählen Sie die Objekte mit der Maus aus. Klicken Sie dann in der oberen Symbolleiste unter der Registerkarte <b>Layout</b> auf das Symbol <img alt="Gruppieren" src="../images/group_toptoolbar.png" /> <b>Gruppe</b> und wählen Sie die gewünschte Option aus der Liste aus:</p>
+            <ul>
+                <li><b>Gruppieren</b> <img alt="Gruppieren" src="../images/group.png" />: Um mehrere Objekte zu einer Gruppe zusammenzufügen, so dass sie gleichzeitig gedreht, verschoben, skaliert, ausgerichtet, angeordnet, kopiert, eingefügt und formatiert werden können, wie ein einzelnes Objekt.</li>
+                <li><b>Gruppierung aufheben</b> <img alt="Gruppierung aufheben" src="../images/ungroup.png" />: Um die ausgewählte Gruppe der zuvor gruppierten Objekte aufzulösen.</li>
+            </ul>
+            <p>Alternativ können Sie mit der rechten Maustaste auf die ausgewählten Objekte klicken, wählen Sie anschließend im Kontextmenü die Option <b>Anordnen</b> aus und nutzen Sie dann die Optionen <b>Gruppieren</b> oder <b>Gruppierung aufheben</b>.</p>
+            <p class="note">Die Option <b>Gruppieren</b> ist deaktiviert, wenn Sie weniger als zwei Objekte auswählen. Die Option <b>Gruppierung aufheben</b> ist nur verfügbar, wenn Sie eine zuvor gruppierte Objektgruppe auswählen.</p>
             <p><img alt="Objekte gruppieren" src="../images/grouping.png" /></p>
             <h3 id="arrange">Objekte anordnen</h3>
-            <p>Um ausgewählte <b>Objekte anzuordnen</b> (z.B. die Reihenfolge bei einer Überlappung zu ändern), klicken Sie auf das Smbol <div class = "icon icon-bringforward_toptoolbar"></div> <b>eine Ebene nach vorne</b> oder <div class = "icon icon-sendbackward_toptoolbar"></div> <b>eine Ebene nach hinten</b> in der Registerkarte <b>Layout</b> und wählen Sie die gewünschte Anordnung aus der Liste aus.</p>
-            <p>Um das/die ausgewählte(n) Objekt(e) nach vorne zu bringen, klicken Sie auf das Symbol <div class = "icon icon-bringforward_toptoolbar"></div> <b>Eine Ebene nach vorne</b> in der Registerkarte <b>Layout</b> und wählen Sie den gewünschten Ausrichtungstyp aus der Liste aus:</p>
+            <p>Um ausgewählte <b>Objekte anzuordnen</b> (z.B. die Reihenfolge bei einer Überlappung zu ändern), klicken Sie auf das Symbol <img alt="Eine Ebene nach vorne" src="../images/bringforward_toptoolbar.png" /> <b>Eine Ebene nach vorne</b> oder <img alt="Eine Ebene nach hinten" src="../images/sendbackward_toptoolbar.png" /> <b>Eine Ebene nach hinten</b> in der Registerkarte <b>Layout</b> und wählen Sie die gewünschte Anordnung aus der Liste aus.</p>
+            <p>Um das/die ausgewählte(n) Objekt(e) nach vorne zu bringen, klicken Sie auf das Symbol <img alt="Eine Ebene nach vorne" src="../images/bringforward_toptoolbar.png" /> <b>Eine Ebene nach vorne</b> in der Registerkarte <b>Layout</b> und wählen Sie den gewünschten Ausrichtungstyp aus der Liste aus:</p>
             <ul>
-                <li><b>In den Vordergrund</b> <div class = "icon icon-bringtofront"></div> - Objekt(e) in den Vordergrund bringen.</li>
-                <li><b>Eine Ebene nach vorne</b> <div class = "icon icon-bringforward"></div> - um ausgewählte Objekte eine Ebene nach vorne zu schieben.</li>
+                <li><b>In den Vordergrund bringen</b> <img alt="In den Vordergrund" src="../images/bringtofront.png" />: Um ein Objekt(-e) in den Vordergrund zu bringen.</li>
+                <li><b>Eine Ebene nach vorne</b> <img alt="Eine Ebene nach vorne" src="../images/bringforward.png" />: Um ausgewählte Objekte eine Ebene nach vorne zu schieben.</li>
             </ul>
-            <p>Um das/die ausgewählte(n) Objekt(e) nach hinten zu verschieben, klicken Sie auf den Pfeil <div class = "icon icon-sendbackward_toptoolbar"></div> <b>nach hinten verschieben</b> in der Registerkarte <b>Layout</b> und wählen Sie den gewünschten Ausrichtungstyp aus der Liste aus:</p>
+            <p>Um das/die ausgewählte(n) Objekt(e) nach hinten zu verschieben, klicken Sie auf den Pfeil <img alt="Eine Ebene nach hinten" src="../images/sendbackward_toptoolbar.png" /> <b>Eine Ebene nach hinten</b> in der Registerkarte <b>Layout</b> und wählen Sie den gewünschten Ausrichtungstyp aus der Liste aus:</p>
             <ul>
-                <li><b>In den Hintergrund</b> <div class = "icon icon-sendtoback"></div> - um ein Objekt/Objekte in den Hintergrund zu schieben.</li>
-                <li><b>Eine Ebene nach hinten</b> <div class = "icon icon-sendbackward"></div> - um ausgewählte Objekte nur eine Ebene nach hinten zu schieben.</li>
+                <li><b>In den Hintergrund senden</b> <img alt="In den Hintergrund" src="../images/sendtoback.png" />: Um ein Objekt(-e) in den Hintergrund zu schieben.</li>
+                <li><b>Eine Ebene nach hinten</b> <img alt="Eine Ebene nach hinten" src="../images/sendbackward.png" />: Um ausgewählte Objekte nur eine Ebene nach hinten zu schieben.</li>
             </ul>
-            <p>Alternativ können Sie mit der rechten Maustaste auf die ausgewählten Objekte klicken, wählen Sie anschließend im Kontextmenü die Option <b>Anordnen</b> aus und nutzen Sie dann eine der verfügbaren Optionen.</p>			
-		</div>
+            <p>Alternativ können Sie mit der rechten Maustaste auf die ausgewählten Objekte klicken, wählen Sie anschließend im Kontextmenü die Option <b>Anordnen</b> aus und nutzen Sie dann eine der verfügbaren Optionen.</p>
+        </div>
 	</body>
 </html>

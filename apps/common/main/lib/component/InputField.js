@@ -444,6 +444,9 @@ define([
                         'class="form-control <%= cls %>" ',
                         'placeholder="<%= placeHolder %>" ',
                         'value="<%= value %>"',
+                        'data-hint="<%= dataHint %>"',
+                        'data-hint-offset="<%= dataHintOffset %>"',
+                        'data-hint-direction="<%= dataHintDirection %>"',
                     '>',
                     '<span class="input-error"></span>',
                     '<div class="select-button">' +
@@ -464,7 +467,10 @@ define([
                         name        : this.name,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
-                        scope       : me
+                        scope       : me,
+                        dataHint    : this.options.dataHint,
+                        dataHintOffset: this.options.dataHintOffset,
+                        dataHintDirection: this.options.dataHintDirection
                     }));
 
                     if (parentEl) {
@@ -566,7 +572,8 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'toolbar__icon btn-sheet-view',
+                showCls: 'toolbar__icon btn-sheet-view',
+                hideCls: 'toolbar__icon hide-password',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true
@@ -575,6 +582,7 @@ define([
             initialize : function(options) {
                 options = options || {};
                 options.btnHint = options.btnHint || this.textHintShowPwd;
+                options.iconCls = options.showCls || this.options.showCls;
 
                 Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
 
@@ -605,11 +613,19 @@ define([
                     this.passwordHide(e);
                     this.hidePwd = true;
                 }
+                var me = this;
+                var prevstart = me._input[0].selectionStart,
+                    prevend = me._input[0].selectionEnd;
+                setTimeout(function () {
+                    me.focus();
+                    me._input[0].selectionStart = prevstart;
+                    me._input[0].selectionEnd = prevend;
+                }, 1);
             },
 
             passwordShow: function (e) {
                 if (this.disabled) return;
-                this._button.setIconCls('toolbar__icon hide-password');
+                this._button.setIconCls(this.options.hideCls);
                 this.type = 'text';
 
                 this._input.attr('type', this.type);
@@ -628,7 +644,7 @@ define([
             },
 
             passwordHide: function (e) {
-                this._button.setIconCls('toolbar__icon btn-sheet-view');
+                this._button.setIconCls(this.options.showCls);
                 this.type = 'password';
 
                 (this._input.val() !== '') && this._input.attr('type', this.type);
@@ -643,6 +659,14 @@ define([
                 else {
                     this._btnElm.off('mouseup', this.passwordHide);
                     this._btnElm.off('mouseout', this.passwordHide);
+                    var me = this;
+                    var prevstart = me._input[0].selectionStart,
+                        prevend = me._input[0].selectionEnd;
+                    setTimeout(function () {
+                        me.focus();
+                        me._input[0].selectionStart = prevstart;
+                        me._input[0].selectionEnd = prevend;
+                    }, 1);
                 }
             },
             textHintShowPwd: 'Show password',

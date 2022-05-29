@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "Hiba",
       "errorAccessDeny": "Olyan műveletet próbál végrehajtani, amelyhez nincs jogosultsága.<br>Kérjük, forduljon a rendszergazdához.",
+      "errorOpensource": "Az ingyenes közösségi verzió használatával a dokumentumokat csak megtekintésre nyithatja meg. A mobil webszerkesztők eléréséhez kereskedelmi licenc szükséges.",
       "errorProcessSaveResult": "Sikertelen mentés.",
       "errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
       "errorUpdateVersion": "A dokumentum verziója megváltozott. Az oldal újratöltődik.",
@@ -160,7 +161,7 @@
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a személyes frissítés feltételekért.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -287,9 +288,12 @@
     "textErrNotEmpty": "A munkalap neve nem lehet üres",
     "textErrorLastSheet": "A munkafüzetnek legalább egy látható munkalapnak kell lennie.",
     "textErrorRemoveSheet": "Nem törölhető a munkalap.",
+    "textHidden": "Rejtett",
     "textHide": "Elrejt",
     "textMore": "Több",
     "textMove": "Áthelyezés",
+    "textMoveBefore": "Áthelyez a munkalap elé",
+    "textMoveToEnd": "(Mozgat a végére)",
     "textOk": "OK",
     "textRename": "Átnevezés",
     "textRenameSheet": "Munkalap átnevezése",
@@ -297,9 +301,6 @@
     "textSheetName": "Munkalap neve",
     "textUnhide": "Megmutat",
     "textWarnDeleteSheet": "A munkalap lehet hogy tartalmaz adatok. Folytatja a műveletet?",
-    "textHidden": "Hidden",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -324,16 +325,19 @@
       "sCatTextAndData": "Szöveg és adat",
       "textAddLink": "Link hozzáadása",
       "textAddress": "Cím",
+      "textAllTableHint": "A táblázat teljes tartalmát vagy a megadott táblázat oszlopait adja vissza, beleértve az oszlopfejléceket, az adatokat és az összes sort",
       "textBack": "Vissza",
       "textCancel": "Mégse",
       "textChart": "Diagram",
       "textComment": "Megjegyzés",
+      "textDataTableHint": "A táblázat adatcelláit vagy a megadott táblázatoszlopokat adja vissza",
       "textDisplay": "Megjelenít",
       "textEmptyImgUrl": "Meg kell adnia a kép URL-jét.",
       "textExternalLink": "Külső hivatkozás",
       "textFilter": "Szűrő",
       "textFunction": "Függvény",
       "textGroups": "KATEGÓRIÁK",
+      "textHeadersTableHint": "Visszaadja a táblázat vagy a megadott táblázatoszlopok oszlopfejléceit",
       "textImage": "Kép",
       "textImageURL": "Kép URL",
       "textInsert": "Beszúrás",
@@ -354,6 +358,8 @@
       "textShape": "Alakzat",
       "textSheet": "Munkalap",
       "textSortAndFilter": "Rendezés és szűrés",
+      "textThisRowHint": "A megadott oszlopnak csak ezt a sorát válassza ki",
+      "textTotalsTableHint": "A táblázat vagy a megadott táblázatoszlopok összes sorát adja vissza",
       "txtExpand": "Kibont és rendez",
       "txtExpandSort": "A kijelölt adatok mellett található adatok nem lesznek rendezve. Szeretné kibővíteni a kijelölést a szomszédos adatok felvételével, vagy csak a jelenleg kiválasztott cellákat rendezi?",
       "txtLockSort": "Adatok találhatók a kijelölés mellett, de nincs elegendő engedélye a cellák módosításához.<br>Szeretné folytatni a jelenlegi kijelöléssel?",

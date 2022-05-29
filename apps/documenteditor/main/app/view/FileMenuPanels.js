@@ -79,9 +79,9 @@ define([
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><div><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                            '</div></div></td>',
                             '<% } %>',
                         '<% }) %>',
                     '</tr>',
@@ -175,9 +175,9 @@ define([
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                            '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><div><div class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                            '</div></div></td>',
                             '<% } %>',
                         '<% }) %>',
                     '</tr>',
@@ -293,7 +293,7 @@ define([
                     '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
                 '</tr>',
                 '<tr class ="divider-subgroup  view-review"></tr>',
-                '<tr class="comments">',
+                '<tr class="coauth changes-show">',
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-show">',
@@ -305,6 +305,10 @@ define([
                 '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-last"></div></td>',
                 '</tr>','<tr class="divider coauth changes-show"></tr>',
+                '<tr class="live-viewer">',
+                    '<td colspan="2"><div id="fms-chb-live-viewer"></div></td>',
+                '</tr>',
+                '<tr class="divider live-viewer"></tr>',
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>',
@@ -318,6 +322,12 @@ define([
                 '<tr class="edit spellcheck">',
                     '<td colspan="2"><div id="fms-chb-spell-check"></div></td>',
                 '</tr>',
+                '<tr class="edit spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-uppercase-words"></span></td>',
+                '</tr>',
+                '<tr class="edit spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
+                '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
@@ -330,6 +340,9 @@ define([
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
@@ -390,6 +403,14 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chUseAltKey = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-use-alt-key'),
+                labelText: Common.Utils.isMac ? this.txtUseOptionKey : this.txtUseAltKey,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-live-comment'),
@@ -413,6 +434,25 @@ define([
             this.chSpell = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-spell-check'),
                 labelText: this.txtSpellCheck,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                me.chIgnoreUppercase.setDisabled(field.getValue()!=='checked');
+                me.chIgnoreNumbers.setDisabled(field.getValue()!=='checked');
+            });
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -552,6 +592,14 @@ define([
 
             /** coauthoring end **/
 
+            this.chLiveViewer = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-live-viewer'),
+                labelText: this.strShowOthersChanges,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
@@ -642,7 +690,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
-                me.chDarkMode.setDisabled(record.themeType!=='dark');
+                me.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme(record.value));
             });
 
             this.chDarkMode = new Common.UI.CheckBox({
@@ -718,6 +766,7 @@ define([
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.view-review', this.el)[mode.canViewReview ? 'show' : 'hide']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
@@ -738,6 +787,8 @@ define([
         updateSettings: function() {
             this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
 
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-use-alt-key"));
+
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
@@ -751,6 +802,8 @@ define([
             this.rbCoAuthModeFast.setValue(fast_coauth);
             this.rbCoAuthModeStrict.setValue(!fast_coauth);
             this.fillShowChanges(fast_coauth);
+
+            this.chLiveViewer.setValue(Common.Utils.InternalSettings.get("de-settings-coauthmode"));
 
             value = Common.Utils.InternalSettings.get((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
 
@@ -780,8 +833,11 @@ define([
             if (this.mode.canForcesave)
                 this.chForcesave.setValue(Common.Utils.InternalSettings.get("de-settings-forcesave"));
 
-            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+            if (Common.UI.FeaturesManager.canChange('spellcheck')) {
                 this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
+                this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("de-spellcheck-ignore-uppercase-words"));
+                this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("de-spellcheck-ignore-numbers-words"));
+            }
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
             this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
 
@@ -815,6 +871,8 @@ define([
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-use-alt-key", Common.localStorage.getBool("de-settings-use-alt-key"));
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
 
@@ -825,18 +883,23 @@ define([
                 this.mode.canChangeCoAuthoring && Common.localStorage.setItem("de-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
                 Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict",
                     this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                Common.localStorage.setItem("de-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
             /** coauthoring end **/
             Common.localStorage.setItem("de-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("de-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("de-settings-unit", this.cmbUnit.getValue());
-            if (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("de-settings-coauthmode"))
+            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("de-settings-coauthmode")))
                 Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            if (Common.UI.FeaturesManager.canChange('spellcheck'))
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
                 Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
+                Common.localStorage.setBool("de-spellcheck-ignore-uppercase-words", this.chIgnoreUppercase.isChecked());
+                Common.localStorage.setBool("de-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
+            }
             Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
@@ -896,7 +959,7 @@ define([
 
         strZoom: 'Default Zoom Value',
         /** coauthoring begin **/
-        strShowChanges: 'Realtime Collaboration Changes',
+        strShowChanges: 'Real-time Collaboration Changes',
         txtAll: 'View All',
         txtNone: 'View Nothing',
         txtLast: 'View Last',
@@ -948,10 +1011,15 @@ define([
         txtShowTrackChanges: 'Show track changes',
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
+        txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         strShowComments: 'Show comments in text',
         strShowResolvedComments: 'Show resolved comments',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
-        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make'
+        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
+        strShowOthersChanges: 'Show changes from other users'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -978,9 +1046,9 @@ define([
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
                         '<div class="recent-icon">',
-                            '<svg>',
-                                '<use xlink:href="#svg-file-recent"></use>',
-                            '</svg>',
+                            '<div>',
+                                '<div class="svg-file-recent"></div>',
+                            '</div>',
                         '</div>',
                         '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
                         '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
@@ -1029,7 +1097,7 @@ define([
                 '<% if (blank) { %> ',
                 '<div class="blank-document">',
                     '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="2, 10">',
-                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
+                        '<div class="btn-blank-format"><div class ="svg-format-blank"></div></div>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
                 '</div>',
@@ -1040,7 +1108,7 @@ define([
                         '<% if (!_.isEmpty(item.image)) {%> ',
                         ' style="background-image: url(<%= item.image %>);">',
                         ' <%} else {' +
-                        'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                        'print(\"><div class=\'btn-blank-format\'><div class=\'svg-file-template\'></div></div>\")' +
                         ' } %>',
                     '</div>',
                     '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
@@ -1147,36 +1215,50 @@ define([
                         '<td class="left"><label>' + this.txtSpaces + '</label></td>',
                         '<td class="right"><label id="id-info-spaces"></label></td>',
                     '</tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtPageSize + '</label></td>',
+                        '<td class="right"><label id="id-info-page-size"></label></td>',
+                    '</tr>',
                     '<tr class="divider"></tr>',
                     '<tr class="divider"></tr>',
                     // '<tr>',
                     //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
                     //     '<td class="right"><label id="id-info-edittime"></label></td>',
                     // '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtTitle + '</label></td>',
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtComment + '</label></td>',
                         '<td class="right"><div id="id-info-comment"></div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr class="divider"></tr>',
+                    '<tr class="divider docx-info"></tr>',
+                    '<tr class="divider docx-info"></tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-title"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-subject"></label></td>',
+                    '</tr>',
+                    '<tr class="divider pdf-info pdf-title"></tr>',
+                    '<tr class="divider pdf-info pdf-title"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
                         '<td class="right"><label id="id-info-modify-date"></label></td>',
                     '</tr>',
                     '<tr>',
-                            '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
-                            '<td class="right"><label id="id-info-modify-by"></label></td>',
+                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-by"></label></td>',
                     '</tr>',
-                    '<tr class="divider modify">',
-                    '<tr class="divider modify">',
+                    '<tr class="divider modify"></tr>',
+                    '<tr class="divider modify"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtCreated + '</label></td>',
                         '<td class="right"><label id="id-info-date"></label></td>',
@@ -1185,7 +1267,28 @@ define([
                          '<td class="left"><label>' + this.txtAppName + '</label></td>',
                          '<td class="right"><label id="id-info-appname"></label></td>',
                     '</tr>',
-                    '<tr>',
+                    '<tr class="pdf-info">',
+                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
+                        '<td class="right"><label id="id-lbl-info-author"></label></td>',
+                    '</tr>',
+                    '<tr class="divider pdf-info"></tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfProducer + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-produce"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfVer + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-ver"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtPdfTagged + '</label></td>',
+                         '<td class="right"><label id="id-info-pdf-tagged"></label></td>',
+                    '</tr>',
+                    '<tr class="pdf-info">',
+                         '<td class="left"><label>' + this.txtFastWV + '</label></td>',
+                         '<td class="right"><label id="id-info-fast-wv"></label></td>',
+                    '</tr>',
+                    '<tr class="docx-info">',
                         '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
                         '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
                             '<table>',
@@ -1230,6 +1333,7 @@ define([
             this.lblStatParagraphs = $markup.findById('#id-info-paragraphs');
             this.lblStatSymbols = $markup.findById('#id-info-symbols');
             this.lblStatSpaces = $markup.findById('#id-info-spaces');
+            this.lblPageSize = $markup.findById('#id-info-pages-size');
             // this.lblEditTime = $markup.find('#id-info-edittime');
 
             // edited info
@@ -1323,6 +1427,16 @@ define([
                 }
             }).on('keydown:before', keyDownBefore);
 
+            // pdf info
+            this.lblPageSize = $markup.findById('#id-info-page-size');
+            this.lblPdfTitle = $markup.findById('#id-lbl-info-title');
+            this.lblPdfSubject = $markup.findById('#id-lbl-info-subject');
+            this.lblPdfAuthor = $markup.findById('#id-lbl-info-author');
+            this.lblPdfVer = $markup.findById('#id-info-pdf-ver');
+            this.lblPdfTagged = $markup.findById('#id-info-pdf-tagged');
+            this.lblPdfProducer = $markup.findById('#id-info-pdf-produce');
+            this.lblFastWV = $markup.findById('#id-info-fast-wv');
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fminfo-btn-apply')
             });
@@ -1399,9 +1513,15 @@ define([
                 this._ShowHideDocInfo(false);
             $('tr.divider.general', this.el)[visible?'show':'hide']();
 
+            var pdfProps = (this.api) ? this.api.asc_getPdfProps() : null;
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
+                $('.pdf-info', this.el).hide();
                 appname = (appname.asc_getApplication() || '') + (appname.asc_getAppVersion() ? ' ' : '') + (appname.asc_getAppVersion() || '');
+                this.lblApplication.text(appname);
+            } else if (pdfProps) {
+                $('.docx-info', this.el).hide();
+                appname = pdfProps ? pdfProps.Creator || '' : '';
                 this.lblApplication.text(appname);
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
@@ -1412,7 +1532,8 @@ define([
                 if (value)
                     this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 this._ShowHideInfoItem(this.lblDate, !!value);
-            }
+            } else if (pdfProps)
+                this.updatePdfInfo(pdfProps);
         },
 
         updateFileInfo: function() {
@@ -1424,14 +1545,6 @@ define([
                 value;
 
             this.coreProps = props;
-            // var app = (this.api) ? this.api.asc_getAppProps() : null;
-            // if (app) {
-            //     value = app.asc_getTotalTime();
-            //     if (value)
-            //         this.lblEditTime.text(value + ' ' + this.txtMinutes);
-            // }
-            // this._ShowHideInfoItem(this.lblEditTime, !!value);
-
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
@@ -1464,6 +1577,86 @@ define([
                 !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
             this.SetDisabled();
+        },
+
+        updatePdfInfo: function(props) {
+            if (!this.rendered)
+                return;
+
+            var me = this,
+                value;
+
+            if (props) {
+                value = props.CreationDate;
+                if (value) {
+                    value = new Date(value);
+                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                }
+                this._ShowHideInfoItem(this.lblDate, !!value);
+
+                var visible = false;
+                value = props.ModDate;
+                if (value) {
+                    value = new Date(value);
+                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                }
+                visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
+                visible = this._ShowHideInfoItem(this.lblModifyBy, false) || visible;
+                $('tr.divider.modify', this.el)[visible?'show':'hide']();
+
+                if (props.PageWidth && props.PageHeight && (typeof props.PageWidth === 'number') && (typeof props.PageHeight === 'number')) {
+                    var w = props.PageWidth,
+                        h = props.PageHeight;
+                    switch (Common.Utils.Metric.getCurrentMetric()) {
+                        case Common.Utils.Metric.c_MetricUnits.cm:
+                            w = parseFloat((w* 25.4 / 72000.).toFixed(2));
+                            h = parseFloat((h* 25.4 / 72000.).toFixed(2));
+                            break;
+                        case Common.Utils.Metric.c_MetricUnits.pt:
+                            w = parseFloat((w/100.).toFixed(2));
+                            h = parseFloat((h/100.).toFixed(2));
+                            break;
+                        case Common.Utils.Metric.c_MetricUnits.inch:
+                            w = parseFloat((w/7200.).toFixed(2));
+                            h = parseFloat((h/7200.).toFixed(2));
+                            break;
+                    }
+                    this.lblPageSize.text(w + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' + h + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                    this._ShowHideInfoItem(this.lblPageSize, true);
+                } else
+                    this._ShowHideInfoItem(this.lblPageSize, false);
+
+                value = props.Title;
+                value && this.lblPdfTitle.text(value);
+                visible = this._ShowHideInfoItem(this.lblPdfTitle, !!value);
+
+                value = props.Subject;
+                value && this.lblPdfSubject.text(value);
+                visible = this._ShowHideInfoItem(this.lblPdfSubject, !!value) || visible;
+                $('tr.divider.pdf-title', this.el)[visible?'show':'hide']();
+
+                value = props.Author;
+                value && this.lblPdfAuthor.text(value);
+                this._ShowHideInfoItem(this.lblPdfAuthor, !!value);
+
+                value = props.Version;
+                value && this.lblPdfVer.text(value);
+                this._ShowHideInfoItem(this.lblPdfVer, !!value);
+
+                value = props.Tagged;
+                if (value !== undefined)
+                    this.lblPdfTagged.text(value===true ? this.txtYes : this.txtNo);
+                this._ShowHideInfoItem(this.lblPdfTagged, value !== undefined);
+
+                value = props.Producer;
+                value && this.lblPdfProducer.text(value);
+                this._ShowHideInfoItem(this.lblPdfProducer, !!value);
+
+                value = props.FastWebView;
+                if (value !== undefined)
+                    this.lblFastWV.text(value===true ? this.txtYes : this.txtNo);
+                this._ShowHideInfoItem(this.lblFastWV, value !== undefined);
+            }
         },
 
         _ShowHideInfoItem: function(el, visible) {
@@ -1618,7 +1811,15 @@ define([
         txtAddAuthor: 'Add Author',
         txtAddText: 'Add Text',
         txtMinutes: 'min',
-        okButtonText: 'Apply'
+        okButtonText: 'Apply',
+        txtPageSize: 'Page Size',
+        txtPdfVer: 'PDF Version',
+        txtPdfTagged: 'Tagged PDF',
+        txtFastWV: 'Fast Web View',
+        txtYes: 'Yes',
+        txtNo: 'No',
+        txtPdfProducer: 'PDF Producer'
+
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 
     DE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

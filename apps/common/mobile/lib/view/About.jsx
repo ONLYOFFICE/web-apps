@@ -58,7 +58,7 @@ const PageAbout = props => {
                         {mailCustomer && mailCustomer.length ? (
                             <p>
                                 <label>{_t.textEmail}:</label>
-                                <Link id="settings-about-email" className="external" target="_blank" href={"mailto:"+mailCustomer}>{mailCustomer}</Link>
+                                <Link id="settings-about-email" external={true} href={"mailto:"+mailCustomer}>{mailCustomer}</Link>
                             </p>
                         ) : null}
                         {urlCustomer && urlCustomer.length ? (
@@ -103,11 +103,11 @@ const PageAbout = props => {
                         </p>
                         <p>
                             <label>{_t.textEmail}:</label>
-                            <a id="settings-about-email" className="external" href={`mailto:${__SUPPORT_EMAIL__}`}>{__SUPPORT_EMAIL__}</a>
+                            <Link id="settings-about-email" external={true} href={`mailto:${__SUPPORT_EMAIL__}`}>{__SUPPORT_EMAIL__}</Link>
                         </p>
                         <p>
                             <label>{_t.textTel}:</label>
-                            <a id="settings-about-tel" className="external" href={`tel:${__PUBLISHER_PHONE__}`}>{__PUBLISHER_PHONE__}</a>
+                            <Link id="settings-about-tel" external={true} href={`tel:${__PUBLISHER_PHONE__}`}>{__PUBLISHER_PHONE__}</Link>
                         </p>
                         <p>
                             <a id="settings-about-url" className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</a>

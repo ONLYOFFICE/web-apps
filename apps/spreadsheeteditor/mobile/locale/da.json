@@ -160,7 +160,8 @@
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file."
+      "warnProcessRightsChange": "You don't have permission to edit the file.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -299,8 +300,8 @@
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
     "textUnhide": "Unhide",
-    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?",
-    "textTabColor": "Tab Color"
+    "textTabColor": "Tab Color",
+    "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
     "leaveButtonText": "Forlad denne side",
@@ -350,7 +351,10 @@
       "notcriticalErrorTitle": "Warning",
       "sCatStatistical": "Statistical",
       "sCatTextAndData": "Text and data",
+      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
+      "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
       "textRequired": "Required",
       "textScreenTip": "Screen Tip",
@@ -358,6 +362,8 @@
       "textShape": "Shape",
       "textSheet": "Sheet",
       "textSortAndFilter": "Sort and Filter",
+      "textThisRowHint": "Choose only this row of the specified column",
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
       "txtExpandSort": "The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
@@ -643,6 +649,7 @@
       "advDRMEnterPassword": "Your password, please:",
       "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support",
       "textNoTextFound": "Text not found",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
@@ -674,8 +681,7 @@
       "txtScheme21": "Verve",
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
-      "txtTab": "Tab",
-      "textFeedback": "Feedback & Support"
+      "txtTab": "Tab"
     }
   }
 }

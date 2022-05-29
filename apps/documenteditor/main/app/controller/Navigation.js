@@ -65,6 +65,8 @@ define([
                             if (me.panelNavigation && me.panelNavigation.viewNavigationList && me.panelNavigation.viewNavigationList.scroller)
                                 me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
                         }
+                        if (!me.mode.isEdit && !me.mode.isRestrictedEdit)
+                            me.panelNavigation.viewNavigationList.focus();
                     },
                     'hide': function() {
                         if (!this.canUseViwerNavigation) {
@@ -103,6 +105,10 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.canUseViwerNavigation = this.mode.canUseViwerNavigation;
+            if (this.panelNavigation && this.panelNavigation.viewNavigationList) {
+                this.panelNavigation.viewNavigationList.setEmptyText(this.mode.isEdit ? this.panelNavigation.txtEmpty : this.panelNavigation.txtEmptyViewer);
+                this.panelNavigation.viewNavigationList.enableKeyEvents = !this.mode.isEdit && !this.mode.isRestrictedEdit;
+            }
             return this;
         },
 
@@ -112,6 +118,16 @@ define([
             panelNavigation.viewNavigationList.on('item:add', _.bind(this.onItemAdd, this));
             panelNavigation.navigationMenu.on('item:click',           _.bind(this.onMenuItemClick, this));
             panelNavigation.navigationMenu.items[11].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
+            panelNavigation.btnSettingsMenu.on('item:click',           _.bind(this.onMenuSettingsItemClick, this));
+            panelNavigation.btnSettingsMenu.items[2].menu.on('item:click', _.bind(this.onMenuLevelsItemClick, this));
+            panelNavigation.btnSettingsMenu.items[4].menu.on('item:click', _.bind(this.onMenuFontSizeClick, this));
+            panelNavigation.btnClose.on('click', _.bind(this.onClickClosePanel, this));
+
+            var viewport = this.getApplication().getController('Viewport').getView('Viewport');
+            viewport.hlayout.on('layout:resizedrag',  function () {
+                if (panelNavigation.viewNavigationList && panelNavigation.viewNavigationList.scroller)
+                    panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
+            });
         },
 
         updateNavigation: function() {
@@ -224,7 +240,7 @@ define([
             } else if (this._viewerNavigationObject) {
                 this.api.asc_viewerNavigateTo(record.get('index'));
             }
-            Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
+            (this.mode.isEdit || this.mode.isRestrictedEdit) && Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
         },
 
         onItemAdd: function(picker, item, record, e){
@@ -233,7 +249,6 @@ define([
 
         onMenuItemClick: function (menu, item) {
             if (!this._navigationObject && !this._viewerNavigationObject) return;
-
             var index = parseInt(menu.cmpEl.attr('data-value'));
             if (item.value == 'promote') {
                 this._navigationObject.promote(index);
@@ -253,9 +268,30 @@ define([
                 this.panelNavigation.viewNavigationList.collapseAll();
             }
         },
+        onClickClosePanel: function() {
+            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+        },
+
+        onMenuSettingsItemClick: function (menu, item){
+            switch (item.value){
+                case 'expand':
+                    this.panelNavigation.viewNavigationList.expandAll();
+                    break;
+                case 'collapse':
+                    this.panelNavigation.viewNavigationList.collapseAll();
+                    break;
+                case 'wrap':
+                    this.panelNavigation.changeWrapHeadings();
+                    break;
+            }
+        },
 
         onMenuLevelsItemClick: function (menu, item) {
             this.panelNavigation.viewNavigationList.expandToLevel(item.value-1);
+        },
+
+        onMenuFontSizeClick: function (menu, item){
+            this.panelNavigation.changeFontSize(item.value);
         },
 
         SetDisabled: function(state) {

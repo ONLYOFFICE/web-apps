@@ -81,6 +81,7 @@
                         <summary>Punkte (XY)</summary>
                         <ul>
                             <li>Punkte</li>
+                            <li>Gestapelte Balken</li>
                             <li>Punkte mit interpolierten Linien und Datenpunkten</li>
                             <li>Punkte mit interpolierten Linien</li>
                             <li>Punkte mit geraden Linien und Datenpunkten</li>
@@ -99,20 +100,22 @@
                 </li>
             </ol>
             <p>Das Diagramm wird in das aktuelle Tabellenblatt eingefügt.</p>
+            <p class="note"><b>ONLYOFFICE Tabellenkalkulation</b> unterstützt die folgenden Arten von Diagrammen, die mit Editoren von Drittanbietern erstellt wurden: <b>Pyramide</b>, <b>Balken (Pyramide)</b>, <b>horizontale/vertikale Zylinder</b>, <b>horizontale/vertikale Kegel</b>. Sie können die Datei, die ein solches Diagramm enthält, öffnen und sie mit den verfügbaren Diagrammbearbeitungswerkzeugen ändern.</p>
             <h3>Diagrammeinstellungen anpassen</h3>
             <p>Sie können die Diagrammeinstellungen anpassen. Um den Diagrammtyp anzupassen,</p>
             <ol>
                 <li>wählen Sie das Diagramm mit der Maus aus</li>
-                <li>klicken Sie auf das Symbol <b>Diagrammeinstellungen</b> <div class = "icon icon-chartsettingsicon"></div> in der rechten Menüleiste<p><img alt="Dialogfenster Diagrammeinstellungen rechte Seitenleiste" src="../images/chartsettings.png" /></p></li>
+                <li>
+                    klicken Sie auf das Symbol <b>Diagrammeinstellungen</b> <img alt="Diagrammeinstellungen" src="../images/chartsettingsicon.png" /> in der rechten Menüleiste
+                    <p><img alt="Dialogfenster Diagrammeinstellungen rechte Seitenleiste" src="../images/chartsettings.png" /></p>
+                </li>
                 <li>öffnen Sie die Menüliste <b>Stil</b> und wählen Sie den gewünschten Diagrammstil aus.</li>
                 <li>öffnen Sie die Drop-Down-Liste <b>Diagrammtyp ändern</b> und wählen Sie den gewünschten Typ aus.</li>
             </ol>
             <p>Das Diagramm wird entsprechend geändert.</p>
             <p>Wenn Sie die für das Diagramm verwendeten Daten ändern wollen,</p>
             <ol>
-                <li>
-                    Klicken Sie auf die Schaltfläche <b>Daten auswählen</b> im Fenster <b>Diagramm bearbeiten</b>. Das Fenster <b>Diagrammdaten</b> wird geöffnet.
-                </li>
+                <li>Klicken Sie auf die Schaltfläche <b>Daten auswählen</b> in der rechte Symbolleiste.</li>
                 <li>
                     Verwenden Sie das Dialogfeld <b>Diagrammdaten</b>, um den <b>Diagrammdatenbereich</b>, <b>Legendeneinträge (Reihen)</b>, <b>Horizontale Achsenbeschriftungen (Rubrik)</b> zu verwalten und <b>Zeile/Spalte ändern</b>.
                     <p><img alt="Diagrammdaten - Fenster" src="../images/chartdata.png" /></p>
@@ -156,14 +159,16 @@
             <p>Auf der Registerkarte <b>Layout</b> können Sie das Layout von Diagrammelementen ändern.</p>
             <ul>
                 <li>
-                    Wählen Sie die gewünschte Position der <b>Diagrammbezeichnung</b> aus der Dropdown-Liste aus:<ul>
+                    Wählen Sie die gewünschte Position der <b>Diagrammbezeichnung</b> aus der Dropdown-Liste aus:
+                    <ul>
                         <li><b>Keine</b> - es wird keine Diagrammbezeichnung angezeigt.</li>
                         <li><b>Überlagerung</b> - der Titel wird zentriert und im Diagrammbereich angezeigt.</li>
                         <li><b>Keine Überlagerung</b> - der Titel wird über dem Diagramm angezeigt.</li>
                     </ul>
                 </li>
                 <li>
-                    Wählen Sie die gewünschte Position der <b>Legende</b> aus der Menüliste aus:<ul>
+                    Wählen Sie die gewünschte Position der <b>Legende</b> aus der Menüliste aus:
+                    <ul>
                         <li><b>Keine</b> - es wird keine Legende angezeigt</li>
                         <li><b>Unten</b> - die Legende wird unterhalb des Diagramms angezeigt</li>
                         <li><b>Oben</b> - die Legende wird oberhalb des Diagramms angezeigt</li>
@@ -174,9 +179,11 @@
                     </ul>
                 </li>
                 <li>
-                    Legen Sie <b>Datenbeschriftungen</b> fest (Titel für genaue Werte von Datenpunkten):<br /><ul>
+                    Legen Sie <b>Datenbeschriftungen</b> fest (Titel für genaue Werte von Datenpunkten):<br />
+                    <ul>
                         <li>
-                            Wählen Sie die gewünschte Position der <b>Datenbeschriftungen</b> aus der Menüliste aus: Die verfügbaren Optionen variieren je nach Diagrammtyp.<ul>
+                            Wählen Sie die gewünschte Position der <b>Datenbeschriftungen</b> aus der Menüliste aus: Die verfügbaren Optionen variieren je nach Diagrammtyp.
+                            <ul>
                                 <li>Für <b>Säulen-/Balkendiagramme</b> haben Sie die folgenden Optionen: <b>Keine</b>, <b>zentriert</b>, <b>unterer Innenbereich</b>, <b>oberer Innenbereich</b>, <b>oberer Außenbereich</b>.</li>
                                 <li>Für <b>Linien-/Punktdiagramme (XY)/Strichdarstellungen</b> haben Sie die folgenden Optionen: <b>Keine</b>, <b>zentriert</b>, <b>links</b>, <b>rechts</b>, <b>oben</b>, <b>unten</b>.</li>
                                 <li>Für <b>Kreisdiagramme</b> stehen Ihnen folgende Optionen zur Verfügung: <b>Keine</b>, <b>zentriert</b>, <b>an Breite anpassen</b>, <b>oberer Innenbereich</b>, <b>oberer Außenbereich</b>.</li>
@@ -227,6 +234,8 @@
                         <li><b>Niedrig</b>, um Markierungsbeschriftungen links vom Plotbereich anzuzeigen.</li>
                         <li><b>Hoch</b>, um Markierungsbeschriftungen rechts vom Plotbereich anzuzeigen.</li>
                         <li><b>Neben der Achse</b>, um Markierungsbezeichnungen neben der Achse anzuzeigen.</li>
+                    </ul>
+                    <ul>
                         <li>
                             Um das <b>Bezeichnungsformat</b> anzupassen, klicken Sie auf die Schaltfläche <b>Bezeichnungsformat</b> und wählen Sie den gewünschten Typ aus.
                             <p>Verfügbare Bezeichnungsformate:</p>
@@ -245,12 +254,17 @@
                             </ul>
                             <p>Die Optionen für das Bezeichnungsformat variieren je nach ausgewähltem Typ. Weitere Informationen zum Ändern des Zahlenformats finden Sie auf <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/ONLYOFFICE-Spreadsheet-Editor/UsageInstructions/ChangeNumberFormat.aspx">dieser Seite</a>.</p>
                         </li>
-                        <li>Aktivieren Sie das Kästchen <b>Mit Quelle verknüpft</b>, um die Formatierung der Zahlen aus der Datenquelle im Diagramm beizubehalten.</li>
+                        <li>
+                            Aktivieren Sie das Kästchen <b>Mit Quelle verknüpft</b>, um die Formatierung der Zahlen aus der Datenquelle im Diagramm beizubehalten.
+                        </li>
                     </ul>
                 </li>
             </ul>
-            <p><img alt="Diagramm - Erweiterte Einstellungen - Fenster" src="../images/chartsettings_secondaryaxis1.png" /></p>
+            <p>
+                <img alt="Diagramm - Erweiterte Einstellungen - Fenster" src="../images/chartsettings_secondaryaxis1.png" />
+            </p>
             <p class="note">Sekundärachsen werden nur in den <b>Verbund</b>-Diagrammen verfügbar.</p>
+            <p><b>Sekundärachsen</b> sind in Verbund-Diagrammen nützlich, wenn Datenreihen erheblich variieren oder gemischte Datentypen zum Zeichnen eines Diagramms verwendet werden. Sekundärachsen erleichtern das Lesen und Verstehen eines Verbund-Diagramms.</p>
             <p>Die Registerkarte <b>Vertikale/horizontale Sekundärachse</b> wird angezeigt, wenn Sie eine geeignete Datenreihe für ein Verbund-Diagramm auswählen. Alle Einstellungen und Optionen auf der Registerkarte <b>Vertikale/horizontale Sekundärachse</b> stimmen mit den Einstellungen auf der vertikalen/horizontalen Achse überein. Eine detaillierte Beschreibung der Optionen <b>Vertikale/Horizontale Achse</b> finden Sie in der Beschreibung oben/unten.</p>
             <p><img alt="Diagramm - Erweiterte Einstellungen - Fenster" src="../images/chartsettings_horizontalaxis.png" /></p>
             <p>Auf der Registerkarte <b>Horizontale Achse</b> können Sie die Parameter der horizontalen Achse ändern, die auch als Kategorieachse oder x-Achse bezeichnet wird und Textbeschriftungen anzeigt. Beachten Sie, dass die horizontale Achse die Werteachse ist, auf der numerische Werte für die <b>Balkendiagramme</b> angezeigt werden. In diesem Fall entsprechen die Optionen der Registerkarte <b>Horizontale Achse</b> den Optionen im vorherigen Abschnitt. Für die <b>Punkte (XY)-Diagramme</b> sind beide Achsen Wertachsen.</p>
@@ -298,7 +312,9 @@
                             </ul>
                             <p>Die Optionen für das Bezeichnungsformat variieren je nach ausgewähltem Typ. Weitere Informationen zum Ändern des Zahlenformats finden Sie auf <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/ONLYOFFICE-Spreadsheet-Editor/UsageInstructions/ChangeNumberFormat.aspx">dieser Seite</a>.</p>
                         </li>
-                        <li>Aktivieren Sie das Kästchen <b>Mit Quelle verknüpft</b>, um die Formatierung der Zahlen aus der Datenquelle im Diagramm beizubehalten.</li>
+                        <li>
+                            Aktivieren Sie das Kästchen <b>Mit Quelle verknüpft</b>, um die Formatierung der Zahlen aus der Datenquelle im Diagramm beizubehalten.
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -311,8 +327,6 @@
             <p><img alt="Diagramm - Erweiterte Einstellungen - Andocken an die Zelle" src="../images/chartsettings_cellsnapping.png" /></p>
             <p>Im Abschnitt <b>Der alternative Text</b> können Sie einen <b>Titel</b> und eine <b>Beschreibung</b> angeben, die Personen mit Seh- oder kognitiven Beeinträchtigungen vorgelesen werden, damit sie besser verstehen, welche Informationen das Diagramm enthält.</p>
             <p><img alt="Diagramm - Erweiterte Einstellungen" src="../images/chartsettings_alternativetext.png" /></p>
-            <hr />
-
             <h3>Diagrammelemente bearbeiten</h3>
             <p>Um den <b>Diagrammtitel</b> zu bearbeiten, wählen Sie den Standardtext mit der Maus aus und geben Sie stattdessen Ihren eigenen Text ein.</p>
             <p>Um die Schriftformatierung innerhalb von Textelementen, wie beispielsweise Diagrammtitel, Achsentitel, Legendeneinträge, Datenbeschriftungen etc. zu ändern, wählen Sie das gewünschte Textelement durch Klicken mit der linken Maustaste aus. Wechseln Sie in die Registerkarte <b>Start</b> und nutzen Sie die in der Menüleiste angezeigten Symbole, um <a href="../UsageInstructions/FontTypeSizeStyle.htm" onclick="onhyperlinkclick(this)">Schriftart, Schriftform, Schriftgröße oder Schriftfarbe</a> zu bearbeiten.</p>

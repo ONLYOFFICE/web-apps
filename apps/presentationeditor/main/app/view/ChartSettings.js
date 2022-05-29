@@ -385,6 +385,8 @@ define([
         },
 
         onAddChartStylesPreview: function(styles){
+            if (!this.cmbChartStyle) return;
+
             var me = this;
             if (styles && styles.length>0){
                 var stylesStore = this.cmbChartStyle.menuPicker.store;

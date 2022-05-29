@@ -513,10 +513,10 @@ define([
         },
 
         setTabVisible: function(index, suppress) {
-            if (index <= 0 || index == 'first') {
+            if (index <= 0) {
                 this.$bar.scrollLeft(0);
                 this.checkInvisible(suppress);
-            } else if ( index >= (this.tabs.length - 1) || index == 'last') {
+            } else if ( index >= (this.tabs.length - 1)) {
                 var tab = this.tabs[this.tabs.length-1].$el;
                 if (this.$bar.find('.separator-item').length === 0) {
                     this.$bar.append('<li class="separator-item"><span></span></li>');
@@ -610,7 +610,7 @@ define([
             return false;
         },
 
-        addDataHint: function (index) { //Hint Manager
+        addDataHint: function (index, dataHint) { //Hint Manager
             var oldHintTab = this.$bar.find('[data-hint]');
             if (oldHintTab.length > 0) {
                 oldHintTab.removeAttr('data-hint');
@@ -619,7 +619,7 @@ define([
                 oldHintTab.removeAttr('data-hint-title');
             }
             var newHintTab = this.tabs[index].$el;
-            newHintTab.attr('data-hint', '0');
+            newHintTab.attr('data-hint', dataHint || '0');
             newHintTab.attr('data-hint-direction', 'top');
             newHintTab.attr('data-hint-offset', 'medium');
             newHintTab.attr('data-hint-title', 'M');

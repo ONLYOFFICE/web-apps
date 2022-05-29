@@ -105,6 +105,9 @@ class ContextMenuController extends Component {
 
     onApiOpenContextMenu(x, y) {
         if ( !this.state.opened && $$('.dialog.modal-in, .popover.modal-in, .sheet-modal.modal-in, .popup.modal-in, #pe-preview, .add-comment-popup, .actions-modal.modal-in').length < 1) {
+            const subNav = document.querySelector('.subnavbar');
+            const rect = subNav.getBoundingClientRect();
+
             this.setState({
                 items: this.initMenuItems(),
                 extraItems: this.initExtraItems()
@@ -112,8 +115,8 @@ class ContextMenuController extends Component {
 
             if ( this.state.items.length > 0 ) {
                 const api = Common.EditorApi.get();
-
-                this.$targetEl.css({left: `${x}px`, top: `${y}px`});
+    
+                this.$targetEl.css({left: `${x}px`, top: y < rect.bottom ? `${rect.bottom}px` : `${y}px`});
                 const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
 
                 if (Device.android)

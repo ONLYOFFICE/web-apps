@@ -794,9 +794,9 @@ define([
             });
             if (this._state.beginPreviewStyles) {
                 this._state.beginPreviewStyles = false;
-                self.mnuTableTemplatePicker.store.reset(arr);
+                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(arr);
             } else
-                self.mnuTableTemplatePicker.store.add(arr);
+                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(arr);
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
         },
 

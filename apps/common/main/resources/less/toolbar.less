@@ -60,6 +60,7 @@
         position: relative;
         overflow: hidden;
         display: flex;
+        flex-shrink: 1;
 
         > ul {
             padding: 4px 0 0;
@@ -194,6 +195,7 @@
                     .inner-box-caption {
                         justify-content: center;
                         align-items: center;
+                        padding: 0 2px;
                     }
 
                     .compact-caret {
@@ -543,6 +545,10 @@
         #rib-doc-name {
             color: @text-normal-ie;
             color: @text-normal;
+            &:hover:not(:disabled),&:focus {
+                box-shadow: 0 0 0 1px @highlight-button-hover-ie;
+                box-shadow: 0 0 0 1px @highlight-button-hover;
+            }
         }
 
         &.editor-native-color {
@@ -554,7 +560,7 @@
     }
 
     &.style-skip-docname .toolbar {
-        #box-doc-name > label {
+        #box-doc-name > input {
             display: none;
         }
     }

@@ -65,7 +65,8 @@ define([
                 'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
                     'render:after': _.bind(this.onAfterRender, this),
-                    'changerange': _.bind(this.onChangeRange, this, false)
+                    'changerange': _.bind(this.onChangeRange, this, false),
+                    'openheader': _.bind(this.onOpenHeaderSettings, this),
                 },
                 'PrintSettings': {
                     'changerange': _.bind(this.onChangeRange, this, true)
@@ -82,7 +83,13 @@ define([
         onAfterRender: function(view) {
             var me = this;
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
-            this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
+            this.printSettings.cmbSheet.on('selected', _.bind(function (combo, record) {
+                this.comboSheetsChange(this.printSettings, combo, record);
+                if (this._isPreviewVisible) {
+                    this.notUpdateSheetSettings = true;
+                    this.api.asc_drawPrintPreview(undefined, record.value);
+                }
+            }, this));
             this.printSettings.btnsSave.forEach(function (btn) {
                 btn.on('click', _.bind(me.querySavePrintSettings, me, false));
             });
@@ -96,13 +103,14 @@ define([
                 'keyup:after': _.bind(this.onKeyupPageNumber, this)
             });
             this.printSettings.txtNumberPage.cmpEl.find('input').on('blur', _.bind(this.onBlurPageNumber, this));
-            this.printSettings.chIgnorePrintArea.on('change', _.bind(this.updatePreview, this));
+            this.printSettings.chIgnorePrintArea.on('change', _.bind(this.updatePreview, this, true));
 
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
+                    this.notUpdateSheetSettings = true;
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 }
             }, this));
@@ -115,11 +123,19 @@ define([
             this.api = o;
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
+            this.api.asc_registerCallback('asc_onPrintPreviewPageChanged', _.bind(this.onApiChangePreviewPage, this));
+            this.api.asc_registerCallback('asc_onPrintPreviewSheetDataChanged', _.bind(this.onApiPreviewSheetDataChanged, this));
         },
 
         updateSheetsInfo: function() {
             if (this.printSettings.isVisible()) {
                 this.updateSettings(this.printSettings);
+                this.printSettings.cmbSheet.store.each(function (item) {
+                    var sheetIndex = item.get('value');
+                    if (!this._changedProps[sheetIndex]) {
+                        this._changedProps[sheetIndex] = this.api.asc_getPageOptions(sheetIndex, true, true);
+                    }
+                }, this);
             } else {
                 this.isFillSheets = false;
             }
@@ -143,11 +159,13 @@ define([
                        panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
                 panel.cmbSheet.setValue(item.get('value'));
+                panel.updateActiveSheet && panel.updateActiveSheet(item.get('displayValue'));
             }
         },
 
         comboSheetsChange: function(panel, combo, record) {
-            this.fillPageOptions(panel, this._changedProps[record.value] ? this._changedProps[record.value] : this.api.asc_getPageOptions(record.value, true), record.value);
+            var currentSheet = record.value;
+            this.fillPageOptions(panel, this._changedProps[currentSheet] ? this._changedProps[currentSheet] : this.api.asc_getPageOptions(currentSheet, true), currentSheet);
         },
 
         fillPageOptions: function(panel, props, sheet) {
@@ -243,16 +261,16 @@ define([
             menu.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
 
             if (!isDlg) {
-                this.updatePreview();
+                this.updatePreview(true);
             }
         },
 
-        getPageOptions: function(panel) {
-            var props = new Asc.asc_CPageOptions();
+        getPageOptions: function(panel, sheet) {
+            var props = this._changedProps[sheet] ? this._changedProps[sheet] : new Asc.asc_CPageOptions();
             props.asc_setGridLines(panel.chPrintGrid.getValue()==='checked');
             props.asc_setHeadings(panel.chPrintRows.getValue()==='checked');
 
-            var opt = new Asc.asc_CPageSetup();
+            var opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageSetup() : new Asc.asc_CPageSetup();
             opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
 
             var pagew = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
@@ -274,15 +292,19 @@ define([
                 opt.asc_setFitToHeight(this.fitHeight);
                 opt.asc_setScale(this.fitScale);
             }
-            props.asc_setPageSetup(opt);
+            if (!this._changedProps[sheet]) {
+                props.asc_setPageSetup(opt);
+            }
 
-            opt = new Asc.asc_CPageMargins();
+            opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageMargins() : new Asc.asc_CPageMargins();
             opt.asc_setLeft(panel.spnMarginLeft.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginLeft.getNumberValue()));    // because 1.91*10=19.0999999...
             opt.asc_setTop(panel.spnMarginTop.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginTop.getNumberValue()));
             opt.asc_setRight(panel.spnMarginRight.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginRight.getNumberValue()));
             opt.asc_setBottom(panel.spnMarginBottom.getValue() == '-' ? undefined : Common.Utils.Metric.fnRecalcToMM(panel.spnMarginBottom.getNumberValue()));
 
-            props.asc_setPageMargins(opt);
+            if (!this._changedProps[sheet]) {
+                props.asc_setPageMargins(opt);
+            }
 
             var check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, panel.txtRangeTop.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
             props.asc_setPrintTitlesHeight(check ? panel.txtRangeTop.getValue() : panel.dataRangeTop);
@@ -299,6 +321,7 @@ define([
         },
 
         onShowMainSettingsPrint: function() {
+            var me = this;
             this._changedProps = [];
             this.printSettings.$previewBox.removeClass('hidden');
 
@@ -306,10 +329,15 @@ define([
                 this.isFillSheets = true;
                 this.updateSettings(this.printSettings);
             }
+            this.printSettings.cmbSheet.store.each(function (item) {
+                var sheetIndex = item.get('value');
+                me._changedProps[sheetIndex] = me.api.asc_getPageOptions(sheetIndex, true, true);
+            }, this);
+            this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
 
             this.fillPrintOptions(this.adjPrintParams, false);
 
-            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
             var pageCount = this.api.asc_initPrintPreview('print-preview', opts);
 
@@ -320,6 +348,7 @@ define([
                 this.printSettings.txtNumberPage.checkValidate();
             }
             this._isPreviewVisible = true;
+            !!pageCount && this.updatePreview();
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
@@ -394,7 +423,7 @@ define([
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
                     Common.localStorage.setItem("sse-print-settings-range", printType);
 
-                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     this.api.asc_Print(opts);
                     Common.NotificationCenter.trigger('edit:complete', view);
@@ -456,8 +485,8 @@ define([
             panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
-            panel.txtRangeTop.on('changing', _.bind(this.propertyChange, this, panel));
-            panel.txtRangeLeft.on('changing', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeTop.on('changed:after', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeLeft.on('changed:after', _.bind(this.propertyChange, this, panel));
             panel.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, panel, 'top', panel.btnPresetsTop.menu, {value: 'select'}));
             panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
@@ -479,7 +508,8 @@ define([
                                 me.fitScale = result.scale;
                                 me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
                                 if (me._changedProps) {
-                                    me._changedProps[panel.cmbSheet.getValue()] = me.getPageOptions(panel);
+                                    var currentSheet = panel.cmbSheet.getValue();
+                                    me._changedProps[currentSheet] = me.getPageOptions(panel, currentSheet);
                                     me.updatePreview();
                                 }
                             }
@@ -497,7 +527,8 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
                 if (this._changedProps) {
-                    this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+                    var currentSheet = panel.cmbSheet.getValue();
+                    this._changedProps[currentSheet] = this.getPageOptions(panel, currentSheet);
                     this.updatePreview();
                 }
             }
@@ -521,7 +552,6 @@ define([
         fillComponents: function(panel, selectdata) {
             var me = this;
             panel.txtRangeTop.validation = function(value) {
-                !me._noApply && me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -531,7 +561,6 @@ define([
             selectdata && panel.txtRangeTop.updateBtnHint(this.textSelectRange);
 
             panel.txtRangeLeft.validation = function(value) {
-                !me._noApply &&  me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -644,6 +673,12 @@ define([
         },
 
         onPreviewWheel: function (e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+            this.printSettings.txtRangeTop.cmpEl.find('input:focus').blur();
+            this.printSettings.txtRangeLeft.cmpEl.find('input:focus').blur();
             var forward = (e.deltaY || (e.detail && -e.detail) || e.wheelDelta) < 0;
             this.onChangePreviewPage(forward);
         },
@@ -685,29 +720,34 @@ define([
             }
         },
 
-        updatePreview: function () {
+        updatePreview: function (needUpdate) {
             if (this._isPreviewVisible) {
+                this.printSettings.$previewBox.removeClass('hidden');
+
                 var adjPrintParams = new Asc.asc_CAdjustPrint(),
                     printType = this.printSettings.getRange();
                 adjPrintParams.asc_setPrintType(printType);
                 adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                 adjPrintParams.asc_setIgnorePrintArea(this.printSettings.getIgnorePrintArea());
 
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(adjPrintParams);
 
                 var pageCount = this.api.asc_updatePrintPreview(opts);
+                this.printSettings.$previewBox.toggleClass('hidden', !pageCount);
+                this.printSettings.$previewEmpty.toggleClass('hidden', !!pageCount);
 
                 var newPage;
                 if (this._currentPrintType !== printType) {
                     newPage = 0;
                     this._currentPrintType = printType;
                 } else if (this._navigationPreview.currentPage > pageCount - 1) {
-                    newPage = pageCount - 1;
+                    newPage = Math.max(0, pageCount - 1);
                 } else {
                     newPage = this._navigationPreview.currentPage;
                 }
 
+                this.notUpdateSheetSettings = !needUpdate;
                 this.api.asc_drawPrintPreview(newPage);
 
                 this.updateNavigationButtons(newPage, pageCount);
@@ -716,11 +756,13 @@ define([
 
         onApiChangePreviewSheet: function (index) {
             var item = this.printSettings.cmbSheet.store.findWhere({value: index});
-            if (item) {
+            this.printSettings.updateActiveSheet(item.get('displayValue'));
+
+            if (this.notUpdateSheetSettings) {
+                this.notUpdateSheetSettings = false;
+            } else if (item) {
                 this.printSettings.cmbSheet.setValue(item.get('value'));
                 this.comboSheetsChange(this.printSettings, this.printSettings.cmbSheet, item.toJSON());
-                var sheetName = this.api.asc_getWorksheetName(index);
-                this.printSettings.updateActiveSheet(sheetName);
             }
         },
 
@@ -742,6 +784,29 @@ define([
                 pageCount = this._navigationPreview.pageCount;
             this.printSettings.btnPrevPage.setDisabled(curPage < 1);
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
+        },
+
+        onOpenHeaderSettings: function () {
+            var pageSetup = this._changedProps[this.printSettings.cmbSheet.getValue()].asc_getPageSetup();
+            SSE.getController('Toolbar').onEditHeaderClick(pageSetup);
+        },
+
+        onApiChangePreviewPage: function (page) {
+            if (this._navigationPreview.currentPage !== page) {
+                this._navigationPreview.currentPage = page;
+                this.updateNavigationButtons(page, this._navigationPreview.pageCount);
+                this.disableNavButtons();
+            }
+        },
+
+        onApiPreviewSheetDataChanged: function (needUpdate) {
+            if (needUpdate) {
+                this.updatePreview();
+            } else {
+                this.notUpdateSheetSettings = true;
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+                this.updateNavigationButtons(this._navigationPreview.currentPage, this._navigationPreview.pageCount);
+            }
         },
 
         warnCheckMargings:      'Margins are incorrect',

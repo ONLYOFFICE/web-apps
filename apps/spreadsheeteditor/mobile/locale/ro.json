@@ -160,7 +160,8 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -324,16 +325,19 @@
       "sCatTextAndData": "Text și date",
       "textAddLink": "Adăugare link",
       "textAddress": "Adresă",
+      "textAllTableHint": "Returnează tot conţinutul unui tabel sau coloanele selectate într-un tabel inclusiv anteturi de coloane, rânduri de date și rânduri de totaluri ",
       "textBack": "Înapoi",
       "textCancel": "Anulează",
       "textChart": "Diagramă",
       "textComment": "Comentariu",
+      "textDataTableHint": "Returnează celule de date dintr-un tabel sau colonele selectate într-un tabel",
       "textDisplay": "Afișare",
       "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
       "textExternalLink": "Link extern",
       "textFilter": "Filtrare",
       "textFunction": "Funcție",
       "textGroups": "CATEGORII",
+      "textHeadersTableHint": "Returnează titlurile coloanelor din tabel sau coloanele selectate într-un tabel ",
       "textImage": "Imagine",
       "textImageURL": "URL-ul imaginii",
       "textInsert": "Inserare",
@@ -354,6 +358,8 @@
       "textShape": "Forma",
       "textSheet": "Foaie",
       "textSortAndFilter": "Sortare și filtrare",
+      "textThisRowHint": "Numai acest rând din coloana selectată",
+      "textTotalsTableHint": "Returnează rândurile de totaluri dintr-un tabel sau coloanele selectate într-un tabel",
       "txtExpand": "Extindere și sortare",
       "txtExpandSort": "Datele lângă selecție vor fi sortate. Doriți să extindeți selecția pentru a include datele adiacente sau doriți să continuați cu selecția curentă?",
       "txtLockSort": "Alături de celulele selectate au fost găsite datele dar nu aveți permisiuni suficente ca să le modificați<br>Doriți să continuați cu selecția curentă?",

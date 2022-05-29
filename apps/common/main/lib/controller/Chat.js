@@ -85,6 +85,14 @@ define([
                 storeUsers: this.getApplication().getCollection('Common.Collections.Users'),
                 storeMessages: this.getApplication().getCollection('Common.Collections.ChatMessages')
             });
+            this.panelChat.on('render:after', _.bind(this.onAfterRender, this));
+        },
+
+        onAfterRender: function(panel) {
+            var viewport = this.getApplication().getController('Viewport').getView('Viewport');
+            viewport.hlayout.on('layout:resizedrag',  _.bind(function () {
+                panel && panel.updateScrolls();
+            }, this));
         },
 
         setMode: function(mode) {
@@ -95,7 +103,7 @@ define([
                 if (this.mode.canCoAuthoring && this.mode.canChat)
                     this.api.asc_registerCallback('asc_onCoAuthoringChatReceiveMessage', _.bind(this.onReceiveMessage, this));
 
-                if ( !this.mode.isEditDiagram && !this.mode.isEditMailMerge ) {
+                if ( !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle ) {
                     this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onUsersChanged, this));
                     this.api.asc_registerCallback('asc_onConnectionStateChanged', _.bind(this.onUserConnection, this));
                     this.api.asc_coAuthoringGetUsers();

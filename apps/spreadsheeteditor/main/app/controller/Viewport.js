@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/view/Header',
+    'common/main/lib/view/SearchBar',
     'spreadsheeteditor/main/app/view/Viewport'
 //    ,'spreadsheeteditor/main/app/view/LeftMenu'
 ], function (Viewport) {
@@ -79,7 +80,7 @@ define([
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
-                        if (!config.isEditDiagram && !config.isEditMailMerge)
+                        if (!config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle)
                             toolbar.setExtra('right', me.header.getPanel('right', config));
 
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
@@ -148,11 +149,11 @@ define([
             {
                 me.viewport.vlayout.getItem('toolbar').height = _intvars.get('toolbar-height-compact');
             } else
-            if ( config.isEditDiagram || config.isEditMailMerge ) {
+            if ( config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
                 me.viewport.vlayout.getItem('toolbar').height = 41;
             }
 
-            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !(config.customization && config.customization.compactHeader)) {
+            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !(config.customization && config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));
@@ -217,6 +218,8 @@ define([
             this.boxFormula = $('#cell-editing-box');
             this.boxSdk.css('border-left', 'none');
             this.boxFormula.css('border-left', 'none');
+
+            Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
         },
 
         onLayoutChanged: function(area) {
@@ -292,6 +295,34 @@ define([
         },
 
         SetDisabled: function (disabled) {
+        },
+
+        onSearchShow: function () {
+            this.header.btnSearch && this.header.btnSearch.toggle(true);
+        },
+
+        onSearchToggle: function () {
+            var leftMenu = this.getApplication().getController('LeftMenu');
+            if (leftMenu.isSearchPanelVisible()) {
+                this.header.btnSearch.toggle(false, true);
+                leftMenu.getView('LeftMenu').panelSearch.focus();
+                return;
+            }
+            if (!this.searchBar) {
+                this.searchBar = new Common.UI.SearchBar({});
+                this.searchBar.on('hide', _.bind(function () {
+                    this.header.btnSearch.toggle(false, true);
+                }, this));
+            }
+            if (this.header.btnSearch.pressed) {
+                this.searchBar.show(this.api.asc_GetSelectedText());
+            } else {
+                this.searchBar.hide();
+            }
+        },
+
+        isSearchBarVisible: function () {
+            return this.searchBar && this.searchBar.isVisible();
         },
 
         textHideFBar: 'Hide Formula Bar',

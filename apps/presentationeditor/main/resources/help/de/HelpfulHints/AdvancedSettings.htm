@@ -23,7 +23,8 @@
                 <li><b>Hilfslinien</b> - aktivieren/deaktivieren von Ausrichtungshilfslinien, die Ihnen dabei helfen, Objekte präzise auf der Seite zu positionieren.</li>
                 <li>Über <span class="onlineDocumentFeatures"><b>AutoSpeichern</b> können Sie in der <em>Online-Version</em> die Funktion zum automatischen Speichern von Änderungen während der Bearbeitung ein-/ausschalten.</span> Über <span class="desktopDocumentFeatures"><b>Wiederherstellen</b> können Sie in der <em>Desktop-Version</em> die Funktion zum automatischen Wiederherstellen von Dokumenten für den Fall eines unerwarteten Programmabsturzes ein-/ausschalten.</span></li>
                 <li class="onlineDocumentFeatures">
-                    <b>Co-Bearbeitung</b> - Anzeige der während der Co-Bearbeitung vorgenommenen Änderungen:<ul>
+                    <b>Co-Bearbeitung</b> - Anzeige der während der Co-Bearbeitung vorgenommenen Änderungen:
+                    <ul>
                         <li>Standardmäßig ist der <b>Schnellmodus</b> aktiviert. Die Benutzer, die das Dokuments gemeinsam bearbeiten, sehen die Änderungen in Echtzeit, sobald sie von anderen Benutzern vorgenommen wurden.</li>
                         <li>Wenn Sie die Änderungen von anderen Benutzern nicht einsehen möchten (um Störungen zu vermeiden oder aus einem anderen Grund), wählen Sie den Modus <b>Strikt</b> und alle Änderungen werden erst angezeigt, nachdem Sie auf das Symbol <b>Speichern</b> <div class = "icon icon-saveupdate"></div> geklickt haben, dass Sie darüber informiert, dass Änderungen von anderen Benutzern vorliegen.</li>
                     </ul>
@@ -33,18 +34,42 @@
                     <ul>
                         <li>Die Option <b>Hell</b> enthält Standardfarben - orange, weiß und hellgrau mit weniger Kontrast in den Elementen der Benutzeroberfläche, die für die Arbeit tagsüber komfortabel sind.</li>
                         <li>Die Option <b>Klassisch Hell</b> enthält Standardfarben - orange, weiß und hellgrau.</li>
-                        <li>Die Option <b>Dunkel</b> enthält schwarze, dunkelgraue und hellgraue Farben, die für die Arbeit in der Nacht komfortabel sind.</li>
+                        <li>
+                            Die Option <b>Dunkel</b> enthält schwarze, dunkelgraue und hellgraue Farben, die für die Arbeit in der Nacht komfortabel sind.
+                            <p class="note"><b>Hinweis</b>: Abgesehen von den verfügbaren Oberflächendesigns <b>Hell</b>, <b>Klassisch Hell</b> und <b>Dunkel</b> können ONLYOFFICE-Editoren jetzt mit Ihrem eigenen Farbdesign angepasst werden. Bitte befolgen Sie <a target="_blank" href="https://helpcenter.onlyoffice.com/installation/docs-developer-change-theme.aspx" onclick="onhyperlinkclick(this)">diese Anleitung</a>, um zu erfahren, wie Sie das tun können.</p>
+                        </li>
                     </ul>
-                </li>
-                <li><b>Standard-Zoomwert</b> - Einrichten des Standard-Zoomwerts aus der Liste der verfügbaren Optionen von 50 % bis 200 %. Sie können auch die Option <b>An Folie anpassen</b> oder <b>An Breite anpassen</b> auswählen.</li>
+                <li><b>Standard-Zoomwert</b> - Einrichten des Standard-Zoomwerts aus der Liste der verfügbaren Optionen von 50 % bis 500 %. Sie können auch die Option <b>An Folie anpassen</b> oder <b>An Breite anpassen</b> auswählen.</li>
                 <li>
-                    <b>Hinting</b> - Auswahl der Schriftartdarstellung im Präsentationseditor:<ul>
+                    <b>Schriftglättung</b> - Auswahl der Schriftartdarstellung im Präsentationseditor:<ul>
                         <li>Wählen Sie <b>Wie Windows</b>, wenn Ihnen die Art gefällt, wie die Schriftarten unter Windows gewöhnlich angezeigt werden, d.h. mit Windows-artigen Hints.</li>
                         <li>Wählen Sie <b>Wie OS X</b>, wenn Ihnen die Art gefällt, wie die Schriftarten auf einem Mac gewöhnlich angezeigt werden, d.h. ohne Hints.</li>
-                        <li>Wählen Sie <b>Eingebettet</b>, wenn Sie möchten, dass Ihr Text mit den Hints angezeigt wird, die in Schriftartdateien eingebettet sind.</li>
+                        <li>Wählen Sie <b>Einheitlich</b>, wenn Sie möchten, dass Ihr Text mit den Hints angezeigt wird, die in Schriftartdateien eingebettet sind.</li>
+                        <li>
+                            <b>Standard-Cache-Modus</b> wird verwendet, um den Cache-Modus für die Schriftzeichen auszuwählen. Es wird nicht empfohlen, es ohne Gründe zu wechseln. Es kann nur in manchen Fällen hilfreich sein, beispielsweise wenn der Google Chrome-Browser Probleme mit der aktivierten Hardwarebeschleunigung hat.
+                            <p>Der Präsentationseditor verfügt über zwei Cache-Modi:</p>
+                            <ol>
+                                <li>Im <b>ersten Cache-Modus</b> wird jeder Buchstabe als separates Bild gecachet.</li>
+                                <li>Im <b>zweiten Cache-Modus</b> wird ein Bild einer bestimmten Größe ausgewählt, in dem Buchstaben dynamisch platziert werden, und ein Mechanismus zum Zuweisen/Entfernen von Speicher in diesem Bild wird ebenfalls implementiert. Wenn nicht genügend Speicher vorhanden ist, wird ein zweites Bild erstellt usw.</li>
+                            </ol>
+                            <p>Die Einstellung <b>Standard-Cache-Modus</b> wendet zwei der oben genannten Cache-Modi separat für verschiedene Browser an:</p>
+                            <ul>
+                                <li>Wenn die Einstellung <b>Standard-Cache-Modus</b> aktiviert ist, verwendet Internet Explorer (v. 9, 10, 11) den <b>zweiten Cache-Modus</b>, andere Browser verwenden den <b>ersten Cache-Modus </b>.</li>
+                                <li>Wenn die Einstellung <b>Standard-Cache-Modus</b> deaktiviert ist, verwendet Internet Explorer (v. 9, 10, 11) den <b>ersten Cache-Modus</b>, andere Browser verwenden den <b>zweiten Cache-Modus </b>.</li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li><b>Maßeinheiten</b> - geben Sie an, welche Einheiten auf den Linealen und in Eigenschaftenfenstern verwendet werden, um Elemente wie Breite, Höhe, Abstand, Ränder usw. zu messen. Sie können die Optionen <b>Zentimeter</b>, <b>Punkt</b>, oder <b>Zoll</b> wählen.</li>
+                <li><b>Ausschneiden, Kopieren und Einfügen</b> wird verwendet, um die Schaltfläche <b>Einfügeoptionen</b> anzuzeigen, wenn Inhalt eingefügt wird. Aktivieren Sie das Kontrollkästchen, um diese Funktion zu aktivieren.</li>
+                <li>
+                    <b>Einstellungen von Makros</b> wird verwendet, um die Anzeige von Makros mit einer Benachrichtigung einzustellen.
+                    <ul>
+                        <li>Wählen Sie die Option <b>Alle deaktivieren</b> aus, um alle Makros in der Präsentation zu deaktivieren;</li>
+                        <li><b>Benachrichtigung anzeigen</b>, um Benachrichtigungen über Makros innerhalb der Präsentation zu erhalten;</li>
+                        <li><b>Alle aktivieren</b>, um alle Makros innerhalb der Präsentation automatisch auszuführen.</li>
+                    </ul>
+                </li>
             </ul>
 			<p>Um die vorgenommenen Änderungen zu speichern, klicken Sie auf <b>Übernehmen</b>.</p>
 		</div>

@@ -334,8 +334,8 @@
     "textTotalRow": "Fila de total",
     "textTu": "dt.",
     "textType": "Tipus",
+    "textWe": "dc.",
     "textWrap": "Ajustament",
-    "textWe": "We",
     "textTableOfCont": "TOC",
     "textPageNumbers": "Page Numbers",
     "textSimple": "Simple",
@@ -397,7 +397,9 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "S'estan carregant les dades...",
@@ -530,7 +532,8 @@
     "warnLicenseUsersExceeded": "Has arribat al límit d'usuari per a %1 editors. Contacta amb el teu administrador per a més informació.",
     "warnNoLicense": "Has arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacta amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
     "warnNoLicenseUsers": "Has arribat al límit d'usuaris per a %1 editors. Contacta amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels teus serveis.",
-    "warnProcessRightsChange": "No tens permís per editar aquest fitxer."
+    "warnProcessRightsChange": "No tens permís per editar aquest fitxer.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "El fitxer està protegit",
@@ -570,6 +573,7 @@
     "textEnableAll": "Habilita-ho tot",
     "textEnableAllMacrosWithoutNotification": "Habilita totes les macros sense notificació",
     "textEncoding": "Codificació",
+    "textFastWV": "Vista Web Ràpida",
     "textFind": "Cerca",
     "textFindAndReplace": "Cerca i substitueix",
     "textFindAndReplaceAll": "Cerca i substitueix-ho tot",
@@ -588,6 +592,7 @@
     "textMargins": "Marges",
     "textMarginsH": "Els marges superior i inferior són massa alts per a una alçada de pàgina determinada",
     "textMarginsW": "Els marges esquerre i dret són massa amples per a una amplada de pàgina determinada",
+    "textNo": "No",
     "textNoCharacters": "Caràcters que no es poden imprimir",
     "textNoTextFound": "No s'ha trobat el text",
     "textOk": "D'acord",
@@ -595,7 +600,10 @@
     "textOrientation": "Orientació",
     "textOwner": "Propietari",
     "textPages": "Pàgines",
+    "textPageSize": "Mida Pàgina",
     "textParagraphs": "Paràgrafs",
+    "textPdfTagged": "PDF Etiquetat",
+    "textPdfVer": "Versió PDF",
     "textPoint": "Punt",
     "textPortrait": "Orientació vertical",
     "textPrint": "Imprimeix",
@@ -617,6 +625,7 @@
     "textUnitOfMeasurement": "Unitat de mesura",
     "textUploaded": "S'ha carregat",
     "textWords": "Paraules",
+    "textYes": "Sí",
     "txtDownloadTxt": "Baixa TXT",
     "txtIncorrectPwd": "La contrasenya no és correcta",
     "txtOk": "D'acord",
@@ -647,7 +656,8 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textPdfProducer": "PDF Producer"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

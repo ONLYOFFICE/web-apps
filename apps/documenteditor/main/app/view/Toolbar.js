@@ -109,6 +109,7 @@ define([
         cantAddPageNum: 'cant-add-page-num',
         cantPageBreak:  'cant-page-break',
         cantUpdateTOF:  'cant-update-tof',
+        cantAddTextTOF: 'cant-addtext-tof',
         cantGroup:      'cant-group',
         cantWrap:       'cant-wrap',
         cantArrange:    'cant-arrange',
@@ -354,7 +355,7 @@ define([
                         menu: new Common.UI.Menu({
                             style: 'min-width: 100px;',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
                                 {caption: '--'},
                                 this.mnuHighlightTransparent = new Common.UI.MenuItem({
                                     caption: this.strMenuNoFill,
@@ -367,7 +368,6 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     this.paragraphControls.push(this.btnHighlightColor);
-                    this.textOnlyControls.push(this.btnHighlightColor);
 
                     this.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
@@ -898,7 +898,8 @@ define([
                                                 checkable: true
                                             }),
                                             {caption: '--'},
-                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
+                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 164px; display: inline-block;"></div>')},
+                                            {caption: '--'},
                                             {
                                                 id: 'id-toolbar-menu-new-control-color',
                                                 template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>')
@@ -2103,6 +2104,9 @@ define([
                             {caption: this.mniEditHeader, value: 'header'},
                             {caption: this.mniEditFooter, value: 'footer'},
                             {caption: '--'},
+                            {caption: this.mniRemoveHeader, value: 'header-remove'},
+                            {caption: this.mniRemoveFooter, value: 'footer-remove'},
+                            {caption: '--'},
                             this.mnuInsertPageNum = new Common.UI.MenuItem({
                                 caption: this.textInsertPageNumber,
                                 lock: this.mnuInsertPageNum.options.lock,
@@ -2326,15 +2330,19 @@ define([
                 if (this.btnHighlightColor.cmpEl) {
                     this.btnHighlightColor.currentColor = 'FFFF00';
                     this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
-                    this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
+                    this.mnuHighlightColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-highlight'),
                         colors: [
                             'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
                             '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
-                        ]
+                        ],
+                        value: 'FFFF00',
+                        dynamiccolors: 0,
+                        columns: 4,
+                        outerMenu: {menu: this.btnHighlightColor.menu, index: 0, focusOnShow: true}
                     });
-                    this.mnuHighlightColorPicker.select('FFFF00');
                     this.btnHighlightColor.setPicker(this.mnuHighlightColorPicker);
+                    this.btnHighlightColor.menu.setInnerMenu([{menu: this.mnuHighlightColorPicker, index: 0}]);
                 }
 
                 if (this.btnFontColor.cmpEl) {
@@ -2646,8 +2654,8 @@ define([
             textInsertPageNumber: 'Insert page number',
             textToCurrent: 'To Current Position',
             tipEditHeader: 'Edit header or footer',
-            mniEditHeader: 'Edit Document Header',
-            mniEditFooter: 'Edit Document Footer',
+            mniEditHeader: 'Edit Header',
+            mniEditFooter: 'Edit Footer',
             mniHiddenChars: 'Nonprinting Characters',
             mniHiddenBorders: 'Hidden Table Borders',
             tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
@@ -2825,7 +2833,9 @@ define([
             tipMarkersCheckmark: 'Checkmark bullets',
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
-            textTabView: 'View'
+            textTabView: 'View',
+            mniRemoveHeader: 'Remove Header',
+            mniRemoveFooter: 'Remove Footer'
         }
     })(), DE.Views.Toolbar || {}));
 });

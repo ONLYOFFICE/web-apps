@@ -160,7 +160,8 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -291,6 +292,8 @@
     "textHide": "Ocultar",
     "textMore": "Mais",
     "textMove": "Mover",
+    "textMoveBefore": "Mover antes da folha",
+    "textMoveToEnd": "(Mover para o final)",
     "textOk": "OK",
     "textRename": "Renomear",
     "textRenameSheet": "Renomear Folha",
@@ -298,8 +301,6 @@
     "textSheetName": "Nome da folha",
     "textUnhide": "Reexibir",
     "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -324,16 +325,19 @@
       "sCatTextAndData": "Texto e Dados",
       "textAddLink": "Adicionar Link",
       "textAddress": "Endereço",
+      "textAllTableHint": "Retorna todo o conteúdo da tabela ou colunas especificadas da tabela, incluindo cabeçalhos de coluna, dados e linhas totais",
       "textBack": "Voltar",
       "textCancel": "Cancelar",
       "textChart": "Gráfico",
       "textComment": "Comente",
+      "textDataTableHint": "Retorna as células de dados da tabela ou colunas de tabela especificadas",
       "textDisplay": "Exibir",
       "textEmptyImgUrl": "Você precisa especificar o URL da imagem.",
       "textExternalLink": "Link externo",
       "textFilter": "Filtro",
       "textFunction": "Função",
       "textGroups": "Categorias",
+      "textHeadersTableHint": "Devolve os cabeçalhos das colunas para a tabela ou colunas de tabela especificadas",
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsert": "Inserir",
@@ -354,6 +358,8 @@
       "textShape": "Forma",
       "textSheet": "Folha",
       "textSortAndFilter": "Classificar e Filtrar",
+      "textThisRowHint": "Escolha apenas esta linha da coluna especificada",
+      "textTotalsTableHint": "Devolve o total de linhas para a tabela ou colunas de tabela especificadas",
       "txtExpand": "Expandir e classificar",
       "txtExpandSort": "Os dados próximos à seleção não serão classificados. Você quer expandir a seleção para incluir os dados adjacentes ou continuar com classificando apenas as células selecionadas atualmente?",
       "txtLockSort": "Os dados são encontrados ao lado de sua seleção, mas você não tem permissão suficiente para alterar essas células.<br> Você deseja continuar com a seleção atual?",

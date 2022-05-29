@@ -106,6 +106,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.api = this.options.api;
             this._changedProps = null;
             this._changedShapeProps = null;
+            this._isSmartArt = false;
         },
 
         render: function() {
@@ -253,7 +254,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 minValue: 0
             });
             this.spnShapeWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (this.chRatio.getValue()=='checked' && !this.chRatio.isDisabled()) {
+                if (this.chRatio.getValue()=='checked' && (!this.chRatio.isDisabled() || this._isSmartArt)) {
                     var w = field.getNumberValue();
                     var h = w/this._nRatio;
                     if (h>this.sizeMax.height) {
@@ -281,7 +282,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             });
             this.spnShapeHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var h = field.getNumberValue(), w = null;
-                if (this.chRatio.getValue()=='checked' && !this.chRatio.isDisabled()) {
+                if (this.chRatio.getValue()=='checked' && (!this.chRatio.isDisabled() || this._isSmartArt)) {
                     w = h * this._nRatio;
                     if (w>this.sizeMax.width) {
                         w = this.sizeMax.width;
@@ -1408,7 +1409,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this._setShapeDefaults(shapeprops);
                     this.setTitle(this.textTitleShape);
                     value = props.asc_getLockAspect();
-                    this.chRatio.setValue(value);
+                    this.chRatio.setValue(value || this._isSmartArt, true); // can resize smart art only proportionately
 
                     this.spnShapeWidth.setMaxValue(this.sizeMax.width);
                     this.spnShapeHeight.setMaxValue(this.sizeMax.height);
@@ -1450,7 +1451,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         value = props.get_Height();
                         this.spnShapeHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
                     }
-                    this.chRatio.setDisabled(this.radioVSizePc.getValue() || this.radioHSizePc.getValue());
+                    this.chRatio.setDisabled(this.radioVSizePc.getValue() || this.radioHSizePc.getValue() || this._isSmartArt);
 
                     var margins = shapeprops.get_paddings();
                     if (margins) {
@@ -1558,9 +1559,13 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.radioHSizePc.setDisabled(true);
                     this.radioVSizePc.setDisabled(true);
                     this.btnsCategory[2].setDisabled(true);
+                    this._isSmartArt = true;
                 }
                 if (props.get_FromSmartArtInternal()) {
                     this.chAutofit.setDisabled(true);
+                    this.chFlipHor.setDisabled(true);
+                    this.chFlipVert.setDisabled(true);
+                    this.btnsCategory[1].setDisabled(true);
                 }
 
                 var stroke = props.get_stroke();

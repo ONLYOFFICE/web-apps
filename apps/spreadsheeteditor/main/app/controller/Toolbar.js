@@ -301,6 +301,25 @@ define([
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
                 toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
                 toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
+            } else
+            if ( me.appConfig.isEditOle ) {
+                toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+                toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+                toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
+                toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
+                toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
+                toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
+                toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
+                toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
+                toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
+                toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
+                toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
+                toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
+                if (toolbar.cmbNumberFormat.cmpEl)
+                    toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
@@ -400,7 +419,7 @@ define([
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
                 toolbar.btnsEditHeader.forEach(function(button) {
-                    button.on('click', _.bind(me.onEditHeaderClick, me));
+                    button.on('click', _.bind(me.onEditHeaderClick, me, undefined));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
                 toolbar.chPrintGridlines.on('change',                        _.bind(this.onPrintGridlinesChange, this));
@@ -419,7 +438,7 @@ define([
 
             var config = SSE.getController('Main').appOptions;
             if (config.isEdit) {
-                if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
+                if ( !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle ) {
                     this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
                     this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
                     this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
@@ -1846,7 +1865,7 @@ define([
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
 
-            if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
+            if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge && !this.appConfig.isEditOle ) {
                 this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onEndAddShape',              _.bind(this.onApiEndAddShape, this));
@@ -1901,7 +1920,7 @@ define([
                         e.stopPropagation();
                     },
                     'command+k,ctrl+k': function (e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.toolbar.mode.isEditOle && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
                             !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible() && !me._state.wsProps['InsertHyperlinks']) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
@@ -1911,7 +1930,7 @@ define([
                         e.preventDefault();
                     },
                     'command+1,ctrl+1': function(e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.api.isCellEdited && !me.toolbar.cmbNumberFormat.isDisabled()) {
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditOle && !me.api.isCellEdited && !me.toolbar.cmbNumberFormat.isDisabled()) {
                             me.onCustomNumberFormat();
                         }
 
@@ -2192,7 +2211,7 @@ define([
             if ($('.asc-window.enable-key-events:visible').length>0) return;
 
             var toolbar = this.toolbar;
-            if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
+            if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge || toolbar.mode.isEditOle) {
                 is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
                 toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData, toolbar.btnEditChartType]});
             } else
@@ -2243,7 +2262,7 @@ define([
 
 
         onApiSheetChanged: function() {
-            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
+            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge || this.toolbar.mode.isEditOle) return;
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex(),
                 props = this.api.asc_getPageOptions(currentSheet),
@@ -2401,7 +2420,7 @@ define([
             Common.NotificationCenter.trigger('fonts:change', fontobj);
 
             /* read font params */
-            if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
+            if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram && !toolbar.mode.isEditOle) {
                 val = fontobj.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
@@ -2508,10 +2527,12 @@ define([
             if ( this.toolbar.mode.isEditDiagram )
                 return this.onApiSelectionChanged_DiagramEditor(info); else
             if ( this.toolbar.mode.isEditMailMerge )
-                return this.onApiSelectionChanged_MailMergeEditor(info);
+                return this.onApiSelectionChanged_MailMergeEditor(info); else
+            if ( this.toolbar.mode.isEditOle )
+                return this.onApiSelectionChanged_OleEditor(info);
 
             var selectionType = info.asc_getSelectionType(),
-                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true || info.asc_getLockedPivotTable()===true) : false,
+                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram && !this.toolbar.mode.isEditOle) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true || info.asc_getLockedPivotTable()===true) : false,
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
                 toolbar = this.toolbar,
@@ -2570,7 +2591,7 @@ define([
             if (editOptionsDisabled) return;
 
             /* read font params */
-            if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
+            if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram && !toolbar.mode.isEditOle) {
                 val = xfs.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
@@ -3067,6 +3088,90 @@ define([
             }
         },
 
+        onApiSelectionChanged_OleEditor: function(info) {
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+
+            var me = this;
+            var _disableEditOptions = function(seltype, coauth_disable) {
+                var is_chart_text = seltype == Asc.c_oAscSelectionType.RangeChartText,
+                    is_chart = seltype == Asc.c_oAscSelectionType.RangeChart,
+                    is_shape_text = seltype == Asc.c_oAscSelectionType.RangeShapeText,
+                    is_shape = seltype == Asc.c_oAscSelectionType.RangeShape,
+                    is_image = seltype == Asc.c_oAscSelectionType.RangeImage || seltype == Asc.c_oAscSelectionType.RangeSlicer,
+                    is_mode_2 = is_shape_text || is_shape || is_chart_text || is_chart,
+                    is_objLocked = false;
+
+                if (!(is_mode_2 || is_image) &&
+                        me._state.selection_type === seltype &&
+                            me._state.coauthdisable === coauth_disable)
+                    return seltype === Asc.c_oAscSelectionType.RangeImage;
+
+                if ( is_mode_2 ) {
+                    var selectedObjects = me.api.asc_getGraphicObjectProps();
+                    is_objLocked = selectedObjects.some(function (object) {
+                        return object.asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image && object.asc_getObjectValue().asc_getLocked();
+                    });
+                }
+
+                var _set = Common.enumLock;
+                var type = seltype;
+                switch ( seltype ) {
+                    case Asc.c_oAscSelectionType.RangeSlicer:
+                    case Asc.c_oAscSelectionType.RangeImage: type = _set.selImage; break;
+                    case Asc.c_oAscSelectionType.RangeShape: type = _set.selShape; break;
+                    case Asc.c_oAscSelectionType.RangeShapeText: type = _set.selShapeText; break;
+                    case Asc.c_oAscSelectionType.RangeChart: type = _set.selChart; break;
+                    case Asc.c_oAscSelectionType.RangeChartText: type = _set.selChartText; break;
+                }
+
+                me.toolbar.lockToolbar(type, type != seltype, {
+                    clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
+                });
+
+                me.toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked);
+
+                return is_image;
+            };
+
+            var selectionType = info.asc_getSelectionType(),
+                xfs = info.asc_getXfs(),
+                coauth_disable = false,
+                editOptionsDisabled = _disableEditOptions(selectionType, coauth_disable),
+                val, need_disable = false;
+
+            if (editOptionsDisabled) return;
+            if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
+                return;
+
+            if ( !me.toolbar.mode.isEditDiagram ) {
+                var filterInfo = info.asc_getAutoFilterInfo();
+
+                val = filterInfo ? filterInfo.asc_getIsAutoFilter() : null;
+                if ( this._state.filter !== val ) {
+                    me.toolbar.btnSetAutofilter.toggle(val===true, true);
+                    this._state.filter = val;
+                }
+
+                need_disable =  this._state.controlsdisabled.filters || (val===null);
+                me.toolbar.lockToolbar(Common.enumLock.ruleFilter, need_disable,
+                    { array: [me.toolbar.btnSetAutofilter, me.toolbar.btnSortDown, me.toolbar.btnSortUp] });
+
+                need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
+                me.toolbar.lockToolbar(Common.enumLock.ruleDelFilter, need_disable, {array: [me.toolbar.btnClearAutofilter]});
+            }
+
+            var val = xfs.asc_getNumFormatInfo();
+            if ( val ) {
+                this._state.numformat = xfs.asc_getNumFormat();
+                this._state.numformatinfo = val;
+                val = val.asc_getType();
+                if (this._state.numformattype !== val) {
+                    me.toolbar.cmbNumberFormat.setValue(val, me.toolbar.txtCustom);
+                    this._state.numformattype = val;
+                }
+            }
+        },
+
         onApiStyleChange: function() {
             this.toolbar.btnCopyStyle.toggle(false, true);
             this.modeAlwaysSetStyle = false;
@@ -3511,7 +3616,7 @@ define([
                 case Asc.c_oAscSelectionType.RangeSlicer:       type = _set.selSlicer; break;
                 }
 
-                if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge )
+                if ( !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge && !this.appConfig.isEditOle )
                     toolbar.lockToolbar(type, type != seltype, {
                         array: [
                             toolbar.btnClearStyle.menu.items[1],
@@ -3724,7 +3829,7 @@ define([
             me.appConfig = config;
 
             var compactview = !config.isEdit;
-            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge ) {
+            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
                 if ( Common.localStorage.itemExists("sse-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("sse-compact-toolbar");
                 } else
@@ -3734,7 +3839,7 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-            if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+            if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ($panel) {
@@ -3752,7 +3857,7 @@ define([
                 me.toolbar.btnPrint && me.toolbar.btnPrint.on('disabled', _.bind(me.onBtnChangeState, me, 'print:disabled'));
                 me.toolbar.setApi(me.api);
 
-                if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
                     var datatab = me.getApplication().getController('DataTab');
                     datatab.setApi(me.api).setConfig({toolbar: me});
 
@@ -3806,11 +3911,12 @@ define([
                         var wbtab = me.getApplication().getController('WBProtection');
                         $panel.append(wbtab.createToolbarPanel());
                         me.toolbar.addTab(tab, $panel, 7);
+                        me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                         Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                     }
                 }
             }
-            if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+            if ( !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle ) {
                 tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
                 var viewtab = me.getApplication().getController('ViewTab');
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
@@ -3971,7 +4077,7 @@ define([
                 this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
         },
 
-        onEditHeaderClick: function(btn) {
+        onEditHeaderClick: function(pageSetup, btn) {
             var me = this;
             if (_.isUndefined(me.fontStore)) {
                 me.fontStore = new Common.Collections.Fonts();
@@ -3988,6 +4094,7 @@ define([
             var win = new SSE.Views.HeaderFooterDialog({
                 api: me.api,
                 fontStore: me.fontStore,
+                pageSetup: pageSetup,
                 handler: function(dlg, result) {
                     if (result === 'ok') {
                         me.getApplication().getController('Print').updatePreview();

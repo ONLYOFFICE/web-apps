@@ -377,12 +377,12 @@ define([
             onBeforeShowMenu: function(e) {
                 Common.NotificationCenter.trigger('menu:show');
                 this.trigger('show:before', this, e);
-                this.alignPosition();
+                (e && e.target===e.currentTarget) && this.alignPosition();
             },
 
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
-                if (this.scroller) {
+                if (this.scroller && e && e.target===e.currentTarget) {
                     var menuRoot = this.menuRoot;
                     if (this.wheelSpeed===undefined) {
                         var item = menuRoot.find('> li:first'),
@@ -664,7 +664,7 @@ define([
                     if (top + menuH > docH + cg.top) {
                         menuRoot.css('max-height', (docH - top) + 'px');
                         (!this.scroller) && (this.scroller = new Common.UI.Scroller({
-                            el: this.$el.find('.dropdown-menu '),
+                            el: this.$el.find('> .dropdown-menu '),
                             minScrollbarLength: 30,
                             suppressScrollX: true,
                             alwaysVisibleY: this.scrollAlwaysVisible
@@ -975,12 +975,12 @@ define([
         onBeforeShowMenu: function(e) {
             Common.NotificationCenter.trigger('menu:show');
             this.trigger('show:before', this, e);
-            this.alignPosition();
+            (e && e.target===e.currentTarget) && this.alignPosition();
         },
 
         onAfterShowMenu: function(e) {
             this.trigger('show:after', this, e);
-            if (this.scroller) {
+            if (this.scroller && e && e.target===e.currentTarget) {
                 this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                 var menuRoot = this.menuRoot,
                     $selected = menuRoot.find('> li .checked');

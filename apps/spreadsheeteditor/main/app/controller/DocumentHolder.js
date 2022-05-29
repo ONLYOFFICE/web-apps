@@ -172,6 +172,9 @@ define([
                     me.hideCoAuthTips();
                     me.hideForeignSelectTips();
                     me.onDocumentResize();
+                    if (me.api && !me.tooltips.input_msg.isHidden && me.tooltips.input_msg.text) {
+                        me.changeInputMessagePosition(me.tooltips.input_msg);
+                    }
                 },
                 'cells:range': function(status){
                     me.onCellsRange(status);
@@ -233,7 +236,7 @@ define([
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
-                view.menuParagraphBullets.menu.on('render:after',   _.bind(me.onBulletMenuShowAfter, me));
+                // view.menuParagraphBullets.menu.on('render:after',   _.bind(me.onBulletMenuShowAfter, me));
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
@@ -241,6 +244,8 @@ define([
                 view.pmiTextAdvanced.on('click',                    _.bind(me.onTextAdvanced, me));
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
+                view.mnuChartData.on('click',                       _.bind(me.onChartData, me));
+                view.mnuChartType.on('click',                       _.bind(me.onChartType, me));
                 view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
                 view.mnuSlicerAdvanced.on('click',                  _.bind(me.onSlicerAdvanced, me));
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
@@ -254,6 +259,28 @@ define([
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
+
+                if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
+                    var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                            var command = message.data.command;
+                            var data = message.data.data;
+                            if (me.api) {
+                                if (oleEditor.isEditMode())
+                                    me.api.asc_editTableOleObject(data);
+                            }
+                        }, me));
+                        oleEditor.on('hide', _.bind(function(cmp, message) {
+                            if (me.api) {
+                                me.api.asc_enableKeyEvents(true);
+                            }
+                            setTimeout(function(){
+                                view.fireEvent('editcomplete', view);
+                            }, 10);
+                        }, me));
+                    }
+                }
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -340,6 +367,8 @@ define([
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
+                if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
+                    this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -889,6 +918,7 @@ define([
                             api: me.api,
                             props: props,
                             type: 0,
+                            storage: me.permissions.canRequestInsertImage || me.permissions.fileChoiceUrl && me.permissions.fileChoiceUrl.indexOf("{documentType}")>-1,
                             interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {
@@ -920,7 +950,25 @@ define([
                 rawData = record;
             }
 
-            if (this.api)
+            if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
+                var bullet = new Asc.asc_CBullet();
+                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
+                    bullet.asc_putSymbol(rawData.drawdata.char);
+                    bullet.asc_putFont(rawData.drawdata.specialFont);
+                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
+                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
+
+                var props;
+                var selectedObjects = this.api.asc_getGraphicObjectProps();
+                for (var i = 0; i < selectedObjects.length; i++) {
+                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                        props = selectedObjects[i].asc_getObjectValue();
+                        props.asc_putBullet(bullet);
+                        this.api.asc_setGraphicObjectProps(props);
+                        break;
+                    }
+                }
+            } else
                 this.api.asc_setListType(rawData.type, rawData.subtype);
 
             if (e.type !== 'click')
@@ -1030,6 +1078,60 @@ define([
                                 Common.NotificationCenter.trigger('edit:complete', me);
                             }
                         })).show();
+                }
+            }
+        },
+
+        onChartData: function(btn) {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditRanges = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartDataDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditRanges = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditRanges && props.cancelEdit();
+                        me._isEditRanges = false;
+                    });
+                    win.show();
+                }
+            }
+        },
+
+        onChartType: function(btn) {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditType = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartTypeDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditType = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditType && props.cancelEdit();
+                        me._isEditType = false;
+                    });
+                    win.show();
                 }
             }
         },
@@ -1719,7 +1821,7 @@ define([
                     delta = e.deltaY;
                 }
 
-                if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+                if (e.ctrlKey && !e.altKey) {
                     var factor = this.api.asc_getZoom();
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
@@ -1783,6 +1885,8 @@ define([
                     event.preventDefault();
                     event.stopPropagation();
                     return false;
+                } else if (key == Common.UI.Keys.ESC && !this.tooltips.input_msg.isHidden && this.tooltips.input_msg.text) {
+                    this.onInputMessage();
                 }
             }
         },
@@ -1832,7 +1936,8 @@ define([
                 isPivotLocked       = cellinfo.asc_getLockedPivotTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
-                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram,
+                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram || this.permissions.isEditOle,
+                diagramOrMergeEditor = this.permissions.isEditMailMerge || this.permissions.isEditDiagram,
                 xfs = cellinfo.asc_getXfs(),
                 isSmartArt = false,
                 isSmartArtInternal = false;
@@ -1843,11 +1948,11 @@ define([
                 case Asc.c_oAscSelectionType.RangeCol:      iscolmenu = true; break;
                 case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
                 case Asc.c_oAscSelectionType.RangeSlicer:
-                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !internaleditor; break;
-                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
+                case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeChartText:istextchartmenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
+                case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !(this.permissions.isEditMailMerge || this.permissions.isEditDiagram); break;
             }
 
             if (this.api.asc_getHeaderFooterMode()) {
@@ -1918,6 +2023,10 @@ define([
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
                 documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);
+                documentHolder.mnuChartData.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                documentHolder.mnuChartData.setDisabled(isObjLocked);
+                documentHolder.mnuChartType.setVisible(this.permissions.isEditOle && ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
+                documentHolder.mnuChartType.setDisabled(isObjLocked);
                 documentHolder.pmiImgCut.setDisabled(isObjLocked);
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
@@ -1937,6 +2046,8 @@ define([
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);
+                documentHolder.menuImgRotate.menu.items[3].setDisabled(isSmartArtInternal);
+                documentHolder.menuImgRotate.menu.items[4].setDisabled(isSmartArtInternal);
 
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
                 documentHolder.menuImgCrop.setDisabled(isObjLocked);
@@ -1946,6 +2057,7 @@ define([
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
 
+                documentHolder.menuImgMacro.setVisible(!internaleditor);
                 documentHolder.menuImgMacro.setDisabled(isObjLocked);
 
                 var canEditPoints = this.api && this.api.asc_canEditGeometry();
@@ -2018,9 +2130,48 @@ define([
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
                         documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
-                        // documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
-                        var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
+                        var type = listtype.get_ListType(),
+                            subtype = listtype.get_ListSubType(),
+                            rec,
+                            defrec = documentHolder.paraBulletsPicker.store.at(7),
+                            drawDefBullet = (defrec.get('subtype')===0x1000) && (type===1 || subtype!==0x1000);
+                        if (type===1 || subtype!==0x1000) {
+                            rec = documentHolder.paraBulletsPicker.store.findWhere({ type: type, subtype: subtype });
+                        } else {
+                            var bullet = listtype.asc_getListCustom();
+                            if (bullet) {
+                                var bullettype = bullet.asc_getType();
+                                if (bullettype === Asc.asc_PreviewBulletType.char) {
+                                    var symbol = bullet.asc_getChar();
+                                    if (symbol) {
+                                        rec = defrec;
+                                        rec.set('subtype', 0x1000);
+                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('tip', '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        drawDefBullet = false;
+
+                                    }
+                                } else if (bullettype === Asc.asc_PreviewBulletType.image) {
+                                    var id = bullet.asc_getImageId();
+                                    if (id) {
+                                        rec = defrec;
+                                        rec.set('subtype', 0x1000);
+                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('tip', '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        drawDefBullet = false;
+                                    }
+                                }
+                            }
+                        }
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
+                        if (drawDefBullet) {
+                            defrec.set('subtype', 8);
+                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('tip', documentHolder.tipMarkersDash);
+                            documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
+                        }
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || documentHolder.pmiTextAdvanced.textInfo.asc_getLocked();
@@ -2059,8 +2210,10 @@ define([
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
 
                 documentHolder.menuParagraphBullets.setDisabled(isSmartArt || isSmartArtInternal);
-            } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
-            seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
+            } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle ||
+                (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
+                seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText &&
+                seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
                 if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
                 
                 var iscelledit = this.api.isCellEdited,
@@ -2083,14 +2236,14 @@ define([
                 documentHolder.pmiDeleteTable.setVisible(iscellmenu && !iscelledit && isintable);
                 documentHolder.pmiSparklines.setVisible(isinsparkline);
                 documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit && !inPivot);
-                documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
-                documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[2].setVisible(!diagramOrMergeEditor);
+                documentHolder.pmiSortCells.menu.items[3].setVisible(!diagramOrMergeEditor);
                 documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
-                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor && !inPivot);
-                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor && !inPivot);
-                documentHolder.pmiCondFormat.setVisible(!iscelledit && !internaleditor);
-                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
-                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !internaleditor && inPivot);
+                documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
+                documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
+                documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
+                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
+                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
@@ -2108,8 +2261,8 @@ define([
                 }
 
                 var hyperinfo = cellinfo.asc_getHyperlink();
-                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !internaleditor && !inPivot);
-                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !internaleditor && !inPivot);
+                documentHolder.menuHyperlink.setVisible(iscellmenu && hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
+                documentHolder.menuAddHyperlink.setVisible(iscellmenu && !hyperinfo && !iscelledit && !ismultiselect && !diagramOrMergeEditor && !inPivot);
 
                 documentHolder.pmiRowHeight.setVisible(isrowmenu||isallmenu);
                 documentHolder.pmiColumnWidth.setVisible(iscolmenu||isallmenu);
@@ -2213,9 +2366,9 @@ define([
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
-                iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
+                iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
                 iscelledit = this.api.isCellEdited,
-                isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram,
+                isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
                 signGuid;
 
             if (!documentHolder.viewModeMenu)
@@ -2237,7 +2390,7 @@ define([
                 canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments() && cellinfo.asc_getComments().length < 1;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
-            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
+            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo());
             documentHolder.menuViewCopySeparator.setVisible(isInSign);
 
             var isRequested = (signProps) ? signProps.asc_getRequested() : false;
@@ -2347,10 +2500,12 @@ define([
                     menu.cmpEl.attr({tabindex: "-1"});
                 }
 
-                var coord  = me.api.asc_getActiveCellCoord(),
+                var coord  = me.api.asc_getActiveCellCoord(validation), // get merged cell for validation
                     offset = {left:0,top:0},
-                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                    showPoint = [coord.asc_getX() + offset.left + (validation ? coord.asc_getWidth() : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
 
                 me._preventClick = validation;
                 validation && menuContainer.attr('data-value', 'prevent-canvas-click');
@@ -2405,7 +2560,7 @@ define([
 
                 var coord  = me.api.asc_getActiveCellCoord(),
                     offset = {left:0,top:0},
-                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                    showPoint = [coord.asc_getX() + offset.left + coord.asc_getWidth(), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
 
                 me._preventClick = true;
@@ -2449,13 +2604,15 @@ define([
                 }
                 funcarr.sort(function (a,b) {
                     var atype = a.asc_getType(),
-                        btype = b.asc_getType(),
-                        aname = a.asc_getName(true).toLocaleUpperCase(),
-                        bname = b.asc_getName(true).toLocaleUpperCase();
+                        btype = b.asc_getType();
+                    if (atype===btype && (atype === Asc.c_oAscPopUpSelectorType.TableColumnName))
+                        return 0;
                     if (atype === Asc.c_oAscPopUpSelectorType.TableThisRow) return -1;
                     if (btype === Asc.c_oAscPopUpSelectorType.TableThisRow) return 1;
                     if ((atype === Asc.c_oAscPopUpSelectorType.TableColumnName || btype === Asc.c_oAscPopUpSelectorType.TableColumnName) && atype !== btype)
                         return atype === Asc.c_oAscPopUpSelectorType.TableColumnName ? -1 : 1;
+                    var aname = a.asc_getName(true).toLocaleUpperCase(),
+                        bname = b.asc_getName(true).toLocaleUpperCase();
                     if (aname < bname) return -1;
                     if (aname > bname) return 1;
                     return 0;
@@ -2674,6 +2831,26 @@ define([
             }
         },
 
+        changeInputMessagePosition: function (inputTip) {
+            var pos = [
+                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                ],
+                coord  = this.api.asc_getActiveCellCoord(),
+                showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputTip.ref.getBSTip().$tip.height() - 5];
+            var tipwidth = inputTip.ref.getBSTip().$tip.width();
+            if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+            if (showPoint[1] < pos[1])
+                showPoint[1] = pos[1] + coord.asc_getY() + coord.asc_getHeight() + 5;
+
+            inputTip.ref.getBSTip().$tip.css({
+                top : showPoint[1] + 'px',
+                left: showPoint[0] + 'px',
+                'z-index': 900
+            });
+        },
+
         onInputMessage: function(title, message) {
             var inputtip = this.tooltips.input_msg;
 
@@ -2700,28 +2877,24 @@ define([
                     inputtip.ref = new Common.UI.Tooltip({
                         owner   : inputtip.parentEl,
                         html    : true,
-                        title   : hint
+                        title   : hint,
+                        keepvisible: true
                     });
 
                     inputtip.ref.show([-10000, -10000]);
+
+                    var $tip = inputtip.ref.getBSTip().$tip;
+                    $tip.on('click', function () {
+                        inputtip.ref.hide();
+                        inputtip.ref = undefined;
+                        inputtip.text = '';
+                        inputtip.isHidden = true;
+                    });
+
                     inputtip.isHidden = false;
                 }
 
-                var pos = [
-                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ],
-                    coord  = this.api.asc_getActiveCellCoord(),
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputtip.ref.getBSTip().$tip.height() - 5];
-                var tipwidth = inputtip.ref.getBSTip().$tip.width();
-                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
-                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
-
-                inputtip.ref.getBSTip().$tip.css({
-                    top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px',
-                    'z-index': 900
-                });
+                this.changeInputMessagePosition(inputtip);
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {
                     inputtip.ref.hide();
@@ -3649,6 +3822,7 @@ define([
                 outerMenu:  {menu: view.menuParagraphBullets.menu, index: 0},
                 groups      : view.paraBulletsPicker.groups,
                 store       : view.paraBulletsPicker.store,
+                delayRenderTips: true,
                 itemTemplate: _.template('<% if (type==0) { %>' +
                                             '<div id="<%= id %>" class="item-markerlist"></div>' +
                                         '<% } else if (type==1) { %>' +
@@ -3664,14 +3838,27 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                if (item.get('group')=='menu-list-bullet-group')
-                    arrMarker.push(item.get('id'));
+                var data = item.get('drawdata');
+                data['divId'] = item.get('id');
+                if (item.get('group')==='menu-list-bullet-group')
+                    arrMarker.push(data);
                 else
-                    arrNum.push(item.get('id'));
+                    arrNum.push(data);
             });
+
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
                 this.api.SetDrawImagePreviewBulletForMenu(arrMarker, 0);
                 this.api.SetDrawImagePreviewBulletForMenu(arrNum, 1);
+            }
+        },
+
+        updateBulletTip: function(view, title) {
+            if (view) {
+                var tip = $(view.el).data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = title;
+                    tip.$tip.find('.tooltip-inner').text(title);
+                }
             }
         },
 
@@ -3880,6 +4067,17 @@ define([
                     me.fastcoauthtips[i].fadeOut(150, function(){src.remove()});
                     me.fastcoauthtips.splice(i, 1);
                     break;
+                }
+            }
+        },
+
+        onDoubleClickOnTableOleObject: function(obj) {
+            if (this.permissions.isEdit && !this._isDisabled) {
+                var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor && obj) {
+                    oleEditor.setEditMode(true);
+                    oleEditor.show();
+                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(obj));
                 }
             }
         },

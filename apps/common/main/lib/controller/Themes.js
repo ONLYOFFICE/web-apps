@@ -11,7 +11,16 @@ define([
     
     Common.UI.Themes = new (function(locale) {
         !locale && (locale = {});
+
+        const THEME_TYPE_LIGHT = 'light';
+        const THEME_TYPE_DARK = 'dark';
+        const THEME_TYPE_SYSTEM = 'system';
         var themes_map = {
+            'theme-system': {
+                text: locale.txtThemeSystem || 'Same as system',
+                type: THEME_TYPE_SYSTEM,
+                source: 'static',
+            },
             'theme-light': {
                 text: locale.txtThemeLight || 'Light',
                 type: 'light',
@@ -261,6 +270,21 @@ define([
             }
         };
 
+        const is_theme_type_system = function (id) { return themes_map[id].type == THEME_TYPE_SYSTEM; }
+        const get_system_theme_type = function () { return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT; }
+        const get_system_default_theme = function () {
+            const id = get_system_theme_type() == THEME_TYPE_DARK ?
+                id_default_dark_theme : id_default_light_theme;
+
+            return {id: id, info: themes_map[id]};
+        };
+
+        const on_system_theme_dark = function (mql) {
+            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                this.setTheme('theme-system');
+            }
+        };
+
         return {
             init: function (api) {
                 var me = this;
@@ -313,6 +337,8 @@ define([
                 obj.name = theme_name;
                 api.asc_setSkin(obj);
 
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
 
@@ -333,6 +359,9 @@ define([
             },
 
             currentThemeId: function () {
+                if ( Common.localStorage.getBool('ui-theme-use-system', false) )
+                    return 'theme-system';
+
                 var t = Common.localStorage.getItem('ui-theme') || Common.localStorage.getItem('ui-theme-id');
                 var id = get_ui_theme_name(t);
                 return !!themes_map[id] ? id : id_default_light_theme;
@@ -346,8 +375,9 @@ define([
                 return themes_map[this.defaultThemeId(type)]
             },
 
-            isDarkTheme: function () {
-                return themes_map[this.currentThemeId()].type == 'dark';
+            isDarkTheme: function (id) {
+                !id && (id = this.currentThemeId());
+                return (is_theme_type_system(id) ? get_system_default_theme().info.type : themes_map[id].type) == THEME_TYPE_DARK;
             },
 
             isContentThemeDark: function () {
@@ -384,6 +414,14 @@ define([
                 if ( !obj ) return;
 
                 var id = get_ui_theme_name(obj);
+
+                if ( is_theme_type_system(id) ) {
+                    Common.localStorage.setBool('ui-theme-use-system', true);
+                    id = get_system_default_theme().id;
+                } else {
+                    Common.localStorage.setBool('ui-theme-use-system', false);
+                }
+
                 if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
                     document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
                     document.body.classList.add(id, 'theme-type-' + themes_map[id].type);

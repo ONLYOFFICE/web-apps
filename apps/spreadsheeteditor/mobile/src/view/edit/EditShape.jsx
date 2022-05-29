@@ -13,11 +13,13 @@ const EditShape = props => {
     const canFill = shapeObject && shapeObject.get_ShapeProperties().asc_getCanFill();
 
     const shapeType = shapeObject.get_ShapeProperties().asc_getType();
-    const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
+    const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeObject.get_ShapeProperties().get_FromSmartArt() 
+    || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
     || shapeType=='bentConnector4' || shapeType=='bentConnector5' || shapeType=='curvedConnector2'
     || shapeType=='curvedConnector3' || shapeType=='curvedConnector4' || shapeType=='curvedConnector5'
     || shapeType=='straightConnector1';
 
+    const isSmartArtInternal = shapeObject.get_ShapeProperties().get_FromSmartArtInternal();
     let disableRemove = storeFocusObjects.selections.indexOf('text') > -1;
 
     return (
@@ -41,9 +43,11 @@ const EditShape = props => {
                         onReplace: props.onReplace
                     }}></ListItem>
                 }
-                <ListItem title={_t.textReorder} link="/edit-reorder-shape/" routeProps={{
-                    onReorder: props.onReorder
-                }}></ListItem>
+                { !isSmartArtInternal &&
+                    <ListItem title={_t.textReorder} link="/edit-reorder-shape/" routeProps={{
+                        onReorder: props.onReorder
+                    }}></ListItem>
+                }
             </List>
             <List className="buttons-list">
                 <ListButton className={`button-red button-fill button-raised${disableRemove ? ' disabled' : ''}`} onClick={props.onRemoveShape}>{_t.textRemoveShape}</ListButton>

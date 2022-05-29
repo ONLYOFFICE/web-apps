@@ -219,8 +219,9 @@
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                 },
                  coEditing: {
-                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
-                     change: true, // can change co-authoring mode
+                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
+                     // for viewer: 'strict' is default, offline viewer; 'fast' - live viewer, show changes from other users
+                     change: true, // can change co-authoring mode. true - default for editor, false - default for viewer
                  },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -913,7 +914,7 @@
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge')
+            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge' || config.editorConfig.mode === 'editole')
                 index = "/index_internal.html";
 
         }
@@ -947,7 +948,7 @@
             }
         }
 
-        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge'))
+        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge' || config.editorConfig.mode == 'editole'))
             params += "&internal=true";
 
         if (config.frameEditorId)

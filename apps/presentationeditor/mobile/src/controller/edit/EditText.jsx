@@ -235,6 +235,18 @@ class EditTextController extends Component {
         api.put_ListType(1, parseInt(type));
     }
 
+    getIconsBulletsAndNumbers(arrayElements, type) {
+        const api = Common.EditorApi.get();
+        const arr = [];
+
+        arrayElements.forEach( item => {
+            let data = item.drawdata;
+            data['divId'] = item.id;
+            arr.push(data);
+        });
+        if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);
+    }
+
     onLineSpacing(value) {
         const api = Common.EditorApi.get();
         const LINERULE_AUTO = 1;
@@ -263,6 +275,7 @@ class EditTextController extends Component {
                 changeLetterSpacing={this.changeLetterSpacing}
                 onBullet={this.onBullet}
                 onNumber={this.onNumber}
+                getIconsBulletsAndNumbers={this.getIconsBulletsAndNumbers}
                 onLineSpacing={this.onLineSpacing}
             />
         )

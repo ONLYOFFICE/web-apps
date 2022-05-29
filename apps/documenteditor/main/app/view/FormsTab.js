@@ -258,7 +258,6 @@ define([
                                     '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
                                     '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                                 ],
-                        paletteHeight: 94,
                         dataHint: '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
@@ -308,7 +307,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         lock: [_set.lostConnect, _set.disableOnStart],
                         iconCls: 'toolbar__icon save-form',
-                        caption: this.capBtnSaveForm,
+                        caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl ? this.capBtnSaveForm : this.capBtnDownloadForm,
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -356,7 +355,7 @@ define([
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
                     me.btnSubmit && me.btnSubmit.updateHint(me.tipSubmit);
-                    me.btnSaveForm && me.btnSaveForm.updateHint(me.tipSaveForm);
+                    me.btnSaveForm && me.btnSaveForm.updateHint(config.canRequestSaveAs || !!config.saveAsUrl ? me.tipSaveForm : me.tipDownloadForm);
 
                     setEvents.call(me);
                 });
@@ -438,11 +437,13 @@ define([
             tipSubmit: 'Submit form',
             textSubmited: 'Form submitted successfully',
             textRequired: 'Fill all required fields to send form.',
-            capBtnSaveForm: 'Save as a Form',
+            capBtnSaveForm: 'Save as oform',
             tipSaveForm: 'Save a file as a fillable OFORM document',
             txtUntitled: 'Untitled',
             textCreateForm: 'Add fields and create a fillable OFORM document',
-            textGotIt: 'Got it'
+            textGotIt: 'Got it',
+            capBtnDownloadForm: 'Download as oform',
+            tipDownloadForm: 'Download a file as a fillable OFORM document'
         }
     }()), DE.Views.FormsTab || {}));
 });

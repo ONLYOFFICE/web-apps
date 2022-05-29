@@ -65,9 +65,9 @@ class PESearchView extends SearchView {
         return {...params, ...searchOptions};
     }
 
-    onSearchbarShow(isshowed, bar) {
-        super.onSearchbarShow(isshowed, bar);
-    }
+    // onSearchbarShow(isshowed, bar) {
+    //     super.onSearchbarShow(isshowed, bar);
+    // }
 }
 
 const Search = withTranslation()(props => {

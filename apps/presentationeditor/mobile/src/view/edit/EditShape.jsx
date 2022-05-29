@@ -13,11 +13,13 @@ const EditShape = props => {
     const canFill = shapeObject && shapeObject.get_CanFill();
 
     const shapeType = shapeObject.asc_getType();
-    const hideChangeType = shapeObject.get_FromChart() || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
+    const hideChangeType = shapeObject.get_FromChart() || shapeObject.get_FromSmartArt() 
+    || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
     || shapeType=='bentConnector4' || shapeType=='bentConnector5' || shapeType=='curvedConnector2'
     || shapeType=='curvedConnector3' || shapeType=='curvedConnector4' || shapeType=='curvedConnector5'
     || shapeType=='straightConnector1';
 
+    const isSmartArtInternal = shapeObject.get_FromSmartArtInternal();
     let disableRemove = !!props.storeFocusObjects.paragraphObject;
 
     return (
@@ -41,10 +43,11 @@ const EditShape = props => {
                         onReplace: props.onReplace
                     }}></ListItem>
                 }
-                
-                <ListItem title={_t.textReorder} link="/edit-reorder-shape/" routeProps={{
-                    onReorder: props.onReorder
-                }}></ListItem>
+                { !isSmartArtInternal &&
+                    <ListItem title={_t.textReorder} link="/edit-reorder-shape/" routeProps={{
+                        onReorder: props.onReorder
+                    }}></ListItem>
+                }
                 <ListItem title={_t.textAlign} link="/edit-align-shape/" routeProps={{
                     onAlign: props.onAlign
                 }}></ListItem>
@@ -159,7 +162,7 @@ const PageStyle = props => {
                                        onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                             </div>
                         </ListItem>
@@ -183,7 +186,7 @@ const PageStyle = props => {
                                        onRangeChanged={(value) => {props.onOpacity(value)}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateOpacity + ' %'}
                             </div>
                         </ListItem>
@@ -278,7 +281,7 @@ const PageStyleNoFill = props => {
                                onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
                         ></Range>
                     </div>
-                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                    <div className='range-number' slot='inner-end'>
                         {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                     </div>
                 </ListItem>

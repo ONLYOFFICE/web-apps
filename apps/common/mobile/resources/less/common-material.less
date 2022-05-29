@@ -103,10 +103,10 @@
     }
 
     .add-popup {
-        .view{
-            .block-title{
-                margin-bottom: 0;
-                margin-top: 8px;
+        .view {
+            .block-title {
+                // margin-bottom: 0;
+                // margin-top: 8px;
             }
             .add-image, .inputs-list {
                 ul:after {
@@ -116,7 +116,7 @@
         }
     }
 
-    .coauth__sheet{
+    .coauth__sheet {
         max-height: 65%;
     }
 
@@ -263,29 +263,6 @@
     }
     // List
     .list {
-        li {
-            color: @text-normal;
-        }
-        .item-inner {
-            color: @text-normal;
-        }
-        li.no-indicator {
-            .item-link {
-                .item-inner{
-                    padding-right: 15px;
-                    &:before {
-                        content: none;
-                    }
-                }
-            }
-        }
-        .item-link {
-            .item-inner {
-                .item-after {
-                    color: @text-normal;
-                }
-            }
-        }
         &.inputs-list {
             .item-input, .item-link {
                 .item-inner {
@@ -324,14 +301,6 @@
                             &:first-child {
                                 margin-left: 0;
                             }
-                            &.active {
-                                color: @brandColor;
-                                // background-color: var(--button-active-opacity);
-                                background-color: @button-active-opacity;
-                                // i.icon {
-                                //     background-color: @white;
-                                // }
-                            }
                         }
                     }
                 }
@@ -345,78 +314,6 @@
                 margin-top: -3px;
                 box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
                 background: @fill-white;
-                &.auto {
-                    background-color: @autoColor;
-                }
-            }
-        }
-    }
-    // Bullets, numbers and multilevels
-    .bullets,
-    .numbers,
-    .multilevels {
-        .list{
-            margin: 5px;
-            ul {
-                background: none;
-                &:before, &:after {
-                    display: none;
-                }
-                display: flex;
-                justify-content: space-around;
-                width: 100%;
-                margin-top: 10px;
-                padding:  0 5px;
-            }
-            &:first-child li:first-child, &:last-child li:last-child {
-                border-radius: 0;
-            }
-        }
-
-        .list .item-content {
-            padding-left: 0;
-            min-height: 68px;
-            .item-inner{
-                padding: 0;
-                &:after {
-                    display: none;
-                }
-            }
-        }
-
-        li {
-            width: 70px;
-            height: 70px;
-            border: 1px solid @gray;
-            html.pixel-ratio-2 & {
-                border: 0.5px solid @gray;
-            }
-            html.pixel-ratio-3 & {
-                border: 0.33px solid @gray;
-            }
-
-            .thumb {
-                width: 100%;
-                height: 100%;
-                background-color: @fill-white;
-                background-size: cover;
-
-                label {
-                    width: 100%;
-                    text-align: center;
-                    position: absolute;
-                    top: 34%;
-                    color: @fill-black;
-                }
-            }
-        }
-    }
-    .popover__titled {
-        .list:last-child {
-            li:last-child {
-                a {
-                    border-radius: 0;
-                }
             }
         }
     }
@@ -491,7 +388,7 @@
         }
     }
 
-    .searchbar input[type=search] {
+    .searchbar input {
         box-sizing: border-box;
         width: 100%;
         display: block;
@@ -513,12 +410,11 @@
         background-size: 24px 24px;
         transition-duration: .3s;
         .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" fill="@{white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+        &::placeholder {
+            color: @fill-white;
+        }
     }
-
-    .searchbar input[type=search]::placeholder {
-        color: @fill-white;
-    }
-
+    
     .navbar {
         .searchbar-expandable.searchbar-enabled {
             top: 0;

@@ -635,6 +635,9 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 if (shapeprops.asc_getFromSmartArtInternal()) {
                     this.chAutofit.setDisabled(true);
                     this.chOverflow.setDisabled(true);
+                    this.chFlipHor.setDisabled(true);
+                    this.chFlipVert.setDisabled(true);
+                    this.btnsCategory[0].setDisabled(true);
                 }
 
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.asc_getWidth()).toFixed(2), true);
@@ -644,7 +647,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                     this._nRatio = props.asc_getWidth()/props.asc_getHeight();
 
                 var value = props.asc_getLockAspect();
-                this.btnRatio.toggle(value);
+                this.btnRatio.toggle(value || shapeprops.asc_getFromSmartArt());
+                this.btnRatio.setDisabled(!!shapeprops.asc_getFromSmartArt()); // can resize smart art only proportionately
 
                 this._setShapeDefaults(shapeprops);
 

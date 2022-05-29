@@ -634,6 +634,15 @@ define([
                 caption : me.chartText
             });
 
+             me.mnuChartData = new Common.UI.MenuItem({
+                iconCls     : 'menu__icon btn-select-range',
+                caption : me.chartDataText
+            });
+
+             me.mnuChartType = new Common.UI.MenuItem({
+                caption : me.chartTypeText
+            });
+
             me.pmiImgCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption     : me.txtCut,
@@ -849,6 +858,8 @@ define([
                     me.menuImgMacro,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
+                    me.mnuChartData,
+                    me.mnuChartType,
                     me.mnuChartEdit,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
@@ -955,25 +966,35 @@ define([
                 })
             });
 
+            me._markersArr = [
+                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
+                {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
+                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
+                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
+                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
+                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
+                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
+                {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'}
+            ];
             me.paraBulletsPicker = {
                 conf: {rec: null},
                 delayRenderTips: true,
                 store       : new Common.UI.DataViewStore([
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, skipRenderOnChange: true, tip: this.tipMarkersStar},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, skipRenderOnChange: true, tip: this.tipMarkersDash},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, skipRenderOnChange: true, tip: this.tipNumRoman},
-                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 1, drawdata: me._markersArr[0], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 2, drawdata: me._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 3, drawdata: me._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 4, drawdata: me._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 5, drawdata: me._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 6, drawdata: me._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 7, drawdata: me._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                    {group: 'menu-list-bullet-group', id: 'id-markers-' + Common.UI.getId(), type: 0, subtype: 8, drawdata: me._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersDash},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRoman},
+                    {group: 'menu-list-number-group', id: 'id-numbers-' + Common.UI.getId(), type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                 ]),
                 groups: new Common.UI.DataViewGroupStore([
                     {id: 'menu-list-bullet-group', caption: this.textBullets},
@@ -1103,6 +1124,7 @@ define([
 
             this.tableTotalMenu = new Common.UI.Menu({
                 maxHeight: 160,
+                menuAlign: 'tr-br',
                 cyclic: false,
                 cls: 'lang-menu',
                 items: [
@@ -1279,7 +1301,9 @@ define([
         tipMarkersArrow: 'Arrow bullets',
         tipMarkersCheckmark: 'Checkmark bullets',
         tipMarkersFRhombus: 'Filled rhombus bullets',
-        tipMarkersDash: 'Dash bullets'
+        tipMarkersDash: 'Dash bullets',
+        chartDataText: 'Select Chart Data',
+        chartTypeText: 'Change Chart Type'
 
     }, SSE.Views.DocumentHolder || {}));
 });

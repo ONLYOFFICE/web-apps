@@ -26,6 +26,7 @@
         "src": "ProgramInterface/CollaborationTab.htm",
         "name": "Onglet Collaboration"
     },
+    {"src": "ProgramInterface/ProtectionTab.htm", "name": "Onglet Protection"},
     {"src":  "ProgramInterface/ViewTab.htm", "name": "L'onglet Affichage"},
   {
     "src": "ProgramInterface/PluginsTab.htm",
@@ -127,6 +128,7 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
+     {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Prise en charge des graphiques SmartArt" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/ManipulateObjects.htm",
@@ -143,6 +145,11 @@
         "headername": "Co-édition des classeurs"
     },
     { "src": "UsageInstructions/SheetView.htm", "name": "Configurer les paramètres d'affichage de feuille" },
+    { "src": "UsageInstructions/ProtectSpreadsheet.htm", "name": "Protéger une feuille de calcul", "headername": "Protéger une feuille de calcul" },
+    { "src": "UsageInstructions/AllowEditRanges.htm", "name": "Autoriser la modification des plages" },
+    { "src": "UsageInstructions/Password.htm", "name": "Protéger un classeur avec un mot de passe" },
+    { "src": "UsageInstructions/ProtectSheet.htm", "name": "Protéger une feuille de calcul" },
+    { "src": "UsageInstructions/ProtectWorkbook.htm", "name": "Protéger un classeur" },
     {"src": "UsageInstructions/PhotoEditor.htm", "name": "Modification d'une image", "headername": "Plugins"},
     {"src": "UsageInstructions/YouTube.htm", "name": "Insérer une vidéo" },
     {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
@@ -172,7 +179,6 @@
     },
     { "src": "HelpfulHints/SpellChecking.htm", "name": "Vérification de l’orthographe" },
     { "src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
-    { "src": "HelpfulHints/Password.htm", "name": "Protéger un classeur avec un mot de passe" },
     {"src": "HelpfulHints/ImportData.htm", "name": "Obtenir des données à partir de fichiers Texte/CSV"},
   {
     "src": "HelpfulHints/About.htm",

@@ -68,6 +68,7 @@
     "Main": {
       "criticalErrorTitle": "오류",
       "errorAccessDeny": "권한이 없는 작업을 수행하려고 합니다.<br>관리자에게 문의하십시오.",
+      "errorOpensource": "무료 커뮤니티 버전을 사용하는 경우 열린 파일만 볼 수 있습니다. 모바일 온라인 에디터 기능을 사용하기 위해서는 유료 라이선스가 필요합니다.",
       "errorProcessSaveResult": "저장이 실패했습니다.",
       "errorServerVersion": "편집기 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
       "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
@@ -142,9 +143,14 @@
       "textGuest": "게스트",
       "textHasMacros": "파일에 자동 매크로가 포함되어 있습니다. <br> 매크로를 실행 하시겠습니까?",
       "textNo": "아니오",
+      "textNoChoices": "셀을 채울 선택이 없습니다. <br> 열의 텍스트 값만 대체 할 수 있습니다.",
       "textNoLicenseTitle": "라이센스 수를 제한했습니다.",
+      "textNoTextFound": "텍스트를 찾을 수 없습니다",
+      "textOk": "확정",
       "textPaidFeature": "유료기능",
       "textRemember": "선택사항을 저장",
+      "textReplaceSkipped": "대체가 이루어졌습니다. {0} 건은 건너 뛰었습니다.",
+      "textReplaceSuccess": "검색이 완료되었습니다. {0} 횟수가 대체되었습니다. ",
       "textYes": "확인",
       "titleServerVersion": "편집기가 업데이트되었습니다",
       "titleUpdateVersion": "버전이 변경되었습니다.",
@@ -155,12 +161,7 @@
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
       "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
-      "textNoTextFound": "Text not found",
-      "textOk": "Ok",
-      "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -175,6 +176,7 @@
     "errorAutoFilterDataRange": "지정된 범위의 셀에 대해 작업을 수행할 수 없습니다. <br> 테이블 또는 테이블 외부의 균일한 데이터 범위를 선택하고 다시 시도하십시오.",
     "errorAutoFilterHiddenRange": "작업을 수행할 수 없습니다. 그 이유는 선택한 영역에 숨겨진 셀이 있기 때문입니다. <br> 숨겨진 요소를 다시 표시하고 다시 시도하십시오.",
     "errorBadImageUrl": "이미지 URL이 잘못되었습니다.",
+    "errorCannotUseCommandProtectedSheet": "보호된 시트에서는 이 명령을 사용할 수 없습니다. 이 명령을 사용하려면 시트 보호를 해제하세요.<br>비밀번호를 입력하라는 메시지가 표시될 수 있습니다.",
     "errorChangeArray": "배열의 일부를 변경할 수 없습니다.",
     "errorChangeOnProtectedSheet": "변경하려는 셀 또는 차트가 보호된 시트에 있습니다. 변경하려면 시트 보호를 해제하세요. 암호를 입력하라는 메시지가 표시될 수 있습니다.",
     "errorConnectToServer": "저장하지 못했습니다. 네트워크 설정을 확인하거나 관리자에게 문의하세요. <br>이 문서는 \"확인\" 버튼을 누르면 다운로드할 수 있습니다.",
@@ -233,8 +235,7 @@
     "unknownErrorText": "알 수 없는 오류.",
     "uploadImageExtMessage": "알수 없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
   },
   "LongActions": {
     "advDRMPassword": "암호",
@@ -287,8 +288,12 @@
     "textErrNotEmpty": "시트 이름은 비워둘 수 없습니다.",
     "textErrorLastSheet": "통합 문서에는 표시되는 워크시트가 하나 이상 있어야 합니다.",
     "textErrorRemoveSheet": "워크 시트를 삭제할 수 없습니다.",
+    "textHidden": "숨김",
     "textHide": "숨기기",
     "textMore": "자세히",
+    "textMove": "이동",
+    "textMoveBefore": "시트 이전으로 이동",
+    "textMoveToEnd": "(끝으로 이동)",
     "textOk": "확인",
     "textRename": "이름 바꾸기",
     "textRenameSheet": "시트 이름 바꾸기",
@@ -296,10 +301,6 @@
     "textSheetName": "시트 이름",
     "textUnhide": "숨기기 해제",
     "textWarnDeleteSheet": "워크시트에 데이터가 포함될 수 있습니다. 진행 하시겠습니까?",
-    "textHidden": "Hidden",
-    "textMove": "Move",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -324,16 +325,19 @@
       "sCatTextAndData": "텍스트 및 데이터",
       "textAddLink": "링크 추가",
       "textAddress": "주소",
+      "textAllTableHint": "열 머리글, 데이터 및 총 행을 포함하여 테이블 또는 지정된 테이블 열의 전체 내용을 반환합니다",
       "textBack": "뒤로",
       "textCancel": "취소",
       "textChart": "차트",
       "textComment": "코멘트",
+      "textDataTableHint": "테이블 또는 지정된 테이블 열의 데이터 셀을 반환합니다",
       "textDisplay": "표시",
       "textEmptyImgUrl": "이미지의 URL을 지정해야 합니다.",
       "textExternalLink": "외부 링크",
       "textFilter": "필터",
       "textFunction": "함수",
       "textGroups": "범주",
+      "textHeadersTableHint": "테이블 또는 지정된 테이블 열에 대한 열 머리글을 반환합니다",
       "textImage": "이미지",
       "textImageURL": "이미지 URL",
       "textInsert": "삽입",
@@ -343,6 +347,7 @@
       "textLink": "링크",
       "textLinkSettings": "링크 설정",
       "textLinkType": "링크 유형",
+      "textOk": "확정",
       "textOther": "기타",
       "textPictureFromLibrary": "그림 라이브러리에서",
       "textPictureFromURL": "URL로 부터 그림 가져오기",
@@ -353,6 +358,8 @@
       "textShape": "도형",
       "textSheet": "시트",
       "textSortAndFilter": "정렬 및 필터링",
+      "textThisRowHint": "지정된 열의 이 행만 선택",
+      "textTotalsTableHint": "테이블 또는 지정된 테이블 열의 총 행을 반환합니다",
       "txtExpand": "확장 및 정렬",
       "txtExpandSort": "선택 영역 옆의 데이터는 정렬되지 않습니다. 인접한 데이터를 포함하도록 선택 영역을 확장 하시겠습니까, 아니면 현재 선택된 셀만 정렬할까요?",
       "txtLockSort": "선택의 범위 근처에 데이터가 존재 하지만이 셀을 변경하려면 충분한 권한이 없습니다. <br> 선택의 범위를 계속 하시겠습니까?",
@@ -360,8 +367,7 @@
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSorting": "정렬",
       "txtSortSelected": "정렬 선택",
-      "txtYes": "확인",
-      "textOk": "Ok"
+      "txtYes": "확인"
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",
@@ -380,6 +386,7 @@
       "textAngleClockwise": "시계 방향으로 회전",
       "textAngleCounterclockwise": "시계 반대 방향 회전",
       "textAuto": "자동",
+      "textAutomatic": "자동",
       "textAxisCrosses": "교차축",
       "textAxisOptions": "축 옵션",
       "textAxisPosition": "축 위치",
@@ -480,6 +487,7 @@
       "textNoOverlay": "오버레이 없음",
       "textNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "textNumber": "숫자",
+      "textOk": "확정",
       "textOnTickMarks": "눈금 표시",
       "textOpacity": "투명도",
       "textOut": "바깥쪽",
@@ -541,9 +549,7 @@
       "textYen": "엔",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSortHigh2Low": "가장 높은 것부터 가장 낮은 것부터 정렬",
-      "txtSortLow2High": "오름차순 정렬",
-      "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "txtSortLow2High": "오름차순 정렬"
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",
@@ -573,6 +579,7 @@
       "textComments": "Comments",
       "textCreated": "생성됨",
       "textCustomSize": "사용자 정의 크기",
+      "textDarkTheme": "다크 테마",
       "textDelimeter": "구분 기호",
       "textDisableAll": "모두 비활성화",
       "textDisableAllMacrosWithNotification": "모든 매크로를 비활성화로 알림",
@@ -674,7 +681,6 @@
       "txtSpace": "공간",
       "txtTab": "탭",
       "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
-      "textDarkTheme": "Dark Theme",
       "textFeedback": "Feedback & Support"
     }
   }

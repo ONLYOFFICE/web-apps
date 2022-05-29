@@ -205,7 +205,7 @@ const PageStyle = props => {
                                        onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
                             </div>
                         </ListItem>
@@ -229,7 +229,7 @@ const PageStyle = props => {
                                        onRangeChanged={(value) => {props.onOpacity(value)}}
                                 ></Range>
                             </div>
-                            <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                            <div className='range-number' slot='inner-end'>
                                 {stateOpacity + ' %'}
                             </div>
                         </ListItem>
@@ -511,11 +511,14 @@ const EditShape = props => {
     const wrapType = props.storeShapeSettings.getWrapType(shapeObject);
 
     const shapeType = shapeObject.get_ShapeProperties().asc_getType();
-    const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
+    const hideChangeType = shapeObject.get_ShapeProperties().get_FromChart() || shapeObject.get_ShapeProperties().get_FromSmartArt() 
+    || shapeType=='line' || shapeType=='bentConnector2' || shapeType=='bentConnector3'
     || shapeType=='bentConnector4' || shapeType=='bentConnector5' || shapeType=='curvedConnector2'
     || shapeType=='curvedConnector3' || shapeType=='curvedConnector4' || shapeType=='curvedConnector5'
     || shapeType=='straightConnector1';
 
+    const isSmartArtInternal = shapeObject.get_ShapeProperties().get_FromSmartArtInternal();
+    const isFromGroup = shapeObject.get_ShapeProperties().get_FromGroup();
     const inControl = api.asc_IsContentControl();
     const controlProps = (api && inControl) ? api.asc_GetContentControlProperties() : null;
     const lockType = controlProps ? controlProps.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
@@ -545,19 +548,21 @@ const EditShape = props => {
                             onBorderColor: props.onBorderColor
                         }}></ListItem>
                 : null}
-                <ListItem title={_t.textWrap} link='/edit-shape-wrap/' routeProps={{
-                    onWrapType: props.onWrapType,
-                    onShapeAlign: props.onShapeAlign,
-                    onMoveText: props.onMoveText,
-                    onOverlap: props.onOverlap,
-                    onWrapDistance: props.onWrapDistance
-                }}></ListItem>
+                { !isFromGroup &&
+                    <ListItem title={_t.textWrap} link='/edit-shape-wrap/' routeProps={{
+                        onWrapType: props.onWrapType,
+                        onShapeAlign: props.onShapeAlign,
+                        onMoveText: props.onMoveText,
+                        onOverlap: props.onOverlap,
+                        onWrapDistance: props.onWrapDistance
+                    }}></ListItem>
+                }
                 {(!hideChangeType && !fixedSize) &&
                     <ListItem title={_t.textReplace} link='/edit-shape-replace/' routeProps={{
                         onReplace: props.onReplace
                     }}></ListItem>
                 }
-                {wrapType !== 'inline' && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
+                { (wrapType !== 'inline' && !isSmartArtInternal) && <ListItem  title={_t.textReorder} link='/edit-shape-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem> }
             </List>

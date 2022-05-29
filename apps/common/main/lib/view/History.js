@@ -110,7 +110,7 @@ define([
                         for(var i=1; i<revisions.length; i++)
                             revisions[i].set('isVisible', isExpanded);
                     }
-                    this.scroller.update({minScrollbarLength: 40});
+                    this.scroller.update({minScrollbarLength: this.minScrollbarLength});
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
                 me.btnExpand.cmpEl.text(me.storeHistory.hasCollapsed() ? me.textShowAll : me.textHideAll);

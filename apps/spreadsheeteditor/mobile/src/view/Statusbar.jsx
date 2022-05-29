@@ -42,6 +42,22 @@ const PageAllList = (props) => {
     const { sheets, onTabListClick } = props;
     const allSheets = sheets.sheets;
 
+    useEffect(() => {
+        const tabs = $$('.sheet-tabs .tab');
+        let tab = tabs.eq(sheets.activeWorksheet);
+
+        if(sheets.activeWorksheet !== -1) {
+            if(tab.length === 0) {
+                tab = tabs.eq(tabs.length - 1);
+                $$('.sheet-tabs').scrollLeft( tab.offset().left + tab.width(), 500);
+            } else if(tab.offset().left < 0) {
+                $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + tab.offset().left - 96, 500);
+            } else {
+                $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + (tab.offset().left + tab.width() - $$('.sheet-tabs').width()), 500);
+            }
+        }
+    }, [sheets.activeWorksheet]);
+
     return (
         <View style={{height: '240px'}}>
             <Page>
@@ -146,6 +162,20 @@ const PageTabColor =  inject("storePalette")(observer(props =>  {
     )
 }));
 
+const PopoverAllList = (props) => {
+    const {sheets, onTabListClick} = props;
+
+    const onScrollList = () => {
+        const listHeight = $$('.list .item-list').height();
+        $$('.all-list .page-content').scrollTop(listHeight*sheets.activeWorksheet);
+    };
+
+    return (
+        <Popover id="idx-all-list" className="all-list" onPopoverOpen={onScrollList}>
+            <PageAllList sheets={sheets} onTabListClick={onTabListClick}/>
+        </Popover>
+    )
+};
 
 const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(props => {
     const { t } = useTranslation();
@@ -231,9 +261,7 @@ const StatusbarView = inject('storeAppOptions', 'sheets', 'users')(observer(prop
                 </Actions>
             ) : null}
             {
-                <Popover id="idx-all-list" className="all-list">
-                    <PageAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
-                </Popover>
+                <PopoverAllList sheets={sheets} onTabListClick={props.onTabListClick}/>
             }
             {isPhone ? 
                 <Sheet style={{height: '48%'}} className='move-sheet' swipeToClose={true}>

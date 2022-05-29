@@ -67,7 +67,7 @@
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Error",
-      "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
+      "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos. <br>Contacte con su administrador.",
       "errorOpensource": "Utilizando la versión gratuita Community, puede abrir documentos sólo para visualizarlos. Para acceder a los editores web móviles, se requiere una licencia comercial.",
       "errorProcessSaveResult": "Error al guardar",
       "errorServerVersion": "La versión del editor ha sido actualizada. La página será recargada para aplicar los cambios.",
@@ -160,7 +160,8 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -168,7 +169,7 @@
     "criticalErrorExtText": "Pulse \"OK\" para volver a la lista de documentos.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Error al descargar.",
-    "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
+    "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos. <br>Contacte con su administrador.",
     "errorArgsRange": "Un error en la fórmula.<br>Rango de argumentos incorrecto.",
     "errorAutoFilterChange": "La operación no está permitida ya que está intentando desplazar las celdas de una tabla de la hoja de cálculo.",
     "errorAutoFilterChangeFormatTable": "La operación no se puede realizar para las celdas seleccionadas ya que no es posible mover una parte de una tabla.<br>Seleccione otro rango de datos para que se desplace toda la tabla y vuelva a intentarlo.",
@@ -291,6 +292,8 @@
     "textHide": "Ocultar",
     "textMore": "Más",
     "textMove": "Mover",
+    "textMoveBefore": "Mover antes de la hoja",
+    "textMoveToEnd": "(Mover al final)",
     "textOk": "OK",
     "textRename": "Renombrar",
     "textRenameSheet": "Renombrar hoja",
@@ -298,8 +301,6 @@
     "textSheetName": "Nombre de hoja",
     "textUnhide": "Volver a mostrar",
     "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
-    "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)",
     "textTabColor": "Tab Color"
   },
   "Toolbar": {
@@ -324,16 +325,19 @@
       "sCatTextAndData": "Texto y datos",
       "textAddLink": "Agregar enlace ",
       "textAddress": "Dirección",
+      "textAllTableHint": "Devuelve todo el contenido de la tabla o de las columnas de la tabla especificadas, incluyendo las cabeceras de las columnas, los datos y las filas totales",
       "textBack": "Atrás",
       "textCancel": "Cancelar",
       "textChart": "Gráfico",
       "textComment": "Comentario",
+      "textDataTableHint": "Devuelve las celdas de datos de la tabla o de las columnas de la tabla especificadas",
       "textDisplay": "Mostrar",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textExternalLink": "Enlace externo",
       "textFilter": "Filtro",
       "textFunction": "Función",
       "textGroups": "CATEGORÍAS",
+      "textHeadersTableHint": "Devuelve las cabeceras de las columnas de la tabla o de las columnas de la tabla especificadas",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
       "textInsert": "Insertar",
@@ -354,6 +358,8 @@
       "textShape": "Forma",
       "textSheet": "Hoja",
       "textSortAndFilter": "Ordenar y filtrar",
+      "textThisRowHint": "Elija solo esta fila de la columna especificada",
+      "textTotalsTableHint": "Devuelve el total de filas de la tabla o de las columnas de la tabla especificadas",
       "txtExpand": "Expandir y ordenar",
       "txtExpandSort": "Los datos al lado del rango seleccionado no serán ordenados. ¿Quiere Usted expandir el rango seleccionado para incluir datos de las celdas adyacentes o continuar la ordenación del rango seleccionado?",
       "txtLockSort": "Se encuentran datos junto a su selección, pero no tiene permisos suficientes para modificar esas celdas.<br>¿Desea continuar con la selección actual?",
@@ -418,7 +424,7 @@
       "textEffects": "Efectos",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textEmptyItem": "{Vacías}",
-      "textErrorMsg": "Usted debe elegir por lo menos un valor",
+      "textErrorMsg": "Debe elegir por lo menos un valor",
       "textErrorTitle": "Advertencia",
       "textEuro": "Euro",
       "textExternalLink": "Enlace externo",
@@ -547,7 +553,7 @@
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
-      "advDRMEnterPassword": "Su contraseña, por favor:",
+      "advDRMEnterPassword": "Su contraseña:",
       "advDRMOptions": "Archivo protegido",
       "advDRMPassword": "Contraseña",
       "closeButtonText": "Cerrar archivo",

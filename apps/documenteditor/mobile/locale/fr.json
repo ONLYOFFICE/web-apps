@@ -397,7 +397,9 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -530,7 +532,8 @@
     "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
     "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
     "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Fichier protégé",
@@ -570,6 +573,7 @@
     "textEnableAll": "Activer tout",
     "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
     "textEncoding": "Codage ",
+    "textFastWV": "Affichage rapide sur le Web",
     "textFind": "Rechercher",
     "textFindAndReplace": "Rechercher et remplacer",
     "textFindAndReplaceAll": "Rechercher et remplacer tout",
@@ -588,6 +592,7 @@
     "textMargins": "Marges",
     "textMarginsH": "Les marges supérieure et inférieure sont trop élevés pour une hauteur de page donnée",
     "textMarginsW": "Les marges gauche et droite sont trop larges pour une largeur de page donnée",
+    "textNo": "Non",
     "textNoCharacters": "Caractères non imprimables",
     "textNoTextFound": "Le texte est introuvable",
     "textOk": "OK",
@@ -595,7 +600,10 @@
     "textOrientation": "Orientation",
     "textOwner": "Propriétaire",
     "textPages": "Pages",
+    "textPageSize": "Taille de la page",
     "textParagraphs": "Paragraphes",
+    "textPdfTagged": "PDF marqué",
+    "textPdfVer": "Version PDF",
     "textPoint": "Point",
     "textPortrait": "Portrait",
     "textPrint": "Imprimer",
@@ -617,6 +625,7 @@
     "textUnitOfMeasurement": "Unité de mesure",
     "textUploaded": "Chargé",
     "textWords": "Mots",
+    "textYes": "Oui",
     "txtDownloadTxt": "Télécharger le TXT",
     "txtIncorrectPwd": "Mot de passe incorrect",
     "txtOk": "Ok",
@@ -647,7 +656,8 @@
     "textNavigation": "Navigation",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
-    "textEmptyHeading": "Empty Heading"
+    "textEmptyHeading": "Empty Heading",
+    "textPdfProducer": "Producteur PDF"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
