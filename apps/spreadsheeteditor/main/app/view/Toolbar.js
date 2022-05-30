@@ -349,6 +349,7 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-menu-search',
                         lock        : [_set.lostConnect],
+                        enableToggle: true,
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
                     });

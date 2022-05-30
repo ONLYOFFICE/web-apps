@@ -678,6 +678,10 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
+                    if (this.mode.isEditMailMerge || this.mode.isEditOle) {
+                        this.leftMenu.fireEvent('search:show');
+                        return false;
+                    }
                     if (!this.leftMenu.btnSearchBar.isDisabled()) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.btnAbout.toggle(false);
@@ -737,6 +741,11 @@ define([
                     var btnSearch = this.getApplication().getController('Viewport').header.btnSearch;
                     btnSearch.pressed && btnSearch.toggle(false);
                     this.leftMenu._state.isSearchOpen && (this.leftMenu._state.isSearchOpen = false);
+
+                    if (this.mode.isEditMailMerge || this.mode.isEditOle) {
+                        btnSearch = this.getApplication().getController('Toolbar').toolbar.btnSearch;
+                        btnSearch.pressed && btnSearch.toggle(false);
+                    }
 
                     if ( this.leftMenu.menuFile.isVisible() ) {
                         if (Common.UI.HintManager.needCloseFileMenu())
