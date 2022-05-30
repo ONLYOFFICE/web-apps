@@ -60,7 +60,10 @@
     "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
     "textTableContents": "Table of Contents",
     "textWithPageNumbers": "With Page Numbers",
-    "textWithBlueLinks": "With Blue Links"
+    "textWithBlueLinks": "With Blue Links",
+    "textRequired": "Required",
+    "textRecommended": "Recommended",
+    "textDone": "Done"
   },
   "Common": {
     "Collaboration": {
@@ -183,6 +186,7 @@
     "menuMerge": "Merge",
     "menuMore": "More",
     "menuOpenLink": "Open Link",
+    "menuEditLink": "Edit Link",
     "menuReview": "Review",
     "menuReviewChange": "Review Change",
     "menuSeparateList": "Separate list",

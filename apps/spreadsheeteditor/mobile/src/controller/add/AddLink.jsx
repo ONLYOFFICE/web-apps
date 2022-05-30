@@ -99,7 +99,7 @@ class AddLinkController extends Component {
             link.asc_setText(args.text == null ? null : !!args.text ? args.text : display);
         }
 
-        link.asc_setTooltip(args.tooltip);
+        // link.asc_setTooltip(args.tooltip);
 
         api.asc_insertHyperlink(link);
 

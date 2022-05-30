@@ -33,7 +33,7 @@ class AddLinkController extends Component {
             WebLink: 1
         };
         const display = linkInfo.display;
-        const tip = linkInfo.tip;
+        // const tip = linkInfo.tip;
         const props = new Asc.CHyperlinkProperty();
         let def_display = '';
 
@@ -60,7 +60,7 @@ class AddLinkController extends Component {
             url = url.replace(new RegExp("%20", 'g'), " ");
 
             props.put_Value(url);
-            props.put_ToolTip(tip);
+            // props.put_ToolTip(tip);
             def_display = url;
         } else {
             let url = "ppaction://hlink";
@@ -88,7 +88,7 @@ class AddLinkController extends Component {
                     break;
             }
             props.put_Value(url);
-            props.put_ToolTip(!tip ? slidetip : tip);
+            // props.put_ToolTip(!tip ? slidetip : tip);
             def_display = slidetip;
         }
 

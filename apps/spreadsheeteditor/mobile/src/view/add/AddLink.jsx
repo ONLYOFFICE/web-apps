@@ -64,7 +64,7 @@ const AddLinkView = props => {
     
     const [stateDisplayText, setDisplayText] = useState(displayText);
     const [stateAutoUpdate, setAutoUpdate] = useState(!stateDisplayText ? true : false);
-    const [screenTip, setScreenTip] = useState('');
+    // const [screenTip, setScreenTip] = useState('');
 
     const activeSheet = props.activeSheet;
     const [curSheet, setSheet] = useState(activeSheet);
@@ -122,20 +122,20 @@ const AddLinkView = props => {
                             }}
                            className={isIos ? 'list-input-right' : ''}
                 />
-                <ListInput label={_t.textScreenTip}
+                {/* <ListInput label={_t.textScreenTip}
                            type="text"
                            placeholder={_t.textScreenTip}
                            value={screenTip}
                            onChange={(event) => {setScreenTip(event.target.value)}}
                            className={isIos ? 'list-input-right' : ''}
-                />
+                /> */}
             </List>
             <List className="buttons-list">
                 <ListButton title={_t.textInsert}
                             className={`button-fill button-raised${(typeLink === 'ext' && link.length < 1 || typeLink === 'int' && range.length < 1) && ' disabled'}`}
                             onClick={() => {props.onInsertLink(typeLink === 'ext' ?
-                                {type: 'ext', url: link, text: stateDisplayText, tooltip: screenTip} :
-                                {type: 'int', url: range, sheet: curSheet.caption, text: stateDisplayText, tooltip: screenTip})}}
+                                {type: 'ext', url: link, text: stateDisplayText} :
+                                {type: 'int', url: range, sheet: curSheet.caption, text: stateDisplayText})}}
                 />
             </List>
         </Fragment>

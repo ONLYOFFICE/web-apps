@@ -187,6 +187,9 @@ const AddOther = props => {
             }}>
                 <Icon slot="media" icon="icon-insert-comment"></Icon>
             </ListItem>}
+            <ListItem title={_t.textImage} link='/add-image/'>
+                <Icon slot="media" icon="icon-image"></Icon>
+            </ListItem>
             {(isText && !disabledAddLink) && <ListItem title={_t.textLink} link={'/add-link/'} routeProps={{
                 onInsertLink: props.onInsertLink,
                 getDisplayLinkText: props.getDisplayLinkText

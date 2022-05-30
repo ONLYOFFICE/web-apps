@@ -13,7 +13,7 @@ class AddLinkController extends Component {
 
     closeModal () {
         if ( Device.phone ) {
-            f7.sheet.close('.add-popup', true);
+            f7.popup.close('.add-popup', true);
         } else {
             f7.popover.close('#add-popover');
         }
@@ -56,7 +56,7 @@ class AddLinkController extends Component {
         const props = new Asc.CHyperlinkProperty();
         props.put_Value(_url);
         props.put_Text(!display ? _url : display);
-        props.put_ToolTip(tip);
+        // props.put_ToolTip(tip);
 
         api.add_Hyperlink(props);
 

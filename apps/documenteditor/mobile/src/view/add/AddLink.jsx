@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {List, Page, Navbar, Icon, ListButton, ListInput} from 'framework7-react';
+import {List, Page, Navbar, Icon, ListButton, ListInput, NavRight, Link, NavLeft, f7, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -12,17 +12,43 @@ const PageLink = props => {
 
     const [stateLink, setLink] = useState('');
     const [stateDisplay, setDisplay] = useState(display);
-    const [stateTip, setTip] = useState('');
+    // const [stateTip, setTip] = useState('');
     const [stateAutoUpdate, setAutoUpdate] = useState(!stateDisplay ? true : false);
    
     return (
         <Page>
-            {!props.noNavbar && <Navbar title={_t.textAddLink} backLink={_t.textBack}></Navbar>}
+            {/* {!props.noNavbar && <Navbar title={t('Add.textLinkSettings')} backLink={t('Add.textCancel')}>
+                <NavRight>
+                    <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
+                        props.onInsertLink(stateLink, stateDisplay);
+                    }} text={t('Add.textDone')}></Link>
+                </NavRight>
+            </Navbar>} */}
+            {/* backLink={t('Add.textCancel') */}
+            {!props.noNavbar && 
+                <Navbar>
+                    <NavLeft>
+                        <Link text={t('Add.textCancel')} onClick={() => {
+                            if(props.noNavbar) {
+                                props.closeModal();
+                            } else {
+                                f7.views.current.router.back();
+                            }}}>
+                        </Link>
+                    </NavLeft>
+                    <NavTitle>{t('Add.textLinkSettings')}</NavTitle>
+                    <NavRight>
+                        <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
+                            props.onInsertLink(stateLink, stateDisplay);
+                        }} text={t('Add.textDone')}></Link>
+                    </NavRight>
+                </Navbar>
+            }
             <List inlineLabels className='inputs-list'>
                 <ListInput
                     label={_t.textLink}
                     type="text"
-                    placeholder={_t.textLink}
+                    placeholder={t('Add.textRequired')}
                     value={stateLink}
                     onChange={(event) => {
                         setLink(event.target.value); 
@@ -32,26 +58,26 @@ const PageLink = props => {
                 <ListInput
                     label={_t.textDisplay}
                     type="text"
-                    placeholder={_t.textDisplay}
+                    placeholder={t('Add.textRecommended')}
                     value={stateDisplay}
                     onChange={(event) => {
                         setDisplay(event.target.value); 
                         setAutoUpdate(event.target.value == ''); 
                     }}
                 ></ListInput>
-                <ListInput
+                {/* <ListInput
                     label={_t.textScreenTip}
                     type="text"
                     placeholder={_t.textScreenTip}
                     value={stateTip}
                     onChange={(event) => {setTip(event.target.value)}}
-                ></ListInput>
+                ></ListInput> */}
             </List>
-            <List className="buttons-list">
+            {/* <List className="buttons-list">
                 <ListButton className={'button-fill button-raised' + (stateLink.length < 1 ? ' disabled' : '')} title={_t.textInsert} onClick={() => {
-                    props.onInsertLink(stateLink, stateDisplay, stateTip)
+                    props.onInsertLink(stateLink, stateDisplay)
                 }}></ListButton>
-            </List>
+            </List> */}
         </Page>
     )
 };

@@ -100,7 +100,7 @@ const PageLink = props => {
     const displayDisabled = display !== false && display === null;
     const [stateDisplay, setDisplay] = useState(display !== false ? ((display !== null) ? display : _t.textDefault) : "");
     const [stateAutoUpdate, setAutoUpdate] = useState(!stateDisplay ? true : false);
-    const [screenTip, setScreenTip] = useState('');
+    // const [screenTip, setScreenTip] = useState('');
 
     return (
         <Page>
@@ -135,20 +135,20 @@ const PageLink = props => {
                                 setAutoUpdate(event.target.value == ''); 
                             }}
                 />
-                <ListInput label={_t.textScreenTip}
+                {/* <ListInput label={_t.textScreenTip}
                            type="text"
                            placeholder={_t.textScreenTip}
                            value={screenTip}
                            onChange={(event) => {setScreenTip(event.target.value)}}
-                />
+                /> */}
             </List>
             <List className="buttons-list">
                 <ListButton title={_t.textInsert}
                             className={`button-fill button-raised ${typeLink === 1 && link.length < 1 && ' disabled'}`}
                             onClick={() => {
                                 props.onInsertLink(typeLink, (typeLink === 1 ?
-                                    {url: link, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled } :
-                                    {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled}));
+                                    {url: link, display: stateDisplay, displayDisabled: displayDisabled } :
+                                    {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, displayDisabled: displayDisabled}));
                             }}
                 />
             </List>

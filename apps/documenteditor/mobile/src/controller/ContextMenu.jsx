@@ -102,14 +102,22 @@ class ContextMenu extends ContextMenuController {
                 Common.Notifications.trigger('viewcomment');
                 break;
             case 'openlink':
+            case 'editlink': 
                 const stack = api.getSelectedElements();
-                let value;
-                stack.forEach((item) => {
-                    if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
-                        value = item.get_ObjectValue().get_Value();
-                    }
-                });
-                value && this.openLink(value);
+
+                if(action === 'openlink') {
+                    let value;
+
+                    stack.forEach((item) => {
+                        if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                            value = item.get_ObjectValue().get_Value();
+                        }
+                    });
+
+                    value && this.openLink(value);
+                } else {
+                    // console.log('edit link');
+                }
                 break;
             case 'review':
                 setTimeout(() => {
@@ -316,6 +324,10 @@ class ContextMenu extends ContextMenuController {
                 itemsText.push({
                     caption: _t.menuOpenLink,
                     event: 'openlink'
+                });
+                itemsText.push({
+                    caption: t('ContextMenu.menuEditLink'),
+                    event: 'editlink'
                 });
             }
 

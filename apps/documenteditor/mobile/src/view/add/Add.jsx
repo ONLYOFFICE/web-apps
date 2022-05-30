@@ -27,6 +27,10 @@ const routes = [
         component: AddLinkController,
     },
     {
+        path: '/add-image/',
+        component: AddImageController
+    },
+    {
         path: '/add-page-number/',
         component: PageAddNumber,
     },
@@ -48,24 +52,26 @@ const routes = [
     }
 ];
 
-const AddLayoutNavbar = ({ tabs, inPopover }) => {
+const AddLayoutNavbar = ({ tabs, inPopover, showPanels }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     return (
-        <Navbar>
-            {tabs.length > 1 ?
-                <div className='tab-buttons tabbar'>
-                    {tabs.map((item, index) =>
-                        <Link key={"de-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                            <Icon slot="media" icon={item.icon}></Icon>
-                        </Link>)}
-                    {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
-                </div> :
-                <NavTitle>{ tabs[0].caption }</NavTitle>
-            }
-            { !inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight> }
-        </Navbar>
+        // (!showPanels || showPanels !== 'link') ?
+            <Navbar>
+                {tabs.length > 1 ?
+                    <div className='tab-buttons tabbar'>
+                        {tabs.map((item, index) =>
+                            <Link key={"de-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
+                                <Icon slot="media" icon={item.icon}></Icon>
+                            </Link>)}
+                        {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
+                    </div> :
+                    <NavTitle>{ tabs[0].caption }</NavTitle>
+                }
+                {!inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight>}
+            </Navbar>
+        // : null
     )
 };
 
@@ -81,7 +87,7 @@ const AddLayoutContent = ({ tabs, onGetTableStylesPreviews }) => {
     )
 };
 
-const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects,storeTableSettings, showPanels, style, inPopover}) => {
+const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects,storeTableSettings, showPanels, style, inPopover, onOptionClick}) => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     const api = Common.EditorApi.get();
@@ -147,18 +153,18 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
             });
         }
     }
-    if(!showPanels) {
-        needDisable = paragraphLocked || paragraphObj && !canAddImage || controlPlain || richDelLock || plainDelLock || contentLocked;
+    // if(!showPanels) {
+    //     needDisable = paragraphLocked || paragraphObj && !canAddImage || controlPlain || richDelLock || plainDelLock || contentLocked;
 
-        if(!needDisable) {
-            tabs.push({
-                caption: _t.textImage,
-                id: 'add-image',
-                icon: 'icon-add-image',
-                component: <AddImageController/>
-            });
-        }
-    }
+    //     if(!needDisable) {
+    //         tabs.push({
+    //             caption: _t.textImage,
+    //             id: 'add-image',
+    //             icon: 'icon-add-image',
+    //             component: <AddImageController/>
+    //         });
+    //     }
+    // }
     if(!showPanels) {
         tabs.push({
             caption: _t.textOther,
@@ -178,10 +184,11 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
         });
     }
     if (showPanels && showPanels === 'link') {
+        // onOptionClick('/add-link/');
         tabs.push({
-            caption: _t.textAddLink,
+            caption: t('Add.textLinkSettings'),
             id: 'add-link',
-            component: <AddLinkController noNavbar={true}/>
+            component: <AddLinkController noNavbar={true} />
         });
     }
 
@@ -195,7 +202,7 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
     return (
         <View style={style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
-                <AddLayoutNavbar tabs={tabs} inPopover={inPopover}/>
+                <AddLayoutNavbar tabs={tabs} showPanels={showPanels} inPopover={inPopover}/>
                 <AddLayoutContent tabs={tabs} onGetTableStylesPreviews={onGetTableStylesPreviews}/>
             </Page>
         </View>

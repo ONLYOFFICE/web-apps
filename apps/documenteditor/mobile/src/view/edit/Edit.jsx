@@ -340,13 +340,13 @@ const EditTabs = props => {
                 component: <EditTableContentsController />
             })
         }
-        if (settings.indexOf('hyperlink') > -1) {
-            editors.push({
-                caption: _t.textHyperlink,
-                id: 'edit-link',
-                component: <EditHyperlinkController />
-            })
-        }
+        // if (settings.indexOf('hyperlink') > -1) {
+        //     editors.push({
+        //         caption: _t.textHyperlink,
+        //         id: 'edit-link',
+        //         component: <EditHyperlinkController />
+        //     })
+        // }
     }
 
     return (
