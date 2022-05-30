@@ -1862,6 +1862,7 @@
   "DE.Views.FormSettings.textRequired": "Required",
   "DE.Views.FormSettings.textScale": "When to scale",
   "DE.Views.FormSettings.textSelectImage": "Select Image",
+  "DE.Views.FormSettings.textTag": "Tag",
   "DE.Views.FormSettings.textTip": "Tip",
   "DE.Views.FormSettings.textTipAdd": "Add new value",
   "DE.Views.FormSettings.textTipDelete": "Delete value",
