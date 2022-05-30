@@ -2601,13 +2601,8 @@ define([
             },
 
             setOleData: function(obj) {
-                var callback = function(value) {
-                    Common.Gateway.internalMessage('resize', {
-                        width: value.width, height: value.height
-                    });
-                };
                 if ((typeof obj === 'object' || obj==="empty") && this.api) {
-                    this.api.asc_addTableOleObjectInOleEditor(typeof obj === 'object' ? obj : undefined, callback);
+                    this.api.asc_addTableOleObjectInOleEditor(typeof obj === 'object' ? obj : undefined);
                     this.isFrameClosed = false;
                 }
             },
