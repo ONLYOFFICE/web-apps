@@ -1809,6 +1809,7 @@
   "DE.Views.FormSettings.textRequired": "Обязательно",
   "DE.Views.FormSettings.textScale": "Когда масштабировать",
   "DE.Views.FormSettings.textSelectImage": "Выбрать изображение",
+  "DE.Views.FormSettings.textTag": "Тег",
   "DE.Views.FormSettings.textTip": "Подсказка",
   "DE.Views.FormSettings.textTipAdd": "Добавить новое значение",
   "DE.Views.FormSettings.textTipDelete": "Удалить значение",
