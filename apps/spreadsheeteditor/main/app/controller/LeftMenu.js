@@ -742,11 +742,6 @@ define([
                     btnSearch.pressed && btnSearch.toggle(false);
                     this.leftMenu._state.isSearchOpen && (this.leftMenu._state.isSearchOpen = false);
 
-                    if (this.mode.isEditMailMerge || this.mode.isEditOle) {
-                        btnSearch = this.getApplication().getController('Toolbar').toolbar.btnSearch;
-                        btnSearch.pressed && btnSearch.toggle(false);
-                    }
-
                     if ( this.leftMenu.menuFile.isVisible() ) {
                         if (Common.UI.HintManager.needCloseFileMenu())
                             this.leftMenu.menuFile.hide();
@@ -775,11 +770,14 @@ define([
                         return false;
                     }
                     if (this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) {
+                        var searchBarBtn = (this.mode.isEditMailMerge || this.mode.isEditOle) && this.getApplication().getController('Toolbar').toolbar.btnSearch,
+                            isSearchOpen = searchBarBtn && searchBarBtn.pressed;
                         menu_opened = $(document.body).find('.open > .dropdown-menu');
-                        if (!this.api.isCellEdited && !menu_opened.length) {
+                        if (!this.api.isCellEdited && !menu_opened.length && !isSearchOpen) {
                             Common.Gateway.internalMessage('shortcut', {key:'escape'});
                             return false;
                         }
+                        isSearchOpen && searchBarBtn.toggle(false);
                     }
                     break;
                 /** coauthoring begin **/
