@@ -4,6 +4,7 @@
 		<title>Lecteur de documents ONLYOFFICE</title>
 		<meta charset="utf-8" />
         <meta name="description" content="La description des outils de navigation du Lecteur de documents ONLYOFFICE" />
+        <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -53,28 +54,28 @@
             <ol>
                 <li>
                     La barre d'outils supérieure fournit l'accès à deux onglets <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Fichier</a> et <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Modules complémentaires</a> et comporte les icônes suivantes:
-                    <p><img alt="Imprimer" src="../images/print.png" /> <b>Imprimer</b> permet d'imprimer le fichier.</p>
-                    <p><img alt="Télécharger" src="../images/downloadicon.png" /> <b>Télécharger</b> permet de sauvegarder le fichier sur votre orrdinateur;</p>
-                    <p><img alt="L'icône Gérer les droits d'accès au document" src="../images/access_rights.png" /> <b>Gérer les droits d'accès au document</b> (disponible <em>uniquement dans la version en ligne</em>) permet de définir les droits d'accès au fichier directement à partir du document : inviter de nouveaux utilisateurs leur donnant les permissions de <em>modifier</em>, <em>lire</em>, <em>commenter</em>, <em>remplir des formulaires</em> ou <em>réviser</em> le document, ou refuser à certains utilisateurs des droits d'accès au fichier.</p>
-                    <p><img alt="Ouvrir l'emplacement du fichier" src="../images/gotodocuments.png" /> <b>Ouvrir l'emplacement du fichier</b> dans la <em>version de bureau</em>, sert à ouvrir le dossier où le fichier est stocké dans la fenêtre <b>Explorateur de fichiers</b>. Dans la <em>version en ligne</em>, elle permet d'ouvrir le dossier du module <b>Documents</b> où le fichier est stocké dans un nouvel onglet du navigateur.</p>
-                    <p><img alt="Favoris" src="../images/favorites_icon.png" /> <b>Marquer en tant que favori / Enlever des favoris</b>  (disponible <em>uniquement dans la version en ligne</em>) cliquez sur l'étoile vide pour ajouter le fichier aux favoris et le retrouver rapidement ou cliquez sur l'étoile remplie pour effacer le fichier des favoris. Ce n'est qu'un fichier de raccourcis car le fichier lui-même est dans l'emplacement de stockage d'origine. Le fichier réel n'est pas supprimé quand vous le supprimez des favoris.</p>
-                    <p><img alt="Paramètres d'affichage" src="../images/viewsettingsicon.png" /> <b>Paramètres d'affichage</b> permet de configurer les  <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">Paramètres d'affichage</a> et d'accéder aux <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Paramètres avancés</a> de l'éditeur;</p>
-                    <p><img alt="Utilisateur" src="../images/usericon.png" /> <b>Utilisateur</b> affiche le nom d'utilisateur lorsque vous placer le curseur de votre souris sur l'icône.</p>
+                    <p><div class = "icon icon-print"></div> <b>Imprimer</b> permet d'imprimer le fichier.</p>
+                    <p><div class = "icon icon-downloadicon"></div> <b>Télécharger</b> permet de sauvegarder le fichier sur votre orrdinateur;</p>
+                    <p><div class = "icon icon-access_rights"></div> <b>Gérer les droits d'accès au document</b> (disponible <em>uniquement dans la version en ligne</em>) permet de définir les droits d'accès au fichier directement à partir du document : inviter de nouveaux utilisateurs leur donnant les permissions de <em>modifier</em>, <em>lire</em>, <em>commenter</em>, <em>remplir des formulaires</em> ou <em>réviser</em> le document, ou refuser à certains utilisateurs des droits d'accès au fichier.</p>
+                    <p><div class = "icon icon-gotodocuments"></div> <b>Ouvrir l'emplacement du fichier</b> dans la <em>version de bureau</em>, sert à ouvrir le dossier où le fichier est stocké dans la fenêtre <b>Explorateur de fichiers</b>. Dans la <em>version en ligne</em>, elle permet d'ouvrir le dossier du module <b>Documents</b> où le fichier est stocké dans un nouvel onglet du navigateur.</p>
+                    <p><div class = "icon icon-favorites_icon"></div> <b>Marquer en tant que favori / Enlever des favoris</b>  (disponible <em>uniquement dans la version en ligne</em>) cliquez sur l'étoile vide pour ajouter le fichier aux favoris et le retrouver rapidement ou cliquez sur l'étoile remplie pour effacer le fichier des favoris. Ce n'est qu'un fichier de raccourcis car le fichier lui-même est dans l'emplacement de stockage d'origine. Le fichier réel n'est pas supprimé quand vous le supprimez des favoris.</p>
+                    <p><div class = "icon icon-viewsettingsicon"></div> <b>Paramètres d'affichage</b> permet de configurer les  <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">Paramètres d'affichage</a> et d'accéder aux <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Paramètres avancés</a> de l'éditeur;</p>
+                    <p><div class = "icon icon-usericon"></div> <b>Utilisateur</b> affiche le nom d'utilisateur lorsque vous placer le curseur de votre souris sur l'icône.</p>
                 </li>
                 <li>La <b>Barre d'état</b> au bas de la fenêtre du <b>Lecteur de documents ONLYOFFICE</b> contient l'indicateur du numéro de page et affiche certaines notifications des processus d'arrière plan. La barre d'état comporte aussi les outils suivants:
-                    <p><img alt="Outil de sélection" src="../images/selectiontool.png" /> <b>Outil de sélection</b> sert à sélectionner du texte dans un fichier.</p>
-                    <p><img alt="Outil Main" src="../images/handtool.png" /> <b>Outil Main</b> sert à faire glisser et défiler la page.</p>
-                    <p><img alt="Ajuster à la page" src="../images/fitpage.png" /> <b>Ajuster à la page</b> sert à redimensionner la page pour afficher une page entière sur l'écran.</p>
-                    <p><img alt="Ajuster à la largeur" src="../images/fitwidth.png" /> <b>Ajuster à la largeur</b> sert à redimensionner la page pour l'adapter à la largeur de l'écran.</p>
+                    <p><div class = "icon icon-selectiontool"></div> <b>Outil de sélection</b> sert à sélectionner du texte dans un fichier.</p>
+                    <p><div class = "icon icon-handtool"></div> <b>Outil Main</b> sert à faire glisser et défiler la page.</p>
+                    <p><div class = "icon icon-fitpage"></div> <b>Ajuster à la page</b> sert à redimensionner la page pour afficher une page entière sur l'écran.</p>
+                    <p><div class = "icon icon-fitwidth"></div> <b>Ajuster à la largeur</b> sert à redimensionner la page pour l'adapter à la largeur de l'écran.</p>
                     <p><img alt="Zoom" src="../images/zoomadjusting.png" /> <a href="../HelpfulHints/Navigation.htm#navigationtools" onclick="onhyperlinkclick(this)"><b>Outil zoom</b></a> sert à zoomer et dézoomer sur une page.</p>
                 </li>
                 <li>
                     La <b>barre latérale gauche</b> comporte les icônes suivantes:
                     <ul>
-                        <li><img alt="L'icône Rechercher" src="../images/searchicon.png" /> - permet d'utiliser l'outil <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Rechercher et remplacer</a> ,</li>
-                        <li class="onlineDocumentFeatures"><img alt="L'icône Chat" src="../images/chaticon.png" /> - (disponible dans la <em>version en ligne</em> seulement) permet d'ouvrir le panneau de <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">Chat</a> ,</li>
+                        <li><div class = "icon icon-searchicon"></div> - permet d'utiliser l'outil <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Rechercher et remplacer</a> ,</li>
+                        <li class="onlineDocumentFeatures"><div class = "icon icon-chaticon"></div> - (disponible dans la <em>version en ligne</em> seulement) permet d'ouvrir le panneau de <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">Chat</a> ,</li>
                         <li>
-                            <img alt="Icône Navigation" src="../images/navigationicon.png" /> - permet d'ouvrir le panneau de <b>Navigation</b> pour parcourir la liste hiérarchique des titres avec des éléments de navigation imbriqués. Cliquez sur le titre pour passer directement sur la page nécessaire.
+                            <div class = "icon icon-navigationicon"></div> - permet d'ouvrir le panneau de <b>Navigation</b> pour parcourir la liste hiérarchique des titres avec des éléments de navigation imbriqués. Cliquez sur le titre pour passer directement sur la page nécessaire.
                             <p><img alt="Panneau de navigation" src="../images/navigationpanel_viewer.png" />
                             <p>Faites un clic droit sur la rubrique dans la liste et utilisez l'une des options disponibles dans le menu:</p>
                             <ul>
@@ -83,19 +84,19 @@
                                 <li><b>Développer jusqu'au niveau</b> pour développer la liste hiérarchique des titres jusqu'au niveau sélectionné. Par ex., si vous sélectionnez le <em>niveau 3</em>, on va développer les niveaux 1, 2 et 3 mais le niveau 4 et tous niveaux inférieurs seront réduits.</li>
                             </ul>
                             <p>Pour développer et réduire chaque niveau de titres à part, utilisez la flèche à droit du titre.</p>
-                            <p>Pour fermer le panneau de <b>Navigation</b>, cliquez sur l'icône <img alt="Icône Navigation" src="../images/navigationicon.png" /> <b>Navigation</b> sur la barre latérale gauche encore une fois.</p>
+                            <p>Pour fermer le panneau de <b>Navigation</b>, cliquez sur l'icône <div class = "icon icon-navigationicon"></div> <b>Navigation</b> sur la barre latérale gauche encore une fois.</p>
                         </li>
                         <li>
-                            <img alt="Vignettes des pages" src="../images/pagethumbnails.png" /> - sert à afficher les vignettes des pages afin de parcourir rapidement un document. Cliquez sur <img alt="Paramètres des miniatures" src="../images/search_options.png" /> sur le panneau <b>Miniatures des pages</b> pour accéder aux <b>Paramètres des miniatures</b>:
+                            <div class = "icon icon-pagethumbnails"></div> - sert à afficher les vignettes des pages afin de parcourir rapidement un document. Cliquez sur <div class = "icon icon-search_options"></div> sur le panneau <b>Miniatures des pages</b> pour accéder aux <b>Paramètres des miniatures</b>:
                             <p><img alt="Paramètres des vignettes des pages" src="../images/pagethumbnails_settings.png" /></p>
                             <ul>
                                 <li>Faites glisser le curseur pour définir la taille de la vignette,</li>
                                 <li>Par défaut, l'option <b>Mettre en surbrillance la partie visible de la page</b> est active pour indiquer sur la vignette la zone affichée maintenant sur l'écran. Cliquez sur la case à coché pour désactiver cette option.</li>
                             </ul>
-                            <p>Pour fermer le panneau <b>Miniatures des pages</b>, cliquez sur l'icône <img alt="Vignettes des pages" src="../images/pagethumbnails.png" /> <b>Miniatures des pages</b> sur la barre latérale gauche encore une fois.</p>
+                            <p>Pour fermer le panneau <b>Miniatures des pages</b>, cliquez sur l'icône <div class = "icon icon-pagethumbnails"></div> <b>Miniatures des pages</b> sur la barre latérale gauche encore une fois.</p>
                         </li>
-                        <li><img alt="L'icône Rétroaction et assistance" src="../images/feedbackicon.png" /> -  permet de contacter notre équipe d'assistance technique,</li>
-                        <li class="onlineDocumentFeatures"><img alt="L'icône À propos" src="../images/abouticon.png" /> -  (disponible uniquement dans la version <em>en ligne)</em> permet de visualiser les informations sur le programme.</li>
+                        <li><div class = "icon icon-feedbackicon"></div> -  permet de contacter notre équipe d'assistance technique,</li>
+                        <li class="onlineDocumentFeatures"><div class = "icon icon-abouticon"></div> -  (disponible uniquement dans la version <em>en ligne)</em> permet de visualiser les informations sur le programme.</li>
                     </ul>
                 </li>
             </ol>            

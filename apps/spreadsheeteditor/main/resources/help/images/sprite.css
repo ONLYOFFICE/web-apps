@@ -1,4724 +1,4752 @@
-/*---------------------------------------------------------------------------------------
-icons
- ----------------------------------------------------------------------------------------*/
-.icon {
-    background-image: url(../images/icons.png);
-    background-repeat: no-repeat;
-    display: inline-block;
-}
-
-.icon-about {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -45px;
-}
-
-.icon-access_rights {
-    width: 29px;
-    height: 16px;
-    background-position: -61px -226px;
-}
-
-.icon-accountingstyle {
-    width: 26px;
-    height: 12px;
-    background-position: -129px -342px;
-}
-
-.icon-addborders {
-    width: 22px;
-    height: 11px;
-    background-position: -309px -342px;
-}
-
-.icon-addgradientpoint {
-    width: 12px;
-    height: 17px;
-    background-position: -520px -148px;
-}
-
-.icon-addhyperlink {
-    width: 19px;
-    height: 19px;
-    background-position: -174px -303px;
-}
-
-.icon-addworksheet {
-    width: 24px;
-    height: 22px;
-    background-position: -278px -179px;
-}
-
-.icon-advanced_settings_icon {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -80px;
-}
-
-.icon-align_toptoolbar {
-    width: 19px;
-    height: 20px;
-    background-position: -90px -342px;
-}
-
-.icon-alignbottom {
-    width: 11px;
-    height: 11px;
-    background-position: -10px -619px;
-}
-
-.icon-aligncenter {
-    width: 12px;
-    height: 11px;
-    background-position: -588px -500px;
-}
-
-.icon-alignleft {
-    width: 12px;
-    height: 11px;
-    background-position: -588px -531px;
-}
-
-.icon-alignmiddle {
-    width: 11px;
-    height: 13px;
-    background-position: -588px -467px;
-}
-
-.icon-alignobjectbottom {
-    width: 14px;
-    height: 14px;
-    background-position: -520px -222px;
-}
-
-.icon-alignobjectcenter {
-    width: 13px;
-    height: 14px;
-    background-position: -555px -81px;
-}
-
-.icon-alignobjectleft {
-    width: 14px;
-    height: 14px;
-    background-position: -520px -256px;
-}
-
-.icon-alignobjectmiddle {
-    width: 14px;
-    height: 13px;
-    background-position: -187px -487px;
-}
-
-.icon-alignobjectright {
-    width: 14px;
-    height: 14px;
-    background-position: -520px -290px;
-}
-
-.icon-alignobjecttop {
-    width: 14px;
-    height: 14px;
-    background-position: -520px -324px;
-}
-
-.icon-alignright {
-    width: 12px;
-    height: 11px;
-    background-position: -175px -554px;
-}
-
-.icon-aligntop {
-    width: 11px;
-    height: 11px;
-    background-position: -41px -619px;
-}
-
-.icon-allborders {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -150px;
-}
-
-.icon-angleclockwise {
-    width: 12px;
-    height: 12px;
-    background-position: -588px -243px;
-}
-
-.icon-anglecounterclockwise {
-    width: 12px;
-    height: 12px;
-    background-position: -588px -275px;
-}
-
-.icon-arrow {
-    width: 23px;
-    height: 23px;
-    background-position: -278px -50px;
-}
-
-.icon-ascendingbutton {
-    width: 22px;
-    height: 22px;
-    background-position: -234px -183px;
-}
-
-.icon-back {
-    width: 12px;
-    height: 15px;
-    background-position: -555px -115px;
-}
-
-.icon-backgroundcolor {
-    width: 25px;
-    height: 17px;
-    background-position: -55px -263px;
-}
-
-.icon-bgcolor {
-    width: 16px;
-    height: 15px;
-    background-position: -484px -10px;
-}
-
-.icon-bold {
-    width: 8px;
-    height: 10px;
-    background-position: -620px -379px;
-}
-
-.icon-bordercolor {
-    width: 14px;
-    height: 14px;
-    background-position: -520px -358px;
-}
-
-.icon-borderstyle {
-    width: 12px;
-    height: 11px;
-    background-position: -207px -554px;
-}
-
-.icon-borderwidth {
-    width: 14px;
-    height: 14px;
-    background-position: -520px -392px;
-}
-
-.icon-bottomborders {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -183px;
-}
-
-.icon-bringforward {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -216px;
-}
-
-.icon-bringforward_toptoolbar {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -10px;
-}
-
-.icon-bringtofront {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -249px;
-}
-
-.icon-bullets {
-    width: 24px;
-    height: 13px;
-    background-position: -52px -382px;
-}
-
-.icon-calculationicon {
-    width: 18px;
-    height: 22px;
-    background-position: -407px -10px;
-}
-
-.icon-cellrow {
-    width: 9px;
-    height: 9px;
-    background-position: -620px -321px;
-}
-
-.icon-cellsettings_rightpanel {
-    width: 15px;
-    height: 12px;
-    background-position: -425px -487px;
-}
-
-.icon-changecolorscheme {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -50px;
-}
-
-.icon-changecolumnwidthcursor {
-    width: 21px;
-    height: 17px;
-    background-position: -186px -263px;
-}
-
-.icon-changerange {
-    width: 15px;
-    height: 13px;
-    background-position: -82px -487px;
-}
-
-.icon-chart {
-    width: 22px;
-    height: 19px;
-    background-position: -325px -219px;
-}
-
-.icon-chartsettingsicon {
-    width: 14px;
-    height: 14px;
-    background-position: -520px -426px;
-}
-
-.icon-chat_toptoolbar {
-    width: 24px;
-    height: 19px;
-    background-position: -188px -145px;
-}
-
-.icon-chaticon {
-    width: 18px;
-    height: 15px;
-    background-position: -445px -382px;
-}
-
-.icon-chaticon_new {
-    width: 19px;
-    height: 17px;
-    background-position: -445px -10px;
-}
-
-.icon-circle {
-    width: 12px;
-    height: 12px;
-    background-position: -588px -307px;
-}
-
-.icon-clear {
-    width: 26px;
-    height: 13px;
-    background-position: -203px -226px;
-}
-
-.icon-clearfilter {
-    width: 12px;
-    height: 11px;
-    background-position: -239px -554px;
-}
-
-.icon-clearicon {
-    width: 14px;
-    height: 14px;
-    background-position: -10px -520px;
-}
-
-.icon-clearstyle {
-    width: 14px;
-    height: 13px;
-    background-position: -221px -487px;
-}
-
-.icon-close_icon {
-    width: 18px;
-    height: 16px;
-    background-position: -445px -198px;
-}
-
-.icon-coeditingmode {
-    width: 18px;
-    height: 22px;
-    background-position: -407px -52px;
-}
-
-.icon-collapserowsicon {
-    width: 16px;
-    height: 16px;
-    background-position: -407px -284px;
-}
-
-.icon-comment_toptoolbar {
-    width: 22px;
-    height: 19px;
-    background-position: -325px -258px;
-}
-
-.icon-commentsicon {
-    width: 14px;
-    height: 14px;
-    background-position: -44px -520px;
-}
-
-.icon-conditionalformatting_button {
-    width: 32px;
-    height: 24px;
-    background-position: -58px -136px;
-}
-
-.icon-connectionpoint {
-    width: 5px;
-    height: 5px;
-    background-position: -588px -562px;
-}
-
-.icon-constantproportions {
-    width: 13px;
-    height: 8px;
-    background-position: -338px -453px;
-}
-
-.icon-constantproportionsactivated {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -90px;
-}
-
-.icon-converttorange {
-    width: 16px;
-    height: 16px;
-    background-position: -407px -320px;
-}
-
-.icon-copy {
-    width: 14px;
-    height: 13px;
-    background-position: -255px -487px;
-}
-
-.icon-copystyle {
-    width: 12px;
-    height: 14px;
-    background-position: -588px -10px;
-}
-
-.icon-copystyle_selected {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -130px;
-}
-
-.icon-currencystyle {
-    width: 12px;
-    height: 13px;
-    background-position: -588px -78px;
-}
-
-.icon-customsort {
-    width: 18px;
-    height: 18px;
-    background-position: -407px -136px;
-}
-
-.icon-dataval_icon {
-    width: 26px;
-    height: 20px;
-    background-position: -278px -221px;
-}
-
-.icon-decreasedec {
-    width: 12px;
-    height: 11px;
-    background-position: -271px -554px;
-}
-
-.icon-decreasedecimal {
-    width: 14px;
-    height: 12px;
-    background-position: -460px -487px;
-}
-
-.icon-decreaseindent {
-    width: 12px;
-    height: 11px;
-    background-position: -303px -554px;
-}
-
-.icon-deletecells {
-    width: 21px;
-    height: 11px;
-    background-position: -351px -342px;
-}
-
-.icon-deletecommenticon {
-    width: 11px;
-    height: 12px;
-    background-position: -10px -587px;
-}
-
-.icon-deleteicon {
-    width: 14px;
-    height: 14px;
-    background-position: -78px -520px;
-}
-
-.icon-descendingbutton {
-    width: 22px;
-    height: 22px;
-    background-position: -325px -10px;
-}
-
-.icon-diagonal_down_border {
-    width: 11px;
-    height: 11px;
-    background-position: -72px -619px;
-}
-
-.icon-diagonal_up_border {
-    width: 11px;
-    height: 11px;
-    background-position: -103px -619px;
-}
-
-.icon-distributehorizontally {
-    width: 16px;
-    height: 14px;
-    background-position: -484px -325px;
-}
-
-.icon-distributevertically {
-    width: 14px;
-    height: 16px;
-    background-position: -484px -359px;
-}
-
-.icon-document_language {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -282px;
-}
-
-.icon-dropcap_margin {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -315px;
-}
-
-.icon-dropcap_none {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -348px;
-}
-
-.icon-dropcap_text {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -381px;
-}
-
-.icon-dropdownarrow {
-    width: 16px;
-    height: 16px;
-    background-position: -10px -417px;
-}
-
-.icon-editcommenticon {
-    width: 12px;
-    height: 13px;
-    background-position: -588px -111px;
-}
-
-.icon-equationplaceholder {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -414px;
-}
-
-.icon-expandrowsicon {
-    width: 16px;
-    height: 16px;
-    background-position: -46px -417px;
-}
-
-.icon-favorites_icon {
-    width: 26px;
-    height: 25px;
-    background-position: -188px -56px;
-}
-
-.icon-feedback {
-    width: 14px;
-    height: 15px;
-    background-position: -484px -395px;
-}
-
-.icon-feedbackicon {
-    width: 15px;
-    height: 13px;
-    background-position: -117px -487px;
-}
-
-.icon-file {
-    width: 13px;
-    height: 15px;
-    background-position: -555px -10px;
-}
-
-.icon-filterbutton {
-    width: 16px;
-    height: 16px;
-    background-position: -82px -417px;
-}
-
-.icon-firstlevelicon {
-    width: 16px;
-    height: 16px;
-    background-position: -118px -417px;
-}
-
-.icon-firstsheet {
-    width: 12px;
-    height: 12px;
-    background-position: -588px -339px;
-}
-
-.icon-fitpage {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -447px;
-}
-
-.icon-fitwidth {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -480px;
-}
-
-.icon-fliplefttoright {
-    width: 15px;
-    height: 14px;
-    background-position: -520px -10px;
-}
-
-.icon-flipupsidedown {
-    width: 14px;
-    height: 15px;
-    background-position: -520px -44px;
-}
-
-.icon-fontcolor {
-    width: 25px;
-    height: 14px;
-    background-position: -158px -226px;
-}
-
-.icon-fontsize {
-    width: 45px;
-    height: 22px;
-    background-position: -10px -10px;
-}
-
-.icon-function {
-    width: 14px;
-    height: 14px;
-    background-position: -112px -520px;
-}
-
-.icon-functionicon {
-    width: 20px;
-    height: 19px;
-    background-position: -94px -303px;
-}
-
-.icon-go_to_the_next_word {
-    width: 22px;
-    height: 22px;
-    background-position: -325px -52px;
-}
-
-.icon-gotodocuments {
-    width: 18px;
-    height: 15px;
-    background-position: -407px -249px;
-}
-
-.icon-gradientslider {
-    width: 12px;
-    height: 14px;
-    background-position: -588px -44px;
-}
-
-.icon-greencircle {
-    width: 15px;
-    height: 13px;
-    background-position: -152px -487px;
-}
-
-.icon-group {
-    width: 14px;
-    height: 14px;
-    background-position: -146px -520px;
-}
-
-.icon-group_toptoolbar {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -170px;
-}
-
-.icon-groupicon {
-    width: 19px;
-    height: 17px;
-    background-position: -445px -47px;
-}
-
-.icon-hard {
-    width: 9px;
-    height: 14px;
-    background-position: -620px -43px;
-}
-
-.icon-header_footer_icon {
-    width: 18px;
-    height: 22px;
-    background-position: -407px -94px;
-}
-
-.icon-headerfooter {
-    width: 21px;
-    height: 13px;
-    background-position: -310px -382px;
-}
-
-.icon-help {
-    width: 24px;
-    height: 24px;
-    background-position: -188px -101px;
-}
-
-.icon-hiderulers {
-    width: 19px;
-    height: 19px;
-    background-position: -213px -303px;
-}
-
-.icon-highesttolowest {
-    width: 16px;
-    height: 16px;
-    background-position: -154px -417px;
-}
-
-.icon-highesttolowest1 {
-    width: 16px;
-    height: 16px;
-    background-position: -190px -417px;
-}
-
-.icon-highlight {
-    width: 28px;
-    height: 28px;
-    background-position: -140px -10px;
-}
-
-.icon-highlightcolor {
-    width: 23px;
-    height: 10px;
-    background-position: -140px -106px;
-}
-
-.icon-horizontalalignment {
-    width: 31px;
-    height: 17px;
-    background-position: -10px -226px;
-}
-
-.icon-horizontaltext {
-    width: 10px;
-    height: 9px;
-    background-position: -620px -262px;
-}
-
-.icon-hyperlink {
-    width: 14px;
-    height: 13px;
-    background-position: -289px -487px;
-}
-
-.icon-image {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -210px;
-}
-
-.icon-image_settings_icon {
-    width: 14px;
-    height: 14px;
-    background-position: -180px -520px;
-}
-
-.icon-increasedec {
-    width: 12px;
-    height: 11px;
-    background-position: -335px -554px;
-}
-
-.icon-increasedecimal {
-    width: 13px;
-    height: 12px;
-    background-position: -109px -554px;
-}
-
-.icon-increaseindent {
-    width: 12px;
-    height: 11px;
-    background-position: -367px -554px;
-}
-
-.icon-insert_dropcap_icon {
-    width: 22px;
-    height: 13px;
-    background-position: -184px -382px;
-}
-
-.icon-insert_pivot {
-    width: 23px;
-    height: 23px;
-    background-position: -278px -93px;
-}
-
-.icon-insert_symbol_icon {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -250px;
-}
-
-.icon-insertautoshape {
-    width: 20px;
-    height: 20px;
-    background-position: -367px -290px;
-}
-
-.icon-insertcells {
-    width: 21px;
-    height: 13px;
-    background-position: -351px -382px;
-}
-
-.icon-insertchart {
-    width: 22px;
-    height: 13px;
-    background-position: -226px -382px;
-}
-
-.icon-insertequationicon {
-    width: 22px;
-    height: 19px;
-    background-position: -10px -303px;
-}
-
-.icon-insertfunction {
-    width: 24px;
-    height: 13px;
-    background-position: -96px -382px;
-}
-
-.icon-insertpagenumber {
-    width: 12px;
-    height: 13px;
-    background-position: -588px -144px;
-}
-
-.icon-insertpivot {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -115px;
-}
-
-.icon-insertslicer {
-    width: 16px;
-    height: 17px;
-    background-position: -445px -309px;
-}
-
-.icon-inserttextarticon {
-    width: 16px;
-    height: 20px;
-    background-position: -445px -158px;
-}
-
-.icon-inserttexticon {
-    width: 22px;
-    height: 22px;
-    background-position: -325px -94px;
-}
-
-.icon-insideborders {
-    width: 13px;
-    height: 13px;
-    background-position: -555px -513px;
-}
-
-.icon-insidehorizontalborders {
-    width: 13px;
-    height: 13px;
-    background-position: -316px -520px;
-}
-
-.icon-insideverticalborders {
-    width: 13px;
-    height: 13px;
-    background-position: -349px -520px;
-}
-
-.icon-italic {
-    width: 7px;
-    height: 10px;
-    background-position: -620px -497px;
-}
-
-.icon-justify {
-    width: 12px;
-    height: 11px;
-    background-position: -399px -554px;
-}
-
-.icon-larger {
-    width: 12px;
-    height: 12px;
-    background-position: -588px -371px;
-}
-
-.icon-lastsheet {
-    width: 10px;
-    height: 10px;
-    background-position: -620px -201px;
-}
-
-.icon-leftborders {
-    width: 13px;
-    height: 13px;
-    background-position: -382px -520px;
-}
-
-.icon-levelnumbericons {
-    width: 48px;
-    height: 16px;
-    background-position: -72px -94px;
-}
-
-.icon-linespacing {
-    width: 21px;
-    height: 11px;
-    background-position: -443px -417px;
-}
-
-.icon-list_worksheets {
-    width: 23px;
-    height: 23px;
-    background-position: -278px -136px;
-}
-
-.icon-lowesttohighest {
-    width: 16px;
-    height: 16px;
-    background-position: -226px -417px;
-}
-
-.icon-lowesttohighest1 {
-    width: 16px;
-    height: 16px;
-    background-position: -262px -417px;
-}
-
-.icon-merge {
-    width: 24px;
-    height: 11px;
-    background-position: -221px -342px;
-}
-
-.icon-multiselect {
-    width: 14px;
-    height: 13px;
-    background-position: -323px -487px;
-}
-
-.icon-namedranges {
-    width: 16px;
-    height: 11px;
-    background-position: -124px -453px;
-}
-
-.icon-namedrangesicon {
-    width: 23px;
-    height: 15px;
-    background-position: -268px -263px;
-}
-
-.icon-navigationicon {
-    width: 13px;
-    height: 10px;
-    background-position: -72px -587px;
-}
-
-.icon-new_icon {
-    width: 18px;
-    height: 18px;
-    background-position: -407px -174px;
-}
-
-.icon-nextpage {
-    width: 5px;
-    height: 6px;
-    background-position: -163px -136px;
-}
-
-.icon-nextsheet {
-    width: 8px;
-    height: 10px;
-    background-position: -620px -409px;
-}
-
-.icon-noborders {
-    width: 13px;
-    height: 13px;
-    background-position: -415px -520px;
-}
-
-.icon-nofill {
-    width: 12px;
-    height: 12px;
-    background-position: -588px -403px;
-}
-
-.icon-nonbreakspace {
-    width: 5px;
-    height: 5px;
-    background-position: -341px -303px;
-}
-
-.icon-nonprintingcharacters {
-    width: 20px;
-    height: 11px;
-    background-position: -84px -453px;
-}
-
-.icon-numbering {
-    width: 24px;
-    height: 14px;
-    background-position: -252px -303px;
-}
-
-.icon-orientation {
-    width: 24px;
-    height: 13px;
-    background-position: -140px -382px;
-}
-
-.icon-outline {
-    width: 25px;
-    height: 13px;
-    background-position: -296px -303px;
-}
-
-.icon-outsideborders {
-    width: 13px;
-    height: 13px;
-    background-position: -448px -520px;
-}
-
-.icon-pagebreak1 {
-    width: 22px;
-    height: 13px;
-    background-position: -268px -382px;
-}
-
-.icon-pagesize {
-    width: 20px;
-    height: 13px;
-    background-position: -392px -382px;
-}
-
-.icon-paste {
-    width: 14px;
-    height: 13px;
-    background-position: -357px -487px;
-}
-
-.icon-paste_style {
-    width: 20px;
-    height: 19px;
-    background-position: -134px -303px;
-}
-
-.icon-pastespecialbutton {
-    width: 30px;
-    height: 22px;
-    background-position: -10px -184px;
-}
-
-.icon-percentstyle {
-    width: 10px;
-    height: 11px;
-    background-position: -620px -77px;
-}
-
-.icon-photoeditor {
-    width: 28px;
-    height: 28px;
-    background-position: -140px -58px;
-}
-
-.icon-pivot_refresh {
-    width: 21px;
-    height: 21px;
-    background-position: -325px -136px;
-}
-
-.icon-pivot_settings {
-    width: 16px;
-    height: 16px;
-    background-position: -298px -417px;
-}
-
-.icon-pivotselecticon {
-    width: 22px;
-    height: 19px;
-    background-position: -52px -303px;
-}
-
-.icon-plus {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -150px;
-}
-
-.icon-plus_sheet {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -185px;
-}
-
-.icon-previouspage {
-    width: 5px;
-    height: 6px;
-    background-position: -249px -226px;
-}
-
-.icon-previoussheet {
-    width: 8px;
-    height: 10px;
-    background-position: -620px -439px;
-}
-
-.icon-print {
-    width: 17px;
-    height: 15px;
-    background-position: -406px -417px;
-}
-
-.icon-printareabutton {
-    width: 20px;
-    height: 22px;
-    background-position: -325px -177px;
-}
-
-.icon-rainbow_icon {
-    width: 24px;
-    height: 24px;
-    background-position: -234px -10px;
-}
-
-.icon-redo {
-    width: 17px;
-    height: 9px;
-    background-position: -232px -453px;
-}
-
-.icon-redo1 {
-    width: 13px;
-    height: 6px;
-    background-position: -520px -460px;
-}
-
-.icon-removecomment_toptoolbar {
-    width: 15px;
-    height: 19px;
-    background-position: -445px -270px;
-}
-
-.icon-removeduplicates {
-    width: 16px;
-    height: 13px;
-    background-position: -10px -487px;
-}
-
-.icon-removeduplicates_icon {
-    width: 24px;
-    height: 17px;
-    background-position: -100px -263px;
-}
-
-.icon-removegradientpoint {
-    width: 12px;
-    height: 17px;
-    background-position: -520px -185px;
-}
-
-.icon-resize_square {
-    width: 9px;
-    height: 9px;
-    background-position: -620px -350px;
-}
-
-.icon-resolvedicon {
-    width: 12px;
-    height: 11px;
-    background-position: -431px -554px;
-}
-
-.icon-resolveicon {
-    width: 12px;
-    height: 11px;
-    background-position: -463px -554px;
-}
-
-.icon-rightborders {
-    width: 13px;
-    height: 13px;
-    background-position: -481px -520px;
-}
-
-.icon-rotateclockwise {
-    width: 12px;
-    height: 13px;
-    background-position: -588px -177px;
-}
-
-.icon-rotatecounterclockwise {
-    width: 12px;
-    height: 13px;
-    background-position: -588px -210px;
-}
-
-.icon-rotatedown {
-    width: 9px;
-    height: 11px;
-    background-position: -620px -231px;
-}
-
-.icon-rotateup {
-    width: 9px;
-    height: 10px;
-    background-position: -620px -291px;
-}
-
-.icon-rowsandcolumns {
-    width: 45px;
-    height: 22px;
-    background-position: -75px -10px;
-}
-
-.icon-save {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -220px;
-}
-
-.icon-saveupdate {
-    width: 18px;
-    height: 16px;
-    background-position: -445px -234px;
-}
-
-.icon-savewhilecoediting {
-    width: 17px;
-    height: 16px;
-    background-position: -445px -346px;
-}
-
-.icon-scaletofit {
-    width: 20px;
-    height: 20px;
-    background-position: -10px -342px;
-}
-
-.icon-search_options {
-    width: 22px;
-    height: 15px;
-    background-position: -10px -382px;
-}
-
-.icon-searchbuttons {
-    width: 33px;
-    height: 17px;
-    background-position: -159px -184px;
-}
-
-.icon-searchdownbutton {
-    width: 45px;
-    height: 22px;
-    background-position: -10px -52px;
-}
-
-.icon-searchicon {
-    width: 14px;
-    height: 14px;
-    background-position: -214px -520px;
-}
-
-.icon-SearchOptions {
-    width: 42px;
-    height: 22px;
-    background-position: -10px -94px;
-}
-
-.icon-searchupbutton {
-    width: 45px;
-    height: 22px;
-    background-position: -75px -52px;
-}
-
-.icon-secondlevelicon {
-    width: 16px;
-    height: 16px;
-    background-position: -334px -417px;
-}
-
-.icon-selectall {
-    width: 27px;
-    height: 20px;
-    background-position: -278px -10px;
-}
-
-.icon-selectcolumn_cursor {
-    width: 11px;
-    height: 12px;
-    background-position: -41px -587px;
-}
-
-.icon-selectdata_icon {
-    width: 19px;
-    height: 17px;
-    background-position: -445px -84px;
-}
-
-.icon-selectrow_cursor {
-    width: 12px;
-    height: 9px;
-    background-position: -306px -453px;
-}
-
-.icon-selecttable_cursor {
-    width: 12px;
-    height: 11px;
-    background-position: -495px -554px;
-}
-
-.icon-sendbackward {
-    width: 13px;
-    height: 13px;
-    background-position: -514px -520px;
-}
-
-.icon-sendbackward_toptoolbar {
-    width: 20px;
-    height: 20px;
-    background-position: -50px -342px;
-}
-
-.icon-sendtoback {
-    width: 13px;
-    height: 13px;
-    background-position: -10px -554px;
-}
-
-.icon-shape_settings_icon {
-    width: 14px;
-    height: 14px;
-    background-position: -248px -520px;
-}
-
-.icon-shapesettings {
-    width: 14px;
-    height: 15px;
-    background-position: -520px -79px;
-}
-
-.icon-sharingicon {
-    width: 21px;
-    height: 17px;
-    background-position: -227px -263px;
-}
-
-.icon-sheetview_icon {
-    width: 25px;
-    height: 20px;
-    background-position: -10px -263px;
-}
-
-.icon-slicer_clearfilter {
-    width: 14px;
-    height: 12px;
-    background-position: -494px -487px;
-}
-
-.icon-slicer_icon {
-    width: 21px;
-    height: 24px;
-    background-position: -234px -98px;
-}
-
-.icon-slicer_settings {
-    width: 16px;
-    height: 17px;
-    background-position: -407px -212px;
-}
-
-.icon-smaller {
-    width: 11px;
-    height: 10px;
-    background-position: -137px -587px;
-}
-
-.icon-soft {
-    width: 10px;
-    height: 8px;
-    background-position: -620px -469px;
-}
-
-.icon-sort {
-    width: 15px;
-    height: 14px;
-    background-position: -520px -114px;
-}
-
-.icon-sortandfilter {
-    width: 12px;
-    height: 11px;
-    background-position: -527px -554px;
-}
-
-.icon-sortatoz {
-    width: 11px;
-    height: 11px;
-    background-position: -134px -619px;
-}
-
-.icon-sortcommentsicon {
-    width: 31px;
-    height: 19px;
-    background-position: -108px -184px;
-}
-
-.icon-sortztoa {
-    width: 11px;
-    height: 11px;
-    background-position: -165px -619px;
-}
-
-.icon-space {
-    width: 2px;
-    height: 3px;
-    background-position: -484px -430px;
-}
-
-.icon-spellcheckactivated {
-    width: 17px;
-    height: 14px;
-    background-position: -10px -453px;
-}
-
-.icon-spellcheckdeactivated {
-    width: 17px;
-    height: 14px;
-    background-position: -47px -453px;
-}
-
-.icon-square {
-    width: 5px;
-    height: 5px;
-    background-position: -403px -453px;
-}
-
-.icon-strike {
-    width: 12px;
-    height: 10px;
-    background-position: -105px -587px;
-}
-
-.icon-sub {
-    width: 13px;
-    height: 11px;
-    background-position: -142px -554px;
-}
-
-.icon-subscripticon {
-    width: 24px;
-    height: 11px;
-    background-position: -265px -342px;
-}
-
-.icon-sup {
-    width: 12px;
-    height: 12px;
-    background-position: -588px -435px;
-}
-
-.icon-tab {
-    width: 10px;
-    height: 5px;
-    background-position: -620px -583px;
-}
-
-.icon-table {
-    width: 22px;
-    height: 17px;
-    background-position: -144px -263px;
-}
-
-.icon-table_settings_icon {
-    width: 16px;
-    height: 11px;
-    background-position: -160px -453px;
-}
-
-.icon-tabletemplate {
-    width: 26px;
-    height: 11px;
-    background-position: -175px -342px;
-}
-
-.icon-tabstopcenter {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -255px;
-}
-
-.icon-tabstopcenter_marker {
-    width: 12px;
-    height: 8px;
-    background-position: -371px -453px;
-}
-
-.icon-tabstopleft {
-    width: 15px;
-    height: 15px;
-    background-position: -484px -290px;
-}
-
-.icon-tabstopleft_marker {
-    width: 8px;
-    height: 8px;
-    background-position: -620px -527px;
-}
-
-.icon-tabstopright_marker {
-    width: 8px;
-    height: 8px;
-    background-position: -620px -555px;
-}
-
-.icon-telegram_icon {
-    width: 24px;
-    height: 24px;
-    background-position: -234px -54px;
-}
-
-.icon-text_autoshape {
-    width: 16px;
-    height: 13px;
-    background-position: -46px -487px;
-}
-
-.icon-textart_settings_icon {
-    width: 12px;
-    height: 16px;
-    background-position: -555px -45px;
-}
-
-.icon-textsettings {
-    width: 10px;
-    height: 13px;
-    background-position: -620px -10px;
-}
-
-.icon-thesaurus_icon {
-    width: 28px;
-    height: 22px;
-    background-position: -60px -184px;
-}
-
-.icon-thirdlevelicon {
-    width: 16px;
-    height: 16px;
-    background-position: -370px -417px;
-}
-
-.icon-topborders {
-    width: 13px;
-    height: 13px;
-    background-position: -43px -554px;
-}
-
-.icon-translator {
-    width: 26px;
-    height: 26px;
-    background-position: -188px -10px;
-}
-
-.icon-underline {
-    width: 10px;
-    height: 11px;
-    background-position: -620px -108px;
-}
-
-.icon-undo {
-    width: 17px;
-    height: 9px;
-    background-position: -269px -453px;
-}
-
-.icon-undo1 {
-    width: 13px;
-    height: 6px;
-    background-position: -407px -356px;
-}
-
-.icon-ungroup {
-    width: 14px;
-    height: 14px;
-    background-position: -282px -520px;
-}
-
-.icon-ungroupicon {
-    width: 19px;
-    height: 17px;
-    background-position: -445px -121px;
-}
-
-.icon-usersnumber {
-    width: 28px;
-    height: 16px;
-    background-position: -110px -226px;
-}
-
-.icon-versionhistoryicon {
-    width: 24px;
-    height: 21px;
-    background-position: -234px -142px;
-}
-
-.icon-verticalalignment {
-    width: 33px;
-    height: 22px;
-    background-position: -110px -136px;
-}
-
-.icon-verticaltext {
-    width: 10px;
-    height: 11px;
-    background-position: -620px -139px;
-}
-
-.icon-viewsettingsicon {
-    width: 16px;
-    height: 11px;
-    background-position: -196px -453px;
-}
-
-.icon-wraptext {
-    width: 14px;
-    height: 13px;
-    background-position: -391px -487px;
-}
-
-.icon-yellowdiamond {
-    width: 11px;
-    height: 10px;
-    background-position: -168px -587px;
-}
-
-.icon-youtube {
-    width: 28px;
-    height: 28px;
-    background-position: -10px -136px;
-}
-
-.icon-zoomin {
-    width: 13px;
-    height: 13px;
-    background-position: -76px -554px;
-}
-
-.icon-zoomout {
-    width: 10px;
-    height: 11px;
-    background-position: -620px -170px;
-}
-
-/*---------------------------------------------------------------------------------------
-smb
- ----------------------------------------------------------------------------------------*/
-.smb {
-    background-image: url(../images/symbols.png);
-    background-repeat: no-repeat;
-    display: inline-block;
-}
-
-.smb-above {
-    width: 14px;
-    height: 13px;
-    background-position: -1px -1px;
-}
-
-.smb-acute {
-    width: 6px;
-    height: 4px;
-    background-position: -17px -1px;
-}
-
-.smb-aleph {
-    width: 11px;
-    height: 12px;
-    background-position: -25px -1px;
-}
-
-.smb-alpha {
-    width: 11px;
-    height: 9px;
-    background-position: -38px -1px;
-}
-
-.smb-alpha2 {
-    width: 11px;
-    height: 12px;
-    background-position: -51px -1px;
-}
-
-.smb-amalg {
-    width: 14px;
-    height: 15px;
-    background-position: -64px -1px;
-}
-
-.smb-angle {
-    width: 13px;
-    height: 13px;
-    background-position: -80px -1px;
-}
-
-.smb-aoint {
-    width: 9px;
-    height: 17px;
-    background-position: -95px -1px;
-}
-
-.smb-approx {
-    width: 11px;
-    height: 10px;
-    background-position: -106px -1px;
-}
-
-.smb-arrow {
-    width: 14px;
-    height: 9px;
-    background-position: -119px -1px;
-}
-
-.smb-asmash {
-    width: 7px;
-    height: 14px;
-    background-position: -135px -1px;
-}
-
-.smb-ast {
-    width: 8px;
-    height: 8px;
-    background-position: -144px -1px;
-}
-
-.smb-asymp {
-    width: 12px;
-    height: 8px;
-    background-position: -154px -1px;
-}
-
-.smb-atop {
-    width: 4px;
-    height: 16px;
-    background-position: -168px -1px;
-}
-
-.smb-bar {
-    width: 12px;
-    height: 3px;
-    background-position: -174px -1px;
-}
-
-.smb-bar2 {
-    width: 13px;
-    height: 5px;
-    background-position: -188px -1px;
-}
-
-.smb-because {
-    width: 9px;
-    height: 8px;
-    background-position: -203px -1px;
-}
-
-.smb-begin {
-    width: 8px;
-    height: 16px;
-    background-position: -214px -1px;
-}
-
-.smb-below {
-    width: 14px;
-    height: 13px;
-    background-position: -224px -1px;
-}
-
-.smb-bet {
-    width: 11px;
-    height: 14px;
-    background-position: -240px -1px;
-}
-
-.smb-beta {
-    width: 11px;
-    height: 15px;
-    background-position: -253px -1px;
-}
-
-.smb-beta2 {
-    width: 11px;
-    height: 12px;
-    background-position: -266px -1px;
-}
-
-.smb-beth {
-    width: 11px;
-    height: 14px;
-    background-position: -279px -1px;
-}
-
-.smb-bigcap {
-    width: 11px;
-    height: 14px;
-    background-position: -292px -1px;
-}
-
-.smb-bigcup {
-    width: 11px;
-    height: 14px;
-    background-position: -305px -1px;
-}
-
-.smb-bigodot {
-    width: 13px;
-    height: 13px;
-    background-position: -318px -1px;
-}
-
-.smb-bigoplus {
-    width: 13px;
-    height: 13px;
-    background-position: -1px -16px;
-}
-
-.smb-bigotimes {
-    width: 13px;
-    height: 13px;
-    background-position: -16px -16px;
-}
-
-.smb-bigsqcup {
-    width: 10px;
-    height: 12px;
-    background-position: -31px -16px;
-}
-
-.smb-biguplus {
-    width: 10px;
-    height: 13px;
-    background-position: -43px -16px;
-}
-
-.smb-bigvee {
-    width: 10px;
-    height: 11px;
-    background-position: -80px -16px;
-}
-
-.smb-bigwedge {
-    width: 10px;
-    height: 11px;
-    background-position: -106px -16px;
-}
-
-.smb-binomial {
-    width: 295px;
-    height: 20px;
-    background-position: -1px -31px;
-}
-
-.smb-bot {
-    width: 10px;
-    height: 11px;
-    background-position: -118px -16px;
-}
-
-.smb-bowtie {
-    width: 11px;
-    height: 10px;
-    background-position: -144px -16px;
-}
-
-.smb-box {
-    width: 9px;
-    height: 9px;
-    background-position: -157px -16px;
-}
-
-.smb-boxdot {
-    width: 15px;
-    height: 14px;
-    background-position: -318px -16px;
-}
-
-.smb-boxminus {
-    width: 15px;
-    height: 14px;
-    background-position: -298px -32px;
-}
-
-.smb-boxplus {
-    width: 15px;
-    height: 14px;
-    background-position: -315px -32px;
-}
-
-.smb-bra {
-    width: 5px;
-    height: 13px;
-    background-position: -55px -16px;
-}
-
-.smb-break {
-    width: 8px;
-    height: 10px;
-    background-position: -174px -16px;
-}
-
-.smb-breve {
-    width: 7px;
-    height: 5px;
-    background-position: -184px -16px;
-}
-
-.smb-bullet {
-    width: 4px;
-    height: 4px;
-    background-position: -193px -16px;
-}
-
-.smb-cap {
-    width: 10px;
-    height: 11px;
-    background-position: -199px -16px;
-}
-
-.smb-cases {
-    width: 16px;
-    height: 16px;
-    background-position: -298px -48px;
-}
-
-.smb-cbrt {
-    width: 13px;
-    height: 16px;
-    background-position: -316px -48px;
-}
-
-.smb-cdot {
-    width: 4px;
-    height: 4px;
-    background-position: -224px -16px;
-}
-
-.smb-cdots {
-    width: 12px;
-    height: 4px;
-    background-position: -1px -66px;
-}
-
-.smb-check {
-    width: 7px;
-    height: 5px;
-    background-position: -230px -16px;
-}
-
-.smb-chi {
-    width: 12px;
-    height: 12px;
-    background-position: -15px -66px;
-}
-
-.smb-chi2 {
-    width: 13px;
-    height: 12px;
-    background-position: -29px -66px;
-}
-
-.smb-circ {
-    width: 7px;
-    height: 7px;
-    background-position: -266px -16px;
-}
-
-.smb-close {
-    width: 8px;
-    height: 21px;
-    background-position: -44px -66px;
-}
-
-.smb-clubsuit {
-    width: 12px;
-    height: 11px;
-    background-position: -54px -66px;
-}
-
-.smb-coint {
-    width: 10px;
-    height: 17px;
-    background-position: -68px -66px;
-}
-
-.smb-colonequal {
-    width: 14px;
-    height: 8px;
-    background-position: -80px -66px;
-}
-
-.smb-cong {
-    width: 11px;
-    height: 11px;
-    background-position: -96px -66px;
-}
-
-.smb-coprod {
-    width: 12px;
-    height: 13px;
-    background-position: -109px -66px;
-}
-
-.smb-cup {
-    width: 11px;
-    height: 11px;
-    background-position: -123px -66px;
-}
-
-.smb-dalet {
-    width: 11px;
-    height: 14px;
-    background-position: -136px -66px;
-}
-
-.smb-daleth {
-    width: 11px;
-    height: 14px;
-    background-position: -149px -66px;
-}
-
-.smb-dashv {
-    width: 10px;
-    height: 11px;
-    background-position: -162px -66px;
-}
-
-.smb-dd {
-    width: 11px;
-    height: 12px;
-    background-position: -174px -66px;
-}
-
-.smb-dd2 {
-    width: 14px;
-    height: 12px;
-    background-position: -187px -66px;
-}
-
-.smb-ddddot {
-    width: 12px;
-    height: 5px;
-    background-position: -203px -66px;
-}
-
-.smb-dddot {
-    width: 10px;
-    height: 5px;
-    background-position: -217px -66px;
-}
-
-.smb-ddot {
-    width: 8px;
-    height: 3px;
-    background-position: -229px -66px;
-}
-
-.smb-ddots {
-    width: 9px;
-    height: 10px;
-    background-position: -239px -66px;
-}
-
-.smb-defeq {
-    width: 12px;
-    height: 13px;
-    background-position: -250px -66px;
-}
-
-.smb-degc {
-    width: 16px;
-    height: 14px;
-    background-position: -264px -66px;
-}
-
-.smb-degf {
-    width: 10px;
-    height: 14px;
-    background-position: -282px -66px;
-}
-
-.smb-degree {
-    width: 6px;
-    height: 6px;
-    background-position: -294px -66px;
-}
-
-.smb-delta {
-    width: 9px;
-    height: 11px;
-    background-position: -302px -66px;
-}
-
-.smb-delta2 {
-    width: 9px;
-    height: 12px;
-    background-position: -313px -66px;
-}
-
-.smb-deltaeq {
-    width: 12px;
-    height: 11px;
-    background-position: -1px -80px;
-}
-
-.smb-diamond {
-    width: 7px;
-    height: 8px;
-    background-position: -324px -66px;
-}
-
-.smb-diamondsuit {
-    width: 11px;
-    height: 13px;
-    background-position: -15px -80px;
-}
-
-.smb-div {
-    width: 12px;
-    height: 9px;
-    background-position: -28px -80px;
-}
-
-.smb-dot {
-    width: 4px;
-    height: 3px;
-    background-position: -80px -76px;
-}
-
-.smb-doteq {
-    width: 12px;
-    height: 9px;
-    background-position: -54px -80px;
-}
-
-.smb-dots {
-    width: 12px;
-    height: 4px;
-    background-position: -86px -80px;
-}
-
-.smb-doublea {
-    width: 11px;
-    height: 9px;
-    background-position: -123px -80px;
-}
-
-.smb-doublea2 {
-    width: 13px;
-    height: 12px;
-    background-position: -162px -80px;
-}
-
-.smb-doubleb {
-    width: 11px;
-    height: 12px;
-    background-position: -177px -80px;
-}
-
-.smb-doubleb2 {
-    width: 12px;
-    height: 12px;
-    background-position: -190px -80px;
-}
-
-.smb-doublec {
-    width: 10px;
-    height: 9px;
-    background-position: -204px -76px;
-}
-
-.smb-doublec2 {
-    width: 11px;
-    height: 14px;
-    background-position: -216px -80px;
-}
-
-.smb-doublecolon {
-    width: 9px;
-    height: 8px;
-    background-position: -324px -76px;
-}
-
-.smb-doubled {
-    width: 10px;
-    height: 12px;
-    background-position: -68px -86px;
-}
-
-.smb-doubled2 {
-    width: 12px;
-    height: 12px;
-    background-position: -229px -80px;
-}
-
-.smb-doublee {
-    width: 10px;
-    height: 9px;
-    background-position: -80px -86px;
-}
-
-.smb-doublee2 {
-    width: 10px;
-    height: 12px;
-    background-position: -92px -86px;
-}
-
-.smb-doublef {
-    width: 9px;
-    height: 12px;
-    background-position: -104px -86px;
-}
-
-.smb-doublef2 {
-    width: 11px;
-    height: 12px;
-    background-position: -294px -80px;
-}
-
-.smb-doublefactorial {
-    width: 10px;
-    height: 14px;
-    background-position: -307px -80px;
-}
-
-.smb-doubleg {
-    width: 11px;
-    height: 12px;
-    background-position: -136px -86px;
-}
-
-.smb-doubleg2 {
-    width: 12px;
-    height: 13px;
-    background-position: -243px -86px;
-}
-
-.smb-doubleh {
-    width: 12px;
-    height: 12px;
-    background-position: -257px -86px;
-}
-
-.smb-doubleh2 {
-    width: 13px;
-    height: 13px;
-    background-position: -271px -86px;
-}
-
-.smb-doublei {
-    width: 7px;
-    height: 13px;
-    background-position: -149px -86px;
-}
-
-.smb-doublei2 {
-    width: 7px;
-    height: 12px;
-    background-position: -319px -86px;
-}
-
-.smb-doublej {
-    width: 7px;
-    height: 16px;
-    background-position: -1px -100px;
-}
-
-.smb-doublej2 {
-    width: 7px;
-    height: 14px;
-    background-position: -10px -100px;
-}
-
-.smb-doublek {
-    width: 12px;
-    height: 12px;
-    background-position: -19px -100px;
-}
-
-.smb-doublek2 {
-    width: 13px;
-    height: 12px;
-    background-position: -33px -100px;
-}
-
-.smb-doublel {
-    width: 7px;
-    height: 12px;
-    background-position: -48px -100px;
-}
-
-.smb-doublel2 {
-    width: 11px;
-    height: 12px;
-    background-position: -57px -100px;
-}
-
-.smb-doublem {
-    width: 16px;
-    height: 9px;
-    background-position: -70px -100px;
-}
-
-.smb-doublem2 {
-    width: 14px;
-    height: 12px;
-    background-position: -88px -100px;
-}
-
-.smb-doublen {
-    width: 12px;
-    height: 9px;
-    background-position: -104px -100px;
-}
-
-.smb-doublen2 {
-    width: 11px;
-    height: 13px;
-    background-position: -118px -100px;
-}
-
-.smb-doubleo {
-    width: 10px;
-    height: 9px;
-    background-position: -131px -100px;
-}
-
-.smb-doubleo2 {
-    width: 12px;
-    height: 12px;
-    background-position: -158px -100px;
-}
-
-.smb-doublep {
-    width: 11px;
-    height: 12px;
-    background-position: -172px -100px;
-}
-
-.smb-doublep2 {
-    width: 11px;
-    height: 13px;
-    background-position: -185px -100px;
-}
-
-.smb-doubleq {
-    width: 11px;
-    height: 12px;
-    background-position: -198px -100px;
-}
-
-.smb-doubleq2 {
-    width: 12px;
-    height: 15px;
-    background-position: -211px -100px;
-}
-
-.smb-doubler {
-    width: 9px;
-    height: 9px;
-    background-position: -225px -100px;
-}
-
-.smb-doubler2 {
-    width: 13px;
-    height: 13px;
-    background-position: -286px -100px;
-}
-
-.smb-doubles {
-    width: 9px;
-    height: 9px;
-    background-position: -257px -100px;
-}
-
-.smb-doubles2 {
-    width: 9px;
-    height: 12px;
-    background-position: -301px -100px;
-}
-
-.smb-doublet {
-    width: 9px;
-    height: 11px;
-    background-position: -312px -100px;
-}
-
-.smb-doublet2 {
-    width: 12px;
-    height: 12px;
-    background-position: -70px -113px;
-}
-
-.smb-doubleu {
-    width: 12px;
-    height: 9px;
-    background-position: -104px -113px;
-}
-
-.smb-doubleu2 {
-    width: 12px;
-    height: 12px;
-    background-position: -131px -113px;
-}
-
-.smb-doublev {
-    width: 11px;
-    height: 9px;
-    background-position: -145px -113px;
-}
-
-.smb-doublev2 {
-    width: 13px;
-    height: 12px;
-    background-position: -225px -113px;
-}
-
-.smb-doublew {
-    width: 15px;
-    height: 9px;
-    background-position: -240px -113px;
-}
-
-.smb-doublew2 {
-    width: 18px;
-    height: 12px;
-    background-position: -275px -17px;
-}
-
-.smb-doublex {
-    width: 11px;
-    height: 9px;
-    background-position: -257px -113px;
-}
-
-.smb-doublex2 {
-    width: 12px;
-    height: 12px;
-    background-position: -270px -113px;
-}
-
-.smb-doubley {
-    width: 11px;
-    height: 12px;
-    background-position: -312px -113px;
-}
-
-.smb-doubley2 {
-    width: 12px;
-    height: 12px;
-    background-position: -1px -127px;
-}
-
-.smb-doublez {
-    width: 10px;
-    height: 9px;
-    background-position: -323px -100px;
-}
-
-.smb-doublez2 {
-    width: 13px;
-    height: 13px;
-    background-position: -15px -127px;
-}
-
-.smb-downarrow {
-    width: 7px;
-    height: 13px;
-    background-position: -325px -111px;
-}
-
-.smb-downarrow2 {
-    width: 9px;
-    height: 13px;
-    background-position: -30px -127px;
-}
-
-.smb-dsmash {
-    width: 8px;
-    height: 15px;
-    background-position: -41px -126px;
-}
-
-.smb-ee {
-    width: 10px;
-    height: 9px;
-    background-position: -51px -127px;
-}
-
-.smb-ell {
-    width: 9px;
-    height: 13px;
-    background-position: -63px -127px;
-}
-
-.smb-emptyset {
-    width: 14px;
-    height: 14px;
-    background-position: -74px -127px;
-}
-
-.smb-end {
-    width: 8px;
-    height: 17px;
-    background-position: -90px -126px;
-}
-
-.smb-epsilon {
-    width: 8px;
-    height: 9px;
-    background-position: -100px -126px;
-}
-
-.smb-epsilon2 {
-    width: 11px;
-    height: 12px;
-    background-position: -110px -127px;
-}
-
-.smb-eqarray {
-    width: 15px;
-    height: 21px;
-    background-position: -123px -127px;
-}
-
-.smb-equiv {
-    width: 12px;
-    height: 10px;
-    background-position: -140px -127px;
-}
-
-.smb-eta {
-    width: 10px;
-    height: 12px;
-    background-position: -154px -127px;
-}
-
-.smb-eta2 {
-    width: 13px;
-    height: 12px;
-    background-position: -166px -127px;
-}
-
-.smb-exists {
-    width: 9px;
-    height: 11px;
-    background-position: -181px -126px;
-}
-
-.smb-forall {
-    width: 12px;
-    height: 12px;
-    background-position: -192px -127px;
-}
-
-.smb-fraktura {
-    width: 9px;
-    height: 9px;
-    background-position: -206px -127px;
-}
-
-.smb-fraktura2 {
-    width: 13px;
-    height: 14px;
-    background-position: -217px -127px;
-}
-
-.smb-frakturb {
-    width: 9px;
-    height: 14px;
-    background-position: -232px -127px;
-}
-
-.smb-frakturb2 {
-    width: 12px;
-    height: 13px;
-    background-position: -243px -127px;
-}
-
-.smb-frakturc {
-    width: 8px;
-    height: 10px;
-    background-position: -257px -126px;
-}
-
-.smb-frakturc2 {
-    width: 11px;
-    height: 14px;
-    background-position: -267px -127px;
-}
-
-.smb-frakturd {
-    width: 11px;
-    height: 13px;
-    background-position: -280px -127px;
-}
-
-.smb-frakturd2 {
-    width: 14px;
-    height: 13px;
-    background-position: -293px -127px;
-}
-
-.smb-frakture {
-    width: 9px;
-    height: 10px;
-    background-position: -309px -127px;
-}
-
-.smb-frakture2 {
-    width: 11px;
-    height: 13px;
-    background-position: -320px -127px;
-}
-
-.smb-frakturf {
-    width: 7px;
-    height: 15px;
-    background-position: -1px -142px;
-}
-
-.smb-frakturf2 {
-    width: 12px;
-    height: 15px;
-    background-position: -10px -142px;
-}
-
-.smb-frakturg {
-    width: 9px;
-    height: 14px;
-    background-position: -24px -142px;
-}
-
-.smb-frakturg2 {
-    width: 12px;
-    height: 14px;
-    background-position: -51px -142px;
-}
-
-.smb-frakturh {
-    width: 9px;
-    height: 15px;
-    background-position: -100px -142px;
-}
-
-.smb-frakturh2 {
-    width: 12px;
-    height: 15px;
-    background-position: -140px -142px;
-}
-
-.smb-frakturi {
-    width: 7px;
-    height: 12px;
-    background-position: -65px -142px;
-}
-
-.smb-frakturi2 {
-    width: 12px;
-    height: 15px;
-    background-position: -154px -142px;
-}
-
-.smb-frakturk {
-    width: 8px;
-    height: 12px;
-    background-position: -111px -142px;
-}
-
-.smb-frakturk2 {
-    width: 13px;
-    height: 13px;
-    background-position: -168px -142px;
-}
-
-.smb-frakturl {
-    width: 6px;
-    height: 12px;
-    background-position: -115px -86px;
-}
-
-.smb-frakturl2 {
-    width: 11px;
-    height: 13px;
-    background-position: -183px -142px;
-}
-
-.smb-frakturm {
-    width: 14px;
-    height: 9px;
-    background-position: -196px -142px;
-}
-
-.smb-frakturm2 {
-    width: 16px;
-    height: 13px;
-    background-position: -298px -17px;
-}
-
-.smb-frakturn {
-    width: 9px;
-    height: 9px;
-    background-position: -243px -142px;
-}
-
-.smb-frakturn2 {
-    width: 13px;
-    height: 14px;
-    background-position: -280px -142px;
-}
-
-.smb-frakturo {
-    width: 9px;
-    height: 9px;
-    background-position: -254px -142px;
-}
-
-.smb-frakturo2 {
-    width: 12px;
-    height: 12px;
-    background-position: -295px -142px;
-}
-
-.smb-frakturp {
-    width: 9px;
-    height: 11px;
-    background-position: -309px -142px;
-}
-
-.smb-frakturp2 {
-    width: 13px;
-    height: 14px;
-    background-position: -320px -142px;
-}
-
-.smb-frakturq {
-    width: 9px;
-    height: 11px;
-    background-position: -24px -158px;
-}
-
-.smb-frakturq2 {
-    width: 13px;
-    height: 12px;
-    background-position: -35px -158px;
-}
-
-.smb-frakturr {
-    width: 7px;
-    height: 9px;
-    background-position: -50px -158px;
-}
-
-.smb-frakturr2 {
-    width: 15px;
-    height: 15px;
-    background-position: -74px -155px;
-}
-
-.smb-frakturs {
-    width: 7px;
-    height: 8px;
-    background-position: -59px -158px;
-}
-
-.smb-frakturs2 {
-    width: 13px;
-    height: 12px;
-    background-position: -111px -158px;
-}
-
-.smb-frakturt {
-    width: 7px;
-    height: 12px;
-    background-position: -91px -158px;
-}
-
-.smb-frakturt2 {
-    width: 13px;
-    height: 12px;
-    background-position: -168px -158px;
-}
-
-.smb-frakturu {
-    width: 10px;
-    height: 9px;
-    background-position: -126px -158px;
-}
-
-.smb-frakturu2 {
-    width: 12px;
-    height: 15px;
-    background-position: -183px -158px;
-}
-
-.smb-frakturv {
-    width: 9px;
-    height: 9px;
-    background-position: -197px -158px;
-}
-
-.smb-frakturv2 {
-    width: 13px;
-    height: 13px;
-    background-position: -208px -158px;
-}
-
-.smb-frakturw {
-    width: 13px;
-    height: 9px;
-    background-position: -223px -158px;
-}
-
-.smb-frakturw2 {
-    width: 16px;
-    height: 12px;
-    background-position: -238px -155px;
-}
-
-.smb-frakturx {
-    width: 8px;
-    height: 10px;
-    background-position: -256px -158px;
-}
-
-.smb-frakturx2 {
-    width: 11px;
-    height: 13px;
-    background-position: -266px -158px;
-}
-
-.smb-fraktury {
-    width: 10px;
-    height: 12px;
-    background-position: -279px -158px;
-}
-
-.smb-fraktury2 {
-    width: 12px;
-    height: 15px;
-    background-position: -291px -158px;
-}
-
-.smb-frakturz {
-    width: 8px;
-    height: 14px;
-    background-position: -305px -158px;
-}
-
-.smb-frakturz2 {
-    width: 10px;
-    height: 15px;
-    background-position: -315px -158px;
-}
-
-.smb-frown {
-    width: 10px;
-    height: 10px;
-    background-position: -1px -175px;
-}
-
-.smb-g {
-    width: 11px;
-    height: 12px;
-    background-position: -13px -175px;
-}
-
-.smb-gamma {
-    width: 10px;
-    height: 12px;
-    background-position: -26px -175px;
-}
-
-.smb-gamma2 {
-    width: 11px;
-    height: 12px;
-    background-position: -38px -175px;
-}
-
-.smb-ge {
-    width: 12px;
-    height: 13px;
-    background-position: -51px -175px;
-}
-
-.smb-geq {
-    width: 12px;
-    height: 13px;
-    background-position: -65px -175px;
-}
-
-.smb-gets {
-    width: 13px;
-    height: 9px;
-    background-position: -79px -175px;
-}
-
-.smb-gg {
-    width: 14px;
-    height: 11px;
-    background-position: -94px -175px;
-}
-
-.smb-gimel {
-    width: 8px;
-    height: 14px;
-    background-position: -110px -175px;
-}
-
-.smb-grave {
-    width: 5px;
-    height: 4px;
-    background-position: -286px -86px;
-}
-
-.smb-greaterthanorequalto {
-    width: 12px;
-    height: 13px;
-    background-position: -120px -175px;
-}
-
-.smb-hat {
-    width: 8px;
-    height: 5px;
-    background-position: -134px -175px;
-}
-
-.smb-hbar {
-    width: 11px;
-    height: 14px;
-    background-position: -144px -175px;
-}
-
-.smb-heartsuit {
-    width: 13px;
-    height: 13px;
-    background-position: -157px -175px;
-}
-
-.smb-hookleftarrow {
-    width: 13px;
-    height: 10px;
-    background-position: -172px -175px;
-}
-
-.smb-hookrightarrow {
-    width: 13px;
-    height: 10px;
-    background-position: -187px -175px;
-}
-
-.smb-horizontalellipsis {
-    width: 13px;
-    height: 4px;
-    background-position: -202px -175px;
-}
-
-.smb-hphantom {
-    width: 15px;
-    height: 11px;
-    background-position: -217px -175px;
-}
-
-.smb-hsmash {
-    width: 15px;
-    height: 8px;
-    background-position: -234px -175px;
-}
-
-.smb-hvec {
-    width: 11px;
-    height: 5px;
-    background-position: -251px -175px;
-}
-
-.smb-identitymatrix {
-    width: 202px;
-    height: 16px;
-    background-position: -1px -191px;
-}
-
-.smb-ii {
-    width: 7px;
-    height: 13px;
-    background-position: -264px -175px;
-}
-
-.smb-iiiint {
-    width: 25px;
-    height: 18px;
-    background-position: -273px -175px;
-}
-
-.smb-iiint {
-    width: 20px;
-    height: 18px;
-    background-position: -300px -175px;
-}
-
-.smb-iint {
-    width: 15px;
-    height: 18px;
-    background-position: -205px -195px;
-}
-
-.smb-im {
-    width: 11px;
-    height: 13px;
-    background-position: -322px -175px;
-}
-
-.smb-imath {
-    width: 5px;
-    height: 10px;
-    background-position: -328px -86px;
-}
-
-.smb-in {
-    width: 10px;
-    height: 11px;
-    background-position: -222px -190px;
-}
-
-.smb-inc {
-    width: 11px;
-    height: 12px;
-    background-position: -234px -190px;
-}
-
-.smb-infty {
-    width: 14px;
-    height: 8px;
-    background-position: -247px -195px;
-}
-
-.smb-int {
-    width: 10px;
-    height: 18px;
-    background-position: -322px -190px;
-}
-
-.smb-integral {
-    width: 311px;
-    height: 21px;
-    background-position: -1px -215px;
-}
-
-.smb-iota {
-    width: 6px;
-    height: 9px;
-    background-position: -327px -158px;
-}
-
-.smb-iota2 {
-    width: 8px;
-    height: 12px;
-    background-position: -263px -190px;
-}
-
-.smb-j {
-    width: 26px;
-    height: 15px;
-    background-position: -273px -195px;
-}
-
-.smb-jj {
-    width: 10px;
-    height: 16px;
-    background-position: -314px -210px;
-}
-
-.smb-jmath {
-    width: 9px;
-    height: 12px;
-    background-position: -314px -228px;
-}
-
-.smb-kappa {
-    width: 10px;
-    height: 9px;
-    background-position: -1px -242px;
-}
-
-.smb-kappa2 {
-    width: 12px;
-    height: 12px;
-    background-position: -301px -195px;
-}
-
-.smb-ket {
-    width: 7px;
-    height: 15px;
-    background-position: -326px -210px;
-}
-
-.smb-lambda {
-    width: 10px;
-    height: 12px;
-    background-position: -13px -242px;
-}
-
-.smb-lambda2 {
-    width: 11px;
-    height: 12px;
-    background-position: -25px -242px;
-}
-
-.smb-langle {
-    width: 6px;
-    height: 15px;
-    background-position: -326px -227px;
-}
-
-.smb-lbbrack {
-    width: 8px;
-    height: 15px;
-    background-position: -38px -244px;
-}
-
-.smb-lbrace {
-    width: 8px;
-    height: 16px;
-    background-position: -48px -244px;
-}
-
-.smb-lbrack {
-    width: 6px;
-    height: 16px;
-    background-position: -58px -244px;
-}
-
-.smb-lceil {
-    width: 6px;
-    height: 15px;
-    background-position: -66px -244px;
-}
-
-.smb-ldiv {
-    width: 11px;
-    height: 15px;
-    background-position: -74px -244px;
-}
-
-.smb-ldivide {
-    width: 10px;
-    height: 15px;
-    background-position: -87px -242px;
-}
-
-.smb-ldots {
-    width: 12px;
-    height: 4px;
-    background-position: -99px -244px;
-}
-
-.smb-le {
-    width: 12px;
-    height: 11px;
-    background-position: -113px -244px;
-}
-
-.smb-left {
-    width: 9px;
-    height: 21px;
-    background-position: -127px -242px;
-}
-
-.smb-leftarrow {
-    width: 14px;
-    height: 9px;
-    background-position: -138px -244px;
-}
-
-.smb-leftarrow2 {
-    width: 14px;
-    height: 10px;
-    background-position: -154px -244px;
-}
-
-.smb-leftharpoondown {
-    width: 15px;
-    height: 7px;
-    background-position: -170px -244px;
-}
-
-.smb-leftharpoonup {
-    width: 14px;
-    height: 6px;
-    background-position: -187px -244px;
-}
-
-.smb-leftrightarrow {
-    width: 15px;
-    height: 9px;
-    background-position: -203px -244px;
-}
-
-.smb-leftrightarrow2 {
-    width: 16px;
-    height: 10px;
-    background-position: -220px -244px;
-}
-
-.smb-leq {
-    width: 12px;
-    height: 11px;
-    background-position: -238px -244px;
-}
-
-.smb-lessthanorequalto {
-    width: 12px;
-    height: 11px;
-    background-position: -252px -244px;
-}
-
-.smb-lfloor {
-    width: 7px;
-    height: 15px;
-    background-position: -266px -244px;
-}
-
-.smb-lhvec {
-    width: 11px;
-    height: 5px;
-    background-position: -275px -244px;
-}
-
-.smb-limit {
-    width: 198px;
-    height: 17px;
-    background-position: -1px -265px;
-}
-
-.smb-ll {
-    width: 14px;
-    height: 11px;
-    background-position: -288px -244px;
-}
-
-.smb-lmoust {
-    width: 12px;
-    height: 22px;
-    background-position: -304px -242px;
-}
-
-.smb-longleftarrow {
-    width: 19px;
-    height: 10px;
-    background-position: -201px -266px;
-}
-
-.smb-longleftrightarrow {
-    width: 19px;
-    height: 10px;
-    background-position: -222px -266px;
-}
-
-.smb-longrightarrow {
-    width: 18px;
-    height: 10px;
-    background-position: -243px -266px;
-}
-
-.smb-lrhar {
-    width: 14px;
-    height: 12px;
-    background-position: -318px -244px;
-}
-
-.smb-lvec {
-    width: 11px;
-    height: 6px;
-    background-position: -201px -258px;
-}
-
-.smb-mapsto {
-    width: 14px;
-    height: 9px;
-    background-position: -275px -258px;
-}
-
-.smb-matrix {
-    width: 9px;
-    height: 9px;
-    background-position: -291px -258px;
-}
-
-.smb-mid {
-    width: 4px;
-    height: 13px;
-    background-position: -236px -98px;
-}
-
-.smb-middle {
-    width: 18px;
-    height: 17px;
-    background-position: -302px -266px;
-}
-
-.smb-models {
-    width: 11px;
-    height: 10px;
-    background-position: -322px -258px;
-}
-
-.smb-mp {
-    width: 13px;
-    height: 13px;
-    background-position: -263px -270px;
-}
-
-.smb-mu {
-    width: 10px;
-    height: 11px;
-    background-position: -278px -270px;
-}
-
-.smb-mu2 {
-    width: 13px;
-    height: 12px;
-    background-position: -1px -285px;
-}
-
-.smb-nabla {
-    width: 10px;
-    height: 12px;
-    background-position: -290px -270px;
-}
-
-.smb-naryand {
-    width: 12px;
-    height: 20px;
-    background-position: -16px -285px;
-}
-
-.smb-ne {
-    width: 12px;
-    height: 11px;
-    background-position: -30px -285px;
-}
-
-.smb-nearrow {
-    width: 10px;
-    height: 11px;
-    background-position: -322px -270px;
-}
-
-.smb-neq {
-    width: 12px;
-    height: 11px;
-    background-position: -44px -285px;
-}
-
-.smb-ni {
-    width: 10px;
-    height: 11px;
-    background-position: -201px -283px;
-}
-
-.smb-norm {
-    width: 8px;
-    height: 15px;
-    background-position: -213px -283px;
-}
-
-.smb-notcontain {
-    width: 10px;
-    height: 13px;
-    background-position: -223px -283px;
-}
-
-.smb-notelement {
-    width: 11px;
-    height: 13px;
-    background-position: -235px -283px;
-}
-
-.smb-notequal {
-    width: 12px;
-    height: 11px;
-    background-position: -58px -285px;
-}
-
-.smb-notgreaterthan {
-    width: 12px;
-    height: 11px;
-    background-position: -72px -285px;
-}
-
-.smb-notin {
-    width: 10px;
-    height: 13px;
-    background-position: -248px -283px;
-}
-
-.smb-notlessthan {
-    width: 12px;
-    height: 11px;
-    background-position: -86px -285px;
-}
-
-.smb-nu {
-    width: 10px;
-    height: 9px;
-    background-position: -278px -283px;
-}
-
-.smb-nu2 {
-    width: 13px;
-    height: 12px;
-    background-position: -100px -285px;
-}
-
-.smb-nwarrow {
-    width: 10px;
-    height: 11px;
-    background-position: -322px -283px;
-}
-
-.smb-o {
-    width: 10px;
-    height: 9px;
-    background-position: -115px -296px;
-}
-
-.smb-o2 {
-    width: 11px;
-    height: 12px;
-    background-position: -127px -296px;
-}
-
-.smb-odot {
-    width: 15px;
-    height: 15px;
-    background-position: -140px -285px;
-}
-
-.smb-of {
-    width: 13px;
-    height: 20px;
-    background-position: -157px -285px;
-}
-
-.smb-oiiint {
-    width: 21px;
-    height: 18px;
-    background-position: -172px -296px;
-}
-
-.smb-oiint {
-    width: 16px;
-    height: 18px;
-    background-position: -260px -285px;
-}
-
-.smb-oint {
-    width: 9px;
-    height: 18px;
-    background-position: -195px -296px;
-}
-
-.smb-omega {
-    width: 13px;
-    height: 9px;
-    background-position: -115px -285px;
-}
-
-.smb-omega2 {
-    width: 12px;
-    height: 12px;
-    background-position: -290px -285px;
-}
-
-.smb-ominus {
-    width: 15px;
-    height: 15px;
-    background-position: -304px -285px;
-}
-
-.smb-open {
-    width: 9px;
-    height: 20px;
-    background-position: -278px -296px;
-}
-
-.smb-oplus {
-    width: 15px;
-    height: 15px;
-    background-position: -30px -302px;
-}
-
-.smb-otimes {
-    width: 15px;
-    height: 15px;
-    background-position: -47px -302px;
-}
-
-.smb-over {
-    width: 9px;
-    height: 15px;
-    background-position: -321px -296px;
-}
-
-.smb-overbar {
-    width: 12px;
-    height: 3px;
-    background-position: -1px -210px;
-}
-
-.smb-overbrace {
-    width: 15px;
-    height: 5px;
-    background-position: -1px -258px;
-}
-
-.smb-overbracket {
-    width: 14px;
-    height: 5px;
-    background-position: -18px -258px;
-}
-
-.smb-overline {
-    width: 12px;
-    height: 3px;
-    background-position: -15px -210px;
-}
-
-.smb-overparen {
-    width: 16px;
-    height: 6px;
-    background-position: -172px -285px;
-}
-
-.smb-overshell {
-    width: 16px;
-    height: 6px;
-    background-position: -64px -302px;
-}
-
-.smb-parallel {
-    width: 7px;
-    height: 14px;
-    background-position: -1px -313px;
-}
-
-.smb-partial {
-    width: 10px;
-    height: 12px;
-    background-position: -10px -313px;
-}
-
-.smb-perp {
-    width: 12px;
-    height: 11px;
-    background-position: -64px -313px;
-}
-
-.smb-phantom {
-    width: 12px;
-    height: 13px;
-    background-position: -78px -313px;
-}
-
-.smb-phi {
-    width: 11px;
-    height: 15px;
-    background-position: -92px -313px;
-}
-
-.smb-phi2 {
-    width: 13px;
-    height: 12px;
-    background-position: -140px -302px;
-}
-
-.smb-pi {
-    width: 11px;
-    height: 9px;
-    background-position: -105px -313px;
-}
-
-.smb-pi2 {
-    width: 13px;
-    height: 12px;
-    background-position: -206px -302px;
-}
-
-.smb-pm {
-    width: 12px;
-    height: 13px;
-    background-position: -118px -313px;
-}
-
-.smb-pmatrix {
-    width: 16px;
-    height: 15px;
-    background-position: -221px -302px;
-}
-
-.smb-pppprime {
-    width: 12px;
-    height: 5px;
-    background-position: -99px -258px;
-}
-
-.smb-ppprime {
-    width: 10px;
-    height: 5px;
-    background-position: -113px -258px;
-}
-
-.smb-pprime {
-    width: 8px;
-    height: 6px;
-    background-position: -214px -258px;
-}
-
-.smb-prec {
-    width: 11px;
-    height: 10px;
-    background-position: -155px -313px;
-}
-
-.smb-preceq {
-    width: 11px;
-    height: 13px;
-    background-position: -239px -313px;
-}
-
-.smb-prime {
-    width: 4px;
-    height: 6px;
-    background-position: -35px -142px;
-}
-
-.smb-prod {
-    width: 14px;
-    height: 15px;
-    background-position: -289px -302px;
-}
-
-.smb-propto {
-    width: 12px;
-    height: 9px;
-    background-position: -252px -313px;
-}
-
-.smb-psi {
-    width: 12px;
-    height: 15px;
-    background-position: -305px -313px;
-}
-
-.smb-psi2 {
-    width: 14px;
-    height: 12px;
-    background-position: -319px -313px;
-}
-
-.smb-qdrt {
-    width: 13px;
-    height: 16px;
-    background-position: -335px -1px;
-}
-
-.smb-quadratic {
-    width: 197px;
-    height: 20px;
-    background-position: -1px -330px;
-}
-
-.smb-rangle {
-    width: 7px;
-    height: 15px;
-    background-position: -335px -19px;
-}
-
-.smb-rangle2 {
-    width: 10px;
-    height: 15px;
-    background-position: -332px -36px;
-}
-
-.smb-ratio {
-    width: 5px;
-    height: 8px;
-    background-position: -62px -19px;
-}
-
-.smb-rbrace {
-    width: 8px;
-    height: 16px;
-    background-position: -333px -53px;
-}
-
-.smb-rbrack {
-    width: 6px;
-    height: 16px;
-    background-position: -335px -71px;
-}
-
-.smb-rbrack2 {
-    width: 7px;
-    height: 15px;
-    background-position: -335px -89px;
-}
-
-.smb-rceil {
-    width: 6px;
-    height: 15px;
-    background-position: -335px -106px;
-}
-
-.smb-rddots {
-    width: 9px;
-    height: 10px;
-    background-position: -69px -19px;
-}
-
-.smb-re {
-    width: 14px;
-    height: 15px;
-    background-position: -334px -123px;
-}
-
-.smb-rect {
-    width: 14px;
-    height: 8px;
-    background-position: -239px -19px;
-}
-
-.smb-rfloor {
-    width: 6px;
-    height: 15px;
-    background-position: -335px -140px;
-}
-
-.smb-rho {
-    width: 10px;
-    height: 12px;
-    background-position: -335px -157px;
-}
-
-.smb-rho2 {
-    width: 11px;
-    height: 12px;
-    background-position: -335px -171px;
-}
-
-.smb-rhvec {
-    width: 11px;
-    height: 5px;
-    background-position: -130px -19px;
-}
-
-.smb-right {
-    width: 9px;
-    height: 21px;
-    background-position: -335px -185px;
-}
-
-.smb-rightarrow {
-    width: 14px;
-    height: 9px;
-    background-position: -1px -53px;
-}
-
-.smb-rightarrow2 {
-    width: 15px;
-    height: 10px;
-    background-position: -17px -53px;
-}
-
-.smb-rightharpoondown {
-    width: 16px;
-    height: 6px;
-    background-position: -34px -53px;
-}
-
-.smb-rightharpoonup {
-    width: 13px;
-    height: 6px;
-    background-position: -52px -53px;
-}
-
-.smb-rmoust {
-    width: 11px;
-    height: 22px;
-    background-position: -335px -208px;
-}
-
-.smb-root {
-    width: 18px;
-    height: 17px;
-    background-position: -200px -327px;
-}
-
-.smb-scripta {
-    width: 12px;
-    height: 10px;
-    background-position: -67px -53px;
-}
-
-.smb-scripta2 {
-    width: 14px;
-    height: 12px;
-    background-position: -334px -232px;
-}
-
-.smb-scriptb {
-    width: 13px;
-    height: 13px;
-    background-position: -335px -246px;
-}
-
-.smb-scriptb2 {
-    width: 12px;
-    height: 14px;
-    background-position: -335px -261px;
-}
-
-.smb-scriptc {
-    width: 8px;
-    height: 8px;
-    background-position: -211px -19px;
-}
-
-.smb-scriptc2 {
-    width: 11px;
-    height: 11px;
-    background-position: -81px -53px;
-}
-
-.smb-scriptd {
-    width: 12px;
-    height: 12px;
-    background-position: -334px -277px;
-}
-
-.smb-scriptd2 {
-    width: 13px;
-    height: 12px;
-    background-position: -334px -291px;
-}
-
-.smb-scripte {
-    width: 11px;
-    height: 11px;
-    background-position: -94px -53px;
-}
-
-.smb-scripte2 {
-    width: 11px;
-    height: 15px;
-    background-position: -335px -305px;
-}
-
-.smb-scriptf {
-    width: 10px;
-    height: 15px;
-    background-position: -220px -322px;
-}
-
-.smb-scriptf2 {
-    width: 14px;
-    height: 15px;
-    background-position: -266px -322px;
-}
-
-.smb-scriptg {
-    width: 10px;
-    height: 11px;
-    background-position: -107px -53px;
-}
-
-.smb-scriptg2 {
-    width: 11px;
-    height: 15px;
-    background-position: -282px -322px;
-}
-
-.smb-scripth {
-    width: 13px;
-    height: 13px;
-    background-position: -335px -322px;
-}
-
-.smb-scripth2 {
-    width: 16px;
-    height: 15px;
-    background-position: -350px -1px;
-}
-
-.smb-scripti {
-    width: 9px;
-    height: 12px;
-    background-position: -350px -18px;
-}
-
-.smb-scripti2 {
-    width: 8px;
-    height: 14px;
-    background-position: -344px -32px;
-}
-
-.smb-scriptj {
-    width: 9px;
-    height: 15px;
-    background-position: -354px -32px;
-}
-
-.smb-scriptj2 {
-    width: 11px;
-    height: 15px;
-    background-position: -344px -49px;
-}
-
-.smb-scriptk {
-    width: 12px;
-    height: 14px;
-    background-position: -343px -66px;
-}
-
-.smb-scriptk2 {
-    width: 15px;
-    height: 12px;
-    background-position: -344px -82px;
-}
-
-.smb-scriptl {
-    width: 9px;
-    height: 13px;
-    background-position: -357px -49px;
-}
-
-.smb-scriptl2 {
-    width: 13px;
-    height: 13px;
-    background-position: -344px -96px;
-}
-
-.smb-scriptm {
-    width: 18px;
-    height: 9px;
-    background-position: -343px -111px;
-}
-
-.smb-scriptm2 {
-    width: 18px;
-    height: 15px;
-    background-position: -343px -140px;
-}
-
-.smb-scriptn {
-    width: 12px;
-    height: 9px;
-    background-position: -350px -122px;
-}
-
-.smb-scriptn2 {
-    width: 17px;
-    height: 12px;
-    background-position: -347px -157px;
-}
-
-.smb-scripto {
-    width: 9px;
-    height: 8px;
-    background-position: -255px -18px;
-}
-
-.smb-scripto2 {
-    width: 10px;
-    height: 12px;
-    background-position: -348px -171px;
-}
-
-.smb-scriptp {
-    width: 12px;
-    height: 12px;
-    background-position: -346px -185px;
-}
-
-.smb-scriptp2 {
-    width: 13px;
-    height: 12px;
-    background-position: -348px -199px;
-}
-
-.smb-scriptq {
-    width: 10px;
-    height: 13px;
-    background-position: -348px -213px;
-}
-
-.smb-scriptq2 {
-    width: 10px;
-    height: 14px;
-    background-position: -350px -228px;
-}
-
-.smb-scriptr {
-    width: 13px;
-    height: 9px;
-    background-position: -350px -244px;
-}
-
-.smb-scriptr2 {
-    width: 13px;
-    height: 14px;
-    background-position: -350px -255px;
-}
-
-.smb-scripts {
-    width: 10px;
-    height: 9px;
-    background-position: -349px -271px;
-}
-
-.smb-scripts2 {
-    width: 11px;
-    height: 12px;
-    background-position: -349px -282px;
-}
-
-.smb-scriptt {
-    width: 11px;
-    height: 11px;
-    background-position: -349px -296px;
-}
-
-.smb-scriptt2 {
-    width: 12px;
-    height: 12px;
-    background-position: -350px -309px;
-}
-
-.smb-scriptu {
-    width: 13px;
-    height: 9px;
-    background-position: -350px -323px;
-}
-
-.smb-scriptu2 {
-    width: 13px;
-    height: 12px;
-    background-position: -232px -334px;
-}
-
-.smb-scriptv {
-    width: 12px;
-    height: 9px;
-    background-position: -247px -334px;
-}
-
-.smb-scriptv2 {
-    width: 12px;
-    height: 12px;
-    background-position: -295px -334px;
-}
-
-.smb-scriptw {
-    width: 16px;
-    height: 9px;
-    background-position: -309px -334px;
-}
-
-.smb-scriptw2 {
-    width: 18px;
-    height: 12px;
-    background-position: -327px -337px;
-}
-
-.smb-scriptx {
-    width: 11px;
-    height: 9px;
-    background-position: -350px -334px;
-}
-
-.smb-scriptx2 {
-    width: 15px;
-    height: 12px;
-    background-position: -247px -345px;
-}
-
-.smb-scripty {
-    width: 13px;
-    height: 12px;
-    background-position: -264px -345px;
-}
-
-.smb-scripty2 {
-    width: 13px;
-    height: 15px;
-    background-position: -279px -345px;
-}
-
-.smb-scriptz {
-    width: 11px;
-    height: 11px;
-    background-position: -309px -345px;
-}
-
-.smb-scriptz2 {
-    width: 12px;
-    height: 12px;
-    background-position: -347px -345px;
-}
-
-.smb-sdiv {
-    width: 14px;
-    height: 13px;
-    background-position: -368px -1px;
-}
-
-.smb-sdivide {
-    width: 14px;
-    height: 13px;
-    background-position: -368px -16px;
-}
-
-.smb-searrow {
-    width: 12px;
-    height: 13px;
-    background-position: -365px -31px;
-}
-
-.smb-setminus {
-    width: 10px;
-    height: 15px;
-    background-position: -368px -46px;
-}
-
-.smb-sigma {
-    width: 11px;
-    height: 9px;
-    background-position: -368px -63px;
-}
-
-.smb-sigma2 {
-    width: 11px;
-    height: 12px;
-    background-position: -361px -74px;
-}
-
-.smb-sim {
-    width: 11px;
-    height: 6px;
-    background-position: -361px -88px;
-}
-
-.smb-simeq {
-    width: 12px;
-    height: 8px;
-    background-position: -359px -96px;
-}
-
-.smb-smash {
-    width: 7px;
-    height: 13px;
-    background-position: -374px -74px;
-}
-
-.smb-smile {
-    width: 16px;
-    height: 5px;
-    background-position: -268px -106px;
-}
-
-.smb-spadesuit {
-    width: 8px;
-    height: 10px;
-    background-position: -374px -89px;
-}
-
-.smb-sqcap {
-    width: 11px;
-    height: 10px;
-    background-position: -363px -106px;
-}
-
-.smb-sqcup {
-    width: 11px;
-    height: 10px;
-    background-position: -364px -118px;
-}
-
-.smb-sqrt {
-    width: 12px;
-    height: 17px;
-    background-position: -364px -130px;
-}
-
-.smb-sqsubseteq {
-    width: 12px;
-    height: 11px;
-    background-position: -366px -149px;
-}
-
-.smb-sqsuperseteq {
-    width: 11px;
-    height: 11px;
-    background-position: -1px -162px;
-}
-
-.smb-star {
-    width: 10px;
-    height: 8px;
-    background-position: -204px -88px;
-}
-
-.smb-subset {
-    width: 12px;
-    height: 9px;
-    background-position: -138px -162px;
-}
-
-.smb-subseteq {
-    width: 12px;
-    height: 11px;
-    background-position: -152px -162px;
-}
-
-.smb-succ {
-    width: 11px;
-    height: 10px;
-    background-position: -366px -162px;
-}
-
-.smb-succeq {
-    width: 11px;
-    height: 13px;
-    background-position: -360px -174px;
-}
-
-.smb-sum {
-    width: 12px;
-    height: 15px;
-    background-position: -363px -189px;
-}
-
-.smb-superset {
-    width: 12px;
-    height: 9px;
-    background-position: -363px -206px;
-}
-
-.smb-superseteq {
-    width: 12px;
-    height: 11px;
-    background-position: -362px -217px;
-}
-
-.smb-swarrow {
-    width: 10px;
-    height: 11px;
-    background-position: -362px -230px;
-}
-
-.smb-tau {
-    width: 9px;
-    height: 9px;
-    background-position: -143px -101px;
-}
-
-.smb-tau2 {
-    width: 11px;
-    height: 12px;
-    background-position: -365px -243px;
-}
-
-.smb-therefore {
-    width: 9px;
-    height: 8px;
-    background-position: -242px -101px;
-}
-
-.smb-theta {
-    width: 9px;
-    height: 12px;
-    background-position: -373px -174px;
-}
-
-.smb-theta2 {
-    width: 10px;
-    height: 12px;
-    background-position: -365px -257px;
-}
-
-.smb-tilde {
-    width: 7px;
-    height: 4px;
-    background-position: -1px -74px;
-}
-
-.smb-times {
-    width: 11px;
-    height: 10px;
-    background-position: -362px -271px;
-}
-
-.smb-to {
-    width: 14px;
-    height: 9px;
-    background-position: -362px -283px;
-}
-
-.smb-top {
-    width: 13px;
-    height: 13px;
-    background-position: -362px -294px;
-}
-
-.smb-tvec {
-    width: 11px;
-    height: 6px;
-    background-position: -1px -118px;
-}
-
-.smb-ubar {
-    width: 11px;
-    height: 3px;
-    background-position: -216px -74px;
-}
-
-.smb-ubar2 {
-    width: 12px;
-    height: 5px;
-    background-position: -14px -118px;
-}
-
-.smb-underbar {
-    width: 15px;
-    height: 5px;
-    background-position: -28px -118px;
-}
-
-.smb-underbrace {
-    width: 16px;
-    height: 6px;
-    background-position: -45px -118px;
-}
-
-.smb-underbracket {
-    width: 13px;
-    height: 5px;
-    background-position: -84px -118px;
-}
-
-.smb-underline {
-    width: 14px;
-    height: 8px;
-    background-position: -364px -309px;
-}
-
-.smb-underparen {
-    width: 15px;
-    height: 6px;
-    background-position: -158px -118px;
-}
-
-.smb-uparrow {
-    width: 9px;
-    height: 13px;
-    background-position: -365px -319px;
-}
-
-.smb-uparrow2 {
-    width: 10px;
-    height: 13px;
-    background-position: -363px -334px;
-}
-
-.smb-updownarrow {
-    width: 9px;
-    height: 14px;
-    background-position: -200px -349px;
-}
-
-.smb-updownarrow2 {
-    width: 9px;
-    height: 14px;
-    background-position: -211px -349px;
-}
-
-.smb-uplus {
-    width: 9px;
-    height: 10px;
-    background-position: -100px -162px;
-}
-
-.smb-upsilon {
-    width: 9px;
-    height: 9px;
-    background-position: -266px -309px;
-}
-
-.smb-upsilon2 {
-    width: 11px;
-    height: 12px;
-    background-position: -222px -349px;
-}
-
-.smb-varepsilon {
-    width: 8px;
-    height: 9px;
-    background-position: -42px -89px;
-}
-
-.smb-varphi {
-    width: 12px;
-    height: 12px;
-    background-position: -294px -349px;
-}
-
-.smb-varpi {
-    width: 14px;
-    height: 9px;
-    background-position: -361px -349px;
-}
-
-.smb-varrho {
-    width: 9px;
-    height: 12px;
-    background-position: -235px -349px;
-}
-
-.smb-varsigma {
-    width: 9px;
-    height: 12px;
-    background-position: -1px -360px;
-}
-
-.smb-vartheta {
-    width: 10px;
-    height: 12px;
-    background-position: -12px -360px;
-}
-
-.smb-vbar {
-    width: 4px;
-    height: 21px;
-    background-position: -377px -101px;
-}
-
-.smb-vdash {
-    width: 10px;
-    height: 11px;
-    background-position: -24px -360px;
-}
-
-.smb-vdots {
-    width: 5px;
-    height: 12px;
-    background-position: -377px -188px;
-}
-
-.smb-vec {
-    width: 11px;
-    height: 6px;
-    background-position: -118px -118px;
-}
-
-.smb-vee {
-    width: 11px;
-    height: 11px;
-    background-position: -36px -360px;
-}
-
-.smb-vert {
-    width: 4px;
-    height: 15px;
-    background-position: -378px -124px;
-}
-
-.smb-vert2 {
-    width: 8px;
-    height: 15px;
-    background-position: -49px -360px;
-}
-
-.smb-vmatrix {
-    width: 18px;
-    height: 17px;
-    background-position: -59px -360px;
-}
-
-.smb-vphantom {
-    width: 10px;
-    height: 15px;
-    background-position: -79px -360px;
-}
-
-.smb-wedge {
-    width: 11px;
-    height: 11px;
-    background-position: -91px -360px;
-}
-
-.smb-wp {
-    width: 11px;
-    height: 14px;
-    background-position: -104px -360px;
-}
-
-.smb-wr {
-    width: 5px;
-    height: 11px;
-    background-position: -14px -162px;
-}
-
-.smb-xi {
-    width: 9px;
-    height: 15px;
-    background-position: -117px -360px;
-}
-
-.smb-xi2 {
-    width: 11px;
-    height: 12px;
-    background-position: -128px -360px;
-}
-
-.smb-zeta {
-    width: 9px;
-    height: 15px;
-    background-position: -141px -360px;
-}
-
-.smb-zeta2 {
-    width: 11px;
-    height: 12px;
-    background-position: -152px -360px;
-}
-
-/*---------------------------------------------------------------------------------------
-big
- ----------------------------------------------------------------------------------------*/
-.big {
-    background-image: url(../images/big.png);
-    background-repeat: no-repeat;
-    display: inline-block;
-}
-
-.big-autofill {
-    background-position: -869px 0px;
-    width: 195px;
-    height: 96px;
-}
-
-.big-autoforeach {
-    background-position: -869px -499px;
-    width: 119px;
-    height: 103px;
-}
-
-.big-colorscales {
-    background-position: -869px -288px;
-    width: 142px;
-    height: 108px;
-}
-
-.big-connectors_firstshape {
-    background-position: -460px -700px;
-    width: 267px;
-    height: 77px;
-}
-
-.big-connectors_moveshape {
-    background-position: -420px -159px;
-    width: 267px;
-    height: 134px;
-}
-
-.big-connectors_secondshape {
-    background-position: -193px -700px;
-    width: 267px;
-    height: 77px;
-}
-
-.big-databars_diagrams {
-    background-position: -420px -542px;
-    width: 263px;
-    height: 96px;
-}
-
-.big-deleteequation {
-    background-position: -869px -192px;
-    width: 193px;
-    height: 96px;
-}
-
-.big-fontfamily {
-    background-position: -869px -778px;
-    width: 87px;
-    height: 22px;
-}
-
-.big-formatastext {
-    background-position: -420px -427px;
-    width: 257px;
-    height: 115px;
+.big{
+background-image: url(../images/big.png);
+	background-repeat: no-repeat;
+	display: inline-block;
 }
 
 .big-iconsets {
-    background-position: 0px -293px;
-    width: 240px;
-    height: 407px;
-}
-
-.big-insertedequation {
-    background-position: -869px -96px;
-    width: 193px;
-    height: 96px;
-}
-
-.big-maintain_proportions {
-    background-position: -240px -455px;
-    width: 146px;
-    height: 144px;
-}
-
-.big-moveelement {
-    background-position: -869px -602px;
-    width: 188px;
-    height: 60px;
+	background-position: 0px 0px;
+	width: 240px;
+	height: 407px;
 }
 
 .big-moving_image {
-    background-position: 0px 0px;
-    width: 420px;
-    height: 293px;
+	background-position: -240px 0px;
+	width: 420px;
+	height: 293px;
 }
 
-.big-nestedfraction {
-    background-position: -420px -293px;
-    width: 257px;
-    height: 134px;
-}
-
-.big-newslot {
-    background-position: 0px -700px;
-    width: 193px;
-    height: 115px;
-}
-
-.big-nonetemplate {
-    background-position: -988px -396px;
-    width: 63px;
-    height: 48px;
-}
-
-.big-pagebreak {
-    background-position: -869px -800px;
-    width: 185px;
-    height: 9px;
-}
-
-.big-relativereference {
-    background-position: -420px 0px;
-    width: 449px;
-    height: 159px;
+.big-editpoints_example {
+	background-position: 0px -407px;
+	width: 236px;
+	height: 237px;
 }
 
 .big-reshaping {
-    background-position: -240px -293px;
-    width: 147px;
-    height: 162px;
+	background-position: -236px -407px;
+	width: 147px;
+	height: 162px;
 }
 
-.big-resizeelement {
-    background-position: -869px -662px;
-    width: 188px;
-    height: 60px;
+.big-relativereference {
+	background-position: -660px 0px;
+	width: 449px;
+	height: 159px;
 }
 
-.big-rightpart {
-    background-position: -869px -722px;
-    width: 173px;
-    height: 30px;
+.big-maintain_proportions {
+	background-position: -660px -159px;
+	width: 146px;
+	height: 144px;
+}
+
+.big-connectors_moveshape {
+	background-position: -806px -159px;
+	width: 267px;
+	height: 134px;
+}
+
+.big-nestedfraction {
+	background-position: -660px -303px;
+	width: 257px;
+	height: 134px;
+}
+
+.big-formatastext {
+	background-position: -660px -437px;
+	width: 257px;
+	height: 115px;
+}
+
+.big-newslot {
+	background-position: -383px -407px;
+	width: 193px;
+	height: 115px;
+}
+
+.big-colorscales {
+	background-position: -917px -303px;
+	width: 142px;
+	height: 108px;
+}
+
+.big-autoforeach {
+	background-position: -917px -437px;
+	width: 119px;
+	height: 103px;
 }
 
 .big-sameforall {
-    background-position: -869px -396px;
-    width: 119px;
-    height: 103px;
+	background-position: -240px -293px;
+	width: 119px;
+	height: 103px;
 }
 
-.big-sectionbreak {
-    background-position: -420px -638px;
-    width: 200px;
-    height: 8px;
+.big-databars_diagrams {
+	background-position: -359px -293px;
+	width: 263px;
+	height: 96px;
+}
+
+.big-autofill {
+	background-position: 0px -644px;
+	width: 195px;
+	height: 96px;
+}
+
+.big-deleteequation {
+	background-position: -195px -644px;
+	width: 193px;
+	height: 96px;
+}
+
+.big-insertedequation {
+	background-position: -388px -644px;
+	width: 193px;
+	height: 96px;
 }
 
 .big-sparklines_types {
-    background-position: 0px -815px;
-    width: 208px;
-    height: 87px;
+	background-position: -660px -552px;
+	width: 208px;
+	height: 87px;
 }
 
-.big-spellchecking_language {
-    background-position: -869px -752px;
-    width: 180px;
-    height: 26px;
+.big-connectors_firstshape {
+	background-position: -581px -644px;
+	width: 267px;
+	height: 77px;
+}
+
+.big-connectors_secondshape {
+	background-position: 0px -740px;
+	width: 267px;
+	height: 77px;
+}
+
+.big-moveelement {
+	background-position: -868px -552px;
+	width: 188px;
+	height: 60px;
+}
+
+.big-resizeelement {
+	background-position: -236px -569px;
+	width: 188px;
+	height: 60px;
 }
 
 .big-templateslist {
-    background-position: -687px -159px;
-    width: 83px;
-    height: 54px;
+	background-position: -576px -407px;
+	width: 83px;
+	height: 54px;
 }
+
+.big-nonetemplate {
+	background-position: -1036px -437px;
+	width: 63px;
+	height: 48px;
+}
+
+.big-rightpart {
+	background-position: -383px -522px;
+	width: 173px;
+	height: 30px;
+}
+
+.big-spellchecking_language {
+	background-position: -917px -411px;
+	width: 180px;
+	height: 26px;
+}
+
+.big-fontfamily {
+	background-position: -868px -612px;
+	width: 87px;
+	height: 22px;
+}
+
+.big-pagebreak {
+	background-position: -806px -293px;
+	width: 185px;
+	height: 9px;
+}
+
+.big-sectionbreak {
+	background-position: -240px -396px;
+	width: 200px;
+	height: 8px;
+}
+
+.icon{
+background-image: url(../images/icons.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+.icon-highlight {
+	background-position: 0px 0px;
+	width: 28px;
+	height: 28px;
+}
+
+.icon-photoeditor {
+	background-position: -28px 0px;
+	width: 28px;
+	height: 28px;
+}
+
+.icon-youtube {
+	background-position: 0px -28px;
+	width: 28px;
+	height: 28px;
+}
+
+.icon-thumbnailsettingicon {
+	background-position: -56px 0px;
+	width: 34px;
+	height: 27px;
+}
+
+.icon-translator {
+	background-position: -56px -27px;
+	width: 26px;
+	height: 26px;
+}
+
+.icon-favorites_icon {
+	background-position: -28px -28px;
+	width: 26px;
+	height: 25px;
+}
+
+.icon-conditionalformatting_button {
+	background-position: 0px -56px;
+	width: 32px;
+	height: 24px;
+}
+
+.icon-help {
+	background-position: -32px -56px;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-rainbow_icon {
+	background-position: -56px -56px;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-telegram_icon {
+	background-position: -90px 0px;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-slicer_icon {
+	background-position: -90px -24px;
+	width: 21px;
+	height: 24px;
+}
+
+.icon-arrow {
+	background-position: -90px -48px;
+	width: 23px;
+	height: 23px;
+}
+
+.icon-insert_pivot {
+	background-position: 0px -80px;
+	width: 23px;
+	height: 23px;
+}
+
+.icon-list_worksheets {
+	background-position: -23px -80px;
+	width: 23px;
+	height: 23px;
+}
+
+.icon-fontsize {
+	background-position: -46px -80px;
+	width: 45px;
+	height: 22px;
+}
+
+.icon-rowsandcolumns {
+	background-position: -114px 0px;
+	width: 45px;
+	height: 22px;
+}
+
+.icon-searchdownbutton {
+	background-position: -114px -22px;
+	width: 45px;
+	height: 22px;
+}
+
+.icon-searchupbutton {
+	background-position: -114px -44px;
+	width: 45px;
+	height: 22px;
+}
+
+.icon-SearchOptions {
+	background-position: -114px -66px;
+	width: 42px;
+	height: 22px;
+}
+
+.icon-verticalalignment {
+	background-position: 0px -103px;
+	width: 33px;
+	height: 22px;
+}
+
+.icon-pastespecialbutton {
+	background-position: -33px -103px;
+	width: 30px;
+	height: 22px;
+}
+
+.icon-sparklines_button {
+	background-position: -63px -103px;
+	width: 28px;
+	height: 22px;
+}
+
+.icon-thesaurus_icon {
+	background-position: -91px -103px;
+	width: 28px;
+	height: 22px;
+}
+
+.icon-addworksheet {
+	background-position: -119px -103px;
+	width: 24px;
+	height: 22px;
+}
+
+.icon-ascendingbutton {
+	background-position: -91px -80px;
+	width: 22px;
+	height: 22px;
+}
+
+.icon-descendingbutton {
+	background-position: 0px -125px;
+	width: 22px;
+	height: 22px;
+}
+
+.icon-go_to_the_next_word {
+	background-position: -22px -125px;
+	width: 22px;
+	height: 22px;
+}
+
+.icon-inserttexticon {
+	background-position: -44px -125px;
+	width: 22px;
+	height: 22px;
+}
+
+.icon-printareabutton {
+	background-position: -66px -125px;
+	width: 20px;
+	height: 22px;
+}
+
+.icon-calculationicon {
+	background-position: -86px -125px;
+	width: 18px;
+	height: 22px;
+}
+
+.icon-coeditingmode {
+	background-position: -104px -125px;
+	width: 18px;
+	height: 22px;
+}
+
+.icon-header_footer_icon {
+	background-position: -122px -125px;
+	width: 18px;
+	height: 22px;
+}
+
+.icon-versionhistoryicon {
+	background-position: -159px 0px;
+	width: 24px;
+	height: 21px;
+}
+
+.icon-pivot_refresh {
+	background-position: -159px -21px;
+	width: 21px;
+	height: 21px;
+}
+
+.icon-selectall {
+	background-position: 0px -147px;
+	width: 27px;
+	height: 20px;
+}
+
+.icon-dataval_icon {
+	background-position: -27px -147px;
+	width: 26px;
+	height: 20px;
+}
+
+.icon-sheetview_icon {
+	background-position: -53px -147px;
+	width: 25px;
+	height: 20px;
+}
+
+.icon-bringforward_toptoolbar {
+	background-position: -159px -42px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-changecolorscheme {
+	background-position: -159px -62px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-constantproportionsactivated {
+	background-position: -159px -82px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-copystyle_selected {
+	background-position: -159px -102px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-group_toptoolbar {
+	background-position: -159px -122px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-image {
+	background-position: -78px -147px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-insertautoshape {
+	background-position: -98px -147px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-insert_symbol_icon {
+	background-position: -118px -147px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-scaletofit {
+	background-position: -138px -147px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-sendbackward_toptoolbar {
+	background-position: -158px -147px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-show_password {
+	background-position: -183px 0px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-vector {
+	background-position: -183px -20px;
+	width: 20px;
+	height: 20px;
+}
+
+.icon-align_toptoolbar {
+	background-position: -183px -40px;
+	width: 19px;
+	height: 20px;
+}
+
+.icon-inserttextarticon {
+	background-position: -183px -60px;
+	width: 16px;
+	height: 20px;
+}
+
+.icon-sortcommentsicon {
+	background-position: 0px -167px;
+	width: 31px;
+	height: 19px;
+}
+
+.icon-chat_toptoolbar {
+	background-position: -31px -167px;
+	width: 24px;
+	height: 19px;
+}
+
+.icon-chart {
+	background-position: -55px -167px;
+	width: 22px;
+	height: 19px;
+}
+
+.icon-comment_toptoolbar {
+	background-position: -77px -167px;
+	width: 22px;
+	height: 19px;
+}
+
+.icon-insertequationicon {
+	background-position: -99px -167px;
+	width: 22px;
+	height: 19px;
+}
+
+.icon-pivotselecticon {
+	background-position: -121px -167px;
+	width: 22px;
+	height: 19px;
+}
+
+.icon-functionicon {
+	background-position: -183px -80px;
+	width: 20px;
+	height: 19px;
+}
+
+.icon-paste_style {
+	background-position: -183px -99px;
+	width: 20px;
+	height: 19px;
+}
+
+.icon-addhyperlink {
+	background-position: -183px -118px;
+	width: 19px;
+	height: 19px;
+}
+
+.icon-hiderulers {
+	background-position: -183px -137px;
+	width: 19px;
+	height: 19px;
+}
+
+.icon-removecomment_toptoolbar {
+	background-position: -143px -103px;
+	width: 15px;
+	height: 19px;
+}
+
+.icon-customsort {
+	background-position: -140px -125px;
+	width: 18px;
+	height: 18px;
+}
+
+.icon-new_icon {
+	background-position: -143px -167px;
+	width: 18px;
+	height: 18px;
+}
+
+.icon-searchbuttons {
+	background-position: -161px -167px;
+	width: 33px;
+	height: 17px;
+}
+
+.icon-horizontalalignment {
+	background-position: 0px -186px;
+	width: 31px;
+	height: 17px;
+}
+
+.icon-backgroundcolor {
+	background-position: -31px -186px;
+	width: 25px;
+	height: 17px;
+}
+
+.icon-removeduplicates_icon {
+	background-position: -56px -186px;
+	width: 24px;
+	height: 17px;
+}
+
+.icon-table {
+	background-position: -80px -186px;
+	width: 22px;
+	height: 17px;
+}
+
+.icon-changecolumnwidthcursor {
+	background-position: -102px -186px;
+	width: 21px;
+	height: 17px;
+}
+
+.icon-sharingicon {
+	background-position: -123px -186px;
+	width: 21px;
+	height: 17px;
+}
+
+.icon-chaticon_new {
+	background-position: -144px -186px;
+	width: 19px;
+	height: 17px;
+}
+
+.icon-groupicon {
+	background-position: -163px -186px;
+	width: 19px;
+	height: 17px;
+}
+
+.icon-selectdata_icon {
+	background-position: -182px -186px;
+	width: 19px;
+	height: 17px;
+}
+
+.icon-ungroupicon {
+	background-position: -203px 0px;
+	width: 19px;
+	height: 17px;
+}
+
+.icon-insertslicer {
+	background-position: -203px -17px;
+	width: 16px;
+	height: 17px;
+}
+
+.icon-slicer_settings {
+	background-position: -203px -34px;
+	width: 16px;
+	height: 17px;
+}
+
+.icon-addgradientpoint {
+	background-position: -203px -51px;
+	width: 12px;
+	height: 17px;
+}
+
+.icon-removegradientpoint {
+	background-position: -203px -68px;
+	width: 12px;
+	height: 17px;
+}
+
+.icon-levelnumbericons {
+	background-position: 0px -203px;
+	width: 48px;
+	height: 16px;
+}
+
+.icon-access_rights {
+	background-position: -48px -203px;
+	width: 29px;
+	height: 16px;
+}
+
+.icon-usersnumber {
+	background-position: -77px -203px;
+	width: 28px;
+	height: 16px;
+}
+
+.icon-close_icon {
+	background-position: -203px -85px;
+	width: 18px;
+	height: 16px;
+}
+
+.icon-saveupdate {
+	background-position: -203px -101px;
+	width: 18px;
+	height: 16px;
+}
+
+.icon-savewhilecoediting {
+	background-position: -203px -117px;
+	width: 17px;
+	height: 16px;
+}
+
+.icon-collapserowsicon {
+	background-position: -203px -133px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-converttorange {
+	background-position: -203px -149px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-dropdownarrow {
+	background-position: -203px -165px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-expandrowsicon {
+	background-position: -203px -181px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-filterbutton {
+	background-position: -105px -203px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-firstlevelicon {
+	background-position: -121px -203px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-highesttolowest {
+	background-position: -137px -203px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-highesttolowest1 {
+	background-position: -153px -203px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-lowesttohighest {
+	background-position: -169px -203px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-lowesttohighest1 {
+	background-position: -185px -203px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-pivot_settings {
+	background-position: -201px -203px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-secondlevelicon {
+	background-position: -222px 0px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-thirdlevelicon {
+	background-position: -222px -16px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-distributevertically {
+	background-position: -222px -32px;
+	width: 14px;
+	height: 16px;
+}
+
+.icon-textart_settings_icon {
+	background-position: -222px -48px;
+	width: 12px;
+	height: 16px;
+}
+
+.icon-namedrangesicon {
+	background-position: -114px -88px;
+	width: 23px;
+	height: 15px;
+}
+
+.icon-search_options {
+	background-position: -137px -88px;
+	width: 22px;
+	height: 15px;
+}
+
+.icon-chaticon {
+	background-position: 0px -219px;
+	width: 18px;
+	height: 15px;
+}
+
+.icon-gotodocuments {
+	background-position: -18px -219px;
+	width: 18px;
+	height: 15px;
+}
+
+.icon-print {
+	background-position: -36px -219px;
+	width: 17px;
+	height: 15px;
+}
+
+.icon-bgcolor {
+	background-position: -222px -64px;
+	width: 16px;
+	height: 15px;
+}
+
+.icon-about {
+	background-position: -222px -79px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-abouticon {
+	background-position: -222px -94px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-advanced_settings_icon {
+	background-position: -222px -109px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-insertpivot {
+	background-position: -222px -124px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-plus {
+	background-position: -222px -139px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-plus_sheet {
+	background-position: -222px -154px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-save {
+	background-position: -222px -169px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-tabstopcenter {
+	background-position: -222px -184px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-tabstopleft {
+	background-position: -222px -199px;
+	width: 15px;
+	height: 15px;
+}
+
+.icon-feedback {
+	background-position: -53px -219px;
+	width: 14px;
+	height: 15px;
+}
+
+.icon-flipupsidedown {
+	background-position: -67px -219px;
+	width: 14px;
+	height: 15px;
+}
+
+.icon-shapesettings {
+	background-position: -81px -219px;
+	width: 14px;
+	height: 15px;
+}
+
+.icon-file {
+	background-position: -95px -219px;
+	width: 13px;
+	height: 15px;
+}
+
+.icon-back {
+	background-position: -108px -219px;
+	width: 12px;
+	height: 15px;
+}
+
+.icon-fontcolor {
+	background-position: -120px -219px;
+	width: 25px;
+	height: 14px;
+}
+
+.icon-numbering {
+	background-position: -145px -219px;
+	width: 24px;
+	height: 14px;
+}
+
+.icon-spellcheckactivated {
+	background-position: -169px -219px;
+	width: 17px;
+	height: 14px;
+}
+
+.icon-spellcheckdeactivated {
+	background-position: -186px -219px;
+	width: 17px;
+	height: 14px;
+}
+
+.icon-distributehorizontally {
+	background-position: -203px -219px;
+	width: 16px;
+	height: 14px;
+}
+
+.icon-fliplefttoright {
+	background-position: -219px -219px;
+	width: 15px;
+	height: 14px;
+}
+
+.icon-sort {
+	background-position: -238px 0px;
+	width: 15px;
+	height: 14px;
+}
+
+.icon-alignobjectbottom {
+	background-position: -238px -14px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-alignobjectleft {
+	background-position: -238px -28px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-alignobjectright {
+	background-position: -238px -42px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-alignobjecttop {
+	background-position: -238px -56px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-bordercolor {
+	background-position: -238px -70px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-borderwidth {
+	background-position: -238px -84px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-chartsettingsicon {
+	background-position: -238px -98px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-clearicon {
+	background-position: -238px -112px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-commentsicon {
+	background-position: -238px -126px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-deleteicon {
+	background-position: -238px -140px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-function {
+	background-position: -238px -154px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-group {
+	background-position: -238px -168px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-image_settings_icon {
+	background-position: -238px -182px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-searchicon {
+	background-position: -238px -196px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-shape_settings_icon {
+	background-position: -238px -210px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-ungroup {
+	background-position: 0px -234px;
+	width: 14px;
+	height: 14px;
+}
+
+.icon-alignobjectcenter {
+	background-position: -14px -234px;
+	width: 13px;
+	height: 14px;
+}
+
+.icon-copystyle {
+	background-position: -27px -234px;
+	width: 12px;
+	height: 14px;
+}
+
+.icon-gradientslider {
+	background-position: -39px -234px;
+	width: 12px;
+	height: 14px;
+}
+
+.icon-hard {
+	background-position: -80px -56px;
+	width: 9px;
+	height: 14px;
+}
+
+.icon-clear {
+	background-position: -51px -234px;
+	width: 26px;
+	height: 13px;
+}
+
+.icon-outline {
+	background-position: -77px -234px;
+	width: 25px;
+	height: 13px;
+}
+
+.icon-bullets {
+	background-position: -102px -234px;
+	width: 24px;
+	height: 13px;
+}
+
+.icon-insertfunction {
+	background-position: -126px -234px;
+	width: 24px;
+	height: 13px;
+}
+
+.icon-orientation {
+	background-position: -150px -234px;
+	width: 24px;
+	height: 13px;
+}
+
+.icon-insertchart {
+	background-position: -174px -234px;
+	width: 22px;
+	height: 13px;
+}
+
+.icon-insert_dropcap_icon {
+	background-position: -196px -234px;
+	width: 22px;
+	height: 13px;
+}
+
+.icon-pagebreak1 {
+	background-position: -218px -234px;
+	width: 22px;
+	height: 13px;
+}
+
+.icon-headerfooter {
+	background-position: -253px 0px;
+	width: 21px;
+	height: 13px;
+}
+
+.icon-insertcells {
+	background-position: -253px -13px;
+	width: 21px;
+	height: 13px;
+}
+
+.icon-pagesize {
+	background-position: -253px -26px;
+	width: 20px;
+	height: 13px;
+}
+
+.icon-removeduplicates {
+	background-position: -253px -39px;
+	width: 16px;
+	height: 13px;
+}
+
+.icon-text_autoshape {
+	background-position: -253px -52px;
+	width: 16px;
+	height: 13px;
+}
+
+.icon-changerange {
+	background-position: -253px -65px;
+	width: 15px;
+	height: 13px;
+}
+
+.icon-feedbackicon {
+	background-position: -253px -78px;
+	width: 15px;
+	height: 13px;
+}
+
+.icon-greencircle {
+	background-position: -253px -91px;
+	width: 15px;
+	height: 13px;
+}
+
+.icon-alignobjectmiddle {
+	background-position: -253px -104px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-clearstyle {
+	background-position: -253px -117px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-copy {
+	background-position: -253px -130px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-hyperlink {
+	background-position: -253px -143px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-multiselect {
+	background-position: -253px -156px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-paste {
+	background-position: -253px -169px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-wraptext {
+	background-position: -253px -182px;
+	width: 14px;
+	height: 13px;
+}
+
+.icon-allborders {
+	background-position: -253px -195px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-bottomborders {
+	background-position: -253px -208px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-bringforward {
+	background-position: -253px -221px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-bringtofront {
+	background-position: -253px -234px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-document_language {
+	background-position: -240px -234px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-dropcap_margin {
+	background-position: 0px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-dropcap_none {
+	background-position: -13px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-dropcap_text {
+	background-position: -26px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-equationplaceholder {
+	background-position: -39px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-fitpage {
+	background-position: -52px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-fitwidth {
+	background-position: -65px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-insideborders {
+	background-position: -78px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-insidehorizontalborders {
+	background-position: -91px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-insideverticalborders {
+	background-position: -104px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-leftborders {
+	background-position: -117px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-noborders {
+	background-position: -130px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-outsideborders {
+	background-position: -143px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-rightborders {
+	background-position: -156px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-sendbackward {
+	background-position: -169px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-sendtoback {
+	background-position: -182px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-topborders {
+	background-position: -195px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-zoomin {
+	background-position: -208px -248px;
+	width: 13px;
+	height: 13px;
+}
+
+.icon-currencystyle {
+	background-position: -221px -248px;
+	width: 12px;
+	height: 13px;
+}
+
+.icon-editcommenticon {
+	background-position: -233px -248px;
+	width: 12px;
+	height: 13px;
+}
+
+.icon-insertpagenumber {
+	background-position: -245px -248px;
+	width: 12px;
+	height: 13px;
+}
+
+.icon-rotateclockwise {
+	background-position: -257px -248px;
+	width: 12px;
+	height: 13px;
+}
+
+.icon-rotatecounterclockwise {
+	background-position: 0px -261px;
+	width: 12px;
+	height: 13px;
+}
+
+.icon-alignmiddle {
+	background-position: -12px -261px;
+	width: 11px;
+	height: 13px;
+}
+
+.icon-textsettings {
+	background-position: -23px -261px;
+	width: 10px;
+	height: 13px;
+}
+
+.icon-accountingstyle {
+	background-position: -33px -261px;
+	width: 26px;
+	height: 12px;
+}
+
+.icon-cellsettings_rightpanel {
+	background-position: -59px -261px;
+	width: 15px;
+	height: 12px;
+}
+
+.icon-decreasedecimal {
+	background-position: -74px -261px;
+	width: 14px;
+	height: 12px;
+}
+
+.icon-slicer_clearfilter {
+	background-position: -88px -261px;
+	width: 14px;
+	height: 12px;
+}
+
+.icon-increasedecimal {
+	background-position: -102px -261px;
+	width: 13px;
+	height: 12px;
+}
+
+.icon-angleclockwise {
+	background-position: -115px -261px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-anglecounterclockwise {
+	background-position: -127px -261px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-circle {
+	background-position: -139px -261px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-firstsheet {
+	background-position: -151px -261px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-larger {
+	background-position: -163px -261px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-nofill {
+	background-position: -175px -261px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-sup {
+	background-position: -187px -261px;
+	width: 12px;
+	height: 12px;
+}
+
+.icon-deletecommenticon {
+	background-position: -199px -261px;
+	width: 11px;
+	height: 12px;
+}
+
+.icon-selectcolumn_cursor {
+	background-position: -210px -261px;
+	width: 11px;
+	height: 12px;
+}
+
+.icon-tabletemplate {
+	background-position: -221px -261px;
+	width: 26px;
+	height: 11px;
+}
+
+.icon-merge {
+	background-position: -247px -261px;
+	width: 24px;
+	height: 11px;
+}
+
+.icon-subscripticon {
+	background-position: -274px 0px;
+	width: 24px;
+	height: 11px;
+}
+
+.icon-addborders {
+	background-position: -274px -11px;
+	width: 22px;
+	height: 11px;
+}
+
+.icon-deletecells {
+	background-position: -274px -22px;
+	width: 21px;
+	height: 11px;
+}
+
+.icon-linespacing {
+	background-position: -274px -33px;
+	width: 21px;
+	height: 11px;
+}
+
+.icon-nonprintingcharacters {
+	background-position: -274px -44px;
+	width: 20px;
+	height: 11px;
+}
+
+.icon-namedranges {
+	background-position: -274px -55px;
+	width: 16px;
+	height: 11px;
+}
+
+.icon-table_settings_icon {
+	background-position: -274px -66px;
+	width: 16px;
+	height: 11px;
+}
+
+.icon-viewsettingsicon {
+	background-position: -274px -77px;
+	width: 16px;
+	height: 11px;
+}
+
+.icon-sub {
+	background-position: -274px -88px;
+	width: 13px;
+	height: 11px;
+}
+
+.icon-aligncenter {
+	background-position: -274px -99px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-alignleft {
+	background-position: -286px -99px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-alignright {
+	background-position: -274px -110px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-borderstyle {
+	background-position: -286px -110px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-clearfilter {
+	background-position: -274px -121px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-decreasedec {
+	background-position: -286px -121px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-decreaseindent {
+	background-position: -274px -132px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-increasedec {
+	background-position: -286px -132px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-increaseindent {
+	background-position: -274px -143px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-justify {
+	background-position: -286px -143px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-resolvedicon {
+	background-position: -274px -154px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-resolveicon {
+	background-position: -286px -154px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-selecttable_cursor {
+	background-position: -274px -165px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-sortandfilter {
+	background-position: -286px -165px;
+	width: 12px;
+	height: 11px;
+}
+
+.icon-alignbottom {
+	background-position: -287px -88px;
+	width: 11px;
+	height: 11px;
+}
+
+.icon-aligntop {
+	background-position: -274px -176px;
+	width: 11px;
+	height: 11px;
+}
+
+.icon-diagonal_down_border {
+	background-position: -285px -176px;
+	width: 11px;
+	height: 11px;
+}
+
+.icon-diagonal_up_border {
+	background-position: -274px -187px;
+	width: 11px;
+	height: 11px;
+}
+
+.icon-sortatoz {
+	background-position: -285px -187px;
+	width: 11px;
+	height: 11px;
+}
+
+.icon-sortztoa {
+	background-position: -274px -198px;
+	width: 11px;
+	height: 11px;
+}
+
+.icon-percentstyle {
+	background-position: -285px -198px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-underline {
+	background-position: -274px -209px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-verticaltext {
+	background-position: -284px -209px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-zoomout {
+	background-position: -274px -220px;
+	width: 10px;
+	height: 11px;
+}
+
+.icon-rotatedown {
+	background-position: -284px -220px;
+	width: 9px;
+	height: 11px;
+}
+
+.icon-highlightcolor {
+	background-position: -274px -231px;
+	width: 23px;
+	height: 10px;
+}
+
+.icon-navigationicon {
+	background-position: -274px -241px;
+	width: 13px;
+	height: 10px;
+}
+
+.icon-strike {
+	background-position: -274px -251px;
+	width: 12px;
+	height: 10px;
+}
+
+.icon-smaller {
+	background-position: -287px -241px;
+	width: 11px;
+	height: 10px;
+}
+
+.icon-yellowdiamond {
+	background-position: -286px -251px;
+	width: 11px;
+	height: 10px;
+}
+
+.icon-lastsheet {
+	background-position: -274px -261px;
+	width: 10px;
+	height: 10px;
+}
+
+.icon-rotateup {
+	background-position: -284px -261px;
+	width: 9px;
+	height: 10px;
+}
+
+.icon-bold {
+	background-position: -290px -55px;
+	width: 8px;
+	height: 10px;
+}
+
+.icon-nextsheet {
+	background-position: -290px -66px;
+	width: 8px;
+	height: 10px;
+}
+
+.icon-previoussheet {
+	background-position: -290px -77px;
+	width: 8px;
+	height: 10px;
+}
+
+.icon-italic {
+	background-position: -267px -104px;
+	width: 7px;
+	height: 10px;
+}
+
+.icon-redo {
+	background-position: -183px -156px;
+	width: 17px;
+	height: 9px;
+}
+
+.icon-undo {
+	background-position: -90px -71px;
+	width: 17px;
+	height: 9px;
+}
+
+.icon-selectrow_cursor {
+	background-position: -238px -224px;
+	width: 12px;
+	height: 9px;
+}
+
+.icon-horizontaltext {
+	background-position: -80px -70px;
+	width: 10px;
+	height: 9px;
+}
+
+.icon-cellrow {
+	background-position: -194px -167px;
+	width: 9px;
+	height: 9px;
+}
+
+.icon-resize_square {
+	background-position: 0px -274px;
+	width: 9px;
+	height: 9px;
+}
+
+.icon-constantproportions {
+	background-position: -9px -274px;
+	width: 13px;
+	height: 8px;
+}
+
+.icon-tabstopcenter_marker {
+	background-position: -22px -274px;
+	width: 12px;
+	height: 8px;
+}
+
+.icon-soft {
+	background-position: -34px -274px;
+	width: 10px;
+	height: 8px;
+}
+
+.icon-tabstopleft_marker {
+	background-position: -266px -195px;
+	width: 8px;
+	height: 8px;
+}
+
+.icon-tabstopright_marker {
+	background-position: -266px -208px;
+	width: 8px;
+	height: 8px;
+}
+
+.icon-redo1 {
+	background-position: -203px -197px;
+	width: 13px;
+	height: 6px;
+}
+
+.icon-undo1 {
+	background-position: -44px -274px;
+	width: 13px;
+	height: 6px;
+}
+
+.icon-nextpage {
+	background-position: -293px -220px;
+	width: 5px;
+	height: 6px;
+}
+
+.icon-previouspage {
+	background-position: -293px -261px;
+	width: 5px;
+	height: 6px;
+}
+
+.icon-tab {
+	background-position: -222px -214px;
+	width: 10px;
+	height: 5px;
+}
+
+.icon-connectionpoint {
+	background-position: -293px -226px;
+	width: 5px;
+	height: 5px;
+}
+
+.icon-nonbreakspace {
+	background-position: -269px -39px;
+	width: 5px;
+	height: 5px;
+}
+
+.icon-square {
+	background-position: -269px -44px;
+	width: 5px;
+	height: 5px;
+}
+
+.icon-space {
+	background-position: -296px -11px;
+	width: 2px;
+	height: 3px;
+}
+
+.smb{
+background-image: url(../images/symbols.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+.smb-lmoust {
+	background-position: 0px 0px;
+	width: 12px;
+	height: 22px;
+}
+
+.smb-rmoust {
+	background-position: -12px 0px;
+	width: 11px;
+	height: 22px;
+}
+
+.smb-integral {
+	background-position: -23px 0px;
+	width: 311px;
+	height: 21px;
+}
+
+.smb-eqarray {
+	background-position: 0px -22px;
+	width: 15px;
+	height: 21px;
+}
+
+.smb-left {
+	background-position: -15px -22px;
+	width: 9px;
+	height: 21px;
+}
+
+.smb-right {
+	background-position: -24px -22px;
+	width: 9px;
+	height: 21px;
+}
+
+.smb-close {
+	background-position: -33px -22px;
+	width: 8px;
+	height: 21px;
+}
+
+.smb-vbar {
+	background-position: -41px -22px;
+	width: 4px;
+	height: 21px;
+}
+
+.smb-binomial {
+	background-position: 0px -43px;
+	width: 295px;
+	height: 20px;
+}
+
+.smb-quadratic {
+	background-position: -45px -22px;
+	width: 197px;
+	height: 20px;
+}
+
+.smb-of {
+	background-position: -242px -22px;
+	width: 13px;
+	height: 20px;
+}
+
+.smb-naryand {
+	background-position: -255px -22px;
+	width: 12px;
+	height: 20px;
+}
+
+.smb-open {
+	background-position: -267px -22px;
+	width: 9px;
+	height: 20px;
+}
+
+.smb-iiiint {
+	background-position: -276px -22px;
+	width: 25px;
+	height: 18px;
+}
+
+.smb-oiiint {
+	background-position: -301px -22px;
+	width: 21px;
+	height: 18px;
+}
+
+.smb-iiint {
+	background-position: -295px -43px;
+	width: 20px;
+	height: 18px;
+}
+
+.smb-oiint {
+	background-position: -315px -43px;
+	width: 16px;
+	height: 18px;
+}
+
+.smb-iint {
+	background-position: 0px -63px;
+	width: 15px;
+	height: 18px;
+}
+
+.smb-int {
+	background-position: -322px -22px;
+	width: 10px;
+	height: 18px;
+}
+
+.smb-oint {
+	background-position: -15px -63px;
+	width: 9px;
+	height: 18px;
+}
+
+.smb-limit {
+	background-position: -24px -63px;
+	width: 198px;
+	height: 17px;
+}
+
+.smb-middle {
+	background-position: -222px -63px;
+	width: 18px;
+	height: 17px;
+}
+
+.smb-root {
+	background-position: -240px -63px;
+	width: 18px;
+	height: 17px;
+}
+
+.smb-vmatrix {
+	background-position: -258px -63px;
+	width: 18px;
+	height: 17px;
+}
+
+.smb-sqrt {
+	background-position: -276px -63px;
+	width: 12px;
+	height: 17px;
+}
+
+.smb-coint {
+	background-position: -288px -63px;
+	width: 10px;
+	height: 17px;
+}
+
+.smb-aoint {
+	background-position: -298px -63px;
+	width: 9px;
+	height: 17px;
+}
+
+.smb-end {
+	background-position: -307px -63px;
+	width: 8px;
+	height: 17px;
+}
+
+.smb-identitymatrix {
+	background-position: 0px -81px;
+	width: 202px;
+	height: 16px;
+}
+
+.smb-cases {
+	background-position: -315px -63px;
+	width: 16px;
+	height: 16px;
+}
+
+.smb-cbrt {
+	background-position: -202px -81px;
+	width: 13px;
+	height: 16px;
+}
+
+.smb-qdrt {
+	background-position: -215px -81px;
+	width: 13px;
+	height: 16px;
+}
+
+.smb-jj {
+	background-position: -228px -81px;
+	width: 10px;
+	height: 16px;
+}
+
+.smb-begin {
+	background-position: -238px -81px;
+	width: 8px;
+	height: 16px;
+}
+
+.smb-lbrace {
+	background-position: -246px -81px;
+	width: 8px;
+	height: 16px;
+}
+
+.smb-rbrace {
+	background-position: -254px -81px;
+	width: 8px;
+	height: 16px;
+}
+
+.smb-doublej {
+	background-position: -262px -81px;
+	width: 7px;
+	height: 16px;
+}
+
+.smb-lbrack {
+	background-position: -269px -81px;
+	width: 6px;
+	height: 16px;
+}
+
+.smb-rbrack {
+	background-position: -275px -81px;
+	width: 6px;
+	height: 16px;
+}
+
+.smb-atop {
+	background-position: -281px -81px;
+	width: 4px;
+	height: 16px;
+}
+
+.smb-j {
+	background-position: -285px -81px;
+	width: 26px;
+	height: 15px;
+}
+
+.smb-scriptm2 {
+	background-position: -311px -81px;
+	width: 18px;
+	height: 15px;
+}
+
+.smb-pmatrix {
+	background-position: 0px -97px;
+	width: 16px;
+	height: 15px;
+}
+
+.smb-scripth2 {
+	background-position: -16px -97px;
+	width: 16px;
+	height: 15px;
+}
+
+.smb-frakturr2 {
+	background-position: -32px -97px;
+	width: 15px;
+	height: 15px;
+}
+
+.smb-odot {
+	background-position: -47px -97px;
+	width: 15px;
+	height: 15px;
+}
+
+.smb-ominus {
+	background-position: -62px -97px;
+	width: 15px;
+	height: 15px;
+}
+
+.smb-oplus {
+	background-position: -77px -97px;
+	width: 15px;
+	height: 15px;
+}
+
+.smb-otimes {
+	background-position: -92px -97px;
+	width: 15px;
+	height: 15px;
+}
+
+.smb-amalg {
+	background-position: -107px -97px;
+	width: 14px;
+	height: 15px;
+}
+
+.smb-prod {
+	background-position: -121px -97px;
+	width: 14px;
+	height: 15px;
+}
+
+.smb-re {
+	background-position: -135px -97px;
+	width: 14px;
+	height: 15px;
+}
+
+.smb-scriptf2 {
+	background-position: -149px -97px;
+	width: 14px;
+	height: 15px;
+}
+
+.smb-scripty2 {
+	background-position: -163px -97px;
+	width: 13px;
+	height: 15px;
+}
+
+.smb-doubleq2 {
+	background-position: -176px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-frakturf2 {
+	background-position: -188px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-frakturh2 {
+	background-position: -200px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-frakturi2 {
+	background-position: -212px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-frakturu2 {
+	background-position: -224px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-fraktury2 {
+	background-position: -236px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-psi {
+	background-position: -248px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-sum {
+	background-position: -260px -97px;
+	width: 12px;
+	height: 15px;
+}
+
+.smb-beta {
+	background-position: -272px -97px;
+	width: 11px;
+	height: 15px;
+}
+
+.smb-ldiv {
+	background-position: -283px -97px;
+	width: 11px;
+	height: 15px;
+}
+
+.smb-phi {
+	background-position: -294px -97px;
+	width: 11px;
+	height: 15px;
+}
+
+.smb-scripte2 {
+	background-position: -305px -97px;
+	width: 11px;
+	height: 15px;
+}
+
+.smb-scriptg2 {
+	background-position: -316px -97px;
+	width: 11px;
+	height: 15px;
+}
+
+.smb-scriptj2 {
+	background-position: 0px -112px;
+	width: 11px;
+	height: 15px;
+}
+
+.smb-frakturz2 {
+	background-position: -11px -112px;
+	width: 10px;
+	height: 15px;
+}
+
+.smb-ldivide {
+	background-position: -21px -112px;
+	width: 10px;
+	height: 15px;
+}
+
+.smb-rangle2 {
+	background-position: -31px -112px;
+	width: 10px;
+	height: 15px;
+}
+
+.smb-scriptf {
+	background-position: -41px -112px;
+	width: 10px;
+	height: 15px;
+}
+
+.smb-setminus {
+	background-position: -51px -112px;
+	width: 10px;
+	height: 15px;
+}
+
+.smb-vphantom {
+	background-position: -61px -112px;
+	width: 10px;
+	height: 15px;
+}
+
+.smb-frakturh {
+	background-position: -71px -112px;
+	width: 9px;
+	height: 15px;
+}
+
+.smb-over {
+	background-position: -80px -112px;
+	width: 9px;
+	height: 15px;
+}
+
+.smb-scriptj {
+	background-position: -89px -112px;
+	width: 9px;
+	height: 15px;
+}
+
+.smb-xi {
+	background-position: -98px -112px;
+	width: 9px;
+	height: 15px;
+}
+
+.smb-zeta {
+	background-position: -107px -112px;
+	width: 9px;
+	height: 15px;
+}
+
+.smb-dsmash {
+	background-position: -116px -112px;
+	width: 8px;
+	height: 15px;
+}
+
+.smb-lbbrack {
+	background-position: -124px -112px;
+	width: 8px;
+	height: 15px;
+}
+
+.smb-norm {
+	background-position: -132px -112px;
+	width: 8px;
+	height: 15px;
+}
+
+.smb-vert2 {
+	background-position: -140px -112px;
+	width: 8px;
+	height: 15px;
+}
+
+.smb-frakturf {
+	background-position: -327px -97px;
+	width: 7px;
+	height: 15px;
+}
+
+.smb-ket {
+	background-position: -148px -112px;
+	width: 7px;
+	height: 15px;
+}
+
+.smb-lfloor {
+	background-position: -155px -112px;
+	width: 7px;
+	height: 15px;
+}
+
+.smb-rangle {
+	background-position: -162px -112px;
+	width: 7px;
+	height: 15px;
+}
+
+.smb-rbrack2 {
+	background-position: -169px -112px;
+	width: 7px;
+	height: 15px;
+}
+
+.smb-langle {
+	background-position: -176px -112px;
+	width: 6px;
+	height: 15px;
+}
+
+.smb-lceil {
+	background-position: -182px -112px;
+	width: 6px;
+	height: 15px;
+}
+
+.smb-rceil {
+	background-position: -188px -112px;
+	width: 6px;
+	height: 15px;
+}
+
+.smb-rfloor {
+	background-position: -194px -112px;
+	width: 6px;
+	height: 15px;
+}
+
+.smb-vert {
+	background-position: -329px -81px;
+	width: 4px;
+	height: 15px;
+}
+
+.smb-degc {
+	background-position: -200px -112px;
+	width: 16px;
+	height: 14px;
+}
+
+.smb-boxdot {
+	background-position: -216px -112px;
+	width: 15px;
+	height: 14px;
+}
+
+.smb-boxminus {
+	background-position: -231px -112px;
+	width: 15px;
+	height: 14px;
+}
+
+.smb-boxplus {
+	background-position: -246px -112px;
+	width: 15px;
+	height: 14px;
+}
+
+.smb-emptyset {
+	background-position: -261px -112px;
+	width: 14px;
+	height: 14px;
+}
+
+.smb-fraktura2 {
+	background-position: -275px -112px;
+	width: 13px;
+	height: 14px;
+}
+
+.smb-frakturn2 {
+	background-position: -288px -112px;
+	width: 13px;
+	height: 14px;
+}
+
+.smb-frakturp2 {
+	background-position: -301px -112px;
+	width: 13px;
+	height: 14px;
+}
+
+.smb-scriptr2 {
+	background-position: -314px -112px;
+	width: 13px;
+	height: 14px;
+}
+
+.smb-frakturg2 {
+	background-position: 0px -127px;
+	width: 12px;
+	height: 14px;
+}
+
+.smb-scriptb2 {
+	background-position: -12px -127px;
+	width: 12px;
+	height: 14px;
+}
+
+.smb-scriptk {
+	background-position: -24px -127px;
+	width: 12px;
+	height: 14px;
+}
+
+.smb-bet {
+	background-position: -36px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-beth {
+	background-position: -47px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-bigcap {
+	background-position: -58px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-bigcup {
+	background-position: -69px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-dalet {
+	background-position: -80px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-daleth {
+	background-position: -91px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-doublec2 {
+	background-position: -102px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-frakturc2 {
+	background-position: -113px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-hbar {
+	background-position: -124px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-wp {
+	background-position: -135px -127px;
+	width: 11px;
+	height: 14px;
+}
+
+.smb-degf {
+	background-position: -146px -127px;
+	width: 10px;
+	height: 14px;
+}
+
+.smb-doublefactorial {
+	background-position: -156px -127px;
+	width: 10px;
+	height: 14px;
+}
+
+.smb-scriptq2 {
+	background-position: -166px -127px;
+	width: 10px;
+	height: 14px;
+}
+
+.smb-frakturb {
+	background-position: -176px -127px;
+	width: 9px;
+	height: 14px;
+}
+
+.smb-frakturg {
+	background-position: -185px -127px;
+	width: 9px;
+	height: 14px;
+}
+
+.smb-updownarrow {
+	background-position: -194px -127px;
+	width: 9px;
+	height: 14px;
+}
+
+.smb-updownarrow2 {
+	background-position: -203px -127px;
+	width: 9px;
+	height: 14px;
+}
+
+.smb-frakturz {
+	background-position: -212px -127px;
+	width: 8px;
+	height: 14px;
+}
+
+.smb-gimel {
+	background-position: -220px -127px;
+	width: 8px;
+	height: 14px;
+}
+
+.smb-scripti2 {
+	background-position: -228px -127px;
+	width: 8px;
+	height: 14px;
+}
+
+.smb-asmash {
+	background-position: -327px -112px;
+	width: 7px;
+	height: 14px;
+}
+
+.smb-doublej2 {
+	background-position: -236px -127px;
+	width: 7px;
+	height: 14px;
+}
+
+.smb-parallel {
+	background-position: -243px -127px;
+	width: 7px;
+	height: 14px;
+}
+
+.smb-frakturm2 {
+	background-position: -250px -127px;
+	width: 16px;
+	height: 13px;
+}
+
+.smb-above {
+	background-position: -266px -127px;
+	width: 14px;
+	height: 13px;
+}
+
+.smb-below {
+	background-position: -280px -127px;
+	width: 14px;
+	height: 13px;
+}
+
+.smb-frakturd2 {
+	background-position: -294px -127px;
+	width: 14px;
+	height: 13px;
+}
+
+.smb-sdiv {
+	background-position: -308px -127px;
+	width: 14px;
+	height: 13px;
+}
+
+.smb-sdivide {
+	background-position: 0px -141px;
+	width: 14px;
+	height: 13px;
+}
+
+.smb-angle {
+	background-position: -14px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-bigodot {
+	background-position: -27px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-bigoplus {
+	background-position: -40px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-bigotimes {
+	background-position: -53px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-doubleh2 {
+	background-position: -66px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-doubler2 {
+	background-position: -79px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-doublez2 {
+	background-position: -92px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-frakturk2 {
+	background-position: -105px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-frakturv2 {
+	background-position: -118px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-heartsuit {
+	background-position: -131px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-mp {
+	background-position: -144px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-scriptb {
+	background-position: -157px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-scripth {
+	background-position: -170px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-scriptl2 {
+	background-position: -183px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-top {
+	background-position: -196px -141px;
+	width: 13px;
+	height: 13px;
+}
+
+.smb-coprod {
+	background-position: -322px -127px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-defeq {
+	background-position: -209px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-doubleg2 {
+	background-position: -221px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-frakturb2 {
+	background-position: -233px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-ge {
+	background-position: -245px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-geq {
+	background-position: -257px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-greaterthanorequalto {
+	background-position: -269px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-phantom {
+	background-position: -281px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-pm {
+	background-position: -293px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-searrow {
+	background-position: -305px -141px;
+	width: 12px;
+	height: 13px;
+}
+
+.smb-diamondsuit {
+	background-position: -317px -141px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-doublen2 {
+	background-position: 0px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-doublep2 {
+	background-position: -11px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-frakturd {
+	background-position: -22px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-frakture2 {
+	background-position: -33px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-frakturl2 {
+	background-position: -44px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-frakturx2 {
+	background-position: -55px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-im {
+	background-position: -66px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-notelement {
+	background-position: -77px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-preceq {
+	background-position: -88px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-succeq {
+	background-position: -99px -154px;
+	width: 11px;
+	height: 13px;
+}
+
+.smb-biguplus {
+	background-position: -110px -154px;
+	width: 10px;
+	height: 13px;
+}
+
+.smb-notcontain {
+	background-position: -120px -154px;
+	width: 10px;
+	height: 13px;
+}
+
+.smb-notin {
+	background-position: -130px -154px;
+	width: 10px;
+	height: 13px;
+}
+
+.smb-scriptq {
+	background-position: -140px -154px;
+	width: 10px;
+	height: 13px;
+}
+
+.smb-uparrow2 {
+	background-position: -150px -154px;
+	width: 10px;
+	height: 13px;
+}
+
+.smb-downarrow2 {
+	background-position: -160px -154px;
+	width: 9px;
+	height: 13px;
+}
+
+.smb-ell {
+	background-position: -169px -154px;
+	width: 9px;
+	height: 13px;
+}
+
+.smb-scriptl {
+	background-position: -178px -154px;
+	width: 9px;
+	height: 13px;
+}
+
+.smb-uparrow {
+	background-position: -187px -154px;
+	width: 9px;
+	height: 13px;
+}
+
+.smb-doublei {
+	background-position: -196px -154px;
+	width: 7px;
+	height: 13px;
+}
+
+.smb-downarrow {
+	background-position: -203px -154px;
+	width: 7px;
+	height: 13px;
+}
+
+.smb-ii {
+	background-position: -210px -154px;
+	width: 7px;
+	height: 13px;
+}
+
+.smb-smash {
+	background-position: -217px -154px;
+	width: 7px;
+	height: 13px;
+}
+
+.smb-bra {
+	background-position: -328px -141px;
+	width: 5px;
+	height: 13px;
+}
+
+.smb-mid {
+	background-position: -224px -154px;
+	width: 4px;
+	height: 13px;
+}
+
+.smb-doublew2 {
+	background-position: -228px -154px;
+	width: 18px;
+	height: 12px;
+}
+
+.smb-scriptw2 {
+	background-position: -246px -154px;
+	width: 18px;
+	height: 12px;
+}
+
+.smb-scriptn2 {
+	background-position: -264px -154px;
+	width: 17px;
+	height: 12px;
+}
+
+.smb-frakturw2 {
+	background-position: -281px -154px;
+	width: 16px;
+	height: 12px;
+}
+
+.smb-scriptk2 {
+	background-position: -297px -154px;
+	width: 15px;
+	height: 12px;
+}
+
+.smb-scriptx2 {
+	background-position: -312px -154px;
+	width: 15px;
+	height: 12px;
+}
+
+.smb-dd2 {
+	background-position: 0px -167px;
+	width: 14px;
+	height: 12px;
+}
+
+.smb-doublem2 {
+	background-position: -14px -167px;
+	width: 14px;
+	height: 12px;
+}
+
+.smb-lrhar {
+	background-position: -28px -167px;
+	width: 14px;
+	height: 12px;
+}
+
+.smb-psi2 {
+	background-position: -42px -167px;
+	width: 14px;
+	height: 12px;
+}
+
+.smb-scripta2 {
+	background-position: -56px -167px;
+	width: 14px;
+	height: 12px;
+}
+
+.smb-chi2 {
+	background-position: -70px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-doublea2 {
+	background-position: -83px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-doublek2 {
+	background-position: -96px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-doublev2 {
+	background-position: -109px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-eta2 {
+	background-position: -122px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-frakturq2 {
+	background-position: -135px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-frakturs2 {
+	background-position: -148px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-frakturt2 {
+	background-position: -161px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-mu2 {
+	background-position: -174px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-nu2 {
+	background-position: -187px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-phi2 {
+	background-position: -200px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-pi2 {
+	background-position: -213px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-scriptd2 {
+	background-position: -226px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-scriptp2 {
+	background-position: -239px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-scriptu2 {
+	background-position: -252px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-scripty {
+	background-position: -265px -167px;
+	width: 13px;
+	height: 12px;
+}
+
+.smb-chi {
+	background-position: -278px -167px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doubleb2 {
+	background-position: -290px -167px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doubled2 {
+	background-position: -302px -167px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doubleh {
+	background-position: -314px -167px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doublek {
+	background-position: 0px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doubleo2 {
+	background-position: -12px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doublet2 {
+	background-position: -24px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doubleu2 {
+	background-position: -36px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doublex2 {
+	background-position: -48px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-doubley2 {
+	background-position: -60px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-forall {
+	background-position: -72px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-frakturo2 {
+	background-position: -84px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-kappa2 {
+	background-position: -96px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-omega2 {
+	background-position: -108px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-scriptd {
+	background-position: -120px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-scriptp {
+	background-position: -132px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-scriptt2 {
+	background-position: -144px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-scriptv2 {
+	background-position: -156px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-scriptz2 {
+	background-position: -168px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-varphi {
+	background-position: -180px -179px;
+	width: 12px;
+	height: 12px;
+}
+
+.smb-aleph {
+	background-position: -192px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-alpha2 {
+	background-position: -203px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-beta2 {
+	background-position: -214px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-dd {
+	background-position: -225px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-doubleb {
+	background-position: -236px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-doublef2 {
+	background-position: -247px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-doubleg {
+	background-position: -258px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-doublel2 {
+	background-position: -269px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-doublep {
+	background-position: -280px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-doubleq {
+	background-position: -291px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-doubley {
+	background-position: -302px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-epsilon2 {
+	background-position: -313px -179px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-g {
+	background-position: 0px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-gamma2 {
+	background-position: -11px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-inc {
+	background-position: -22px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-lambda2 {
+	background-position: -33px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-o2 {
+	background-position: -44px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-rho2 {
+	background-position: -55px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-scripts2 {
+	background-position: -66px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-sigma2 {
+	background-position: -77px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-tau2 {
+	background-position: -88px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-upsilon2 {
+	background-position: -99px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-xi2 {
+	background-position: -110px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-zeta2 {
+	background-position: -121px -191px;
+	width: 11px;
+	height: 12px;
+}
+
+.smb-bigsqcup {
+	background-position: -324px -179px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-doubled {
+	background-position: -132px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-doublee2 {
+	background-position: -142px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-eta {
+	background-position: -152px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-fraktury {
+	background-position: -162px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-gamma {
+	background-position: -172px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-lambda {
+	background-position: -182px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-nabla {
+	background-position: -192px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-partial {
+	background-position: -202px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-rho {
+	background-position: -212px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-scripto2 {
+	background-position: -222px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-theta2 {
+	background-position: -232px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-vartheta {
+	background-position: -242px -191px;
+	width: 10px;
+	height: 12px;
+}
+
+.smb-delta2 {
+	background-position: -252px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-doublef {
+	background-position: -261px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-doubles2 {
+	background-position: -270px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-jmath {
+	background-position: -279px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-scripti {
+	background-position: -288px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-theta {
+	background-position: -297px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-varrho {
+	background-position: -306px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-varsigma {
+	background-position: -315px -191px;
+	width: 9px;
+	height: 12px;
+}
+
+.smb-frakturk {
+	background-position: -326px -167px;
+	width: 8px;
+	height: 12px;
+}
+
+.smb-iota2 {
+	background-position: -324px -191px;
+	width: 8px;
+	height: 12px;
+}
+
+.smb-doublei2 {
+	background-position: -327px -154px;
+	width: 7px;
+	height: 12px;
+}
+
+.smb-doublel {
+	background-position: 0px -203px;
+	width: 7px;
+	height: 12px;
+}
+
+.smb-frakturi {
+	background-position: -7px -203px;
+	width: 7px;
+	height: 12px;
+}
+
+.smb-frakturt {
+	background-position: -14px -203px;
+	width: 7px;
+	height: 12px;
+}
+
+.smb-frakturl {
+	background-position: -21px -203px;
+	width: 6px;
+	height: 12px;
+}
+
+.smb-vdots {
+	background-position: -27px -203px;
+	width: 5px;
+	height: 12px;
+}
+
+.smb-hphantom {
+	background-position: -32px -203px;
+	width: 15px;
+	height: 11px;
+}
+
+.smb-gg {
+	background-position: -47px -203px;
+	width: 14px;
+	height: 11px;
+}
+
+.smb-ll {
+	background-position: -61px -203px;
+	width: 14px;
+	height: 11px;
+}
+
+.smb-clubsuit {
+	background-position: -75px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-deltaeq {
+	background-position: -87px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-le {
+	background-position: -99px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-leq {
+	background-position: -111px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-lessthanorequalto {
+	background-position: -123px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-ne {
+	background-position: -135px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-neq {
+	background-position: -147px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-notequal {
+	background-position: -159px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-notgreaterthan {
+	background-position: -171px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-notlessthan {
+	background-position: -183px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-perp {
+	background-position: -195px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-sqsubseteq {
+	background-position: -207px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-subseteq {
+	background-position: -219px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-superseteq {
+	background-position: -231px -203px;
+	width: 12px;
+	height: 11px;
+}
+
+.smb-cong {
+	background-position: -243px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-cup {
+	background-position: -254px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-scriptc2 {
+	background-position: -265px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-scripte {
+	background-position: -276px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-scriptt {
+	background-position: -287px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-scriptz {
+	background-position: -298px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-sqsuperseteq {
+	background-position: -309px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-vee {
+	background-position: -320px -203px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-wedge {
+	background-position: 0px -215px;
+	width: 11px;
+	height: 11px;
+}
+
+.smb-bigvee {
+	background-position: -11px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-bigwedge {
+	background-position: -21px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-bot {
+	background-position: -31px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-cap {
+	background-position: -41px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-dashv {
+	background-position: -51px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-in {
+	background-position: -61px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-mu {
+	background-position: -71px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-nearrow {
+	background-position: -81px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-ni {
+	background-position: -91px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-nwarrow {
+	background-position: -101px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-scriptg {
+	background-position: -111px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-swarrow {
+	background-position: -121px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-vdash {
+	background-position: -131px -215px;
+	width: 10px;
+	height: 11px;
+}
+
+.smb-delta {
+	background-position: -141px -215px;
+	width: 9px;
+	height: 11px;
+}
+
+.smb-doublet {
+	background-position: -150px -215px;
+	width: 9px;
+	height: 11px;
+}
+
+.smb-exists {
+	background-position: -159px -215px;
+	width: 9px;
+	height: 11px;
+}
+
+.smb-frakturp {
+	background-position: -168px -215px;
+	width: 9px;
+	height: 11px;
+}
+
+.smb-frakturq {
+	background-position: -177px -215px;
+	width: 9px;
+	height: 11px;
+}
+
+.smb-wr {
+	background-position: -186px -215px;
+	width: 5px;
+	height: 11px;
+}
+
+.smb-longleftarrow {
+	background-position: -191px -215px;
+	width: 19px;
+	height: 10px;
+}
+
+.smb-longleftrightarrow {
+	background-position: -210px -215px;
+	width: 19px;
+	height: 10px;
+}
+
+.smb-longrightarrow {
+	background-position: -229px -215px;
+	width: 18px;
+	height: 10px;
+}
+
+.smb-leftrightarrow2 {
+	background-position: -247px -215px;
+	width: 16px;
+	height: 10px;
+}
+
+.smb-rightarrow2 {
+	background-position: -263px -215px;
+	width: 15px;
+	height: 10px;
+}
+
+.smb-leftarrow2 {
+	background-position: -278px -215px;
+	width: 14px;
+	height: 10px;
+}
+
+.smb-hookleftarrow {
+	background-position: -292px -215px;
+	width: 13px;
+	height: 10px;
+}
+
+.smb-hookrightarrow {
+	background-position: -305px -215px;
+	width: 13px;
+	height: 10px;
+}
+
+.smb-equiv {
+	background-position: -318px -215px;
+	width: 12px;
+	height: 10px;
+}
+
+.smb-scripta {
+	background-position: 0px -226px;
+	width: 12px;
+	height: 10px;
+}
+
+.smb-approx {
+	background-position: -12px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-bowtie {
+	background-position: -23px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-models {
+	background-position: -34px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-prec {
+	background-position: -45px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-sqcap {
+	background-position: -56px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-sqcup {
+	background-position: -67px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-succ {
+	background-position: -78px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-times {
+	background-position: -89px -226px;
+	width: 11px;
+	height: 10px;
+}
+
+.smb-frown {
+	background-position: -100px -226px;
+	width: 10px;
+	height: 10px;
+}
+
+.smb-ddots {
+	background-position: -110px -226px;
+	width: 9px;
+	height: 10px;
+}
+
+.smb-frakture {
+	background-position: -119px -226px;
+	width: 9px;
+	height: 10px;
+}
+
+.smb-rddots {
+	background-position: -128px -226px;
+	width: 9px;
+	height: 10px;
+}
+
+.smb-uplus {
+	background-position: -137px -226px;
+	width: 9px;
+	height: 10px;
+}
+
+.smb-break {
+	background-position: -146px -226px;
+	width: 8px;
+	height: 10px;
+}
+
+.smb-frakturc {
+	background-position: -154px -226px;
+	width: 8px;
+	height: 10px;
+}
+
+.smb-frakturx {
+	background-position: -162px -226px;
+	width: 8px;
+	height: 10px;
+}
+
+.smb-spadesuit {
+	background-position: -170px -226px;
+	width: 8px;
+	height: 10px;
+}
+
+.smb-imath {
+	background-position: -178px -226px;
+	width: 5px;
+	height: 10px;
+}
+
+.smb-scriptm {
+	background-position: -183px -226px;
+	width: 18px;
+	height: 9px;
+}
+
+.smb-doublem {
+	background-position: -201px -226px;
+	width: 16px;
+	height: 9px;
+}
+
+.smb-scriptw {
+	background-position: -217px -226px;
+	width: 16px;
+	height: 9px;
+}
+
+.smb-doublew {
+	background-position: -233px -226px;
+	width: 15px;
+	height: 9px;
+}
+
+.smb-leftrightarrow {
+	background-position: -248px -226px;
+	width: 15px;
+	height: 9px;
+}
+
+.smb-arrow {
+	background-position: -263px -226px;
+	width: 14px;
+	height: 9px;
+}
+
+.smb-frakturm {
+	background-position: -277px -226px;
+	width: 14px;
+	height: 9px;
+}
+
+.smb-leftarrow {
+	background-position: -291px -226px;
+	width: 14px;
+	height: 9px;
+}
+
+.smb-mapsto {
+	background-position: -305px -226px;
+	width: 14px;
+	height: 9px;
+}
+
+.smb-rightarrow {
+	background-position: -319px -226px;
+	width: 14px;
+	height: 9px;
+}
+
+.smb-to {
+	background-position: 0px -236px;
+	width: 14px;
+	height: 9px;
+}
+
+.smb-varpi {
+	background-position: -14px -236px;
+	width: 14px;
+	height: 9px;
+}
+
+.smb-frakturw {
+	background-position: -28px -236px;
+	width: 13px;
+	height: 9px;
+}
+
+.smb-gets {
+	background-position: -41px -236px;
+	width: 13px;
+	height: 9px;
+}
+
+.smb-omega {
+	background-position: -54px -236px;
+	width: 13px;
+	height: 9px;
+}
+
+.smb-scriptr {
+	background-position: -67px -236px;
+	width: 13px;
+	height: 9px;
+}
+
+.smb-scriptu {
+	background-position: -80px -236px;
+	width: 13px;
+	height: 9px;
+}
+
+.smb-div {
+	background-position: -93px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-doteq {
+	background-position: -105px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-doublen {
+	background-position: -117px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-doubleu {
+	background-position: -129px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-propto {
+	background-position: -141px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-scriptn {
+	background-position: -153px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-scriptv {
+	background-position: -165px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-subset {
+	background-position: -177px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-superset {
+	background-position: -189px -236px;
+	width: 12px;
+	height: 9px;
+}
+
+.smb-alpha {
+	background-position: -201px -236px;
+	width: 11px;
+	height: 9px;
+}
+
+.smb-doublea {
+	background-position: -212px -236px;
+	width: 11px;
+	height: 9px;
+}
+
+.smb-doublev {
+	background-position: -223px -236px;
+	width: 11px;
+	height: 9px;
+}
+
+.smb-doublex {
+	background-position: -234px -236px;
+	width: 11px;
+	height: 9px;
+}
+
+.smb-pi {
+	background-position: -245px -236px;
+	width: 11px;
+	height: 9px;
+}
+
+.smb-scriptx {
+	background-position: -256px -236px;
+	width: 11px;
+	height: 9px;
+}
+
+.smb-sigma {
+	background-position: -267px -236px;
+	width: 11px;
+	height: 9px;
+}
+
+.smb-doublec {
+	background-position: -278px -236px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-doublee {
+	background-position: -288px -236px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-doubleo {
+	background-position: -298px -236px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-doublez {
+	background-position: -308px -236px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-ee {
+	background-position: -318px -236px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-frakturu {
+	background-position: 0px -245px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-kappa {
+	background-position: -10px -245px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-nu {
+	background-position: -20px -245px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-o {
+	background-position: -30px -245px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-scripts {
+	background-position: -40px -245px;
+	width: 10px;
+	height: 9px;
+}
+
+.smb-box {
+	background-position: -50px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-doubler {
+	background-position: -59px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-doubles {
+	background-position: -68px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-fraktura {
+	background-position: -77px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-frakturn {
+	background-position: -86px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-frakturo {
+	background-position: -95px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-frakturv {
+	background-position: -104px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-matrix {
+	background-position: -113px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-tau {
+	background-position: -122px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-upsilon {
+	background-position: -131px -245px;
+	width: 9px;
+	height: 9px;
+}
+
+.smb-epsilon {
+	background-position: -140px -245px;
+	width: 8px;
+	height: 9px;
+}
+
+.smb-varepsilon {
+	background-position: -148px -245px;
+	width: 8px;
+	height: 9px;
+}
+
+.smb-frakturr {
+	background-position: -156px -245px;
+	width: 7px;
+	height: 9px;
+}
+
+.smb-iota {
+	background-position: -328px -236px;
+	width: 6px;
+	height: 9px;
+}
+
+.smb-hsmash {
+	background-position: -163px -245px;
+	width: 15px;
+	height: 8px;
+}
+
+.smb-colonequal {
+	background-position: -178px -245px;
+	width: 14px;
+	height: 8px;
+}
+
+.smb-infty {
+	background-position: -192px -245px;
+	width: 14px;
+	height: 8px;
+}
+
+.smb-rect {
+	background-position: -206px -245px;
+	width: 14px;
+	height: 8px;
+}
+
+.smb-underline {
+	background-position: -220px -245px;
+	width: 14px;
+	height: 8px;
+}
+
+.smb-asymp {
+	background-position: -234px -245px;
+	width: 12px;
+	height: 8px;
+}
+
+.smb-simeq {
+	background-position: -246px -245px;
+	width: 12px;
+	height: 8px;
+}
+
+.smb-star {
+	background-position: -258px -245px;
+	width: 10px;
+	height: 8px;
+}
+
+.smb-because {
+	background-position: -268px -245px;
+	width: 9px;
+	height: 8px;
+}
+
+.smb-doublecolon {
+	background-position: -277px -245px;
+	width: 9px;
+	height: 8px;
+}
+
+.smb-scripto {
+	background-position: -286px -245px;
+	width: 9px;
+	height: 8px;
+}
+
+.smb-therefore {
+	background-position: -295px -245px;
+	width: 9px;
+	height: 8px;
+}
+
+.smb-ast {
+	background-position: -304px -245px;
+	width: 8px;
+	height: 8px;
+}
+
+.smb-scriptc {
+	background-position: -312px -245px;
+	width: 8px;
+	height: 8px;
+}
+
+.smb-diamond {
+	background-position: -320px -245px;
+	width: 7px;
+	height: 8px;
+}
+
+.smb-frakturs {
+	background-position: -327px -245px;
+	width: 7px;
+	height: 8px;
+}
+
+.smb-ratio {
+	background-position: 0px -254px;
+	width: 5px;
+	height: 8px;
+}
+
+.smb-leftharpoondown {
+	background-position: -5px -254px;
+	width: 15px;
+	height: 7px;
+}
+
+.smb-circ {
+	background-position: -20px -254px;
+	width: 7px;
+	height: 7px;
+}
+
+.smb-overparen {
+	background-position: -27px -254px;
+	width: 16px;
+	height: 6px;
+}
+
+.smb-overshell {
+	background-position: -43px -254px;
+	width: 16px;
+	height: 6px;
+}
+
+.smb-rightharpoondown {
+	background-position: -59px -254px;
+	width: 16px;
+	height: 6px;
+}
+
+.smb-underbrace {
+	background-position: -75px -254px;
+	width: 16px;
+	height: 6px;
+}
+
+.smb-underparen {
+	background-position: -91px -254px;
+	width: 15px;
+	height: 6px;
+}
+
+.smb-leftharpoonup {
+	background-position: -106px -254px;
+	width: 14px;
+	height: 6px;
+}
+
+.smb-rightharpoonup {
+	background-position: -120px -254px;
+	width: 13px;
+	height: 6px;
+}
+
+.smb-lvec {
+	background-position: -133px -254px;
+	width: 11px;
+	height: 6px;
+}
+
+.smb-sim {
+	background-position: -144px -254px;
+	width: 11px;
+	height: 6px;
+}
+
+.smb-tvec {
+	background-position: -155px -254px;
+	width: 11px;
+	height: 6px;
+}
+
+.smb-vec {
+	background-position: -166px -254px;
+	width: 11px;
+	height: 6px;
+}
+
+.smb-pprime {
+	background-position: -177px -254px;
+	width: 8px;
+	height: 6px;
+}
+
+.smb-degree {
+	background-position: -185px -254px;
+	width: 6px;
+	height: 6px;
+}
+
+.smb-prime {
+	background-position: -330px -215px;
+	width: 4px;
+	height: 6px;
+}
+
+.smb-smile {
+	background-position: -191px -254px;
+	width: 16px;
+	height: 5px;
+}
+
+.smb-overbrace {
+	background-position: -207px -254px;
+	width: 15px;
+	height: 5px;
+}
+
+.smb-underbar {
+	background-position: -222px -254px;
+	width: 15px;
+	height: 5px;
+}
+
+.smb-overbracket {
+	background-position: -237px -254px;
+	width: 14px;
+	height: 5px;
+}
+
+.smb-bar2 {
+	background-position: -251px -254px;
+	width: 13px;
+	height: 5px;
+}
+
+.smb-underbracket {
+	background-position: -264px -254px;
+	width: 13px;
+	height: 5px;
+}
+
+.smb-ddddot {
+	background-position: -277px -254px;
+	width: 12px;
+	height: 5px;
+}
+
+.smb-pppprime {
+	background-position: -289px -254px;
+	width: 12px;
+	height: 5px;
+}
+
+.smb-ubar2 {
+	background-position: -301px -254px;
+	width: 12px;
+	height: 5px;
+}
+
+.smb-hvec {
+	background-position: -313px -254px;
+	width: 11px;
+	height: 5px;
+}
+
+.smb-lhvec {
+	background-position: 0px -262px;
+	width: 11px;
+	height: 5px;
+}
+
+.smb-rhvec {
+	background-position: -11px -262px;
+	width: 11px;
+	height: 5px;
+}
+
+.smb-dddot {
+	background-position: -324px -254px;
+	width: 10px;
+	height: 5px;
+}
+
+.smb-ppprime {
+	background-position: -22px -262px;
+	width: 10px;
+	height: 5px;
+}
+
+.smb-hat {
+	background-position: -32px -262px;
+	width: 8px;
+	height: 5px;
+}
+
+.smb-breve {
+	background-position: -40px -262px;
+	width: 7px;
+	height: 5px;
+}
+
+.smb-check {
+	background-position: -47px -262px;
+	width: 7px;
+	height: 5px;
+}
+
+.smb-horizontalellipsis {
+	background-position: -54px -262px;
+	width: 13px;
+	height: 4px;
+}
+
+.smb-cdots {
+	background-position: -67px -262px;
+	width: 12px;
+	height: 4px;
+}
+
+.smb-dots {
+	background-position: -79px -262px;
+	width: 12px;
+	height: 4px;
+}
+
+.smb-ldots {
+	background-position: -91px -262px;
+	width: 12px;
+	height: 4px;
+}
+
+.smb-tilde {
+	background-position: -103px -262px;
+	width: 7px;
+	height: 4px;
+}
+
+.smb-acute {
+	background-position: -110px -262px;
+	width: 6px;
+	height: 4px;
+}
+
+.smb-grave {
+	background-position: -116px -262px;
+	width: 5px;
+	height: 4px;
+}
+
+.smb-bullet {
+	background-position: -330px -221px;
+	width: 4px;
+	height: 4px;
+}
+
+.smb-cdot {
+	background-position: -121px -262px;
+	width: 4px;
+	height: 4px;
+}
+
+.smb-bar {
+	background-position: -125px -262px;
+	width: 12px;
+	height: 3px;
+}
+
+.smb-overbar {
+	background-position: -137px -262px;
+	width: 12px;
+	height: 3px;
+}
+
+.smb-overline {
+	background-position: -149px -262px;
+	width: 12px;
+	height: 3px;
+}
+
+.smb-ubar {
+	background-position: -161px -262px;
+	width: 11px;
+	height: 3px;
+}
+
+.smb-ddot {
+	background-position: -172px -262px;
+	width: 8px;
+	height: 3px;
+}
+
+.smb-dot {
+	background-position: -180px -262px;
+	width: 4px;
+	height: 3px;
+}
+
