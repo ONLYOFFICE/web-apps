@@ -3407,8 +3407,15 @@ define([
                 }
             }
 
+            var old_name = this._state.tablename;
             this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
+
+            var old_applied = this._state.filterapplied;
             this._state.filterapplied = this._state.filter && filterInfo.asc_getIsApplyAutoFilter();
+
+            if (this._state.tablename !== old_name || this._state.filterapplied !== old_applied)
+                this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
+
             this._state.multiselect = info.asc_getMultiselect();
             toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate]});
 
