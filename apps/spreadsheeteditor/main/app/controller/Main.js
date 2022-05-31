@@ -2500,7 +2500,7 @@ define([
                     me.getApplication().getController('RightMenu').UpdateThemeColors();
                 }, 50);
 
-                !me.appOptions.isEditOle && setTimeout(function(){
+                setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);
 
