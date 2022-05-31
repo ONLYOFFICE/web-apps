@@ -134,7 +134,7 @@ Common.UI.HintManager = new(function() {
             return;
         }
         if (_isEditDiagram) {
-            _currentSection = [$(window.parent.document).find('.advanced-settings-dlg')[0], window.document];
+            _currentSection = [$(window.parent.document).find('.advanced-settings-dlg:visible')[0], window.document];
         } else if ($('#file-menu-panel').is(':visible')) {
             _currentSection = $('#file-menu-panel');
         } else {
