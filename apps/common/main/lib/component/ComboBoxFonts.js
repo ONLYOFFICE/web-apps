@@ -88,6 +88,202 @@ define([
         thumbCanvas.height  = thumbs[thumbIdx].height;
         thumbCanvas.width   = thumbs[thumbIdx].width;
 
+        function CThumbnailLoader() {
+            this.supportBinaryFormat = (window['AscDesktopEditor'] && !window['AscDesktopEditor']['isSupportBinaryFontsSprite']) ? false : true;
+            // наш формат - альфамаска с сжатием типа rle для полностью прозрачных пикселов
+
+            this.image = null;
+            this.binaryFormat = null;
+            this.data = null;
+            this.width = 0;
+            this.height = 0;
+            this.heightOne = 0;
+            this.count = 0;            
+            this.offsets = null;
+
+            this.load = function(url, callback) {
+                if (!callback)
+                    return;
+
+                if (!this.supportBinaryFormat) {
+                    this.width = thumbs[thumbIdx].width;
+                    this.heightOne = thumbs[thumbIdx].height;
+
+                    this.image = new Image();
+                    this.image.onload = callback;
+                    this.image.src = thumbs[thumbIdx].path;
+                } else {
+                    var me = this;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', url + ".bin", true);
+                    xhr.responseType = 'arraybuffer';
+
+                    if (xhr.overrideMimeType)
+                        xhr.overrideMimeType('text/plain; charset=x-user-defined');
+                    else
+                        xhr.setRequestHeader('Accept-Charset', 'x-user-defined');
+
+                    xhr.onload = function() {
+                        // TODO: check errors
+                        me.binaryFormat = new Uint8Array(this.response);
+                        callback();
+                    };
+
+                    xhr.send(null);
+                }
+            };
+
+            this.openBinary = function(arrayBuffer) {
+                
+                //var t1 = performance.now();
+
+                var binaryAlpha = this.binaryFormat;
+                this.width      = (binaryAlpha[0] << 24) | (binaryAlpha[1] << 16) | (binaryAlpha[2] << 8) | (binaryAlpha[3] << 0);
+                this.heightOne  = (binaryAlpha[4] << 24) | (binaryAlpha[5] << 16) | (binaryAlpha[6] << 8) | (binaryAlpha[7] << 0);
+                this.count      = (binaryAlpha[8] << 24) | (binaryAlpha[9] << 16) | (binaryAlpha[10] << 8) | (binaryAlpha[11] << 0);
+                this.height     = this.count * this.heightOne;
+
+                var MAX_MEMORY_SIZE = 50000000;
+                var memorySize = 4 * this.width * this.height;
+                var isOffsets = (memorySize > MAX_MEMORY_SIZE) ? true : false;
+                    
+                if (!isOffsets)
+                    this.data = new Uint8ClampedArray(memorySize);
+                else
+                    this.offsets = new Array(this.count);
+
+                var binaryIndex = 12;
+                var binaryLen = binaryAlpha.length;
+                var index = 0;
+
+                var len0 = 0;
+                var tmpValue = 0;
+
+                if (!isOffsets) {
+                    var imagePixels = this.data;
+                    while (binaryIndex < binaryLen) {
+                        tmpValue = binaryAlpha[binaryIndex++];
+                        if (0 == tmpValue) {
+                            len0 = binaryAlpha[binaryIndex++];
+                            while (len0 > 0) {
+                                len0--;
+                                imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255;
+                                imagePixels[index + 3] = 0; // this value is already 0.
+                                index += 4;
+                            }
+                        } else {
+                            imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255 - tmpValue;
+                            imagePixels[index + 3] = tmpValue;
+                            index += 4;
+                        }
+                    }
+                } else {
+                    var module = this.width * this.heightOne;
+                    var moduleCur = module - 1;
+                    while (binaryIndex < binaryLen) {
+                        tmpValue = binaryAlpha[binaryIndex++];
+                        if (0 == tmpValue) {
+                            len0 = binaryAlpha[binaryIndex++];
+                            while (len0 > 0) {
+                                len0--;
+                                moduleCur++;
+                                if (moduleCur === module) {
+                                    this.offsets[index++] = { pos : binaryIndex, len : len0 + 1 };
+                                    moduleCur = 0;
+                                }
+                            }
+                        } else {
+                            moduleCur++;
+                            if (moduleCur === module) {
+                                this.offsets[index++] = { pos : binaryIndex - 1, len : -1 };
+                                moduleCur = 0;
+                            }
+                        }
+                    }
+                }
+
+                if (!this.offsets)
+                    delete this.binaryFormat;
+
+                //var t2 = performance.now();
+                //console.log(t2 - t1);
+            };
+
+            this.getImage = function(index, canvas, ctx) {
+
+                //var t1 = performance.now();
+                if (!canvas)
+                {
+                    canvas = document.createElement("canvas");
+                    canvas.width = this.width;
+                    canvas.height = this.heightOne;
+                    canvas.style.width = iconWidth + "px";
+                    canvas.style.height = iconHeight + "px";
+
+                    ctx = canvas.getContext("2d");
+                }
+
+                if (this.supportBinaryFormat) {
+                    if (!this.data && !this.offsets) {
+                        this.openBinary(this.binaryFormat);
+                    }
+
+                    var dataTmp = ctx.createImageData(this.width, this.heightOne);
+                    var sizeImage = 4 * this.width * this.heightOne;
+
+                    if (!this.offsets) {
+                        dataTmp.data.set(new Uint8ClampedArray(this.data.buffer, index * sizeImage, sizeImage));                        
+                    } else {
+                        var binaryAlpha = this.binaryFormat;
+                        var binaryIndex = this.offsets[index].pos;
+                        var alphaChannel = 0;
+                        var pixelsCount = this.width * this.heightOne;
+                        var tmpValue = 0, len0 = 0;
+                        var imagePixels = dataTmp.data;
+                        if (-1 != this.offsets[index].len) {
+                            /*
+                            // this values is already 0.
+                            for (var i = 0; i < this.offsets[index].len; i++) {
+                                pixels[alphaChannel] = 0;
+                                alphaChannel += 4;
+                            }
+                            */
+                            alphaChannel += 4 * this.offsets[index].len;
+                        }
+                        while (pixelsCount > 0) {
+                            tmpValue = binaryAlpha[binaryIndex++];
+                            if (0 == tmpValue) {
+                                len0 = binaryAlpha[binaryIndex++];
+                                if (len0 > pixelsCount)
+                                    len0 = pixelsCount;
+                                while (len0 > 0) {
+                                    len0--;
+                                    imagePixels[alphaChannel] = imagePixels[alphaChannel + 1] = imagePixels[alphaChannel + 2] = 255;
+                                    imagePixels[alphaChannel + 3] = 0; // this value is already 0.
+                                    alphaChannel += 4;
+                                    pixelsCount--;
+                                }
+                            } else {
+                                imagePixels[alphaChannel] = imagePixels[alphaChannel + 1] = imagePixels[alphaChannel + 2] = 255 - tmpValue;
+                                imagePixels[alphaChannel + 3] = tmpValue;
+                                alphaChannel += 4;
+                                pixelsCount--;
+                            }
+                        }
+                    }
+                    ctx.putImageData(dataTmp, 0, 0);
+                } else {
+                    ctx.clearRect(0, 0, this.width, this.heightOne);
+                    ctx.drawImage(this.image, 0, -this.heightOne * index);
+                }
+
+                //var t2 = performance.now();
+                //console.log(t2 - t1);
+
+                return canvas;
+            };
+        }
+
         return {
             template: _.template([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
@@ -305,10 +501,8 @@ define([
                     return img != null ? img[0].src : undefined;
                 }
 
-                thumbContext.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
-                thumbContext.drawImage(this.spriteThumbs, 0, -thumbs[thumbIdx].height * Math.floor(opts.imgidx/spriteCols));
-
-                return thumbCanvas.toDataURL();
+                var index = Math.floor(opts.imgidx/spriteCols);
+                return this.spriteThumbs.getImage(index, thumbCanvas, thumbContext).toDataURL();
             },
 
             getImageWidth: function() {
@@ -324,11 +518,8 @@ define([
             },
 
             loadSprite: function(callback) {
-                if (callback) {
-                    this.spriteThumbs = new Image();
-                    this.spriteThumbs.onload = callback;
-                    this.spriteThumbs.src = thumbs[thumbIdx].path;
-                }
+                this.spriteThumbs = new CThumbnailLoader();
+                this.spriteThumbs.load(thumbs[thumbIdx].path, callback);
             },
 
             fillFonts: function(store, select) {
@@ -554,19 +745,8 @@ define([
                 for (j = 0; j < storeCount; ++j) {
                     if (from <= j && j < to) {
                         if (null === me.tiles[j]) {
-                            var fontImage = document.createElement('canvas');
-                            var context = fontImage.getContext('2d');
-
-                            fontImage.height = thumbs[thumbIdx].height;
-                            fontImage.width = thumbs[thumbIdx].width;
-
-                            fontImage.style.width = iconWidth + 'px';
-                            fontImage.style.height = iconHeight + 'px';
-
                             index = Math.floor(me.store.at(j).get('imgidx')/spriteCols);
-
-                            context.clearRect(0, 0, thumbs[thumbIdx].width, thumbs[thumbIdx].height);
-                            context.drawImage(me.spriteThumbs, 0, -thumbs[thumbIdx].height * index);
+                            var fontImage = me.spriteThumbs.getImage(index);
 
                             me.tiles[j] = fontImage;
                             $(listItems[j]).get(0).appendChild(fontImage);

@@ -1719,7 +1719,7 @@ define([
                     delta = e.deltaY;
                 }
 
-                if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+                if (e.ctrlKey && !e.altKey) {
                     var factor = this.api.asc_getZoom();
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
