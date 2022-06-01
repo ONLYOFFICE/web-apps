@@ -36,7 +36,8 @@
       return _MAP[x] || x.toUpperCase().charCodeAt(0);
     },
     _downKeys = [];
-    var locked;
+    var locked,
+        propagate;
 
   for(k=1;k<20;k++) _MAP['f'+k] = 111+k;
 
@@ -116,6 +117,8 @@
         // call the handler and stop the event if neccessary
         if((handler.mods.length == 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91]) || modifiersMatch){
           if(locked===true || handler.locked || handler.method(event, handler)===false){
+            if (locked===true && propagate || handler.locked && handler.propagate)
+              continue;
             if(event.preventDefault) event.preventDefault();
               else event.returnValue = false;
             if(event.stopPropagation) event.stopPropagation();
@@ -320,12 +323,23 @@
       }
   }
 
-  function suspend(key, scope) { 
-    key ? setKeyOptions(key, scope, 'locked', true) : (locked = true); 
+  function suspend(key, scope, pass) {
+    if (key) {
+      setKeyOptions(key, scope, 'locked', true)
+      pass && setKeyOptions(key, scope, 'propagate', true)
+    } else {
+      locked = true;
+      pass && (propagate = true);
+    }
   }
 
-  function resume(key, scope) { 
-    key ? setKeyOptions(key, scope, 'locked', false) : (locked = false); 
+  function resume(key, scope) {
+    if (key) {
+      setKeyOptions(key, scope, 'locked', false)
+      setKeyOptions(key, scope, 'propagate', false)
+    } else {
+      locked = propagate = false;
+    }
   }
 
   // set window.key and window.key.set/get/deleteScope, and the default filter
