@@ -1,4 +1,5 @@
 import {action, observable, computed, makeObservable} from 'mobx';
+import CThumbnailLoader from '../../../../common/mobile/utils/CThumbnailLoader';
 
 export class storeTextSettings {
     constructor() {
@@ -133,7 +134,7 @@ export class storeTextSettings {
     }
 
     loadSprite() {
-        this.spriteThumbs = new Common.Utils.CThumbnailLoader();
+        this.spriteThumbs = new CThumbnailLoader();
         this.spriteThumbs.load(this.thumbs[this.thumbIdx].path, () => {
             this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
         });
