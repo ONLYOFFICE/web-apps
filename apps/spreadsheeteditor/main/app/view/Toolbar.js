@@ -262,8 +262,7 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'big'
+                        dataHintDirection: 'bottom'
                     });
 
                     var formatTemplate =
@@ -287,8 +286,7 @@ define([
                         editable    : false,
                         data        : me.numFormatData,
                         dataHint    : '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'big'
+                        dataHintDirection: 'bottom'
                     });
                 }
                 if ( config.isEditMailMerge || config.isEditOle ) {
@@ -327,8 +325,7 @@ define([
                         lock        : [_set.lostConnect],
                         style       : 'min-width: 120px;',
                         dataHint    : '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'big'
+                        dataHintDirection: 'bottom'
                     });
 
                     me.btnEditChartData = new Common.UI.Button({
