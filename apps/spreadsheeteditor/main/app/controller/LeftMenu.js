@@ -768,6 +768,7 @@ define([
                     if (this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) {
                         menu_opened = $(document.body).find('.open > .dropdown-menu');
                         if (!this.api.isCellEdited && !menu_opened.length) {
+                            this.mode.isEditOle && Common.NotificationCenter.trigger('oleedit:close');
                             Common.Gateway.internalMessage('shortcut', {key:'escape'});
                             return false;
                         }

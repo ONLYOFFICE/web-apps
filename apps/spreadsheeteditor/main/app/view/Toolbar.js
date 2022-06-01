@@ -434,7 +434,7 @@ define([
                         id          : 'id-toolbar-rtn-wrap',
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-wrap',
-                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.editVisibleArea],
                         enableToggle: true,
                         allowDepress: true,
                         dataHint    : '1',

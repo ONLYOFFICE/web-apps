@@ -154,6 +154,7 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
+            Common.NotificationCenter.on('oleedit:close', _.bind(this.onOleEditClose, this));
 
             this.editMode = true;
             this._isAddingShape = false;
@@ -4585,7 +4586,7 @@ define([
 
         onVisibleAreaClose: function(btn) {
             if (this.api)
-                this.api.asc_toggleVisibleAreaOleEditor(false);
+                this.api.asc_toggleChangeVisibleAreaOleEditor(false);
             this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, false);
             this.toolbar.btnVisibleArea.setVisible(true);
             this.toolbar.btnVisibleAreaClose.setVisible(false);
@@ -4595,17 +4596,30 @@ define([
         onVisibleAreaMenu: function(menu, item, e) {
             if (this.api) {
                 if (item.value === 'edit') {
-                    this.api.asc_toggleVisibleAreaOleEditor(true);
+                    this.api.asc_toggleChangeVisibleAreaOleEditor(true);
                     this.toolbar.btnVisibleArea.setVisible(false);
                     this.toolbar.btnVisibleAreaClose.setVisible(true);
                     this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, true);
                 } else { // show or hide
-                    // this.api.asc_showVisibleArea(item.value === 'show');
+                    this.api.asc_toggleShowVisibleAreaOleEditor(item.value === 'show');
                     this.toolbar.btnVisibleArea.menu.items[0].setVisible(item.value !== 'show');
                     this.toolbar.btnVisibleArea.menu.items[1].setVisible(item.value === 'show');
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onOleEditClose: function() {
+            if (this.api) {
+                this.api.asc_toggleChangeVisibleAreaOleEditor(false);
+                this.toolbar.btnVisibleArea.setVisible(true);
+                this.toolbar.btnVisibleAreaClose.setVisible(false);
+                this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, false);
+
+                this.api.asc_toggleShowVisibleAreaOleEditor(false);
+                this.toolbar.btnVisibleArea.menu.items[0].setVisible(true);
+                this.toolbar.btnVisibleArea.menu.items[1].setVisible(false);
+            }
         },
 
         onTextFormattingMenu: function(menu, item) {
