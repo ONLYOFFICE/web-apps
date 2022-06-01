@@ -47,6 +47,7 @@ define([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/view/OptionsDialog',
     'common/main/lib/util/define',
+    'common/main/lib/view/SearchBar',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/controller/PivotTable',
@@ -147,6 +148,9 @@ define([
                 },
                 'ViewTab': {
                     'viewtab:showtoolbar': this.onChangeViewMode.bind(this)
+                },
+                'LeftMenu': {
+                    'search:show': this.searchShow.bind(this)
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -297,7 +301,7 @@ define([
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
                 toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
-                toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
+                toolbar.btnSearch.on('toggle',                              _.bind(this.onSearch, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
                 toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
@@ -308,7 +312,7 @@ define([
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
                 toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
-                toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
+                toolbar.btnSearch.on('toggle',                              _.bind(this.onSearch, this));
                 toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
                 toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
@@ -1312,8 +1316,27 @@ define([
             }
         },
 
+        searchShow: function () {
+            if (this.toolbar.btnSearch && this.searchBar && !this.searchBar.isVisible()) {
+                this.toolbar.btnSearch.toggle(true);
+            }
+        },
+
         onSearch: function(type, btn) {
-            this.getApplication().getController('LeftMenu').showSearchDlg(true);
+            if (!this.searchBar) {
+                this.searchBar = new Common.UI.SearchBar({
+                    showOpenPanel: false,
+                    width: 303
+                });
+                this.searchBar.on('hide', _.bind(function () {
+                    this.toolbar.btnSearch.toggle(false, true);
+                }, this));
+            }
+            if (this.toolbar.btnSearch.pressed) {
+                this.searchBar.show(this.api.asc_GetSelectedText());
+            } else {
+                this.searchBar.hide();
+            }
         },
 
         onAutoFilter: function(btn) {
