@@ -774,6 +774,7 @@ define([
                             isSearchOpen = searchBarBtn && searchBarBtn.pressed;
                         menu_opened = $(document.body).find('.open > .dropdown-menu');
                         if (!this.api.isCellEdited && !menu_opened.length && !isSearchOpen) {
+                            this.mode.isEditOle && Common.NotificationCenter.trigger('oleedit:close');
                             Common.Gateway.internalMessage('shortcut', {key:'escape'});
                             return false;
                         }

@@ -1686,6 +1686,13 @@ define([
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 })).show();
+            } else if (item.value == 'sse') {
+                var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor) {
+                    oleEditor.setEditMode(false);
+                    oleEditor.show();
+                    oleEditor.setOleData("empty");
+                }
             }
         },
 
