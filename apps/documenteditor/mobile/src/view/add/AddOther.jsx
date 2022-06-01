@@ -159,7 +159,8 @@ const AddOther = props => {
 
     let isShape = storeFocusObjects.settings.indexOf('shape') > -1,
         isText = storeFocusObjects.settings.indexOf('text') > -1,
-        isChart = storeFocusObjects.settings.indexOf('chart') > -1;
+        isChart = storeFocusObjects.settings.indexOf('chart') > -1,
+        isHyperLink = storeFocusObjects.settings.indexOf('hyperlink') > -1;
 
     let disabledAddLink = false,
         disabledAddBreak = false,
@@ -190,12 +191,16 @@ const AddOther = props => {
             <ListItem title={_t.textImage} link='/add-image/'>
                 <Icon slot="media" icon="icon-image"></Icon>
             </ListItem>
-            {(isText && !disabledAddLink) && <ListItem title={_t.textLink} link={'/add-link/'} routeProps={{
-                onInsertLink: props.onInsertLink,
-                getDisplayLinkText: props.getDisplayLinkText
+            {(isText && !disabledAddLink) && <ListItem title={_t.textLink} href={isHyperLink ? '/edit-link/' : '/add-link/'} routeProps={{
+                onClosed: props.onCloseLinkSettings,
+                isNavigate: props.isNavigate
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>
             </ListItem>}
+            {/* routeProps={{
+                onInsertLink: props.onInsertLink,
+                getDisplayLinkText: props.getDisplayLinkText
+            }} */}
             {!disabledAddPageNumber &&
                 <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
                     onInsertPageNumber: props.onInsertPageNumber

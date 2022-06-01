@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { f7 } from 'framework7-react';
+import { f7, Popover, Popup } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
 import { withTranslation } from 'react-i18next';
@@ -9,19 +9,21 @@ import EditHyperlink from '../../view/edit/EditHyperlink';
 class EditHyperlinkController extends Component {
     constructor (props) {
         super(props);
+
         this.onRemoveLink = this.onRemoveLink.bind(this);
         this.onEditLink = this.onEditLink.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     closeModal () {
         if ( Device.phone ) {
-            f7.sheet.close('#edit-sheet', true);
+            f7.popup.close('#edit-link-popup');
         } else {
-            f7.popover.close('#edit-popover');
+            f7.popover.close('#edit-link-popover');
         }
     }
 
-    onEditLink (link, display, tip) {
+    onEditLink (link, display) {
         const api = Common.EditorApi.get();
         if (api) {
             const urltype = api.asc_getUrlType(link.trim());
@@ -49,13 +51,13 @@ class EditHyperlinkController extends Component {
             const props = new Asc.CHyperlinkProperty();
             props.put_Value(url);
             props.put_Text(display.trim().length < 1 ? url : display);
-            props.put_ToolTip(tip);
+            // props.put_ToolTip(tip);
             const linkObject = this.props.storeFocusObjects.linkObject;
             if (linkObject) {
                 props.put_InternalHyperlink(linkObject.get_InternalHyperlink());
             }
             api.change_Hyperlink(props);
-            this.closeModal();
+            // this.closeModal();
         }
     }
 
@@ -64,16 +66,49 @@ class EditHyperlinkController extends Component {
         if (api) {
             const linkObject = this.props.storeFocusObjects.linkObject;
             api.remove_Hyperlink(linkObject);
-            this.closeModal();
+            // this.closeModal();
+        }
+    }
+
+    componentDidMount() {
+        if(!this.props.isNavigate) {
+            if(Device.phone) {
+                f7.popup.open('#edit-link-popup', true);
+            } else {
+                f7.popover.open('#edit-link-popover', '#btn-edit');
+            }
         }
     }
 
     render () {
         return (
-            <EditHyperlink onEditLink={this.onEditLink}
-                           onRemoveLink={this.onRemoveLink}
-            />
-        )
+            !this.props.isNavigate ?
+                Device.phone ?
+                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.onClosed('edit-link')}>
+                        <EditHyperlink 
+                            onEditLink={this.onEditLink}
+                            onRemoveLink={this.onRemoveLink}
+                            closeModal={this.closeModal}
+                            isNavigate={this.props.isNavigate}
+                        />
+                    </Popup>
+                :
+                    <Popover id="edit-link-popover" className="popover__titled" style={{height: '410px'}} closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('edit-link')}>
+                        <EditHyperlink 
+                            onEditLink={this.onEditLink}
+                            onRemoveLink={this.onRemoveLink}
+                            closeModal={this.closeModal}
+                            isNavigate={this.props.isNavigate}
+                        />
+                    </Popover>
+            :     
+                <EditHyperlink 
+                    onEditLink={this.onEditLink}
+                    onRemoveLink={this.onRemoveLink}
+                    closeModal={this.closeModal}
+                    isNavigate={this.props.isNavigate}
+                />
+        )   
     }
 }
 

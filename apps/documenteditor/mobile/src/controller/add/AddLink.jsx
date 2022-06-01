@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { f7 } from 'framework7-react';
+import { f7, Popup, Popover } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 
@@ -8,14 +8,16 @@ import {PageAddLink} from '../../view/add/AddLink';
 class AddLinkController extends Component {
     constructor (props) {
         super(props);
+
         this.onInsertLink = this.onInsertLink.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     closeModal () {
         if ( Device.phone ) {
-            f7.popup.close('.add-popup', true);
+            f7.popup.close('#add-link-popup');
         } else {
-            f7.popover.close('#add-popover');
+            f7.popover.close('#add-link-popover');
         }
     }
 
@@ -60,12 +62,32 @@ class AddLinkController extends Component {
 
         api.add_Hyperlink(props);
 
-        this.closeModal();
+        // this.closeModal();
+    }
+
+    componentDidMount() {
+        if(!this.props.isNavigate) {
+            if(Device.phone) {
+                f7.popup.open('#add-link-popup', true);
+            } else {
+                f7.popover.open('#add-link-popover', '#btn-add');
+            }
+        }
     }
 
     render () {
         return (
-            <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} noNavbar={this.props.noNavbar}/>
+            !this.props.isNavigate ?
+                Device.phone ?
+                    <Popup id="add-link-popup" onPopupClosed={() => this.props.onClosed('add-link')}>
+                        <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} isNavigate={this.props.isNavigate} />
+                    </Popup>
+                :
+                    <Popover id="add-link-popover" className="popover__titled" style={{height: '410px'}} closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('add-link')}>
+                        <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} isNavigate={this.props.isNavigate}/>
+                    </Popover>
+            :
+                <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} isNavigate={this.props.isNavigate} />
         )
     }
 }

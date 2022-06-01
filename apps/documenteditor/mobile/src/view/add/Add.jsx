@@ -14,6 +14,7 @@ import {AddOtherController} from "../../controller/add/AddOther";
 import {PageImageLinkSettings} from "../add/AddImage";
 import {PageAddNumber, PageAddBreak, PageAddSectionBreak, PageAddFootnote} from "../add/AddOther";
 import AddTableContentsController from '../../controller/add/AddTableContents';
+import EditHyperlink from '../../controller/edit/EditHyperlink';
 
 const routes = [
     // Image
@@ -25,6 +26,10 @@ const routes = [
     {
         path: '/add-link/',
         component: AddLinkController,
+    },
+    {
+        path: '/edit-link/',
+        component: EditHyperlink
     },
     {
         path: '/add-image/',
@@ -52,26 +57,24 @@ const routes = [
     }
 ];
 
-const AddLayoutNavbar = ({ tabs, inPopover, showPanels }) => {
+const AddLayoutNavbar = ({ tabs, inPopover }) => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     return (
-        // (!showPanels || showPanels !== 'link') ?
-            <Navbar>
-                {tabs.length > 1 ?
-                    <div className='tab-buttons tabbar'>
-                        {tabs.map((item, index) =>
-                            <Link key={"de-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                                <Icon slot="media" icon={item.icon}></Icon>
-                            </Link>)}
-                        {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
-                    </div> :
-                    <NavTitle>{ tabs[0].caption }</NavTitle>
-                }
-                {!inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight>}
-            </Navbar>
-        // : null
+        <Navbar>
+            {tabs.length > 1 ?
+                <div className='tab-buttons tabbar'>
+                    {tabs.map((item, index) =>
+                        <Link key={"de-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
+                            <Icon slot="media" icon={item.icon}></Icon>
+                        </Link>)}
+                    {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
+                </div> :
+                <NavTitle>{ tabs[0].caption }</NavTitle>
+            }
+            {!inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight>}
+        </Navbar>
     )
 };
 
@@ -87,7 +90,7 @@ const AddLayoutContent = ({ tabs, onGetTableStylesPreviews }) => {
     )
 };
 
-const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects,storeTableSettings, showPanels, style, inPopover, onOptionClick}) => {
+const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({storeFocusObjects,storeTableSettings, showPanels, style, inPopover, onCloseLinkSettings}) => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     const api = Common.EditorApi.get();
@@ -165,6 +168,7 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
     //         });
     //     }
     // }
+
     if(!showPanels) {
         tabs.push({
             caption: _t.textOther,
@@ -179,18 +183,20 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
                     richDelLock={richDelLock}
                     richEditLock={richEditLock}
                     plainDelLock={plainDelLock}
-                    plainEditLock={plainEditLock}      
+                    plainEditLock={plainEditLock}     
+                    onCloseLinkSettings={onCloseLinkSettings}
+                    isNavigate={true}
                 />
         });
     }
-    if (showPanels && showPanels === 'link') {
-        // onOptionClick('/add-link/');
-        tabs.push({
-            caption: t('Add.textLinkSettings'),
-            id: 'add-link',
-            component: <AddLinkController noNavbar={true} />
-        });
-    }
+
+    // if (showPanels && showPanels === 'link') {
+    //     tabs.push({
+    //         caption: t('Add.textLinkSettings'),
+    //         id: 'add-link',
+    //         component: <AddLinkController noNavbar={true} />
+    //     });
+    // }
 
     const onGetTableStylesPreviews = () => {
         if(storeTableSettings.arrayStylesDefault.length == 0) {
@@ -202,7 +208,7 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
     return (
         <View style={style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
-                <AddLayoutNavbar tabs={tabs} showPanels={showPanels} inPopover={inPopover}/>
+                <AddLayoutNavbar tabs={tabs} inPopover={inPopover}/>
                 <AddLayoutContent tabs={tabs} onGetTableStylesPreviews={onGetTableStylesPreviews}/>
             </Page>
         </View>
@@ -223,10 +229,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels} />
+                    <AddTabs inPopover={true} style={{height: '410px'}} onCloseLinkSettings={this.props.onCloseLinkSettings} showPanels={this.props.showPanels} />
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs onOptionClick={this.onoptionclick} showPanels={this.props.showPanels} />
+                    <AddTabs onCloseLinkSettings={this.props.onCloseLinkSettings} showPanels={this.props.showPanels} />
                 </Popup>
         )
     }
@@ -249,7 +255,7 @@ const Add = props => {
             props.onclosed();
         }
     };
-    return <AddView usePopover={!Device.phone} onclosed={onviewclosed} showPanels={props.showOptions} />
+    return <AddView usePopover={!Device.phone} onCloseLinkSettings={props.onCloseLinkSettings} onclosed={onviewclosed} showPanels={props.showOptions} />
 };
 
 export default Add;

@@ -53,6 +53,13 @@ const routes = [
         path: '/edit-text-highlight-color/',
         component: PageTextHighlightColor,
     },
+
+    // Edit link
+    // {
+    //     path: '/edit-link/',
+    //     component: EditHyperlinkController
+    // },
+
     //Edit paragraph
     {
         path: '/edit-paragraph-adv/',

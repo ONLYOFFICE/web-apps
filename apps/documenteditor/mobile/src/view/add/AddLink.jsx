@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {List, Page, Navbar, Icon, ListButton, ListInput, NavRight, Link, NavLeft, f7, NavTitle} from 'framework7-react';
+import {List, Page, Navbar, Icon, ListButton, ListInput, NavRight, Link, NavLeft, f7, NavTitle, Fragment} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -29,17 +29,14 @@ const PageLink = props => {
                 <Navbar>
                     <NavLeft>
                         <Link text={t('Add.textCancel')} onClick={() => {
-                            if(props.noNavbar) {
-                                props.closeModal();
-                            } else {
-                                f7.views.current.router.back();
-                            }}}>
-                        </Link>
+                            props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                        }}></Link>
                     </NavLeft>
                     <NavTitle>{t('Add.textLinkSettings')}</NavTitle>
                     <NavRight>
                         <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
                             props.onInsertLink(stateLink, stateDisplay);
+                            props.isNavigate ? f7.views.current.router.back() : props.closeModal();
                         }} text={t('Add.textDone')}></Link>
                     </NavRight>
                 </Navbar>
