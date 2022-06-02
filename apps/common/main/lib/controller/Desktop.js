@@ -341,6 +341,9 @@ define([
                     return native[name].apply(this, args);
                 }
             },
+            helpUrl: function () {
+                return 'https://download.onlyoffice.com/install/desktop/editors/help/v7.2.0-1/apps/documenteditor/main/resources/help';
+            }
         };
     };
 
