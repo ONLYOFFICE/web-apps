@@ -883,6 +883,9 @@ define([
                 } else if (this.leftMenu.btnSearchBar.isActive() && this.api) {
                     this.leftMenu.btnSearchBar.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+                } else if (this.leftMenu.btnSpellcheck.isActive() && this.api) {
+                    this.leftMenu.btnSpellcheck.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnSpellcheck);
                 }
             }
         },

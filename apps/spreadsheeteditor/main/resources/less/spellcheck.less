@@ -1,70 +1,109 @@
 
 #spellcheck-box {
-    padding: 20px 15px 0;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-#spellcheck-current-word {
-    vertical-align: top;
-    width: 100%;
-    display: inline-block;
-}
-
-#spellcheck-next {
-    display: inline-block;
-}
-
-#spellcheck-suggestions-list {
-    width: 100%;
-    height: 116px;
-    background-color: @background-normal-ie;
-    background-color: @background-normal;
-    margin-bottom: 8px;
-}
-
-#spellcheck-change {
-    display: inline-block;
-    padding-bottom: 16px;
-}
-
-#spellcheck-ignore {
-    margin-left: 9px;
-    display: inline-block;
-}
-
-#spellcheck-add-to-dictionary {
-    min-width: 110px;
-    display: block;
-    margin-bottom: 16px;
-}
-
-#spellcheck-dictionary-language {
-    margin-top: 3px;
-    padding-bottom: 16px;
-    display: flex;
-}
-
-#spellcheck-complete {
-    display: flex;
-}
-.btn-resolve
- {
+    display: table;
     position: relative;
 
-    &:after {
-        content: '';
+    #spellcheck-header {
         position: absolute;
-        border: solid @text-normal-ie;
-        border: solid @text-normal;
-        border-color: @icon-success-ie;
-        border-color: @icon-success;
-        border-width: 0 3px 3px 0;
-        transform: rotate(40deg);
-        width: 6px;
-        height: 10px;
+        height: 45px;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 12px;
+        overflow: hidden;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
+
+        label {
+            font-size: 12px;
+            .font-weight-bold();
+            margin-top: 2px;
+        }
     }
 
-   
+    .spellcheck-settings {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 100%;
+        padding-top: 45px;
+        overflow: hidden;
+
+        .spellcheck-settings-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 0 15px 12px 15px;
+            overflow: hidden;
+
+            .ps-scrollbar-y-rail {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                right: 4px !important;
+            }
+        }
+    }
+
+    #spellcheck-current-word {
+        vertical-align: top;
+        width: 100%;
+        display: inline-block;
+    }
+
+    #spellcheck-next {
+        display: inline-block;
+    }
+
+    #spellcheck-suggestions-list {
+        width: 100%;
+        height: 116px;
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
+        margin-bottom: 8px;
+    }
+
+    #spellcheck-change {
+        display: inline-block;
+        padding-bottom: 16px;
+    }
+
+    #spellcheck-ignore {
+        margin-left: 9px;
+        display: inline-block;
+    }
+
+    #spellcheck-add-to-dictionary {
+        min-width: 110px;
+        display: block;
+        margin-bottom: 16px;
+    }
+
+    #spellcheck-dictionary-language {
+        margin-top: 3px;
+        padding-bottom: 16px;
+        display: flex;
+    }
+
+    #spellcheck-complete {
+        display: flex;
+    }
+    .btn-resolve
+    {
+        position: relative;
+
+        &:after {
+            content: '';
+            position: absolute;
+            border: solid @text-normal-ie;
+            border: solid @text-normal;
+            border-color: @icon-success-ie;
+            border-color: @icon-success;
+            border-width: 0 3px 3px 0;
+            transform: rotate(40deg);
+            width: 6px;
+            height: 10px;
+        }
+
+
+    }
 }

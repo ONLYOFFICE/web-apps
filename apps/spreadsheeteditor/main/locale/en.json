@@ -3202,6 +3202,7 @@
   "SSE.Views.Spellcheck.txtDictionaryLanguage": "Dictionary Language",
   "SSE.Views.Spellcheck.txtNextTip": "Go to the next word",
   "SSE.Views.Spellcheck.txtSpelling": "Spelling",
+  "SSE.Views.Spellcheck.txtClosePanel": "Close spelling",
   "SSE.Views.Statusbar.CopyDialog.itemCopyToEnd": "(Copy to end)",
   "SSE.Views.Statusbar.CopyDialog.itemMoveToEnd": "(Move to end)",
   "SSE.Views.Statusbar.CopyDialog.textCopyBefore": "Paste before sheet",
