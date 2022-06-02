@@ -67,7 +67,7 @@
       "closeButtonText": "Datei schließen",
       "criticalErrorTitle": "Fehler",
       "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an Administratoren.",
-      "errorOpensource": "In der kostenlosen Community-Version können Sie Dokumente nur öffnen. Für Bearbeitung in mobilen Web-Editoren ist die kommerzielle Lizenz erforderlich.",
+      "errorOpensource": "Mit der kostenlosen Community-Version können Sie Dokumente nur schreibgeschützt öffnen. Für den Zugriff auf mobilen Web-Editoren ist eine kommerzielle Lizenz erforderlich.",
       "errorProcessSaveResult": "Speichern ist fehlgeschlagen.",
       "errorServerVersion": "Version des Editors wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
       "errorUpdateVersion": "Die Dateiversion wurde geändert. Die Seite wird neu geladen.",
@@ -474,7 +474,11 @@
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Fluss",
       "txtScheme9": "Gießerei",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

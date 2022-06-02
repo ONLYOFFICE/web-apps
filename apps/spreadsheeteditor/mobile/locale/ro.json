@@ -549,7 +549,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
-      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare"
+      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "Spațiu",
       "txtTab": "Tabulator",
       "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

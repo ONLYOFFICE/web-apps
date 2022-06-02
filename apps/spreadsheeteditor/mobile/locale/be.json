@@ -358,7 +358,7 @@
       "textBottomBorder": "Bottom Border",
       "textBringToForeground": "Bring to Foreground",
       "textCell": "Cell",
-      "textCellStyles": "Cell Styles",
+      "textCellStyle": "Cell Style",
       "textCenter": "Center",
       "textChart": "Chart",
       "textChartTitle": "Chart Title",
@@ -634,7 +634,11 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   },
   "LongActions": {

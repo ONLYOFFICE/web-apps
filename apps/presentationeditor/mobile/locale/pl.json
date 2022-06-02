@@ -475,7 +475,11 @@
       "txtScheme8": "Flow",
       "txtScheme9": "Foundry",
       "textDarkTheme": "Dark Theme",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

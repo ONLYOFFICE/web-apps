@@ -121,7 +121,7 @@ define([
                     this._state.useRegExp = checked;
                     break;
             }
-            if (this._state.searchText !== '') {
+            if (this._state.searchText) {
                 this.hideResults();
                 if (this.onQuerySearch()) {
                     if (this.searchTimer) {

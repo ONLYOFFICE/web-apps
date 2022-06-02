@@ -549,7 +549,8 @@
       "textYen": "Йена",
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSortHigh2Low": "Сортировка по убыванию",
-      "txtSortLow2High": "Сортировка по возрастанию"
+      "txtSortLow2High": "Сортировка по возрастанию",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Выбрать параметры CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "Пробел",
       "txtTab": "Табуляция",
       "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

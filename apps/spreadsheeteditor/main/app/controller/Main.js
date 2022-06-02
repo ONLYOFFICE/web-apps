@@ -2500,7 +2500,7 @@ define([
                     me.getApplication().getController('RightMenu').UpdateThemeColors();
                 }, 50);
 
-                !me.appOptions.isEditOle && setTimeout(function(){
+                setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);
 
@@ -2554,6 +2554,7 @@ define([
                         if (!Common.Utils.ModalWindow.isVisible()) {
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
+                            this.appOptions.isEditOle && Common.NotificationCenter.trigger('oleedit:close');
                             Common.UI.Menu.Manager.hideAll();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
                         } else
@@ -2598,8 +2599,8 @@ define([
             },
 
             setOleData: function(obj) {
-                if (typeof obj === 'object' && this.api) {
-                    this.api.asc_addTableOleObjectInOleEditor(obj);
+                if ((typeof obj === 'object' || obj==="empty") && this.api) {
+                    this.api.asc_addTableOleObjectInOleEditor(typeof obj === 'object' ? obj : undefined);
                     this.isFrameClosed = false;
                 }
             },

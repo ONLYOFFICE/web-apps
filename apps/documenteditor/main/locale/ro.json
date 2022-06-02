@@ -1700,6 +1700,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Pagini",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPageSize": "Dimensiune pagină",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Paragrafe",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtPdfProducer": "Producător de PDF",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfTagged": "PDF etichetat",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPdfVer": "Versiune a PDF",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Locația",

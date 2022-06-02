@@ -678,6 +678,10 @@ define([
             switch (s) {
                 case 'replace':
                 case 'search':
+                    if (this.mode.isEditMailMerge || this.mode.isEditOle) {
+                        this.leftMenu.fireEvent('search:show');
+                        return false;
+                    }
                     if (!this.leftMenu.btnSearchBar.isDisabled()) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.btnAbout.toggle(false);
@@ -766,11 +770,15 @@ define([
                         return false;
                     }
                     if (this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) {
+                        var searchBarBtn = (this.mode.isEditMailMerge || this.mode.isEditOle) && this.getApplication().getController('Toolbar').toolbar.btnSearch,
+                            isSearchOpen = searchBarBtn && searchBarBtn.pressed;
                         menu_opened = $(document.body).find('.open > .dropdown-menu');
-                        if (!this.api.isCellEdited && !menu_opened.length) {
+                        if (!this.api.isCellEdited && !menu_opened.length && !isSearchOpen) {
+                            this.mode.isEditOle && Common.NotificationCenter.trigger('oleedit:close');
                             Common.Gateway.internalMessage('shortcut', {key:'escape'});
                             return false;
                         }
+                        isSearchOpen && searchBarBtn.toggle(false);
                     }
                     break;
                 /** coauthoring begin **/
@@ -875,6 +883,9 @@ define([
                 } else if (this.leftMenu.btnSearchBar.isActive() && this.api) {
                     this.leftMenu.btnSearchBar.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+                } else if (this.leftMenu.btnSpellcheck.isActive() && this.api) {
+                    this.leftMenu.btnSpellcheck.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnSpellcheck);
                 }
             }
         },

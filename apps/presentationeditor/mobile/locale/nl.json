@@ -474,7 +474,11 @@
       "txtScheme7": "Vermogen",
       "txtScheme8": "Stroom",
       "txtScheme9": "Gieterij",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

@@ -177,6 +177,8 @@ define([
                 if ( config.customization.toolbarHideFileName )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
+
+            me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
 
         onAppReady: function (config) {
