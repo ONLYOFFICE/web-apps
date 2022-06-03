@@ -114,7 +114,7 @@
   "Common.define.effectData.textFloatIn": "Плавное приближение",
   "Common.define.effectData.textFloatOut": "Плавное удаление",
   "Common.define.effectData.textFloatUp": "Плавное перемещение вверх",
-  "Common.define.effectData.textFlyIn": "Влет",
+  "Common.define.effectData.textFlyIn": "Вылет",
   "Common.define.effectData.textFlyOut": "Вылет за край листа",
   "Common.define.effectData.textFontColor": "Цвет шрифта",
   "Common.define.effectData.textFootball": "Овал",
