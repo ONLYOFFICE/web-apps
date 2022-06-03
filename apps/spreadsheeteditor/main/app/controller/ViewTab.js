@@ -60,6 +60,7 @@ define([
         onLaunch: function () {
             this._state = {};
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('uitheme:countchanged', this.onThemeCountChanged.bind(this));
         },
 
         setApi: function (api) {
@@ -283,7 +284,24 @@ define([
                     menu_item.setChecked(true, true);
                 }
             }
-        }
+        },
+
+        onThemeCountChanged: function () {
+            if (this.view && Common.UI.Themes.available()) {
+                this.view.btnInterfaceTheme.menu.removeAll();
+                var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                for (var t in Common.UI.Themes.map()) {
+                    var item = {
+                        value: t,
+                        caption: Common.UI.Themes.get(t).text,
+                        checked: t === currentTheme,
+                        checkable: true,
+                        toggleGroup: 'interface-theme'
+                    };
+                    this.view.btnInterfaceTheme.menu.addItem(item);
+                }
+            }
+        },
 
     }, SSE.Controllers.ViewTab || {}));
 });

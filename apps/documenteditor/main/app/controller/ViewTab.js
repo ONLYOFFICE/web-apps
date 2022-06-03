@@ -61,6 +61,7 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('uitheme:countchanged', this.onThemeCountChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
@@ -268,6 +269,23 @@ define([
                     menu_item.setChecked(true, true);
                 }
                 Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [this.view.btnDarkDocument]});
+            }
+        },
+
+        onThemeCountChanged: function () {
+            if (this.view && Common.UI.Themes.available()) {
+                this.view.btnInterfaceTheme.menu.removeAll();
+                var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                for (var t in Common.UI.Themes.map()) {
+                    var item = {
+                        value: t,
+                        caption: Common.UI.Themes.get(t).text,
+                        checked: t === currentTheme,
+                        checkable: true,
+                        toggleGroup: 'interface-theme'
+                    };
+                    this.view.btnInterfaceTheme.menu.addItem(item);
+                }
             }
         },
 
