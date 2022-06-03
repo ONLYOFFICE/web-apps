@@ -474,11 +474,11 @@
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Fluss",
       "txtScheme9": "Gießerei",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

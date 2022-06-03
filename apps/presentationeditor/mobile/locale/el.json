@@ -474,11 +474,11 @@
       "txtScheme7": "Μετοχή",
       "txtScheme8": "Ροή",
       "txtScheme9": "Χυτήριο",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

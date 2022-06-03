@@ -474,11 +474,11 @@
       "txtScheme7": "產權",
       "txtScheme8": "流程",
       "txtScheme9": "鑄造廠",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

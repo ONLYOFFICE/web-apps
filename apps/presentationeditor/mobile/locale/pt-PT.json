@@ -113,6 +113,7 @@
       "textRemember": "Memorizar a minha escolha",
       "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
+      "textRequestMacros": "Uma macro faz um pedido de URL. Quer permitir o pedido à %1?",
       "textYes": "Sim",
       "titleLicenseExp": "Licença expirada",
       "titleServerVersion": "Editor atualizado",
@@ -126,8 +127,7 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
     }
   },
   "Error": {
@@ -398,6 +398,7 @@
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
       "mniSlideWide": "Ecrã panorâmico (16:9)",
+      "notcriticalErrorTitle": "Aviso",
       "textAbout": "Acerca",
       "textAddress": "endereço:",
       "textApplication": "Aplicação",
@@ -420,6 +421,7 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Ativar tudo",
       "textEnableAllMacrosWithoutNotification": "Ativar todas as macros sem notificação",
+      "textFeedback": "Feedback e Suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFindAndReplaceAll": "Localizar e substituir tudo",
@@ -432,6 +434,7 @@
       "textLocation": "Localização",
       "textMacrosSettings": "Definições de macros",
       "textNoTextFound": "Texto não encontrado",
+      "textOk": "Ok",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
       "textPoweredBy": "Desenvolvido por",
@@ -441,6 +444,8 @@
       "textPrint": "Imprimir",
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
+      "textRestartApplication": "Por favor reinicie o pedido para que as alterações tenham efeito",
+      "textRTL": "RTL",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",
       "textShowNotification": "Mostrar notificação",
@@ -473,12 +478,7 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRTL": "RTL",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "txtScheme9": "Fundição"
     }
   }
 }

@@ -400,7 +400,6 @@
       "textBottomBorder": "Limite inferior",
       "textBringToForeground": "Trazer para primeiro plano",
       "textCell": "Célula",
-      "textCellStyles": "Estilos de célula",
       "textCenter": "Centro",
       "textChart": "Gráfico",
       "textChartTitle": "Título do Gráfico",
@@ -682,11 +681,11 @@
       "txtSpace": "Espaço",
       "txtTab": "Aba",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

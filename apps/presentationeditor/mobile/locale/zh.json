@@ -474,11 +474,11 @@
       "txtScheme7": "公平",
       "txtScheme8": "流动",
       "txtScheme9": "发现",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

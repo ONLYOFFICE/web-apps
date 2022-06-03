@@ -151,6 +151,7 @@
       "textRemember": "Gogoratu nire aukera",
       "textReplaceSkipped": "Ordezkapena burutu da. {0} agerraldi saltatu dira.",
       "textReplaceSuccess": "Bilaketa burutu da. Ordezkatu diren agerraldiak: {0}",
+      "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
       "textYes": "Bai",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
@@ -160,8 +161,7 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
     }
   },
   "Error": {
@@ -299,15 +299,15 @@
     "textRenameSheet": "Orriari izena aldatu",
     "textSheet": "Orria",
     "textSheetName": "Orriaren izena",
+    "textTabColor": "Fitxa kolorea",
     "textUnhide": "Ezkutatzeaz utzi",
-    "textWarnDeleteSheet": "Kalkulu-orriak datuak izan ditzake. Eragiketarekin jarraitu?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "Kalkulu-orriak datuak izan ditzake. Eragiketarekin jarraitu?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Orritik irten",
-    "stayButtonText": " Orri honetan geratu"
+    "stayButtonText": "Jarraitu orrian"
   },
   "View": {
     "Add": {
@@ -400,7 +400,7 @@
       "textBottomBorder": "Beheko ertza",
       "textBringToForeground": "Ekarri aurreko planora",
       "textCell": "Gelaxka",
-      "textCellStyles": "Gelaxka estiloak",
+      "textCellStyle": "Gelaxka estiloa",
       "textCenter": "Erdia",
       "textChart": "Diagrama",
       "textChartTitle": "Diagramaren titulua",
@@ -474,7 +474,7 @@
       "textMajorAndMinor": "Nagusia eta bigarren mailakoa",
       "textMajorType": "Mota nagusia",
       "textMaximumValue": "Gehienezko balioa",
-      "textMedium": "Medioa",
+      "textMedium": "Ertaina",
       "textMillions": "Milioiak",
       "textMinimumValue": "Gutxieneko balioa",
       "textMinor": "Txikiagoa",
@@ -549,8 +549,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Antolatu txikienetik handienera"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",
@@ -582,6 +581,7 @@
       "textCustomSize": "Tamaina pertsonalizatua",
       "textDarkTheme": "Itxura iluna",
       "textDelimeter": "Mugatzailea",
+      "textDirection": "Norabidea",
       "textDisableAll": "Desgaitu guztiak",
       "textDisableAllMacrosWithNotification": "Desgaitu makro guztiak jakinarazpen batekin",
       "textDisableAllMacrosWithoutNotification": "Desgaitu makro guztiak jakinarazpenik gabe",
@@ -593,6 +593,7 @@
       "textEnableAllMacrosWithoutNotification": "Gaitu makro guztiak jakinarazpenik gabe",
       "textEncoding": "Kodeketa",
       "textExample": "Adibidea",
+      "textFeedback": "Oharrak eta laguntza",
       "textFind": "Bilatu",
       "textFindAndReplace": "Bilatu eta ordeztu",
       "textFindAndReplaceAll": "Bilatu eta ordezkatu guztia",
@@ -608,6 +609,7 @@
       "textLastModified": "Azken aldaketa",
       "textLastModifiedBy": "Azken aldaketaren egilea",
       "textLeft": "Ezkerra",
+      "textLeftToRight": "Ezkerretik eskuinera",
       "textLocation": "Kokalekua",
       "textLookIn": "Begiratu hemen",
       "textMacrosSettings": "Makroen ezarpenak",
@@ -628,7 +630,9 @@
       "textReplace": "Ordeztu",
       "textReplaceAll": "Ordeztu guztia",
       "textResolvedComments": "Ebatzitako iruzkinak",
+      "textRestartApplication": "Mesedez berrabiarazi aplikazioa aldaketek eragina izan dezaten",
       "textRight": "Eskuina",
+      "textRightToLeft": "Eskuinetik ezkerrera",
       "textSearch": "Bilatu",
       "textSearchBy": "Bilatu",
       "textSearchIn": "Bilatu hemen",
@@ -647,7 +651,7 @@
       "textUploaded": "Kargatuta",
       "textValues": "Balioak",
       "textVersion": "Bertsioa",
-      "textWorkbook": "Lan liburua",
+      "textWorkbook": "Laneko liburua",
       "txtColon": "Bi puntu",
       "txtComma": "Koma",
       "txtDelimiter": "Mugatzailea",
@@ -681,12 +685,7 @@
       "txtSemicolon": "Puntu eta koma",
       "txtSpace": "Tartea",
       "txtTab": "Fitxa",
-      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?"
     }
   }
 }

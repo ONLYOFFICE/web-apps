@@ -400,7 +400,6 @@
       "textBottomBorder": "Spodné orámovanie",
       "textBringToForeground": "Premiestniť do popredia",
       "textCell": "Bunka",
-      "textCellStyles": "Štýly bunky",
       "textCenter": "Stred",
       "textChart": "Graf",
       "textChartTitle": "Názov grafu",
@@ -682,11 +681,11 @@
       "txtSpace": "Priestor",
       "txtTab": "Tabulátor",
       "warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

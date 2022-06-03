@@ -156,12 +156,12 @@
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleUpdateVersion": "Version changed",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -299,8 +299,8 @@
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
-    "textUnhide": "Unhide",
     "textTabColor": "Tab Color",
+    "textUnhide": "Unhide",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
@@ -398,7 +398,6 @@
       "textBottomBorder": "Bundkant",
       "textBringToForeground": "Før til forgrunden",
       "textCell": "Celle",
-      "textCellStyles": "Cellestilarter",
       "textCenter": "Center",
       "textChart": "Diagram",
       "textChartTitle": "Diagram titel",
@@ -650,12 +649,16 @@
       "advDRMEnterPassword": "Your password, please:",
       "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
       "textNoTextFound": "Text not found",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
       "textResolvedComments": "Resolved Comments",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
+      "textRightToLeft": "Right To Left",
       "textSearch": "Search",
       "textSearchBy": "Search",
       "textSearchIn": "Search In",
@@ -682,11 +685,7 @@
       "txtScheme21": "Verve",
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
-      "txtTab": "Tab",
-      "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "txtTab": "Tab"
     }
   }
 }

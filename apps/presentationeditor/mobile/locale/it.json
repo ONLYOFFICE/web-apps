@@ -474,11 +474,11 @@
       "txtScheme7": "Equità",
       "txtScheme8": "Flusso",
       "txtScheme9": "Fonderia",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

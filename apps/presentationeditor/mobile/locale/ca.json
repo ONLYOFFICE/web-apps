@@ -474,11 +474,11 @@
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
       "txtScheme9": "Foneria",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

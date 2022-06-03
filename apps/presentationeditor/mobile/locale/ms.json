@@ -473,12 +473,12 @@
       "txtScheme7": "Ekuiti",
       "txtScheme8": "Aliran",
       "txtScheme9": "Faundri",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
-      "textSubject": "Subject",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL",
+      "textSubject": "Subject"
     }
   }
 }

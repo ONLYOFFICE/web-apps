@@ -474,11 +474,11 @@
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
       "txtScheme9": "Slévárna",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

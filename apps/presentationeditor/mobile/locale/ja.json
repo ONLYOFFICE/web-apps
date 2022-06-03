@@ -474,11 +474,11 @@
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
       "txtScheme9": "ファウンドリ",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }
