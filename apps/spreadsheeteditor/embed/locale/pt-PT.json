@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Altura",
   "common.view.modals.txtShare": "Partilhar ligação",
   "common.view.modals.txtWidth": "Largura",
+  "common.view.SearchBar.textFind": "Localizar",
   "SSE.ApplicationController.convertationErrorText": "Falha na conversão.",
   "SSE.ApplicationController.convertationTimeoutText": "Excedeu o tempo limite de conversão.",
   "SSE.ApplicationController.criticalErrorTitle": "Erro",
