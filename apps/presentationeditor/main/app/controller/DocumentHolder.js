@@ -122,7 +122,8 @@ define([
             me.userTooltip = true;
             me.wrapEvents = {
                 userTipMousover: _.bind(me.userTipMousover, me),
-                userTipMousout: _.bind(me.userTipMousout, me)
+                userTipMousout: _.bind(me.userTipMousout, me),
+                onKeyUp: _.bind(me.onKeyUp, me)
             };
 
             // Hotkeys
@@ -640,6 +641,9 @@ define([
             var me = this;
             if (me.api){
                 var key = event.keyCode;
+                if (me.hkSpecPaste) {
+                    me._needShowSpecPasteMenu = !event.shiftKey && !event.altKey && event.keyCode == Common.UI.Keys.CTRL;
+                }
                 if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
                     if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isGecko && key === Common.UI.Keys.EQUALITY_FF) || (Common.Utils.isOpera && key == 43)){
                         me.api.zoomIn();
@@ -1170,8 +1174,10 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
+                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
                     menu        : new Common.UI.Menu({items: []})
                 });
+                me.initSpecialPasteEvents();
             }
 
             if (pasteItems.length>0) {
@@ -1184,31 +1190,70 @@ define([
                 var group_prev = -1;
                 _.each(pasteItems, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
-                        caption: me._arrSpecialPaste[menuItem],
+                        caption: me._arrSpecialPaste[menuItem] + ' (' + me.hkSpecPaste[menuItem] + ')',
                         value: menuItem,
                         checkable: true,
                         toggleGroup : 'specialPasteGroup'
-                    }).on('click', function(item, e) {
-                        me.api.asc_SpecialPaste(item.value);
-                        setTimeout(function(){menu.hide();}, 100);
-                    });
+                    }).on('click', _.bind(me.onSpecialPasteItemClick, me));
                     menu.addItem(mnu);
                 });
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
             }
             if (coord.asc_getX()<0 || coord.asc_getY()<0) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
+                $(document).off('keyup', this.wrapEvents.onKeyUp);
             } else {
                 var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
                 pasteContainer.css({left: showPoint[0], top : showPoint[1]});
                 pasteContainer.show();
+                setTimeout(function() {
+                    $(document).on('keyup', me.wrapEvents.onKeyUp);
+                }, 10);
             }
         },
 
         onHideSpecialPasteOptions: function() {
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
-            if (pasteContainer.is(':visible'))
+            if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
+                $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        onKeyUp: function (e) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+                $('button', this.btnSpecialPaste.cmpEl).click();
+                e.preventDefault();
+            }
+            this._needShowSpecPasteMenu = false;
+        },
+
+        initSpecialPasteEvents: function() {
+            var me = this;
+            me.hkSpecPaste = [];
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.paste] = 'P';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = 'T';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'H';
+            for(var key in me.hkSpecPaste){
+                if(me.hkSpecPaste.hasOwnProperty(key)){
+                    var keymap = {};
+                    keymap[me.hkSpecPaste[key]] = _.bind(me.onSpecialPasteItemClick, me, {value: parseInt(key)});
+                    Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+                    Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[key], undefined, true);
+                }
+            }
+
+            me.btnSpecialPaste.menu.on('show:after', function(menu) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.resumeEvents(me.hkSpecPaste[menu.items[i].value]);
+                }
+            }).on('hide:after', function(menu) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[menu.items[i].value], undefined, true);
+                }
+            });
         },
 
         onChangeCropState: function(state) {
@@ -2017,6 +2062,21 @@ define([
             }
         },
 
+        onSpecialPasteItemClick: function(item, e) {
+            if (this.api) {
+                this.api.asc_SpecialPaste(item.value);
+                var menu = this.btnSpecialPaste.menu;
+                if (!item.cmpEl) {
+                    for (var i = 0; i < menu.items.length; i++) {
+                        menu.items[i].setChecked(menu.items[i].value===item.value, true);
+                    }
+                }
+                setTimeout(function(){
+                    menu.hide();
+                }, 100);
+            }
+            return false;
+        },
 
         SetDisabled: function(state) {
             this._isDisabled = state;
