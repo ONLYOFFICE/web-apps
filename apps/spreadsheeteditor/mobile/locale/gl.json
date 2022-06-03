@@ -400,7 +400,6 @@
       "textBottomBorder": "Bordo inferior",
       "textBringToForeground": "Traer ao primeiro plano",
       "textCell": "Celda",
-      "textCellStyles": "Estilos de celda",
       "textCenter": "Centro",
       "textChart": "Gráfico",
       "textChartTitle": "Título do gráfico",
@@ -682,11 +681,11 @@
       "txtSpace": "Espazo",
       "txtTab": "Lapela",
       "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

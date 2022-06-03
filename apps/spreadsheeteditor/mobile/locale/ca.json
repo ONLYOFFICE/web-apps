@@ -400,7 +400,6 @@
       "textBottomBorder": "Vora inferior",
       "textBringToForeground": "Porta al primer pla",
       "textCell": "Cel·la",
-      "textCellStyles": "Estils de cel·la",
       "textCenter": "Centra",
       "textChart": "Gràfic",
       "textChartTitle": "Títol del gràfic",
@@ -682,11 +681,11 @@
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
       "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

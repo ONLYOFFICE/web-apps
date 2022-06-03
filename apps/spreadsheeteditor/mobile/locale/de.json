@@ -400,7 +400,6 @@
       "textBottomBorder": "Rahmenlinie unten",
       "textBringToForeground": "In den Vordergrund bringen",
       "textCell": "Zelle",
-      "textCellStyles": "Zellenformatvorlagen",
       "textCenter": "Zentriert",
       "textChart": "Diagramm",
       "textChartTitle": "Diagrammtitel",
@@ -682,11 +681,11 @@
       "txtSpace": "Leerzeichen",
       "txtTab": "Tab",
       "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

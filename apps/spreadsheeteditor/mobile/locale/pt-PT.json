@@ -151,6 +151,7 @@
       "textRemember": "Memorizar a minha escolha",
       "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
+      "textRequestMacros": "Uma macro faz um pedido de URL. Quer permitir o pedido à %1?",
       "textYes": "Sim",
       "titleServerVersion": "Editor atualizado",
       "titleUpdateVersion": "Versão alterada",
@@ -160,8 +161,7 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
     }
   },
   "Error": {
@@ -299,9 +299,9 @@
     "textRenameSheet": "Mudar nome da folha",
     "textSheet": "Folha",
     "textSheetName": "Nome da folha",
+    "textTabColor": "Cor do separador",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "A ficha de trabalho talvez tenha dados. Proceder à operação?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "A ficha de trabalho talvez tenha dados. Proceder à operação?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tem alterações não guardadas neste documento. Clique em 'Ficar nesta página' para aguardar pelo guardar automaticamente. Clique em 'Deixar esta página' para se desfazer de todas as alterações não guardadas.",
@@ -400,7 +400,7 @@
       "textBottomBorder": "Contorno inferior",
       "textBringToForeground": "Trazer para primeiro plano",
       "textCell": "Célula",
-      "textCellStyles": "Estilos de células",
+      "textCellStyle": "Estilo da célula",
       "textCenter": "Centro",
       "textChart": "Gráfico",
       "textChartTitle": "Título do gráfico",
@@ -549,8 +549,7 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSortHigh2Low": "Ordenar do Maior para o Menor",
-      "txtSortLow2High": "Ordenar do Menor para o Maior",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Ordenar do Menor para o Maior"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -582,6 +581,7 @@
       "textCustomSize": "Tamanho personalizado",
       "textDarkTheme": "Tema Escuro",
       "textDelimeter": "Delimitador",
+      "textDirection": "Direção",
       "textDisableAll": "Desativar tudo",
       "textDisableAllMacrosWithNotification": "Desativar todas as macros com notificação",
       "textDisableAllMacrosWithoutNotification": "Desativar todas as macros sem notificação",
@@ -593,6 +593,7 @@
       "textEnableAllMacrosWithoutNotification": "Ativar todas as macros sem notificação",
       "textEncoding": "Codificação",
       "textExample": "Exemplo",
+      "textFeedback": "Feedback e Suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFindAndReplaceAll": "Localizar e substituir tudo",
@@ -608,6 +609,7 @@
       "textLastModified": "Última modificação",
       "textLastModifiedBy": "Última modificação por",
       "textLeft": "Esquerda",
+      "textLeftToRight": "Da esquerda para a direita",
       "textLocation": "Localização",
       "textLookIn": "Olhar em",
       "textMacrosSettings": "Definições de macros",
@@ -628,7 +630,9 @@
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
       "textResolvedComments": "Comentários resolvidos",
+      "textRestartApplication": "Por favor reinicie a aplicação para que as alterações tenham efeito",
       "textRight": "Direita",
+      "textRightToLeft": "Da direita para a esquerda",
       "textSearch": "Pesquisar",
       "textSearchBy": "Pesquisar",
       "textSearchIn": "Pesquisar em",
@@ -681,12 +685,7 @@
       "txtSemicolon": "Ponto e vírgula",
       "txtSpace": "Espaço",
       "txtTab": "Tab",
-      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos exceto o texto serão perdidos.<br>Você tem certeza que quer continuar?",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos exceto o texto serão perdidos.<br>Você tem certeza que quer continuar?"
     }
   }
 }

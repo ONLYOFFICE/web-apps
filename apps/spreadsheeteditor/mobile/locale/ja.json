@@ -400,7 +400,6 @@
       "textBottomBorder": "最下部の境界線",
       "textBringToForeground": "前景に動かす",
       "textCell": "セル",
-      "textCellStyles": "セルのスタイル",
       "textCenter": "中央揃え",
       "textChart": "グラフ",
       "textChartTitle": "グラフの名",
@@ -682,11 +681,11 @@
       "txtSpace": "スペース",
       "txtTab": "タブ",
       "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

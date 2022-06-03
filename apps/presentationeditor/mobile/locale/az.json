@@ -473,12 +473,12 @@
       "txtScheme7": "Bərabər",
       "txtScheme8": "Axın",
       "txtScheme9": "Emalatxana",
+      "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

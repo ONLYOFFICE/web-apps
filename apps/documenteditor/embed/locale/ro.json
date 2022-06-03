@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Înălțime",
   "common.view.modals.txtShare": "Partajare link",
   "common.view.modals.txtWidth": "Lățime",
+  "common.view.SearchBar.textFind": "Găsire",
   "DE.ApplicationController.convertationErrorText": "Conversia nu a reușit.",
   "DE.ApplicationController.convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
   "DE.ApplicationController.criticalErrorTitle": "Eroare",

@@ -400,7 +400,6 @@
       "textBottomBorder": "Bordure inférieure",
       "textBringToForeground": "Mettre au premier plan",
       "textCell": "Cellule",
-      "textCellStyles": "Styles cellule",
       "textCenter": "Au centre",
       "textChart": "Graphique",
       "textChartTitle": "Titre du graphique",
@@ -682,11 +681,11 @@
       "txtSpace": "Espace",
       "txtTab": "Tabulation",
       "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }
