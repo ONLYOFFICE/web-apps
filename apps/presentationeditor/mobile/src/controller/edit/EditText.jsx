@@ -24,7 +24,7 @@ class EditTextController extends Component {
 
     closeModal() {
         if ( Device.phone ) {
-            f7.sheet.close('.edit-popover', true);
+            f7.sheet.close('#edit-sheet', true);
         } else {
             f7.popover.close('#edit-popover');
         }

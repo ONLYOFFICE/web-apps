@@ -530,6 +530,24 @@ const PageBulletLinkSettings = (props) => {
     )
 }
 
+const PageAddImage = (props) => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+
+    return (
+        <List className='bullet-menu-image'>
+            <ListItem title={_t.textPictureFromLibrary} onClick={props.onImageSelect}>
+                <Icon slot="media" icon="icon-image-library" />
+            </ListItem>
+            <ListItem title={_t.textPictureFromURL} link="#" onClick={() =>  
+                props.f7router.navigate('/edit-bullets-and-numbers/image-link/',
+                {props: {onInsertByUrl: props.onInsertByUrl}}) }>
+                <Icon slot="media" icon="icon-link" />
+            </ListItem>
+        </List>
+    )
+}
+
 const PageBullets = observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
@@ -574,19 +592,12 @@ const PageBullets = observer(props => {
                     </ListItem>
                 ))}
             </List>
-            { !Device.isPhone ? 
-                <List className='bullet-menu-image'>
-                    <ListItem title={_t.textPictureFromLibrary} onClick={props.onImageSelect}>
-                        <Icon slot="media" icon="icon-image-library" />
-                    </ListItem>
-                    <ListItem title={_t.textPictureFromURL} link="#" onClick={() =>  
-                    props.f7router.navigate('/edit-bullets-and-numbers/image-link/',
-                    {props: {onInsertByUrl: props.onInsertByUrl}}) }>
-                        <Icon slot="media" icon="icon-link" />
-                    </ListItem>
-                </List>
-
-                : null
+            { !Device.isPhone && 
+                <PageAddImage
+                    f7router={props.f7router} 
+                    onImageSelect={props.onImageSelect}
+                    onInsertByUrl={props.onInsertByUrl} 
+                />
             }
         </View>
     )
@@ -675,6 +686,15 @@ const PageBulletsAndNumbers = props => {
                         onInsertByUrl={props.onInsertByUrl}
                     />
                 </SwiperSlide>
+                { Device.phone &&
+                    <SwiperSlide> 
+                        <PageAddImage
+                            f7router={props.f7router}
+                            onImageSelect={props.onImageSelect}
+                            onInsertByUrl={props.onInsertByUrl}
+                        />
+                    </SwiperSlide>
+                }
             </Swiper>
         </Page>
     )
