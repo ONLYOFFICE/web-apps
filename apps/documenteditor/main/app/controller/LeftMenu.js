@@ -715,6 +715,7 @@ define([
                 case 'replace':
                 case 'search':
                     this.leftMenu.btnAbout.toggle(false);
+                    Common.UI.Menu.Manager.hideAll();
                     var selectedText = this.api.asc_GetSelectedText();
                     if (this.isSearchPanelVisible()) {
                         selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
