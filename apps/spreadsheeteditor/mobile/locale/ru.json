@@ -6,7 +6,8 @@
     "textEmail": "Еmail",
     "textPoweredBy": "Разработано",
     "textTel": "Телефон",
-    "textVersion": "Версия"
+    "textVersion": "Версия",
+    "textEditor": "Редактор таблиц"
   },
   "Common": {
     "Collaboration": {

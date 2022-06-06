@@ -170,7 +170,7 @@ define([
             this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
 
             this.menuFile = new DE.Views.FileMenu();
-            this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: 'Document Editor'});
+            this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor});
 
             this.btnThumbnails = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-thumbnails'),
@@ -528,6 +528,7 @@ define([
         txtTrialDev: 'Trial Developer Mode',
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
-        txtLimit: 'Limit Access'
+        txtLimit: 'Limit Access',
+        txtEditor: 'Document Editor'
     }, DE.Views.LeftMenu || {}));
 });

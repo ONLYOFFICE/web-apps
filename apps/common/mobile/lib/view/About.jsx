@@ -27,7 +27,7 @@ const PageAbout = props => {
         sse: 'SPREADSHEET EDITOR'
     };
 
-    const nameEditor = editors[editorType];
+    const nameEditor = (_t.textEditor || editors[editorType]).toUpperCase();
 
     return (
         <Page className="about">

@@ -1772,6 +1772,7 @@
   "PE.Views.LeftMenu.txtLimit": "Limit Access",
   "PE.Views.LeftMenu.txtTrial": "TRIAL MODE",
   "PE.Views.LeftMenu.txtTrialDev": "Trial Developer Mode",
+  "PE.Views.LeftMenu.txtEditor": "Presentation Editor",
   "PE.Views.ParagraphSettings.strLineHeight": "Line Spacing",
   "PE.Views.ParagraphSettings.strParagraphSpacing": "Paragraph Spacing",
   "PE.Views.ParagraphSettings.strSpacingAfter": "After",

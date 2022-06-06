@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Розроблено",
     "textTel": "Телефон",
-    "textVersion": "Версія"
+    "textVersion": "Версія",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Увага",

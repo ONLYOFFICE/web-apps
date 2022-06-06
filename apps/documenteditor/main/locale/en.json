@@ -2050,6 +2050,7 @@
   "DE.Views.LeftMenu.txtLimit": "Limit Access",
   "DE.Views.LeftMenu.txtTrial": "TRIAL MODE",
   "DE.Views.LeftMenu.txtTrialDev": "Trial Developer Mode",
+  "DE.Views.LeftMenu.txtEditor": "Document Editor",
   "DE.Views.LineNumbersDialog.textAddLineNumbering": "Add line numbering",
   "DE.Views.LineNumbersDialog.textApplyTo": "Apply changes to",
   "DE.Views.LineNumbersDialog.textContinuous": "Continuous",

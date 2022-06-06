@@ -2528,6 +2528,7 @@
   "SSE.Views.LeftMenu.txtLimit": "Limit Access",
   "SSE.Views.LeftMenu.txtTrial": "TRIAL MODE",
   "SSE.Views.LeftMenu.txtTrialDev": "Trial Developer Mode",
+  "SSE.Views.LeftMenu.txtEditor": "Spreadsheet Editor",
   "SSE.Views.MacroDialog.textMacro": "Macro name",
   "SSE.Views.MacroDialog.textTitle": "Assign Macro",
   "SSE.Views.MainSettingsPrint.okButtonText": "Save",

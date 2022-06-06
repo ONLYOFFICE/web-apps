@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Didukung oleh",
     "textTel": "Tel",
-    "textVersion": "Versi"
+    "textVersion": "Versi",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Peringatan",

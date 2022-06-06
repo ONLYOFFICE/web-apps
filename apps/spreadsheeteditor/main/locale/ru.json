@@ -2528,6 +2528,7 @@
   "SSE.Views.LeftMenu.txtLimit": "Ограниченный доступ",
   "SSE.Views.LeftMenu.txtTrial": "ПРОБНЫЙ РЕЖИМ",
   "SSE.Views.LeftMenu.txtTrialDev": "Пробный режим разработчика",
+  "SSE.Views.LeftMenu.txtEditor": "Редактор таблиц",
   "SSE.Views.MacroDialog.textMacro": "Имя макроса",
   "SSE.Views.MacroDialog.textTitle": "Назначить макрос",
   "SSE.Views.MainSettingsPrint.okButtonText": "Сохранить",

@@ -6,7 +6,8 @@
     "textEmail": "Ηλεκτρονική διεύθυνση",
     "textPoweredBy": "Υποστηρίζεται Από",
     "textTel": "Τηλ",
-    "textVersion": "Έκδοση"
+    "textVersion": "Έκδοση",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Προειδοποίηση",

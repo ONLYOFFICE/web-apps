@@ -6,7 +6,8 @@
     "textEmail": "이메일",
     "textPoweredBy": "기술 지원",
     "textTel": "전화 번호",
-    "textVersion": "버전"
+    "textVersion": "버전",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "경고",

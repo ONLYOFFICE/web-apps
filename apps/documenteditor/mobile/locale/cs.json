@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháněno",
     "textTel": "Telefon",
-    "textVersion": "Verze"
+    "textVersion": "Verze",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Varování",
