@@ -53,6 +53,7 @@
     "menuMerge": "Merge",
     "menuMore": "More",
     "menuOpenLink": "Open Link",
+    "menuEditLink": "Edit Link",
     "menuShow": "Show",
     "menuUnfreezePanes": "Unfreeze Panes",
     "menuUnmerge": "Unmerge",
@@ -367,7 +368,9 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "textRecommended": "Recommended",
+      "textDone": "Done"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -503,7 +506,8 @@
       "textRange": "Range",
       "textRemoveChart": "Remove Chart",
       "textRemoveImage": "Remove Image",
-      "textRemoveLink": "Remove Link",
+      "del_textRemoveLink": "Remove Link",
+      "textDeleteLink": "Delete Link",
       "textRemoveShape": "Remove Shape",
       "textReorder": "Reorder",
       "textReplace": "Replace",
@@ -550,7 +554,10 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest"
+      "txtSortLow2High": "Sort Lowest to Highest",
+      "textRecommended": "Recommended",
+      "textDone": "Done",
+      "textCancel": "Cancel"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",

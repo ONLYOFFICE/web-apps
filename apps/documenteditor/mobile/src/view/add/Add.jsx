@@ -185,7 +185,6 @@ const AddTabs = inject("storeFocusObjects", "storeTableSettings")(observer(({sto
                     plainDelLock={plainDelLock}
                     plainEditLock={plainEditLock}     
                     onCloseLinkSettings={onCloseLinkSettings}
-                    isNavigate={true}
                 />
         });
     }

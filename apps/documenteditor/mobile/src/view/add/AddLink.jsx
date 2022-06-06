@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {List, Page, Navbar, Icon, ListButton, ListInput, NavRight, Link, NavLeft, f7, NavTitle, Fragment} from 'framework7-react';
+import {List, Page, Navbar, Icon, ListButton, ListInput, NavRight, Link, NavLeft, f7, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -12,35 +12,28 @@ const PageLink = props => {
 
     const [stateLink, setLink] = useState('');
     const [stateDisplay, setDisplay] = useState(display);
-    // const [stateTip, setTip] = useState('');
+    const [stateTip, setTip] = useState('');
     const [stateAutoUpdate, setAutoUpdate] = useState(!stateDisplay ? true : false);
    
     return (
         <Page>
-            {/* {!props.noNavbar && <Navbar title={t('Add.textLinkSettings')} backLink={t('Add.textCancel')}>
+            <Navbar className="navbar-link-settings">
+                <NavLeft>
+                    <Link text={Device.ios ? t('Add.textCancel') : ''} onClick={() => {
+                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                    }}>
+                        {Device.android && <Icon icon='icon-close' />}
+                    </Link>
+                </NavLeft>
+                <NavTitle>{t('Add.textLinkSettings')}</NavTitle>
                 <NavRight>
                     <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
-                        props.onInsertLink(stateLink, stateDisplay);
-                    }} text={t('Add.textDone')}></Link>
+                        props.onInsertLink(stateLink, stateDisplay, stateTip);
+                    }} text={Device.ios ? t('Add.textDone') : ''}>
+                        {Device.android && <Icon icon={stateLink.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                    </Link>
                 </NavRight>
-            </Navbar>} */}
-            {/* backLink={t('Add.textCancel') */}
-            {!props.noNavbar && 
-                <Navbar>
-                    <NavLeft>
-                        <Link text={t('Add.textCancel')} onClick={() => {
-                            props.isNavigate ? f7.views.current.router.back() : props.closeModal();
-                        }}></Link>
-                    </NavLeft>
-                    <NavTitle>{t('Add.textLinkSettings')}</NavTitle>
-                    <NavRight>
-                        <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
-                            props.onInsertLink(stateLink, stateDisplay);
-                            props.isNavigate ? f7.views.current.router.back() : props.closeModal();
-                        }} text={t('Add.textDone')}></Link>
-                    </NavRight>
-                </Navbar>
-            }
+            </Navbar>
             <List inlineLabels className='inputs-list'>
                 <ListInput
                     label={_t.textLink}
@@ -62,13 +55,13 @@ const PageLink = props => {
                         setAutoUpdate(event.target.value == ''); 
                     }}
                 ></ListInput>
-                {/* <ListInput
+                <ListInput
                     label={_t.textScreenTip}
                     type="text"
                     placeholder={_t.textScreenTip}
                     value={stateTip}
                     onChange={(event) => {setTip(event.target.value)}}
-                ></ListInput> */}
+                ></ListInput>
             </List>
             {/* <List className="buttons-list">
                 <ListButton className={'button-fill button-raised' + (stateLink.length < 1 ? ' disabled' : '')} title={_t.textInsert} onClick={() => {

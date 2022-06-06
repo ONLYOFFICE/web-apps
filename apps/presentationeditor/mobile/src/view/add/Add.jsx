@@ -12,7 +12,9 @@ import {PageImageLinkSettings} from "./AddImage";
 import {AddOtherController} from "../../controller/add/AddOther";
 import {PageAddTable} from "./AddOther";
 import {AddLinkController} from "../../controller/add/AddLink";
-import {PageTypeLink, PageLinkTo} from "./AddLink";
+import { PageTypeLink, PageLinkTo } from "./AddLink";
+import { EditLinkController } from '../../controller/edit/EditLink';
+import { PageEditTypeLink, PageEditLinkTo } from '../../view/edit/EditLink';
 
 const routes = [
     // Image
@@ -20,6 +22,7 @@ const routes = [
         path: '/add-image-from-url/',
         component: PageImageLinkSettings
     },
+
     // Other
     {
         path: '/add-table/',
@@ -36,6 +39,25 @@ const routes = [
     {
         path: '/add-link-to/',
         component: PageLinkTo
+    },
+    {
+        path: '/edit-link/',
+        component: EditLinkController
+    },
+    {
+        path: '/edit-link-type/',
+        component: PageEditTypeLink
+    },
+    {
+        path: '/edit-link-to/',
+        component: PageEditLinkTo
+    },
+
+    // Image 
+
+    {
+        path: '/add-image/',
+        component: AddImageController
     }
 ];
 
@@ -90,17 +112,19 @@ const AddTabs = props => {
             icon: 'icon-add-shape',
             component: <AddShapeController/>
         });
-        tabs.push({
-            caption: _t.textImage,
-            id: 'add-image',
-            icon: 'icon-add-image',
-            component: <AddImageController/>
-        });
+
+        // tabs.push({
+        //     caption: _t.textImage,
+        //     id: 'add-image',
+        //     icon: 'icon-add-image',
+        //     component: <AddImageController/>
+        // });
+
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
             icon: 'icon-add-other',
-            component: <AddOtherController/>
+            component: <AddOtherController onCloseLinkSettings={props.onCloseLinkSettings} />
         });
     }
     if(!showPanels && !countPages) {
@@ -111,13 +135,15 @@ const AddTabs = props => {
             component: <AddSlideController />
         });
     }
-    if (showPanels && showPanels === 'link') {
-        tabs.push({
-            caption: _t.textAddLink,
-            id: 'add-link',
-            component: <AddLinkController noNavbar={true}/>
-        });
-    }
+
+    // if (showPanels && showPanels === 'link') {
+    //     tabs.push({
+    //         caption: _t.textAddLink,
+    //         id: 'add-link',
+    //         component: <AddLinkController noNavbar={true}/>
+    //     });
+    // }
+
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
@@ -142,10 +168,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels} />
+                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} onCloseLinkSettings={this.props.onCloseLinkSettings} style={{height: '410px'}} showPanels={this.props.showPanels} />
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs onOptionClick={this.onoptionclick} showPanels={this.props.showPanels} />
+                    <AddTabs onOptionClick={this.onoptionclick} onCloseLinkSettings={this.props.onCloseLinkSettings} showPanels={this.props.showPanels} />
                 </Popup>
         )
     }
@@ -166,7 +192,7 @@ const Add = props => {
             props.onclosed();
         }
     };
-    return <AddView usePopover={!Device.phone} onclosed={onviewclosed} showPanels={props.showOptions} />
+    return <AddView usePopover={!Device.phone} onCloseLinkSettings={props.onCloseLinkSettings} onclosed={onviewclosed} showPanels={props.showOptions} />
 };
 
 export default Add;

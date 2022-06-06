@@ -9,6 +9,7 @@ import {AddOther} from '../../view/add/AddOther';
 class AddOtherController extends Component {
     constructor (props) {
         super(props);
+
         this.onStyleClick = this.onStyleClick.bind(this);
         this.onGetTableStylesPreviews = this.onGetTableStylesPreviews.bind(this);
     }
@@ -120,6 +121,7 @@ class AddOtherController extends Component {
                       onStyleClick={this.onStyleClick}
                       hideAddComment={this.hideAddComment}
                       onGetTableStylesPreviews = {this.onGetTableStylesPreviews}
+                      onCloseLinkSettings={this.props.onCloseLinkSettings}
             />
         )
     }

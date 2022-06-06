@@ -172,7 +172,7 @@ class MainPage extends Component {
                 }
                 {
                     !this.state.addOptionsVisible ? null :
-                        <AddOptions openOptions={this.handleClickToOpenOptions.bind(this)} onCloseLinkSettings={this.handleOptionsViewClosed.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                        <AddOptions onCloseLinkSettings={this.handleOptionsViewClosed.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
                 }
                 {
                     !this.state.addLinkSettingsVisible ? null :

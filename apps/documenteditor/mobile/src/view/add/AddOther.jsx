@@ -193,14 +193,10 @@ const AddOther = props => {
             </ListItem>
             {(isText && !disabledAddLink) && <ListItem title={_t.textLink} href={isHyperLink ? '/edit-link/' : '/add-link/'} routeProps={{
                 onClosed: props.onCloseLinkSettings,
-                isNavigate: props.isNavigate
+                isNavigate: true
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>
             </ListItem>}
-            {/* routeProps={{
-                onInsertLink: props.onInsertLink,
-                getDisplayLinkText: props.getDisplayLinkText
-            }} */}
             {!disabledAddPageNumber &&
                 <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
                     onInsertPageNumber: props.onInsertPageNumber
