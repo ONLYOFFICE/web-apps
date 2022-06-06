@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Réalisation",
     "textTel": "Tél.",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Avertissement",

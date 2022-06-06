@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Drevet af",
     "textTel": "Tel",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {

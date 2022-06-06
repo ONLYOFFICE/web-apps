@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Réalisation",
     "textTel": "Tél.",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {

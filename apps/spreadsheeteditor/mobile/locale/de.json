@@ -6,7 +6,8 @@
     "textEmail": "E-Mail",
     "textPoweredBy": "Unterstützt von",
     "textTel": "Tel.",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
