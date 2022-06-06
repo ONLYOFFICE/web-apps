@@ -166,7 +166,7 @@ define([
             this.btnAbout.on('click',           _.bind(this.onFullMenuClick, this));
 
             this.menuFile = new PE.Views.FileMenu({});
-            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: 'Presentation Editor'}));
+            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
             this.$el.html($markup);
 
             return this;
@@ -480,6 +480,7 @@ define([
         txtDeveloper: 'DEVELOPER MODE',
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
-        txtLimit: 'Limit Access'
+        txtLimit: 'Limit Access',
+        txtEditor: 'Presentation Editor'
     }, PE.Views.LeftMenu || {}));
 });

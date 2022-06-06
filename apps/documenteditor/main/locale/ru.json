@@ -2050,6 +2050,7 @@
   "DE.Views.LeftMenu.txtLimit": "Ограниченный доступ",
   "DE.Views.LeftMenu.txtTrial": "ПРОБНЫЙ РЕЖИМ",
   "DE.Views.LeftMenu.txtTrialDev": "Пробный режим разработчика",
+  "DE.Views.LeftMenu.txtEditor": "Редактор документов",
   "DE.Views.LineNumbersDialog.textAddLineNumbering": "Добавить нумерацию строк",
   "DE.Views.LineNumbersDialog.textApplyTo": "Применить изменения к",
   "DE.Views.LineNumbersDialog.textContinuous": "Непрерывная",

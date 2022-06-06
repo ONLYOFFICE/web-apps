@@ -157,7 +157,7 @@ define([
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
 
             this.menuFile = new SSE.Views.FileMenu({});
-            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: 'Spreadsheet Editor'}));
+            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
             this.$el.html($markup);
 
             return this;
@@ -468,6 +468,7 @@ define([
         txtTrial: 'TRIAL MODE',
         tipSpellcheck: 'Spell checking',
         txtTrialDev: 'Trial Developer Mode',
-        txtLimit: 'Limit Access'
+        txtLimit: 'Limit Access',
+        txtEditor: 'Spreadsheet Editor'
     }, SSE.Views.LeftMenu || {}));
 });
