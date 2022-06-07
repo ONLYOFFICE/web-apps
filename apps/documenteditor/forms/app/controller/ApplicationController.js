@@ -1348,6 +1348,7 @@ define([
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
             }
             DE.getController('Plugins').setApi(this.api);
+            DE.getController('SearchBar').setApi(this.api);
 
             this.updateWindowTitle(true);
 
@@ -1413,6 +1414,9 @@ define([
                     (new Common.Views.EmbedDialog({
                         embedConfig: this.embedConfig
                     })).show();
+                    break;
+                case 'search':
+                    Common.NotificationCenter.trigger('search:show');
                     break;
             }
         },

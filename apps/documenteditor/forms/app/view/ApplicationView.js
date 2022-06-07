@@ -18,11 +18,12 @@ define([
                 menu: new Common.UI.Menu({
                     cls: 'shifted-right',
                     items: [
-                        {caption: this.txtPrint, value: 'print', iconCls: 'mi-icon svg-icon print'},
-                        {caption: '--'},
                         {caption: this.txtDownload, value: 'download', iconCls: 'mi-icon svg-icon download'},
                         {caption: this.txtDownloadDocx, value: 'download-docx', iconCls: 'mi-icon svg-icon download'},
                         {caption: this.txtDownloadPdf, value: 'download-pdf', iconCls: 'mi-icon'},
+                        {caption: this.txtPrint, value: 'print', iconCls: 'mi-icon svg-icon print'},
+                        {caption: '--'},
+                        {caption: this.txtSearch, value: 'search', iconCls: 'mi-icon svg-icon search'},
                         {caption: '--'},
                         {caption: this.txtTheme, value: 'theme', iconCls: 'mi-icon',
                             menu        : this.mnuThemes = new Common.UI.Menu({
@@ -148,7 +149,8 @@ define([
         textRedo: 'Redo',
         textZoom: 'Zoom',
         textFitToPage: 'Fit to Page',
-        textFitToWidth: 'Fit to Width'
+        textFitToWidth: 'Fit to Width',
+        txtSearch: 'Search'
 
     }, DE.Views.ApplicationView || {}));
 });
