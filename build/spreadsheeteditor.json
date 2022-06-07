@@ -178,7 +178,8 @@
                     "cwd": "../apps/spreadsheeteditor/main/resources/help/",
                     "src": [
                         "**",
-                        "!*_/**"
+                        "!*_/**",
+                        "!**/src/**"
                     ],
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
