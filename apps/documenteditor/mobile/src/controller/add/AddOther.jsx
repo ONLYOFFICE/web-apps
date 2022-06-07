@@ -260,7 +260,9 @@ class AddOtherController extends Component {
                 richDelLock={this.props.richDelLock}
                 richEditLock={this.props.richEditLock}
                 plainDelLock={this.props.plainDelLock}
-                plainEditLock={this.props.plainEditLock}      
+                plainEditLock={this.props.plainEditLock}   
+                onCloseLinkSettings={this.props.onCloseLinkSettings}
+                isNavigate={this.props.isNavigate}
             />
         )
     }

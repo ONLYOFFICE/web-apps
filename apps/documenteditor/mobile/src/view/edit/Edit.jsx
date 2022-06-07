@@ -53,6 +53,13 @@ const routes = [
         path: '/edit-text-highlight-color/',
         component: PageTextHighlightColor,
     },
+
+    // Edit link
+    // {
+    //     path: '/edit-link/',
+    //     component: EditHyperlinkController
+    // },
+
     //Edit paragraph
     {
         path: '/edit-paragraph-adv/',
@@ -340,13 +347,13 @@ const EditTabs = props => {
                 component: <EditTableContentsController />
             })
         }
-        if (settings.indexOf('hyperlink') > -1) {
-            editors.push({
-                caption: _t.textHyperlink,
-                id: 'edit-link',
-                component: <EditHyperlinkController />
-            })
-        }
+        // if (settings.indexOf('hyperlink') > -1) {
+        //     editors.push({
+        //         caption: _t.textHyperlink,
+        //         id: 'edit-link',
+        //         component: <EditHyperlinkController />
+        //     })
+        // }
     }
 
     return (

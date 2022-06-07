@@ -19,7 +19,6 @@ import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorder
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
 import { PageChartDesign, PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
-import { PageLinkTo, PageTypeLink } from './EditLink'
 
 const routes = [
 
@@ -214,14 +213,9 @@ const routes = [
     },
 
     // Link
-
     {
-        path: '/edit-link-type/',
-        component: PageTypeLink
-    },
-    {
-        path: '/edit-link-to/',
-        component: PageLinkTo
+        path: '/edit-link/',
+        component: EditLinkController
     }
 ];
 

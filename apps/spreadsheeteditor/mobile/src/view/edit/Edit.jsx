@@ -17,7 +17,7 @@ import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImag
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
 import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
-import { PageTypeLink, PageSheet } from './EditLink';
+import { PageEditTypeLink, PageEditSheet } from './EditLink';
 
 const routes = [
 
@@ -282,11 +282,11 @@ const routes = [
 
     {
         path: '/edit-link-type/',
-        component: PageTypeLink
+        component: PageEditTypeLink
     },
     {
         path: '/edit-link-sheet',
-        component: PageSheet
+        component: PageEditSheet
     }
 
 

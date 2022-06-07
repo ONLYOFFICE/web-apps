@@ -255,6 +255,10 @@ class ContextMenu extends ContextMenuController {
                         caption: _t.menuOpenLink,
                         event: 'openlink'
                     });
+                    itemsText.push({
+                        caption: t("ContextMenu.menuEditLink"),
+                        event: 'editlink'
+                    });
                 }
                 if(!isDisconnected) {
                     if (canViewComments && hasComments && hasComments.length>0) {

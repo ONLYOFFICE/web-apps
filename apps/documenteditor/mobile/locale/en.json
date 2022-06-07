@@ -60,7 +60,10 @@
     "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
     "textTableContents": "Table of Contents",
     "textWithPageNumbers": "With Page Numbers",
-    "textWithBlueLinks": "With Blue Links"
+    "textWithBlueLinks": "With Blue Links",
+    "textRequired": "Required",
+    "textRecommended": "Recommended",
+    "textDone": "Done"
   },
   "Common": {
     "Collaboration": {
@@ -183,6 +186,7 @@
     "menuMerge": "Merge",
     "menuMore": "More",
     "menuOpenLink": "Open Link",
+    "menuEditLink": "Edit Link",
     "menuReview": "Review",
     "menuReviewChange": "Review Change",
     "menuSeparateList": "Separate list",
@@ -305,7 +309,8 @@
     "textPt": "pt",
     "textRemoveChart": "Remove Chart",
     "textRemoveImage": "Remove Image",
-    "textRemoveLink": "Remove Link",
+    "del_textRemoveLink": "Remove Link",
+    "textDeleteLink": "Delete Link",
     "textRemoveShape": "Remove Shape",
     "textRemoveTable": "Remove Table",
     "textReorder": "Reorder",
@@ -364,7 +369,9 @@
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textStyles": "Styles",
-    "textAmountOfLevels": "Amount of Levels"
+    "textAmountOfLevels": "Amount of Levels",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

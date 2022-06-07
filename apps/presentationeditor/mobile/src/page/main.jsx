@@ -11,6 +11,8 @@ import { Preview } from "../controller/Preview";
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
+import { AddLinkController } from '../controller/add/AddLink';
+import { EditLinkController } from '../controller/edit/EditLink';
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -19,7 +21,9 @@ class MainPage extends Component {
             addOptionsVisible: false,
             settingsVisible: false,
             collaborationVisible: false,
-            previewVisible: false
+            previewVisible: false,
+            addLinkSettingsVisible: false,
+            editLinkSettingsVisible: false
         };
     }
 
@@ -49,6 +53,12 @@ class MainPage extends Component {
             } else if ( opts === 'preview' ) {
                 this.state.previewVisible && (opened = true);
                 newState.previewVisible = true;
+            } else if ( opts === 'add-link') {
+                this.state.addLinkSettingsVisible && (opened = true);
+                newState.addLinkSettingsVisible = true;
+            } else if( opts === 'edit-link') {
+                this.state.editLinkSettingsVisible && (opened = true);
+                newState.editLinkSettingsVisible = true;
             }
 
             for (let key in this.state) {
@@ -82,6 +92,10 @@ class MainPage extends Component {
                     return {collaborationVisible: false}
                 else if ( opts == 'preview' )
                     return {previewVisible: false};
+                else if ( opts === 'add-link') 
+                    return {addLinkSettingsVisible: false};
+                else if( opts === 'edit-link') 
+                    return {editLinkSettingsVisible: false};
             });
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
@@ -144,7 +158,15 @@ class MainPage extends Component {
                     }
                     {
                         !this.state.addOptionsVisible ? null :
-                            <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                            <AddOptions onCloseLinkSettings={this.handleOptionsViewClosed.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                    }
+                    {
+                        !this.state.addLinkSettingsVisible ? null :
+                            <AddLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
+                    }
+                    {
+                        !this.state.editLinkSettingsVisible ? null :
+                            <EditLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
                     }
                     {
                         !this.state.settingsVisible ? null :
@@ -155,7 +177,6 @@ class MainPage extends Component {
                             <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
                     }
                     {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}   
-                    
                 </Page>
             </Fragment>
         )
