@@ -4100,19 +4100,19 @@ define([
                     callback: undefined
                 };
                 arr && arr.length>0 && arr.forEach(function(item) {
-                    var data = {};
+                    var data;
                     switch (item.asc_getType()) {
                         case Asc.c_oAscExternalReferenceType.link:
-                            data['link'] = item.asc_getData();
+                            data = {link: item.asc_getData()};
                             break;
                         case Asc.c_oAscExternalReferenceType.path:
-                            data['path'] = item.asc_getData();
+                            data = {path: item.asc_getData()};
                             break;
                         case Asc.c_oAscExternalReferenceType.referenceData:
-                            data['referenceData'] = item.asc_getData();
+                            data = {referenceData: item.asc_getData()};
                             break;
                     }
-                    me.externalData.stackRequests.push(data);
+                    data && me.externalData.stackRequests.push(data);
                 });
                 me.externalData.callback = callback;
                 me.requestReferenceData();
