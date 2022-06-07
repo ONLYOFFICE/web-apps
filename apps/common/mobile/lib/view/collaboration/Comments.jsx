@@ -616,7 +616,7 @@ const pickLink = (message) => {
 
     arrayComment = arrayComment.sort(function(item1,item2){ return item1.start - item2.start; });
     
-    let str_res = (arrayComment.length>0) ? <label>{Common.Utils.String.htmlEncode(message.substring(0, arrayComment[0].start))}{arrayComment[0].str}</label> : <label>{message}</label>;
+    let str_res = (arrayComment.length>0) ? <label>{message.substring(0, arrayComment[0].start)}{arrayComment[0].str}</label> : <label>{message}</label>;
 
     for (var i=1; i<arrayComment.length; i++) {
         str_res = <label>{str_res}{Common.Utils.String.htmlEncode(message.substring(arrayComment[i-1].end, arrayComment[i].start))}{arrayComment[i].str}</label>;
