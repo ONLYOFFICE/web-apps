@@ -375,7 +375,7 @@ define([
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
                 if (this.permissions.canRequestReferenceData) {
-                    this.api.asc_registerCallback('asc_onRefreshExternalData', _.bind(this.onRefreshExternalData, this));
+                    this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
                     Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
                 }
             }
@@ -4091,7 +4091,7 @@ define([
             }
         },
 
-        onRefreshExternalData: function(arr, callback) {
+        onUpdateExternalReference: function(arr, callback) {
             if (this.permissions.isEdit && !this._isDisabled) {
                 var me = this;
                 me.externalData = {
@@ -4101,15 +4101,15 @@ define([
                 };
                 arr && arr.length>0 && arr.forEach(function(item) {
                     var data = {};
-                    switch (item.type) {
-                        case Asc.externalReferenceType.link:
-                            data['link'] = item.data;
+                    switch (item.asc_getType()) {
+                        case Asc.c_oAscExternalReferenceType.link:
+                            data['link'] = item.asc_getData();
                             break;
-                        case Asc.externalReferenceType.path:
-                            data['path'] = item.data;
+                        case Asc.c_oAscExternalReferenceType.path:
+                            data['path'] = item.asc_getData();
                             break;
-                        case Asc.externalReferenceType.referenceData:
-                            data['referenceData'] = item.data;
+                        case Asc.c_oAscExternalReferenceType.referenceData:
+                            data['referenceData'] = item.asc_getData();
                             break;
                     }
                     me.externalData.stackRequests.push(data);
