@@ -119,6 +119,11 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
+            me.externalData = {
+                stackRequests: [],
+                stackResponse: [],
+                callback: undefined
+            };
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this)
@@ -369,6 +374,10 @@ define([
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
+                if (this.permissions.canRequestReferenceData) {
+                    this.api.asc_registerCallback('asc_onRefreshExternalData', _.bind(this.onRefreshExternalData, this));
+                    Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
+                }
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -4079,6 +4088,51 @@ define([
                     oleEditor.show();
                     oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(obj));
                 }
+            }
+        },
+
+        onRefreshExternalData: function(arr, callback) {
+            if (this.permissions.isEdit && !this._isDisabled) {
+                var me = this;
+                me.externalData = {
+                    stackRequests: [],
+                    stackResponse: [],
+                    callback: undefined
+                };
+                arr && arr.length>0 && arr.forEach(function(item) {
+                    var data = {};
+                    switch (item.type) {
+                        case Asc.externalReferenceType.link:
+                            data['link'] = item.data;
+                            break;
+                        case Asc.externalReferenceType.path:
+                            data['path'] = item.data;
+                            break;
+                        case Asc.externalReferenceType.referenceData:
+                            data['referenceData'] = item.data;
+                            break;
+                    }
+                    me.externalData.stackRequests.push(data);
+                });
+                me.externalData.callback = callback;
+                me.requestReferenceData();
+            }
+        },
+
+        requestReferenceData: function() {
+            if (this.externalData.stackRequests.length>0) {
+                var data = this.externalData.stackRequests.shift();
+                Common.Gateway.requestReferenceData(data);
+            }
+        },
+
+        setReferenceData: function(data) {
+            if (this.permissions.isEdit && !this._isDisabled) {
+                data && this.externalData.stackResponse.push(data);
+                if (this.externalData.stackRequests.length>0)
+                    this.requestReferenceData();
+                else if (this.externalData.callback)
+                    this.externalData.callback(this.externalData.stackResponse);
             }
         },
 
