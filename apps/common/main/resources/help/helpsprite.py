@@ -11,7 +11,7 @@ pathEditors = ["documenteditor", "presentationeditor", "spreadsheeteditor"]     
 # sprites names
 cssClassNames = ["big","icon", "smb"]
 # directories names
-spriteDirNames = ["big", "icons", "symbols"]
+spriteDirNames = ["src/big", "src/icons", "src/symbols"]
 
 # Class for image
 class ImgClass:
