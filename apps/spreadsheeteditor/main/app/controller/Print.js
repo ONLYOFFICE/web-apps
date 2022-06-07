@@ -119,12 +119,19 @@ define([
             this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
         },
 
+        setMode: function (mode) {
+            this.mode = mode;
+            this.printSettings && this.printSettings.setMode(mode);
+        },
+
         setApi: function(o) {
             this.api = o;
             this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.updateSheetsInfo, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetChanged', _.bind(this.onApiChangePreviewSheet, this));
             this.api.asc_registerCallback('asc_onPrintPreviewPageChanged', _.bind(this.onApiChangePreviewPage, this));
             this.api.asc_registerCallback('asc_onPrintPreviewSheetDataChanged', _.bind(this.onApiPreviewSheetDataChanged, this));
+
+            return this;
         },
 
         updateSheetsInfo: function() {
