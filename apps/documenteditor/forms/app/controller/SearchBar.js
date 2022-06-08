@@ -71,7 +71,8 @@ define([
             if (!this.searchBar) {
                 this.searchBar = new Common.UI.SearchBar({
                     showOpenPanel: false,
-                    width: 303
+                    width: 303,
+                    iconType: 'svg',
                 });
                 this.searchBar.on({
                     'search:back': _.bind(this.onSearchNext, this, 'back'),

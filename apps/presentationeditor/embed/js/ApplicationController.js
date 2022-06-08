@@ -543,7 +543,6 @@ PE.ApplicationController = new(function(){
     }
 
     function onError(id, level, errData) {
-        if (id === -82) return;
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
             $('#id-critical-error-message').text(me.scriptLoadError);
