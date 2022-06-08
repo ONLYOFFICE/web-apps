@@ -209,7 +209,7 @@ define([
             this.supressEvents = false;
 
             this.onCoauthOptions();
-            (btn.options.action == 'advancedsearch') && this.fireEvent('search:aftershow', this.leftMenu);
+            (btn.options.action == 'advancedsearch') && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 

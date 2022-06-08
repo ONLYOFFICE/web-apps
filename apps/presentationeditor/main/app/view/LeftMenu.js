@@ -202,7 +202,7 @@ define([
             }
 
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
-            (btn.options.action == 'advancedsearch') && this.fireEvent('search:aftershow', this.leftMenu);
+            (btn.options.action == 'advancedsearch') && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
