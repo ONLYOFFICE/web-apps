@@ -345,7 +345,11 @@ define([
                 return;
             }
             if (!this.searchBar) {
-                this.searchBar = new Common.UI.SearchBar({});
+                var hideLeftPanel = this.appConfig.canBrandingExt && (!Common.UI.LayoutManager.isElementVisible('leftMenu') || this.appConfig.customization && this.appConfig.customization.leftMenu===false);
+                this.searchBar = new Common.UI.SearchBar( hideLeftPanel ? {
+                    showOpenPanel: false,
+                    width: 303
+                } : {});
                 this.searchBar.on('hide', _.bind(function () {
                     this.header.btnSearch.toggle(false, true);
                 }, this));
