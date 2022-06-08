@@ -202,7 +202,7 @@ define([
                     this.$el.width(parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART);
                 }
             } else if (!this._state.pluginIsRunning) {
-                Common.localStorage.setItem('de-mainmenu-width',this.$el.width());
+                this.isVisible() && Common.localStorage.setItem('de-mainmenu-width',this.$el.width());
                 this.$el.width(SCALE_MIN);
             }
 
@@ -497,6 +497,11 @@ define([
             }
             this.limitHint && this.limitHint.css('top', top);
         },
+
+        isVisible: function () {
+            return this.$el && this.$el.is(':visible');
+        },
+
         /** coauthoring begin **/
         tipComments : 'Comments',
         tipChat     : 'Chat',

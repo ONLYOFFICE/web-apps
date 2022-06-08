@@ -195,7 +195,7 @@ define([
                         this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
                     }
                 } else if (!this._state.pluginIsRunning){
-                    Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
+                    this.isVisible() && Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
                     this.$el.width(SCALE_MIN);
                 }
                 this.onCoauthOptions();
@@ -451,6 +451,10 @@ define([
             this.panelHistory.show();
             this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('pe-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
             Common.NotificationCenter.trigger('layout:changed', 'history');
+        },
+
+        isVisible: function () {
+            return this.$el && this.$el.is(':visible');
         },
 
         /** coauthoring begin **/
