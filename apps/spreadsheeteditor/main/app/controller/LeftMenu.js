@@ -740,7 +740,6 @@ define([
                 case 'escape':
                     var btnSearch = this.getApplication().getController('Viewport').header.btnSearch;
                     btnSearch.pressed && btnSearch.toggle(false);
-                    this.leftMenu._state.isSearchOpen && (this.leftMenu._state.isSearchOpen = false);
 
                     if ( this.leftMenu.menuFile.isVisible() ) {
                         if (Common.UI.HintManager.needCloseFileMenu())
@@ -865,11 +864,10 @@ define([
                 var mode = this.mode.isEdit && !this.viewmode ? undefined : 'no-replace';
                 this.leftMenu.panelSearch.setSearchMode(mode);
             }
-            this.leftMenu._state.isSearchOpen = show;
         },
 
         isSearchPanelVisible: function () {
-            return this.leftMenu._state.isSearchOpen;
+            return this.leftMenu && this.leftMenu.panelSearch && this.leftMenu.panelSearch.isVisible();
         },
 
         onMenuChange: function (value) {
