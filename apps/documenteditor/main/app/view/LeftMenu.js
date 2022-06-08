@@ -197,21 +197,19 @@ define([
             this.supressEvents = true;
             this.btnAbout.toggle(false);
 
-            if (btn.options.action !== 'search') {
-                if (btn.pressed) {
-                    if (!(this.$el.width() > SCALE_MIN)) {
-                        this.$el.width(parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART);
-                    }
-                } else if (!this._state.pluginIsRunning) {
-                    Common.localStorage.setItem('de-mainmenu-width',this.$el.width());
-                    this.$el.width(SCALE_MIN);
+            if (btn.pressed) {
+                if (!(this.$el.width() > SCALE_MIN)) {
+                    this.$el.width(parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART);
                 }
+            } else if (!this._state.pluginIsRunning) {
+                Common.localStorage.setItem('de-mainmenu-width',this.$el.width());
+                this.$el.width(SCALE_MIN);
             }
 
             this.supressEvents = false;
 
             this.onCoauthOptions();
-            (btn.options.action == 'search') && this.fireEvent('search:aftershow', this.leftMenu);
+            (btn.options.action == 'advancedsearch') && this.fireEvent('search:aftershow', this.leftMenu);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
