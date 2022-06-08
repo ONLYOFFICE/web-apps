@@ -69,17 +69,6 @@ define([
         // Delegated events for creating new items, and clearing completed ones.
         events: function() {
             return {
-                /** coauthoring begin **/
-                'click #left-btn-comments': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
-                /** coauthoring end **/
-                'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-navigation': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-thumbnails': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-searchbar': _.bind(function () {
-                    this.onCoauthOptions();
-                    this.fireEvent('search:aftershow', this.leftMenu);
-                }, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -105,6 +94,7 @@ define([
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
@@ -114,6 +104,7 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
 
             this.btnSupport = new Common.UI.Button({
                 action: 'support',
@@ -130,6 +121,8 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
+            this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
@@ -138,13 +131,11 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
 
             this.btnComments.hide();
             this.btnChat.hide();
 
-            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
-            this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
-            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             /** coauthoring end **/
 
             this.btnPlugins = new Common.UI.Button({
@@ -166,9 +157,6 @@ define([
             });
             this.btnNavigation.on('click',         this.onBtnMenuClick.bind(this));
 
-            this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
-            this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
-
             this.menuFile = new DE.Views.FileMenu();
             this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor});
 
@@ -180,7 +168,6 @@ define([
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnThumbnails.hide();
-
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
 
             this.$el.html($markup);
@@ -210,8 +197,7 @@ define([
             this.supressEvents = true;
             this.btnAbout.toggle(false);
 
-            if (btn.options.action == 'search') {
-            } else {
+            if (btn.options.action !== 'search') {
                 if (btn.pressed) {
                     if (!(this.$el.width() > SCALE_MIN)) {
                         this.$el.width(parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART);
@@ -223,6 +209,9 @@ define([
             }
 
             this.supressEvents = false;
+
+            this.onCoauthOptions();
+            (btn.options.action == 'search') && this.fireEvent('search:aftershow', this.leftMenu);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -388,7 +377,6 @@ define([
                             !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                         this.btnChat.toggle(true);
                         this.onBtnMenuClick(this.btnChat);
-                        this.onCoauthOptions();
                         this.panelChat.focus();
                     }
                 } else
@@ -397,21 +385,18 @@ define([
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
                         this.btnComments.toggle(true);
                         this.onBtnMenuClick(this.btnComments);
-                        this.onCoauthOptions();
                     }
                 } else if (menu == 'navigation') {
                     if (this.btnNavigation.isVisible() &&
                         !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
                         this.btnNavigation.toggle(true);
                         this.onBtnMenuClick(this.btnNavigation);
-                        this.onCoauthOptions();
                     }
                 } else if (menu == 'advancedsearch') {
                     if (this.btnSearchBar.isVisible() &&
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
-                        this.onCoauthOptions();
                         this.panelSearch.focus();
                         !suspendAfter && this.fireEvent('search:aftershow', this);
                     }
