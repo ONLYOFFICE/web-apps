@@ -44,6 +44,7 @@
 define([
     'core',
     'common/main/lib/view/Header',
+    'common/main/lib/view/SearchBar',
     'documenteditor/main/app/view/Viewport',
     'documenteditor/main/app/view/LeftMenu'
 ], function (Viewport) {
@@ -148,6 +149,7 @@ define([
 
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
         },
 
         onAppShowed: function (config) {
@@ -195,6 +197,8 @@ define([
                 toolbar = me.getApplication().getController('Toolbar').getView();
                 toolbar.btnCollabChanges = me.header.btnSave;
             }
+
+            me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
 
         onAppReady: function (config) {
@@ -265,6 +269,34 @@ define([
 
         SetDisabled: function(disable) {
             this.header && this.header.lockHeaderBtns( 'rename-user', disable);
+        },
+
+        onSearchShow: function () {
+            this.header.btnSearch && this.header.btnSearch.toggle(true);
+        },
+
+        onSearchToggle: function () {
+            var leftMenu = this.getApplication().getController('LeftMenu');
+            if (leftMenu.isSearchPanelVisible()) {
+                this.header.btnSearch.toggle(false, true);
+                leftMenu.getView('LeftMenu').panelSearch.focus();
+                return;
+            }
+            if (!this.searchBar) {
+                this.searchBar = new Common.UI.SearchBar({});
+                this.searchBar.on('hide', _.bind(function () {
+                    this.header.btnSearch.toggle(false, true);
+                }, this));
+            }
+            if (this.header.btnSearch.pressed) {
+                this.searchBar.show(this.api.asc_GetSelectedText());
+            } else {
+                this.searchBar.hide();
+            }
+        },
+
+        isSearchBarVisible: function () {
+            return this.searchBar && this.searchBar.isVisible();
         },
 
         textFitPage: 'Fit to Page',

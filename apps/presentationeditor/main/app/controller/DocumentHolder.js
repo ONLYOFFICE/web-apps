@@ -333,8 +333,9 @@ define([
                     var command = message.data.command;
                     var data = message.data.data;
                     if (this.api) {
-                        if (oleEditor.isEditMode())
-                            this.api.asc_editTableOleObject(data);
+                        oleEditor.isEditMode()
+                            ? this.api.asc_editTableOleObject(data)
+                            : this.api.asc_addTableOleObject(data);
                     }
                 }, this));
                 oleEditor.on('hide', _.bind(function(cmp, message) {
@@ -624,7 +625,7 @@ define([
                     delta = event.deltaY;
                 }
 
-                if ((event.ctrlKey || event.metaKey) && !event.altKey){
+                if (event.ctrlKey && !event.altKey){
                     if (delta < 0)
                         me.api.zoomOut();
                     else if (delta > 0)

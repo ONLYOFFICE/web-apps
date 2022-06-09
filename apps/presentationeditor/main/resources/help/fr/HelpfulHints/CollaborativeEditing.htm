@@ -9,19 +9,19 @@
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
-		<div class="mainpart">
-        <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
-        </div>
-			<h1>Édition collaborative des présentations</h1>
-			<p> <a target="_blank" href="https://www.onlyoffice.com/fr/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a> vous offre la possibilité de travailler sur une présentation simultanément avec d'autres utilisateurs. Cette fonction inclut:</p>
-			<ul>
-				<li class="onlineDocumentFeatures">accès simultané à la présentation éditée par plusieurs utilisateurs</li>
-				<li class="onlineDocumentFeatures">indication visuelle des objets qui sont en train d'être éditées par d'autres utilisateurs</li>
-				<li class="onlineDocumentFeatures">affichage des changements en temps réel ou synchronisation des changements en un seul clic</li>
-				<li class="onlineDocumentFeatures">chat pour partager des idées concernant certaines parties de la présentation</li>
-				<li>les commentaires avec la description d'une tâche ou d'un problème à résoudre (il est également possible de travailler avec les commentaires en mode hors ligne, sans se connecter à la <I>version en ligne</I>)</li>
-			</ul>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Édition collaborative des présentations</h1>
+            <p> <a target="_blank" href="https://www.onlyoffice.com/fr/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a> vous offre la possibilité de travailler sur une présentation simultanément avec d'autres utilisateurs. Cette fonction inclut:</p>
+            <ul>
+                <li class="onlineDocumentFeatures">accès simultané à la présentation éditée par plusieurs utilisateurs</li>
+                <li class="onlineDocumentFeatures">indication visuelle des objets qui sont en train d'être éditées par d'autres utilisateurs</li>
+                <li class="onlineDocumentFeatures">affichage des changements en temps réel ou synchronisation des changements en un seul clic</li>
+                <li class="onlineDocumentFeatures">chat pour partager des idées concernant certaines parties de la présentation</li>
+                <li>les commentaires avec la description d'une tâche ou d'un problème à résoudre (il est également possible de travailler avec les commentaires en mode hors ligne, sans se connecter à la <I>version en ligne</I>)</li>
+            </ul>
             <div class="desktopDocumentFeatures">
                 <h3>Connexion à la version en ligne</h3>
                 <p>Dans l<I>'éditeur de bureau,</I> ouvrez l'option<b> Se connecter au cloud</b> du menu de gauche dans la fenêtre principale du programme. Connectez-vous à votre bureau dans le cloud en spécifiant l'identifiant et le mot de passe de votre compte. <!--В окне ввода логина и пароля также доступна ссылка для регистрации в Облаке.--></p>
@@ -61,30 +61,44 @@
             </div>
             <h3>Commentaires</h3>
             <p>Il est possible de travailler avec des commentaires en mode hors ligne, sans se connecter à la <I>version en ligne</I>.</p>
-                <p>Pour laisser un commentaire sur un objet (zone de texte, forme etc.):</p>
-                <ol>
-                    <li>sélectionnez l'objet où vous pensez qu'il y a une erreur ou un problème,</li>
-                    <li>passez à l'onglet Insertion ou Collaboration de la barre d'outils supérieure et cliquez sur le bouton Commentaire <img alt="L'icône Commentaires" src="../images/comment_toptoolbar.png" /> ou<br /> cliquez avec le bouton droit sur le passage de texte sélectionné et sélectionnez l'option <b>Ajouter un commentaire</b> dans le menu contextuel,<br />
-                    </li>
-                    <li>saisissez le texte nécessaire,</li>
-                    <li>cliquez sur le bouton <b>Ajouter commentaire/Ajouter</b>.</li>
-                </ol>
-                <p>L'objet que vous commenter sera marqué par l'icône  <img alt="L'icône de l'objet commenté" src="../images/added_comment_icon.png" /> . Pour lire le commentaire, il suffit de cliquer sur cette icône.</p>
-                <p>Pour ajouter un commentaire à une diapositive donnée, sélectionnez la diapositive et utilisez le bouton <b>Commentaires</b> <img alt="L'icône Commentaires" src="../images/comment_toptoolbar.png" /> dans l'onglet <b>Insertion</b> ou <b>Collaboration</b> de la barre d'outils supérieure. Le commentaire ajouté sera affiché dans le coin supérieur gauche de la diapositive.</p>
-                <p>Pour créer un commentaire de niveau présentation qui n'est pas lié à un objet ou une diapositive spécifique, cliquez sur l'icône <img alt="L'icône Commentaires" src="../images/commentsicon.png" /> dans la barre latérale gauche pour ouvrir le panneau <b>Commentaires</b> et utilisez le lien <b>Ajouter un commentaire au document</b>.  Les commentaires au niveau de la présentation peuvent être consultés dans le panneau <b>Commentaires</b>. Les commentaires relatifs aux objets et aux diapositives y sont également disponibles.</p>
-                <p>Tout autre utilisateur peut répondre au commentaire ajouté en posant une question ou en faisant référence au travail fait. Pour le faire il suffit de cliquer sur le lien <b>Ajouter une réponse</b> situé au-dessous du commentaire, saisissez votre réponse dans le champ de saisie et appuyez sur le bouton <b>Répondre</b>.</p>
-                <p>Si vous utilisez le mode de co-édition <b>Strict</b>, les nouveaux commentaires ajoutés par d'autres utilisateurs ne seront visibles qu'après un clic sur l'icône <img alt="L'icône Enregistrer" src="../images/saveupdate.png" /> dans le coin supérieur gauche de la barre supérieure.</p>
-                <p>Vous pouvez gérer les commentaires ajoutés en utilisant les icônes de la bulle de commentaire ou sur le panneau gauche <b>Commentaires</b>:</p>
-                <ul>
-                    <li>modifier le commentaire actuel en cliquant sur l'icône <img alt="L'icône Modifier" src="../images/editcommenticon.png" /> ,</li>
-                    <li>supprimer le commentaire actuel en cliquant sur l'icône <img alt="L'icône Supprimer" src="../images/deletecommenticon.png" /> ,</li>
-                    <li>fermez la discussion actuelle en cliquant sur l'icône <img alt="L'icône Résoudre" src="../images/resolveicon.png" /> si la tâche ou le problème décrit dans votre commentaire est résolu, après quoi la discussion ouverte par votre commentaire reçoit le statut résolu. Pour l'ouvrir à nouveau, cliquez sur l'icône <img alt="L'icône Ouvrir à nouveau" src="../images/resolvedicon.png" /> .</li>
-                    <li>si vous souhaitez gérer tous les commentaires à la fois, accédez le menu contextuel <b>Résoudre</b> sous l'onglet <b>Collaboration</b>. Sélectionnez l'une des options disponibles: <b>Résoudre les commentaires actuels</b>, <b>Marquer mes commentaires comme résolus</b> et <b>Marquer tous les commentaires comme résolus</b> dans la présentation.</li>
+            <p>Pour laisser un commentaire sur un objet (zone de texte, forme etc.):</p>
+            <ol>
+                <li>sélectionnez l'objet où vous pensez qu'il y a une erreur ou un problème,</li>
+                <li>
+                    passez à l'onglet Insertion ou Collaboration de la barre d'outils supérieure et cliquez sur le bouton Commentaire <img alt="L'icône Commentaires" src="../images/comment_toptoolbar.png" /> ou<br /> cliquez avec le bouton droit sur le passage de texte sélectionné et sélectionnez l'option <b>Ajouter un commentaire</b> dans le menu contextuel,<br />
+                </li>
+                <li>saisissez le texte nécessaire,</li>
+                <li>cliquez sur le bouton <b>Ajouter commentaire/Ajouter</b>.</li>
+            </ol>
+            <p>L'objet que vous commenter sera marqué par l'icône  <img alt="L'icône de l'objet commenté" src="../images/added_comment_icon.png" /> . Pour lire le commentaire, il suffit de cliquer sur cette icône.</p>
+            <p>Pour ajouter un commentaire à une diapositive donnée, sélectionnez la diapositive et utilisez le bouton <b>Commentaires</b> <img alt="L'icône Commentaires" src="../images/comment_toptoolbar.png" /> dans l'onglet <b>Insertion</b> ou <b>Collaboration</b> de la barre d'outils supérieure. Le commentaire ajouté sera affiché dans le coin supérieur gauche de la diapositive.</p>
+            <p>Pour créer un commentaire de niveau présentation qui n'est pas lié à un objet ou une diapositive spécifique, cliquez sur l'icône <img alt="L'icône Commentaires" src="../images/commentsicon.png" /> dans la barre latérale gauche pour ouvrir le panneau <b>Commentaires</b> et utilisez le lien <b>Ajouter un commentaire au document</b>.  Les commentaires au niveau de la présentation peuvent être consultés dans le panneau <b>Commentaires</b>. Les commentaires relatifs aux objets et aux diapositives y sont également disponibles.</p>
+            <p>Tout autre utilisateur peut répondre au commentaire ajouté en posant une question ou en faisant référence au travail fait. Pour le faire il suffit de cliquer sur le lien <b>Ajouter une réponse</b> situé au-dessous du commentaire, saisissez votre réponse dans le champ de saisie et appuyez sur le bouton <b>Répondre</b>.</p>
+            <p>Si vous utilisez le mode de co-édition <b>Strict</b>, les nouveaux commentaires ajoutés par d'autres utilisateurs ne seront visibles qu'après un clic sur l'icône <img alt="L'icône Enregistrer" src="../images/saveupdate.png" /> dans le coin supérieur gauche de la barre supérieure.</p>
+            <p>Vous pouvez gérer les commentaires ajoutés en utilisant les icônes de la bulle de commentaire ou sur le panneau gauche <b>Commentaires</b>:</p>
+            <ul>
+                <li>
+                    trier les commentaires ajoutés en cliquant sur l'icône <img alt="L'icône de tri" src="../images/sortcommentsicon.png" /> :
+                    <ul>
+                        <li>par date: <b>Plus récent</b> ou <b>Plus ancien</b>. C'est 'ordre de tri par défaut.</li>
+                        <li>par auteur: <b>Auteur de A à Z</b> ou <b>Auteur de Z à A</b></li>
+                        <li>par emplacement: <b>Du haut</b> ou <b>Du bas</b>. L'ordre habituel de tri des commentaires par l'emplacement dans un document est comme suit (de haut): <I>commentaires au texte</I>, <I>commentaires aux notes de bas de page</I>, <I>commentaires aux notes de fin</I>, <I>commentaires aux en-têtes/pieds de page</I>, <I>commentaires au texte entier</I>.</li>
+                        <li>
+                            par groupe: <b>Tout</b> ou sélectionnez le groupe approprié dans la liste. Cette option de tri n'est disponible que si vous utilisez une version qui prend en charge cette fonctionnalité.
+                            <p><img alt="Sort comments" src="../images/sortcomments.png" /></p>
+                        </li>
                     </ul>
-                <h4>Ajouter les mentions</h4>
+                </li>
+                <li>modifier le commentaire actuel en cliquant sur l'icône <img alt="L'icône Modifier" src="../images/editcommenticon.png" /> ,</li>
+                <li>supprimer le commentaire actuel en cliquant sur l'icône <img alt="L'icône Supprimer" src="../images/deletecommenticon.png" /> ,</li>
+                <li>fermez la discussion actuelle en cliquant sur l'icône <img alt="L'icône Résoudre" src="../images/resolveicon.png" /> si la tâche ou le problème décrit dans votre commentaire est résolu, après quoi la discussion ouverte par votre commentaire reçoit le statut résolu. Pour l'ouvrir à nouveau, cliquez sur l'icône <img alt="L'icône Ouvrir à nouveau" src="../images/resolvedicon.png" /> .</li>
+                <li>si vous souhaitez gérer tous les commentaires à la fois, accédez le menu contextuel <b>Résoudre</b> sous l'onglet <b>Collaboration</b>. Sélectionnez l'une des options disponibles: <b>Résoudre les commentaires actuels</b>, <b>Marquer mes commentaires comme résolus</b> et <b>Marquer tous les commentaires comme résolus</b> dans la présentation.</li>
+            </ul>
+            <h4>Ajouter les mentions</h4>
+            <p class="note"> <b>Remarque</b>: Ce n'est qu'aux commentaires au texte qu'on peut ajouter des mentions. </p>
             <p>Lorsque vous ajoutez un commentaire sur lequel vous voulez attirer l'attention d'une personne, vous pouvez utiliser la fonction de <b>mentions</b> et envoyer une notification par courrier électronique ou <b>Talk</b>.</p>
             <p>Ajoutez une mention en tapant le signe + ou @ n'importe où dans votre commentaire, alors la liste de tous les utilisateurs sur votre portail s'affiche. Pour faire la recherche plus rapide, tapez les premières lettres du prénom de la personne, la liste propose les suggestions au cours de la frappe. Puis sélectionnez le nom souhaité dans la liste. Si la personne mentionnée n'a pas l'autorisation d'ouvrir ce fichier, la fenêtre <b>Paramètres de partage</b> va apparaître. Par défaut, un document est partagé en <b>Lecture seule</b>. Configurez les paramètres de partage selon vos besoins et cliquez sur <b>OK</b>.</p>
-            <p>La personne mentionnée recevra une notification par courrier électronique la informant que son nom est mentionné dans un commentaire. La personne recevra encore une notification lorsque un fichier commenté est partagé.</p>    
+            <p>La personne mentionnée recevra une notification par courrier électronique la informant que son nom est mentionné dans un commentaire. La personne recevra encore une notification lorsque un fichier commenté est partagé.</p>
             <p>Pour supprimer les commentaires,</p>
             <ol>
                 <li>appuyez sur le bouton <img alt="L'icône Supprimer le commentaire" src="../images/removecomment_toptoolbar.png" /> <b>Supprimer</b> sous l'onglet <b>Collaboration</b> dans la barre d'outils en haut,</li>
@@ -97,7 +111,7 @@
                     </ul>
                 </li>
             </ol>
-                <p>Pour fermer le panneau avec les commentaires, cliquez sur l'icône <img alt="L'icône Commentaires" src="../images/commentsicon.png" /> de la barre latérale de gauche encore une fois.</p>
-            </div>
+            <p>Pour fermer le panneau avec les commentaires, cliquez sur l'icône <img alt="L'icône Commentaires" src="../images/commentsicon.png" /> de la barre latérale de gauche encore une fois.</p>
+        </div>
 	</body>
 </html>

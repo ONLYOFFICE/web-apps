@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>ONLYOFFICE Document Viewer</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="The description of ONLYOFFICE Document Viewer navigation tools" />
+		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
+	</head>
+	<body>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>ONLYOFFICE Document Viewer</h1>
+            <p>You can use <b>ONLYOFFICE Document Viewer</b> to open and navigate through PDF, XPS, DjVu files.</p>
+            <p><b>ONLYOFFICE Document Viewer</b> allows to:</p>
+            <ul>
+                <li>view PDF, XPS, DjVu files,</li>
+                <li>add annotations using chat tool,</li>
+                <li>navigate files using contents navigation panel and page thumbnails,</li>
+                <li>use select and hand tools,</li>
+                <li>print and download files,</li>
+                <li>use internal and external links,</li>
+                <li>
+                    access advanced settings of the editor and view the following document info using the <b>File</b> tab or the <b>View settings</b> button:
+                    <ul>
+                        <li class="onlineDocumentFeatures"><b>Location</b> (available in the <em>online version</em> only) - the folder in the <b>Documents</b> module where the file is stored. </li>
+                        <li class="onlineDocumentFeatures"><b>Owner</b> (available in the <em>online version</em> only) - the name of the user who has created the file.</li>
+                        <li class="onlineDocumentFeatures"><b>Uploaded</b> (available in the <em>online version</em> only) - the date and time when the file has been uploaded to the portal.</li>
+                        <li><b>Statistics</b> - the number of pages, paragraphs, words, symbols, symbols with spaces.</li>
+                        <li><b>Page size</b> - the dimensions of the pages in the file.</li>
+                        <li><b>Last Modified</b> - the date and time when the document was last modified.</li>
+                        <li><b>Created</b> - the date and time when the document was created.</li>
+                        <li><b>Application</b> - the application the document has been created with.</li>
+                        <li><b>Author</b> - the person who has created the document.</li>
+                        <li><b>PDF Producer</b> - the application used to convert the document to PDF.</li>
+                        <li><b>PDF Version</b> - the version of the PDF file.</li>
+                        <li><b>Tagged PDF</b> - shows if PDF file contains tags.</li>
+                        <li><b>Fast Web View</b> - shows if the Fast Web View has been enabled for the document.</li>
+                    </ul>
+                </li>
+                <li>use plugins
+                    <ul>
+                        <li>Plugins available in the desktop version: <b>Translator</b>, <b>Send</b>, <b>Thesaurus</b>.</li>
+                        <li>Plugins available in the online version: <b>Controls example</b>, <b>Get and paste html</b>, <b>Telegram</b>, <b>Typograf</b>, <b>Count word</b>, <b>Speech</b>, <b>Thesaurus</b>, <b>Translator</b>.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>ONLYOFFICE Document Viewer</b> interface:</p>
+            <p><img alt="ONLYOFFICE Document Viewer" src="../images/PDFviewer.png" /></p>
+            <ol>
+                <li>
+                    The Top toolbar provides access to <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">File</a> and <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Plugins</a> tabs, and the following icons:
+                    <p><img alt="Print" src="../images/print.png" /> <b>Print</b> allows to print out the file;</p>
+                    <p><img alt="Download" src="../images/downloadicon.png" /> <b>Download</b> allows to download a file to your computer;</p>
+                    <p><img alt="Manage document access rights icon" src="../images/access_rights.png" /><b> Manage document access rights</b> (available in the <em>online version</em> only) allows you to manage the users who have access to the file right from the document: invite new users giving them permissions to edit, read, comment, fill forms or review the document, or deny some users access rights to the file.</p>
+                    <p><img alt="Open file location" src="../images/gotodocuments.png" /> <b>Open file location</b> in the <em>desktop version</em> allows opening the folder, where the file is stored, in the <b>File explorer</b> window. In the <em>online version</em>, it allows opening the folder of the <b>Documents</b> module, where the file is stored, in a new browser tab;</p>
+                    <p><img alt="Favorites" src="../images/favorites_icon.png" /> <b>Mark as favorite / Remove from favorites</b> (available in the <em>online version</em> only) click the empty star to add a file to favorites as to make it easy to find, or click the filled star to remove the file from favorites. The added file is just a shortcut so the file itself remains stored in its original location. Deleting a file from favorites does not remove the file from its original location;</p>
+                    <p><img alt="View Settings" src="../images/viewsettingsicon.png" /> <b>View settings</b> allows adjusting the <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">View Settings</a> and access the <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a> of the editor;</p>
+                    <p><img alt="User" src="../images/usericon.png" /> <b>User</b>  displays the user’s name when you hover the mouse over it.</p>
+                </li>
+                <li>The <b>Status bar</b> located at the bottom of the <b>ONLYOFFICE Document Viewer</b> window indicates the page number and displays the background status notifications. It also contains the following tools:
+                    <p><img alt="Selection tool" src="../images/selectiontool.png" /> <b>Selection</b> tool allows to select text in a file.</p>
+                    <p><img alt="Handtool" src="../images/handtool.png" /> <b>Hand</b> tool allows to drag and scroll the page.</p>
+                    <p><img alt="Fit to page" src="../images/fitpage.png" /> <b>Fit to page</b> allows to resize the page so that the screen displays the whole page.</p>
+                    <p><img alt="Fit to width" src="../images/fitwidth.png" /> <b>Fit to width</b> allows to resize the page so that the page scales to fit the width of the screen.</p>
+                    <p><img alt="Zoom" src="../images/zoomadjusting.png" /> <a href="../HelpfulHints/Navigation.htm#navigationtools" onclick="onhyperlinkclick(this)"><b>Zoom</b></a> adjusting tool allows to zoom in and zoom out the page.</p>
+                </li>
+                <li>
+                    The <b>Left sidebar</b> contains the following icons:
+                    <ul>
+                        <li><img alt="Search icon" src="../images/searchicon.png" /> - allows to use the <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Search and Replace</a> tool,</li>
+                        <li class="onlineDocumentFeatures"><img alt="Chat icon" src="../images/chaticon.png" /> - (available in the <em>online version</em> only) allows opening the <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">Chat</a> panel,</li>
+                        <li>
+                            <img alt="Navigation icon" src="../images/navigationicon.png" /> - allows to open the <b>Navigation</b> panel that displays the list of all headings with corresponding nesting levels. Click the heading to jump directly to a specific page.
+                            <p><img alt="NavigationPanel" src="../images/navigationpanel_viewer.png" />
+                            <p>Right-click the heading on the list and use one of the available options from the menu:</p>
+                            <ul>
+                                <li><b>Expand all</b> - to expand all levels of headings at the <b>Navigation</b> panel.</li>
+                                <li><b>Collapse all</b> - to collapse all levels of headings, excepting <em>level 1</em>, at the <b>Navigation</b> panel.</li>
+                                <li><b>Expand to level</b> - to expand the heading structure to the selected level. E.g. if you select <em>level 3</em>, then levels 1, 2 and 3 will be expanded, while level 4 and all lower levels will be collapsed.</li>
+                            </ul>
+                            <p>To manually expand or collapse separate heading levels, use the arrows to the left of the headings.</p>
+                            <p>To close the <b>Navigation</b> panel, click the <img alt="Navigation icon" src="../images/navigationicon.png" /> <b>Navigation</b> icon on the left sidebar once again.</p>
+                        </li>
+                        <li>
+                            <img alt="Page thumbnails" src="../images/pagethumbnails.png" /> - allows to display page thumbnails for quick navigation. Click <img alt="Thumbnail settings" src="../images/search_options.png" /> on the <b>Page Thumbnails</b> panel to access the <b>Thumbnails Settings</b>:
+                            <p><img alt="Page thumbnails settings" src="../images/pagethumbnails_settings.png" /></p>
+                            <ul>
+                                <li>Drag the slider to set the thumbnail size,</li>
+                                <li>The <b>Highlight visible part of page</b> is active by default to indicate the area that is currently on screen. Click it to disable.</li>
+                            </ul>
+                            <p>To close the <b>Page Thumbnails panel</b>, click the <img alt="Page thumbnails" src="../images/pagethumbnails.png" /> <b>Page Thumbnails</b> icon on the left sidebar once again.</p>
+                        </li>
+                        <li><img alt="Feedback and Support icon" src="../images/feedbackicon.png" /> - allows to contact our support team,</li>
+                        <li class="onlineDocumentFeatures"><img alt="About icon" src="../images/abouticon.png" /> - (available in the <em>online version</em> only) allows to view the information about the program.</li>
+                    </ul>
+                </li>
+            </ol>            
+        </div>
+	</body>
+</html>

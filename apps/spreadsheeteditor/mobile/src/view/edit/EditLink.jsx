@@ -1,10 +1,10 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Page, Navbar, NavRight, Icon, ListButton, ListInput, Link} from 'framework7-react';
+import {f7, List, ListItem, Page, Navbar, NavRight, Icon, ListButton, ListInput, Link, NavLeft, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
-const PageTypeLink = ({curType, changeType, storeFocusObjects}) => {
+const PageEditTypeLink = ({curType, changeType, storeFocusObjects}) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const [typeLink, setTypeLink] = useState(curType);
@@ -17,10 +17,10 @@ const PageTypeLink = ({curType, changeType, storeFocusObjects}) => {
 
     return (
         <Page>
-            <Navbar title={_t.textLinkType} backLink={_t.textBack}>
+            <Navbar className="navbar-link-settings" title={_t.textLinkType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link icon='icon-close' popupClose="#edit-link-popup"></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -32,7 +32,7 @@ const PageTypeLink = ({curType, changeType, storeFocusObjects}) => {
     )
 };
 
-const PageSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
+const PageEditSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const [stateSheet, setSheet] = useState(curSheet);
@@ -45,10 +45,10 @@ const PageSheet = ({curSheet, sheets, changeSheet, storeFocusObjects}) => {
 
     return (
         <Page>
-            <Navbar title={_t.textSheet} backLink={_t.textBack}>
+            <Navbar className="navbar-link-settings" title={_t.textSheet} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link icon='icon-close' popupClose="#edit-link-popup"></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -110,7 +110,27 @@ const EditLink = props => {
     const [range, setRange] = useState(valueRange || 'A1');
 
     return (
-        <Fragment>
+        <Page>
+            <Navbar className="navbar-link-settings">
+                <NavLeft>
+                    <Link text={Device.ios ? t('View.Edit.textCancel') : ''} onClick={() => {
+                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                    }}>
+                        {Device.android && <Icon icon='icon-close' />}
+                    </Link>
+                </NavLeft>
+                <NavTitle>{t('View.Edit.textLinkSettings')}</NavTitle>
+                <NavRight>
+                    <Link className={`${(typeLink === 1 && !link.length) || (typeLink === 2 && (!range.length || !curSheet.length)) && 'disabled'}`} onClick={() => {
+                        props.onEditLink(typeLink === 1 ?
+                            {type: 1, url: link, text: stateDisplayText, tooltip: screenTip} :
+                            {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip});
+                    }} text={Device.ios ? t('View.Edit.textDone') : ''}>
+                        {Device.android && <Icon icon={link.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                    </Link>
+                </NavRight>
+            </Navbar>
+
             <List inlineLabels className='inputs-list'>
                 <ListItem link={'/edit-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
                     changeType: changeType,
@@ -144,7 +164,7 @@ const EditLink = props => {
                 }
                 <ListInput label={_t.textDisplay}
                            type="text"
-                           placeholder={_t.textDisplay}
+                           placeholder={t('View.Edit.textRecommended')}
                            value={stateDisplayText}
                            disabled={isLock}
                            onChange={(event) => {setDisplayText(event.target.value)}}
@@ -159,26 +179,24 @@ const EditLink = props => {
                 />
             </List>
             <List className="buttons-list">
-                <ListButton title={_t.textEditLink}
-                            className={`button-fill button-raised ${(typeLink === 1 && !link.length) || (typeLink === 2 && (!range.length || !curSheet.length)) ? 'disabled' : ''}`}
-                            onClick={() => {props.onEditLink(typeLink === 1 ?
-                                {type: 1, url: link, text: stateDisplayText, tooltip: screenTip} :
-                                {type: 2, url: range, sheet: curSheet, text: stateDisplayText, tooltip: screenTip})}}
-                />
-                <ListButton title={_t.textRemoveLink}
-                            className={`button-red button-fill button-raised`}
-                            onClick={() => props.onRemoveLink()}
+                <ListButton 
+                    title={t('View.Edit.textDeleteLink')}
+                    className={`button-red button-fill button-raised`}
+                    onClick={() => {
+                        props.onRemoveLink();
+                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                    }}
                 />
             </List>
-        </Fragment>
+        </Page>
     )
 };
 
-const _PageTypeLink = inject("storeFocusObjects")(observer(PageTypeLink));
-const _PageSheet = inject("storeFocusObjects")(observer(PageSheet));
+const _PageEditTypeLink = inject("storeFocusObjects")(observer(PageEditTypeLink));
+const _PageEditSheet = inject("storeFocusObjects")(observer(PageEditSheet));
 
 export {
     EditLink,
-    _PageTypeLink as PageTypeLink,
-    _PageSheet as PageSheet
+    _PageEditTypeLink as PageEditTypeLink,
+    _PageEditSheet as PageEditSheet
 };

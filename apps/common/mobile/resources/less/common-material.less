@@ -313,7 +313,10 @@
                 border-radius: 4px;
                 margin-top: -3px;
                 box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
-                background: @fill-white;
+                background-color: @fill-white;
+                &.auto { 
+                    background-color: @autoColor;
+                }
             }
         }
     }
@@ -521,6 +524,17 @@
     .font-item {
         .item-radio:not(.item-radio-icon-end) > .icon-radio {
             margin-right: 0;
+        }
+    }
+
+    // Navbar link settings 
+
+    .navbar-link-settings {
+        .navbar-inner {
+            background: @background-primary;
+        }
+        .title, a {
+            color: @text-normal;
         }
     }
 }

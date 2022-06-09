@@ -53,6 +53,7 @@
     "menuMerge": "Merge",
     "menuMore": "More",
     "menuOpenLink": "Open Link",
+    "menuEditLink": "Edit Link",
     "menuShow": "Show",
     "menuUnfreezePanes": "Unfreeze Panes",
     "menuUnmerge": "Unmerge",
@@ -74,6 +75,8 @@
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "notcriticalErrorTitle": "Warning",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "SDK": {
         "txtAccent": "Accent",
         "txtAll": "(All)",
@@ -367,7 +370,9 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "textRecommended": "Recommended",
+      "textDone": "Done"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -503,7 +508,8 @@
       "textRange": "Range",
       "textRemoveChart": "Remove Chart",
       "textRemoveImage": "Remove Image",
-      "textRemoveLink": "Remove Link",
+      "del_textRemoveLink": "Remove Link",
+      "textDeleteLink": "Delete Link",
       "textRemoveShape": "Remove Shape",
       "textReorder": "Reorder",
       "textReplace": "Replace",
@@ -550,7 +556,10 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest"
+      "txtSortLow2High": "Sort Lowest to Highest",
+      "textRecommended": "Recommended",
+      "textDone": "Done",
+      "textCancel": "Cancel"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",

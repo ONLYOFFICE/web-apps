@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/view/Header',
+    'common/main/lib/view/SearchBar',
     'spreadsheeteditor/main/app/view/Viewport'
 //    ,'spreadsheeteditor/main/app/view/LeftMenu'
 ], function (Viewport) {
@@ -176,6 +177,8 @@ define([
                 if ( config.customization.toolbarHideFileName )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
+
+            me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
 
         onAppReady: function (config) {
@@ -217,6 +220,8 @@ define([
             this.boxFormula = $('#cell-editing-box');
             this.boxSdk.css('border-left', 'none');
             this.boxFormula.css('border-left', 'none');
+
+            Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
         },
 
         onLayoutChanged: function(area) {
@@ -292,6 +297,34 @@ define([
         },
 
         SetDisabled: function (disabled) {
+        },
+
+        onSearchShow: function () {
+            this.header.btnSearch && this.header.btnSearch.toggle(true);
+        },
+
+        onSearchToggle: function () {
+            var leftMenu = this.getApplication().getController('LeftMenu');
+            if (leftMenu.isSearchPanelVisible()) {
+                this.header.btnSearch.toggle(false, true);
+                leftMenu.getView('LeftMenu').panelSearch.focus();
+                return;
+            }
+            if (!this.searchBar) {
+                this.searchBar = new Common.UI.SearchBar({});
+                this.searchBar.on('hide', _.bind(function () {
+                    this.header.btnSearch.toggle(false, true);
+                }, this));
+            }
+            if (this.header.btnSearch.pressed) {
+                this.searchBar.show(this.api.asc_GetSelectedText());
+            } else {
+                this.searchBar.hide();
+            }
+        },
+
+        isSearchBarVisible: function () {
+            return this.searchBar && this.searchBar.isVisible();
         },
 
         textHideFBar: 'Hide Formula Bar',

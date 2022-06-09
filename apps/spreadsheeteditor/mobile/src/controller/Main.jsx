@@ -153,9 +153,8 @@ class MainController extends Component {
                 if ( data.doc ) {
                     this.permissions = Object.assign(this.permissions, data.doc.permissions);
 
-                    let _permissions = Object.assign({}, data.doc.permissions),
-                        _user = new Asc.asc_CUserInfo();
                     const _options = Object.assign({}, data.doc.options, this.editorConfig.actionLink || {});
+                    let _user = new Asc.asc_CUserInfo();
                     const _userOptions = this.props.storeAppOptions.user;
                       
                     _user.put_Id(_userOptions.id);
@@ -172,7 +171,7 @@ class MainController extends Component {
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
-                    docInfo.put_Permissions(_permissions);
+                    docInfo.put_Permissions(data.doc.permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
@@ -208,6 +207,25 @@ class MainController extends Component {
 
             const onEditorPermissions = params => {
                 const licType = params.asc_getLicenseType();
+                const { t } = this.props;
+                // const _t = t('Controller.Main', { returnObjects:true });
+               
+                if (Asc.c_oLicenseResult.Expired === licType ||
+                    Asc.c_oLicenseResult.Error === licType ||
+                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+
+                    f7.dialog.create({
+                        title: t('Controller.Main.titleLicenseExp'),
+                        text: t('Controller.Main.warnLicenseExp')
+                    }).open();
+
+                    return;
+                }
+
+                if (Asc.c_oLicenseResult.ExpiredLimited === licType) {
+                    this._state.licenseType = licType;
+                }
+
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const appOptions = this.props.storeAppOptions;

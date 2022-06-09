@@ -100,6 +100,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
             f7.popover.open('#idx-functions-list', '#idx-list-target');
         } else {
             f7.popover.close('#idx-functions-list');
+            setFuncArr('');
         }
     }
 

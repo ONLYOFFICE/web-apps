@@ -216,6 +216,7 @@
               <span id="title-doc-name"></span>
           </div>
           <div class="group right">
+              <div id="id-search" style="display: inline-block;"><button class="control-btn svg-icon search"></button></div>
               <div id="box-tools" class="dropdown">
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>

@@ -719,7 +719,8 @@ define([
                             cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                                {caption: me.mniCustomTable, value: 'custom'}
+                                {caption: me.mniCustomTable, value: 'custom'},
+                                {caption: me.mniInsertSSE, value: 'sse'}
                             ]
                         }),
                         dataHint: '1',
@@ -833,7 +834,9 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsSlideNum);
 
-                    if (window["AscDesktopEditor"] && window["AscDesktopEditor"]["IsSupportMedia"] && window["AscDesktopEditor"]["IsSupportMedia"]()) {
+                    if (Common.Controllers.Desktop.isActive() &&
+                            Common.Controllers.Desktop.isFeatureAvailable("IsSupportMedia") && Common.Controllers.Desktop.call("IsSupportMedia"))
+                    {
                         me.btnInsAudio = new Common.UI.Button({
                             id: 'tlbtn-insaudio',
                             cls: 'btn-toolbar x-huge icon-top',
@@ -2027,7 +2030,8 @@ define([
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
             tipNone: 'None',
-            textTabView: 'View'
+            textTabView: 'View',
+            mniInsertSSE: 'Insert Spreadsheet'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -14,12 +14,11 @@ import EditChartController from "../../controller/edit/EditChart";
 import { EditLinkController } from "../../controller/edit/EditLink";
 
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing } from './EditText';
+import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextBulletsLinkSettings } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
 import { PageChartDesign, PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
-import { PageLinkTo, PageTypeLink } from './EditLink'
 
 const routes = [
 
@@ -78,7 +77,13 @@ const routes = [
     },
     {
         path: '/edit-bullets-and-numbers/',
-        component: PageTextBulletsAndNumbers
+        component: PageTextBulletsAndNumbers,
+        routes: [
+            {
+                path: 'image-link/',
+                component: PageTextBulletsLinkSettings
+            }
+        ]
     },
     {
         path: '/edit-text-line-spacing/',
@@ -214,14 +219,9 @@ const routes = [
     },
 
     // Link
-
     {
-        path: '/edit-link-type/',
-        component: PageTypeLink
-    },
-    {
-        path: '/edit-link-to/',
-        component: PageLinkTo
+        path: '/edit-link/',
+        component: EditLinkController
     }
 ];
 

@@ -147,8 +147,13 @@ define([
             el.on('input', '.form-control', _.bind(this.onInput, this));
             if (!this.options.allowDecimal)
                 el.on('keypress',   '.form-control', _.bind(this.onKeyPress, this));
-            el.on('focus', 'input.form-control', function() {
-                setTimeout(function(){me.$input && me.$input.select();}, 1);
+            el.on('focus', 'input.form-control', function(e) {
+                setTimeout(function(){
+                    if (me.$input) {
+                        me.$input[0].selectionStart = 0;
+                        me.$input[0].selectionEnd = me.$input.val().length;
+                    }
+                }, 1);
             });
             Common.Utils.isGecko && el.on('blur', 'input.form-control', function() {
                 setTimeout(function(){

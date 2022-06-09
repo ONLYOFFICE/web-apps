@@ -13,7 +13,9 @@ import {AddOtherController} from "../../controller/add/AddOther";
 import {AddImageController} from "../../controller/add/AddImage";
 import {PageImageLinkSettings} from "./AddImage";
 import {AddLinkController} from "../../controller/add/AddLink";
+import {EditLinkController} from "../../controller/edit/EditLink";
 import {PageTypeLink, PageSheet} from "./AddLink";
+import {PageEditTypeLink, PageEditSheet} from "../../view/edit/EditLink";
 import AddFilterController from "../../controller/add/AddFilter";
 
 const routes = [
@@ -47,6 +49,18 @@ const routes = [
     {
         path: '/add-link-sheet/',
         component: PageSheet
+    },
+    {
+        path: '/edit-link/',
+        component: EditLinkController
+    },
+    {
+        path: '/edit-link-type/',
+        component: PageEditTypeLink
+    },
+    {
+        path: '/edit-link-sheet/',
+        component: PageEditSheet
     },
     // Other
     {
@@ -123,31 +137,34 @@ const AddTabs = props => {
                 component: <AddShapeController/>
             });
         }
-        if (showPanels && showPanels.indexOf('image') !== -1) {
-            tabs.push({
-                caption: _t.textImage,
-                id: 'add-image',
-                icon: 'icon-add-image',
-                component: <AddImageController inTabs={true}/>
-            });
-        }
+
+        // if (showPanels && showPanels.indexOf('image') !== -1) {
+        //     tabs.push({
+        //         caption: _t.textImage,
+        //         id: 'add-image',
+        //         icon: 'icon-add-image',
+        //         component: <AddImageController inTabs={true}/>
+        //     });
+        // }
     }
+
     if (!showPanels && (!wsProps.InsertHyperlinks || !wsProps.Objects || !wsProps.Sort)) {
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
             icon: 'icon-add-other',
-            component: <AddOtherController wsProps={wsProps} />
+            component: <AddOtherController wsProps={wsProps} onCloseLinkSettings={props.onCloseLinkSettings} />
         });
     }
-    if (((showPanels && showPanels === 'hyperlink') || props.isAddShapeHyperlink) && !wsProps.InsertHyperlinks) {
-        tabs.push({
-            caption: _t.textAddLink,
-            id: 'add-link',
-            icon: 'icon-link',
-            component: <AddLinkController/>
-        });
-    }
+    
+    // if (((showPanels && showPanels === 'hyperlink') || props.isAddShapeHyperlink) && !wsProps.InsertHyperlinks) {
+    //     tabs.push({
+    //         caption: _t.textAddLink,
+    //         id: 'add-link',
+    //         icon: 'icon-link',
+    //         component: <AddLinkController/>
+    //     });
+    // }
 
     if(!tabs.length) {
         if (Device.phone) {
@@ -183,10 +200,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsLock={this.props.wsLock} wsProps={this.props.wsProps} inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} onCloseLinkSettings={this.props.onCloseLinkSettings} wsLock={this.props.wsLock} wsProps={this.props.wsProps} inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} wsLock={this.props.wsLock} wsProps={this.props.wsProps} onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
+                    <AddTabs isAddShapeHyperlink={this.props.isAddShapeHyperlink} onCloseLinkSettings={this.props.onCloseLinkSettings} wsLock={this.props.wsLock} wsProps={this.props.wsProps} onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
                 </Popup>
         )
     }
@@ -245,6 +262,7 @@ const Add = props => {
                     isAddShapeHyperlink = {isAddShapeHyperlink}
                     wsProps={props.wsProps}
                     wsLock={props.wsLock}
+                    onCloseLinkSettings={props.onCloseLinkSettings}
     />
 };
 

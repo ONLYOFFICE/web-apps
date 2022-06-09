@@ -474,7 +474,11 @@
       "txtScheme7": "ຄວາມເທົ່າທຽມກັນ",
       "txtScheme8": "ຂະບວນການ",
       "txtScheme9": "ໂຮງຫລໍ່",
-      "textFeedback": "Feedback & Support"
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

@@ -58,7 +58,8 @@
     "textColumns": "Columns",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "textRows": "Rows"
+    "textRows": "Rows",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -115,12 +116,12 @@
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textYes": "Yes",
       "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page.",
       "titleServerVersion": "Editor updated",
       "titleUpdateVersion": "Version changed",
       "txtIncorrectPwd": "Password is incorrect",
       "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
-      "warnLicenseExp": "Your license has expired. Please, update it and refresh the page.",
       "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your administrator.",
       "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
@@ -242,7 +243,10 @@
       "textSlideNumber": "Slide Number",
       "textTable": "Table",
       "textTableSize": "Table Size",
-      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRequired": "Required",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -321,6 +325,7 @@
       "textHyperlink": "Hyperlink",
       "textImage": "Image",
       "textImageURL": "Image URL",
+      "textInsertImage": "Insert Image",
       "textLastColumn": "Last Column",
       "textLastSlide": "Last Slide",
       "textLayout": "Layout",
@@ -349,7 +354,8 @@
       "textPush": "Push",
       "textRemoveChart": "Remove Chart",
       "textRemoveImage": "Remove Image",
-      "textRemoveLink": "Remove Link",
+      "del_textRemoveLink": "Remove Link",
+      "textDeleteLink": "Delete Link",
       "textRemoveShape": "Remove Shape",
       "textRemoveTable": "Remove Table",
       "textReorder": "Reorder",
@@ -393,7 +399,10 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate"
+      "textZoomRotate": "Zoom and Rotate",
+      "textCancel": "Cancel",
+      "textRequired": "Required",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

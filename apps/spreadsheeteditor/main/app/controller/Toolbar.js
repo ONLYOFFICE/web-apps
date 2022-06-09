@@ -47,6 +47,7 @@ define([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/view/OptionsDialog',
     'common/main/lib/util/define',
+    'common/main/lib/view/SearchBar',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/controller/PivotTable',
@@ -147,6 +148,9 @@ define([
                 },
                 'ViewTab': {
                     'viewtab:showtoolbar': this.onChangeViewMode.bind(this)
+                },
+                'LeftMenu': {
+                    'search:show': this.searchShow.bind(this)
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -154,6 +158,7 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
+            Common.NotificationCenter.on('oleedit:close', _.bind(this.onOleEditClose, this));
 
             this.editMode = true;
             this._isAddingShape = false;
@@ -296,7 +301,7 @@ define([
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
                 toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
-                toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
+                toolbar.btnSearch.on('toggle',                              _.bind(this.onSearch, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
                 toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
@@ -307,19 +312,46 @@ define([
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
                 toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
-                toolbar.btnSearch.on('click',                               _.bind(this.onSearch, this));
-                toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
-                toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
-                toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
-                toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
+                toolbar.btnSearch.on('toggle',                              _.bind(this.onSearch, this));
                 toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
-                toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
-                toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
                 toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
                 toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
                 if (toolbar.cmbNumberFormat.cmpEl)
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
+                toolbar.btnWrap.on('click',                                 _.bind(this.onWrap, this));
+                toolbar.btnTextColor.on('click',                            _.bind(this.onTextColor, this));
+                toolbar.btnTextColor.on('color:select',                     _.bind(this.onTextColorSelect, this));
+                toolbar.btnTextColor.on('auto:select',                      _.bind(this.onAutoFontColor, this));
+                toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
+                toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
+                toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
+                if (toolbar.btnBorders.rendered) {
+                    toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
+                    toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
+                    toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
+                    $('#id-toolbar-menu-auto-bordercolor').on('click',          _.bind(this.onAutoBorderColor, this));
+                }
+                toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
+                toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
+                toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
+                toolbar.btnVisibleArea.menu.on('item:click',              _.bind(this.onVisibleAreaMenu, this));
+                toolbar.btnVisibleAreaClose.on('click',                   _.bind(this.onVisibleAreaClose, this));
+                toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
+                toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
+                toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
+                toolbar.cmbFontName.on('combo:blur',                        _.bind(this.onComboBlur, this));
+                toolbar.cmbFontName.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+                toolbar.cmbFontSize.on('selected',                          _.bind(this.onFontSizeSelect, this));
+                toolbar.cmbFontSize.on('changed:before',                    _.bind(this.onFontSizeChanged, this, true));
+                toolbar.cmbFontSize.on('changed:after',                     _.bind(this.onFontSizeChanged, this, false));
+                toolbar.cmbFontSize.on('show:after',                        _.bind(this.onComboOpen, this, true));
+                toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
+                toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
+                toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+                toolbar.btnTextFormatting.menu.on('item:click',             _.bind(this.onTextFormattingMenu, this));
+                toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
+                toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
@@ -453,6 +485,8 @@ define([
                 this.api.asc_registerCallback('asc_onLockCFManager',        _.bind(this.onLockCFManager, this));
                 this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+            } else if (config.isEditOle) {
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (config.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
@@ -1282,8 +1316,27 @@ define([
             }
         },
 
+        searchShow: function () {
+            if (this.toolbar.btnSearch && this.searchBar && !this.searchBar.isVisible()) {
+                this.toolbar.btnSearch.toggle(true);
+            }
+        },
+
         onSearch: function(type, btn) {
-            this.getApplication().getController('LeftMenu').showSearchDlg(true);
+            if (!this.searchBar) {
+                this.searchBar = new Common.UI.SearchBar({
+                    showOpenPanel: false,
+                    width: 303
+                });
+                this.searchBar.on('hide', _.bind(function () {
+                    this.toolbar.btnSearch.toggle(false, true);
+                }, this));
+            }
+            if (this.toolbar.btnSearch.pressed) {
+                this.searchBar.show(this.api.asc_GetSelectedText());
+            } else {
+                this.searchBar.hide();
+            }
         },
 
         onAutoFilter: function(btn) {
@@ -1875,7 +1928,9 @@ define([
                 this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                 Common.NotificationCenter.on('protect:wslock',                  _.bind(this.onChangeProtectSheet, this));
             }
-
+            if ( this.appConfig.isEditOle ) {
+                this.api.asc_registerCallback('asc_onEditorSelectionChanged',   _.bind(this.onApiEditorSelectionChanged_OleEditor, this));
+            }
             if ( !this.appConfig.isEditMailMerge ) {
                 this.applyFormulaSettings();
             }
@@ -2211,9 +2266,26 @@ define([
             if ($('.asc-window.enable-key-events:visible').length>0) return;
 
             var toolbar = this.toolbar;
-            if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge || toolbar.mode.isEditOle) {
-                is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
+            if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
+                var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
                 toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData, toolbar.btnEditChartType]});
+            } else if (toolbar.mode.isEditOle) {
+                if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
+                    var is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
+                    toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.cmbNumberFormat, toolbar.btnWrap, toolbar.btnMerge, toolbar.btnBackColor,
+                                        toolbar.btnBorders, toolbar.btnTableTemplate, toolbar.btnHorizontalAlign, toolbar.btnVerticalAlign],
+                                        merge: true,
+                                        clear: [Common.enumLock.editFormula, Common.enumLock.editText]});
+                    (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l') :
+                                       Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l');
+                } else {
+                    if (state == Asc.c_oAscCellEditorState.editText) var is_text = true, is_formula = false; else
+                    if (state == Asc.c_oAscCellEditorState.editFormula) is_text = !(is_formula = true); else
+                    if (state == Asc.c_oAscCellEditorState.editEmptyCell) is_text = is_formula = false;
+
+                    toolbar.lockToolbar(Common.enumLock.editFormula, is_formula, { array: [toolbar.cmbFontName, toolbar.cmbFontSize, toolbar.btnTextFormatting, toolbar.btnTextColor]});
+                    toolbar.lockToolbar(Common.enumLock.editText, is_text, {array: [toolbar.btnInsertFormula]});
+                }
             } else
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {
@@ -3130,11 +3202,14 @@ define([
 
                 me.toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked);
 
+                me._state.controlsdisabled.filters = is_image || is_mode_2;
+
                 return is_image;
             };
 
             var selectionType = info.asc_getSelectionType(),
                 xfs = info.asc_getXfs(),
+                toolbar = this.toolbar,
                 coauth_disable = false,
                 editOptionsDisabled = _disableEditOptions(selectionType, coauth_disable),
                 val, need_disable = false;
@@ -3143,24 +3218,238 @@ define([
             if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;
 
-            if ( !me.toolbar.mode.isEditDiagram ) {
-                var filterInfo = info.asc_getAutoFilterInfo();
+            Common.NotificationCenter.trigger('fonts:change', xfs);
 
-                val = filterInfo ? filterInfo.asc_getIsAutoFilter() : null;
-                if ( this._state.filter !== val ) {
-                    me.toolbar.btnSetAutofilter.toggle(val===true, true);
-                    this._state.filter = val;
-                }
-
-                need_disable =  this._state.controlsdisabled.filters || (val===null);
-                me.toolbar.lockToolbar(Common.enumLock.ruleFilter, need_disable,
-                    { array: [me.toolbar.btnSetAutofilter, me.toolbar.btnSortDown, me.toolbar.btnSortUp] });
-
-                need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
-                me.toolbar.lockToolbar(Common.enumLock.ruleDelFilter, need_disable, {array: [me.toolbar.btnClearAutofilter]});
+            /* read font size */
+            var str_size = xfs.asc_getFontSize();
+            if (this._state.fontsize !== str_size) {
+                toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
+                this._state.fontsize = str_size;
             }
 
-            var val = xfs.asc_getNumFormatInfo();
+            val = xfs.asc_getFontBold();
+            if (this._state.bold !== val) {
+                toolbar.btnTextFormatting.menu.items[0].setChecked(val === true);
+                this._state.bold = val;
+            }
+            val = xfs.asc_getFontItalic();
+            if (this._state.italic !== val) {
+                toolbar.btnTextFormatting.menu.items[1].setChecked(val === true);
+                this._state.italic = val;
+            }
+            val = xfs.asc_getFontUnderline();
+            if (this._state.underline !== val) {
+                toolbar.btnTextFormatting.menu.items[2].setChecked(val === true);
+                this._state.underline = val;
+            }
+            val = xfs.asc_getFontStrikeout();
+            if (this._state.strikeout !== val) {
+                toolbar.btnTextFormatting.menu.items[3].setChecked(val === true);
+                this._state.strikeout = val;
+            }
+
+            val = xfs.asc_getFontSuperscript();
+            if (this._state.superscript !== val) {
+                toolbar.btnTextFormatting.menu.items[4].setChecked(val === true);
+                this._state.superscript = val;
+            }
+
+            val = xfs.asc_getFontSubscript();
+            if (this._state.subscript !== val) {
+                toolbar.btnTextFormatting.menu.items[5].setChecked(val === true);
+                this._state.subscript = val;
+            }
+
+            /* read font color */
+            var clr,
+                color,
+                fontColorPicker      = toolbar.mnuTextColorPicker,
+                paragraphColorPicker = toolbar.mnuBackColorPicker;
+
+            if (!fontColorPicker.isDummy) {
+                color = xfs.asc_getFontColor();
+                if (color) {
+                    if (color.get_auto()) {
+                        if (this._state.clrtext !== 'auto') {
+                            fontColorPicker.clearSelection();
+                            toolbar.btnTextColor.setAutoColor(true);
+                            this._state.clrtext = 'auto';
+                        }
+                    } else {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                        } else {
+                            clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                        }
+                        var type1 = typeof(clr),
+                            type2 = typeof(this._state.clrtext);
+                        if ( (this._state.clrtext == 'auto') || (type1 !== type2) || (type1=='object' &&
+                                (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
+                            (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
+
+                            toolbar.btnTextColor.setAutoColor(false);
+                            if (_.isObject(clr)) {
+                                var isselected = false;
+                                for (var i = 0; i < 10; i++) {
+                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                                        fontColorPicker.select(clr, true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) fontColorPicker.clearSelection();
+                            } else {
+                                fontColorPicker.select(clr, true);
+                            }
+                            this._state.clrtext = clr;
+                        }
+                    }
+                }
+                this._state.clrtext_asccolor = color;
+            }
+
+            /* read cell background color */
+            if (!paragraphColorPicker.isDummy) {
+                color = xfs.asc_getFillColor();
+                if (color && !color.get_auto()) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                        clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                    } else {
+                        clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                    }
+                } else {
+                    clr = 'transparent';
+                }
+
+                type1 = typeof(clr);
+                type2 = typeof(this._state.clrback);
+                if ( (type1 !== type2) || (type1=='object' &&
+                        (clr.effectValue!==this._state.clrback.effectValue || this._state.clrback.color.indexOf(clr.color)<0)) ||
+                    (type1!='object' && this._state.clrback!==undefined && this._state.clrback.indexOf(clr)<0 )) {
+
+                    if (_.isObject(clr)) {
+                        var isselected = false;
+                        for (i = 0; i < 10; i++) {
+                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                                paragraphColorPicker.select(clr, true);
+                                isselected = true;
+                                break;
+                            }
+                        }
+                        if (!isselected) paragraphColorPicker.clearSelection();
+                    } else {
+                        paragraphColorPicker.select(clr, true);
+                    }
+                    this._state.clrback = clr;
+                }
+                this._state.clrshd_asccolor = color;
+            }
+
+            var filterInfo = info.asc_getAutoFilterInfo(),
+                formatTableInfo = info.asc_getFormatTableInfo();
+
+            /* read cell horizontal align */
+
+            var fontparam = xfs.asc_getHorAlign();
+            if (this._state.pralign !== fontparam) {
+                this._state.pralign = fontparam;
+
+                var index = -1, align;
+                switch (fontparam) {
+                    case AscCommon.align_Left:    index = 0;      align = 'btn-align-left';      break;
+                    case AscCommon.align_Center:  index = 1;      align = 'btn-align-center';    break;
+                    case AscCommon.align_Right:   index = 2;      align = 'btn-align-right';     break;
+                    case AscCommon.align_Justify: index = 3;      align = 'btn-align-just';      break;
+                    default:        index = -255;   align = 'btn-align-left';      break;
+                }
+                if (!(index < 0)) {
+                    toolbar.btnHorizontalAlign.menu.items[index].setChecked(true);
+                } else if (index == -255) {
+                    toolbar.btnHorizontalAlign.menu.clearAll();
+                }
+                if ( toolbar.btnHorizontalAlign.rendered && toolbar.btnHorizontalAlign.$icon ) {
+                    toolbar.btnHorizontalAlign.$icon.removeClass(toolbar.btnHorizontalAlign.options.icls).addClass(align);
+                    toolbar.btnHorizontalAlign.options.icls = align;
+                }
+            }
+
+             // read cell vertical align
+            fontparam = xfs.asc_getVertAlign();
+
+            if (this._state.valign !== fontparam) {
+                this._state.valign = fontparam;
+
+                index = -1;   align = '';
+                switch (fontparam) {
+                    case Asc.c_oAscVAlign.Top:    index = 0; align = 'btn-align-top';     break;
+                    case Asc.c_oAscVAlign.Center: index = 1; align = 'btn-align-middle';  break;
+                    case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-align-bottom';  break;
+                }
+                if (!(index < 0)) {
+                    toolbar.btnVerticalAlign.menu.items[index].setChecked(true);
+                } else if (index == -255) {
+                    toolbar.btnVerticalAlign.menu.clearAll();
+                }
+                if ( toolbar.btnVerticalAlign.rendered && toolbar.btnVerticalAlign.$icon ) {
+                    toolbar.btnVerticalAlign.$icon.removeClass(toolbar.btnVerticalAlign.options.icls).addClass(align);
+                    toolbar.btnVerticalAlign.options.icls = align;
+                }
+            }
+
+            need_disable =  this._state.controlsdisabled.filters || formatTableInfo!==null || filterInfo && filterInfo.asc_getIsAutoFilter()===null;
+            toolbar.lockToolbar(Common.enumLock.ruleMerge, need_disable, {array:[toolbar.btnMerge]});
+
+            val = info.asc_getMerge();
+            if (this._state.merge !== val) {
+                toolbar.btnMerge.toggle(val===Asc.c_oAscMergeOptions.Merge, true);
+                this._state.merge = val;
+            }
+
+            /* read cell text wrapping */
+            if (!toolbar.btnWrap.isDisabled()) {
+                val = xfs.asc_getWrapText();
+                if (this._state.wrap !== val) {
+                    toolbar.btnWrap.toggle(val===true, true);
+                    this._state.wrap = val;
+                }
+            }
+
+            val = (filterInfo) ? filterInfo.asc_getIsAutoFilter() : null;
+            this._state.filter = val;
+            need_disable =  this._state.controlsdisabled.filters || (val===null);
+            toolbar.lockToolbar(Common.enumLock.ruleFilter, need_disable, { array: [toolbar.btnTableTemplate] });
+
+            val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
+            if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
+                val = this.toolbar.mnuTableTemplatePicker.store.findWhere({name: val});
+                if (val) {
+                    this.toolbar.mnuTableTemplatePicker.selectRecord(val);
+                    this._state.tablestylename = val.get('name');
+                } else {
+                    toolbar.mnuTableTemplatePicker.deselectAll();
+                    this._state.tablestylename = null;
+                }
+            }
+
+            var old_name = this._state.tablename;
+            this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
+
+            var old_applied = this._state.filterapplied;
+            this._state.filterapplied = this._state.filter && filterInfo.asc_getIsApplyAutoFilter();
+
+            if (this._state.tablename !== old_name || this._state.filterapplied !== old_applied)
+                this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
+
+            this._state.multiselect = info.asc_getMultiselect();
+            toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate]});
+
+            this._state.inpivot = !!info.asc_getPivotTableInfo();
+            toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge]});
+
+            need_disable = !this.appConfig.canModifyFilter;
+            toolbar.lockToolbar(Common.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnTableTemplate]});
+
+            val = xfs.asc_getNumFormatInfo();
             if ( val ) {
                 this._state.numformat = xfs.asc_getNumFormat();
                 this._state.numformatinfo = val;
@@ -3169,6 +3458,104 @@ define([
                     me.toolbar.cmbNumberFormat.setValue(val, me.toolbar.txtCustom);
                     this._state.numformattype = val;
                 }
+            }
+        },
+
+        onApiEditorSelectionChanged_OleEditor: function(fontobj) {
+            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0) return;
+
+            var toolbar = this.toolbar,
+                val;
+
+            /* read font name */
+            Common.NotificationCenter.trigger('fonts:change', fontobj);
+
+            /* read font params */
+            val = fontobj.asc_getFontBold();
+            if (this._state.bold !== val) {
+                toolbar.btnTextFormatting.menu.items[0].setChecked(val === true);
+                this._state.bold = val;
+            }
+            val = fontobj.asc_getFontItalic();
+            if (this._state.italic !== val) {
+                toolbar.btnTextFormatting.menu.items[1](val === true);
+                this._state.italic = val;
+            }
+            val = fontobj.asc_getFontUnderline();
+            if (this._state.underline !== val) {
+                toolbar.btnTextFormatting.menu.items[2](val === true);
+                this._state.underline = val;
+            }
+            val = fontobj.asc_getFontStrikeout();
+            if (this._state.strikeout !== val) {
+                toolbar.btnTextFormatting.menu.items[3](val === true);
+                this._state.strikeout = val;
+            }
+
+            val = fontobj.asc_getFontSubscript();
+            if (this._state.subscript !== val) {
+                toolbar.btnTextFormatting.menu.items[4](val === true);
+                this._state.subscript = val;
+            }
+
+            val = fontobj.asc_getFontSuperscript();
+            if (this._state.superscript !== val) {
+                toolbar.btnTextFormatting.menu.items[5](val === true);
+                this._state.superscript = val;
+            }
+
+            /* read font size */
+            var str_size = fontobj.asc_getFontSize();
+            if (this._state.fontsize !== str_size) {
+                toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
+                this._state.fontsize = str_size;
+            }
+
+            /* read font color */
+            var clr,
+                color,
+                fontColorPicker      = this.toolbar.mnuTextColorPicker;
+
+            if (!fontColorPicker.isDummy) {
+                color = fontobj.asc_getFontColor();
+                if (color) {
+                    if (color.get_auto()) {
+                        if (this._state.clrtext !== 'auto') {
+                            fontColorPicker.clearSelection();
+                            this.toolbar.btnTextColor.setAutoColor(true);
+                            this._state.clrtext = 'auto';
+                        }
+                    } else {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                        } else {
+                            clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                        }
+                        var type1 = typeof(clr),
+                            type2 = typeof(this._state.clrtext);
+                        if ( (this._state.clrtext == 'auto') || (type1 !== type2) || (type1=='object' &&
+                                (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
+                            (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
+
+                            this.toolbar.btnTextColor.setAutoColor(false);
+                            if (_.isObject(clr)) {
+                                var isselected = false;
+                                for (var i = 0; i < 10; i++) {
+                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                                        fontColorPicker.select(clr, true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) fontColorPicker.clearSelection();
+                            } else {
+                                fontColorPicker.select(clr, true);
+                            }
+                            this._state.clrtext = clr;
+                        }
+                    }
+                }
+                this._state.clrtext_asccolor = color;
             }
         },
 
@@ -4218,6 +4605,99 @@ define([
         onPrintHeadingsChange: function (field, value) {
             this.api.asc_SetPrintHeadings(value === 'checked');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onVisibleAreaClose: function(btn) {
+            if (this.api)
+                this.api.asc_toggleChangeVisibleAreaOleEditor(false);
+            this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, false);
+            this.toolbar.btnVisibleArea.setVisible(true);
+            this.toolbar.btnVisibleAreaClose.setVisible(false);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onVisibleAreaMenu: function(menu, item, e) {
+            if (this.api) {
+                if (item.value === 'edit') {
+                    this.api.asc_toggleChangeVisibleAreaOleEditor(true);
+                    this.toolbar.btnVisibleArea.setVisible(false);
+                    this.toolbar.btnVisibleAreaClose.setVisible(true);
+                    this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, true);
+                } else { // show or hide
+                    this.api.asc_toggleShowVisibleAreaOleEditor(item.value === 'show');
+                    this.toolbar.btnVisibleArea.menu.items[0].setVisible(item.value !== 'show');
+                    this.toolbar.btnVisibleArea.menu.items[1].setVisible(item.value === 'show');
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onOleEditClose: function() {
+            if (this.api) {
+                this.api.asc_toggleChangeVisibleAreaOleEditor(false);
+                this.toolbar.btnVisibleArea.setVisible(true);
+                this.toolbar.btnVisibleAreaClose.setVisible(false);
+                this.toolbar.lockToolbar(Common.enumLock.editVisibleArea, false);
+
+                this.api.asc_toggleShowVisibleAreaOleEditor(false);
+                this.toolbar.btnVisibleArea.menu.items[0].setVisible(true);
+                this.toolbar.btnVisibleArea.menu.items[1].setVisible(false);
+            }
+        },
+
+        onTextFormattingMenu: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 'bold':
+                        this._state.bold = undefined;
+                        this.api.asc_setCellBold(item.checked);
+                        break;
+                    case 'italic':
+                        this._state.italic = undefined;
+                        this.api.asc_setCellItalic(item.checked);
+                        break;
+                    case 'underline':
+                        this._state.underline = undefined;
+                        this.api.asc_setCellUnderline(item.checked);
+                        break;
+                    case 'strikeout':
+                        this._state.strikeout = undefined;
+                        this.api.asc_setCellStrikeout(item.checked);
+                        break;
+                    case 'subscript':
+                        this._state.subscript = undefined;
+                        this.api.asc_setCellSubscript(item.checked);
+                        break;
+                    case 'superscript':
+                        this._state.superscript = undefined;
+                        this.api.asc_setCellSuperscript(item.checked);
+                        break;
+                }
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Text Formatting');
+        },
+
+        onHorizontalAlignMenu: function(menu, item) {
+            this._state.pralign = undefined;
+            if (this.api) {
+                this.api.asc_setCellAlign(!item.checked ? null : item.value);
+                this.toolbar.btnWrap.allowDepress = !(item.value == AscCommon.align_Justify);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal align');
+        },
+
+        onVerticalAlignMenu: function(menu, item) {
+            this._state.valign = undefined;
+            if (this.api) {
+                this.api.asc_setCellVertAlign(!item.checked ? Asc.c_oAscVAlign.Bottom : item.value);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Vertical align');
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
