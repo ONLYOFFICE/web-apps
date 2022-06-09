@@ -44,6 +44,8 @@
  *      <button ... data-hint="1" data-hint-direction="right" data-hint-offset="big" data-hint-title="B">...</button>
  *      <label ... data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" data-hint-title="L">...</label>
  *
+ *      data-hint-desktop // true/false
+ *
  *  Example usage with components:
  *
  *      new Common.UI.Button({
@@ -231,15 +233,19 @@ Common.UI.HintManager = new(function() {
         _currentControls = [];
         _usedTitles = [];
         var arr = [],
-            arrItemsWithTitle = [];
+            arrItemsWithTitle = [],
+            arrItemsDesktop = [];
+
         if (_.isArray(_currentSection)) {
             _currentSection.forEach(function (section) {
                 arr = arr.concat($(section).find('[data-hint=' + (_currentLevel) + ']').toArray());
                 arrItemsWithTitle = arrItemsWithTitle.concat($(section).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray());
+                arrItemsDesktop = arrItemsWithTitle.concat($(section).find('[data-hint-title][data-hint-desktop="true"][data-hint=' + (_currentLevel) + ']').toArray());
             });
         } else {
             arr = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
             arrItemsWithTitle = $(_currentSection).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray();
+            arrItemsDesktop = $(_currentSection).find('[data-hint-title][data-hint-desktop="true"][data-hint=' + (_currentLevel) + ']').toArray();
         }
         var visibleItems = arr.filter(function (item) {
             return $(item).is(':visible');
@@ -268,21 +274,34 @@ Common.UI.HintManager = new(function() {
             });
             return;
         }
-        var _arrLetters = [];
+        var getLetterInUILanguage = function (letter) {
+            var l = letter;
+            if (_arrAlphabet.indexOf(l) === -1) {
+                var ind = _arrEnAlphabet.indexOf(l);
+                l = _arrAlphabet[ind];
+            }
+            return l;
+        };
+        var _arrLetters = [],
+            _usedLetters = [];
+        if (arrItemsDesktop.length > 0) {
+            arrItemsDesktop.forEach(function (item) {
+                var t = $(item).data('hint-title').toLowerCase();
+                t = getLetterInUILanguage(t);
+                _usedTitles.push(t);
+                _usedLetters.push(_arrAlphabet.indexOf(t));
+            });
+        }
         if (visibleItems.length > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
                 var t = $(item).data('hint-title').toLowerCase();
-                if (_arrAlphabet.indexOf(t) === -1) {
-                    var ind = _arrEnAlphabet.indexOf(t);
-                    t = _arrAlphabet[ind];
-                }
+                t = getLetterInUILanguage(t);
                 _usedTitles.push(t);
             });
-            _arrLetters = _getLetters(visibleItems.length);
+            _arrLetters = _getLetters(visibleItems.length + arrItemsDesktop.length);
         } else {
             _arrLetters = _arrAlphabet.slice();
         }
-        var usedLetters = [];
         if (arrItemsWithTitle.length > 0) {
             visibleItems.forEach(function (item) {
                 var el = $(item);
@@ -290,9 +309,9 @@ Common.UI.HintManager = new(function() {
                 if (title) {
                     var ind = _arrEnAlphabet.indexOf(title.toLowerCase());
                     if (ind === -1) { // we have already changed
-                        usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
+                        _usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
                     } else {
-                        usedLetters.push(ind);
+                        _usedLetters.push(ind);
                         if (_lang !== 'en') {
                             el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
                         }
@@ -300,10 +319,11 @@ Common.UI.HintManager = new(function() {
                 }
             });
         }
+        Common.NotificationCenter.trigger('hints:used-titles', _currentLevel, arrItemsDesktop.concat(visibleItemsWithTitle), _usedLetters, _arrLetters);
         var index = 0;
         visibleItems.forEach(function (item) {
             var el = $(item);
-            while (usedLetters.indexOf(index) !== -1) {
+            while (_usedLetters.indexOf(index) !== -1) {
                 index++;
             }
             var title = el.attr('data-hint-title');
