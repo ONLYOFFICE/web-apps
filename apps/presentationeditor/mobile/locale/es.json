@@ -6,7 +6,8 @@
     "textEmail": "Correo",
     "textPoweredBy": "Con tecnología de",
     "textTel": "Tel",
-    "textVersion": "Versión "
+    "textVersion": "Versión ",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -474,7 +475,11 @@
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
       "txtScheme9": "Fundición",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

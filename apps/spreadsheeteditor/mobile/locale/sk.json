@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháňaný ",
     "textTel": "Tel",
-    "textVersion": "Verzia"
+    "textVersion": "Verzia",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -400,7 +401,6 @@
       "textBottomBorder": "Spodné orámovanie",
       "textBringToForeground": "Premiestniť do popredia",
       "textCell": "Bunka",
-      "textCellStyles": "Štýly bunky",
       "textCenter": "Stred",
       "textChart": "Graf",
       "textChartTitle": "Názov grafu",
@@ -549,7 +549,8 @@
       "textYen": "yen/menová jednotka Japonska",
       "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
       "txtSortHigh2Low": "Zoradiť od najvyššieho po najnižšie",
-      "txtSortLow2High": "Zoradiť od najnižšieho po najvyššie"
+      "txtSortLow2High": "Zoradiť od najnižšieho po najvyššie",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Vybrať možnosti CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "Priestor",
       "txtTab": "Tabulátor",
       "warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

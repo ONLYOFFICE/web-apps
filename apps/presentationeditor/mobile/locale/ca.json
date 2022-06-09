@@ -6,13 +6,14 @@
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel",
-    "textVersion": "Versió"
+    "textVersion": "Versió",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": "Advertiment",
-      "textAddComment": "Afegeix un comentari",
-      "textAddReply": "Afegeix una resposta",
+      "textAddComment": "Afegir comentari",
+      "textAddReply": "Afegir Resposta",
       "textBack": "Enrere",
       "textCancel": "Cancel·la",
       "textCollaboration": "Col·laboració",
@@ -44,8 +45,8 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "Les accions de copiar, tallar i enganxar mitjançant el menú contextual només es realitzaran en el fitxer actual.",
-    "menuAddComment": "Afegeix un comentari",
-    "menuAddLink": "Afegeix un enllaç",
+    "menuAddComment": "Afegir comentari",
+    "menuAddLink": "Afegir Enllaç",
     "menuCancel": "Cancel·la",
     "menuDelete": "Suprimeix",
     "menuDeleteTable": "Suprimeix la taula",
@@ -208,7 +209,7 @@
   "View": {
     "Add": {
       "notcriticalErrorTitle": "Advertiment",
-      "textAddLink": "Afegeix un enllaç",
+      "textAddLink": "Afegir Enllaç",
       "textAddress": "Adreça",
       "textBack": "Enrere",
       "textCancel": "Cancel·la",
@@ -247,12 +248,12 @@
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
       "textActualSize": "Mida real",
-      "textAddCustomColor": "Afegeix un color personalitzat",
+      "textAddCustomColor": "Afegir Color Personalitzat",
       "textAdditional": "Addicional",
       "textAdditionalFormatting": "Format addicional",
       "textAddress": "Adreça",
       "textAfter": "Després",
-      "textAlign": "Alineació",
+      "textAlign": "Alinear",
       "textAlignBottom": "Alineació inferior",
       "textAlignCenter": "Alineació al centre",
       "textAlignLeft": "Alineació a l'esquerra",
@@ -474,7 +475,11 @@
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
       "txtScheme9": "Foneria",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

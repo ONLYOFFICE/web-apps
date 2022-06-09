@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -113,6 +114,7 @@
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textYes": "Yes",
       "titleLicenseExp": "License expired",
       "titleServerVersion": "Editor updated",
@@ -126,8 +128,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -398,6 +399,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Widescreen (16:9)",
+      "notcriticalErrorTitle": "Warning",
       "textAbout": "About",
       "textAddress": "address:",
       "textApplication": "Application",
@@ -420,11 +422,11 @@
       "textEmail": "email:",
       "textEnableAll": "Enable All",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
+      "textFeedback": "Feedback & Support",
       "textFind": "Find",
       "textFindAndReplace": "Find and Replace",
       "textFindAndReplaceAll": "Find and Replace All",
       "textHelp": "Help",
-      "textFeedback": "Feedback & Support",
       "textHighlight": "Highlight Results",
       "textInch": "Inch",
       "textLastModified": "Last Modified",
@@ -433,6 +435,7 @@
       "textLocation": "Location",
       "textMacrosSettings": "Macros Settings",
       "textNoTextFound": "Text not found",
+      "textOk": "Ok",
       "textOwner": "Owner",
       "textPoint": "Point",
       "textPoweredBy": "Powered By",
@@ -442,6 +445,8 @@
       "textPrint": "Print",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL",
       "textSearch": "Search",
       "textSettings": "Settings",
       "textShowNotification": "Show Notification",
@@ -474,11 +479,7 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry",
-      "textOk": "Ok",
-      "textRTL": "RTL",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "txtScheme9": "Foundry"
     }
   }
 }

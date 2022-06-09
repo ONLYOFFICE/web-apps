@@ -50,7 +50,8 @@ define([
             height: 54,
             header: false,
             cls: 'search-bar',
-            alias: 'SearchBar'
+            alias: 'SearchBar',
+            showOpenPanel: true
         },
 
         initialize : function(options) {
@@ -62,7 +63,7 @@ define([
                     '<div class="tools">',
                         '<div id="search-bar-back"></div>',
                         '<div id="search-bar-next"></div>',
-                        '<div id="search-bar-open-panel"></div>',
+                        this.options.showOpenPanel ? '<div id="search-bar-open-panel"></div>' : '',
                         '<div id="search-bar-close"></div>',
                     '</div>',
                 '</div>'
@@ -103,13 +104,15 @@ define([
             });
             this.btnNext.on('click', _.bind(this.onBtnNextClick, this, 'next'));
 
-            this.btnOpenPanel = new Common.UI.Button({
-                parentEl: $('#search-bar-open-panel'),
-                cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon more-vertical',
-                hint: this.tipOpenAdvancedSettings
-            });
-            this.btnOpenPanel.on('click', _.bind(this.onOpenPanel, this));
+            if (this.options.showOpenPanel) {
+                this.btnOpenPanel = new Common.UI.Button({
+                    parentEl: $('#search-bar-open-panel'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon more-vertical',
+                    hint: this.tipOpenAdvancedSettings
+                });
+                this.btnOpenPanel.on('click', _.bind(this.onOpenPanel, this));
+            }
 
             this.btnClose = new Common.UI.Button({
                 parentEl: $('#search-bar-close'),

@@ -6,7 +6,8 @@
     "textEmail": "E-posta",
     "textPoweredBy": "Tarafından",
     "textTel": "Telefon",
-    "textVersion": "Sürüm"
+    "textVersion": "Sürüm",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -470,8 +471,12 @@
       "txtScheme7": "Net Değer",
       "txtScheme8": "Yayılma",
       "txtScheme9": "Döküm",
+      "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
       "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
       "txtScheme19": "Trek"

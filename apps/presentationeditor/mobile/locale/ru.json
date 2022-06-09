@@ -6,7 +6,8 @@
     "textEmail": "Еmail",
     "textPoweredBy": "Разработано",
     "textTel": "Телефон",
-    "textVersion": "Версия"
+    "textVersion": "Версия",
+    "textEditor": "Редактор презентаций"
   },
   "Common": {
     "Collaboration": {
@@ -113,6 +114,7 @@
       "textRemember": "Запомнить мой выбор",
       "textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
       "textReplaceSuccess": "Поиск выполнен. Заменено вхождений: {0}",
+      "textRequestMacros": "Макрос делает запрос на URL. Вы хотите разрешить запрос на %1?",
       "textYes": "Да",
       "titleLicenseExp": "Истек срок действия лицензии",
       "titleServerVersion": "Редактор обновлен",
@@ -126,8 +128,7 @@
       "warnLicenseUsersExceeded": "Вы достигли лимита на количество пользователей редакторов %1. Свяжитесь с администратором, чтобы узнать больше.",
       "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
       "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
-      "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "У вас нет прав на редактирование этого файла."
     }
   },
   "Error": {
@@ -398,6 +399,7 @@
     "Settings": {
       "mniSlideStandard": "Стандартный (4:3)",
       "mniSlideWide": "Широкоэкранный (16:9)",
+      "notcriticalErrorTitle": "Внимание",
       "textAbout": "О программе",
       "textAddress": "адрес: ",
       "textApplication": "Приложение",
@@ -420,6 +422,7 @@
       "textEmail": "email: ",
       "textEnableAll": "Включить все",
       "textEnableAllMacrosWithoutNotification": "Включить все макросы без уведомления",
+      "textFeedback": "Обратная связь и поддержка",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
       "textFindAndReplaceAll": "Найти и заменить все",
@@ -432,6 +435,7 @@
       "textLocation": "Размещение",
       "textMacrosSettings": "Настройки макросов",
       "textNoTextFound": "Текст не найден",
+      "textOk": "Ok",
       "textOwner": "Владелец",
       "textPoint": "Пункт",
       "textPoweredBy": "Разработано",
@@ -441,6 +445,8 @@
       "textPrint": "Печать",
       "textReplace": "Заменить",
       "textReplaceAll": "Заменить все",
+      "textRestartApplication": "Перезапустите приложение, чтобы изменения вступили в силу.",
+      "textRTL": "Справа налево",
       "textSearch": "Поиск",
       "textSettings": "Настройки",
       "textShowNotification": "Показывать уведомление",
@@ -473,8 +479,7 @@
       "txtScheme6": "Открытая",
       "txtScheme7": "Справедливость",
       "txtScheme8": "Поток",
-      "txtScheme9": "Литейная",
-      "textFeedback": "Feedback & Support"
+      "txtScheme9": "Литейная"
     }
   }
 }

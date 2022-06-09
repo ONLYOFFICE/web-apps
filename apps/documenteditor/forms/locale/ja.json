@@ -90,7 +90,7 @@
   "DE.Controllers.ApplicationController.errorFilePassProtect": "ドキュメントがパスワードで保護されているため開くことができません",
   "DE.Controllers.ApplicationController.errorFileSizeExceed": "ファイルサイズがサーバーで設定された制限を超過しています。<br>Documentサーバー管理者に詳細をお問い合わせください。",
   "DE.Controllers.ApplicationController.errorForceSave": "文書の保存中にエラーが発生しました。コンピューターにファイルを保存するために、「...としてダウンロード」を使用し、または後で再お試しください。",
-  "DE.Controllers.ApplicationController.errorLoadingFont": "フォントがダウンロードされませんでした。文書サーバのアドミニストレータを連絡してください。",
+  "DE.Controllers.ApplicationController.errorLoadingFont": "フォントがダウンロードされませんでした。<br>文書サーバのアドミニストレータを連絡してください。",
   "DE.Controllers.ApplicationController.errorServerVersion": "エディターのバージョンが更新されました。 変更を適用するために、ページが再読み込みされます。",
   "DE.Controllers.ApplicationController.errorSessionAbsolute": "ドキュメント編集セッションが終了しました。 ページをリロードしてください。",
   "DE.Controllers.ApplicationController.errorSessionIdle": "このドキュメントはかなり長い間編集されていませんでした。このページをリロードしてください。",

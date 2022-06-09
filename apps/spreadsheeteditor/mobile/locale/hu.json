@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Powered by",
     "textTel": "Tel.",
-    "textVersion": "Verzió"
+    "textVersion": "Verzió",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -400,7 +401,6 @@
       "textBottomBorder": "Alsó szegély",
       "textBringToForeground": "Előtérbe hoz",
       "textCell": "Cella",
-      "textCellStyles": "Cella stílusok",
       "textCenter": "Középre",
       "textChart": "Diagram",
       "textChartTitle": "Diagram címe",
@@ -549,7 +549,8 @@
       "textYen": "Jen",
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSortHigh2Low": "A legnagyobbtól a legkisebbig rendez",
-      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez"
+      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Válasszon a CSV beállítások közül",
@@ -681,7 +682,11 @@
       "txtSpace": "Szóköz",
       "txtTab": "Lap",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

@@ -6,7 +6,8 @@
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel",
-    "textVersion": "Versió"
+    "textVersion": "Versió",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -400,7 +401,6 @@
       "textBottomBorder": "Vora inferior",
       "textBringToForeground": "Porta al primer pla",
       "textCell": "Cel·la",
-      "textCellStyles": "Estils de cel·la",
       "textCenter": "Centra",
       "textChart": "Gràfic",
       "textChartTitle": "Títol del gràfic",
@@ -549,7 +549,8 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
-      "txtSortLow2High": "Ordena de menor a major"
+      "txtSortLow2High": "Ordena de menor a major",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Trieu les opcions CSV",
@@ -681,7 +682,11 @@
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
       "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

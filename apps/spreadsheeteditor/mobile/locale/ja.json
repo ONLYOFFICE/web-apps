@@ -4,9 +4,10 @@
     "textAddress": "アドレス",
     "textBack": "戻る",
     "textEmail": "メール",
-    "textPoweredBy": "Powered by",
+    "textPoweredBy": "によって提供されています",
     "textTel": "電話",
-    "textVersion": "バージョン"
+    "textVersion": "バージョン",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -98,7 +99,7 @@
         "txtPage": "ページ",
         "txtPageOf": "1%/2%ページ",
         "txtPages": "ページ",
-        "txtPreparedBy": "Prepared by",
+        "txtPreparedBy": "作成者：",
         "txtPrintArea": "印刷範囲",
         "txtQuarter": "四半期",
         "txtQuarters": "四半期",
@@ -204,7 +205,7 @@
     "errorInvalidRef": "選択のための正しい名前、または移動の正しい参照を入力してください。",
     "errorKeyEncrypt": "不明なキーの記述子",
     "errorKeyExpire": "キーの記述子の有効期間が満期した",
-    "errorLoadingFont": "フォントがダウンロードしませんでした。文書のサーバのアドミ二ストレータを連絡してください。",
+    "errorLoadingFont": "フォントがダウンロードしませんでした。<br>文書のサーバのアドミ二ストレータを連絡してください。",
     "errorLockedAll": "シートは他のユーザーによってロックされているので、操作を実行することができません。",
     "errorLockedCellPivot": "ピボット表内のデータを変更することはできません。",
     "errorLockedWorksheetRename": "他のユーザーによって名前が変更されているのでシートの名前を変更することはできません。",
@@ -400,7 +401,6 @@
       "textBottomBorder": "最下部の境界線",
       "textBringToForeground": "前景に動かす",
       "textCell": "セル",
-      "textCellStyles": "セルのスタイル",
       "textCenter": "中央揃え",
       "textChart": "グラフ",
       "textChartTitle": "グラフの名",
@@ -549,7 +549,8 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",
@@ -620,7 +621,7 @@
       "textOwner": "作成者",
       "textPoint": "ポイント",
       "textPortrait": "縦長の向き",
-      "textPoweredBy": "Powered by",
+      "textPoweredBy": "によって提供されています",
       "textPrint": "印刷",
       "textR1C1Style": "R1C1参照形式",
       "textRegionalSettings": "地域と言語のオプション",
@@ -681,7 +682,11 @@
       "txtSpace": "スペース",
       "txtTab": "タブ",
       "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháněno",
     "textTel": "Telefon",
-    "textVersion": "Verze"
+    "textVersion": "Verze",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -148,7 +149,7 @@
     "errorKeyEncrypt": "Neznámý popisovač klíče",
     "errorKeyExpire": "Platnost popisovače klíče skončila",
     "errorLoadingFont": "Styly nejsou načteny.<br>Prosím kontaktujte Vašeho administrátora dokumentových serverů.",
-    "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
+    "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtěte stránku znovu.",
     "errorSessionIdle": "Poslední úprava dokumentu proběhla před dlouhou dobou. Prosím obnovte stránku.",
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
     "errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
@@ -474,7 +475,11 @@
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
       "txtScheme9": "Slévárna",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

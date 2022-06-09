@@ -6,7 +6,8 @@
     "textEmail": "E-Mail",
     "textPoweredBy": "Unterstützt von",
     "textTel": "Tel.",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -400,7 +401,6 @@
       "textBottomBorder": "Rahmenlinie unten",
       "textBringToForeground": "In den Vordergrund bringen",
       "textCell": "Zelle",
-      "textCellStyles": "Zellenformatvorlagen",
       "textCenter": "Zentriert",
       "textChart": "Diagramm",
       "textChartTitle": "Diagrammtitel",
@@ -549,7 +549,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSortHigh2Low": "Absteigend sortieren",
-      "txtSortLow2High": "Aufsteigend sortieren"
+      "txtSortLow2High": "Aufsteigend sortieren",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "CSV-Optionen auswählen",
@@ -681,7 +682,11 @@
       "txtSpace": "Leerzeichen",
       "txtTab": "Tab",
       "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

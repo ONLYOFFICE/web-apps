@@ -4,9 +4,10 @@
     "textAddress": "アドレス",
     "textBack": "戻る",
     "textEmail": "メール",
-    "textPoweredBy": "Powered by",
+    "textPoweredBy": "によって提供されています",
     "textTel": "電話",
-    "textVersion": "バージョン"
+    "textVersion": "バージョン",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -147,7 +148,7 @@
     "errorFileSizeExceed": "ファイルサイズがサーバーの制限を超えています。<br>管理者にお問い合わせください。",
     "errorKeyEncrypt": "不明なキーの記述子",
     "errorKeyExpire": "キーの記述子の有効期間が満期した",
-    "errorLoadingFont": "フォントがダウンロードしませんでした。文書のサーバのアドミ二ストレータを連絡してください。",
+    "errorLoadingFont": "フォントがダウンロードしませんでした。<br>文書のサーバのアドミ二ストレータを連絡してください。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "文書が長いとこ変更されませんでした。ページを再び読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
@@ -434,7 +435,7 @@
       "textNoTextFound": "テキストが見つかりませんでした",
       "textOwner": "所有者",
       "textPoint": "ポイント",
-      "textPoweredBy": "Powered by",
+      "textPoweredBy": "によって提供されています",
       "textPresentationInfo": "プレゼンテーション情報",
       "textPresentationSettings": "プレゼンテーションの設定",
       "textPresentationTitle": "プレゼンテーション名",
@@ -474,7 +475,11 @@
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
       "txtScheme9": "ファウンドリ",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

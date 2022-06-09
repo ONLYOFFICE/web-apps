@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Υποστηρίζεται Από",
     "textTel": "Τηλ",
-    "textVersion": "Έκδοση"
+    "textVersion": "Έκδοση",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -474,7 +475,11 @@
       "txtScheme7": "Μετοχή",
       "txtScheme8": "Ροή",
       "txtScheme9": "Χυτήριο",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

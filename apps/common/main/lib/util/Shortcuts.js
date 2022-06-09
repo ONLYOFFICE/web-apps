@@ -148,8 +148,8 @@ Common.util = Common.util||{};
             }
         },
 
-        suspendEvents: function(key,scope) {
-            window.key.suspend(key,scope);
+        suspendEvents: function(key,scope,propagate) {
+            window.key.suspend(key,scope,propagate);
         },
 
         resumeEvents: function(key,scope) {

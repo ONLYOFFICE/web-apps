@@ -141,7 +141,7 @@ define([
                     }
                 } else
                 if (/althints:show/.test(cmd)) {
-                    if ( param == /false|hide/.test(param) )
+                    if ( /false|hide/.test(param) )
                         Common.NotificationCenter.trigger('hints:clear');
                 }
             };
