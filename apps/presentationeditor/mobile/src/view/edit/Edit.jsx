@@ -289,18 +289,11 @@ const EditTabs = props => {
             component: <EmptyEditLayout />
         });
     } else {
-        if (settings.indexOf('slide') > -1) {
+        if (settings.indexOf('image') > -1) {
             editors.push({
-                caption: _t.textSlide,
-                id: 'edit-slide',
-                component: <EditSlideController />
-            })
-        }
-        if (settings.indexOf('text') > -1) {
-            editors.push({
-                caption: _t.textText,
-                id: 'edit-text',
-                component: <EditTextController />
+                caption: _t.textImage,
+                id: 'edit-image',
+                component: <EditImageController />
             })
         }
         if (settings.indexOf('shape') > -1) {
@@ -309,13 +302,6 @@ const EditTabs = props => {
                  id: 'edit-shape',
                  component: <EditShapeController />
              })
-        }
-        if (settings.indexOf('image') > -1) {
-            editors.push({
-                caption: _t.textImage,
-                id: 'edit-image',
-                component: <EditImageController />
-            })
         }
         if (settings.indexOf('table') > -1) {
             editors.push({
@@ -331,11 +317,18 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
-        if (settings.indexOf('hyperlink') > -1) {
+        if (settings.indexOf('text') > -1) {
             editors.push({
-                caption: _t.textHyperlink,
-                id: 'edit-link',
-                component: <EditLinkController />
+                caption: _t.textText,
+                id: 'edit-text',
+                component: <EditTextController />
+            })
+        }
+        if (settings.indexOf('slide') > -1) {
+            editors.push({
+                caption: _t.textSlide,
+                id: 'edit-slide',
+                component: <EditSlideController />
             })
         }
     }
