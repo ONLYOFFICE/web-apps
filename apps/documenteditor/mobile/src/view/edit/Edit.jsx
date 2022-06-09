@@ -291,18 +291,25 @@ const EditTabs = props => {
             component: <EmptyEditLayout />
         });
     } else {
-        if (settings.indexOf('text') > -1) {
+        if (settings.indexOf('image') > -1) {
             editors.push({
-                caption: _t.textText,
-                id: 'edit-text',
-                component: <EditTextController />
+                caption: _t.textImage,
+                id: 'edit-image',
+                component: <EditImageController />
             })
         }
-        if (settings.indexOf('paragraph') > -1) {
+        if (settings.indexOf('shape') > -1) {
             editors.push({
-                caption: _t.textParagraph,
-                id: 'edit-paragraph',
-                component: <EditParagraphController />
+                caption: _t.textShape,
+                id: 'edit-shape',
+                component: <EditShapeController />
+            })
+        }
+        if (settings.indexOf('chart') > -1) {
+            editors.push({
+                caption: _t.textChart,
+                id: 'edit-chart',
+                component: <EditChartController />
             })
         }
         if (settings.indexOf('table') > -1) {
@@ -319,27 +326,6 @@ const EditTabs = props => {
                 component: <EditHeaderController />
             })
         }
-        if (settings.indexOf('shape') > -1) {
-            editors.push({
-                caption: _t.textShape,
-                id: 'edit-shape',
-                component: <EditShapeController />
-            })
-        }
-        if (settings.indexOf('image') > -1) {
-            editors.push({
-                caption: _t.textImage,
-                id: 'edit-image',
-                component: <EditImageController />
-            })
-        }
-        if (settings.indexOf('chart') > -1) {
-            editors.push({
-                caption: _t.textChart,
-                id: 'edit-chart',
-                component: <EditChartController />
-            })
-        }
         if(inToc) {
             editors.push({
                 caption: _t.textTableOfCont,
@@ -347,13 +333,20 @@ const EditTabs = props => {
                 component: <EditTableContentsController />
             })
         }
-        // if (settings.indexOf('hyperlink') > -1) {
-        //     editors.push({
-        //         caption: _t.textHyperlink,
-        //         id: 'edit-link',
-        //         component: <EditHyperlinkController />
-        //     })
-        // }
+        if (settings.indexOf('paragraph') > -1) {
+            editors.push({
+                caption: _t.textParagraph,
+                id: 'edit-paragraph',
+                component: <EditParagraphController />
+            })
+        }
+        if (settings.indexOf('text') > -1) {
+            editors.push({
+                caption: _t.textText,
+                id: 'edit-text',
+                component: <EditTextController />
+            })
+        }
     }
 
     return (
