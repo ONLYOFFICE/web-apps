@@ -346,7 +346,13 @@ define([
                 }
             },
             helpUrl: function () {
-                return 'https://download.onlyoffice.com/install/desktop/editors/help/v7.2.0-1/apps/documenteditor/main/resources/help';
+                if ( !!nativevars && nativevars.helpUrl ) {
+                    var webapp = window.SSE ? 'spreadsheeteditor' :
+                                    window.PE ? 'presentationeditor' : 'documenteditor';
+                    return nativevars.helpUrl + webapp + '/main/resources/help';
+                }
+
+                return undefined;
             }
         };
     };
