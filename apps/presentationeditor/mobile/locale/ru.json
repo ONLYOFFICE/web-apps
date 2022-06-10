@@ -3,11 +3,11 @@
     "textAbout": "О программе",
     "textAddress": "Адрес",
     "textBack": "Назад",
+    "textEditor": "Редактор презентаций",
     "textEmail": "Еmail",
     "textPoweredBy": "Разработано",
     "textTel": "Телефон",
-    "textVersion": "Версия",
-    "textEditor": "Редактор презентаций"
+    "textVersion": "Версия"
   },
   "Common": {
     "Collaboration": {
