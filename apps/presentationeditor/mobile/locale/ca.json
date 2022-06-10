@@ -114,6 +114,7 @@
       "textRemember": "Recorda la meva elecció",
       "textReplaceSkipped": "S'ha realitzat la substitució. S'han omès {0} ocurrències.",
       "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
+      "textRequestMacros": "Una macro fa una sol·licitud a l'URL. Voleu permetre la sol·licitud al %1?",
       "textYes": "Sí",
       "titleLicenseExp": "La llicència ha caducat",
       "titleServerVersion": "S'ha actualitzat l'editor",
@@ -127,8 +128,7 @@
       "warnLicenseUsersExceeded": "Heu arribat al límit d'usuari per a %1 editors. Contacteu amb l'administrador per a més informació.",
       "warnNoLicense": "Heu arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacteu amb l'equip de vendes %1 per conèixer les condicions d'actualització personal.",
       "warnNoLicenseUsers": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels vostres serveis.",
-      "warnProcessRightsChange": "No teniu permís per editar el fitxer.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "No teniu permís per editar el fitxer."
     }
   },
   "Error": {
@@ -399,6 +399,7 @@
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",
       "mniSlideWide": "Pantalla panoràmica (16:9)",
+      "notcriticalErrorTitle": "Advertiment",
       "textAbout": "Quant a",
       "textAddress": "adreça:",
       "textApplication": "Aplicació",
@@ -421,6 +422,7 @@
       "textEmail": "correu electrònic:",
       "textEnableAll": "Habilita-ho tot",
       "textEnableAllMacrosWithoutNotification": "Habilita totes les macros sense notificació",
+      "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cerca",
       "textFindAndReplace": "Cerca i substitueix",
       "textFindAndReplaceAll": "Cerca i substitueix-ho tot",
@@ -433,6 +435,7 @@
       "textLocation": "Ubicació",
       "textMacrosSettings": "Configuració de les macros",
       "textNoTextFound": "No s'ha trobat el text",
+      "textOk": "D'acord",
       "textOwner": "Propietari",
       "textPoint": "Punt",
       "textPoweredBy": "Amb tecnologia de",
@@ -442,6 +445,8 @@
       "textPrint": "Imprimeix",
       "textReplace": "Substitueix",
       "textReplaceAll": "Substitueix-ho tot ",
+      "textRestartApplication": "Reinicieu l'aplicació perquè els canvis tinguin efecte.",
+      "textRTL": "De dreta a esquerra",
       "textSearch": "Cerca",
       "textSettings": "Configuració",
       "textShowNotification": "Mostra la notificació",
@@ -474,12 +479,7 @@
       "txtScheme6": "Esplanada",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
-      "txtScheme9": "Foneria",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "txtScheme9": "Foneria"
     }
   }
 }

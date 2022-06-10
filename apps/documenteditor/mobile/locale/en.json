@@ -3,11 +3,11 @@
     "textAbout": "About",
     "textAddress": "Address",
     "textBack": "Back",
+    "textEditor": "Document Editor",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
-    "textVersion": "Version",
-    "textEditor": "Document Editor"
+    "textVersion": "Version"
   },
   "Add": {
     "notcriticalErrorTitle": "Warning",

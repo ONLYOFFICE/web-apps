@@ -58,10 +58,10 @@
     "textStartAt": "Iniciar em",
     "textTable": "Tabela",
     "textTableSize": "Tamanho da tabela",
+    "textWithBlueLinks": "Com ligações azuis",
+    "textWithPageNumbers": "Com números de página",
     "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
-    "textTableContents": "Table of Contents",
-    "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers"
+    "textTableContents": "Table of Contents"
   },
   "Common": {
     "Collaboration": {
@@ -349,6 +349,7 @@
     "textTh": "Qui",
     "textThrough": "Através",
     "textTight": "Justo",
+    "textTitle": "Título",
     "textTopAndBottom": "Parte superior e inferior",
     "textTotalRow": "Total de linhas",
     "textTu": "Ter",
@@ -363,8 +364,7 @@
     "textRemoveTableContent": "Remove table of contents",
     "textRightAlign": "Right Align",
     "textSameCreatedNewStyle": "Same as created new style",
-    "textTableOfCont": "TOC",
-    "textTitle": "Title"
+    "textTableOfCont": "TOC"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",

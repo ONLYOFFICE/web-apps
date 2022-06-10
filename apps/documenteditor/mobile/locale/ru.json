@@ -3,11 +3,11 @@
     "textAbout": "О программе",
     "textAddress": "Адрес",
     "textBack": "Назад",
+    "textEditor": "Редактор документов",
     "textEmail": "Еmail",
     "textPoweredBy": "Разработано",
     "textTel": "Телефон",
-    "textVersion": "Версия",
-    "textEditor": "Редактор документов"
+    "textVersion": "Версия"
   },
   "Add": {
     "notcriticalErrorTitle": "Внимание",

@@ -3,11 +3,11 @@
     "textAbout": "About",
     "textAddress": "Address",
     "textBack": "Back",
+    "textEditor": "Presentation Editor",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
-    "textVersion": "Version",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Version"
   },
   "Common": {
     "Collaboration": {

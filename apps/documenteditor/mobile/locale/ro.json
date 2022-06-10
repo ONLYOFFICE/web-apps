@@ -3,11 +3,11 @@
     "textAbout": "Despre",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
+    "textEditor": "Editor de documente text",
     "textEmail": "Email",
     "textPoweredBy": "Dezvoltat de",
     "textTel": "Tel",
-    "textVersion": "Versiune",
-    "textEditor": "Document Editor"
+    "textVersion": "Versiune"
   },
   "Add": {
     "notcriticalErrorTitle": "Avertisment",
