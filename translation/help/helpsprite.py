@@ -6,12 +6,15 @@ from PIL import Image   # pip install Pillow
 PATH_WA = "../../apps/"                                                     # path before editors
 PATH_HELP = "/main/resources/help/images/"                                  # path after editor directory
 NAME_CSS = "sprite.css"
-pathEditors = ["documenteditor", "presentationeditor", "spreadsheeteditor"]     # names of editor directories
+NAME_SMB_CSS = "symbols.css"
+pathEditors = ["documenteditor", "presentationeditor", "spreadsheeteditor","common"]     # names of editor directories
 
 # sprites names
-cssClassNames = ["big","icon", "smb"]
+cssClassNames = ["big","icon"]
+cssClassSmbName = "smb"
 # directories names
-spriteDirNames = ["big", "icons", "symbols"]
+spriteDirNames = ["big", "icons"]
+spriteSmbDirName ="symbols"
 
 # Class for image
 class ImgClass:
@@ -84,11 +87,11 @@ class Fit:
         return self._right
     
     def __str__(self):
-        strFit = "used:" + str(self.used) +"\n"
-        strFit += "x:" + str(self.x) +"\n"
-        strFit += "y:" + str(self.y) +"\n"
-        strFit += "width:" + str(self.width) +"\n"
-        strFit += "height:" + str(self.height) +"\n"
+        strFit = "\tused:" + str(self.used) +"\n"
+        strFit += "\tx:" + str(self.x) +"\n"
+        strFit += "\ty:" + str(self.y) +"\n"
+        strFit += "\twidth:" + str(self.width) +"\n"
+        strFit += "\theight:" + str(self.height) +"\n"
         return strFit
     
 #Image with fit
@@ -205,16 +208,16 @@ class GrowingPacker:
             return None
         
 # create sprite
-def createSprite (dirName, adrSprite, cssClassName):
-    imgAdrArr = listdir(adrDir+dirName)
+def createSprite (dirName, adrSprite, cssClassName, urlDirImage):
+    imgAdrArr = listdir(adrDir+"src/"+dirName)
     for i in range(len(imgAdrArr)):
-        imgAdrArr[i] = adrDir+dirName +"/" + imgAdrArr[i]
+        imgAdrArr[i] = adrDir +"src/"+dirName +"/" + imgAdrArr[i]
     gp = GrowingPacker(imgAdrArr)
     gp.fit()
     spriteFile = open(adrSprite,'a')
     img = Image.new("RGBA", (gp.root.width, gp.root.height), (0,0,0,0))
     
-    strCSS = "." + cssClassName +"{\nbackground-image: url(../images/" + dirName + ".png);\n"
+    strCSS = "." + cssClassName +"{\n\tbackground-image: url(" + urlDirImage + dirName + ".png);\n"
     strCSS += "\tbackground-repeat: no-repeat;\n\tdisplay: inline-block;\n}\n\n"
     
     spriteFile.write(strCSS)  
@@ -231,19 +234,19 @@ def createSprite (dirName, adrSprite, cssClassName):
 #crreate all sprites
 for index_editor in range(len(pathEditors)):
     adrDir = PATH_WA + pathEditors[index_editor] + PATH_HELP
-    if(path.exists(adrDir + NAME_CSS)):
-        remove(adrDir + NAME_CSS)
-    for index_spr in range(len(spriteDirNames)):
-        createSprite(spriteDirNames[index_spr], adrDir + NAME_CSS, cssClassNames[index_spr])
 
-
-
-
-
-
-
-
-
-
-
+    spriteName = adrDir + NAME_CSS
+    isCommon = (pathEditors[index_editor]=="common")
+    if(isCommon):
+        spriteName = adrDir + NAME_SMB_CSS    
+    if(path.exists(spriteName)):
+        remove(spriteName)
+    if(isCommon):
+        createSprite(spriteSmbDirName, spriteName, cssClassSmbName, "../../../../../common/main/resources/help/images/")
+    else:
+        spriteFile = open(spriteName,'a')
+        spriteFile.write('@import "../../../../../common/main/resources/help/images/symbols.css";\n\n')
+        spriteFile.close()
+        for index_spr in range(len(spriteDirNames)):  
+            createSprite(spriteDirNames[index_spr], spriteName, cssClassNames[index_spr],"../images/")
 
