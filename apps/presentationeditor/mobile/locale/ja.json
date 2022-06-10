@@ -4,9 +4,10 @@
     "textAddress": "アドレス",
     "textBack": "戻る",
     "textEmail": "メール",
-    "textPoweredBy": "Powered by",
+    "textPoweredBy": "によって提供されています",
     "textTel": "電話",
-    "textVersion": "バージョン"
+    "textVersion": "バージョン",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -113,6 +114,7 @@
       "textRemember": "選択を覚える",
       "textReplaceSkipped": "置換が完了しました。{0}つスキップされました。",
       "textReplaceSuccess": "検索が完了しました。{0}つが置換されました。",
+      "textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
       "textYes": "はい",
       "titleLicenseExp": "ライセンスの有効期限が切れています",
       "titleServerVersion": "編集者が更新された",
@@ -146,7 +148,7 @@
     "errorFileSizeExceed": "ファイルサイズがサーバーの制限を超えています。<br>管理者にお問い合わせください。",
     "errorKeyEncrypt": "不明なキーの記述子",
     "errorKeyExpire": "キーの記述子の有効期間が満期した",
-    "errorLoadingFont": "フォントがダウンロードしませんでした。文書のサーバのアドミ二ストレータを連絡してください。",
+    "errorLoadingFont": "フォントがダウンロードしませんでした。<br>文書のサーバのアドミ二ストレータを連絡してください。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "文書が長いとこ変更されませんでした。ページを再び読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
@@ -245,7 +247,7 @@
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
-      "textActualSize": "既定のサイズ",
+      "textActualSize": "既定サイズ",
       "textAddCustomColor": "ユーザーの色を追加する",
       "textAdditional": "追加",
       "textAdditionalFormatting": "追加の書式設定",
@@ -397,6 +399,7 @@
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
       "mniSlideWide": "ワイド画面(16:9)",
+      "notcriticalErrorTitle": "警告",
       "textAbout": "詳細情報",
       "textAddress": "アドレス：",
       "textApplication": "アプリ",
@@ -419,6 +422,7 @@
       "textEmail": "メール：",
       "textEnableAll": "全てを有効にする",
       "textEnableAllMacrosWithoutNotification": "警告を表示してないすべてのマクロを有効にする",
+      "textFeedback": "フィードバック＆サポート",
       "textFind": "検索する",
       "textFindAndReplace": "検索と置換",
       "textFindAndReplaceAll": "全てを 検索して置換する",
@@ -431,15 +435,18 @@
       "textLocation": "場所",
       "textMacrosSettings": "マクロの設定",
       "textNoTextFound": "テキストが見つかりませんでした",
+      "textOk": "OK",
       "textOwner": "所有者",
       "textPoint": "ポイント",
-      "textPoweredBy": "Powered by",
+      "textPoweredBy": "によって提供されています",
       "textPresentationInfo": "プレゼンテーション情報",
       "textPresentationSettings": "プレゼンテーションの設定",
       "textPresentationTitle": "プレゼンテーション名",
       "textPrint": "印刷する",
       "textReplace": "並べ替え",
       "textReplaceAll": "全てを置換する",
+      "textRestartApplication": "変更を有効にするには、アプリケーションを再起動してください",
+      "textRTL": "右から左へ",
       "textSearch": "検索",
       "textSettings": "設定",
       "textShowNotification": "通知を表示する",
@@ -472,8 +479,7 @@
       "txtScheme6": "コンコース",
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
-      "txtScheme9": "ファウンドリ",
-      "textFeedback": "Feedback & Support"
+      "txtScheme9": "ファウンドリ"
     }
   }
 }

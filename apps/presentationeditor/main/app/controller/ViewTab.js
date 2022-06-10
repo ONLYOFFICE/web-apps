@@ -85,7 +85,6 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-
             this.addListeners({
                 'ViewTab': {
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
@@ -152,6 +151,10 @@ define([
                 })).then(function () {
                     me.view.setEvents();
 
+                    if (!Common.UI.Themes.available()) {
+                        me.view.btnInterfaceTheme.$el.closest('.group').remove();
+                        me.view.$el.find('.separator-theme').remove();
+                    }
                     if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
                         me.view.chStatusbar.$el.remove();
 
@@ -173,24 +176,33 @@ define([
                         .on('combo:blur',    _.bind(me.onComboBlur, me, false));
                 });
 
-                var menuItems = [],
-                    currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                for (var t in Common.UI.Themes.map()) {
-                    menuItems.push({
-                        value: t,
-                        caption: Common.UI.Themes.get(t).text,
-                        checked: t === currentTheme,
-                        checkable: true,
-                        toggleGroup: 'interface-theme'
-                    });
-                }
+                if (Common.UI.Themes.available()) {
+                    function _fill_themes() {
+                        var btn = this.view.btnInterfaceTheme;
+                        if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                        else btn.setMenu(new Common.UI.Menu());
 
-                if (menuItems.length) {
-                    this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                    this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                        var value = item.value;
-                        Common.UI.Themes.setTheme(value);
-                    }, this));
+                        var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                        for (var t in Common.UI.Themes.map()) {
+                            btn.menu.addItem({
+                                value: t,
+                                caption: Common.UI.Themes.get(t).text,
+                                checked: t === currentTheme,
+                                checkable: true,
+                                toggleGroup: 'interface-theme'
+                            });
+                        }
+                    }
+
+                    Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
+                    _fill_themes.call(me);
+
+                    if (me.view.btnInterfaceTheme.menu.items.length) {
+                        this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                            var value = item.value;
+                            Common.UI.Themes.setTheme(value);
+                        }, this));
+                    }
                 }
             }
         },
@@ -220,7 +232,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view) {
+            if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
                 if ( !!menu_item ) {

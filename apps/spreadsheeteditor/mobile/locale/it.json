@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Sviluppato da",
     "textTel": "Tel.",
-    "textVersion": "Versione"
+    "textVersion": "Versione",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +161,8 @@
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -399,7 +401,6 @@
       "textBottomBorder": "Bordo inferiore",
       "textBringToForeground": "Portare in primo piano",
       "textCell": "Cella",
-      "textCellStyles": "Stili di cella",
       "textCenter": "Al centro",
       "textChart": "Grafico",
       "textChartTitle": "Titolo di grafico",
@@ -548,7 +549,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordinare dal più alto al più basso",
-      "txtSortLow2High": "Ordinare dal più basso al più alto"
+      "txtSortLow2High": "Ordinare dal più basso al più alto",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Scegliere le opzioni CSV",
@@ -680,7 +682,11 @@
       "txtSpace": "Spazio",
       "txtTab": "Tabulazione",
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

@@ -1,4 +1,5 @@
 import {action, observable, makeObservable, computed} from 'mobx';
+import CThumbnailLoader from '../../../../common/mobile/utils/CThumbnailLoader';
 
 export class storeTextSettings {
     constructor() {
@@ -133,9 +134,10 @@ export class storeTextSettings {
     }
 
     loadSprite() {
-        this.spriteThumbs = new Image();
-        this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
-        this.spriteThumbs.src = this.thumbs[this.thumbIdx].path;
+        this.spriteThumbs = new CThumbnailLoader();
+        this.spriteThumbs.load(this.thumbs[this.thumbIdx].path, () => {
+            this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+        });
     }
 
     initFontInfo(fontObj) {

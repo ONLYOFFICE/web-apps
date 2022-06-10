@@ -1356,7 +1356,7 @@ define([
 
             if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
                 this.$window.find('.combo-values').css({'height': Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1] - 103 + 'px'});
-                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
@@ -1684,7 +1684,7 @@ define([
                 this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
 
                 // listView.isSuspendEvents = false;
-                listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                listView.scroller.update({minScrollbarLength  : listView.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
@@ -1943,7 +1943,7 @@ define([
                 this.checkCellTrigerBlock = undefined;
             }
             this.btnOk.setDisabled(this.cells.length<1);
-            this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             this.cellsList.cmpEl.toggleClass('scroll-padding', this.cellsList.scroller.isVisible());
         },
 
@@ -2027,7 +2027,7 @@ define([
             else if (this.curSize.resize) {
                 var size = this.getSize();
                 this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
-                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
@@ -2038,7 +2038,7 @@ define([
             if (size[1] !== this.curSize.height) {
                 if (!this.curSize.resize) {
                     this.curSize.resize = true;
-                    this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: false, suppressScrollX: true});
+                    this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: false, suppressScrollX: true});
                 }
                 this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
                 this.curSize.height = size[1];

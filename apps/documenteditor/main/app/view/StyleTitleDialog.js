@@ -85,6 +85,7 @@ define([
                 style       : 'width: 100%;',
                 validateOnBlur: false,
                 validation  : function(value) {
+                    value = value.trim();
                     var isvalid = value != '';
 
                     if (isvalid) {
@@ -121,7 +122,7 @@ define([
 
         getTitle: function () {
             var me = this;
-            return me.inputTitle.getValue();
+            return me.inputTitle.getValue().trim();
         },
 
         getNextStyle: function () {

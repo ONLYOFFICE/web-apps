@@ -6,7 +6,8 @@
     "textEmail": "Correo electrónico",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel",
-    "textVersion": "Versión"
+    "textVersion": "Versión",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +161,8 @@
       "warnLicenseUsersExceeded": "Alcanzou o límite de usuarios para os editores de %1. Por favor, contacte co se uadministrador para recibir máis información.",
       "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
-      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro."
+      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -399,7 +401,6 @@
       "textBottomBorder": "Bordo inferior",
       "textBringToForeground": "Traer ao primeiro plano",
       "textCell": "Celda",
-      "textCellStyles": "Estilos de celda",
       "textCenter": "Centro",
       "textChart": "Gráfico",
       "textChartTitle": "Título do gráfico",
@@ -548,7 +549,8 @@
       "textYen": "Ien",
       "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de maior a menor",
-      "txtSortLow2High": "Ordenar de menor a maior "
+      "txtSortLow2High": "Ordenar de menor a maior ",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",
@@ -680,7 +682,11 @@
       "txtSpace": "Espazo",
       "txtTab": "Lapela",
       "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

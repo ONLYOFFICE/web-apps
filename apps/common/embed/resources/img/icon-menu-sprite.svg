@@ -1,4 +1,4 @@
-<svg width="380" height="40" viewBox="0 0 380 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="440" height="40" viewBox="0 0 440 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="icon-menu-sprite Embedded Viewer">
 <g id="view-settings">
 <path id="Vector" d="M17 26H3V27H17V26Z" fill="white"/>
@@ -147,6 +147,24 @@
 </g>
 <g id="close_2">
 <path id="Vector 73_2" d="M366 5L375 14M375 5L366 14" stroke="black" stroke-width="1.5"/>
+</g>
+<g id="search">
+<path id="Union_27" fill-rule="evenodd" clip-rule="evenodd" d="M393 8.5C393 10.9853 390.985 13 388.5 13C386.015 13 384 10.9853 384 8.5C384 6.01472 386.015 4 388.5 4C390.985 4 393 6.01472 393 8.5ZM392.02 12.7266C391.066 13.5217 389.839 14 388.5 14C385.462 14 383 11.5376 383 8.5C383 5.46243 385.462 3 388.5 3C391.538 3 394 5.46243 394 8.5C394 9.83875 393.522 11.0658 392.727 12.0195L396.854 16.1465L396.146 16.8536L392.02 12.7266Z" fill="black"/>
+</g>
+<g id="search_2">
+<path id="Union_28" fill-rule="evenodd" clip-rule="evenodd" d="M393 28.5C393 30.9853 390.985 33 388.5 33C386.015 33 384 30.9853 384 28.5C384 26.0147 386.015 24 388.5 24C390.985 24 393 26.0147 393 28.5ZM392.02 32.7266C391.066 33.5217 389.839 34 388.5 34C385.462 34 383 31.5376 383 28.5C383 25.4624 385.462 23 388.5 23C391.538 23 394 25.4624 394 28.5C394 29.8387 393.522 31.0658 392.727 32.0195L396.854 36.1465L396.146 36.8536L392.02 32.7266Z" fill="white"/>
+</g>
+<g id="arrow-up">
+<path id="Union_29" fill-rule="evenodd" clip-rule="evenodd" d="M410 6.29297L410.354 6.64652L415.854 12.1465L415.146 12.8536L410 7.70718L404.854 12.8536L404.146 12.1465L409.646 6.64652L410 6.29297Z" fill="black"/>
+</g>
+<g id="arrow-up_2">
+<path id="Union_30" fill-rule="evenodd" clip-rule="evenodd" d="M410 26.293L410.354 26.6465L415.854 32.1465L415.146 32.8536L410 27.7072L404.854 32.8536L404.146 32.1465L409.646 26.6465L410 26.293Z" fill="white"/>
+</g>
+<g id="arrow-down">
+<path id="Union_31" fill-rule="evenodd" clip-rule="evenodd" d="M430 13.7071L430.354 13.3536L435.854 7.85359L435.146 7.14648L430 12.2929L424.854 7.14648L424.146 7.85359L429.646 13.3536L430 13.7071Z" fill="black"/>
+</g>
+<g id="arrow-down_2">
+<path id="Union_32" fill-rule="evenodd" clip-rule="evenodd" d="M430 33.7071L430.354 33.3536L435.854 27.8536L435.146 27.1465L430 32.2929L424.854 27.1465L424.146 27.8536L429.646 33.3536L430 33.7071Z" fill="white"/>
 </g>
 </g>
 </svg>

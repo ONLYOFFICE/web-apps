@@ -3,6 +3,7 @@
     "textAbout": "О программе",
     "textAddress": "Адрес",
     "textBack": "Назад",
+    "textEditor": "Редактор таблиц",
     "textEmail": "Еmail",
     "textPoweredBy": "Разработано",
     "textTel": "Телефон",
@@ -151,6 +152,7 @@
       "textRemember": "Запомнить мой выбор",
       "textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
       "textReplaceSuccess": "Поиск выполнен. Заменено вхождений: {0}",
+      "textRequestMacros": "Макрос делает запрос на URL. Вы хотите разрешить запрос на %1?",
       "textYes": "Да",
       "titleServerVersion": "Редактор обновлен",
       "titleUpdateVersion": "Версия изменилась",
@@ -298,9 +300,9 @@
     "textRenameSheet": "Переименовать лист",
     "textSheet": "Лист",
     "textSheetName": "Имя листа",
+    "textTabColor": "Цвет ярлычка",
     "textUnhide": "Показать",
-    "textWarnDeleteSheet": "Лист может содержать данные. Продолжить операцию?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "Лист может содержать данные. Продолжить операцию?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
@@ -399,7 +401,7 @@
       "textBottomBorder": "Нижняя граница",
       "textBringToForeground": "Перенести на передний план",
       "textCell": "Ячейка",
-      "textCellStyles": "Стили ячеек",
+      "textCellStyle": "Стиль ячейки",
       "textCenter": "По центру",
       "textChart": "Диаграмма",
       "textChartTitle": "Заголовок диаграммы",
@@ -580,6 +582,7 @@
       "textCustomSize": "Особый размер",
       "textDarkTheme": "Темная тема",
       "textDelimeter": "Разделитель",
+      "textDirection": "Направление",
       "textDisableAll": "Отключить все",
       "textDisableAllMacrosWithNotification": "Отключить все макросы с уведомлением",
       "textDisableAllMacrosWithoutNotification": "Отключить все макросы без уведомления",
@@ -591,6 +594,7 @@
       "textEnableAllMacrosWithoutNotification": "Включить все макросы без уведомления",
       "textEncoding": "Кодировка",
       "textExample": "Пример",
+      "textFeedback": "Обратная связь и поддержка",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
       "textFindAndReplaceAll": "Найти и заменить все",
@@ -606,6 +610,7 @@
       "textLastModified": "Последнее изменение",
       "textLastModifiedBy": "Автор последнего изменения",
       "textLeft": "Слева",
+      "textLeftToRight": "Слева направо",
       "textLocation": "Размещение",
       "textLookIn": "Область поиска",
       "textMacrosSettings": "Настройки макросов",
@@ -626,7 +631,9 @@
       "textReplace": "Заменить",
       "textReplaceAll": "Заменить все",
       "textResolvedComments": "Решенные комментарии",
+      "textRestartApplication": "Перезапустите приложение, чтобы изменения вступили в силу.",
       "textRight": "Справа",
+      "textRightToLeft": "Справа налево",
       "textSearch": "Поиск",
       "textSearchBy": "Поиск",
       "textSearchIn": "Искать",
@@ -679,8 +686,7 @@
       "txtSemicolon": "Точка с запятой",
       "txtSpace": "Пробел",
       "txtTab": "Табуляция",
-      "warnDownloadAs": "Если вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?",
-      "textFeedback": "Feedback & Support"
+      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?"
     }
   }
 }

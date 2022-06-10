@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháněno",
     "textTel": "Telefon",
-    "textVersion": "Verze"
+    "textVersion": "Verze",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -126,7 +127,8 @@
       "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -147,7 +149,7 @@
     "errorKeyEncrypt": "Neznámý popisovač klíče",
     "errorKeyExpire": "Platnost popisovače klíče skončila",
     "errorLoadingFont": "Styly nejsou načteny.<br>Prosím kontaktujte Vašeho administrátora dokumentových serverů.",
-    "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
+    "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtěte stránku znovu.",
     "errorSessionIdle": "Poslední úprava dokumentu proběhla před dlouhou dobou. Prosím obnovte stránku.",
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
     "errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
@@ -473,7 +475,11 @@
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
       "txtScheme9": "Slévárna",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

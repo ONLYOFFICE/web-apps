@@ -121,7 +121,8 @@ define([
             me._TtHeight = 20;
             /** coauthoring begin **/
             this.wrapEvents = {
-                apiHideComment: _.bind(this.onApiHideComment, this)
+                apiHideComment: _.bind(this.onApiHideComment, this),
+                onKeyUp: _.bind(this.onKeyUp, this)
             };
             /** coauthoring end **/
 
@@ -172,6 +173,9 @@ define([
                     me.hideCoAuthTips();
                     me.hideForeignSelectTips();
                     me.onDocumentResize();
+                    if (me.api && !me.tooltips.input_msg.isHidden && me.tooltips.input_msg.text) {
+                        me.changeInputMessagePosition(me.tooltips.input_msg);
+                    }
                 },
                 'cells:range': function(status){
                     me.onCellsRange(status);
@@ -233,7 +237,7 @@ define([
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
-                view.menuParagraphBullets.menu.on('render:after',   _.bind(me.onBulletMenuShowAfter, me));
+                // view.menuParagraphBullets.menu.on('render:after',   _.bind(me.onBulletMenuShowAfter, me));
                 view.menuParagraphBullets.menu.on('show:after',     _.bind(me.onBulletMenuShowAfter, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
@@ -915,6 +919,7 @@ define([
                             api: me.api,
                             props: props,
                             type: 0,
+                            storage: me.permissions.canRequestInsertImage || me.permissions.fileChoiceUrl && me.permissions.fileChoiceUrl.indexOf("{documentType}")>-1,
                             interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {
@@ -946,7 +951,25 @@ define([
                 rawData = record;
             }
 
-            if (this.api)
+            if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
+                var bullet = new Asc.asc_CBullet();
+                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
+                    bullet.asc_putSymbol(rawData.drawdata.char);
+                    bullet.asc_putFont(rawData.drawdata.specialFont);
+                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
+                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
+
+                var props;
+                var selectedObjects = this.api.asc_getGraphicObjectProps();
+                for (var i = 0; i < selectedObjects.length; i++) {
+                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                        props = selectedObjects[i].asc_getObjectValue();
+                        props.asc_putBullet(bullet);
+                        this.api.asc_setGraphicObjectProps(props);
+                        break;
+                    }
+                }
+            } else
                 this.api.asc_setListType(rawData.type, rawData.subtype);
 
             if (e.type !== 'click')
@@ -1799,7 +1822,7 @@ define([
                     delta = e.deltaY;
                 }
 
-                if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+                if (e.ctrlKey && !e.altKey) {
                     var factor = this.api.asc_getZoom();
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
@@ -1824,6 +1847,9 @@ define([
         onDocumentKeyDown: function(event){
             if (this.api){
                 var key = event.keyCode;
+                if (this.hkSpecPaste) {
+                    this._needShowSpecPasteMenu = !event.shiftKey && !event.altKey && event.keyCode == Common.UI.Keys.CTRL;
+                }
                 if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
                     if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isGecko && key === Common.UI.Keys.EQUALITY_FF) || (Common.Utils.isOpera && key == 43)){
                         if (!this.api.isCellEdited) {
@@ -1863,6 +1889,8 @@ define([
                     event.preventDefault();
                     event.stopPropagation();
                     return false;
+                } else if (key == Common.UI.Keys.ESC && !this.tooltips.input_msg.isHidden && this.tooltips.input_msg.text) {
+                    this.onInputMessage();
                 }
             }
         },
@@ -2106,9 +2134,48 @@ define([
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
                         documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
-                        // documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
-                        var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
+                        var type = listtype.get_ListType(),
+                            subtype = listtype.get_ListSubType(),
+                            rec,
+                            defrec = documentHolder.paraBulletsPicker.store.at(7),
+                            drawDefBullet = (defrec.get('subtype')===0x1000) && (type===1 || subtype!==0x1000);
+                        if (type===1 || subtype!==0x1000) {
+                            rec = documentHolder.paraBulletsPicker.store.findWhere({ type: type, subtype: subtype });
+                        } else {
+                            var bullet = listtype.asc_getListCustom();
+                            if (bullet) {
+                                var bullettype = bullet.asc_getType();
+                                if (bullettype === Asc.asc_PreviewBulletType.char) {
+                                    var symbol = bullet.asc_getChar();
+                                    if (symbol) {
+                                        rec = defrec;
+                                        rec.set('subtype', 0x1000);
+                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('tip', '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        drawDefBullet = false;
+
+                                    }
+                                } else if (bullettype === Asc.asc_PreviewBulletType.image) {
+                                    var id = bullet.asc_getImageId();
+                                    if (id) {
+                                        rec = defrec;
+                                        rec.set('subtype', 0x1000);
+                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('tip', '');
+                                        documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
+                                        drawDefBullet = false;
+                                    }
+                                }
+                            }
+                        }
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
+                        if (drawDefBullet) {
+                            defrec.set('subtype', 8);
+                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('tip', documentHolder.tipMarkersDash);
+                            documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
+                        }
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         documentHolder.pmiTextAdvanced.textInfo = selectedObjects[i].asc_getObjectValue();
                         isObjLocked = isObjLocked || documentHolder.pmiTextAdvanced.textInfo.asc_getLocked();
@@ -2327,7 +2394,7 @@ define([
                 canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments() && cellinfo.asc_getComments().length < 1;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
-            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
+            documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo());
             documentHolder.menuViewCopySeparator.setVisible(isInSign);
 
             var isRequested = (signProps) ? signProps.asc_getRequested() : false;
@@ -2768,6 +2835,26 @@ define([
             }
         },
 
+        changeInputMessagePosition: function (inputTip) {
+            var pos = [
+                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                ],
+                coord  = this.api.asc_getActiveCellCoord(),
+                showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputTip.ref.getBSTip().$tip.height() - 5];
+            var tipwidth = inputTip.ref.getBSTip().$tip.width();
+            if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+            if (showPoint[1] < pos[1])
+                showPoint[1] = pos[1] + coord.asc_getY() + coord.asc_getHeight() + 5;
+
+            inputTip.ref.getBSTip().$tip.css({
+                top : showPoint[1] + 'px',
+                left: showPoint[0] + 'px',
+                'z-index': 900
+            });
+        },
+
         onInputMessage: function(title, message) {
             var inputtip = this.tooltips.input_msg;
 
@@ -2794,28 +2881,24 @@ define([
                     inputtip.ref = new Common.UI.Tooltip({
                         owner   : inputtip.parentEl,
                         html    : true,
-                        title   : hint
+                        title   : hint,
+                        keepvisible: true
                     });
 
                     inputtip.ref.show([-10000, -10000]);
+
+                    var $tip = inputtip.ref.getBSTip().$tip;
+                    $tip.on('click', function () {
+                        inputtip.ref.hide();
+                        inputtip.ref = undefined;
+                        inputtip.text = '';
+                        inputtip.isHidden = true;
+                    });
+
                     inputtip.isHidden = false;
                 }
 
-                var pos = [
-                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ],
-                    coord  = this.api.asc_getActiveCellCoord(),
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputtip.ref.getBSTip().$tip.height() - 5];
-                var tipwidth = inputtip.ref.getBSTip().$tip.width();
-                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
-                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
-
-                inputtip.ref.getBSTip().$tip.css({
-                    top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px',
-                    'z-index': 900
-                });
+                this.changeInputMessagePosition(inputtip);
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {
                     inputtip.ref.hide();
@@ -2865,8 +2948,10 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
+                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
                     menu        : new Common.UI.Menu({items: []})
                 });
+                me.initSpecialPasteEvents();
             }
 
             if (pasteItems.length>0) {
@@ -2884,49 +2969,19 @@ define([
                 _.each(pasteItems, function(menuItem, index) {
                     if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
                         importText = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0],
+                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
                             checkable: true,
                             toggleGroup : 'specialPasteGroup'
-                        }).on('click', function(item, e) {
-                            (new Common.Views.OpenDialog({
-                                title: me.txtImportWizard,
-                                closable: true,
-                                type: Common.Utils.importTextType.Paste,
-                                preview: true,
-                                api: me.api,
-                                handler: function (result, settings) {
-                                    if (result == 'ok') {
-                                        if (me && me.api) {
-                                            var props = new Asc.SpecialPasteProps();
-                                            props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-                                            props.asc_setAdvancedOptions(settings.textOptions);
-                                            me.api.asc_SpecialPaste(props);
-                                        }
-                                        me._state.lastSpecPasteChecked = item;
-                                    } else {
-                                        item.setChecked(false, true);
-                                        me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
-                                    }
-                                }
-                            })).show();
-                            setTimeout(function(){menu.hide();}, 100);
-                        });
+                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
                         me._arrSpecialPaste[menuItem][2] = importText;
                     } else if (me._arrSpecialPaste[menuItem]) {
                         var mnu = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0],
+                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
                             checkable: true,
                             toggleGroup : 'specialPasteGroup'
-                        }).on('click', function(item, e) {
-                            me._state.lastSpecPasteChecked = item;
-
-                            var props = new Asc.SpecialPasteProps();
-                            props.asc_setProps(item.value);
-                            me.api.asc_SpecialPaste(props);
-                            setTimeout(function(){menu.hide();}, 100);
-                        });
+                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
                         groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
                         me._arrSpecialPaste[menuItem][2] = mnu;
                     }
@@ -2977,6 +3032,7 @@ define([
 
             if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
+                $(document).off('keyup', this.wrapEvents.onKeyUp);
                 return;
             }
 
@@ -3002,12 +3058,117 @@ define([
 
             pasteContainer.css({left: showPoint[0], top : showPoint[1]});
             pasteContainer.show();
+            setTimeout(function() {
+                $(document).on('keyup', me.wrapEvents.onKeyUp);
+            }, 10);
         },
 
         onHideSpecialPasteOptions: function() {
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
-            if (pasteContainer.is(':visible'))
+            if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
+                $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        onSpecialPasteItemClick: function(item, e) {
+            var me = this,
+                menu = this.btnSpecialPaste.menu;
+            if (item.value == Asc.c_oSpecialPasteProps.useTextImport) {
+                (new Common.Views.OpenDialog({
+                    title: me.txtImportWizard,
+                    closable: true,
+                    type: Common.Utils.importTextType.Paste,
+                    preview: true,
+                    api: me.api,
+                    handler: function (result, settings) {
+                        if (result == 'ok') {
+                            if (me && me.api) {
+                                var props = new Asc.SpecialPasteProps();
+                                props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
+                                props.asc_setAdvancedOptions(settings.textOptions);
+                                me.api.asc_SpecialPaste(props);
+                            }
+                            me._state.lastSpecPasteChecked = item;
+                        } else if (item.cmpEl) {
+                            item.setChecked(false, true);
+                            me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
+                        }
+                    }
+                })).show();
+                setTimeout(function(){menu.hide();}, 100);
+            } else {
+                me._state.lastSpecPasteChecked = item;
+                var props = new Asc.SpecialPasteProps();
+                props.asc_setProps(item.value);
+                me.api.asc_SpecialPaste(props);
+                setTimeout(function(){menu.hide();}, 100);
+            }
+            if (!item.cmpEl && me._state.lastSpecPasteChecked) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.items[i].setChecked(menu.items[i].value===me._state.lastSpecPasteChecked.value, true);
+                }
+            }
+            return false;
+        },
+
+        onKeyUp: function (e) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+                $('button', this.btnSpecialPaste.cmpEl).click();
+                e.preventDefault();
+            }
+            this._needShowSpecPasteMenu = false;
+        },
+
+        initSpecialPasteEvents: function() {
+            var me = this;
+            me.hkSpecPaste = [];
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.paste] = 'P';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = 'O';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = 'B';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = 'W';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = 'G';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.transpose] = 'T';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = 'V';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = 'A';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = 'E';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = 'R';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.link] = 'N';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.linkedPicture] = 'I';
+
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'M';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = 'T';
+            // me.hkSpecPaste[Asc.c_oSpecialPasteProps.useTextImport] = '';
+
+            var str = '';
+            for(var key in me.hkSpecPaste){
+                if(me.hkSpecPaste.hasOwnProperty(key)){
+                    if (str.indexOf(me.hkSpecPaste[key])<0)
+                        str += me.hkSpecPaste[key] + ',';
+                }
+            }
+            str = str.substring(0, str.length-1)
+            var keymap = {};
+            keymap[str] = _.bind(function(e) {
+                var menu = this.btnSpecialPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
+                        return me.onSpecialPasteItemClick({value: menu.items[i].value});
+                    }
+                }
+            }, me);
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+            Common.util.Shortcuts.suspendEvents(str, undefined, true);
+
+            me.btnSpecialPaste.menu.on('show:after', function(menu) {
+                Common.util.Shortcuts.resumeEvents(str);
+            }).on('hide:after', function(menu) {
+                Common.util.Shortcuts.suspendEvents(str, undefined, true);
+            });
         },
 
         onToggleAutoCorrectOptions: function(autoCorrectOptions) {
@@ -3743,6 +3904,7 @@ define([
                 outerMenu:  {menu: view.menuParagraphBullets.menu, index: 0},
                 groups      : view.paraBulletsPicker.groups,
                 store       : view.paraBulletsPicker.store,
+                delayRenderTips: true,
                 itemTemplate: _.template('<% if (type==0) { %>' +
                                             '<div id="<%= id %>" class="item-markerlist"></div>' +
                                         '<% } else if (type==1) { %>' +
@@ -3758,14 +3920,27 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                if (item.get('group')=='menu-list-bullet-group')
-                    arrMarker.push(item.get('id'));
+                var data = item.get('drawdata');
+                data['divId'] = item.get('id');
+                if (item.get('group')==='menu-list-bullet-group')
+                    arrMarker.push(data);
                 else
-                    arrNum.push(item.get('id'));
+                    arrNum.push(data);
             });
+
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
                 this.api.SetDrawImagePreviewBulletForMenu(arrMarker, 0);
                 this.api.SetDrawImagePreviewBulletForMenu(arrNum, 1);
+            }
+        },
+
+        updateBulletTip: function(view, title) {
+            if (view) {
+                var tip = $(view.el).data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = title;
+                    tip.$tip.find('.tooltip-inner').text(title);
+                }
             }
         },
 

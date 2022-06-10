@@ -6,7 +6,8 @@
     "textEmail": "Correo electrónico",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel",
-    "textVersion": "Versión "
+    "textVersion": "Versión ",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -126,7 +127,8 @@
       "warnLicenseUsersExceeded": "Alcanzou o límite de usuarios para os editores de %1. Por favor, contacte co se uadministrador para recibir máis información.",
       "warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase para as úa visualización. Póñase en contacto co equipo de vendas de %1 para coñecer as condicións de actualización persoal.",
       "warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
-      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro."
+      "warnProcessRightsChange": "Non ten permiso para editar o ficheiro.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -473,7 +475,11 @@
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
       "txtScheme9": "Fundición",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

@@ -6,7 +6,8 @@
     "textEmail": "电子邮件",
     "textPoweredBy": "技术支持",
     "textTel": "电话",
-    "textVersion": "版本"
+    "textVersion": "版本",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -120,7 +121,7 @@
         "txtStyle_Input": "输入",
         "txtStyle_Linked_Cell": "关联的单元格",
         "txtStyle_Neutral": "中性",
-        "txtStyle_Normal": "正常",
+        "txtStyle_Normal": "常规",
         "txtStyle_Note": "附注",
         "txtStyle_Output": "输出",
         "txtStyle_Percent": "百分之",
@@ -160,7 +161,8 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。请与  %1  的销售团队联系，以获取个人升级条款。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。"
+      "warnProcessRightsChange": "你没有编辑文件的权限。",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -324,16 +326,19 @@
       "sCatTextAndData": "文字和数据",
       "textAddLink": "添加链接",
       "textAddress": "地址",
+      "textAllTableHint": "返回表格或指定表格列的全部内容，包括列标题、数据和总行数",
       "textBack": "返回",
       "textCancel": "取消",
       "textChart": "图表",
       "textComment": "评论",
+      "textDataTableHint": "返回表格或指定表格列的数据单元格",
       "textDisplay": "展示",
       "textEmptyImgUrl": "你需要指定图片的网页。",
       "textExternalLink": "外部链接",
       "textFilter": "过滤",
       "textFunction": "功能",
       "textGroups": "分类",
+      "textHeadersTableHint": "返回表格或指定表格列的列头",
       "textImage": "图片",
       "textImageURL": "图片地址",
       "textInsert": "插入",
@@ -354,6 +359,8 @@
       "textShape": "形状",
       "textSheet": "表格",
       "textSortAndFilter": "排序和过滤",
+      "textThisRowHint": "仅选择指定列的这一行",
+      "textTotalsTableHint": "返回表格或指定表格列的总行数",
       "txtExpand": "展开和排序",
       "txtExpandSort": "选定区域旁的数据将不参加排序。您要扩展选定区域以包括相邻数据还是继续排序当前选定的单元格？",
       "txtLockSort": "在选定区域旁找到数据，但您没有足够的权限来更改那些单元格。<br> 是否以当前选定区域继续?",
@@ -361,12 +368,7 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序",
       "txtSortSelected": "排序选定的",
-      "txtYes": "是",
-      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
-      "textDataTableHint": "Returns the data cells of the table or specified table columns",
-      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
-      "textThisRowHint": "Choose only this row of the specified column",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
+      "txtYes": "是"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -399,7 +401,6 @@
       "textBottomBorder": "底端边框",
       "textBringToForeground": "放到最上面",
       "textCell": "单元格",
-      "textCellStyles": "单元格样式",
       "textCenter": "中心",
       "textChart": "图表",
       "textChartTitle": "图表标题",
@@ -548,7 +549,8 @@
       "textYen": "日元",
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSortHigh2Low": "从最高到最低排序",
-      "txtSortLow2High": "从最低到最高排序"
+      "txtSortLow2High": "从最低到最高排序",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "选择CSV选项",
@@ -680,7 +682,11 @@
       "txtSpace": "空格",
       "txtTab": "标签",
       "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

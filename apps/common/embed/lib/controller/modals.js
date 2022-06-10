@@ -57,6 +57,16 @@
 
             $dlgShare.find('#btn-copyshort').on('click', copytext.bind(this, $dlgShare.find('#id-short-url')));
             $dlgShare.find('.share-buttons > span').on('click', function(e){
+                if ( window.config ) {
+                    const key = $(e.target).attr('data-name');
+                    const btn = config.btnsShare[key];
+                    if ( btn && btn.getUrl ) {
+                        window.open(btn.getUrl(appConfig.shareUrl, appConfig.docTitle), btn.target || '',
+                            btn.features || 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+                        return;
+                    }
+                }
+
                 var _url;
                 switch ($(e.target).attr('data-name')) {
                     case 'facebook':

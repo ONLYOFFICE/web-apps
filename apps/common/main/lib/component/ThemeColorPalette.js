@@ -52,7 +52,9 @@ define([
             dynamiccolors: 10,
             standardcolors: 10,
             themecolors: 10,
+            columns: 10,
             effects: 5,
+            hideEmptyColors: true,
             allowReselect: true,
             transparent: false,
             value: '000000',
@@ -62,7 +64,7 @@ define([
 
         template    :
             _.template(
-                '<div style="padding: 8px 12px 12px;">' +
+                '<div style="padding: 4px 0 0 12px;">' +
                 '<% var me = this; var idx = 0; %>' +
                 '<% $(colors).each(function(num, item) { %>' +
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
@@ -76,6 +78,9 @@ define([
                         '<em><span unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isEffect(item)) { %>' +
+                        '<% if (idx>0 && me.columns>0 && idx%me.columns===0) { %> ' +
+                        '<div style="width:100%;height:0;float:left;"></div>' +
+                        '<% } %>' +
                         '<a effectid="<%=item.effectId%>" effectvalue="<%=item.effectValue%>" class="palette-color-effect color-<%=item.color%>" style="background:#<%=item.color%>" idx="<%=idx++%>">' +
                         '<em><span style="background:#<%=item.color%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
@@ -85,9 +90,11 @@ define([
                 '<% }); %>' +
                 '</div>' +
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
-                '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div><div style="padding: 12px;">' +
+                '<div class="palette-color-dynamiccolors" style="padding: 4px 0 0 12px">' +
+                    '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
+                    '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
-                        '<a class="color-dynamic-<%=i%> dynamic-empty-color" color="" idx="<%=idx++%>">' +
+                        '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
                     '<% } %>' +
                 '<% } %>' +
@@ -103,10 +110,12 @@ define([
                 el = me.$el || $(this.el);
 
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
+            this.columns = me.options.columns || 0;
             this.enableKeyEvents= me.options.enableKeyEvents;
             this.tabindex = me.options.tabindex || 0;
             this.outerMenu = me.options.outerMenu;
             this.lastSelectedIdx = -1;
+            this.emptyColorsClass = me.options.hideEmptyColors ? 'hidden' : '';
 
             me.colorItems = [];
             if (me.options.keyMoveDirection=='vertical')
@@ -123,6 +132,15 @@ define([
                 this.updateColors(this.options.updateColorsArr[0], this.options.updateColorsArr[1]);
             if (this.options.value)
                 this.select(this.options.value, true);
+            if (this.options.outerMenu && this.options.outerMenu.focusOnShow && this.options.outerMenu.menu) {
+                el.addClass('focused');
+                this.options.outerMenu.menu.on('show:after', function(menu) {
+                    _.delay(function() {
+                        me.showLastSelected();
+                        me.focus();
+                    }, 10);
+                });
+            }
             this.updateCustomColors();
             el.closest('.btn-group').on('show.bs.dropdown', _.bind(this.updateCustomColors, this));
             el.closest('.dropdown-submenu').on('show.bs.dropdown', _.bind(this.updateCustomColors, this));
@@ -171,15 +189,19 @@ define([
                 if (color) { // custom color was selected
                     color = color.toUpperCase();
                     selected.removeClass(this.selectedCls);
+                    this.lastSelectedIdx = -1;
                 }
 
                 var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
                 colors = colors ? colors.split(',') : [];
 
                 var i = -1, colorEl, c = colors.length < this.options.dynamiccolors ? colors.length : this.options.dynamiccolors;
+                if (this.options.hideEmptyColors && this._layoutParams && el.find('.dynamic-empty-color').length !== (this.options.dynamiccolors - c)) {// recalc indexed if change custom colors
+                    this._layoutParams = undefined;
+                }
                 while (++i < c) {
                     colorEl = el.find('.color-dynamic-'+ i);
-                    colorEl.removeClass('dynamic-empty-color').attr('color', colors[i]);
+                    colorEl.removeClass('dynamic-empty-color').removeClass(this.emptyColorsClass).attr('color', colors[i]);
                     colorEl.find('span').css({
                         'background-color': '#'+colors[i]
                     });
@@ -189,6 +211,16 @@ define([
                         color = undefined; //select only first found color
                     }
                 }
+                while (i < this.options.dynamiccolors) {
+                    colorEl = el.find('.color-dynamic-'+ i);
+                    colorEl.removeAttr('color');
+                    colorEl.addClass('dynamic-empty-color').addClass(this.emptyColorsClass);
+                    colorEl.find('span').css({
+                        'background-color': 'transparent'
+                    });
+                    i++;
+                }
+                el.find('.palette-color-dynamiccolors').toggleClass(this.emptyColorsClass, c===0);
             }
         },
 
@@ -197,7 +229,7 @@ define([
             var target = $(e.target).closest('a');
             var color, cmp;
 
-            if (target.length==0) return;
+            if (target.length==0) return false;
 
             if (target.hasClass('color-transparent') ) {
                 me.clearSelection(true);
@@ -265,12 +297,16 @@ define([
                 if (child.length==0) {
                     this.updateCustomColors();
                     child = el.find('.color-dynamic-' + (this.options.dynamiccolors - 1));
+                } else {
+                    if (this.options.hideEmptyColors && this._layoutParams) // recalc indexed
+                        this._layoutParams = undefined;
                 }
 
-                child.first().removeClass('dynamic-empty-color').addClass(this.selectedCls).attr('color', color[1]);
+                child.first().removeClass('dynamic-empty-color').removeClass(this.emptyColorsClass).addClass(this.selectedCls).attr('color', color[1]);
                 child.first().find('span').css({
                     'background-color': '#'+color[1]
                 });
+                el.find('.palette-color-dynamiccolors').removeClass(this.emptyColorsClass);
                 this.select(color[1], true);
             }
         },
@@ -483,7 +519,7 @@ define([
             var arr = [],
                 len = (themecolors>0 && effects>0) ? themecolors * effects : 0;
             if (themecolors>0) {
-                arr = [this.textThemeColors, '-'];
+                arr = [this.textThemeColors];
                 for (var i=0; i<themecolors; i++)
                     arr.push({color: 'FFFFFF', effectId: 1});
 
@@ -492,10 +528,10 @@ define([
                     arr.push({color: 'FFFFFF', effectId: 1});
 
                 if (standardcolors)
-                    arr.push('-', '--', '-');
+                    arr.push('-');
             }
             if (standardcolors) {
-                arr.push(this.textStandartColors, '-');
+                arr.push(this.textStandartColors);
                 if (transparent) {
                     arr.push('transparent');
                     standardcolors--;
@@ -503,8 +539,6 @@ define([
                 for (var i=0; i<standardcolors; i++)
                     arr.push('FFFFFF');
             }
-            if (this.options.dynamiccolors && (themecolors || standardcolors))
-                arr.push('-', '--');
             return arr;
         },
 
@@ -640,6 +674,7 @@ define([
         },
 
         textThemeColors         : 'Theme Colors',
-        textStandartColors      : 'Standart Colors'
+        textStandartColors      : 'Standard Colors',
+        textRecentColors        : 'Recent Colors'
     }, Common.UI.ThemeColorPalette || {}));
 });

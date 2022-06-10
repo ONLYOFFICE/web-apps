@@ -42,6 +42,22 @@ const PageAllList = (props) => {
     const { sheets, onTabListClick } = props;
     const allSheets = sheets.sheets;
 
+    useEffect(() => {
+        const tabs = $$('.sheet-tabs .tab');
+        let tab = tabs.eq(sheets.activeWorksheet);
+
+        if(sheets.activeWorksheet !== -1) {
+            if(tab.length === 0) {
+                tab = tabs.eq(tabs.length - 1);
+                $$('.sheet-tabs').scrollLeft( tab.offset().left + tab.width(), 500);
+            } else if(tab.offset().left < 0) {
+                $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + tab.offset().left - 96, 500);
+            } else {
+                $$('.sheet-tabs').scrollLeft( $$('.sheet-tabs').scrollLeft() + (tab.offset().left + tab.width() - $$('.sheet-tabs').width()), 500);
+            }
+        }
+    }, [sheets.activeWorksheet]);
+
     return (
         <View style={{height: '240px'}}>
             <Page>

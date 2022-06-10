@@ -28,6 +28,7 @@ const PageDocumentInfo = (props) => {
         modifyBy,
         modifyDate,
         author,
+        producer,
         version,
         tagged,
         fastWebView,
@@ -145,9 +146,24 @@ const PageDocumentInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
+            {fileType === 'pdf' && author ? (
+                <Fragment>
+                    <BlockTitle>{t('Settings.textAuthor')}</BlockTitle>
+                    <List>
+                        <ListItem title={author}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            { fileType === 'pdf' && producer ? (
+                <Fragment>
+                    <BlockTitle>{t('Settings.textPdfProducer')}</BlockTitle>
+                    <List>
+                        <ListItem title={producer}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
             { fileType === 'pdf' ? (
                 <List>
-                    <ListItem title={t('Settings.textAuthor')} after={author} />
                     <ListItem title={t('Settings.textPdfVer')} after={version} />
                     <ListItem title={t('Settings.textPdfTagged')} after={tagged} />
                     <ListItem title={t('Settings.textFastWV')} after={fastWebView} />

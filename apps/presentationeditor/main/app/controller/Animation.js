@@ -174,7 +174,7 @@ define([
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            me.addNewEffect(value.activeEffect, value.activeGroupValue, value.activeGroup, replace, undefined, !Common.Utils.InternalSettings.get("pe-animation-no-preview"));
+                            me.addNewEffect(value.activeEffect, value.activeGroupValue, value.activeGroup, replace, undefined);
                         }
                     }
                 }
@@ -189,7 +189,7 @@ define([
 
         addNewEffect: function (type, group, groupName, replace, parametr, preview) {
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
-            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, preview);
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
         },
 
         onDurationChange: function(before,combo, record, e) {
@@ -347,8 +347,11 @@ define([
         onFocusObject: function(selectedObjects) {
             this.AnimationProperties = null;
             for (var i = 0; i<selectedObjects.length; i++) {
-                if (selectedObjects[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Animation) {
+                var type = selectedObjects[i].get_ObjectType();
+                if (type == Asc.c_oAscTypeSelectElement.Animation) {
                     this.AnimationProperties = selectedObjects[i].get_ObjectValue();
+                } else if (type==Asc.c_oAscTypeSelectElement.Slide) {
+                    this._state.timingLock = selectedObjects[i].get_ObjectValue().get_LockTiming();
                 }
             }
             if (this._state.onactivetab)
@@ -472,9 +475,12 @@ define([
                     this._state.TriggerValue = this.AnimationProperties.asc_getTriggerObjectClick();
                 }
                 this.setTriggerList();
+            } else {
+                this._state.Effect = this._state.EffectGroup = this._state.EffectOption = undefined;
+                if (this.view && this.view.listEffects)
+                    this.view.listEffects.fieldPicker.deselectAll();
             }
             this.setLocked();
-
         },
 
         setTriggerList: function (){
@@ -548,6 +554,8 @@ define([
                 this.lockToolbar(Common.enumLock.noAnimationRepeat, this._state.noAnimationRepeat);
             if (this._state.noAnimationDuration != undefined)
                 this.lockToolbar(Common.enumLock.noAnimationDuration, this._state.noAnimationDuration);
+            if (this._state.timingLock != undefined)
+                this.lockToolbar(Common.enumLock.timingLock, this._state.timingLock);
         }
 
     }, PE.Controllers.Animation || {}));

@@ -75,6 +75,8 @@ DE.ApplicationController = new(function(){
         embedConfig = $.extend(embedConfig, data.config.embedded);
 
         common.controller.modals.init(embedConfig);
+        common.controller.SearchBar.init(embedConfig);
+
 
         // Docked toolbar
         if (embedConfig.toolbarDocked === 'bottom') {
@@ -98,8 +100,7 @@ DE.ApplicationController = new(function(){
         if (docConfig) {
             permissions = $.extend(permissions, docConfig.permissions);
 
-            var _permissions = $.extend({}, docConfig.permissions),
-                docInfo = new Asc.asc_CDocInfo(),
+            var docInfo = new Asc.asc_CDocInfo(),
                 _user = new Asc.asc_CUserInfo();
 
             var canRenameAnonymous = !((typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') && (config.customization.anonymous.request===false)),
@@ -123,7 +124,7 @@ DE.ApplicationController = new(function(){
             docInfo.put_UserInfo(_user);
             docInfo.put_CallbackUrl(config.callbackUrl);
             docInfo.put_Token(docConfig.token);
-            docInfo.put_Permissions(_permissions);
+            docInfo.put_Permissions(docConfig.permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
@@ -448,6 +449,10 @@ DE.ApplicationController = new(function(){
         common.controller.modals.attach({
             share: '#idt-share',
             embed: '#idt-embed'
+        });
+
+        common.controller.SearchBar.attach({
+            search: '#id-search'
         });
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
@@ -912,6 +917,8 @@ DE.ApplicationController = new(function(){
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
             Common.Gateway.appReady();
+
+            common.controller.SearchBar.setApi(api);
         }
 
         return me;
