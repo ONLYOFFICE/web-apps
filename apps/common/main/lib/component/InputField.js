@@ -81,7 +81,7 @@ define([
             template: _.template([
                 '<div class="input-field" style="<%= style %>">',
                     '<input ',
-                        'type="text" ',
+                        'type="<%= type %>" ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
@@ -164,8 +164,6 @@ define([
                         this._input.on('keydown',    _.bind(this.onKeyDown, this));
                         this._input.on('keyup',    _.bind(this.onKeyUp, this));
                         if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
-                        if (this.type=='password') this._input.on('input', _.bind(this.checkPasswordType, this));
-
                         if (this.maxLength) this._input.attr('maxlength', this.maxLength);
                     }
 
@@ -188,15 +186,6 @@ define([
                     me.setValue(me.value);
 
                 return this;
-            },
-
-            checkPasswordType: function(){
-                if(this.type == 'text') return;
-                if (this._input.val() !== '') {
-                    (this._input.attr('type') !== 'password') && this._input.attr('type', 'password');
-                } else {
-                    this._input.attr('type', 'text');
-                }
             },
 
             _doChange: function(e, extra) {
@@ -317,8 +306,6 @@ define([
                 if (this.rendered){
                     this._input.val(value);
                 }
-
-                (this.type=='password') && this.checkPasswordType();
             },
 
             getValue: function() {
@@ -438,7 +425,7 @@ define([
             template: _.template([
                 '<div class="input-field input-field-btn" style="<%= style %>">',
                     '<input ',
-                        'type="text" ',
+                        'type=<%= type %> ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
@@ -562,6 +549,7 @@ define([
                 style: '',
                 value: '',
                 name: '',
+                type: 'password',
                 validation: null,
                 allowBlank: true,
                 placeHolder: '',
@@ -594,7 +582,6 @@ define([
                 Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
 
                 this._btnElm = this._button.$el;
-                this._input.on('input', _.bind(this.checkPasswordType, this));
                 if(this.options.showPwdOnClick)
                     this._button.on('click', _.bind(this.passwordClick, this));
                 else
@@ -647,10 +634,10 @@ define([
                 this._button.setIconCls(this.options.showCls);
                 this.type = 'password';
 
-                (this._input.val() !== '') && this._input.attr('type', this.type);
+                this._input.attr('type', this.type);
                 if(this.repeatInput) {
                     this.repeatInput.type = this.type;
-                    (this.repeatInput._input.val() !== '') && this.repeatInput._input.attr('type', this.type);
+                    this.repeatInput._input.attr('type', this.type);
                 }
 
                 if(this.options.showPwdOnClick) {
