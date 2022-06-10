@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Alçada",
   "common.view.modals.txtShare": "Comparteix l'enllaç",
   "common.view.modals.txtWidth": "Amplada",
+  "common.view.SearchBar.textFind": "Cerca",
   "DE.ApplicationController.convertationErrorText": "No s'ha pogut convertir.",
   "DE.ApplicationController.convertationTimeoutText": "S'ha superat el temps de conversió.",
   "DE.ApplicationController.criticalErrorTitle": "Error",
