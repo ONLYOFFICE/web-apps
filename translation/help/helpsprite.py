@@ -228,19 +228,27 @@ def createSprite (dirName, adrSprite, cssClassName, urlDirImage):
         strCSS += "\twidth: "+ str(gp.blocks[i].get_width())+"px;\n\theight: "+ str(gp.blocks[i].get_height())+"px;\n}\n\n"
         spriteFile.write(strCSS)
     spriteFile.close()
-    img.save(adrDir + dirName +".png",'PNG')
-        
+    
+    imgPath = adrDir + dirName +".png";
+    img.save(imgPath,'PNG')
+    
+    print('created sprite', imgPath)
+    print('created styles', adrSprite)
 
 #crreate all sprites
 for index_editor in range(len(pathEditors)):
     adrDir = PATH_WA + pathEditors[index_editor] + PATH_HELP
+    print('start for', adrDir)
 
     spriteName = adrDir + NAME_CSS
     isCommon = (pathEditors[index_editor]=="common")
+
     if(isCommon):
-        spriteName = adrDir + NAME_SMB_CSS    
+        spriteName = adrDir + NAME_SMB_CSS
+
     if(path.exists(spriteName)):
         remove(spriteName)
+
     if(isCommon):
         createSprite(spriteSmbDirName, spriteName, cssClassSmbName, "../../../../../common/main/resources/help/images/")
     else:
@@ -249,4 +257,15 @@ for index_editor in range(len(pathEditors)):
         spriteFile.close()
         for index_spr in range(len(spriteDirNames)):  
             createSprite(spriteDirNames[index_spr], spriteName, cssClassNames[index_spr],"../images/")
+            
+    print("done!\n")
+
+
+
+
+
+
+
+
+
 
