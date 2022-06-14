@@ -60,9 +60,7 @@ class MainController extends Component {
             !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
                                                             '../../../../sdkjs/word/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
-                                '../../../vendor/sockjs/sockjs.min.js',
-                                '../../../vendor/jszip/jszip.min.js',
-                                '../../../vendor/jszip-utils/jszip-utils.min.js'];
+                                '../../../vendor/sockjs/sockjs.min.js'];
             dep_scripts.push(...window.sdk_scripts);
 
             const promise_get_script = (scriptpath) => {
