@@ -282,8 +282,6 @@ module.exports = function(grunt) {
     doRegisterTask('iscroll');
     doRegisterTask('fetch');
     doRegisterTask('es6-promise');
-    doRegisterTask('jszip');
-    doRegisterTask('jsziputils');
     doRegisterTask('common-embed');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
@@ -674,8 +672,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-iscroll',                ['iscroll-init', 'clean', 'copy']);
     grunt.registerTask('deploy-fetch',                  ['fetch-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'terser']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
