@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Didukung oleh",
     "textTel": "Tel",
-    "textVersion": "Versi"
+    "textVersion": "Versi",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -400,7 +401,6 @@
       "textBottomBorder": "Batas Bawah",
       "textBringToForeground": "Tampilkan di Halaman Muka",
       "textCell": "Sel",
-      "textCellStyles": "Gaya Sel",
       "textCenter": "Tengah",
       "textChart": "Bagan",
       "textChartTitle": "Judul Grafik",
@@ -682,11 +682,11 @@
       "txtSpace": "Spasi",
       "txtTab": "Tab",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

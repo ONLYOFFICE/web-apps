@@ -115,6 +115,7 @@
                         address: 'New-York, 125f-25',
                         mail: 'support@gmail.com',
                         www: 'www.superpuper.com',
+                        phone: '1234567890',
                         info: 'Some info',
                         logo: '',
                         logoDark: '', // logo for dark theme

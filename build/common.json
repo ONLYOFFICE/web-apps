@@ -93,6 +93,16 @@
             "themes": {
                 "src": "../apps/common/main/resources/themes/themes.json",
                 "dest": "../deploy/web-apps/apps/common/main/resources/themes/themes.json"
+            },
+            "help": {
+                "expand": true,
+                "cwd": "../apps/common/main/resources/help/",
+                "src": [
+                    "**/*.{png,jpg,gif}",
+                    "!*_/**",
+                    "!**/src/**"
+                ],
+                "dest": "../deploy/web-apps/apps/common/main/resources/help/"
             }
         },
         "imagemin": {

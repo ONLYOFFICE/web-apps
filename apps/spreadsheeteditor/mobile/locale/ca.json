@@ -6,7 +6,8 @@
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel",
-    "textVersion": "Versió"
+    "textVersion": "Versió",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -151,6 +152,7 @@
       "textRemember": "Recorda la meva elecció",
       "textReplaceSkipped": "S'ha realitzat la substitució. S'han omès {0} ocurrències.",
       "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
+      "textRequestMacros": "Una macro fa una sol·licitud a l'URL. Voleu permetre la sol·licitud al %1?",
       "textYes": "Sí",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
@@ -160,8 +162,7 @@
       "warnLicenseUsersExceeded": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb el vostre administrador per a més informació.",
       "warnNoLicense": "Heu arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacteu amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels vostres serveis.",
-      "warnProcessRightsChange": "No teniu permís per editar el fitxer.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "No teniu permís per editar el fitxer."
     }
   },
   "Error": {
@@ -299,9 +300,9 @@
     "textRenameSheet": "Canvia el nom del full",
     "textSheet": "Full",
     "textSheetName": "Nom del full",
+    "textTabColor": "Color de la pestanya",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Voleu continuar amb l'operació?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Voleu continuar amb l'operació?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis no desats en aquest document. Feu clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -400,7 +401,7 @@
       "textBottomBorder": "Vora inferior",
       "textBringToForeground": "Porta al primer pla",
       "textCell": "Cel·la",
-      "textCellStyles": "Estils de cel·la",
+      "textCellStyle": "Estil de cel·la",
       "textCenter": "Centra",
       "textChart": "Gràfic",
       "textChartTitle": "Títol del gràfic",
@@ -549,8 +550,7 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
-      "txtSortLow2High": "Ordena de menor a major",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Ordena de menor a major"
     },
     "Settings": {
       "advCSVOptions": "Trieu les opcions CSV",
@@ -582,6 +582,7 @@
       "textCustomSize": "Mida personalitzada",
       "textDarkTheme": "Tema fosc",
       "textDelimeter": "Separador",
+      "textDirection": "Direcció",
       "textDisableAll": "Inhabilita-ho tot",
       "textDisableAllMacrosWithNotification": "Inhabilita totes les macros amb una notificació",
       "textDisableAllMacrosWithoutNotification": "Inhabilita totes les macros sense una notificació",
@@ -593,6 +594,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilita totes les macros sense una notificació",
       "textEncoding": "Codificació",
       "textExample": "Exemple",
+      "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cerca",
       "textFindAndReplace": "Cerca i substitueix",
       "textFindAndReplaceAll": "Cerca i substitueix-ho tot",
@@ -608,6 +610,7 @@
       "textLastModified": "Última modificació",
       "textLastModifiedBy": "Última modificació feta per",
       "textLeft": "Esquerra",
+      "textLeftToRight": "D'esquerra a dreta",
       "textLocation": "Ubicació",
       "textLookIn": "Cerca a",
       "textMacrosSettings": "Configuració de les macros",
@@ -628,7 +631,9 @@
       "textReplace": "Substitueix",
       "textReplaceAll": "Substitueix-ho tot ",
       "textResolvedComments": "Comentaris resolts",
+      "textRestartApplication": "Reinicieu l'aplicació perquè els canvis tinguin efecte.",
       "textRight": "Dreta",
+      "textRightToLeft": "De dreta a esquerra",
       "textSearch": "Cerca",
       "textSearchBy": "Cerca",
       "textSearchIn": "Cerca a",
@@ -681,12 +686,7 @@
       "txtSemicolon": "Punt i coma",
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
-      "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?"
     }
   }
 }

@@ -6,7 +6,8 @@
     "textEmail": "电子邮件",
     "textPoweredBy": "技术支持",
     "textTel": "电话",
-    "textVersion": "版本"
+    "textVersion": "版本",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -400,7 +401,6 @@
       "textBottomBorder": "底端边框",
       "textBringToForeground": "放到最上面",
       "textCell": "单元格",
-      "textCellStyles": "单元格样式",
       "textCenter": "中心",
       "textChart": "图表",
       "textChartTitle": "图表标题",
@@ -682,11 +682,11 @@
       "txtSpace": "空格",
       "txtTab": "标签",
       "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

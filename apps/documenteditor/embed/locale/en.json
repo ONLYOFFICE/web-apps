@@ -47,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Open file location",
   "DE.ApplicationView.txtFullScreen": "Full Screen",
   "DE.ApplicationView.txtPrint": "Print",
-  "DE.ApplicationView.txtShare": "Share"
+  "DE.ApplicationView.txtShare": "Share",
+  "DE.ApplicationView.txtSearch": "Search"
 }

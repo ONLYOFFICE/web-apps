@@ -45,6 +45,10 @@
   "Common.UI.Window.textInformation": "Information",
   "Common.UI.Window.textWarning": "Warning",
   "Common.UI.Window.yesButtonText": "Yes",
+  "Common.UI.SearchBar.textFind": "Find",
+  "Common.UI.SearchBar.tipPreviousResult": "Previous result",
+  "Common.UI.SearchBar.tipNextResult": "Next result",
+  "Common.UI.SearchBar.tipCloseSearch": "Close search",
   "Common.Views.CopyWarningDialog.textDontShow": "Don't show this message again",
   "Common.Views.CopyWarningDialog.textMsg": "Copy, cut and paste actions using context menu actions will be performed within this editor tab only.<br><br>To copy or paste to or from applications outside the editor tab use the following keyboard combinations:",
   "Common.Views.CopyWarningDialog.textTitle": "Copy, Cut and Paste Actions",
@@ -167,5 +171,6 @@
   "DE.Views.ApplicationView.txtFullScreen": "Full Screen",
   "DE.Views.ApplicationView.txtPrint": "Print",
   "DE.Views.ApplicationView.txtShare": "Share",
-  "DE.Views.ApplicationView.txtTheme": "Interface theme"
+  "DE.Views.ApplicationView.txtTheme": "Interface theme",
+  "DE.Views.ApplicationView.txtSearch": "Search"
 }

@@ -6,7 +6,8 @@
     "textEmail": "ອີເມລ",
     "textPoweredBy": "ສ້າງໂດຍ",
     "textTel": "ໂທ",
-    "textVersion": "ລຸ້ນ"
+    "textVersion": "ລຸ້ນ",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -400,7 +401,6 @@
       "textBottomBorder": "ເສັ້ນຂອບດ້ານລູ່ມ",
       "textBringToForeground": "ເອົາໄປໄວ້ທາງໜ້າ",
       "textCell": "ແຊວ",
-      "textCellStyles": "ລັກສະນະ ແຊວ",
       "textCenter": "ທາງກາງ",
       "textChart": "ແຜນຮູບວາດ",
       "textChartTitle": "ໃສ່ຊື່ແຜນຮູບວາດ",
@@ -682,11 +682,11 @@
       "txtSpace": "ຍະຫວ່າງ",
       "txtTab": "ແທບ",
       "warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

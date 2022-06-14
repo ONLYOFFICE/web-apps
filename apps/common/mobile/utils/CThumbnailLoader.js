@@ -28,7 +28,7 @@ class CThumbnailLoader {
         xhr.send(null);
     }
 
-    #openBinary(arrayBuffer) {
+    _openBinary(arrayBuffer) {
         //var t1 = performance.now();
 
         const binaryAlpha = new Uint8Array(arrayBuffer);
@@ -79,7 +79,7 @@ class CThumbnailLoader {
         }
 
         if (!this.data) {
-            this.#openBinary(this.binaryFormat);
+            this._openBinary(this.binaryFormat);
             delete this.binaryFormat;
         }
 

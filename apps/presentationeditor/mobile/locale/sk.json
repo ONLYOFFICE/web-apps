@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháňaný ",
     "textTel": "Tel",
-    "textVersion": "Verzia"
+    "textVersion": "Verzia",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -474,11 +475,11 @@
       "txtScheme7": "Spravodlivosť",
       "txtScheme8": "Tok",
       "txtScheme9": "Zlieváreň",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

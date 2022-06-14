@@ -3,6 +3,7 @@
     "textAbout": "Despre",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
+    "textEditor": "Editor de foi de calcul",
     "textEmail": "Email",
     "textPoweredBy": "Dezvoltat de",
     "textTel": "Tel",
@@ -151,6 +152,7 @@
       "textRemember": "Reține opțiunea mea",
       "textReplaceSkipped": "A avut loc o înlocuire. {0} apariții ignorate.",
       "textReplaceSuccess": "Căutarea a fost finalizată. Înlocuiri: {0}",
+      "textRequestMacros": "O macrocomandă trimite o solicitare URL. Doriți să permiteți ca solicitarea să fie trimisă către %1?",
       "textYes": "Da",
       "titleServerVersion": "Editorul a fost actualizat",
       "titleUpdateVersion": "Versiunea s-a modificat",
@@ -160,8 +162,7 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
   "Error": {
@@ -299,9 +300,9 @@
     "textRenameSheet": "Redenumire foaie",
     "textSheet": "Foaie",
     "textSheetName": "Numele foii",
+    "textTabColor": "Culoare filă",
     "textUnhide": "Reafișare",
-    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -400,7 +401,7 @@
       "textBottomBorder": "Bordura de jos",
       "textBringToForeground": "Aducere în prim plan",
       "textCell": "Celula",
-      "textCellStyles": "Stil celula",
+      "textCellStyle": "Stil celula",
       "textCenter": "La centru",
       "textChart": "Diagramă",
       "textChartTitle": "Titlu diagramă",
@@ -549,8 +550,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
-      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",
@@ -582,6 +582,7 @@
       "textCustomSize": "Dimensiunea particularizată",
       "textDarkTheme": "Tema întunecată",
       "textDelimeter": "Delimitator",
+      "textDirection": "Orientare",
       "textDisableAll": "Se dezactivează toate",
       "textDisableAllMacrosWithNotification": "Se dezactivează toate macrocomenzile, cu notificare   ",
       "textDisableAllMacrosWithoutNotification": "Se dezactivează toate macrocomenzile, fără notificare",
@@ -593,6 +594,7 @@
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile, fără notificare",
       "textEncoding": "Codificare",
       "textExample": "Exemplu",
+      "textFeedback": "Feedback și asistența",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
       "textFindAndReplaceAll": "Găsire și înlocuire totală",
@@ -608,6 +610,7 @@
       "textLastModified": "Data ultimei modificări",
       "textLastModifiedBy": "Modificat ultima dată de către",
       "textLeft": "Stânga",
+      "textLeftToRight": "De la stânga la dreapta",
       "textLocation": "Locația",
       "textLookIn": "Domenii de căutare",
       "textMacrosSettings": "Setări macrocomandă",
@@ -628,7 +631,9 @@
       "textReplace": "Înlocuire",
       "textReplaceAll": "Înlocuire peste tot",
       "textResolvedComments": "Comentarii rezolvate",
+      "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textRight": "Dreapta",
+      "textRightToLeft": "De la dreapta la stânga",
       "textSearch": "Căutare",
       "textSearchBy": "Căutare",
       "textSearchIn": "Caută în",
@@ -681,12 +686,7 @@
       "txtSemicolon": "Punct și virgulă",
       "txtSpace": "Spațiu",
       "txtTab": "Tabulator",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
     }
   }
 }

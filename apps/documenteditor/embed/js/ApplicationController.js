@@ -401,7 +401,6 @@ DE.ApplicationController = new(function(){
 
         if ( permissions.print === false) {
             $('#idt-print').hide();
-            $(dividers[0]).hide();
             itemsCount--;
         }
 
@@ -413,8 +412,6 @@ DE.ApplicationController = new(function(){
         if ( !appOptions.canFillForms || permissions.download === false) {
             $('#idt-download-docx').hide();
             $('#idt-download-pdf').hide();
-            $(dividers[0]).hide();
-            $(dividers[1]).hide();
             itemsCount -= 2;
         }
 
@@ -428,8 +425,10 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        if (itemsCount<3)
-            $(dividers[2]).hide();
+        if (itemsCount < 7) {
+            $(dividers[0]).hide();
+            $(dividers[1]).hide();
+        }
 
         if ( !embedConfig.embedUrl || appOptions.canFillForms) {
             $('#idt-embed').hide();
@@ -449,10 +448,6 @@ DE.ApplicationController = new(function(){
         common.controller.modals.attach({
             share: '#idt-share',
             embed: '#idt-embed'
-        });
-
-        common.controller.SearchBar.attach({
-            search: '#id-search'
         });
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
@@ -522,6 +517,11 @@ DE.ApplicationController = new(function(){
         DE.ApplicationView.tools.get('#idt-download-pdf')
             .on('click', function(){
                 downloadAs(Asc.c_oAscFileType.PDF);
+            });
+
+        DE.ApplicationView.tools.get('#idt-search')
+            .on('click', function(){
+                common.controller.SearchBar.show();
             });
 
         $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
