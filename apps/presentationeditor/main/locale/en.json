@@ -449,6 +449,7 @@
   "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.Plugins.textStart": "Start",
   "Common.Views.Plugins.textStop": "Stop",
+  "Common.Views.Plugins.textClosePanel": "Close plugin",
   "Common.Views.Protection.hintAddPwd": "Encrypt with password",
   "Common.Views.Protection.hintPwd": "Change or delete password",
   "Common.Views.Protection.hintSignature": "Add digital signature or signature line",

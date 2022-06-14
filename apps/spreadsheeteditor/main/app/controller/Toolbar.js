@@ -1317,7 +1317,11 @@ define([
         },
 
         searchShow: function () {
-            if (this.toolbar.btnSearch && this.searchBar && !this.searchBar.isVisible()) {
+            if (this.toolbar.btnSearch) {
+                if (this.searchBar && this.searchBar.isVisible()) {
+                    this.searchBar.focus();
+                    return;
+                }
                 this.toolbar.btnSearch.toggle(true);
             }
         },

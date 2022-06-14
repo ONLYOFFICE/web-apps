@@ -33,8 +33,6 @@
                         "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
                         "xregexp": "empty:",
                         "sockjs": "empty:",
-                        "jszip": "empty:",
-                        "jszip-utils": "empty:",
                         "coapisettings": "empty:",
                         "allfonts": "empty:",
                         "sdk": "empty:",
@@ -87,9 +85,7 @@
                                 "coapisettings",
                                 "allfonts",
                                 "xregexp",
-                                "sockjs",
-                                "jszip",
-                                "jszip-utils"
+                                "sockjs"
                             ]
                         },
                         "gateway": {

@@ -60,11 +60,11 @@ define([
                 '</div>',
             '</div>',
             '<div id="current-plugin-box" class="layout-ct vbox hidden">',
+                '<div id="current-plugin-frame" class="">',
+                '</div>',
                 '<div id="current-plugin-header">',
                     '<label></label>',
-                    '<div id="id-plugin-close" class="tool close"></div>',
-                '</div>',
-                '<div id="current-plugin-frame" class="">',
+                    '<div id="id-plugin-close" class="close"></div>',
                 '</div>',
             '</div>',
             '<div id="plugins-mask" style="display: none;">'
@@ -110,6 +110,13 @@ define([
             this.pluginsMask = $('#plugins-mask', this.$el);
             this.currentPluginPanel = $('#current-plugin-box');
             this.currentPluginFrame = $('#current-plugin-frame');
+
+            this.pluginClose = new Common.UI.Button({
+                parentEl: $('#id-plugin-close'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-close',
+                hint: this.textClosePanel
+            });
 
             this.pluginMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
@@ -426,7 +433,8 @@ define([
         textLoading: 'Loading',
         textStart: 'Start',
         textStop: 'Stop',
-        groupCaption: 'Plugins'
+        groupCaption: 'Plugins',
+        textClosePanel: 'Close plugin'
 
     }, Common.Views.Plugins || {}));
 });

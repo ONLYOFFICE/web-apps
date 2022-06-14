@@ -202,28 +202,6 @@
             }
         }
     },
-    "jszip": {
-        "clean": [
-            "../deploy/web-apps/vendor/jszip"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jszip/jszip.min.js",
-                "dest": "../deploy/web-apps/vendor/jszip/jszip.min.js"
-            }
-        }
-    },
-    "jsziputils": {
-        "clean": [
-            "../deploy/web-apps/vendor/jszip-utils"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jszip-utils/jszip-utils.min.js",
-                "dest": "../deploy/web-apps/vendor/jszip-utils/jszip-utils.min.js"
-            }
-        }
-    },
     "underscore": {
         "clean": [
             "../deploy/web-apps/vendor/underscore"
@@ -303,8 +281,6 @@
             "deploy-bootstrap",
             "deploy-iscroll",
             "deploy-fetch",
-            "deploy-jszip",
-            "deploy-jsziputils",
             "deploy-es6-promise",
             "deploy-common-embed"
         ]
