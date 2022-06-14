@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Couper/copier/coller des données en utilisant les raccourcis claviers" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -18,9 +19,9 @@
             <p>Pour couper, copier et coller les données de votre classeur, utilisez le menu contextuel ou les icônes correspondantes de <a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> sur la barre d'outils supérieure,</p>
             <ul>
                 <li><p><B>Couper</B> - sélectionnez les données et utilisez l'option <B>Couper</B> pour supprimer les données sélectionnées et les envoyer vers le presse-papiers. <span class="onlineDocumentFeatures">Les données coupées peuvent être insérées ensuite dans un autre endroit du même classeur.</span></p></li>
-                <li><p><B>Copier </B>- sélectionnez les données et utilisez l'icône Copier <img alt="L'icône Copier" src="../images/copy.png" /> sur la barre d'outils supérieure ou cliquez avec le bouton droit et sélectionnez l'option <B>Copier</B> depuis le menu pour envoyer les données sélectionnées vers le presse-papiers. <span class="onlineDocumentFeatures">Les données copiées peuvent être insérées ensuite dans un autre endroit du même classeur.</span></p></li>
+                <li><p><B>Copier </B>- sélectionnez les données et utilisez l'icône Copier <div class = "icon icon-copy"></div> sur la barre d'outils supérieure ou cliquez avec le bouton droit et sélectionnez l'option <B>Copier</B> depuis le menu pour envoyer les données sélectionnées vers le presse-papiers. <span class="onlineDocumentFeatures">Les données copiées peuvent être insérées ensuite dans un autre endroit du même classeur.</span></p></li>
                 <li>
-                    <p>Coller - sélectionnez l'endroit et utilisez l'icône<B> Coller</B> <img alt="L'icône Coller" src="../images/paste.png" /> sur la barre d'outils supérieure ou cliquez avec le bouton droit et sélectionnez l'option <B>Coller</B> pour insérer les données précédemment copiées/coupées depuis le presse-papiers à la position actuelle du curseur. <span class="onlineDocumentFeatures">Les données peuvent être copiées à partir du même classeur.</span></p>
+                    <p>Coller - sélectionnez l'endroit et utilisez l'icône<B> Coller</B> <div class = "icon icon-paste"></div> sur la barre d'outils supérieure ou cliquez avec le bouton droit et sélectionnez l'option <B>Coller</B> pour insérer les données précédemment copiées/coupées depuis le presse-papiers à la position actuelle du curseur. <span class="onlineDocumentFeatures">Les données peuvent être copiées à partir du même classeur.</span></p>
                 </li>
             </ul>
             <p><span class="onlineDocumentFeatures">Dans la <I>version en ligne</I>, les combinaisons de touches suivantes ne sont utilisées que pour copier ou coller des données de/vers une autre feuille de calcul ou un autre programme,</span> <span class="desktopDocumentFeatures">dans la <I>version de bureau</I>, les boutons/options de menu et les combinaisons de touches correspondantes peuvent être utilisées pour toute opération copier/coller:</span></p>
@@ -29,11 +30,11 @@
                 <li><B>Ctrl+X</B> pour couper;</li>
                 <li><B>Ctrl+V</B> pour coller.</li>
             </ul>
-            <p class="note"><B>Remarque</B>: au lieu de couper et coller des données dans la même feuille de calcul, vous pouvez sélectionner la cellule/plage de cellules requise, placer le pointeur de la souris sur la bordure de sélection pour qu'il devienne l'icône Flèche <img alt="L'icône de flèche" src="../images/arrow.png" /> et faire glisser la sélection jusqu'à la position requise.</p>
+            <p class="note"><B>Remarque</B>: au lieu de couper et coller des données dans la même feuille de calcul, vous pouvez sélectionner la cellule/plage de cellules requise, placer le pointeur de la souris sur la bordure de sélection pour qu'il devienne l'icône Flèche <div class = "icon icon-arrow"></div> et faire glisser la sélection jusqu'à la position requise.</p>
             <p>Pour afficher ou masquer le bouton Options de collage, accédez à l'onglet <B>Fichier &gt;</B> <B>Paramètres avancés...</B> et activez/désactivez la case à coché <B>Couper, copier et coller</B>.</p>
             <h3>Utiliser la fonctionnalité Collage spécial</h3>
             <p class="note"><b>Note</b>: Pendant le travail collaboratif, la fonctionnalité <b>Collage spécial</b> n'est disponible que pour le mode de collaboration <b>Strict</b>.</p>
-            <p>Une fois les données copiées collées, le bouton <B>Options de collage</B> <img alt="Options de collage" src="../images/pastespecialbutton.png" /> apparaît en regard du coin inférieur droit de la cellule/plage de cellules insérée. Cliquez sur ce bouton pour sélectionner l'option de collage requise. </p>
+            <p>Une fois les données copiées collées, le bouton <B>Options de collage</B> <div class = "icon icon-pastespecialbutton"></div> apparaît en regard du coin inférieur droit de la cellule/plage de cellules insérée. Cliquez sur ce bouton pour sélectionner l'option de collage requise. </p>
             <p>Lorsque vous collez une cellule/plage de cellules avec des données formatées, les options suivantes sont disponibles:</p>
             <ul>
                 <li><I>Coller</I> - permet de coller tout le contenu de la cellule, y compris le formatage des données. Cette option est sélectionnée par défaut.</li>
@@ -129,7 +130,7 @@
                 <li>sélectionner une cellule/plage de cellules contenant les données ciblées,</li>
                 <li>
                     déplacez le curseur de la souris sur la poignée de remplissage dans le coin inférieur droit de la cellule. Le curseur va se transformer en croix noire:
-                    <p><img alt="Remplissage automatique" src="../images/autofill.png" /></p>
+                    <p><div class = "big big-autofill"></div></p>
                 </li>
                 <li>faites glisser la poignée sur les cellules adjacentes que vous souhaitez remplir avec les données sélectionnées.</li>
             </ol>

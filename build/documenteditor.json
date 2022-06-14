@@ -170,7 +170,8 @@
                     "cwd": "../apps/documenteditor/main/resources/help/",
                     "src": [
                         "**",
-                        "!*_/**"
+                        "!*_/**",
+                        "!**/src/**"
                     ],
                     "dest": "../deploy/web-apps/apps/documenteditor/main/resources/help/"
                 }

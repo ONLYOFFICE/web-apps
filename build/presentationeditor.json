@@ -164,7 +164,8 @@
                     "cwd": "../apps/presentationeditor/main/resources/help/",
                     "src": [
                         "**",
-                        "!*_/**"
+                        "!*_/**",
+                        "!**/src/**"
                     ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/"
                 }
