@@ -140,7 +140,8 @@ require([
         autoCreate: false,
         controllers : [
             'ApplicationController',
-            'Plugins'
+            'Plugins',
+            'SearchBar'
         ]
     });
 
@@ -149,11 +150,13 @@ require([
             require([
                 'documenteditor/forms/app/controller/ApplicationController',
                 'documenteditor/forms/app/controller/Plugins',
+                'documenteditor/forms/app/controller/SearchBar',
                 'documenteditor/forms/app/view/ApplicationView',
                 'common/main/lib/util/utils',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Themes',
                 'common/main/lib/view/PluginDlg',
+                'common/main/lib/view/SearchBar',
                 'common/forms/lib/view/modals'
             ], function() {
                 app.start();
