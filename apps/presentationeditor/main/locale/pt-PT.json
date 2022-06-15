@@ -2095,6 +2095,7 @@
   "PE.Views.Toolbar.mniImageFromFile": "Imagem de um ficheiro",
   "PE.Views.Toolbar.mniImageFromStorage": "Imagem de um armazenamento",
   "PE.Views.Toolbar.mniImageFromUrl": "Imagem de um URL",
+  "PE.Views.Toolbar.mniInsertSSE": "Inserir Folha de Cálculo",
   "PE.Views.Toolbar.mniLowerCase": "minúscula",
   "PE.Views.Toolbar.mniSentenceCase": "Maiúscula no Início da frase.",
   "PE.Views.Toolbar.mniSlideAdvanced": "Definições avançadas",

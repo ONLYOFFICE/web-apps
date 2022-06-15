@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "周二",
   "Common.UI.Calendar.textShortWednesday": "周三",
   "Common.UI.Calendar.textYears": "年",
+  "Common.UI.SearchBar.textFind": "查找",
+  "Common.UI.SearchBar.tipCloseSearch": "关闭搜索",
+  "Common.UI.SearchBar.tipNextResult": "下一个",
+  "Common.UI.SearchBar.tipPreviousResult": "上一个",
   "Common.UI.Themes.txtThemeClassicLight": "经典浅色的",
   "Common.UI.Themes.txtThemeDark": "深色的",
   "Common.UI.Themes.txtThemeLight": "浅色的",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "打开文件位置",
   "DE.Views.ApplicationView.txtFullScreen": "全屏",
   "DE.Views.ApplicationView.txtPrint": "打印",
+  "DE.Views.ApplicationView.txtSearch": "搜索",
   "DE.Views.ApplicationView.txtShare": "共享",
   "DE.Views.ApplicationView.txtTheme": "界面主题"
 }

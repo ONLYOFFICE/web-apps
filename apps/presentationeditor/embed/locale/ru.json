@@ -35,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "PE.ApplicationView.txtFullScreen": "Во весь экран",
   "PE.ApplicationView.txtPrint": "Печать",
+  "PE.ApplicationView.txtSearch": "Поиск",
   "PE.ApplicationView.txtShare": "Поделиться"
 }
