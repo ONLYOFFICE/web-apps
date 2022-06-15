@@ -184,6 +184,7 @@ define([
                 'protect:wslock': _.bind(me.onChangeProtectSheet, me)
             });
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
+            Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
         },
 
         onCreateDelayedElements: function(view) {
@@ -260,6 +261,7 @@ define([
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
+                view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -1155,6 +1157,30 @@ define([
 
         onImgEditPoints: function(item) {
             this.api && this.api.asc_editPointsGeometry();
+        },
+
+        onGetLink: function(item) {
+            if (this.api) {
+                var range = this.api.asc_getActiveRangeStr(Asc.referenceType.A, false, true),
+                    name = this.api.asc_getEscapeSheetName(this.api.asc_getWorksheetName(this.api.asc_getActiveWorksheetIndex()));
+                name = (name + ((name!=='' && range!=='') ? '!' : '') + range);
+                name && Common.Gateway.requestMakeActionLink({
+                    action: {
+                        type: "internallink", data: name
+                    }
+                });
+            }
+        },
+
+        onSetActionLink: function (url) {
+            var me = this;
+            navigator.clipboard && navigator.clipboard.writeText(url)
+                .then(function() {
+                    console.log('OK');
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
         },
 
         onApiCoAuthoringDisconnect: function() {
@@ -2309,6 +2335,8 @@ define([
                 documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = xfs.asc_getNumFormatInfo();
                 documentHolder.pmiAdvancedNumFormat.options.numformat = xfs.asc_getNumFormat();
 
+                documentHolder.pmiGetRangeList.setVisible(!Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && !internaleditor && this.permissions.canMakeActionLink && !!navigator.clipboard);
+
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
                 });
@@ -2338,6 +2366,7 @@ define([
                 documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddComment.setDisabled(isCellLocked || this._state.wsProps['Objects']);
+                documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
                     var canGroup = this.api.asc_canGroupPivot();
@@ -2346,6 +2375,11 @@ define([
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
+
+                documentHolder.pmiFunctionSeparator.setVisible(documentHolder.pmiInsFunction.isVisible() || documentHolder.menuAddHyperlink.isVisible() || documentHolder.menuHyperlink.isVisible() ||
+                                                                isrowmenu || iscolmenu || isallmenu);
+                documentHolder.pmiFreezeSeparator.setVisible(documentHolder.pmiFreezePanes.isVisible());
+
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
 
