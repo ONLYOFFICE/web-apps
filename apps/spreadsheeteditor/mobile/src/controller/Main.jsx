@@ -459,6 +459,35 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onEntriesListMenu', this.onEntriesListMenu.bind(this, false));
         this.api.asc_registerCallback('asc_onValidationListMenu', this.onEntriesListMenu.bind(this, true));
+
+        this.api.asc_registerCallback('asc_onInputMessage', (title, msg) => {
+            if(!!title && !!msg) {
+                const coord  = this.api.asc_getActiveCellCoord();
+                // const topPosition = coord.asc_getY() * 2 + coord.asc_getHeight() * 3 + 10;
+                // const leftPosition = coord.asc_getX();
+                // console.log(coord);
+                // console.log(topPosition, leftPosition);
+                
+                f7.popover.create({
+                    targetX: coord.asc_getX(),
+                    targetY: coord.asc_getY(),
+                    content: `
+                        <div class="popover tooltip-cell-data">
+                            <div class="popover-angle"></div>
+                            <div class="popover-inner">
+                                <p class="tooltip-cell-data__title">${title}</p>
+                                <p class="tooltip-cell-data__msg">${msg}</p>
+                            </div>
+                        </div>
+                    `,
+                    backdrop: false,
+                    closeByBackdropClick: false
+                }).open();
+
+                // document.querySelector('.tooltip-cell-data').style.top = `${topPosition}px`;
+                // document.querySelector('.tooltip-cell-data').style.left = `${leftPosition}px`;
+            }
+        });
     }
 
     onEntriesListMenu(validation, textArr, addArr) {
