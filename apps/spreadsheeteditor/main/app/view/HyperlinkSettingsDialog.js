@@ -258,6 +258,16 @@ define([
             return [this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip];
         },
 
+        show: function() {
+            Common.UI.Window.prototype.show.apply(this, arguments);
+            Common.Utils.InternalSettings.set("sse-dialog-link-visible", true);
+        },
+
+        close: function() {
+            Common.Utils.InternalSettings.set("sse-dialog-link-visible", false);
+            Common.UI.Window.prototype.close.apply(this, arguments);
+        },
+
         setSettings: function(settings) {
             if (settings) {
                 var me = this;

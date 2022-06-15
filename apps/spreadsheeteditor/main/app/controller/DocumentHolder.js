@@ -1173,6 +1173,9 @@ define([
         },
 
         onSetActionLink: function (url) {
+            if (Common.Utils.InternalSettings.get("sse-dialog-link-visible"))
+                return;
+
             var me = this;
             navigator.clipboard && navigator.clipboard.writeText(url)
                 .then(function() {
