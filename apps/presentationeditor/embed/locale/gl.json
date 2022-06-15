@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Altura",
   "common.view.modals.txtShare": "Compartir ligazón",
   "common.view.modals.txtWidth": "Largura",
+  "common.view.SearchBar.textFind": "Buscar",
   "PE.ApplicationController.convertationErrorText": "Fallou a conversión.",
   "PE.ApplicationController.convertationTimeoutText": "Excedeu o tempo límite de conversión.",
   "PE.ApplicationController.criticalErrorTitle": "Erro",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Abrir ubicación do ficheiro",
   "PE.ApplicationView.txtFullScreen": "Pantalla completa",
   "PE.ApplicationView.txtPrint": "Imprimir",
+  "PE.ApplicationView.txtSearch": "Buscar",
   "PE.ApplicationView.txtShare": "Compartir"
 }
