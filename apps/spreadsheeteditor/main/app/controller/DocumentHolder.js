@@ -1179,7 +1179,7 @@ define([
             var me = this;
             navigator.clipboard && navigator.clipboard.writeText(url)
                 .then(function() {
-                    console.log('OK');
+                    Common.NotificationCenter.trigger('showmessage', {msg: me.txtCopySuccess}, {timeout: 3000, hideCloseTip: true});
                 })
                 .catch(function(err) {
                     console.log(err);
@@ -4382,7 +4382,8 @@ define([
         txtAllTableHint: 'Returns the entire contents of the table or specified table columns including column headers, data and total rows',
         txtDataTableHint: 'Returns the data cells of the table or specified table columns',
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
-        txtTotalsTableHint: 'Returns the total rows for the table or specified table columns'
+        txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
+        txtCopySuccess: 'Link copied to the clipboard'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

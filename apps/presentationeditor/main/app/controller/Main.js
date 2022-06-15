@@ -1667,7 +1667,7 @@ define([
                 }
 
                 var tooltip = this.tooltip;
-                tooltip.on('tooltip:hide', function(){
+                tooltip.on('tooltip:hideonclick', function(){
                     setTimeout(showNextTip, 300);
                 });
 
