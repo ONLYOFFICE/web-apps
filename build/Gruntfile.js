@@ -383,7 +383,7 @@ module.exports = function(grunt) {
                 dynamic: {
                     files: []
                         .concat(packageFile['main']['imagemin']['images-app'])
-                        .concat(packageFile['main']['imagemin']['images-common'])
+                        // .concat(packageFile['main']['imagemin']['images-common'])    skip copy images from common to editor in 7.2
                 }
             },
 
