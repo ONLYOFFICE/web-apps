@@ -3,11 +3,11 @@
     "textAbout": "Quant a...",
     "textAddress": "Adreça",
     "textBack": "Enrere",
+    "textEditor": "Editor de documents",
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel.",
-    "textVersion": "Versió",
-    "textEditor": "Document Editor"
+    "textVersion": "Versió"
   },
   "Add": {
     "notcriticalErrorTitle": "Advertiment",

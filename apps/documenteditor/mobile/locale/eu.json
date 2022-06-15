@@ -3,11 +3,11 @@
     "textAbout": "Honi buruz",
     "textAddress": "Helbidea",
     "textBack": "Atzera",
+    "textEditor": "Dokumentu editorea",
     "textEmail": "Posta elektronikoa",
     "textPoweredBy": "Garatzailea:",
     "textTel": "Tel.",
-    "textVersion": "Bertsioa",
-    "textEditor": "Document Editor"
+    "textVersion": "Bertsioa"
   },
   "Add": {
     "notcriticalErrorTitle": "Abisua",
