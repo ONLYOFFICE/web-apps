@@ -1662,7 +1662,8 @@ define([
                 });
                 return;
             }
-            if (this.api.asc_getUrlType(url)>0)
+            var type = this.api.asc_getUrlType(url);
+            if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                 window.open(url, '_blank');
             else
                 Common.UI.warning({
