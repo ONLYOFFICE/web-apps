@@ -567,6 +567,10 @@ define([
             this.options.defaultValue = value;
         },
 
+        getDefaultValue: function() {
+            return this.options.defaultValue;
+        },
+
         checkAutoText: function(value) {
             if (this.options.allowAuto && typeof value == 'string') {
                 var val = value.toLowerCase();
