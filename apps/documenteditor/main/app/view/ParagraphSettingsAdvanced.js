@@ -52,7 +52,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 394,
+            height: 415,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
         },
@@ -513,6 +513,36 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             }, this));
             this.spinners.push(this.numPosition);
 
+            this._arrLigatures = [
+                {displayValue: this.textNone, value: Asc.LigaturesType.None},
+                {displayValue: this.textStandard, value: Asc.LigaturesType.Standard},
+                {displayValue: this.textContext, value: Asc.LigaturesType.Contextual},
+                {displayValue: this.textHistorical, value: Asc.LigaturesType.Historical},
+                {displayValue: this.textDiscret, value: Asc.LigaturesType.Discretional},
+                {displayValue: this.textStandardContext, value: Asc.LigaturesType.StandardContextual},
+                {displayValue: this.textStandardHistorical, value: Asc.LigaturesType.StandardHistorical},
+                {displayValue: this.textContextHistorical, value: Asc.LigaturesType.ContextualHistorical},
+                {displayValue: this.textStandardDiscret, value: Asc.LigaturesType.StandardDiscretional},
+                {displayValue: this.textContextDiscret, value: Asc.LigaturesType.ContextualDiscretional},
+                {displayValue: this.textHistoricalDiscret, value: Asc.LigaturesType.HistoricalDiscretional},
+                {displayValue: this.textStandardContextHist, value: Asc.LigaturesType.StandardContextualHistorical},
+                {displayValue: this.textStandardContextDiscret, value: Asc.LigaturesType.StandardContextualDiscretional},
+                {displayValue: this.textStandardHistDiscret, value: Asc.LigaturesType.StandardHistoricalDiscretional},
+                {displayValue: this.textContextHistDiscret, value: Asc.LigaturesType.ContextualHistoricalDiscretional},
+                {displayValue: this.textAll, value: Asc.LigaturesType.All}
+            ];
+            this.cmbLigatures = new Common.UI.ComboBox({
+                el: $('#paragraphadv-cmb-ligatures'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: this._arrLigatures,
+                style: 'width: 210px;',
+                menuStyle   : 'min-width: 210px;max-height:135px;',
+                takeFocusOnClose: true
+            });
+            this.cmbLigatures.setValue(Asc.LigaturesType.None);
+            this.cmbLigatures.on('selected', _.bind(this.onLigaturesSelect, this));
+
             // Tabs
             this.numTab = new Common.UI.MetricSpinner({
                 el: $('#paraadv-spin-tab'),
@@ -941,6 +971,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.cmbOutlinelevel.setValue((props.get_OutlineLvl() === undefined || props.get_OutlineLvl()===null) ? -1 : props.get_OutlineLvl());
                 this.cmbOutlinelevel.setDisabled(!!props.get_OutlineLvlStyle());
+                this.cmbLigatures.setValue((props.get_Ligatures() === undefined || props.get_Ligatures()===null) ? '' : props.get_Ligatures());
 
                 this._noApply = false;
 
@@ -1487,6 +1518,12 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             }
         },
 
+        onLigaturesSelect: function(combo, record) {
+            if (this._changedProps) {
+                this._changedProps.put_Ligatures(record.value);
+            }
+        },
+
         textTitle:      'Paragraph - Advanced Settings',
         strIndentsLeftText:     'Left',
         strIndentsRightText:    'Right',
@@ -1558,7 +1595,24 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         strIndentsOutlinelevel: 'Outline level',
         strIndent: 'Indents',
         strSpacing: 'Spacing',
-        strSuppressLineNumbers: 'Suppress line numbers'
+        strSuppressLineNumbers: 'Suppress line numbers',
+        textOpenType: 'OpenType Features',
+        textLigatures: 'Ligatures',
+        textStandard: 'Standard only',
+        textContext: 'Contextual',
+        textHistorical: 'Historical',
+        textDiscret: 'Discretionary',
+        textStandardContext: 'Standard and Contextual',
+        textStandardHistorical: 'Standard and Historical',
+        textStandardDiscret: 'Standard and Discretionary',
+        textContextHistorical: 'Contextual and Historical',
+        textContextDiscret: 'Contextual and Discretionary',
+        textHistoricalDiscret: 'Historical and Discretionary',
+        textStandardContextHist: 'Standard, Contextual and Historical',
+        textStandardContextDiscret: 'Standard, Contextual and Discretionary',
+        textStandardHistDiscret: 'Standard, Historical and Discretionary',
+        textContextHistDiscret: 'Contextual, Historical and Discretionary',
+        textAll: 'All'
 
     }, DE.Views.ParagraphSettingsAdvanced || {}));
 });
