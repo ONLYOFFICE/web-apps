@@ -300,8 +300,10 @@
             ],
             "assets": [
                 {
-                    "src": "../apps/documenteditor/mobile/css/app.css",
-                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/css/app.css"
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/mobile/css",
+                    "src": "*.css",
+                    "dest": "../deploy/web-apps/apps/documenteditor/mobile/css"
                 },
                 {
                     "expand": true,

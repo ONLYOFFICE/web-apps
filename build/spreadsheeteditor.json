@@ -253,8 +253,10 @@
         "copy": {
             "assets": [
                 {
-                    "src": "../apps/spreadsheeteditor/mobile/css/app.css",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/css/app.css"
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/css",
+                    "src": "*.css",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/css"
                 },
                 {
                     "expand": true,

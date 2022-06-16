@@ -252,8 +252,10 @@
         "copy": {
             "assets": [
                 {
-                    "src": "../apps/presentationeditor/mobile/css/app.css",
-                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/css/app.css"
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/mobile/css",
+                    "src": "*.css",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/mobile/css"
                 },
                 {
                     "expand": true,
