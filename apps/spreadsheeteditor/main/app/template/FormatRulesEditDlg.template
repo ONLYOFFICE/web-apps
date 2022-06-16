@@ -91,7 +91,7 @@
                 </td>
             </tr>
         <tr class="databar">
-            <td class="" style="padding-bottom: 4px;">
+            <td class="padding-very-small">
                 <label class="header"><%= scope.textAppearance %></label>
                 </td>
             </tr>
