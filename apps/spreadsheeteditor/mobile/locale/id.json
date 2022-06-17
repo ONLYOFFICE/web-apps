@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Peringatan",
     "textCopyCutPasteActions": "Salin, Potong dan Tempel",
     "textDoNotShowAgain": "Jangan tampilkan lagi",
-    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?"
+    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Aviso",
     "textCopyCutPasteActions": "Accións de copiar, cortar e pegar",
     "textDoNotShowAgain": "Non amosar de novo",
-    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?"
+    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

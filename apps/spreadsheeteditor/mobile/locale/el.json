@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Προειδοποίηση",
     "textCopyCutPasteActions": "Ενέργειες Αντιγραφής, Αποκοπής και Επικόλλησης",
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
-    "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;"
+    "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

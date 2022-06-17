@@ -199,7 +199,8 @@
     "textOk": "OK",
     "textRefreshEntireTable": "テーブル全体を更新する",
     "textRefreshPageNumbersOnly": "ページ番号のみを更新する",
-    "textRows": "行"
+    "textRows": "行",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": " 警告",

@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Advertiment",
     "textCopyCutPasteActions": "Accions de copia, talla i enganxa ",
     "textDoNotShowAgain": "No ho mostris més",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

@@ -199,7 +199,8 @@
     "textOk": "好",
     "textRefreshEntireTable": "刷新整个表格",
     "textRefreshPageNumbersOnly": "仅刷新页号",
-    "textRows": "行"
+    "textRows": "行",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",

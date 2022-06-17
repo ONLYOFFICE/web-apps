@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "ເຕືອນ",
     "textCopyCutPasteActions": "ປະຕິບັດການ ສໍາເນົາ, ຕັດ ແລະ ວາງ",
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
-    "warnMergeLostData": "ສະເພາະຂໍ້ມູນຈາກເຊວດ້ານຊ້າຍເທິງທີ່ຈະຢູ່ໃນເຊວຮ່ວມ. <br>ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?"
+    "warnMergeLostData": "ສະເພາະຂໍ້ມູນຈາກເຊວດ້ານຊ້າຍເທິງທີ່ຈະຢູ່ໃນເຊວຮ່ວມ. <br>ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

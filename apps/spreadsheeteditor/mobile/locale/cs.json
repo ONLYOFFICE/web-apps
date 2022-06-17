@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Varování",
     "textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
     "textDoNotShowAgain": "Nezobrazovat znovu",
-    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?"
+    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

@@ -59,7 +59,9 @@
     "textColumns": "Lajur",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
-    "textRows": "Baris"
+    "textRows": "Baris",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

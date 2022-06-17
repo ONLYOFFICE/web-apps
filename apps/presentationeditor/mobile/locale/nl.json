@@ -59,7 +59,9 @@
     "textColumns": "Kolommen",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "textRows": "Rijen"
+    "textRows": "Rijen",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

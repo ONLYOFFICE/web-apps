@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Upozornenie",
     "textCopyCutPasteActions": "Kopírovať, vystrihnúť a prilepiť",
     "textDoNotShowAgain": "Nezobrazovať znova",
-    "warnMergeLostData": "Iba údaje z ľavej hornej bunky zostanú v zlúčenej bunke.<br>Ste si istý, že chcete pokračovať?"
+    "warnMergeLostData": "Iba údaje z ľavej hornej bunky zostanú v zlúčenej bunke.<br>Ste si istý, že chcete pokračovať?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

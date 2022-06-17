@@ -199,7 +199,8 @@
     "textOk": "Εντάξει",
     "textRefreshEntireTable": "Ανανέωση ολόκληρου πίνακα",
     "textRefreshPageNumbersOnly": "Ανανέωση αριθμών σελίδων μόνο",
-    "textRows": "Γραμμές"
+    "textRows": "Γραμμές",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Προειδοποίηση",

@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Amaran",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
-    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?"
+    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

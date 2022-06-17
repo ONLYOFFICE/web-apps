@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Figyelmeztetés",
     "textCopyCutPasteActions": "Másolás, kivágás és beillesztés",
     "textDoNotShowAgain": "Ne mutassa újra",
-    "warnMergeLostData": "Csak a bal felső cellából származó adatok maradnak az egyesített cellában.<br>Biztosan folytatni szeretné?"
+    "warnMergeLostData": "Csak a bal felső cellából származó adatok maradnak az egyesített cellában.<br>Biztosan folytatni szeretné?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

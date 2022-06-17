@@ -199,7 +199,8 @@
     "textOk": "Ok",
     "textRefreshEntireTable": "Обновить целиком",
     "textRefreshPageNumbersOnly": "Обновить только номера страниц",
-    "textRows": "Строки"
+    "textRows": "Строки",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Внимание",
