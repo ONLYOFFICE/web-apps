@@ -326,8 +326,8 @@ define([
                 }
             } else {
                 var url = this.inputUrl.getValue().replace(/^\s+|\s+$/g,'');
-                if (me.urlType!==AscCommon.c_oAscUrlType.Unsafe && ! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                    url = ( (me.urlType==AscCommon.c_oAscUrlType.Email) ? 'mailto:' : 'http://' ) + url;
+                if (this.urlType!==AscCommon.c_oAscUrlType.Unsafe && ! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
+                    url = ( (this.urlType==AscCommon.c_oAscUrlType.Email) ? 'mailto:' : 'http://' ) + url;
                 url = url.replace(new RegExp("%20",'g')," ");
                 props.asc_setHyperlinkUrl(url);
                 def_display = url;
