@@ -10,7 +10,7 @@
                     <div id="paragraphadv-spin-outline-level"></div>
                 </div>
             </div>
-            <div><label class="header" style="padding-bottom: 4px;"><%= scope.strIndent %></label></div>
+            <div><label class="header padding-very-small"><%= scope.strIndent %></label></div>
             <div>
                 <div class="padding-large" style="display: inline-block;margin-right: 3px;">
                  <label class="input-label"><%= scope.strIndentsLeftText %></label>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div><label class="header" style="padding-bottom: 4px;"><%= scope.strSpacing %></label></div>
+            <div><label class="header padding-very-small"><%= scope.strSpacing %></label></div>
             <div>
                 <div style="display: inline-block;margin-right: 3px;">
                     <label class="input-label"><%= scope.strIndentsSpacingBefore %></label>
@@ -119,7 +119,7 @@
 </div>
 <div id="id-adv-paragraph-font" class="settings-panel">
     <div class="inner-content" style="width: 100%;">
-        <div class="padding-small">
+        <div class="padding-very-small">
             <label class="header"><%= scope.textEffects %></label>
         </div>
         <table cols="2">
@@ -148,7 +148,7 @@
                 </td>
             </tr>
         </table>
-        <div class="padding-small">
+        <div class="padding-very-small">
             <label class="header"><%= scope.textCharacterSpacing %></label>
         </div>
         <div class="padding-large">
@@ -160,6 +160,13 @@
                 <label class="input-label"><%= scope.textPosition %></label>
                 <div id="paragraphadv-spin-position"></div>
             </div>
+        </div>
+        <div class="padding-very-small">
+            <label class="header"><%= scope.textOpenType %></label>
+        </div>
+        <div class="padding-large">
+            <label class="input-label"><%= scope.textLigatures %></label>
+            <div id="paragraphadv-cmb-ligatures" style="display: inline-block; vertical-align: baseline; margin-left: 5px;"></div>
         </div>
         <div class="doc-content-color" style="outline: 1px solid #cbcbcb;">
             <div id="paragraphadv-font-img" style="width: 300px; height: 80px; position: relative; margin: 0 auto;"></div>
