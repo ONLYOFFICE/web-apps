@@ -183,7 +183,7 @@ define([
                 this.$el.width(SCALE_MIN);
             }
             this.onCoauthOptions();
-            (btn.options.action == 'advancedsearch') && this.fireEvent('search:aftershow', this);
+            btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 

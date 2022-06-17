@@ -337,10 +337,10 @@ define([
             }
 
             this.hideResults();
-            if (text !== '' && text === this._state.searchText) { // search was made
+            if (text && text !== '' && text === this._state.searchText) { // search was made
                 this.view.disableReplaceButtons(false);
                 this.api.asc_StartTextAroundSearch();
-            } else if (text !== '') { // search wasn't made
+            } else if (text && text !== '') { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
                 this.resultItems = [];
