@@ -78,26 +78,24 @@ class EditLinkController extends Component {
             defaultDisplay = sheet + '!' + range;
         } else {
             let url = args.url.replace(/^\s+|\s+$/g,'');
+            let urltype = api.asc_getUrlType(url.trim());
 
-            if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url)) {
-                let urlType = api.asc_getUrlType(url.trim());
+            if (urltype===AscCommon.c_oAscUrlType.Invalid) {
+                f7.dialog.create({
+                    title: t('View.Edit.notcriticalErrorTitle'),
+                    text: t('View.Edit.textNotUrl'),
+                    buttons: [
+                        {
+                            text: t('View.Edit.textOk')
+                        }
+                    ]
+                }).open();
 
-                if (urlType < 1) {
-                    f7.dialog.create({
-                        title: t('View.Edit.notcriticalErrorTitle'),
-                        text: t('View.Edit.textNotUrl'),
-                        buttons: [
-                            {
-                                text: t('View.Edit.textOk')
-                            }
-                        ]
-                    }).open();
-
-                    return;
-                }
-
-                url = ( (urlType == 2) ? 'mailto:' : 'http://' ) + url;
+                return;
             }
+
+            if (urltype!==AscCommon.c_oAscUrlType.Unsafe && ! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url))
+                url = ( (urltype===AscCommon.c_oAscUrlType.Email) ? 'mailto:' : 'http://' ) + url;
 
             url = url.replace(new RegExp("%20",'g')," ");
 

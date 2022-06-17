@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Powered by",
     "textTel": "Tel.",
-    "textVersion": "Verzió"
+    "textVersion": "Verzió",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Oszlopok",
     "textCopyCutPasteActions": "Másolás, kivágás és beillesztés",
     "textDoNotShowAgain": "Ne mutassa újra",
-    "textRows": "Sorok"
+    "textRows": "Sorok",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -126,7 +129,8 @@
       "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. További információért forduljon rendszergazdájához.",
       "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a személyes frissítés feltételekért.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
+      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -473,7 +477,11 @@
       "txtScheme7": "Saját tőke",
       "txtScheme8": "Folyam",
       "txtScheme9": "Öntöde",
-      "textFeedback": "Feedback & Support"
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

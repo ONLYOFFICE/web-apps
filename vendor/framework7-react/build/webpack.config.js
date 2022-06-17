@@ -98,14 +98,14 @@ module.exports = {
             }
           }),
           'css-loader',
-            {
-                loader: 'postcss-loader',
-                options: {
-                    config: {
-                        path: path.resolve(__dirname, '..'),
-                    }
-                },
-            },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                    path: path.resolve(__dirname, '..'),
+                }
+            }
+          },
         ],
       },
       {
@@ -117,27 +117,32 @@ module.exports = {
               publicPath: '../'
             }
           }),
-            'css-loader?url=false',
-            {
-                loader: 'postcss-loader',
-                options: {
-                    config: {
-                        path: path.resolve(__dirname, '..'),
-                    }
-                },
-            },
-            {
-              loader: "less-loader",
+          {
+              loader: 'css-loader',
               options: {
-                lessOptions: {
-                  javascriptEnabled: true,
-                  globalVars: {
-                      "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
-                      "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
-                  }
+                  url: false,
+              },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                    path: path.resolve(__dirname, '..'),
+                }
+            }
+          },
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+                globalVars: {
+                    "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
+                    "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
                 }
               }
-            },
+            }
+          },
         ],
       },
       {
@@ -198,6 +203,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
     }),
+    // new WebpackRTLPlugin({
+    //   filename: 'css/[name].rtl.css',
+    //   diffOnly: true
+    // }),
     new HtmlWebpackPlugin({
       filename: `../../../apps/${editor}/mobile/index.html`,
       template: `../../apps/${editor}/mobile/src/index_dev.html`,

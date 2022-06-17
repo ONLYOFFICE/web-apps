@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Hoogte",
   "common.view.modals.txtShare": "Link delen",
   "common.view.modals.txtWidth": "Breedte",
+  "common.view.SearchBar.textFind": "Zoeken",
   "PE.ApplicationController.convertationErrorText": "Conversie mislukt.",
   "PE.ApplicationController.convertationTimeoutText": "Time-out voor conversie overschreden.",
   "PE.ApplicationController.criticalErrorTitle": "Fout",

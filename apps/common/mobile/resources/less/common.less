@@ -72,8 +72,10 @@
             padding: 15px 0 0 15px;
         }
 
-        [slot="inner-end"] {
+        .range-number {
             color: @text-normal;
+            min-width: 60px;
+            text-align: right;
         }
     }
     .page-content {
@@ -93,6 +95,10 @@
 }
 
 .list {
+    max-width: 100%;
+    ul {
+        width: 100%;
+    }
     li.no-indicator {
         .item-link {
             .item-inner{
@@ -123,6 +129,9 @@
             background-color: @autoColor;
         }
     }
+    .item-link .item-inner {
+        width: 100%;
+    }
 }
 
 // Bullets, numbers and multilevels
@@ -137,11 +146,12 @@
             &:before, &:after {
                 display: none;
             }
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, auto);
             justify-content: space-around;
+            grid-gap: 10px;
             width: 100%;
             padding: 5px;
-
             li {
                 width: 70px;
                 height: 70px;
@@ -167,12 +177,18 @@
                         color: @fill-black;
                     }
                 }
+
+                .item-number, .item-marker, .item-multilevellist {
+                    width: 68px;
+                    height: 68px;
+                }
             }
         }
     }
     
     .row.list .item-content {
         padding-left: 0;
+        padding-right: 0;
         min-height: 68px;
         .item-inner{
             padding: 0;
@@ -184,8 +200,9 @@
 }
 
 .popover {
-    .list {
+    .page .list {
         ul {
+            background-color: var(--f7-list-bg-color);
             li:first-child, li:last-child {
                 .item-link {
                     border-radius: 0;
@@ -195,9 +212,9 @@
     }
 }
 
-.popover .list + .list {
-    margin-top: 0;
-}
+// .popover .list + .list {
+//     margin-top: 0;
+// }
 
 .popover .list:first-child li:first-child, .popover .list:first-child li:first-child a, .popover .list:first-child li:first-child > label, .popover .list:last-child li:last-child, .popover .list:last-child li:last-child a, .popover .list:last-child li:last-child > label {
     border-radius: 0;
@@ -607,13 +624,15 @@
         padding-left: 5px;
         padding-right: 5px;
         padding-top: 5px;
+        background-color: @background-tertiary;
         li.item-theme {
-            border: 0.5px solid #c8c7cc;
+            // border: 0.5px solid #c8c7cc;
+            border: 2px solid @fill-white;
             padding: 1px;
             background-repeat: no-repeat;
             width: 108px;
-            height: 52px;
-            margin-bottom: 10px;
+            height: 53px;
+            margin-bottom: 8px;
             background-position: center;
             .item-content {
                 width: 100%;
@@ -645,6 +664,9 @@
                 z-index: 1;
                 .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 22 22" fill="#40865c"><g><circle fill="#fff" cx="11" cy="11" r="11"/><path d="M11,21A10,10,0,1,1,21,11,10,10,0,0,1,11,21h0ZM17.4,7.32L17.06,7a0.48,0.48,0,0,0-.67,0l-7,6.84L6.95,11.24a0.51,0.51,0,0,0-.59.08L6,11.66a0.58,0.58,0,0,0,0,.65l3.19,3.35a0.38,0.38,0,0,0,.39,0L17.4,8a0.48,0.48,0,0,0,0-.67h0Z"/></g></svg>');
             }
+        }
+        &:after {
+            display: none;
         }
     }
 }
@@ -898,6 +920,11 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
+.dlg-macros-request {
+    .dialog-text {
+        word-break: break-word;
+    }
+}
 // Skeleton of document
 
 @keyframes flickerAnimation {
@@ -1077,6 +1104,29 @@ input[type="number"]::-webkit-inner-spin-button {
             border-bottom: 1px solid var(--f7-list-item-border-color);
         }
     }
+}
+
+.swiper-container {
+    height: 100%;
+}
+
+.swiper-pagination-bullet {
+    background: @background-menu-divider;
+    opacity: 1;
+    &-active {
+        background: @text-secondary;
+    }
+}
+
+.preview-cell-style {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 104px;
+    height: 44px;
+    background-color: @fill-white;
+    border-radius: 4px;
+    border: 0.5px solid @background-menu-divider;
 }
 
 

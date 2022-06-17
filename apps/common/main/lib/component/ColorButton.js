@@ -55,12 +55,15 @@ define([
 
         getPicker: function(color, colors) {
             if (!this.colorPicker) {
-                this.colorPicker = new Common.UI.ThemeColorPalette({
+                var config = {
                     el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
-                    transparent: this.options.transparent,
                     value: color,
                     colors: colors
-                });
+                };
+                (this.options.transparent!==undefined) && (config['transparent'] = this.options.transparent);
+                (this.options.hideEmptyColors!==undefined) && (config['hideEmptyColors'] = this.options.hideEmptyColors);
+
+                this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
                 if (this.options.auto) {
@@ -80,7 +83,7 @@ define([
         getMenu: function(options) {
             if (typeof this.menu !== 'object') {
                 options = options || this.options;
-                var height = options.paletteHeight || 240,
+                var height = options.paletteHeight ? options.paletteHeight + 'px' : 'auto',
                     id = Common.UI.getId(),
                     auto = [];
                 if (options.auto) {
@@ -98,7 +101,8 @@ define([
                     cls: 'shifted-left',
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
-                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="' + id + '-color-menu" style="width: 164px; height:' + height + '; display: inline-block;"></div>') },
+                        {caption: '--'},
                         {
                             id: id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')

@@ -3,6 +3,7 @@
     "textAbout": "Acerca de",
     "textAddress": "Dirección",
     "textBack": "Atrás",
+    "textEditor": "Editor de hojas de cálculo",
     "textEmail": "Correo",
     "textPoweredBy": "Con tecnología de",
     "textTel": "Tel",
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Advertencia",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -151,6 +154,7 @@
       "textRemember": "Recordar mi elección",
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
+      "textRequestMacros": "Una macro hace una petición a la URL. ¿Quiere permitir la petición al %1?",
       "textYes": "Sí",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
@@ -298,9 +302,9 @@
     "textRenameSheet": "Renombrar hoja",
     "textSheet": "Hoja",
     "textSheetName": "Nombre de hoja",
+    "textTabColor": "Color de la pestaña",
     "textUnhide": "Volver a mostrar",
-    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -399,7 +403,7 @@
       "textBottomBorder": "Borde inferior",
       "textBringToForeground": "Traer al primer plano",
       "textCell": "Celda",
-      "textCellStyles": "Estilos de celda",
+      "textCellStyle": "Estilo de celda",
       "textCenter": "Centro",
       "textChart": "Gráfico",
       "textChartTitle": "Título del gráfico",
@@ -580,6 +584,7 @@
       "textCustomSize": "Tamaño personalizado",
       "textDarkTheme": "Tema oscuro",
       "textDelimeter": "Delimitador",
+      "textDirection": "Dirección ",
       "textDisableAll": "Deshabilitar todo",
       "textDisableAllMacrosWithNotification": "Deshabilitar todas las macros con notificación",
       "textDisableAllMacrosWithoutNotification": "Deshabilitar todas las macros sin notificación",
@@ -591,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación ",
       "textEncoding": "Codificación",
       "textExample": "Ejemplo",
+      "textFeedback": "Comentarios y asistencia",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
       "textFindAndReplaceAll": "Buscar y reemplazar todo",
@@ -606,6 +612,7 @@
       "textLastModified": "Última modificación",
       "textLastModifiedBy": "Última modificación por",
       "textLeft": "A la izquierda",
+      "textLeftToRight": "De izquierda a derecha",
       "textLocation": "Ubicación",
       "textLookIn": "Buscar en ",
       "textMacrosSettings": "Ajustes de macros",
@@ -626,7 +633,9 @@
       "textReplace": "Reemplazar",
       "textReplaceAll": "Reemplazar todo",
       "textResolvedComments": "Comentarios resueltos",
+      "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textRight": "A la derecha",
+      "textRightToLeft": "De derecha a izquierda",
       "textSearch": "Buscar",
       "textSearchBy": "Buscar",
       "textSearchIn": "Buscar en",
@@ -679,8 +688,7 @@
       "txtSemicolon": "Punto y coma",
       "txtSpace": "Espacio",
       "txtTab": "Pestaña",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "textFeedback": "Feedback & Support"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
   }
 }

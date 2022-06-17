@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="La liste des raccourcis clacier afin de donner un accès plus rapide et plus facile aux fonctionnalités de Spreadsheet Editor." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
         <script type="text/javascript" src="../search/js/jquery.min.js"></script>
@@ -12,23 +13,39 @@
 	</head>
 	<body>
 		<div class="mainpart">
-            <div class="search-field">
-                <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
-            </div>
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+			</div>
 			<h1>Raccourcis clavier</h1>
-			<p>La liste des raccourcis clacier afin de donner un accès plus rapide et plus facile aux fonctionnalités de <a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a>.</p>
-            <ul class="shortcut_variants">
-                <li class="shortcut_toggle pc_option left_option">Windows/Linux</li><!--
-                --><li class="shortcut_toggle mac_option right_option">Mac OS</li>
-            </ul>
+			<h3>Raccourcis clavier pour les touches d'accès</h3>
+			<p>Utiliser les <b>raccourcis clavier </b> pour faciliter et accélérer l'accès à <a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> sans l'aide de la souris.</p>
+			<ol>
+				<li>Appuyez sur la touche <b>Alt</b>pour activer toutes les touches d'accès pour l'en-tête, la barre d'outils supérieure, les barres latérales droite et gauche et la barre d'état.</li>
+				<li>
+					Appuyez sur la lettre qui correspond à l'élément dont vous avez besoin. D'autres suggestions de touches peuvent s'afficher en fonction de la touche que vous appuyez. Les premières suggestions de touches se cachent lorsque les suggestions supplémentaires s'affichent.
+					<p>Par exemple, pour accéder à l'onglet <b>Insertion</b>, appuyez sur la touche <b>Alt</b> pour activer les primaires suggestions de touches d'accès.</p>
+					<p><img alt="Primaires touches d'accès" src="../images/keytips1.png" /></p>
+					<p>Appuyez sur la lettre <b>I</b> pour accéder à l'onglet <b>Insertion</b> et activer tous les raccourcis clavier disponibles sous cet onglet.</p>
+					<p><img alt="Touches d'accès supplémentaires" src="../images/keytips2.png" /></p>
+					<p>Appuyez sur la lettre qui correspond à l'élément que vous allez paramétrer.</p>
+				</li>
+				<li>Appuyez sur la touche <b>Alt</b> pour désactiver toutes les suggestions de touches d'accès ou appuyez sur <b>Échap</b> pour revenir aux suggestions de touches précédentes.</li>
+			</ol>
+			<p>Trouverez ci-dessous les raccourcis clavier les plus courants:</p>
+			<ul class="shortcut_variants">
+				<li class="shortcut_toggle pc_option left_option">Windows/Linux</li>
+				<!--
+		-->
+				<li class="shortcut_toggle mac_option right_option">Mac OS</li>
+			</ul>
 			<table class="keyboard_shortcuts_table">
 				<tr>
 					<th colspan="4" class="keyboard_section">En travaillant sur le classeur</th>
 				</tr>
 				<tr>
 					<td>Ouvrir le panneau 'Fichier'</td>
-					<td><kbd>Alt</kbd>+<kbd>F</kbd></td>
-					<td><kbd>⌥ Option</kbd>+<kbd>F</kbd></td>
+					<td width="20%"><kbd>Alt</kbd>+<kbd>F</kbd></td>
+					<td width="20%"><kbd>⌥ Option</kbd>+<kbd>F</kbd></td>
 					<td>Ouvrir le panneau <B>Fichier</B> pour enregistrer, télécharger, imprimer le classeur actuel, voir ses informations, créer un nouveau classeur ou ouvrir un classeur existant, accéder à l'aide de Spreadsheet Editor ou aux paramètres avancés.</td>
 				</tr>
 				<tr>
@@ -37,31 +54,31 @@
 					<td><kbd>^ Ctrl</kbd>+<kbd>F</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>F</kbd></td>
 					<td>Ouvrir la fenêtre <B>Rechercher et remplacer</B> pour commencer à rechercher une cellule contenant les caractères requis.</td>
 				</tr>
-                <tr>
-                    <td>Ouvrir la fenêtre &quot;Rechercher et remplacer&quot; avec le champ de remplacement</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>H</kbd></td>
+				<tr>
+					<td>Ouvrir la fenêtre &quot;Rechercher et remplacer&quot; avec le champ de remplacement</td>
+					<td><kbd>Ctrl</kbd>+<kbd>H</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>H</kbd></td>
-                    <td>Ouvrir la fenêtre <B>Rechercher et remplacer</B> avec le champ de remplacement pour remplacer une ou plusieurs occurrences des caractères trouvés.</td>
-                </tr>
-                <tr>
-                    <td>Ouvrir le panneau 'Commentaires'</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>H</kbd></td>
+					<td>Ouvrir la fenêtre <B>Rechercher et remplacer</B> avec le champ de remplacement pour remplacer une ou plusieurs occurrences des caractères trouvés.</td>
+				</tr>
+				<tr>
+					<td>Ouvrir le panneau 'Commentaires'</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>H</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>H</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>⇧ Maj</kbd>+<kbd>H</kbd></td>
-                    <td>Ouvrir le volet <B>Commentaires</B> pour ajouter votre commentaire ou pour répondre aux commentaires des autres utilisateurs.</td>
-                </tr>
-                <tr>
-                    <td>Ouvrir le champ de commentaires</td>
-                    <td><kbd>Alt</kbd>+<kbd>H</kbd></td>
+					<td>Ouvrir le volet <B>Commentaires</B> pour ajouter votre commentaire ou pour répondre aux commentaires des autres utilisateurs.</td>
+				</tr>
+				<tr>
+					<td>Ouvrir le champ de commentaires</td>
+					<td><kbd>Alt</kbd>+<kbd>H</kbd></td>
 					<td><kbd>⌥ Option</kbd>+<kbd>H</kbd></td>
-                    <td>Ouvrir un champ de saisie où vous pouvez ajouter le texte de votre commentaire.</td>
-                </tr>
+					<td>Ouvrir un champ de saisie où vous pouvez ajouter le texte de votre commentaire.</td>
+				</tr>
 				<tr class="onlineDocumentFeatures">
 					<td>Ouvrir le panneau 'Chat'</td>
 					<td><kbd>Alt</kbd>+<kbd>Q</kbd></td>
 					<td><kbd>⌥ Option</kbd>+<kbd>Q</kbd></td>
 					<td>Ouvrir le panneau Chat et envoyer un message.</td>
 				</tr>
-                <tr>
+				<tr>
 					<td>Enregistrer le classeur</td>
 					<td><kbd>Ctrl</kbd>+<kbd>S</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>S</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>S</kbd></td>
@@ -85,51 +102,58 @@
 					<td><!--<kbd>&#8984; Cmd</kbd>+<kbd>^ Ctrl</kbd>+<kbd>F</kbd>--></td>
 					<td>Passer à l'affichage en plein écran pour adapter Spreadsheet Editor à votre écran.</td>
 				</tr>
-                <tr>
-                    <td>Menu d'aide</td>
-                    <td><kbd>F1</kbd></td>
+				<tr>
+					<td>Menu d'aide</td>
 					<td><kbd>F1</kbd></td>
-                    <td>Ouvrir le menu Aide Spreadsheet Editor.</td>
-                </tr>
-                <tr>
-                    <td>Ouvrir un fichier existant (Desktop Editors)</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>O</kbd></td>
+					<td><kbd>F1</kbd></td>
+					<td>Ouvrir le menu Aide Spreadsheet Editor.</td>
+				</tr>
+				<tr>
+					<td>Ouvrir un fichier existant (Desktop Editors)</td>
+					<td><kbd>Ctrl</kbd>+<kbd>O</kbd></td>
 					<td></td>
-                    <td>Dans l'onglet <B>Ouvrir fichier local</B> dans <B>Desktop Editors</B>, ouvre la boîte de dialogue standard qui permet de sélectionner un fichier existant.</td>
-                </tr>
-                <tr>
-                    <td>Fermer un fichier (Desktop Editors)</td>
+					<td>Dans l'onglet <B>Ouvrir fichier local</B> dans <B>Desktop Editors</B>, ouvre la boîte de dialogue standard qui permet de sélectionner un fichier existant.</td>
+				</tr>
+				<tr>
+					<td>Fermer un fichier (Desktop Editors)</td>
 					<td><kbd>Tab</kbd>/<kbd>Maj</kbd>+<kbd>Tab</kbd></td>
 					<td><kbd>↹ Tab</kbd>/<kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
-                    <td>Fermer la fenêtre du classeur actuel dans Desktop Editors.</td>
-                </tr>
-                <tr>
-                    <td>Menu contextuel de l'élément</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>F10</kbd></td>
+					<td>Fermer la fenêtre du classeur actuel dans Desktop Editors.</td>
+				</tr>
+				<tr>
+					<td>Menu contextuel de l'élément</td>
 					<td><kbd>⇧ Maj</kbd>+<kbd>F10</kbd></td>
-                    <td>Ouvrir le menu Aide Spreadsheet Editor.</td>
-                </tr>
-                <tr>
-                    <td>Réinitialiser le niveau de zoom</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>0</kbd></td>
-                    <td><kbd>^ Ctrl</kbd>+<kbd>0</kbd> or <kbd>⌘ Cmd</kbd>+<kbd>0</kbd></td>
-                    <td>Réinitialiser le niveau de zoom du document actuel par défaut à 100%.</td>
-                </tr>
+					<td><kbd>⇧ Maj</kbd>+<kbd>F10</kbd></td>
+					<td>Ouvrir le menu Aide Spreadsheet Editor.</td>
+				</tr>
+				<tr>
+					<td>Réinitialiser le niveau de zoom</td>
+					<td><kbd>Ctrl</kbd>+<kbd>0</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>0</kbd> or <kbd>⌘ Cmd</kbd>+<kbd>0</kbd></td>
+					<td>Réinitialiser le niveau de zoom du document actuel par défaut à 100%.</td>
+				</tr>
+				<tr>
+					<td>Copier une feuille de calcul</td>
+					<td>Appuyez et maintenez la touche  <kbd> Ctrl</kbd>+ faites glisser l'onglet de la feuille de calcul </td>
+					<td>Appuyez et maintenez la touche  <kbd> ⌥ Option</kbd>+ faites glisser l'onglet de la feuille de calcul</td>
+					<td>Copier une feuille de calcul entière et déplacer-la pour modifier la position de l'onglet.</td>
+				</tr>
+
 				<tr>
 					<th colspan="4" class="keyboard_section">Navigation</th>
 				</tr>
-                <tr>
-                    <td>Déplacer une cellule vers le haut, le bas, la gauche ou la droite</td>
-                    <td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+				<tr>
+					<td>Déplacer une cellule vers le haut, le bas, la gauche ou la droite</td>
 					<td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
-                    <td>Activer le contour d'une cellule au-dessus/en-dessous de la cellule sélectionnée ou à gauche/à droite de celle-ci.</td>
-                </tr>
-                <tr>
-                    <td>Aller au bord de la zone de données actuelle</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td>Activer le contour d'une cellule au-dessus/en-dessous de la cellule sélectionnée ou à gauche/à droite de celle-ci.</td>
+				</tr>
+				<tr>
+					<td>Aller au bord de la zone de données actuelle</td>
+					<td><kbd>Ctrl</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
 					<td><kbd>⌘ Cmd</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
-                    <td>Activer une cellule à la limite de la région de données courante dans une feuille de calcul.</td>
-                </tr>
+					<td>Activer une cellule à la limite de la région de données courante dans une feuille de calcul.</td>
+				</tr>
 				<tr>
 					<td>Sauter au début de la ligne</td>
 					<td><kbd>Début</kbd></td>
@@ -190,34 +214,34 @@
 					<td><kbd>→</kbd>,<br /><kbd>↹ Tab</kbd></td>
 					<td>Activer la cellule suivante de la ligne actuelle.</td>
 				</tr>
-                <tr>
-                    <td>Déplacement vers le bas d'un écran</td>
-                    <td><kbd>Pg. suiv</kbd></td>
+				<tr>
+					<td>Déplacement vers le bas d'un écran</td>
 					<td><kbd>Pg. suiv</kbd></td>
-                    <td>Déplacer un écran vers le bas dans la feuille de calcul.</td>
-                </tr>
-                <tr>
-                    <td>Déplacement vers le haut d'un écran</td>
-                    <td><kbd>Pg. préc</kbd></td>
+					<td><kbd>Pg. suiv</kbd></td>
+					<td>Déplacer un écran vers le bas dans la feuille de calcul.</td>
+				</tr>
+				<tr>
+					<td>Déplacement vers le haut d'un écran</td>
 					<td><kbd>Pg. préc</kbd></td>
-                    <td>Déplacer un écran vers le haut dans la feuille de travail.</td>
-                </tr>
+					<td><kbd>Pg. préc</kbd></td>
+					<td>Déplacer un écran vers le haut dans la feuille de travail.</td>
+				</tr>
 				<tr>
 					<td>Zoom avant</td>
 					<td><kbd>Ctrl</kbd>+<kbd>+</kbd></td>
-					<td><kbd>^ Ctrl</kbd>+<kbd>=</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>=</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>=</kbd></td>
 					<td>Zoom avant sur la feuille de calcul en cours d'édition.</td>
 				</tr>
 				<tr>
 					<td>Zoom arrière</td>
 					<td><kbd>Ctrl</kbd>+<kbd>-</kbd></td>
-					<td><kbd>^ Ctrl</kbd>+<kbd>-</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>-</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>-</kbd></td>
 					<td>Zoom arrière sur la feuille de calcul en cours d'édition.</td>
 				</tr>
 				<tr>
 					<td>Naviguer entre les contrôles dans un dialogue modal</td>
-                    <td><kbd>↹ Tab</kbd>/<kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
-                    <td><kbd>↹ Tab</kbd>/<kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>↹ Tab</kbd>/<kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>↹ Tab</kbd>/<kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
 					<td>Naviguer entre les contrôles pour mettre en évidence le contrôle précédent ou suivant dans les dialogues modaux.</td>
 				</tr>
 				<tr>
@@ -265,56 +289,56 @@
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Début</kbd></td>
 					<td>Sélectionner une plage à partir des cellules sélectionnées jusqu'au début de la feuille de calcul.</td>
 				</tr>
-                <tr>
-                    <td>Étendre la sélection à la dernière cellule utilisée</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Fin</kbd></td>
-					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Fin</kbd></td>
-                    <td>Sélectionner un fragment à partir des cellules sélectionnées actuelles jusqu'à la dernière cellule utilisée sur la feuille de calcul (à la ligne du bas avec les données de la colonne la plus à droite avec les données). Si le curseur se trouve dans la barre de formule, tout le texte de la barre de formule sera sélectionné de la position du curseur jusqu'à la fin sans affecter la hauteur de la barre de formule.</td>
-                </tr>
-                <tr>
-                    <td>Sélectionner une cellule à gauche</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
-					<td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
-                    <td>Sélectionner une cellule à gauche dans un tableau.</td>
-                </tr>
-                <tr>
-                    <td>Sélectionner une cellule à droite</td>
-                    <td><kbd>↹ Tab</kbd></td>
-					<td><kbd>↹ Tab</kbd></td>
-                    <td>Sélectionner une cellule à droite dans un tableau.</td>
-                </tr>
-                <tr>
-                    <td>Étendre la sélection à la cellule non vierge la plus proche à droite.</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>Alt</kbd>+<kbd>Fin</kbd>,<br /><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>→</kbd></td>
-					<td><kbd>⇧ Maj</kbd>+<kbd>⌥ Option</kbd>+<kbd>Fin</kbd></td>
-                    <td>Étendre la sélection à la cellule non vierge la plus proche dans la même rangée à droite de la cellule active. Si la cellule suivante est vide, la sélection sera étendue à la cellule suivante non vide.</td>
-                </tr>
-                <tr>
-                    <td>Étendre la sélection à la cellule non vierge la plus proche à gauche.</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>Alt</kbd>+<kbd>Début</kbd>,<br /><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>→</kbd></td>
-					<td><kbd>⇧ Maj</kbd>+<kbd>⌥ Option</kbd>+<kbd>Début</kbd></td>
-                    <td>Étendre la sélection à la cellule non vierge la plus proche dans la même rangée à gauche de la cellule active. Si la cellule suivante est vide, la sélection sera étendue à la cellule suivante non vide.</td>
-                </tr>
-                <tr>
-                    <td>Étendre la sélection à la cellule non vierge la plus proche en haut/en bas de la colonne</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>↑</kbd> <kbd>↓</kbd></td>
-					<td></td>
-                    <td>Étendre la sélection à la cellule non vierge la plus proche dans la même colonne en haut/en bas à partir de la cellule active. Si la cellule suivante est vide, la sélection sera étendue à la cellule suivante non vide.</td>
-                </tr>
-                <tr>
-                    <td>Étendre la sélection vers le bas de l'écran</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>Pg. suiv</kbd></td>
-					<td><kbd>⇧ Maj</kbd>+<kbd>Pg. suiv</kbd></td>
-                    <td>Étendre la sélection à toutes les cellules situées à un écran en dessous de la cellule active.</td>
-                </tr>
-                <tr>
-                    <td>Étendre la sélection vers le haut d'un écran</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>Pg. préc</kbd></td>
-					<td><kbd>⇧ Maj</kbd>+<kbd>Pg. préc</kbd></td>
-                    <td>Étendre la sélection à toutes les cellules situées un écran plus haut que la cellule active.</td>
-                </tr>
 				<tr>
-                    <th colspan="4" class="keyboard_section">Annuler et Rétablir</th>
+					<td>Étendre la sélection à la dernière cellule utilisée</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Fin</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Fin</kbd></td>
+					<td>Sélectionner un fragment à partir des cellules sélectionnées actuelles jusqu'à la dernière cellule utilisée sur la feuille de calcul (à la ligne du bas avec les données de la colonne la plus à droite avec les données). Si le curseur se trouve dans la barre de formule, tout le texte de la barre de formule sera sélectionné de la position du curseur jusqu'à la fin sans affecter la hauteur de la barre de formule.</td>
+				</tr>
+				<tr>
+					<td>Sélectionner une cellule à gauche</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td>Sélectionner une cellule à gauche dans un tableau.</td>
+				</tr>
+				<tr>
+					<td>Sélectionner une cellule à droite</td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td>Sélectionner une cellule à droite dans un tableau.</td>
+				</tr>
+				<tr>
+					<td>Étendre la sélection à la cellule non vierge la plus proche à droite.</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>Alt</kbd>+<kbd>Fin</kbd>,<br /><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>→</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>⌥ Option</kbd>+<kbd>Fin</kbd></td>
+					<td>Étendre la sélection à la cellule non vierge la plus proche dans la même rangée à droite de la cellule active. Si la cellule suivante est vide, la sélection sera étendue à la cellule suivante non vide.</td>
+				</tr>
+				<tr>
+					<td>Étendre la sélection à la cellule non vierge la plus proche à gauche.</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>Alt</kbd>+<kbd>Début</kbd>,<br /><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>→</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>⌥ Option</kbd>+<kbd>Début</kbd></td>
+					<td>Étendre la sélection à la cellule non vierge la plus proche dans la même rangée à gauche de la cellule active. Si la cellule suivante est vide, la sélection sera étendue à la cellule suivante non vide.</td>
+				</tr>
+				<tr>
+					<td>Étendre la sélection à la cellule non vierge la plus proche en haut/en bas de la colonne</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td></td>
+					<td>Étendre la sélection à la cellule non vierge la plus proche dans la même colonne en haut/en bas à partir de la cellule active. Si la cellule suivante est vide, la sélection sera étendue à la cellule suivante non vide.</td>
+				</tr>
+				<tr>
+					<td>Étendre la sélection vers le bas de l'écran</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>Pg. suiv</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>Pg. suiv</kbd></td>
+					<td>Étendre la sélection à toutes les cellules situées à un écran en dessous de la cellule active.</td>
+				</tr>
+				<tr>
+					<td>Étendre la sélection vers le haut d'un écran</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>Pg. préc</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>Pg. préc</kbd></td>
+					<td>Étendre la sélection à toutes les cellules situées un écran plus haut que la cellule active.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section">Annuler et Rétablir</th>
 				</tr>
 				<tr>
 					<td>Annuler</td>
@@ -329,7 +353,7 @@
 					<td>Répéter la dernière action annulée.</td>
 				</tr>
 				<tr>
-                    <th colspan="4" class="keyboard_section">Couper, Copier et Coller</th>
+					<th colspan="4" class="keyboard_section">Couper, Copier et Coller</th>
 				</tr>
 				<tr>
 					<td>Couper</td>
@@ -350,7 +374,7 @@
 					<td>Insérer les données précédemment copiées/coupées depuis le presse-papiers à la position actuelle du curseur. Les données peuvent être copiées à partir du même classeur, à partir d'un autre classeur, ou provenant d'un autre programme.</td>
 				</tr>
 				<tr>
-                    <th colspan="4" class="keyboard_section">Mise en forme des données</th>
+					<th colspan="4" class="keyboard_section">Mise en forme des données</th>
 				</tr>
 				<tr>
 					<td>Gras</td>
@@ -370,41 +394,41 @@
 					<td><kbd>^ Ctrl</kbd>+<kbd>U</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>U</kbd></td>
 					<td>Souligner le fragment de texte sélectionné avec la ligne qui passe sous les lettres ou supprimer le soulignage.</td>
 				</tr>
-                <tr>
-                    <td>Barré</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>5</kbd></td>
+				<tr>
+					<td>Barré</td>
+					<td><kbd>Ctrl</kbd>+<kbd>5</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>5</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>5</kbd></td>
-                    <td>Barrer le fragment de texte sélectionné avec une ligne qui passe à travers les lettres ou supprimer la barre.</td>
-                </tr>
+					<td>Barrer le fragment de texte sélectionné avec une ligne qui passe à travers les lettres ou supprimer la barre.</td>
+				</tr>
 				<tr>
 					<td>Ajouter un lien hypertexte</td>
 					<td><kbd>Ctrl</kbd>+<kbd>K</kbd></td>
 					<td><kbd>⌘ Cmd</kbd>+<kbd>K</kbd></td>
 					<td>Insérer un lien hypertexte vers un site Web externe ou une autre feuille de calcul.</td>
 				</tr>
-                <tr>
-                    <td>Éditer la cellule active</td>
-                    <td><kbd>F2</kbd></td>
-					<td><kbd>F2</kbd></td>
-                    <td>Éditer la cellule active et positionner le point d'insertion à la fin du contenu de la cellule. Si l'édition dans une cellule est désactivée, le point d'insertion sera déplacé dans la barre de formule.</td>
-                </tr>
-                <tr>
-                    <th colspan="4" class="keyboard_section">Filtrage de données</th>
-                </tr>
-                <tr>
-                    <td>Activer/Supprimer le filtre</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>L</kbd></td>
-					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>L</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>⇧ Maj</kbd>+<kbd>L</kbd></td>
-                    <td>Activer un filtre pour une plage de cellules sélectionnée ou supprimer le filtre.</td>
-                </tr>
-                <tr>
-                    <td>Mettre sous forme de modèle de tableau</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>L</kbd></td>
-					<td><kbd>^ Ctrl</kbd>+<kbd>L</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>L</kbd></td>
-                    <td>Appliquez un modèle de table à une plage de cellules sélectionnée.</td>
-                </tr>
 				<tr>
-                    <th colspan="4" class="keyboard_section">Saisie des données</th>
+					<td>Éditer la cellule active</td>
+					<td><kbd>F2</kbd></td>
+					<td><kbd>F2</kbd></td>
+					<td>Éditer la cellule active et positionner le point d'insertion à la fin du contenu de la cellule. Si l'édition dans une cellule est désactivée, le point d'insertion sera déplacé dans la barre de formule.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section">Filtrage de données</th>
+				</tr>
+				<tr>
+					<td>Activer/Supprimer le filtre</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>L</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>L</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>⇧ Maj</kbd>+<kbd>L</kbd></td>
+					<td>Activer un filtre pour une plage de cellules sélectionnée ou supprimer le filtre.</td>
+				</tr>
+				<tr>
+					<td>Mettre sous forme de modèle de tableau</td>
+					<td><kbd>Ctrl</kbd>+<kbd>L</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>L</kbd>,<br /><kbd>⌘ Cmd</kbd>+<kbd>L</kbd></td>
+					<td>Appliquez un modèle de table à une plage de cellules sélectionnée.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section">Saisie des données</th>
 				</tr>
 				<tr>
 					<td>Valider la saisie de données dans une cellule et se déplacer vers le bas</td>
@@ -454,171 +478,171 @@
 					<td><kbd>Supprimer</kbd>,<br /><kbd>← Retour arrière</kbd></td>
 					<td>Supprimer le contenu (données et formules) des cellules sélectionnées en gardant la mise en forme des cellules ou les commentaires.</td>
 				</tr>
-                <tr>
-                    <td>Valider une entrée de cellule et se déplacer vers la droite</td>
-                    <td><kbd>↹ Tab</kbd></td>
-					<td><kbd>↹ Tab</kbd></td>
-                    <td>Valider une entrée de cellule dans la cellule sélectionnée ou dans la barre de formule et déplacez-vous vers la cellule de droite.</td>
-                </tr>
-                <tr>
-                    <td>Valider une entrée de cellule et déplacez-la vers la gauche.</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
-					<td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
-                    <td>Valider la saisie de données dans la cellule sélectionnée ou dans la barre de formule et passer à la cellule de gauche <!--or the previous option in a dialog box-->.</td>
-                </tr>
-                <tr>
-                    <td>Insérer des cellules</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>=</kbd></td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>=</kbd></td>
-                    <td>Ouvrir la boîte de dialogue pur insérer de nouvelles cellules dans la feuille de calcul actuelle et spécifier les paramètres supplémentaires pour se déplacer vers la droite, vers le bas ou insérer une ligne ou une colonne entière.</td>
-                </tr>
-                <tr>
-                    <td>Supprimer les cellules</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>-</kbd></td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>-</kbd></td>
-                    <td>Ouvrir la boîte de dialogue pur supprimer les cellules dans la feuille de calcul actuelle et spécifier les paramètres supplémentaires pour se déplacer vers la droite, vers le bas ou supprimer une ligne ou une colonne entière.</td>
-                </tr>
-                <tr>
-                    <td>Insérer la date actuelle</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>;</kbd></td>
-                    <td><kbd>Ctrl</kbd>+<kbd>;</kbd></td>
-                    <td>Insérer la date courante dans la cellule sélectionnée.</td>
-                </tr>
-                <tr>
-                    <td>Insérer l'heure actuelle</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
-                    <td>Insérer l'heure courante dans la cellule sélectionnée.</td>
-                </tr>
-                <tr>
-                    <td>Insérer la date et l'heure actuelles</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>;</kbd> ensuite <kbd>␣ Barre d'espace</kbd> ensuite <kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
-                    <td><kbd>Ctrl</kbd>+<kbd>;</kbd> ensuite <kbd>␣ Barre d'espace</kbd> ensuite <kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
-                    <td>Insérer la date et l'heure courantes dans la cellule sélectionnée.</td>
-                </tr>
 				<tr>
-                    <th colspan="4" class="keyboard_section">Fonctions</th>
+					<td>Valider une entrée de cellule et se déplacer vers la droite</td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td>Valider une entrée de cellule dans la cellule sélectionnée ou dans la barre de formule et déplacez-vous vers la cellule de droite.</td>
 				</tr>
-                <tr>
-                    <td>Insérer une fonction</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>F3</kbd></td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>F3</kbd></td>
-                    <td>Ouvrir la boîte de dialogue pour insérer une nouvelle fonction de la liste prédéfinie.</td>
-                </tr>
-                <tr>
+				<tr>
+					<td>Valider une entrée de cellule et déplacez-la vers la gauche.</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td>Valider la saisie de données dans la cellule sélectionnée ou dans la barre de formule et passer à la cellule de gauche <!--or the previous option in a dialog box-->.</td>
+				</tr>
+				<tr>
+					<td>Insérer des cellules</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>=</kbd></td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>=</kbd></td>
+					<td>Ouvrir la boîte de dialogue pur insérer de nouvelles cellules dans la feuille de calcul actuelle et spécifier les paramètres supplémentaires pour se déplacer vers la droite, vers le bas ou insérer une ligne ou une colonne entière.</td>
+				</tr>
+				<tr>
+					<td>Supprimer les cellules</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>-</kbd></td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>-</kbd></td>
+					<td>Ouvrir la boîte de dialogue pur supprimer les cellules dans la feuille de calcul actuelle et spécifier les paramètres supplémentaires pour se déplacer vers la droite, vers le bas ou supprimer une ligne ou une colonne entière.</td>
+				</tr>
+				<tr>
+					<td>Insérer la date actuelle</td>
+					<td><kbd>Ctrl</kbd>+<kbd>;</kbd></td>
+					<td><kbd>Ctrl</kbd>+<kbd>;</kbd></td>
+					<td>Insérer la date courante dans la cellule sélectionnée.</td>
+				</tr>
+				<tr>
+					<td>Insérer l'heure actuelle</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
+					<td>Insérer l'heure courante dans la cellule sélectionnée.</td>
+				</tr>
+				<tr>
+					<td>Insérer la date et l'heure actuelles</td>
+					<td><kbd>Ctrl</kbd>+<kbd>;</kbd> ensuite <kbd>␣ Barre d'espace</kbd> ensuite <kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
+					<td><kbd>Ctrl</kbd>+<kbd>;</kbd> ensuite <kbd>␣ Barre d'espace</kbd> ensuite <kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>;</kbd></td>
+					<td>Insérer la date et l'heure courantes dans la cellule sélectionnée.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section">Fonctions</th>
+				</tr>
+				<tr>
+					<td>Insérer une fonction</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>F3</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>F3</kbd></td>
+					<td>Ouvrir la boîte de dialogue pour insérer une nouvelle fonction de la liste prédéfinie.</td>
+				</tr>
+				<tr>
 					<td>Fonction SOMME</td>
 					<td><kbd>Alt</kbd>+<kbd>=</kbd></td>
 					<td><kbd>⌥ Option</kbd>+<kbd>=</kbd></td>
 					<td>Insérer la fonction SOMME dans la cellule active.</td>
 				</tr>
-                <tr>
-                    <td>Ouvrir la liste déroulante</td>
-                    <td><kbd>Alt</kbd>+<kbd>↓</kbd></td>
+				<tr>
+					<td>Ouvrir la liste déroulante</td>
+					<td><kbd>Alt</kbd>+<kbd>↓</kbd></td>
 					<td></td>
-                    <td>Ouvrir une liste déroulante sélectionnée.</td>
-                </tr>
-                <tr>
-                    <td>Ouvrir le menu contextuel</td>
-                    <td><kbd>≣ Menu</kbd></td>
+					<td>Ouvrir une liste déroulante sélectionnée.</td>
+				</tr>
+				<tr>
+					<td>Ouvrir le menu contextuel</td>
+					<td><kbd>≣ Menu</kbd></td>
 					<td></td>
-                    <td>Ouvrir un menu contextuel pour la cellule ou la plage de cellules sélectionnée.</td>
-                </tr>
-                <tr>
-                    <td>Recalculer des fonctions</td>
-                    <td><kbd>F9</kbd></td>
-                    <td><kbd>F9</kbd></td>
-                    <td>Recalcul du classeur entier.</td>
-                </tr>
-                <tr>
-                    <td>Recalculer des fonctions</td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>F9</kbd></td>
-                    <td><kbd>⇧ Maj</kbd>+<kbd>F9</kbd></td>
-                    <td>Recalcul de la feuille de calcul actuelle.</td>
-                </tr>
-                <tr>
-                    <th colspan="4" class="keyboard_section"><a id="dataformats"></a>Formats de données</th>
-                </tr>
-                <tr>
-                    <td>Ouvrir la boîte de dialogue 'Format de numéro'</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>1</kbd></td>
+					<td>Ouvrir un menu contextuel pour la cellule ou la plage de cellules sélectionnée.</td>
+				</tr>
+				<tr>
+					<td>Recalculer des fonctions</td>
+					<td><kbd>F9</kbd></td>
+					<td><kbd>F9</kbd></td>
+					<td>Recalcul du classeur entier.</td>
+				</tr>
+				<tr>
+					<td>Recalculer des fonctions</td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>F9</kbd></td>
+					<td><kbd>⇧ Maj</kbd>+<kbd>F9</kbd></td>
+					<td>Recalcul de la feuille de calcul actuelle.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section"><a id="dataformats"></a>Formats de données</th>
+				</tr>
+				<tr>
+					<td>Ouvrir la boîte de dialogue 'Format de numéro'</td>
+					<td><kbd>Ctrl</kbd>+<kbd>1</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>1</kbd></td>
-                    <td>Ouvrir la boîte de dialogue <B>Format de numéro</B></td>
-                </tr>
-                <tr>
-                    <td>Appliquer le format Général</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>~</kbd></td>
+					<td>Ouvrir la boîte de dialogue <B>Format de numéro</B></td>
+				</tr>
+				<tr>
+					<td>Appliquer le format Général</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>~</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>~</kbd></td>
-                    <td>Appliquer le format de nombre <B>Général</B>.</td>
-                </tr>
-                <tr>
-                    <td>Appliquer le format <B>Devise</B></td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>$</kbd></td>
+					<td>Appliquer le format de nombre <B>Général</B>.</td>
+				</tr>
+				<tr>
+					<td>Appliquer le format <B>Devise</B></td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>$</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>$</kbd></td>
-                    <td>Appliquer le format <B>Devise</B> avec deux décimales (nombres négatifs entre parenthèses).</td>
-                </tr>
-                <tr>
-                    <td>Appliquer le format Pourcentage</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>%</kbd></td>
+					<td>Appliquer le format <B>Devise</B> avec deux décimales (nombres négatifs entre parenthèses).</td>
+				</tr>
+				<tr>
+					<td>Appliquer le format Pourcentage</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>%</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>%</kbd></td>
-                    <td>Appliquer le format <B>Pourcentage</B> sans décimales.</td>
-                </tr>
-                <tr>
-                    <td>Appliquer le format Exponentiel</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>^</kbd></td>
+					<td>Appliquer le format <B>Pourcentage</B> sans décimales.</td>
+				</tr>
+				<tr>
+					<td>Appliquer le format Exponentiel</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>^</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>^</kbd></td>
-                    <td>Appliquer le format des nombres <B>exponentiels</B> avec deux décimales.</td>
-                </tr>
-                <tr>
-                    <td>Appliquer le format Date</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>#</kbd></td>
+					<td>Appliquer le format des nombres <B>exponentiels</B> avec deux décimales.</td>
+				</tr>
+				<tr>
+					<td>Appliquer le format Date</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>#</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>#</kbd></td>
-                    <td>Appliquer le format <B>Date</B> avec le jour, le mois et l'année.</td>
-                </tr>
-                <tr>
-                    <td>Appliquer le format Heure</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>@</kbd></td>
+					<td>Appliquer le format <B>Date</B> avec le jour, le mois et l'année.</td>
+				</tr>
+				<tr>
+					<td>Appliquer le format Heure</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>@</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>@</kbd></td>
-                    <td>Appliquer le format Heure avec l'heure et les minutes, et le format AM ou PM.</td>
-                </tr>
-                <tr>
-                    <td>Appliquer un format de nombre</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>!</kbd></td>
+					<td>Appliquer le format Heure avec l'heure et les minutes, et le format AM ou PM.</td>
+				</tr>
+				<tr>
+					<td>Appliquer un format de nombre</td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>!</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>!</kbd></td>
-                    <td>Appliquer le format <B>Nombre</B> avec deux décimales, un séparateur de milliers et le signe moins (-) pour les valeurs négatives.</td>
-                </tr>
-                <tr>
-                    <th colspan="4" class="keyboard_section"><a id="workwithobjects"></a>Modification des objets</th>
-                </tr>
-                <tr>
-                    <td>Limiter le déplacement</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser</td>
-                    <td>Limiter le déplacement de l'objet sélectionné horizontalement ou verticalement.</td>
-                </tr>
-                <tr>
-                    <td>Régler une rotation de 15 degrés</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser (lors de la rotation)</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser (lors de la rotation)</td>
-                    <td>Limiter la rotation à à des incréments de 15 degrés.</td>
-                </tr>
-                <tr>
-                    <td>Conserver les proportions</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser (lors du redimensionnement)</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser (lors du redimensionnement)</td>
-                    <td>Conserver les proportions de l'objet sélectionné lors du redimensionnement.</td>
-                </tr>
-                <tr>
-                    <td>Tracer une ligne droite ou une flèche</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser (lors du tracé de lignes/flèches)</td>
-                    <td><kbd>⇧ Maj</kbd> + faire glisser (lors du tracé de lignes/flèches)</td>
-                    <td>Tracer une ligne droite ou une flèche verticale/horizontale/inclinée de 45 degrés.</td>
-                </tr>
-                <tr>
-                    <td>Mouvement par incréments de 1 pixel</td>
-                    <td><kbd>Ctrl</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td>Appliquer le format <B>Nombre</B> avec deux décimales, un séparateur de milliers et le signe moins (-) pour les valeurs négatives.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section"><a id="workwithobjects"></a>Modification des objets</th>
+				</tr>
+				<tr>
+					<td>Limiter le déplacement</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser</td>
+					<td>Limiter le déplacement de l'objet sélectionné horizontalement ou verticalement.</td>
+				</tr>
+				<tr>
+					<td>Régler une rotation de 15 degrés</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser (lors de la rotation)</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser (lors de la rotation)</td>
+					<td>Limiter la rotation à à des incréments de 15 degrés.</td>
+				</tr>
+				<tr>
+					<td>Conserver les proportions</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser (lors du redimensionnement)</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser (lors du redimensionnement)</td>
+					<td>Conserver les proportions de l'objet sélectionné lors du redimensionnement.</td>
+				</tr>
+				<tr>
+					<td>Tracer une ligne droite ou une flèche</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser (lors du tracé de lignes/flèches)</td>
+					<td><kbd>⇧ Maj</kbd> + faire glisser (lors du tracé de lignes/flèches)</td>
+					<td>Tracer une ligne droite ou une flèche verticale/horizontale/inclinée de 45 degrés.</td>
+				</tr>
+				<tr>
+					<td>Mouvement par incréments de 1 pixel</td>
+					<td><kbd>Ctrl</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
 					<td></td>
-                    <td>Maintenez la touche <kbd>Ctrl</kbd> enfoncée en faisant glisser et utilisez les flèches pour déplacer l'objet sélectionné d'un pixel à la fois.</td>
-                </tr>
+					<td>Maintenez la touche <kbd>Ctrl</kbd> enfoncée en faisant glisser et utilisez les flèches pour déplacer l'objet sélectionné d'un pixel à la fois.</td>
+				</tr>
 			</table>
 		</div>
 	</body>

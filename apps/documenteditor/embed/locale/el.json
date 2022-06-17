@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Ύψος",
   "common.view.modals.txtShare": "Διαμοιρασμός συνδέσμου",
   "common.view.modals.txtWidth": "Πλάτος",
+  "common.view.SearchBar.textFind": "Εύρεση",
   "DE.ApplicationController.convertationErrorText": "Αποτυχία μετατροπής.",
   "DE.ApplicationController.convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
   "DE.ApplicationController.criticalErrorTitle": "Σφάλμα",
@@ -46,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Άνοιγμα τοποθεσίας αρχείου",
   "DE.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "DE.ApplicationView.txtPrint": "Εκτύπωση",
+  "DE.ApplicationView.txtSearch": "Αναζήτηση",
   "DE.ApplicationView.txtShare": "Διαμοιρασμός"
 }

@@ -14,6 +14,7 @@ import EditorUIController from '../lib/patch';
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
+    isRestrictedEdit: stores.storeAppOptions.isRestrictedEdit,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
     storeSheets: stores.sheets,
@@ -136,7 +137,7 @@ class ContextMenu extends ContextMenuController {
                     }
                 } else {
                     const url = linkinfo.asc_getHyperlinkUrl().replace(/\s/g, "%20");
-                    api.asc_getUrlType(url) > 0 && this.openLink(url);
+                    this.openLink(url);
                 }
                 break;
         }
@@ -192,10 +193,32 @@ class ContextMenu extends ContextMenuController {
     }
 
     openLink(url) {
-        const newDocumentPage = window.open(url, '_blank');
-
-        if (newDocumentPage) {
-            newDocumentPage.focus();
+        if (url) {
+            const type = Common.EditorApi.get().asc_getUrlType(url);
+            if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) {
+                const newDocumentPage = window.open(url, '_blank');
+                if (newDocumentPage) {
+                    newDocumentPage.focus();
+                }
+            } else {
+                const { t } = this.props;
+                const _t = t("ContextMenu", { returnObjects: true });
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text  : _t.txtWarnUrl,
+                    buttons: [{
+                        text: _t.textOk,
+                        bold: true,
+                        onClick: () => {
+                            const newDocumentPage = window.open(url, '_blank');
+                            if (newDocumentPage) {
+                                newDocumentPage.focus();
+                            }
+                        }
+                    },
+                    { text: _t.menuCancel }]
+                }).open();
+            }
         }
     }
 
@@ -215,12 +238,12 @@ class ContextMenu extends ContextMenuController {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
 
-        const { isEdit, isDisconnected } = this.props;
+        const { isEdit, isRestrictedEdit, isDisconnected } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
-            const {canViewComments} = this.props;
+            const {canViewComments, canCoAuthoring, canComments} = this.props;
 
             const api = Common.EditorApi.get();
             const cellinfo = api.asc_getCellInfo();
@@ -260,6 +283,13 @@ class ContextMenu extends ContextMenuController {
                         itemsText.push({
                             caption: _t.menuViewComment,
                             event: 'viewcomment'
+                        });
+                    }
+
+                    if (iscellmenu && !api.isCellEdited && isRestrictedEdit && canCoAuthoring && canComments && hasComments && hasComments.length<1) {
+                        itemsText.push({
+                            caption: _t.menuAddComment,
+                            event: 'addcomment'
                         });
                     }
                 }

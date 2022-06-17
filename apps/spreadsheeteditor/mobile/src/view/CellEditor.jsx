@@ -2,7 +2,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Input, View, Button, Link, Popover, ListItem, List, Icon, f7, Page, Navbar, NavRight } from 'framework7-react';
 import {observer, inject} from "mobx-react";
-import { __interactionsRef } from 'scheduler/tracing';
+// import { __interactionsRef } from 'scheduler/tracing';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
 
@@ -114,7 +114,7 @@ const CellEditorView = props => {
                 </div>
                 <div className="ce-group group--content" style={contentStyle}>
                     <div id="idx-list-target" className="target-function-list"></div>
-                    <textarea id="idx-cell-content" spellCheck="false"/>
+                    <textarea id="idx-cell-content" spellCheck="false" />
                 </div>
                 <div className="ce-group">
                     <Link icon="caret" onClick={expandClick} />

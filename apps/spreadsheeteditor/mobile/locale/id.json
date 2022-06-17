@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Didukung oleh",
     "textTel": "Tel",
-    "textVersion": "Versi"
+    "textVersion": "Versi",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Peringatan",
     "textCopyCutPasteActions": "Salin, Potong dan Tempel",
     "textDoNotShowAgain": "Jangan tampilkan lagi",
-    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?"
+    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -160,7 +163,8 @@
       "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -399,7 +403,6 @@
       "textBottomBorder": "Batas Bawah",
       "textBringToForeground": "Tampilkan di Halaman Muka",
       "textCell": "Sel",
-      "textCellStyles": "Gaya Sel",
       "textCenter": "Tengah",
       "textChart": "Bagan",
       "textChartTitle": "Judul Grafik",
@@ -548,7 +551,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
-      "txtSortLow2High": "Sortir Terendah ke Tertinggi"
+      "txtSortLow2High": "Sortir Terendah ke Tertinggi",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",
@@ -680,7 +684,11 @@
       "txtSpace": "Spasi",
       "txtTab": "Tab",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

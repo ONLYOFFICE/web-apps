@@ -128,6 +128,12 @@ define([
                     '</tr>',
                     '<tr>',
                         '<td align="center" class="padding-small">',
+                            '<label class="asc-about-desc-name">' + this.txtTel + '</label>',
+                            '<label class="asc-about-desc" id="id-about-company-tel"></label>',
+                        '</td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td align="center" class="padding-small">',
                             '<a href="" target="_blank" id="id-about-company-url"></a>',
                         '</td>',
                     '</tr>',
@@ -177,6 +183,7 @@ define([
                 this.lblCompanyMail = _$l.findById('#id-about-company-mail');
                 this.lblCompanyUrl = _$l.findById('#id-about-company-url');
                 this.lblCompanyLic = _$l.findById('#id-about-company-lic');
+                this.lblCompanyTel = _$l.findById('#id-about-company-tel');
 
                 this.$el.html(_$l);
                 this.$el.addClass('about-dlg');
@@ -223,6 +230,11 @@ define([
                     (value = customer.mail) && value.length ?
                         this.lblCompanyMail.attr('href', "mailto:"+value).text(value) :
                         this.lblCompanyMail.parents('tr').addClass('hidden');
+
+                    value = customer.phone;
+                    value && value.length ?
+                        this.lblCompanyTel.text(value) :
+                        this.lblCompanyTel.parents('tr').addClass('hidden');
 
                     if ((value = customer.www) && value.length) {
                         var http = !/^https?:\/{2}/i.test(value) ? "http:\/\/" : '';

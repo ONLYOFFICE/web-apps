@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="The keyboard shortcut list is used for a faster and easier access to the features of Spreadsheet Editor using the keyboard." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
         <script type="text/javascript" src="../search/js/jquery.min.js"></script>
@@ -17,11 +18,12 @@
 			</div>
 			<h1>Keyboard Shortcuts</h1>
 			<h3>Keyboard Shortcuts for Key Tips</h3>
-			<p>The keyboard shortcut list is used for a faster and easier access to the features of <a href="https://www.onlyoffice.com/en/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> using the keyboard.</p>
+			<p>Use <b>keyboard shortcuts</b> for a faster and easier access to the features of the <a href="https://www.onlyoffice.com/en/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> without using a mouse.</p>
 			<ol>
 				<li>Press <b>Alt</b> key to turn on all key tips for the editor header, the top toolbar, the right and left sidebars and the status bar.</li>
 				<li>
-					Press the letter that corresponds to the item you wish to use. The additional key tips may appear depending on the key you press. The first key tips hide when additional key tips appear. For example, press <b>Alt</b> to see all primary key tips.
+					Press the letter that corresponds to the item you wish to use. The additional key tips may appear depending on the key you press. The first key tips hide when additional key tips appear.
+					<p>For example, to access the <b>Insert</b> tab, press <b>Alt</b> to see all primary key tips.</p>
 					<p><img alt="Primary Key Tips" src="../images/keytips1.png" /></p>
 					<p>Press letter <b>I</b> to access the <b>Insert</b> tab and you will see all the available shortcuts for this tab.</p>
 					<p><img alt="Secondary Key Tips" src="../images/keytips2.png" /></p>
@@ -29,6 +31,7 @@
 				</li>
 				<li>Press <b>Alt</b> to hide all key tips, or press <b>Escape</b> to go back to the previous group of key tips.</li>
 			</ol>
+			<p>Find the most common keyboard shortcuts in the list below:</p>
 			<ul class="shortcut_variants">
 				<li class="shortcut_toggle pc_option left_option">Windows/Linux</li>
 				<!--
@@ -145,10 +148,10 @@
 					<td>Outline a cell above/below the currently selected one or to the left/to the right of it.</td>
 				</tr>
 				<tr>
-					<td>Jump to the edge of the current data region</td>
+					<td>Jump to the edge of the visible data region or the next cell with data</td>
 					<td><kbd>Ctrl</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
 					<td><kbd>&#8984; Cmd</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
-					<td>Outline a cell at the edge of the current data region in a worksheet.</td>
+					<td>Outline a cell at the edge of the visible data region or the next cell with data in a worksheet. If the region does not contain data, the last cell of the visible area will be selected. If the region contains data, the next cell with data will be selected.</td>
 				</tr>
 				<tr>
 					<td>Jump to the beginning of the row</td>
@@ -223,15 +226,27 @@
 					<td>Move one screen up in the worksheet.</td>
 				</tr>
 				<tr>
+					<td>Move vertical scrollbar Up/Down</td>
+					<td><kbd>Mouse scroll Up/Down</kbd></td>
+					<td><kbd>Mouse scroll Up/Down</kbd></td>
+					<td>Move vertical scrollbar up/down.</td>
+				</tr>
+				<tr>
+					<td>Move horizontal scrollbar Left/Right</td>
+					<td><kbd>⇧ Shift</kbd>+<kbd>Mouse scroll Up/Down</kbd></td>
+					<td><kbd>⇧ Shift</kbd>+<kbd>Mouse scroll Up/Down</kbd></td>
+					<td>Move horizontal scrollbar left/right. To move the scrollbar to the right, scroll the mouse wheel down. To move the scrollbar to the left, scroll the mouse wheel up.</td>
+				</tr>
+				<tr>
 					<td>Zoom In</td>
 					<td><kbd>Ctrl</kbd>+<kbd>+</kbd></td>
-					<td><kbd>^ Ctrl</kbd>+<kbd>=</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>=</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>=</kbd></td>
 					<td>Zoom in the currently edited spreadsheet.</td>
 				</tr>
 				<tr>
 					<td>Zoom Out</td>
 					<td><kbd>Ctrl</kbd>+<kbd>-</kbd></td>
-					<td><kbd>^ Ctrl</kbd>+<kbd>-</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>-</kbd></td>
+					<td><kbd>^ Ctrl</kbd>+<kbd>-</kbd></td>
 					<td>Zoom out the currently edited spreadsheet.</td>
 				</tr>
 				<tr>

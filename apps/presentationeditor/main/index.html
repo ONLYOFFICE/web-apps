@@ -270,8 +270,10 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+            document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+        }
     </script>
 
     <!-- debug begin -->
@@ -330,7 +332,7 @@
     </script>
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
-    <img class="inline-svg" src="../../common/main/resources/img/header/buttons.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/header/icons.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/shapetypes.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/charttypes.svg">
     <script>

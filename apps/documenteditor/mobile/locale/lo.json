@@ -6,7 +6,8 @@
     "textEmail": "ອີເມລ",
     "textPoweredBy": "ສ້າງໂດຍ",
     "textTel": "ໂທ",
-    "textVersion": "ລຸ້ນ"
+    "textVersion": "ລຸ້ນ",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "ເຕືອນ",
@@ -57,10 +58,10 @@
     "textStartAt": "ເລີ່ມຈາກ",
     "textTable": "ຕາຕະລາງ",
     "textTableSize": "ຂະໜາດຕາຕະລາງ",
+    "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
     "textTableContents": "Table of Contents",
-    "textWithPageNumbers": "With Page Numbers",
     "textWithBlueLinks": "With Blue Links",
-    "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\""
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -151,6 +152,7 @@
       "textStrikeout": "ຂີດຂ້າອອກ",
       "textSubScript": "ຕົວຫ້ອຍ",
       "textSuperScript": "ຕົວຍົກ",
+      "textTableChanged": "ປ່ຽນການຕັ້ງຄ່າຕາຕະລາງແລ້ວ",
       "textTableRowsAdd": "ເພີ່ມແຖວຕາຕະລາງແລ້ວ",
       "textTableRowsDel": "ລຶບແຖວຕາຕະລາງແລ້ວ",
       "textTabs": "ປ່ຽນຂັ້ນ",
@@ -158,8 +160,7 @@
       "textTryUndoRedo": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
       "textUnderline": "ີຂີດກ້ອງ",
       "textUsers": "ຜຸ້ໃຊ້",
-      "textWidow": "ໜ້າຄວບຄຸມ",
-      "textTableChanged": "Table Settings Changed"
+      "textWidow": "ໜ້າຄວບຄຸມ"
     },
     "HighlightColorPalette": {
       "textNoFill": "ບໍ່ມີການຕື່ມຂໍ້ມູນໃສ່"
@@ -171,8 +172,6 @@
     }
   },
   "ContextMenu": {
-    "textRefreshEntireTable": "Refresh entire table",
-    "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "errorCopyCutPaste": "ການກ໋ອບປີ້,ຕັດ ແລະ ວາງ ການດຳເນີນການໂດຍໃຊ້ເມນູ ຈະດຳເນີນການພາຍໃນຟາຍປັດຈຸບັນເທົ່ານັ້ນ",
     "menuAddComment": "ເພີ່ມຄຳເຫັນ",
     "menuAddLink": "ເພີ່ມລິ້ງ",
@@ -198,7 +197,10 @@
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
     "textNumberingValue": "ມູນຄ່າ ໝາຍ ເລກ",
     "textOk": "ຕົກລົງ",
-    "textRows": "ແຖວ"
+    "textRows": "ແຖວ",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "ເຕືອນ",
@@ -260,6 +262,8 @@
     "textHyperlink": "ົໄຮເປີລີ້ງ",
     "textImage": "ຮູບພາບ",
     "textImageURL": "URL ຮູບພາບ",
+    "textInFront": "ຢູ່ທາງຫນ້າຂອງຂໍ້ຄວາມ",
+    "textInline": "ໃນແຖວທີ່ມີຂໍ້ຄວາມ",
     "textJanuary": "ເດືອນກຸມພາ",
     "textJuly": "ເດືອນກໍລະກົດ",
     "textJune": "ເດືອນມິຖຸນາ",
@@ -290,7 +294,6 @@
     "textPageBreakBefore": "ແຍກໜ້າເອກະສານກ່ອນໜ້າ",
     "textPageNumbering": "ເລກໜ້າ",
     "textParagraph": "ວັກ",
-    "textParagraphStyles": "ຮຸບແບບວັກ",
     "textPictureFromLibrary": "ຮູບພາບຈາກຫ້ອງສະໝຸດ",
     "textPictureFromURL": "ຮູບພາບຈາກ URL",
     "textPt": "pt",
@@ -334,30 +337,35 @@
     "textType": "ພິມ",
     "textWe": "ພວກເຮົາ",
     "textWrap": "ຫໍ່",
-    "textInFront": "In Front of Text",
-    "textTableOfCont": "TOC",
-    "textPageNumbers": "Page Numbers",
-    "textSimple": "Simple",
-    "textRightAlign": "Right Align",
-    "textLeader": "Leader",
-    "textStructure": "Structure",
-    "textRefresh": "Refresh",
-    "textLevels": "Levels",
-    "textRemoveTableContent": "Remove table of content",
-    "textCurrent": "Current",
-    "textOnline": "Online",
-    "textClassic": "Classic",
-    "textDistinctive": "Distinctive",
-    "textCentered": "Centered",
-    "textFormal": "Formal",
-    "textStandard": "Standard",
-    "textModern": "Modern",
+    "textAmountOfLevels": "Amount of Levels",
     "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
+    "textEnterTitleNewStyle": "Enter title of a new style",
+    "textFormal": "Formal",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
+    "textSameCreatedNewStyle": "Same as created new style",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
     "textStyles": "Styles",
-    "textAmountOfLevels": "Amount of Levels",
-    "textInline": "In Line with Text"
+    "textTableOfCont": "TOC",
+    "textTitle": "Title"
   },
   "Error": {
     "convertationTimeoutText": "ໝົດເວລາການປ່ຽນແປງ.",
@@ -397,9 +405,9 @@
     "unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິດຜາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
+    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
-    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",
@@ -459,6 +467,7 @@
       "Error! Bookmark not defined": "ຜິດພາດ! ບໍ່ໄດ້ກຳນົດບຸກມາກ.",
       "Error! Main Document Only": "ຜິດພາດ! ເອກະສານຫຼັກຢ່າງດຽວ",
       "Error! No text of specified style in document": "ຜິດພາດ! ບໍ່ມີຂໍ້ຄວາມບົ່ງບອກ",
+      "Error! Not a valid bookmark self-reference": "ຜິດພາດ! ບໍ່ແມ່ນຈຸດຂັ້ນທີ່ຖືໜ້າກຕ້ອງການອ້າງອີງຕົນເອງ.",
       "Even Page ": "ໜ້າງານ",
       "First Page ": "ໜ້າທຳອິດ",
       "Footer": "ສ່ວນທ້າຍ",
@@ -475,6 +484,7 @@
       "Heading 9": "ຫົວເລື່ອງ9",
       "Hyperlink": "ົໄຮເປີລີ້ງ",
       "Index Too Large": "ດັດສະນີໃຫຍ່ເກີນໄປ",
+      "Intense Quote": "ຄຳເວົ້າທີ່ເຂັ້ມຂຸ້ນ",
       "Is Not In Table": "ບໍ່ຢູ່ໃນຕາຕະລາງ",
       "List Paragraph": "ລາຍການຫຍໍ້ໜ້າ",
       "Missing Argument": "ບໍ່ມີອາກິວເມັ້ນ",
@@ -503,9 +513,7 @@
       "X Axis": "ແກນ X (XAS)",
       "Y Axis": "ແກນ Y",
       "Your text here": "ເນື້ອຫາຂອງທ່ານຢູ່ນີ້",
-      "Zero Divide": "ສູນແບ່ງ",
-      "Error! Not a valid bookmark self-reference": "Error! Not a valid bookmark self-reference.",
-      "Intense Quote": "Intense Quote"
+      "Zero Divide": "ສູນແບ່ງ"
     },
     "textAnonymous": "ບໍ່ລະບຸຊື່",
     "textBuyNow": "ເຂົ້າໄປຍັງເວັບໄຊ",
@@ -532,7 +540,8 @@
     "warnLicenseUsersExceeded": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບຜູ້ແກ້ໄຂ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ທີມບໍລິຫານເພື່ອຂໍ້ມູນເພີ່ມເຕີ່ມ",
     "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
     "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
-    "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້."
+    "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "ເອກະສານທີ່ໄດ້ຮັບການປົກປ້ອງ",
@@ -572,6 +581,7 @@
     "textEnableAll": "ເປີດທັງໝົດ",
     "textEnableAllMacrosWithoutNotification": "ເປີດໃຊ້ແຈ້ງເຕືອນທົ່ວໄປໂດຍບໍ່ມີການແຈ້ງການ",
     "textEncoding": "ການເຂົ້າລະຫັດ",
+    "textFastWV": "ເບິ່ງເວັບລ່ວງໜ້າ",
     "textFind": "ຄົ້ນຫາ",
     "textFindAndReplace": "ຄົ້ນຫາແລະປ່ຽນແທນ",
     "textFindAndReplaceAll": "ຄົ້ນຫາ ແລະ ປ່ຽນແທນທັງໝົດ",
@@ -600,6 +610,8 @@
     "textPages": "ໜ້າ",
     "textPageSize": "ຂະໜາດໜ້າ",
     "textParagraphs": "ວັກ",
+    "textPdfTagged": "ໝາຍ PDF",
+    "textPdfVer": "ສະບັບ PDF",
     "textPoint": "ຈຸດ",
     "textPortrait": "ລວງຕັ້ງ",
     "textPrint": "ພິມ",
@@ -648,14 +660,16 @@
     "txtScheme7": "ຄວາມເທົ່າທຽມກັນ",
     "txtScheme8": "ຂະບວນການ",
     "txtScheme9": "ໂຮງຫລໍ່",
-    "textFeedback": "Feedback & Support",
-    "textNavigation": "Navigation",
-    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
     "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
     "textEmptyHeading": "Empty Heading",
-    "textFastWV": "Fast Web View",
-    "textPdfTagged": "Tagged PDF",
-    "textPdfVer": "PDF Version"
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textNavigation": "Navigation",
+    "textPdfProducer": "PDF Producer",
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",

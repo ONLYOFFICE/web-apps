@@ -81,7 +81,7 @@ define([
             template: _.template([
                 '<div class="input-field" style="<%= style %>">',
                     '<input ',
-                        'type="text" ',
+                        'type="<%= type %>" ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
@@ -164,8 +164,6 @@ define([
                         this._input.on('keydown',    _.bind(this.onKeyDown, this));
                         this._input.on('keyup',    _.bind(this.onKeyUp, this));
                         if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
-                        if (this.type=='password') this._input.on('input', _.bind(this.checkPasswordType, this));
-
                         if (this.maxLength) this._input.attr('maxlength', this.maxLength);
                     }
 
@@ -188,15 +186,6 @@ define([
                     me.setValue(me.value);
 
                 return this;
-            },
-
-            checkPasswordType: function(){
-                if(this.type == 'text') return;
-                if (this._input.val() !== '') {
-                    (this._input.attr('type') !== 'password') && this._input.attr('type', 'password');
-                } else {
-                    this._input.attr('type', 'text');
-                }
             },
 
             _doChange: function(e, extra) {
@@ -317,8 +306,6 @@ define([
                 if (this.rendered){
                     this._input.val(value);
                 }
-
-                (this.type=='password') && this.checkPasswordType();
             },
 
             getValue: function() {
@@ -438,12 +425,15 @@ define([
             template: _.template([
                 '<div class="input-field input-field-btn" style="<%= style %>">',
                     '<input ',
-                        'type="text" ',
+                        'type=<%= type %> ',
                         'name="<%= name %>" ',
                         'spellcheck="<%= spellcheck %>" ',
                         'class="form-control <%= cls %>" ',
                         'placeholder="<%= placeHolder %>" ',
                         'value="<%= value %>"',
+                        'data-hint="<%= dataHint %>"',
+                        'data-hint-offset="<%= dataHintOffset %>"',
+                        'data-hint-direction="<%= dataHintDirection %>"',
                     '>',
                     '<span class="input-error"></span>',
                     '<div class="select-button">' +
@@ -464,7 +454,10 @@ define([
                         name        : this.name,
                         placeHolder : this.placeHolder,
                         spellcheck  : this.spellcheck,
-                        scope       : me
+                        scope       : me,
+                        dataHint    : this.options.dataHint,
+                        dataHintOffset: this.options.dataHintOffset,
+                        dataHintDirection: this.options.dataHintDirection
                     }));
 
                     if (parentEl) {
@@ -556,6 +549,7 @@ define([
                 style: '',
                 value: '',
                 name: '',
+                type: 'password',
                 validation: null,
                 allowBlank: true,
                 placeHolder: '',
@@ -566,7 +560,8 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'toolbar__icon btn-sheet-view',
+                showCls: 'toolbar__icon btn-sheet-view',
+                hideCls: 'toolbar__icon hide-password',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true
@@ -575,6 +570,7 @@ define([
             initialize : function(options) {
                 options = options || {};
                 options.btnHint = options.btnHint || this.textHintShowPwd;
+                options.iconCls = options.showCls || this.options.showCls;
 
                 Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
 
@@ -586,7 +582,6 @@ define([
                 Common.UI.InputFieldBtn.prototype.render.call(this, parentEl);
 
                 this._btnElm = this._button.$el;
-                this._input.on('input', _.bind(this.checkPasswordType, this));
                 if(this.options.showPwdOnClick)
                     this._button.on('click', _.bind(this.passwordClick, this));
                 else
@@ -617,7 +612,7 @@ define([
 
             passwordShow: function (e) {
                 if (this.disabled) return;
-                this._button.setIconCls('toolbar__icon hide-password');
+                this._button.setIconCls(this.options.hideCls);
                 this.type = 'text';
 
                 this._input.attr('type', this.type);
@@ -636,13 +631,13 @@ define([
             },
 
             passwordHide: function (e) {
-                this._button.setIconCls('toolbar__icon btn-sheet-view');
+                this._button.setIconCls(this.options.showCls);
                 this.type = 'password';
 
-                (this._input.val() !== '') && this._input.attr('type', this.type);
+                this._input.attr('type', this.type);
                 if(this.repeatInput) {
                     this.repeatInput.type = this.type;
-                    (this.repeatInput._input.val() !== '') && this.repeatInput._input.attr('type', this.type);
+                    this.repeatInput._input.attr('type', this.type);
                 }
 
                 if(this.options.showPwdOnClick) {

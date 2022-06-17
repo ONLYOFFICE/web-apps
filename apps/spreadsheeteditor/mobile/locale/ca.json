@@ -3,6 +3,7 @@
     "textAbout": "Quant a...",
     "textAddress": "Adreça",
     "textBack": "Enrere",
+    "textEditor": "Editor del full de càlcul",
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel",
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Advertiment",
     "textCopyCutPasteActions": "Accions de copia, talla i enganxa ",
     "textDoNotShowAgain": "No ho mostris més",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -79,7 +82,7 @@
         "txtAll": "(Tots)",
         "txtArt": "El vostre text aquí",
         "txtBlank": "(en blanc)",
-        "txtByField": "%1 del %2",
+        "txtByField": "%1 de %2",
         "txtClearFilter": "Suprimeix el filtre (Alt + C)",
         "txtColLbls": "Etiquetes de la columna",
         "txtColumn": "Columna",
@@ -151,6 +154,7 @@
       "textRemember": "Recorda la meva elecció",
       "textReplaceSkipped": "S'ha realitzat la substitució. S'han omès {0} ocurrències.",
       "textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
+      "textRequestMacros": "Una macro fa una sol·licitud a l'URL. Voleu permetre la sol·licitud al %1?",
       "textYes": "Sí",
       "titleServerVersion": "S'ha actualitzat l'editor",
       "titleUpdateVersion": "S'ha canviat la versió",
@@ -298,9 +302,9 @@
     "textRenameSheet": "Canvia el nom del full",
     "textSheet": "Full",
     "textSheetName": "Nom del full",
+    "textTabColor": "Color de la pestanya",
     "textUnhide": "Mostrar",
-    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Vols continuar amb l'operació?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "El full de càlcul pot tenir dades. Voleu continuar amb l'operació?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis no desats en aquest document. Feu clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -399,7 +403,7 @@
       "textBottomBorder": "Vora inferior",
       "textBringToForeground": "Porta al primer pla",
       "textCell": "Cel·la",
-      "textCellStyles": "Estils de cel·la",
+      "textCellStyle": "Estil de cel·la",
       "textCenter": "Centra",
       "textChart": "Gràfic",
       "textChartTitle": "Títol del gràfic",
@@ -422,7 +426,7 @@
       "textEditLink": "Edita l'enllaç",
       "textEffects": "Efectes",
       "textEmptyImgUrl": "Cal especificar l'URL de la imatge.",
-      "textEmptyItem": "{En blanc}",
+      "textEmptyItem": "(En blanc) ",
       "textErrorMsg": "Com a mínim heu de triar un valor",
       "textErrorTitle": "Advertiment",
       "textEuro": "Euro",
@@ -580,6 +584,7 @@
       "textCustomSize": "Mida personalitzada",
       "textDarkTheme": "Tema fosc",
       "textDelimeter": "Separador",
+      "textDirection": "Direcció",
       "textDisableAll": "Inhabilita-ho tot",
       "textDisableAllMacrosWithNotification": "Inhabilita totes les macros amb una notificació",
       "textDisableAllMacrosWithoutNotification": "Inhabilita totes les macros sense una notificació",
@@ -591,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilita totes les macros sense una notificació",
       "textEncoding": "Codificació",
       "textExample": "Exemple",
+      "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cerca",
       "textFindAndReplace": "Cerca i substitueix",
       "textFindAndReplaceAll": "Cerca i substitueix-ho tot",
@@ -606,6 +612,7 @@
       "textLastModified": "Última modificació",
       "textLastModifiedBy": "Última modificació feta per",
       "textLeft": "Esquerra",
+      "textLeftToRight": "D'esquerra a dreta",
       "textLocation": "Ubicació",
       "textLookIn": "Cerca a",
       "textMacrosSettings": "Configuració de les macros",
@@ -626,7 +633,9 @@
       "textReplace": "Substitueix",
       "textReplaceAll": "Substitueix-ho tot ",
       "textResolvedComments": "Comentaris resolts",
+      "textRestartApplication": "Reinicieu l'aplicació perquè els canvis tinguin efecte.",
       "textRight": "Dreta",
+      "textRightToLeft": "De dreta a esquerra",
       "textSearch": "Cerca",
       "textSearchBy": "Cerca",
       "textSearchIn": "Cerca a",
@@ -679,8 +688,7 @@
       "txtSemicolon": "Punt i coma",
       "txtSpace": "Espai",
       "txtTab": "Pestanya",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "textFeedback": "Feedback & Support"
+      "warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text. <br>Voleu continuar?"
     }
   }
 }

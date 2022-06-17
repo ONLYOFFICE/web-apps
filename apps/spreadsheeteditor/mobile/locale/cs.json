@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháněno",
     "textTel": "Telefon",
-    "textVersion": "Verze"
+    "textVersion": "Verze",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Varování",
     "textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
     "textDoNotShowAgain": "Nezobrazovat znovu",
-    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?"
+    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -160,7 +163,8 @@
       "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -197,7 +201,7 @@
     "errorFormulaName": "Chyba ve vzorci.<br>Neplatný název vzorce.",
     "errorFormulaParsing": "Interní chyba při analýze vzorce.",
     "errorFrmlMaxLength": "Nelze přidat vzorec, délka vzorce je delší než povolený maximální počet znaků.<br>Prosím upravte vzorec a akci opakujte.",
-    "errorFrmlMaxReference": "Není možné vložit takovýto vzorec, protože obsahuje příliš mnoho hodnot,<br> odkazů na tabulky, a/nebo jmen.",
+    "errorFrmlMaxReference": "Takový vzorec není možné vložit, protože obsahuje příliš mnoho hodnot,<br> odkazů na tabulky nebo jmen.",
     "errorFrmlMaxTextLength": "Textová hodnota vzorce je limitována 255 znaky.<br>Použijte funkci CONCATENATE, nebo operátor zřetězení (&)",
     "errorFrmlWrongReferences": "Funkce odkazuje na na list který neexistuje.<br>Prosím, zkontrolujte data a akci opakujte.",
     "errorInvalidRef": "Zadejte správný název pro výběr nebo platnou referenci.",
@@ -399,7 +403,6 @@
       "textBottomBorder": "Dolní ohraničení",
       "textBringToForeground": "Přenést do popředí",
       "textCell": "Buňka",
-      "textCellStyles": "Styly buňky",
       "textCenter": "Na střed",
       "textChart": "Graf",
       "textChartTitle": "Název grafu",
@@ -548,7 +551,8 @@
       "textYen": "Jen",
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
-      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší"
+      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",
@@ -572,7 +576,7 @@
       "textChooseDelimeter": "Vyberte oddělovač",
       "textChooseEncoding": "Vybrat kódování",
       "textCollaboration": "Spolupráce",
-      "textColorSchemes": "Schémata barev",
+      "textColorSchemes": "Barevná schémata",
       "textComment": "Komentář",
       "textCommentingDisplay": "Zobrazení komentářů",
       "textComments": "Komentáře",
@@ -680,7 +684,11 @@
       "txtSpace": "Mezera",
       "txtTab": "Tabulátor",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

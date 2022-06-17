@@ -12,14 +12,17 @@
     "src": "ProgramInterface/HomeTab.htm",
     "name": "Onglet Accueil"
   },
-  {
-    "src": "ProgramInterface/InsertTab.htm",
-    "name": "Onglet Insertion"
-  },
-  {
-    "src": "ProgramInterface/CollaborationTab.htm",
-    "name": "Onglet Collaboration"
-  },
+    {
+        "src": "ProgramInterface/InsertTab.htm",
+        "name": "Onglet Insertion"
+    },
+    {"src": "ProgramInterface/TransitionsTab.htm", "name": "Onglet Transitions" },
+    {"src": "ProgramInterface/AnimationTab.htm", "name": "Onglet Animation" },
+    {
+        "src": "ProgramInterface/CollaborationTab.htm",
+        "name": "Onglet Collaboration"
+    },
+    {"src": "ProgramInterface/ViewTab.htm", "name": "Onglet Affichage"},
   {
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Onglet Modules complémentaires"
@@ -85,7 +88,8 @@
         "src": "UsageInstructions/InsertTables.htm",
         "name": "Insérer et mettre en forme des tableaux"
     },
-    
+    {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Prise en charge des graphiques SmartArt" },
+    {"src": "UsageInstructions/AddingAnimations.htm", "name": "Ajouter des animations" }, 
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/FillObjectsSelectColor.htm",

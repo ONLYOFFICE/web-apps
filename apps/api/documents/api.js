@@ -115,6 +115,7 @@
                         address: 'New-York, 125f-25',
                         mail: 'support@gmail.com',
                         www: 'www.superpuper.com',
+                        phone: '1234567890',
                         info: 'Some info',
                         logo: '',
                         logoDark: '', // logo for dark theme
@@ -1005,8 +1006,8 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture");
-        
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write;");
+
 		if (config.type == "mobile")
 		{
 			iframe.style.position = "fixed";

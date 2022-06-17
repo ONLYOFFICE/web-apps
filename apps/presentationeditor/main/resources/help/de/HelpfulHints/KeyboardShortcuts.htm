@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Die Tastaturkombinationen werden für einen schnelleren und einfacheren Zugriff auf die Funktionen des Präsentationseditors über die Tastatur verwendet." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
         <script type="text/javascript" src="../search/js/jquery.min.js"></script>
@@ -16,8 +17,22 @@
             <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Tastenkombinationen</h1>
-            <p>Die Tastaturkombinationen werden für einen schnelleren und einfacheren Zugriff auf die Funktionen des <a target="_blank" href="https://www.onlyoffice.com/de/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Präsentationseditors</b></a> über die Tastatur verwendet.</p>
-            <ul class="shortcut_variants">
+			<h3>Tastenkombinationen für Key-Tipps</h3>
+			<p>Verwenden Sie <b>Tastenkombinationen</b> für einen schnelleren und einfacheren Zugriff auf die Funktionen des <a target="_blank" href="https://www.onlyoffice.com/en/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Präsentationseditors</b></a> ohne eine Maus zu verwenden.</p>
+			<ol>
+				<li>Drücken Sie die <b>Alt</b>-Taste, um alle wichtigen Tipps für die Kopfzeile des Editors, die obere Symbolleiste, die rechte und linke Seitenleiste und die Statusleiste einzuschalten.</li>
+				<li>
+					Drücken Sie den Buchstaben, der dem Element entspricht, das Sie verwenden möchten. Die zusätzlichen Tastentipps können je nach gedrückter Taste angezeigt werden. Die ersten Tastentipps werden ausgeblendet, wenn zusätzliche Tastentipps angezeigt werden.
+					<p>Um beispielsweise auf die Registerkarte <b>Einfügen</b> zuzugreifen, drücken Sie <b>Alt</b>, um alle Tipps zu den Primärtasten anzuzeigen.</p>
+					<p><img alt="Primärtastentipps" src="../images/keytips1.png" /></p>
+					<p>Drücken Sie den Buchstaben <b>I</b>, um auf die Registerkarte <b>Einfügen</b> zuzugreifen, und Sie sehen alle verfügbaren Verknüpfungen für diese Registerkarte.</p>
+					<p><img alt="Sekundärtastentipps" src="../images/keytips2.png" /></p>
+					<p>Drücken Sie dann den Buchstaben, der dem zu konfigurierenden Element entspricht.</p>
+				</li>
+				<li>Drücken Sie <b>Alt</b>, um alle Tastentipps auszublenden, oder drücken Sie <b>Escape</b>, um zur vorherigen Gruppe von Tastentipps zurückzukehren.</li>
+			</ol>
+			<p>In der folgenden Liste finden Sie die gängigsten Tastenkombinationen:</p>
+			<ul class="shortcut_variants">
                 <li class="shortcut_toggle pc_option left_option">Windows/Linux</li><!--
                 --><li class="shortcut_toggle mac_option right_option">Mac OS</li>
             </ul>
@@ -27,8 +42,8 @@
 				</tr>
 				<tr>
 					<td>Dateimenü öffnen</td>
-					<td><kbd>ALT</kbd>+<kbd>F</kbd></td>
-					<td><kbd>⌥ Option</kbd>+<kbd>F</kbd></td>
+					<td width="20%"><kbd>ALT</kbd>+<kbd>F</kbd></td>
+					<td width="20%"><kbd>⌥ Option</kbd>+<kbd>F</kbd></td>
 					<td>Über das <b>Dateimenü</b> können Sie die aktuelle Präsentation speichern, drucken, herunterladen, Informationen einsehen, eine neue Präsentation erstellen oder eine vorhandene öffnen, auf die Hilfefunktion zugreifen oder die erweiterten Einstellungen öffnen.</td>
 				</tr>
 				<tr>
@@ -71,7 +86,7 @@
 					<td>Herunterladen als...</td>
 					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>S</kbd></td>
 					<td><kbd>^ STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>S</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>S</kbd></td>
-					<td>Öffnen Sie das Menü <b>Herunterladen als...</b>, um die aktuell bearbeitete Präsentation in einem der unterstützten Dateiformate auf der Festplatte speichern: PPTX, PDF, ODP, POTX, PDF/A, OTP.</td>
+					<td>Öffnen Sie das Menü <b>Herunterladen als...</b>, um die aktuell bearbeitete Präsentation in einem der unterstützten Dateiformate auf der Festplatte speichern: PPTX, PDF, ODP, POTX, PDF/A, OTP, PNG, JPG.</td>
 				</tr>
 				<tr>
 					<td>Vollbild</td>
@@ -133,13 +148,13 @@
 				<tr>
 					<td>Vergrößern</td>
 					<td><kbd>STRG</kbd>+<kbd>+</kbd></td>
-					<td><kbd>^ STRG</kbd>+<kbd>=</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>=</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>=</kbd></td>
 					<td>Die Ansicht der aktuellen Präsentation vergrößern.</td>
 				</tr>
 				<tr>
 					<td>Verkleinern</td>
 					<td><kbd>STRG</kbd>+<kbd>-</kbd></td>
-					<td><kbd>^ STRG</kbd>+<kbd>-</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>-</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>-</kbd></td>
 					<td>Die Ansicht der aktuellen Präsentation verkleinern.</td>
 				</tr>
 				<tr id="manageslides">
@@ -468,14 +483,14 @@
 				</tr>
 				<tr>
 					<td>Tiefgestellt</td>
-					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&gt;</kbd></kbd></td>
-					<td><kbd>&#8984; Cmd</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&gt;</kbd></kbd></td>
+					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&gt;</kbd></td>
+					<td><kbd>&#8984; Cmd</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&gt;</kbd></td>
 					<td>Der gewählte Textabschnitt wird verkleinert und tiefgestellt.</td>
 				</tr>
 				<tr>
 					<td>Hochgestellt</td>
-					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&lt;</kbd></kbd></td>
-					<td><kbd>&#8984; Cmd</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&lt;</kbd></kbd></td>
+					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&lt;</kbd></td>
+					<td><kbd>&#8984; Cmd</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>&lt;</kbd></td>
 					<td>Der gewählte Textabschnitt wird verkleinert und hochgestellt wie z. B. in Bruchzahlen.</td>
 				</tr>
 				<tr>

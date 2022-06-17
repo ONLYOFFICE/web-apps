@@ -88,6 +88,10 @@ class ApplicationSettingsController extends Component {
         Common.Notifications.trigger('changeRegSettings');
     }
 
+    changeDirection(value) {
+        LocalStorage.setItem('mode-direction', value);
+    }
+
     render() {
         return (
             <ApplicationSettings 
@@ -100,6 +104,7 @@ class ApplicationSettingsController extends Component {
                 onChangeMacrosSettings={this.onChangeMacrosSettings}  
                 onFormulaLangChange={this.onFormulaLangChange}     
                 onRegSettings={this.onRegSettings}   
+                changeDirection={this.changeDirection}
             />
         )
     }

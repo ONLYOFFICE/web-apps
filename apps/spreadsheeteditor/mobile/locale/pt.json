@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel",
-    "textVersion": "Versão"
+    "textVersion": "Versão",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Aviso",
     "textCopyCutPasteActions": "Copiar, Cortar e Colar",
     "textDoNotShowAgain": "Não volte a aparecer",
-    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? "
+    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? ",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -160,7 +163,8 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -324,16 +328,19 @@
       "sCatTextAndData": "Texto e Dados",
       "textAddLink": "Adicionar Link",
       "textAddress": "Endereço",
+      "textAllTableHint": "Retorna todo o conteúdo da tabela ou colunas especificadas da tabela, incluindo cabeçalhos de coluna, dados e linhas totais",
       "textBack": "Voltar",
       "textCancel": "Cancelar",
       "textChart": "Gráfico",
       "textComment": "Comente",
+      "textDataTableHint": "Retorna as células de dados da tabela ou colunas de tabela especificadas",
       "textDisplay": "Exibir",
       "textEmptyImgUrl": "Você precisa especificar o URL da imagem.",
       "textExternalLink": "Link externo",
       "textFilter": "Filtro",
       "textFunction": "Função",
       "textGroups": "Categorias",
+      "textHeadersTableHint": "Devolve os cabeçalhos das colunas para a tabela ou colunas de tabela especificadas",
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsert": "Inserir",
@@ -354,6 +361,8 @@
       "textShape": "Forma",
       "textSheet": "Folha",
       "textSortAndFilter": "Classificar e Filtrar",
+      "textThisRowHint": "Escolha apenas esta linha da coluna especificada",
+      "textTotalsTableHint": "Devolve o total de linhas para a tabela ou colunas de tabela especificadas",
       "txtExpand": "Expandir e classificar",
       "txtExpandSort": "Os dados próximos à seleção não serão classificados. Você quer expandir a seleção para incluir os dados adjacentes ou continuar com classificando apenas as células selecionadas atualmente?",
       "txtLockSort": "Os dados são encontrados ao lado de sua seleção, mas você não tem permissão suficiente para alterar essas células.<br> Você deseja continuar com a seleção atual?",
@@ -361,12 +370,7 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim",
-      "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
-      "textDataTableHint": "Returns the data cells of the table or specified table columns",
-      "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
-      "textThisRowHint": "Choose only this row of the specified column",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
+      "txtYes": "Sim"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -399,7 +403,6 @@
       "textBottomBorder": "Limite inferior",
       "textBringToForeground": "Trazer para primeiro plano",
       "textCell": "Célula",
-      "textCellStyles": "Estilos de célula",
       "textCenter": "Centro",
       "textChart": "Gráfico",
       "textChartTitle": "Título do Gráfico",
@@ -548,7 +551,8 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior"
+      "txtSortLow2High": "Classificar do menor para o maior",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -680,7 +684,11 @@
       "txtSpace": "Espaço",
       "txtTab": "Aba",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textFeedback": "Feedback & Support"
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

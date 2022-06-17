@@ -76,6 +76,12 @@ define([
                 me.btnPreview.on('click', _.bind(function(btn) {
                     me.fireEvent('animation:preview', [me.btnPreview]);
                 }, me));
+                me.btnPreview.menu.on('item:click', _.bind(function(menu, item, e) {
+                   if (item.value === 'preview')
+                       me.fireEvent('animation:preview', [me.btnPreview]);
+                   else if (item.value === 'auto')
+                       Common.Utils.InternalSettings.set("pe-animation-no-auto-preview", !item.checked);
+                }, me));
             }
 
             if(me.cmbTrigger)
@@ -240,7 +246,8 @@ define([
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar   x-huge  icon-top', // x-huge icon-top',
                     caption: this.txtPreview,
-                    split: false,
+                    split: true,
+                    menu: true,
                     iconCls: 'toolbar__icon animation-preview-start',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noAnimationPreview, _set.timingLock],
                     dataHint: '1',
@@ -350,7 +357,7 @@ define([
                     width: 55,
                     value: '',
                     defaultUnit: this.txtSec,
-                    maxValue: 300,
+                    maxValue: 60,
                     minValue: 0,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.timingLock],
                     dataHint: '1',
@@ -514,6 +521,15 @@ define([
                         me.btnAddAnimation.menu.setInnerMenu([{menu: picker, index: 0}]);
                     };
                     me.btnAddAnimation.menu.on('show:before', onShowBefore);
+
+                    me.btnPreview.setMenu( new Common.UI.Menu({
+                        style: "min-width: auto;",
+                        items: [
+                            {caption: me.txtPreview, value: 'preview'},
+                            {caption: me.textAutoPreview, value: 'auto', checkable: true, checked: !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview")}
+                        ]
+                    }));
+
                     setEvents.call(me);
                 });
             },
@@ -626,7 +642,8 @@ define([
             str3: '3 s (Slow)',
             str2: '2 s (Medium)',
             str1: '1 s (Fast)',
-            str0_5: '0.5 s (Very Fast)'
+            str0_5: '0.5 s (Very Fast)',
+            textAutoPreview: 'AutoPreview'
         }
     }()), PE.Views.Animation || {}));
 

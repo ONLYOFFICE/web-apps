@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Remplir des objets en utilisant des couleurs, des images ou des modèles, sélectionner les couleurs en tant que l'arrière-plan de la diapositive, le remplissage de la forme, le trait et la police." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -18,9 +19,9 @@
 			<ol>
 			<li>Sélectionnez un objet.
                 <ul>
-                    <li>Pour modifier le remplissage de l'arrière-plan de la diapositive, sélectionnez les diapositives voulues dans la liste des diapositives. L'onglet <img alt="Icône Paramètres de la diapositive" src="../images/slide_settings_icon.png" /> <b>Paramètres de la diapositive</b> sera activé sur la barre latérale droite.</li>
-                    <li>Pour modifier le remplissage de la forme automatique, cliquez avec le bouton gauche de la souris la forme automatique concernée. L'onglet <img alt="L'icône Paramètres de la forme" src="../images/shape_settings_icon.png" /> <b>Paramètres de la forme</b> sera activé sur la barre latérale droite.</li>
-                    <li>Pour modifier le remplissage de la police Text Art, cliquez avec le bouton gauche sur l'objet texte concerné. L'onglet <img alt="L'icône Paramètres de Text Art" src="../images/textart_settings_icon.png" /> <b>Paramètres Text Art</b> sera activé sur la barre latérale droite.</li>
+                    <li>Pour modifier le remplissage de l'arrière-plan de la diapositive, sélectionnez les diapositives voulues dans la liste des diapositives. L'onglet <div class = "icon icon-slide_settings_icon"></div> <b>Paramètres de la diapositive</b> sera activé sur la barre latérale droite.</li>
+                    <li>Pour modifier le remplissage de la forme automatique, cliquez avec le bouton gauche de la souris la forme automatique concernée. L'onglet <div class = "icon icon-shape_settings_icon"></div> <b>Paramètres de la forme</b> sera activé sur la barre latérale droite.</li>
+                    <li>Pour modifier le remplissage de la police Text Art, cliquez avec le bouton gauche sur l'objet texte concerné. L'onglet <div class = "icon icon-textart_settings_icon"></div> <b>Paramètres Text Art</b> sera activé sur la barre latérale droite.</li>
                 </ul>
 			</li>
 			<li>Définissez le type de remplissage nécessaire.</li>
@@ -38,7 +39,7 @@
 			        <li><b>Couleurs de thème</b> - les couleurs qui correspondent à la palette de couleurs sélectionnée de la présentation. Une fois que vous avez appliqué un thème ou un jeu de couleurs différent, le jeu de Couleurs du thème change.</li>
 			        <li><b>Couleurs standard</b> - le jeu de couleurs par défaut.</li>
 			        <li><b>Couleur personnalisée</b> - choisissez cette option si il n'y a pas de couleur nécessaire dans les palettes disponibles. Sélectionnez la gamme de couleurs nécessaire en déplaçant le curseur vertical et définissez la couleur spécifique en faisant glisser le sélecteur de couleur dans le grand champ de couleur carré. Une fois que vous sélectionnez une couleur avec le sélecteur de couleur, les valeurs de couleur appropriées RGB et sRGB seront affichées dans les champs à droite. Vous pouvez également spécifier une couleur sur la base du modèle de couleur RGB en entrant les valeurs numériques nécessaires dans les champs <b>R</b>, <b>G</b>, <b>B</b> (rouge, vert, bleu) ou saisir le code hexadécimal dans le champ sRGB marqué par le signe <b>#</b>. La couleur sélectionnée apparaît dans la case de prévisualisation <b>Nouveau</b>. Si l'objet a déjà été rempli d'une couleur personnalisée, cette couleur sera affichée dans la case bafin que vous puissiez comparer les couleurs originales et modifiées. Lorsque la couleur est spécifiée, cliquez sur le bouton <b>Ajouter</b>:
-			        <p><img alt="Palette - Couleur personnalisée" src="../images/palette_custom.png" /></p>
+			        <p><img alt="Palette - Couleur personnalisée" src="../../../../../../common/main/resources/help/fr/images/palette_custom.png" /></p>
 			        <p>La couleur personnalisée sera appliquée à votre objet et ajoutée dans la palette <b>Couleur personnalisée</b> du menu.</p>			        
 			        </li>			        
 			        </ul>
@@ -48,12 +49,12 @@
 				<hr />
 			<ul>				
 				<li>
-					<b>Dégradé</b> - sélectionnez cette option pour spécifier deux couleurs pour créer une transition douce entre elles et remplir la forme. Cliquez sur l'icône <img alt="L'icône Paramètres de la forme" src="../images/shape_settings_icon.png" /> <b>Paramètres de la forme</b> pour ouvrir le menu de <b>Remplissage</b>:
+					<b>Dégradé</b> - sélectionnez cette option pour spécifier deux couleurs pour créer une transition douce entre elles et remplir la forme. Cliquez sur l'icône <div class = "icon icon-shape_settings_icon"></div> <b>Paramètres de la forme</b> pour ouvrir le menu de <b>Remplissage</b>:
 					<p><img class="floatleft" alt="Remplissage en dégradé" src="../images/fill_gradient.png" /></p>
 					<ul style="margin-left: 280px;">
 						<li><b>Style</b> - choisissez une des options disponibles: <b>Linéaire</b> (la transition se fait selon un axe horizontal/vertical ou en diagonale, sous l'angle de 45 degrés) ou <b>Radial</b> (la transition se fait autour d'un point, les couleurs se fondent progressivement du centre aux bords en formant un cercle).</li>
-						<li><b>Direction</b> - choisissez un modèle du menu. Si vous avez sélectionné le style<b> Linéaire,</b> vous pouvez choisir une des directions suivantes: du haut à gauche vers le bas à droite, du haut en bas, du haut à droite vers le bas à gauche, de droite à gauche, du bas à droite vers le haut à gauche, du bas en haut, du bas à gauche vers le haut à droite, de gauche à droite. Si vous avez choisi le style <b>Radial</b>, il n'est disponible qu'un seul modèle.</li>
-						<li><b>Angle</b> -  spécifier l'angle selon lequel les couleurs se fondent.</li>
+						<li><b>Direction</b> affiche la couleur de dégradé sélectionnée, cliquez sur la flèche pour définir la direction du dégradé. Si vous avez sélectionné le style <b>Linéaire</b>, vous pouvez choisir une des directions suivantes: du haut à gauche vers le bas à droite, du haut en bas, du haut à droite vers le bas à gauche, de droite à gauche, du bas à droite vers le haut à gauche, du bas en haut, du bas à gauche vers le haut à droite, de gauche à droite. Si vous avez choisi le style <b>Radial</b>, il n'est disponible qu'un seul modèle.</li>
+						<li><b>Angle</b> -  spécifiez l'angle selon lequel les couleurs se fondent.</li>
 						<li>Point de dégradé est le point d'arrêt où une couleur se fond dans une autre.
 						<ol>
 							<li>Utilisez le bouton <b>Ajouter un point de dégradé</b> ou le curseur de dégradé pour ajouter un point de dégradé et le bouton <b>Supprimer le <b>point de dégradé</b></b> pour le supprimer. Vous pouvez ajouter 10 points de dégradé. Le nouveau arrêt de couleur n'affecte pas l'aspect actuel du dégradé.</li>

@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Réalisation",
     "textTel": "Tél.",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Avertissement",
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
-    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
+    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -151,6 +154,7 @@
       "textRemember": "Se souvenir de mon choix",
       "textReplaceSkipped": "Le remplacement a été effectué. {0} occurrences ont été sautées.",
       "textReplaceSuccess": "La recherche a été effectuée. Occurrences remplacées : {0}",
+      "textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
       "textYes": "Oui",
       "titleServerVersion": "L'éditeur est mis à jour",
       "titleUpdateVersion": "La version a été modifiée",
@@ -298,9 +302,9 @@
     "textRenameSheet": "Renommer la feuille",
     "textSheet": "Feuille",
     "textSheetName": "Nom de la feuille",
+    "textTabColor": "Couleur d'onglet",
     "textUnhide": "Afficher",
-    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
@@ -399,7 +403,7 @@
       "textBottomBorder": "Bordure inférieure",
       "textBringToForeground": "Mettre au premier plan",
       "textCell": "Cellule",
-      "textCellStyles": "Styles cellule",
+      "textCellStyle": "Style de cellule",
       "textCenter": "Au centre",
       "textChart": "Graphique",
       "textChartTitle": "Titre du graphique",
@@ -580,6 +584,7 @@
       "textCustomSize": "Taille personnalisée",
       "textDarkTheme": "Thème sombre",
       "textDelimeter": "Délimiteur",
+      "textDirection": "Direction",
       "textDisableAll": "Désactiver tout",
       "textDisableAllMacrosWithNotification": "Désactiver toutes les macros avec notification",
       "textDisableAllMacrosWithoutNotification": "Désactiver toutes les macros sans notification",
@@ -591,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
       "textEncoding": "Encodage",
       "textExample": "Exemple",
+      "textFeedback": "Commentaires & assistance",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
       "textFindAndReplaceAll": "Rechercher et remplacer tout",
@@ -606,6 +612,7 @@
       "textLastModified": "Dernière modification",
       "textLastModifiedBy": "Dernière modification par",
       "textLeft": "À gauche",
+      "textLeftToRight": "De gauche à droite",
       "textLocation": "Emplacement",
       "textLookIn": "Rechercher dans",
       "textMacrosSettings": "Réglages macros",
@@ -626,7 +633,9 @@
       "textReplace": "Remplacer",
       "textReplaceAll": "Remplacer tout",
       "textResolvedComments": "Commentaires résolus",
+      "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
       "textRight": "À droite",
+      "textRightToLeft": "De droite à gauche",
       "textSearch": "Rechercher",
       "textSearchBy": "Rechercher",
       "textSearchIn": "Rechercher dans",
@@ -679,8 +688,7 @@
       "txtSemicolon": "Point-virgule",
       "txtSpace": "Espace",
       "txtTab": "Tabulation",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
-      "textFeedback": "Feedback & Support"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
   }
 }

@@ -2,6 +2,7 @@
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@import './app.rtl.less';
 
 @brandColor: var(--brand-word);
 
@@ -136,14 +137,14 @@
     .swiper-pagination-bullet-active{
         background: @black;
     }
-    .multilevels {
-        li:not(:first-child){ 
-            border:none;
-            .item-content {
-                min-height: 70px;
-            }
-        }
-    }
+    // .multilevels {
+    //     li:not(:first-child){ 
+    //         border:none;
+    //         .item-content {
+    //             min-height: 70px;
+    //         }
+    //     }
+    // }
 }
 
 // Skeleton table
@@ -312,5 +313,14 @@
 .calendar-sheet {
     .calendar-month-picker, .calendar-year-picker {
         border-top: 1px solid var(--background-menu-divider);
+    }
+}
+
+.create-style-link {
+    .item-link .item-inner:before {
+        display: none;
+    }
+    .item-title {
+        color: @brandColor;
     }
 }

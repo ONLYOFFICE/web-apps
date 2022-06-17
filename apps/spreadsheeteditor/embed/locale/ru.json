@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Высота",
   "common.view.modals.txtShare": "Поделиться ссылкой",
   "common.view.modals.txtWidth": "Ширина",
+  "common.view.SearchBar.textFind": "Поиск",
   "SSE.ApplicationController.convertationErrorText": "Конвертация не удалась.",
   "SSE.ApplicationController.convertationTimeoutText": "Превышено время ожидания конвертации.",
   "SSE.ApplicationController.criticalErrorTitle": "Ошибка",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "SSE.ApplicationView.txtFullScreen": "Во весь экран",
   "SSE.ApplicationView.txtPrint": "Печать",
+  "SSE.ApplicationView.txtSearch": "Поиск",
   "SSE.ApplicationView.txtShare": "Поделиться"
 }

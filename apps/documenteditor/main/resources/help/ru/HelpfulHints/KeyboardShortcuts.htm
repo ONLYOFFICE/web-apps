@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Список сочетаний клавиш, которые используются для более быстрого и легкого доступа к функциям редактора документов с помощью клавиатуры." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
         <script type="text/javascript" src="../search/js/jquery.min.js"></script>
@@ -16,6 +17,20 @@
             <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Сочетания клавиш</h1>
+            <h3>Подсказки для клавиш</h3>
+            <p>Используйте <b>сочетания клавиш</b> для более быстрого и удобного доступа к функциям <a href="https://www.onlyoffice.com/ru/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Редактора документов</b></a> без использования мыши.</p>
+			<ol>
+				<li>Нажмите клавишу <b>Alt</b>, чтобы показать все подсказки для клавиш верхней панели инструментов, правой и левой боковой панели, а также строке состояния.</li>
+                <li>
+                    Нажмите клавишу, соответствующую элементу, который вы хотите использовать. В зависимости от нажатой клавиши, могут появляться дополнительные подсказки. Когда появляются дополнительные подсказки для клавиш, первичные - скрываются.
+                    <p>Например, чтобы открыть вкладку <b>Вставка</b>, нажмите <b>Alt</b> и просмотрите все подсказки по первичным клавишам.</p>
+                    <p><img alt="Первичные подсказки для клавиш" src="../images/keytips1.png" /></p>
+                    <p>Нажмите букву <b>И</b>, чтобы открыть вкладку <b>Вставка</b> и просмотреть все доступные сочетания клавиш для этой вкладки.</p>
+                    <p><img alt="Дополнительные подсказки для клавиш" src="../images/keytips2.png" /></p>
+                    <p>Затем нажмите букву, соответствующую элементу, который вы хотите использовать.</p>
+                </li>
+                <li>Нажмите <b>Alt</b>, чтобы скрыть все подсказки для клавиш, или <b>Escape</b>, чтобы вернуться к предыдущей группе подсказок для клавиш.</li>
+			</ol>
             <ul class="shortcut_variants">
                 <li class="shortcut_toggle pc_option left_option">Windows/Linux</li>
                 <!--
@@ -194,13 +209,13 @@
                 <tr>
                     <td>Увеличить</td>
                     <td><kbd>Ctrl</kbd>+<kbd>+</kbd></td>
-                    <td><kbd>^ Ctrl</kbd>+<kbd>+</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>+</kbd></td>
+                    <td><kbd>^ Ctrl</kbd>+<kbd>+</kbd></td>
                     <td>Увеличить масштаб редактируемого документа.</td>
                 </tr>
                 <tr>
                     <td>Уменьшить</td>
                     <td><kbd>Ctrl</kbd>+<kbd>-</kbd></td>
-                    <td><kbd>^ Ctrl</kbd>+<kbd>-</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>-</kbd></td>
+                    <td><kbd>^ Ctrl</kbd>+<kbd>-</kbd></td>
                     <td>Уменьшить масштаб редактируемого документа.</td>
                 </tr>
                 <tr>

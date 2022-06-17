@@ -71,7 +71,7 @@ define([
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>' +
             '</div>' +
-            '<div class="separator long"></div>' +
+            '<div class="separator long separator-theme"></div>' +
             '<div class="group sheet-freeze">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-freeze"></span>' +
             '</div>' +
@@ -307,7 +307,6 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chToolbar);
-
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -385,6 +384,11 @@ define([
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
                     }
 
+                    if (!Common.UI.Themes.available()) {
+                        me.btnInterfaceTheme.$el.closest('.group').remove();
+                        me.$el.find('.separator-theme').remove();
+                    }
+
                     if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
                         me.chStatusbar.$el.remove();
                         if (!config.isEdit) {
@@ -396,26 +400,34 @@ define([
                             me.$el.find('.separator-formula').remove();
                         }
                     }
-                    var menuItems = [],
-                        currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                    for (var t in Common.UI.Themes.map()) {
-                        menuItems.push({
-                            value: t,
-                            caption: Common.UI.Themes.get(t).text,
-                            checked: t === currentTheme,
-                            checkable: true,
-                            toggleGroup: 'interface-theme'
-                        });
-                    }
+                    if (Common.UI.Themes.available()) {
+                        function _fill_themes() {
+                            var btn = this.btnInterfaceTheme;
+                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                            else btn.setMenu(new Common.UI.Menu());
 
-                    if (menuItems.length) {
-                        me.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
-                        me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                            var value = item.value;
-                            Common.UI.Themes.setTheme(value);
-                        }, me));
-                    }
+                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                            for (var t in Common.UI.Themes.map()) {
+                                btn.menu.addItem({
+                                    value: t,
+                                    caption: Common.UI.Themes.get(t).text,
+                                    checked: t === currentTheme,
+                                    checkable: true,
+                                    toggleGroup: 'interface-theme'
+                                });
+                            }
+                        }
 
+                        Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
+                        _fill_themes.call(me);
+
+                        if (me.btnInterfaceTheme.menu.items.length) {
+                            me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                var value = item.value;
+                                Common.UI.Themes.setTheme(value);
+                            }, me));
+                        }
+                    }
                     setEvents.call(me);
                 });
             },

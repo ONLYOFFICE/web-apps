@@ -73,6 +73,20 @@ common.view.modals = new(function() {
 
             var _$dlg;
             if (name == 'share') {
+                if ( window.config && window.config.btnsShare ) {
+                    let _btns = [];
+                    for (const key of Object.keys(config.btnsShare))
+                        _btns.push(`<span class="svg big-${key}" data-name="${key}"></span>`);
+
+                    if ( _btns ) {
+                        let $sharebox = $(_tplbody_share);
+                        $sharebox.find('.autotest').prevAll().remove();
+                        $sharebox.eq(1).prepend(_btns.join(''));
+
+                        _tplbody_share = $("<div>").append($sharebox).html();
+                    }
+                }
+
                 _$dlg = $(tplDialog
                             .replace(/\{title}/, this.txtShare)
                             .replace(/\{body}/, _tplbody_share)

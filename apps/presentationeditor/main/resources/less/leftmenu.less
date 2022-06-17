@@ -41,34 +41,34 @@
 
     .svg-format- {
         &pptx {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/pptx.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/pptx.svg') no-repeat center";
         }
         &pdf {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/pdf.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
         }
         &odp {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/odp.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/odp.svg') no-repeat center";
         }
         &potx {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/potx.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/potx.svg') no-repeat center";
         }
         &pdfa {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/pdfa.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
         }
         &otp {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/otp.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/otp.svg') no-repeat center";
         }
         &ppsx {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/ppsx.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/ppsx.svg') no-repeat center";
         }
         &png {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/png.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
         }
         &jpg {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/jpg.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
         }
         &pptm {
-            background: ~"url(../../../apps/common/main/resources/img/doc-formats/pptm.svg) no-repeat center";
+            background: ~"url('@{common-image-const-path}/doc-formats/pptm.svg') no-repeat center";
         }
     }
 
@@ -89,10 +89,10 @@
     cursor: pointer;
 
     .svg-format-blank {
-        background: ~"url(../../../apps/common/main/resources/img/doc-formats/blank.svg) no-repeat center" ;
+        background: ~"url(@{common-image-const-path}/doc-formats/blank.svg) no-repeat center" ;
     }
     .svg-file-template{
-        background: ~"url(resources/img/file-template.svg) no-repeat center" ;
+        background: ~"url(@{app-image-const-path}/file-template.svg) no-repeat center" ;
     }
 
     div {
@@ -123,6 +123,7 @@
                     background-color: @highlight-button-pressed;
 
                     > a {
+                        color: @text-normal-pressed-ie;
                         color: @text-normal-pressed;
                     }
                 }
@@ -361,7 +362,7 @@
                         width: 100%;
                         height: 100%;
                         .svg-file-recent {
-                            background: ~"url(resources/img/recent-file.svg) no-repeat top";
+                            background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
                         }
                     }
                 }

@@ -3,6 +3,7 @@
     "textAbout": "Acerca de",
     "textAddress": "Dirección",
     "textBack": "Atrás",
+    "textEditor": "Editor de presentaciones",
     "textEmail": "Correo",
     "textPoweredBy": "Con tecnología de",
     "textTel": "Tel",
@@ -58,7 +59,9 @@
     "textColumns": "Columnas",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "textRows": "Filas"
+    "textRows": "Filas",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Recordar mi elección",
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
+      "textRequestMacros": "Una macro hace una petición a la URL. ¿Quiere permitir la petición al %1?",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
       "titleServerVersion": "Editor ha sido actualizado",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
       "mniSlideWide": "Panorámico (16:9)",
+      "notcriticalErrorTitle": "Advertencia",
       "textAbout": "Acerca de",
       "textAddress": "dirección: ",
       "textApplication": "Aplicación",
@@ -419,6 +424,7 @@
       "textEmail": "correo: ",
       "textEnableAll": "Habilitar todo",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación",
+      "textFeedback": "Comentarios y asistencia",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
       "textFindAndReplaceAll": "Buscar y reemplazar todo",
@@ -431,6 +437,7 @@
       "textLocation": "Ubicación",
       "textMacrosSettings": "Ajustes de macros",
       "textNoTextFound": "Texto no encontrado",
+      "textOk": "Aceptar",
       "textOwner": "Propietario",
       "textPoint": "Punto",
       "textPoweredBy": "Con tecnología de",
@@ -440,6 +447,8 @@
       "textPrint": "Imprimir",
       "textReplace": "Reemplazar",
       "textReplaceAll": "Reemplazar todo",
+      "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
+      "textRTL": "De derecha a izquierda",
       "textSearch": "Buscar",
       "textSettings": "Ajustes",
       "textShowNotification": "Mostrar notificación",
@@ -472,8 +481,7 @@
       "txtScheme6": "Concurrencia",
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
-      "txtScheme9": "Fundición",
-      "textFeedback": "Feedback & Support"
+      "txtScheme9": "Fundición"
     }
   }
 }

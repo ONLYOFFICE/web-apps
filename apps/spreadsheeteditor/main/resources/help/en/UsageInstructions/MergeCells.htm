@@ -5,30 +5,93 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Merge some cells into one and split the previously merged cell" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-        <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
-        </div>
-			<h1>Merge cells</h1>
-			<p>In the <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a>, you can merge two or more adjacent cells into one cell. To do that,</p>
-			<ol>
-			<li>select two cells or a cell range with the mouse,
-			<p class="note"><b>Note</b>: the selected cells <b>MUST</b> be adjacent.</p>
-			</li>
-			<li>click the <b>Merge</b> <img alt="Merge icon" src="../images/merge.png" /> icon situated on the <b>Home</b> tab of the top toolbar and select one of the available options:
-			<p class="note"><b>Note</b>: only the data in the upper-left cell of the selected range will remain in the merged cell. Data in other cells of the selected range will be deleted.</p>
-			<ul>
-			<li>if you select the <b>Merge &amp; Center</b> option the cells of the selected range will be merged, and the data in the merged cell will be centered;</li>
-			<li>if you select the <b>Merge Across</b> option the cells of each row of the selected range will be merged, and the data in the merged cells will be aligned to the left side (for text) or to the right side (for numeric values);</li>
-			<li>if you select the <b>Merge Cells</b> option the cells of the selected range will be merged and the data will be aligned to the left side (for text) or to the right side (for numeric values).</li>
-			</ul>
-			</li>
-			</ol>
-			<p>To split the previously merged cell, use the <b>Unmerge Cells</b> option from the <b>Merge</b> drop-down list. The data of the merged cell will be displayed in the upper left cell.</p>
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+			</div>
+			<div class="video_ground video_trips">
+				<h2 id="introduction">Introduction</h2>
+				<div class="block_of_step">
+					<div class="screen_text">
+						<p>If you need to merge cells to position your text better (e.g., the name of the table or a long text fragment within the table), use the <b>Merge</b> tool of <b>ONLYOFFICE Spreadsheet Editor</b>.</p>
+					</div>
+				</div>
+			</div>
+			<h2 id="step1"><span class="style_step"> Type 1. </span>Merge and Align Center</h2>
+			<div class="block_of_step">
+				<div class="screen_text">
+					<ol>
+						<li>
+							Click on the cell at the beginning of the needed range, hold the left mouse button, and drag until you select the cell range you need.
+							<p><img alt="select cell range" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/select_cell_range.png"></p>
+							<p class="note">The selected cells <b>must</b> be adjacent. Only the data in the <b>upper-left cell of the selected range</b> will remain in the merged cell. Data in other cells of the selected range will be deleted.</p>
+						</li>
+						<li>
+							Go to the <b>Home</b> tab and click on the <b>Merge and center</b> icon <div class = "icon icon-merge"></div>.
+							<p><img alt="merge and center - result" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/merge_and_center.png"></p>
+						</li>
+					</ol>
+				</div>
+			</div>
+
+			<h2 id="step2"><span class="style_step">Type 2. </span> Merge Across</h2>
+			<div class="block_of_step">
+				<div class="screen_text">
+					<ol>
+						<li>
+							Click on the cell at the beginning of the needed range, hold the left mouse button, and drag until you select the cell range you need.
+							<p><img alt="select cell range" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/select_cell_range_type2.png"></p>
+						</li>
+						<li>
+							Go to the <b>Home</b> tab and click on the arrow next to the <b>Merge and center</b> <div class = "icon icon-merge"></div> icon to open a drop-down menu.
+							<p><img alt="merge and center - menu" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/type 2_menu.png"></p>
+						</li>
+						<li>
+							Choose the <b>Merge Across</b> option to align the text left and preserve the rows without merging them.
+							<p><img alt="merge across" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/merge_across.png"></p>
+						</li>
+					</ol>
+				</div>
+			</div>
+
+			<h2 id="step3"><span class="style_step">Type 3. </span> Merge Cells</h2>
+			<div class="block_of_step">
+				<div class="screen_text">
+					<ol>
+						<li>
+							Click on the cell at the beginning of the needed range, hold the left mouse button, and drag until you select the cell range you need.
+							<p><img alt="select cell range" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/select_cell_range.png"></p>
+						</li>
+						<li>
+							Go to the <b>Home</b> tab and click on the arrow next to the <b>Merge and center</b> <div class = "icon icon-merge"></div> icon to open a drop-down menu.
+							<p><img alt="merge and center - menu" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/merge_and_center_menu.png"></p>
+						</li>
+						<li>Choose the <b>Merge Cells</b> option to preserve the preset alignment.</li>
+					</ol>
+				</div>
+			</div>
+
+			<h2 id="unmerge cells">Unmerge Cells</h2>
+			<div class="block_of_step">
+				<div class="screen_text">
+					<ol>
+						<li>
+							Click on the merged area.
+							<p><img alt="merged area" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/merged_area.png"></p>
+						</li>
+						<li>
+							Go to the <b>Home</b> tab and click on the arrow next to the <b>Merge and center</b> <div class = "icon icon-merge"></div> icon to open a drop-down menu.
+							<p><img alt="unmerge" src="https://helpcenter.onlyoffice.com/images/Help/Guides/big/guide135/unmerge.png"></p>
+						</li>
+						<li>Choose the <b>Unmerge Cells</b> option to bring the cells back to their original state.</li>
+					</ol>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

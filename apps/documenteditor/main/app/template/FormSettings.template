@@ -40,6 +40,12 @@
         </td>
     </tr>
     <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textTag %></label>
+            <div id="form-txt-tag"></div>
+        </td>
+    </tr>
+    <tr>
         <td class="padding-large">
             <label class="input-label"><%= scope.textTip %></label>
             <div id="form-txt-help"></div>

@@ -147,6 +147,24 @@ define([
                 setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
             });
 
+            this.txtTag = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-tag'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtTag);
+            this.txtTag.on('changed:after', this.onTagChanged.bind(this));
+            this.txtTag.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtTag.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtTag._input && me.txtTag._input.select();}, 1);
+            });
+
             this.textareaHelp = new Common.UI.TextareaField({
                 el          : $markup.findById('#form-txt-help'),
                 style       : 'width: 100%; height: 60px;',
@@ -548,6 +566,16 @@ define([
             }
         },
 
+        onTagChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                props.put_Tag(newValue);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
         onHelpChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
@@ -877,6 +905,12 @@ define([
                     this._state.placeholder = val;
                 }
 
+                val = props.get_Tag();
+                if (this._state.tag !== val) {
+                    this.txtTag.setValue(val ? val : '');
+                    this._state.tag = val;
+                }
+
                 val = props.get_Lock();
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
                 if (this._state.LockDelete !== (val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked)) {
@@ -1203,7 +1237,6 @@ define([
                         '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
                         '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                     ],
-                    paletteHeight: 94,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1437,7 +1470,8 @@ define([
         textTooSmall: 'Image is Too Small',
         textScale: 'When to scale',
         textBackgroundColor: 'Background Color',
-        textFillRoles: 'Who needs to fill this out?'
+        textFillRoles: 'Who needs to fill this out?',
+        textTag: 'Tag'
 
     }, DE.Views.FormSettings || {}));
 });

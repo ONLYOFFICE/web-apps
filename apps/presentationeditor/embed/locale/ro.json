@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Înălțime",
   "common.view.modals.txtShare": "Partajare link",
   "common.view.modals.txtWidth": "Lățime",
+  "common.view.SearchBar.textFind": "Găsire",
   "PE.ApplicationController.convertationErrorText": "Conversia nu a reușit.",
   "PE.ApplicationController.convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
   "PE.ApplicationController.criticalErrorTitle": "Eroare",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Deschidere locația fișierului",
   "PE.ApplicationView.txtFullScreen": "Ecran complet",
   "PE.ApplicationView.txtPrint": "Imprimare",
+  "PE.ApplicationView.txtSearch": "Căutare",
   "PE.ApplicationView.txtShare": "Partajează"
 }

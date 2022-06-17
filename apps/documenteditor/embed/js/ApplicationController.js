@@ -75,6 +75,8 @@ DE.ApplicationController = new(function(){
         embedConfig = $.extend(embedConfig, data.config.embedded);
 
         common.controller.modals.init(embedConfig);
+        common.controller.SearchBar.init(embedConfig);
+
 
         // Docked toolbar
         if (embedConfig.toolbarDocked === 'bottom') {
@@ -98,8 +100,7 @@ DE.ApplicationController = new(function(){
         if (docConfig) {
             permissions = $.extend(permissions, docConfig.permissions);
 
-            var _permissions = $.extend({}, docConfig.permissions),
-                docInfo = new Asc.asc_CDocInfo(),
+            var docInfo = new Asc.asc_CDocInfo(),
                 _user = new Asc.asc_CUserInfo();
 
             var canRenameAnonymous = !((typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') && (config.customization.anonymous.request===false)),
@@ -123,7 +124,7 @@ DE.ApplicationController = new(function(){
             docInfo.put_UserInfo(_user);
             docInfo.put_CallbackUrl(config.callbackUrl);
             docInfo.put_Token(docConfig.token);
-            docInfo.put_Permissions(_permissions);
+            docInfo.put_Permissions(docConfig.permissions);
             docInfo.put_EncryptedInfo(config.encryptionKeys);
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
@@ -400,7 +401,6 @@ DE.ApplicationController = new(function(){
 
         if ( permissions.print === false) {
             $('#idt-print').hide();
-            $(dividers[0]).hide();
             itemsCount--;
         }
 
@@ -412,8 +412,6 @@ DE.ApplicationController = new(function(){
         if ( !appOptions.canFillForms || permissions.download === false) {
             $('#idt-download-docx').hide();
             $('#idt-download-pdf').hide();
-            $(dividers[0]).hide();
-            $(dividers[1]).hide();
             itemsCount -= 2;
         }
 
@@ -427,8 +425,10 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        if (itemsCount<3)
-            $(dividers[2]).hide();
+        if (itemsCount < 7) {
+            $(dividers[0]).hide();
+            $(dividers[1]).hide();
+        }
 
         if ( !embedConfig.embedUrl || appOptions.canFillForms) {
             $('#idt-embed').hide();
@@ -517,6 +517,11 @@ DE.ApplicationController = new(function(){
         DE.ApplicationView.tools.get('#idt-download-pdf')
             .on('click', function(){
                 downloadAs(Asc.c_oAscFileType.PDF);
+            });
+
+        DE.ApplicationView.tools.get('#idt-search')
+            .on('click', function(){
+                common.controller.SearchBar.show();
             });
 
         $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
@@ -912,6 +917,8 @@ DE.ApplicationController = new(function(){
             Common.Gateway.on('opendocument',       loadDocument);
             Common.Gateway.on('showmessage',        onExternalMessage);
             Common.Gateway.appReady();
+
+            common.controller.SearchBar.setApi(api);
         }
 
         return me;
