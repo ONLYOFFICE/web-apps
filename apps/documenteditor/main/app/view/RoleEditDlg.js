@@ -111,7 +111,6 @@ define([
                             '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                         ],
                 color: this.lastColor,
-                paletteHeight: 94,
                 cls: 'move-focus',
                 takeFocusOnClose: true
             });
