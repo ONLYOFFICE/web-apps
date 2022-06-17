@@ -59,7 +59,9 @@
     "textColumns": "Colonne",
     "textCopyCutPasteActions": "Funzioni di Copiare, Tagliare e Incollare",
     "textDoNotShowAgain": "Non mostrare di nuovo",
-    "textRows": "Righe"
+    "textRows": "Righe",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

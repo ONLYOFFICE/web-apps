@@ -29,11 +29,9 @@ class AddLinkController extends Component {
 
         const { t } = this.props;
         const _t = t("Add", { returnObjects: true });
-
         const urltype = api.asc_getUrlType(url.trim());
-        const isEmail = (urltype == 2);
 
-        if (urltype < 1) {
+        if (urltype===AscCommon.c_oAscUrlType.Invalid) {
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
                 text: _t.txtNotUrl,
@@ -48,8 +46,8 @@ class AddLinkController extends Component {
 
         let _url = url.replace(/^\s+|\s+$/g,'');
 
-        if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(_url) )
-            _url = (isEmail ? 'mailto:' : 'http://' ) + _url;
+        if (urltype!==AscCommon.c_oAscUrlType.Unsafe && ! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(_url) )
+            _url = (urltype===AscCommon.c_oAscUrlType.Email ? 'mailto:' : 'http://' ) + _url;
 
         _url = _url.replace(new RegExp("%20",'g')," ");
 

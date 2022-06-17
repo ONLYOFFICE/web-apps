@@ -215,10 +215,31 @@ class ContextMenu extends ContextMenuController {
     }
 
     openLink(url) {
-        if (Common.EditorApi.get().asc_getUrlType(url) > 0) {
-            const newDocumentPage = window.open(url, '_blank');
-            if (newDocumentPage) {
-                newDocumentPage.focus();
+        if (url) {
+            const type = Common.EditorApi.get().asc_getUrlType(url);
+            if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) {
+                const newDocumentPage = window.open(url, '_blank');
+                if (newDocumentPage) {
+                    newDocumentPage.focus();
+                }
+            } else {
+                const { t } = this.props;
+                const _t = t("ContextMenu", { returnObjects: true });
+                f7.dialog.create({
+                    title: t('Settings', {returnObjects: true}).notcriticalErrorTitle,
+                    text  : _t.txtWarnUrl,
+                    buttons: [{
+                        text: _t.textOk,
+                        bold: true,
+                        onClick: () => {
+                            const newDocumentPage = window.open(url, '_blank');
+                            if (newDocumentPage) {
+                                newDocumentPage.focus();
+                            }
+                        }
+                    },
+                    { text: _t.menuCancel }]
+                }).open();
             }
         }
     }

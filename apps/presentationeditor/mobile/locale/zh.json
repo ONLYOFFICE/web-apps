@@ -59,7 +59,9 @@
     "textColumns": "列",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
-    "textRows": "行"
+    "textRows": "行",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

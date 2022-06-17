@@ -59,7 +59,9 @@
     "textColumns": "Columnes",
     "textCopyCutPasteActions": "Accions de copiar, tallar i enganxar ",
     "textDoNotShowAgain": "No ho mostris més",
-    "textRows": "Files"
+    "textRows": "Files",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
