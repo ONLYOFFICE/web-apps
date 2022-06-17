@@ -361,7 +361,7 @@ define([
 
             var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 &&
-                (!this._state.matchCase && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
                     this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                 return;
             }
@@ -373,10 +373,10 @@ define([
             }
 
             this.hideResults();
-            if (text !== '' && text === this._state.searchText) { // search was made
+            if (text && text !== '' && text === this._state.searchText) { // search was made
                 this.view.disableReplaceButtons(false);
                 this.api.asc_StartTextAroundSearch();
-            } else if (text !== '') { // search wasn't made
+            } else if (text && text !== '') { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
                 this.resultItems = [];
