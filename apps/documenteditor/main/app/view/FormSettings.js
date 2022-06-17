@@ -623,6 +623,7 @@ define([
                 if (this.spnWidth.getValue()) {
                     var value = this.spnWidth.getNumberValue();
                     formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.5));
+                    formTextPr.put_WidthRule(this.cmbWidthRule.getValue());
                 } else
                     formTextPr.put_Width(0);
 
@@ -636,8 +637,8 @@ define([
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
                 formTextPr.put_WidthRule(record.value);
-                // if (record.value === Asc.CombFormWidthRule.Auto)
-                //     formTextPr.put_Width(this._state.WidthPlaceholder);
+                if (record.value === Asc.CombFormWidthRule.Auto)
+                    formTextPr.put_Width(this._state.WidthPlaceholder);
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
@@ -683,14 +684,6 @@ define([
         onChFixed: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-
-                if (field.getValue()=='checked') {
-                    var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                    formTextPr.put_WidthRule(Asc.CombFormWidthRule.Exact);
-                    props.put_TextFormPr(formTextPr);
-                    this.api.asc_SetContentControlProperties(props, this.internalId);
-                }
-
                 this.cmbWidthRule.setDisabled(!this._state.Comb || field.getValue()=='checked' || this._state.DisabledControls);
                 this.api.asc_SetFixedForm(this.internalId, field.getValue()=='checked');
                 this.fireEvent('editcomplete', this);
@@ -1163,7 +1156,7 @@ define([
                     this.chAutofit.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
 
                     this.cmbWidthRule.setDisabled(!this._state.Comb || this._state.Fixed || this._state.DisabledControls);
-                    val = formTextPr.get_WidthRule();
+                    val = this._state.Fixed ? Asc.CombFormWidthRule.Exact : formTextPr.get_WidthRule();
                     if ( this._state.WidthRule!==val ) {
                         this.cmbWidthRule.setValue((val !== null && val !== undefined) ? val : '');
                         this._state.WidthRule=val;
@@ -1176,9 +1169,10 @@ define([
                     }
 
                     this.spnWidth.setDisabled(!this._state.Comb || this._state.WidthRule===Asc.CombFormWidthRule.Auto || this._state.DisabledControls);
-                    val = (this._state.WidthRule===Asc.CombFormWidthRule.Auto) ? this._state.WidthPlaceholder : formTextPr.get_Width();
-                    if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
-                        this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : this.spnWidth.getDefaultValue(), true);
+                    val = formTextPr.get_Width();
+                    val = (this._state.WidthRule===Asc.CombFormWidthRule.Auto || val===undefined || val===0) ? this._state.WidthPlaceholder : val;
+                    if ((val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
+                        this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : '', true);
                         this._state.Width=val;
                     }
 
