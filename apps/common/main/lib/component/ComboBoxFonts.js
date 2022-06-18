@@ -89,7 +89,7 @@ define([
         thumbCanvas.width   = thumbs[thumbIdx].width;
 
         function CThumbnailLoader() {
-            this.supportBinaryFormat = !(Common.Controllers.Desktop.isActive() && !Common.Controllers.isFeatureAvailable('isSupportBinaryFontsSprite'));
+            this.supportBinaryFormat = !(Common.Controllers.Desktop.isActive() && !Common.Controllers.Desktop.isFeatureAvailable('isSupportBinaryFontsSprite'));
 
             this.image = null;
             this.binaryFormat = null;
