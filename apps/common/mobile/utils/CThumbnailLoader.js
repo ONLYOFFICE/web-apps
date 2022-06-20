@@ -30,7 +30,7 @@ class CThumbnailLoader {
         xhr.send(null);
     }
 
-    _openBinary(arrayBuffer) {
+    openBinary(arrayBuffer) {
         //var t1 = performance.now();
 
         const binaryAlpha = this.binaryFormat;
@@ -116,7 +116,7 @@ class CThumbnailLoader {
         }
 
         if (!this.data && !this.offsets) {
-            this._openBinary(this.binaryFormat);
+            this.openBinary(this.binaryFormat);
         }
 
         let dataTmp = ctx.createImageData(this.width, this.heightOne);
