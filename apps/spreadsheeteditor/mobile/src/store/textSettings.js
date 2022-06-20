@@ -137,6 +137,10 @@ export class storeTextSettings {
         this.spriteThumbs = new CThumbnailLoader();
         this.spriteThumbs.load(this.thumbs[this.thumbIdx].path, () => {
             this.spriteCols = Math.floor(this.spriteThumbs.width / (this.thumbs[this.thumbIdx].width)) || 1;
+
+            if (!this.spriteThumbs.data && !this.spriteThumbs.offsets) {
+                this.spriteThumbs.openBinary(this.spriteThumbs.binaryFormat);
+            }
         });
     }
 

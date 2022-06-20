@@ -1427,7 +1427,7 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
 
                     var printController = app.getController('Print');
-                    printController && this.api && printController.setApi(this.api);
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
                 } else if (this.appOptions.isEditOle)
                     this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
 
