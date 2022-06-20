@@ -8,6 +8,7 @@ const Download = props => {
     const _t = t("Settings", { returnObjects: true });
     const storeDocumentInfo = props.storeDocumentInfo;
     const dataDoc = storeDocumentInfo.dataDoc;
+    const canFeatureForms = props.storeAppOptions.canFeatureForms;
 
     return (
         <Page>
@@ -17,7 +18,7 @@ const Download = props => {
                 <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
                     <Icon slot="media" icon="icon-format-docx"></Icon>
                 </ListItem>
-                {dataDoc.fileType === 'docxf' || dataDoc.fileType === 'docx' ? [
+                {canFeatureForms && (dataDoc.fileType === 'docxf' || dataDoc.fileType === 'docx') ? [
                     <ListItem title="DOCXF" key="DOCXF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCXF)}>
                         <Icon slot="media" icon="icon-format-docxf"></Icon>
                     </ListItem>,
@@ -58,4 +59,4 @@ const Download = props => {
     )
 }
 
-export default inject('storeDocumentInfo')(observer(Download));
+export default inject('storeDocumentInfo', 'storeAppOptions')(observer(Download));
