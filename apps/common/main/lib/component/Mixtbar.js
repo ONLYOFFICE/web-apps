@@ -107,7 +107,7 @@ define([
                                 '<% } %>' +
                             '<% } %>' +
                         '</ul>' +
-                        '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="N"></a>' +
+                        '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({
