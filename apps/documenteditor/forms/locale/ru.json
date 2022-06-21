@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "Вт",
   "Common.UI.Calendar.textShortWednesday": "Ср",
   "Common.UI.Calendar.textYears": "Годы",
+  "Common.UI.SearchBar.textFind": "Поиск",
+  "Common.UI.SearchBar.tipCloseSearch": "Закрыть поиск",
+  "Common.UI.SearchBar.tipNextResult": "Следующий результат",
+  "Common.UI.SearchBar.tipPreviousResult": "Предыдущий результат",
   "Common.UI.Themes.txtThemeClassicLight": "Классическая светлая",
   "Common.UI.Themes.txtThemeDark": "Темная",
   "Common.UI.Themes.txtThemeLight": "Светлая",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "DE.Views.ApplicationView.txtFullScreen": "Во весь экран",
   "DE.Views.ApplicationView.txtPrint": "Печать",
+  "DE.Views.ApplicationView.txtSearch": "Поиск",
   "DE.Views.ApplicationView.txtShare": "Поделиться",
   "DE.Views.ApplicationView.txtTheme": "Тема интерфейса"
 }

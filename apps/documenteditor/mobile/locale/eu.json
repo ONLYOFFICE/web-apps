@@ -3,11 +3,11 @@
     "textAbout": "Honi buruz",
     "textAddress": "Helbidea",
     "textBack": "Atzera",
+    "textEditor": "Dokumentu editorea",
     "textEmail": "Posta elektronikoa",
     "textPoweredBy": "Garatzailea:",
     "textTel": "Tel.",
-    "textVersion": "Bertsioa",
-    "textEditor": "Document Editor"
+    "textVersion": "Bertsioa"
   },
   "Add": {
     "notcriticalErrorTitle": "Abisua",
@@ -199,7 +199,8 @@
     "textOk": "Ados",
     "textRefreshEntireTable": "Freskatu taula osoa",
     "textRefreshPageNumbersOnly": "Freskatu orri-zenbakiak soilik",
-    "textRows": "Errenkadak"
+    "textRows": "Errenkadak",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Abisua",

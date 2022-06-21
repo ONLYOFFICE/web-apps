@@ -613,7 +613,8 @@ define([
                 this.view.turnChanges(state, global);
                 if (userId && this.userCollection) {
                     var rec = this.userCollection.findOriginalUser(userId);
-                    rec && this.showTips(Common.Utils.String.format(globalFlag ? this.textOnGlobal : this.textOffGlobal, AscCommon.UserInfoParser.getParsedName(rec.get('username'))));
+                    rec && Common.NotificationCenter.trigger('showmessage', {msg: Common.Utils.String.format(globalFlag ? this.textOnGlobal : this.textOffGlobal, AscCommon.UserInfoParser.getParsedName(rec.get('username')))},
+                                                                            {timeout: 5000, hideCloseTip: true});
                 }
             }
         },
@@ -901,41 +902,6 @@ define([
                 val = !!parseInt(val);
             Common.Utils.InternalSettings.set(me.view.appPrefix + "settings-review-hover-mode", val);
             me.appConfig.reviewHoverMode = val;
-        },
-
-        showTips: function(strings) {
-            var me = this;
-            if (!strings.length) return;
-            if (typeof(strings)!='object') strings = [strings];
-
-            function showNextTip() {
-                var str_tip = strings.shift();
-                if (str_tip) {
-                    me.tooltip.setTitle(str_tip);
-                    me.tooltip.show();
-                    me.tipTimeout = setTimeout(function () {
-                        me.tooltip.hide();
-                    }, 5000);
-                }
-            }
-
-            if (!this.tooltip) {
-                this.tooltip = new Common.UI.Tooltip({
-                    owner: this.getApplication().getController('Toolbar').getView(),
-                    hideonclick: true,
-                    placement: 'bottom',
-                    cls: 'main-info',
-                    offset: 30
-                });
-                this.tooltip.on('tooltip:hide', function(cmp){
-                    if (cmp==me.tooltip) {
-                        clearTimeout(me.tipTimeout);
-                        setTimeout(showNextTip, 300);
-                    }
-                });
-            }
-
-            showNextTip();
         },
 
         applySettings: function(menu) {

@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "경고",
     "textCopyCutPasteActions": "작업 복사, 잘라 내기 및 붙여 넣기",
     "textDoNotShowAgain": "다시 표시하지 않음",
-    "warnMergeLostData": "왼쪽 위 셀의 데이터 만 병합 된 셀에 남아 있습니다. <br> 계속 하시겠습니까?"
+    "warnMergeLostData": "왼쪽 위 셀의 데이터 만 병합 된 셀에 남아 있습니다. <br> 계속 하시겠습니까?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "高度",
   "common.view.modals.txtShare": "分享链接",
   "common.view.modals.txtWidth": "宽度",
+  "common.view.SearchBar.textFind": "查找",
   "PE.ApplicationController.convertationErrorText": "转换失败",
   "PE.ApplicationController.convertationTimeoutText": "转换超时",
   "PE.ApplicationController.criticalErrorTitle": "错误",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "打开文件所在位置",
   "PE.ApplicationView.txtFullScreen": "全屏",
   "PE.ApplicationView.txtPrint": "打印",
+  "PE.ApplicationView.txtSearch": "搜索",
   "PE.ApplicationView.txtShare": "共享"
 }

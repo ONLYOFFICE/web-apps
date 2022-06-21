@@ -1427,7 +1427,7 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
 
                     var printController = app.getController('Print');
-                    printController && this.api && printController.setApi(this.api);
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
                 } else if (this.appOptions.isEditOle)
                     this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
 
@@ -1523,10 +1523,10 @@ define([
                 }
             },
 
-            onExternalMessage: function(msg) {
+            onExternalMessage: function(msg, options) {
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
-                    this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
+                    this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)], options);
 
                     Common.component.Analytics.trackEvent('External Error');
                 }
@@ -2009,17 +2009,30 @@ define([
                 this._state.isDisconnected = true;
             },
 
-            showTips: function(strings) {
+            showTips: function(strings, options) {
                 var me = this;
                 if (!strings.length) return;
                 if (typeof(strings)!='object') strings = [strings];
 
+                function closeTip(cmp){
+                    me.tipTimeout && clearTimeout(me.tipTimeout);
+                    setTimeout(showNextTip, 300);
+                }
+
                 function showNextTip() {
                     var str_tip = strings.shift();
                     if (str_tip) {
-                        str_tip += '\n' + me.textCloseTip;
-                        tooltip.setTitle(str_tip);
-                        tooltip.show();
+                        if (!(options && options.hideCloseTip))
+                            str_tip += '\n' + me.textCloseTip;
+                        me.tooltip.setTitle(str_tip);
+                        me.tooltip.show();
+                        me.tipTimeout && clearTimeout(me.tipTimeout);
+                        if (options && options.timeout) {
+                            me.tipTimeout = setTimeout(function () {
+                                me.tooltip.hide();
+                                closeTip();
+                            }, options.timeout);
+                        }
                     }
                 }
 
@@ -2031,12 +2044,8 @@ define([
                         cls: 'main-info',
                         offset: 30
                     });
+                    this.tooltip.on('tooltip:hideonclick',closeTip);
                 }
-
-                var tooltip = this.tooltip;
-                tooltip.on('tooltip:hide', function(){
-                    setTimeout(showNextTip, 300);
-                });
 
                 showNextTip();
             },

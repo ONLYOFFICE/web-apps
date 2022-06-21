@@ -891,6 +891,7 @@
   "DE.Controllers.Main.warnProcessRightsChange": "El derecho de edición del archivo es denegado",
   "DE.Controllers.Navigation.txtBeginning": "Principio del documento",
   "DE.Controllers.Navigation.txtGotoBeginning": "Ir al principio de",
+  "DE.Controllers.Search.warnReplaceString": "{0} no es un carácter especial válido para la casilla Reemplazar con.",
   "DE.Controllers.Statusbar.textDisconnect": "<b>Se ha perdido la conexión</b><br>Intentando conectar. Compruebe la configuración de la conexión.",
   "DE.Controllers.Statusbar.textHasChanges": "Nuevos cambios han sido encontrado",
   "DE.Controllers.Statusbar.textSetTrackChanges": "Usted está en el modo de seguimiento de cambios",

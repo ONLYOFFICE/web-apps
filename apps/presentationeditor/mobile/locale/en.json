@@ -60,7 +60,9 @@
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
     "textRows": "Rows",
-    "menuEditLink": "Edit Link"
+    "menuEditLink": "Edit Link",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

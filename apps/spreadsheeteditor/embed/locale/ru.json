@@ -35,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "SSE.ApplicationView.txtFullScreen": "Во весь экран",
   "SSE.ApplicationView.txtPrint": "Печать",
+  "SSE.ApplicationView.txtSearch": "Поиск",
   "SSE.ApplicationView.txtShare": "Поделиться"
 }

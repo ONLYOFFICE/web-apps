@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "ar.",
   "Common.UI.Calendar.textShortWednesday": "az.",
   "Common.UI.Calendar.textYears": "Urteak",
+  "Common.UI.SearchBar.textFind": "Bilatu",
+  "Common.UI.SearchBar.tipCloseSearch": "Itxi bilaketa",
+  "Common.UI.SearchBar.tipNextResult": "Hurrengo emaitza",
+  "Common.UI.SearchBar.tipPreviousResult": "Aurreko emaitza",
   "Common.UI.Themes.txtThemeClassicLight": "Klasiko argia",
   "Common.UI.Themes.txtThemeDark": "Iluna",
   "Common.UI.Themes.txtThemeLight": "Argia",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Ireki fitxategiaren kokalekua",
   "DE.Views.ApplicationView.txtFullScreen": "Pantaila osoa",
   "DE.Views.ApplicationView.txtPrint": "Inprimatu",
+  "DE.Views.ApplicationView.txtSearch": "Bilatu",
   "DE.Views.ApplicationView.txtShare": "Partekatu",
   "DE.Views.ApplicationView.txtTheme": "Interfazearen gaia"
 }

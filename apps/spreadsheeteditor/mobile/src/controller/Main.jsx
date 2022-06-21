@@ -71,9 +71,7 @@ class MainController extends Component {
                 '../../../vendor/bootstrap/dist/js/bootstrap.min.js',
                 '../../../vendor/underscore/underscore-min.js',
                 '../../../vendor/xregexp/xregexp-all-min.js',
-                '../../../vendor/sockjs/sockjs.min.js',
-                '../../../vendor/jszip/jszip.min.js',
-                '../../../vendor/jszip-utils/jszip-utils.min.js'];
+                '../../../vendor/sockjs/sockjs.min.js'];
             dep_scripts.push(...window.sdk_scripts);
 
             const promise_get_script = (scriptpath) => {

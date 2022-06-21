@@ -3,11 +3,11 @@
     "textAbout": "Quant a...",
     "textAddress": "Adreça",
     "textBack": "Enrere",
+    "textEditor": "Editor de documents",
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel.",
-    "textVersion": "Versió",
-    "textEditor": "Document Editor"
+    "textVersion": "Versió"
   },
   "Add": {
     "notcriticalErrorTitle": "Advertiment",
@@ -199,7 +199,8 @@
     "textOk": "D'acord",
     "textRefreshEntireTable": "Actualitza la taula sencera",
     "textRefreshPageNumbersOnly": "Actualitza només els números de pàgina",
-    "textRows": "Files"
+    "textRows": "Files",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertiment",

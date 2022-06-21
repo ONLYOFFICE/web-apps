@@ -59,7 +59,9 @@
     "textColumns": "Stĺpce",
     "textCopyCutPasteActions": "Akcia kopírovať, vystrihnúť a prilepiť",
     "textDoNotShowAgain": "Nezobrazovať znova",
-    "textRows": "Riadky"
+    "textRows": "Riadky",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

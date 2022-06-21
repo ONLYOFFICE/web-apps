@@ -802,13 +802,13 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            var me = this;
             if (url) {
-                if (me.api.asc_getUrlType(url)>0)
+                var type = this.api.asc_getUrlType(url);
+                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                     window.open(url);
                 else
                     Common.UI.warning({
-                        msg: me.documentHolder.txtWarnUrl,
+                        msg: this.documentHolder.txtWarnUrl,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {

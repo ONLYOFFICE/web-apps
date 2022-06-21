@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "Τρι",
   "Common.UI.Calendar.textShortWednesday": "Τετ",
   "Common.UI.Calendar.textYears": "Έτη",
+  "Common.UI.SearchBar.textFind": "Εύρεση",
+  "Common.UI.SearchBar.tipCloseSearch": "Κλείσιμο αναζήτησης",
+  "Common.UI.SearchBar.tipNextResult": "Επόμενο αποτέλεσμα",
+  "Common.UI.SearchBar.tipPreviousResult": "Προηγούμενο αποτέλεσμα",
   "Common.UI.Themes.txtThemeClassicLight": "Κλασικό Ανοιχτό",
   "Common.UI.Themes.txtThemeDark": "Σκούρο",
   "Common.UI.Themes.txtThemeLight": "Ανοιχτό",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Άνοιγμα τοποθεσίας αρχείου",
   "DE.Views.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "DE.Views.ApplicationView.txtPrint": "Εκτύπωση",
+  "DE.Views.ApplicationView.txtSearch": "Αναζήτηση",
   "DE.Views.ApplicationView.txtShare": "Διαμοιρασμός",
   "DE.Views.ApplicationView.txtTheme": "Θέμα διεπαφής"
 }

@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "警告",
     "textCopyCutPasteActions": "複製, 剪下, 與貼上之動作",
     "textDoNotShowAgain": "不再顯示",
-    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？"
+    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

@@ -64,7 +64,9 @@
     "notcriticalErrorTitle": "Warning",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?"
+    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

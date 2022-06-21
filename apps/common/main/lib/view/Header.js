@@ -209,11 +209,24 @@ define([
         function updateDocNamePosition(config) {
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
-                if (!config.isEdit || !config.customization || !config.customization.compactHeader) {
+                if (!config.isEdit) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
                     $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, _left_width - _right_width));
+                } else if (!(config.customization && config.customization.compactHeader)) {
+                    var _left_width = $parent.position().left,
+                        _right_width = $parent.next().outerWidth(),
+                        outerWidth = $labelDocName.outerWidth(),
+                        cssWidth = $labelDocName[0].style.width;
+                    cssWidth = cssWidth ? parseFloat(cssWidth) : outerWidth;
+                    if (cssWidth - outerWidth > 0.1) {
+                        $parent.css('padding-left', _left_width < _right_width ? Math.max(2, $parent.outerWidth() - 2 - cssWidth) : 2);
+                        $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, $parent.outerWidth() - 2 - cssWidth));
+                    } else {
+                        $parent.css('padding-left', _left_width < _right_width ? Math.max(2, Math.min(_right_width - _left_width + 2, $parent.outerWidth() - 2 - cssWidth)) : 2);
+                        $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, Math.min(_left_width - _right_width + 2, $parent.outerWidth() - 2 - cssWidth)));
+                    }
                 }
 
                 if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
@@ -223,6 +236,12 @@ define([
                     $parent.closest('.extra.right').css('flex-basis', Math.ceil(basis) + $parent.next().outerWidth() + 'px');
                     Common.NotificationCenter.trigger('tab:resize');
                 }
+            }
+        }
+
+        function onResize() {
+            if (appConfig && appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader)) {
+                updateDocNamePosition(appConfig);
             }
         }
 
@@ -352,6 +371,9 @@ define([
 
             if (me.btnSearch)
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
+
+            if (appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader))
+                Common.NotificationCenter.on('window:resize', onResize);
         }
 
         function onFocusDocName(e){
@@ -779,6 +801,7 @@ define([
                     this.imgCrypted.toggleClass('hidden', false);
                     this._showImgCrypted = false;
                 }
+                (width>=0) && onResize();
             },
 
             getTextWidth: function(text) {

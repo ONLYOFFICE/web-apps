@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Uyarı",
     "textCopyCutPasteActions": "Kes, Kopyala ve Yapıştır Aksiyonları",
     "textDoNotShowAgain": "Tekrar gösterme",
-    "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?"
+    "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

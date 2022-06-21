@@ -446,6 +446,7 @@
   "Common.Views.PluginDlg.textLoading": "Loading",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
+  "Common.Views.Plugins.textClosePanel": "Close plugin",
   "Common.Views.Plugins.textLoading": "Loading",
   "Common.Views.Plugins.textStart": "Start",
   "Common.Views.Plugins.textStop": "Stop",

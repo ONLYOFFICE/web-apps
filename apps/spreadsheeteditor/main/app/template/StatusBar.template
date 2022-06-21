@@ -7,7 +7,7 @@
     <div id="status-addtabs-box" class="status-group">
         <button id="status-btn-addtab" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="X"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
         <div class="cnt-tabslist">
-            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="V"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
+            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="N"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
         </div>
     </div>
     <div id="status-zoom-box" class="status-group">
