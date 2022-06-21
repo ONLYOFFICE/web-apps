@@ -336,7 +336,7 @@ define([
             
             if (!this.panels) {
                 this.panels = {
-                    'opts'      : (new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu:this})).render(this.$el.find('#panel-settings-general')),
+                    'opts'      : (new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu:this})).render(this.$el.find('#panel-settings')),
                     'info'      : (new SSE.Views.FileMenuPanels.DocumentInfo({menu:this})).render(this.$el.find('#panel-info')),
                     'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:this})).render(this.$el.find('#panel-rights'))
                 };

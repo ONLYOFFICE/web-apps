@@ -183,7 +183,7 @@ define([
     });
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
-        el: '#panel-settings-general',
+        el: '#panel-settings',
         menu: undefined,
 
         template: _.template([

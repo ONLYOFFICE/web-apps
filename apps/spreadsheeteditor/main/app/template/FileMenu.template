@@ -31,7 +31,7 @@
     <div id="panel-createnew" class="content-box"></div>
     <div id="panel-info" class="content-box"></div>
     <div id="panel-rights" class="content-box"></div>
-    <div id="panel-settings-general" class="content-box"></div>
+    <div id="panel-settings" class="content-box"></div>
     <div id="panel-help" class="content-box"></div>
     <div id="panel-protect" class="content-box"></div>
     <div id="panel-print" class="content-box"></div>
