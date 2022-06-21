@@ -271,7 +271,7 @@ define([
                 '<tr>',
                     '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="">',
                     '<td><label><%= scope.strFuncLocale %></label></td>',
                     '<td>',
                         '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
