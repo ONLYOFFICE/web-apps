@@ -321,7 +321,7 @@ define([
         '<div class="fms-flex-apply hidden">',
             '<table class="main" style="margin: 10px 18px; width: 100%"><tbody>',
                 '<tr>',
-                    '<td><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
                 '</tr>',
             '</tbody></table>',
