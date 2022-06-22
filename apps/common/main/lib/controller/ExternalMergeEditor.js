@@ -97,12 +97,14 @@ define([
                         'drag': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
+                        'resize': _.bind(function(o, state){
+                            externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
+                        },this),
                         'show': _.bind(function(cmp){
                             var h = this.mergeEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight();
-                            if (innerHeight>h && h<700 || innerHeight<h) {
-                                h = Math.min(innerHeight, 700);
-                                this.mergeEditorView.setHeight(h);
+                            if (innerHeight<h) {
+                                this.mergeEditorView.setHeight(innerHeight);
                             }
 
                             if (externalEditor) {
@@ -226,12 +228,20 @@ define([
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {
                             this.mergeEditorView.binding.dragStop();
+                            if (this.mergeEditorView.binding.resizeStop)  this.mergeEditorView.binding.resizeStop();
                         } else
                         if (eventData.data.event == 'mouse:move') {
                             var x = parseInt(this.mergeEditorView.$window.css('left')) + eventData.data.pagex,
                                 y = parseInt(this.mergeEditorView.$window.css('top')) + eventData.data.pagey + 34;
                             this.mergeEditorView.binding.drag({pageX:x, pageY:y});
+                            if (this.mergeEditorView.binding.resize)  this.mergeEditorView.binding.resize({pageX:x, pageY:y});
                         }
+                    } else
+                    if (eventData.type == "resize") {
+                        var w = eventData.data.width,
+                            h = eventData.data.height;
+                        if (w>0 && h>0)
+                            this.mergeEditorView.setInnerSize(w, h);
                     } else
                         this.mergeEditorView.fireEvent('internalmessage', this.mergeEditorView, eventData);
                 }
