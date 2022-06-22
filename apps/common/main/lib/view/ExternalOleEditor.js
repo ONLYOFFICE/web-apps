@@ -50,14 +50,19 @@ define([
                 title: this.textTitle,
                 width: 910,
                 height: (_inner_height - 700)<0 ? _inner_height : 700,
+                minwidth: 880,
+                minheight: 275,
                 cls: 'advanced-settings-dlg',
                 header: true,
                 toolclose: 'hide',
-                toolcallback: _.bind(this.onToolClose, this)
+                toolcallback: _.bind(this.onToolClose, this),
+                resizable: true
             }, options);
 
+            this._headerFooterHeight = 85;
+
             this.template = [
-                '<div id="id-ole-editor-container" class="box" style="height:' + (_options.height-85) + 'px;">',
+                '<div id="id-ole-editor-container" class="box" style="height:' + (_options.height-this._headerFooterHeight) + 'px; padding: 0 5px;">',
                     '<div id="id-ole-editor-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>',
@@ -77,6 +82,7 @@ define([
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
+            this.boxEl = this.$window.find('.body > .box');
 
             this.btnSave = new Common.UI.Button({
                 el: $('#id-btn-ole-editor-apply'),
@@ -139,14 +145,39 @@ define([
                 var header_height = (this.initConfig.header) ? parseInt(this.$window.find('> .header').css('height')) : 0;
 
                 this.$window.find('> .body').css('height', height-header_height);
-                this.$window.find('> .body > .box').css('height', height-85);
-
-                var top  = (Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top') - parseInt(height)) / 2;
-                var left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
-
-                this.$window.css('left',left);
-                this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
+                this.$window.find('> .body > .box').css('height', height-this._headerFooterHeight);
             }
+        },
+
+        setInCenter: function() {
+            var height = this.$window.height(),
+                top  = (Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top') - parseInt(height)) / 2,
+                left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
+
+            this.$window.css('left',left);
+            this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
+        },
+
+        setInnerSize: function(width, height) {
+            var maxHeight = Common.Utils.innerHeight(),
+                maxWidth = Common.Utils.innerWidth(),
+                borders_width = (parseInt(this.$window.css('border-left-width')) + parseInt(this.$window.css('border-right-width'))),
+                paddings = (parseInt(this.boxEl.css('padding-left')) + parseInt(this.boxEl.css('padding-right')));
+            height += 90; // add toolbar and statusbar height
+            if (maxHeight<height + this._headerFooterHeight)
+                height = maxHeight - this._headerFooterHeight;
+            if (maxWidth<width + paddings + borders_width)
+                width = maxWidth - paddings - borders_width;
+
+            this.boxEl.css('height', height);
+
+            this.setHeight(height + this._headerFooterHeight);
+            this.setWidth(width + paddings + borders_width);
+
+            if (this.getLeft()<0)
+                this.$window.css('left', 0);
+            if (this.getTop() < Common.Utils.InternalSettings.get('window-inactive-area-top') )
+                this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top'));
         },
 
         setPlaceholder: function(placeholder) {
