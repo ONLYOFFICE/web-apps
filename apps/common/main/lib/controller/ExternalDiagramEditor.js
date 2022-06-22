@@ -105,8 +105,7 @@ define([
                             var h = this.diagramEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
                             if (innerHeight<h) {
-                                h = Math.min(innerHeight, 700);
-                                this.diagramEditorView.setHeight(h);
+                                this.diagramEditorView.setHeight(innerHeight);
                             }
 
                             if (externalEditor) {

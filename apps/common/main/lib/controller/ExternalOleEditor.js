@@ -105,7 +105,7 @@ define([
                             var h = this.oleEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
                             if (innerHeight<h) {
-                                this.oleEditorView.setHeight(h);
+                                this.oleEditorView.setHeight(innerHeight);
                             }
 
                             if (externalEditor) {
@@ -133,8 +133,6 @@ define([
                         }, this)
                     }
                 });
-
-
             },
 
             onLaunch: function() {
