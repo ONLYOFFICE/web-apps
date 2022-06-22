@@ -147,12 +147,6 @@ define([
 
                 this.$window.find('> .body').css('height', height-header_height);
                 this.$window.find('> .body > .box').css('height', height-this._headerFooterHeight);
-
-                // var top  = (Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top') - parseInt(height)) / 2;
-                // var left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
-                //
-                // this.$window.css('left',left);
-                // this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
             }
         },
 
