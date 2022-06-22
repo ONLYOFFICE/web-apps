@@ -130,7 +130,7 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
         closeModal();
         if(config && !!config.feedback && !!config.feedback.url) {
             window.open(config.feedback.url, "_blank");
-        } else window.open('{{__SUPPORT_URL__}}', "_blank");
+        } else window.open(__SUPPORT_URL__, "_blank");
     };
 
     const appOptions = props.storeAppOptions;
