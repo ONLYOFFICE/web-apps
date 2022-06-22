@@ -47,7 +47,7 @@ define([
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-            var _options = {}, width = 880, height = 700;
+            var _options = {}, width = 900, height = 700;
             var value = Common.localStorage.getItem(this.appPrefix + 'ole-editor-width');
             value && (width = parseInt(value));
             value = Common.localStorage.getItem(this.appPrefix + 'ole-editor-height');
@@ -58,7 +58,7 @@ define([
                 title: this.textTitle,
                 width: width,
                 height: (_inner_height - height)<0 ? _inner_height : height,
-                minwidth: 880,
+                minwidth: 840,
                 minheight: 275,
                 cls: 'advanced-settings-dlg',
                 header: true,
