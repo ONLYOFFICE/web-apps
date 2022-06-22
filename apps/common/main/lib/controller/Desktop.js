@@ -194,7 +194,21 @@ define([
         };
 
         var _onHintsShow = function (visible, level) {
-            native.execCommand('althints:show', JSON.stringify(visible && !(level > 0)));
+            let info = {
+                visible: visible && !(level > 0),
+            };
+
+            if ( !!titlebuttons ) {
+                info.hints = {
+                    'print': titlebuttons['print'].btn.btnEl.attr('data-hint-title'),
+                    // 'home': Common.UI.HintManager.getStaticHint('btnhome'),
+                    'undo': titlebuttons['undo'].btn.btnEl.attr('data-hint-title'),
+                    'redo': titlebuttons['redo'].btn.btnEl.attr('data-hint-title'),
+                    'save': titlebuttons['save'].btn.btnEl.attr('data-hint-title'),
+                };
+            }
+
+            native.execCommand('althints:show', JSON.stringify(info));
         }
 
         var _onKeyDown = function (e) {

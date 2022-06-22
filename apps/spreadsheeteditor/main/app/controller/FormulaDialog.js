@@ -69,8 +69,6 @@ define([
             this.addListeners({
                 'FileMenu': {
                     'settings:apply': function() {
-                        if (!me.mode || !me.mode.isEdit) return;
-
                         me.needUpdateFormula = true;
 
                         var lang = Common.localStorage.getItem("sse-settings-func-locale");
@@ -116,12 +114,12 @@ define([
 
         setApi: function (api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
-            if (this.formulasGroups && this.api) {
+            if (this.formulasGroups) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
-
                 this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true);
+
+                if (!this.mode.isEdit) return;
 
                 var me = this;
 
@@ -140,6 +138,7 @@ define([
             }
 
             this.formulaTab && this.formulaTab.setApi(this.api);
+            this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
             return this;
         },
@@ -192,6 +191,8 @@ define([
                         }
                     });
             }
+
+            if (!this.mode.isEdit) return;
 
             if (me.langDescJson[lang])
                 me.loadingFormulas(me.langDescJson[lang], suppressEvent);
