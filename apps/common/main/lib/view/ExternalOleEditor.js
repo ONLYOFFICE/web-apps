@@ -44,12 +44,20 @@ define([
 
     Common.Views.ExternalOleEditor = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
-            var _options = {};
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+            var _options = {}, width = 880, height = 700;
+            var value = Common.localStorage.getItem(this.appPrefix + 'ole-editor-width');
+            value && (width = parseInt(value));
+            value = Common.localStorage.getItem(this.appPrefix + 'ole-editor-height');
+            value && (height = parseInt(value));
+
             var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
             _.extend(_options,  {
                 title: this.textTitle,
-                width: 910,
-                height: (_inner_height - 700)<0 ? _inner_height : 700,
+                width: width,
+                height: (_inner_height - height)<0 ? _inner_height : height,
                 minwidth: 880,
                 minheight: 275,
                 cls: 'advanced-settings-dlg',
@@ -77,6 +85,7 @@ define([
             this.handler = _options.handler;
             this._oleData = null;
             this._isNewOle = true;
+            this.on('resize', _.bind(this.onWindowResize, this));
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
@@ -186,6 +195,14 @@ define([
 
         getPlaceholder: function() {
             return this._placeholder;
+        },
+
+        onWindowResize: function (args) {
+            if (args && args[1]=='end') {
+                var value = this.getSize();
+                Common.localStorage.setItem(this.appPrefix + 'ole-editor-width', value[0]);
+                Common.localStorage.setItem(this.appPrefix + 'ole-editor-height', value[1]);
+            }
         },
 
         textSave: 'Save & Exit',
