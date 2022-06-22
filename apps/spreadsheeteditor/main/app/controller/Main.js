@@ -1415,7 +1415,7 @@ define([
                             Common.Gateway.internalMessage('processMouse', {event: 'mouse:up'});
                         })
                         .mousemove($.proxy(function(e){
-                            if (this.isDiagramDrag) {
+                            if (this.isDiagramDrag || this.isDiagramResize) {
                                 Common.Gateway.internalMessage('processMouse', {event: 'mouse:move', pagex: e.pageX*Common.Utils.zoom(), pagey: e.pageY*Common.Utils.zoom()});
                             }
                         },this));
@@ -2571,6 +2571,9 @@ define([
                         break;
                     case 'window:drag':
                         this.isDiagramDrag = data.data;
+                        break;
+                    case 'window:resize':
+                        this.isDiagramResize = data.data;
                         break;
                     case 'processmouse':
                         this.onProcessMouse(data.data);

@@ -98,12 +98,14 @@ define([
                         'drag': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
+                        'resize': _.bind(function(o, state){
+                            externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
+                        },this),
                         'show': _.bind(function(cmp){
                             var h = this.diagramEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
-                            if (innerHeight>h && h<700 || innerHeight<h) {
-                                h = Math.min(innerHeight, 700);
-                                this.diagramEditorView.setHeight(h);
+                            if (innerHeight<h) {
+                                this.diagramEditorView.setHeight(innerHeight);
                             }
 
                             if (externalEditor) {
@@ -226,12 +228,20 @@ define([
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {
                             this.diagramEditorView.binding.dragStop();
+                            if (this.diagramEditorView.binding.resizeStop)  this.diagramEditorView.binding.resizeStop();
                         } else
                         if (eventData.data.event == 'mouse:move') {
                             var x = parseInt(this.diagramEditorView.$window.css('left')) + eventData.data.pagex,
                                 y = parseInt(this.diagramEditorView.$window.css('top')) + eventData.data.pagey + 34;
                             this.diagramEditorView.binding.drag({pageX:x, pageY:y});
+                            if (this.diagramEditorView.binding.resize)  this.diagramEditorView.binding.resize({pageX:x, pageY:y});
                         }
+                    } else
+                    if (eventData.type == "resize") {
+                        var w = eventData.data.width,
+                            h = eventData.data.height;
+                        if (w>0 && h>0)
+                            this.diagramEditorView.setInnerSize(w, h);
                     } else
                         this.diagramEditorView.fireEvent('internalmessage', this.diagramEditorView, eventData);
                 }
@@ -241,15 +251,6 @@ define([
                 if (data.type == 'mouseup' && this.isExternalEditorVisible) {
                     externalEditor && externalEditor.serviceCommand('processmouse', data);
                 }
-            },
-
-            showExternalEditor: function () {
-                if ( externalEditor ) {
-                    var value = Common.localStorage.getItem("ui-theme-id", "theme-light");
-                    externalEditor.serviceCommand('theme:change', value);
-                }
-
-                this.diagramEditorView.show();
             },
 
             warningTitle: 'Warning',
