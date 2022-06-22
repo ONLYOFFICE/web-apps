@@ -51,7 +51,8 @@ define([
         var appLang         = '{{DEFAULT_LANG}}',
             customization   = undefined,
             targetApp       = '',
-            externalEditor  = null;
+            externalEditor  = null,
+            isAppFirstOpened = true;
 
 
         var createExternalEditor = function() {
@@ -106,6 +107,10 @@ define([
 
                             if (externalEditor) {
                                 externalEditor.serviceCommand('setAppDisabled',false);
+                                if (isAppFirstOpened && this.mergeEditorView._isExternalDocReady) {
+                                    isAppFirstOpened = false;
+                                    this.mergeEditorView._mergeData && this.setMergeData();
+                                }
                                 if (this.needDisableEditing && this.mergeEditorView._isExternalDocReady) {
                                     this.onMergeEditingDisabled();
                                 }
@@ -114,6 +119,7 @@ define([
                                 createExternalEditor.apply(this);
                             }
                             this.isExternalEditorVisible = true;
+                            this.isHandlerCalled = false;
                         }, this),
                         'hide':  _.bind(function(cmp){
                             if (externalEditor) {
@@ -138,14 +144,22 @@ define([
             },
 
             handler: function(result, value) {
-                externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
-                return true;
+                if (this.isHandlerCalled) return;
+                this.isHandlerCalled = true;
+                if (this.mergeEditorView._isExternalDocReady)
+                    externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
+                else {
+                    this.mergeEditorView.hide();
+                    this.isHandlerCalled = false;
+                }
             },
 
             setMergeData: function() {
-                externalEditor && externalEditor.serviceCommand('setMergeData', this.mergeEditorView._mergeData);
-                this.mergeEditorView.setEditMode(true);
-                this.mergeEditorView._mergeData = null;
+                if (!isAppFirstOpened) {
+                    externalEditor && externalEditor.serviceCommand('setMergeData', this.mergeEditorView._mergeData);
+                    this.mergeEditorView.setEditMode(true);
+                    this.mergeEditorView._mergeData = null;
+                }
             },
 
             loadConfig: function(data) {
@@ -184,6 +198,7 @@ define([
                 if (this.mergeEditorView) {
                     if (eventData.type == 'documentReady') {
                         this.mergeEditorView._isExternalDocReady = true;
+                        this.isExternalEditorVisible && (isAppFirstOpened = false);
                         this.mergeEditorView.setControlsDisabled(false);
                         if (this.mergeEditorView._mergeData) {
                             externalEditor && externalEditor.serviceCommand('setMergeData', this.mergeEditorView._mergeData);
@@ -206,6 +221,7 @@ define([
                             }
                             this.mergeEditorView.hide();
                         }
+                        this.isHandlerCalled = false;
                     } else
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {
