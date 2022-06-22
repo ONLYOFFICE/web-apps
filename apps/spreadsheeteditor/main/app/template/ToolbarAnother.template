@@ -23,7 +23,7 @@
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-digit-dec"></span>
                     <span class="btn-slot split" id="slot-btn-digit-inc"></span>
-                    <span class="btn-slot" id="slot-btn-format" style="width: 84px; vertical-align: middle;"></span>
+                    <span class="btn-slot" id="slot-btn-format" style="width: 80px; vertical-align: middle;"></span>
                 </div>
             </div>
             <div class="separator short"></div>
