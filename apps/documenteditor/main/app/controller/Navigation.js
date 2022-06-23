@@ -163,8 +163,31 @@ define([
                 arr[0].set('name', this.txtBeginning);
                 arr[0].set('tip', this.txtGotoBeginning);
             }
-            this.getApplication().getCollection('Navigation').reset(arr);
-            this.onChangeOutlinePosition(this._navigationObject.get_CurrentPosition());
+
+            var me = this;
+            var store = this.getApplication().getCollection('Navigation');//.reset(arr);
+            store.reset(arr.splice(0, 50));
+
+            this._currentPos = this._navigationObject.get_CurrentPosition();
+
+            function addToPanel() {
+                if (arr.length<1) {
+                    me.panelNavigation.viewNavigationList.scroller && me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
+                    if (me._currentPos>-1 && me._currentPos<store.length)
+                        me.onChangeOutlinePosition(me._currentPos);
+                    me._currentPos = -1;
+                    return;
+                }
+                setTimeout(function () {
+                    store.add(arr.splice(0, 100));
+                    if (me._currentPos>-1 && me._currentPos<store.length) {
+                        me.onChangeOutlinePosition(me._currentPos);
+                        me._currentPos = -1;
+                    }
+                    addToPanel();
+                }, 1);
+            }
+            addToPanel();
         },
 
         updateChangeNavigation: function(index) {
@@ -185,7 +208,10 @@ define([
         },
 
         onChangeOutlinePosition: function(index) {
-            this.panelNavigation.viewNavigationList.scrollToRecord(this.panelNavigation.viewNavigationList.selectByIndex(index));
+            if (index<this.panelNavigation.viewNavigationList.store.length)
+                this.panelNavigation.viewNavigationList.scrollToRecord(this.panelNavigation.viewNavigationList.selectByIndex(index));
+            else
+                this._currentPos = index;
         },
 
         onItemContextMenu: function(picker, item, record, e){
