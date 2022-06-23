@@ -165,7 +165,7 @@ define([
             }
 
             var me = this;
-            var store = this.getApplication().getCollection('Navigation');//.reset(arr);
+            var store = this.getApplication().getCollection('Navigation');
             store.reset(arr.splice(0, 50));
 
             this._currentPos = this._navigationObject.get_CurrentPosition();
