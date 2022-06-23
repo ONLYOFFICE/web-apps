@@ -560,7 +560,10 @@ define([
             this.rbChangesTip = new Common.UI.RadioBox({
                 el          :$markup.findById('#fms-rb-show-track-tooltips'),
                 name        : 'show-track-changes',
-                labelText   : this.txtChangesTip
+                labelText   : this.txtChangesTip,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.rbShowChangesNone = new Common.UI.RadioBox({
