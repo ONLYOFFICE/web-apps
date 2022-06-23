@@ -57,10 +57,7 @@ define([
                 'Navigation': {
                     'show': function() {
                         if (!this.canUseViwerNavigation) {
-                            var obj = me.api.asc_ShowDocumentOutline();
-                            if (!me._navigationObject)
-                                me._navigationObject = obj;
-                            me.updateNavigation();
+                            me.api.asc_ShowDocumentOutline();
                         } else {
                             if (me.panelNavigation && me.panelNavigation.viewNavigationList && me.panelNavigation.viewNavigationList.scroller)
                                 me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
@@ -131,6 +128,9 @@ define([
         },
 
         updateNavigation: function() {
+            if (!this._navigationObject)
+                this._navigationObject = this.api.asc_GetDocumentOutlineManager();
+
             if (!this._navigationObject) return;
 
             var count = this._navigationObject.get_ElementsCount(),
@@ -168,6 +168,9 @@ define([
         },
 
         updateChangeNavigation: function(index) {
+            if (!this._navigationObject)
+                this._navigationObject = this.api.asc_GetDocumentOutlineManager();
+
             if (!this._navigationObject) return;
 
             var item = this.getApplication().getCollection('Navigation').at(index);
