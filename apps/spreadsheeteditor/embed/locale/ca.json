@@ -35,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Obre la ubicació del fitxer",
   "SSE.ApplicationView.txtFullScreen": "Pantalla completa",
   "SSE.ApplicationView.txtPrint": "Imprimeix",
+  "SSE.ApplicationView.txtSearch": "Cerca",
   "SSE.ApplicationView.txtShare": "Comparteix"
 }

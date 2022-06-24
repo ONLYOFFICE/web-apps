@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "Обновить целиком",
     "textRefreshPageNumbersOnly": "Обновить только номера страниц",
     "textRows": "Строки",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Переход по этой ссылке может нанести вред вашему устройству и данным.<br>Вы действительно хотите продолжить?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Внимание",
