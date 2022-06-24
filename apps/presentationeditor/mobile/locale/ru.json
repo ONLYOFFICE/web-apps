@@ -59,9 +59,9 @@
     "textColumns": "Столбцы",
     "textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
     "textDoNotShowAgain": "Больше не показывать",
-    "textRows": "Строки",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textRows": "Строки",
+    "txtWarnUrl": "Переход по этой ссылке может нанести вред вашему устройству и данным.<br>Вы действительно хотите продолжить?"
   },
   "Controller": {
     "Main": {

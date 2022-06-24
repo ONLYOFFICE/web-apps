@@ -116,7 +116,7 @@
       "textRemember": "Recordar mi elección",
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
-      "textRequestMacros": "Una macro hace una petición a la URL. ¿Quiere permitir la petición al %1?",
+      "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
       "titleServerVersion": "Editor ha sido actualizado",
