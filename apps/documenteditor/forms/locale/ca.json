@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "dt.",
   "Common.UI.Calendar.textShortWednesday": "dc.",
   "Common.UI.Calendar.textYears": "Anys",
+  "Common.UI.SearchBar.textFind": "Cercar",
+  "Common.UI.SearchBar.tipCloseSearch": "Tanca la cerca",
+  "Common.UI.SearchBar.tipNextResult": "El resultat següent",
+  "Common.UI.SearchBar.tipPreviousResult": "El resultat anterior",
   "Common.UI.Themes.txtThemeClassicLight": "Llum clàssica",
   "Common.UI.Themes.txtThemeDark": "Fosc",
   "Common.UI.Themes.txtThemeLight": "Clar",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Obre la ubicació del fitxer",
   "DE.Views.ApplicationView.txtFullScreen": "Pantalla sencera",
   "DE.Views.ApplicationView.txtPrint": "Imprimeix",
+  "DE.Views.ApplicationView.txtSearch": "Cerca",
   "DE.Views.ApplicationView.txtShare": "Comparteix",
   "DE.Views.ApplicationView.txtTheme": "Tema de la interfície"
 }
