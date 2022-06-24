@@ -151,6 +151,14 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 }
             }
             this.watchList.store.reset(arr);
+            if (this._deletedIndex!==undefined) {
+                var store = this.watchList.store;
+                (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
+                this.watchList.scrollToRecord(this.watchList.getSelectedRec());
+                this._fromKeyDown && this.watchList.focus();
+                this._fromKeyDown = false;
+                this._deletedIndex=undefined;
+            }
             this.updateButtons();
         },
 
@@ -161,7 +169,6 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.api.asc_addCellWatches(dlg.getSettings());
-                        me.refreshList();
                     }
                 };
 
@@ -185,9 +192,9 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         onDeleteWatch: function() {
             var rec = this.watchList.getSelectedRec();
             if (rec) {
+                this._deletedIndex = this.watchList.store.indexOf(rec);
                 this.api.asc_deleteCellWatches([rec.get('props')]);
             }
-            this.refreshList();
         },
 
         onSelectWatch: function(lisvView, itemView, record) {
@@ -195,8 +202,10 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         },
 
         onKeyDown: function (lisvView, record, e) {
-            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled())
+            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled()) {
+                this._fromKeyDown = true;
                 this.onDeleteWatch();
+            }
         },
 
         updateButtons: function() {
