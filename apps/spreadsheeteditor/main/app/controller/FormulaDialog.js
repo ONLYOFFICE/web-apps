@@ -45,7 +45,8 @@ define([
     'spreadsheeteditor/main/app/collection/FormulaGroups',
     'spreadsheeteditor/main/app/view/FormulaDialog',
     'spreadsheeteditor/main/app/view/FormulaTab',
-    'spreadsheeteditor/main/app/view/FormulaWizard'
+    'spreadsheeteditor/main/app/view/FormulaWizard',
+    'spreadsheeteditor/main/app/view/WatchDialog'
 ], function () {
     'use strict';
 
@@ -80,7 +81,8 @@ define([
                 },
                 'FormulaTab': {
                     'function:apply': this.applyFunction,
-                    'function:calculate': this.onCalculate
+                    'function:calculate': this.onCalculate,
+                    'function:watch': this.onWatch
                 },
                 'Toolbar': {
                     'function:apply': this.applyFunction,
@@ -407,6 +409,15 @@ define([
             if (type === Asc.c_oAscCalculateType.All || type === Asc.c_oAscCalculateType.ActiveSheet) {
                 this.api && this.api.asc_calculate(type);
             }
+        },
+
+        onWatch: function() {
+            (new SSE.Views.WatchDialog({
+                api: this.api,
+                handler: function(result) {
+                    Common.NotificationCenter.trigger('edit:complete');
+                },
+            })).show();
         },
 
         sCategoryAll:                   'All',
