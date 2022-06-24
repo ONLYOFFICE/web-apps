@@ -284,6 +284,13 @@ const EditTabs = props => {
             component: <EmptyEditLayout />
         });
     } else {
+        if(inToc) {
+            editors.push({
+                caption: _t.textTableOfCont,
+                id: 'edit-table-contents',
+                component: <EditTableContentsController />
+            })
+        }
         if (settings.indexOf('text') > -1) {
             editors.push({
                 caption: _t.textText,
@@ -331,13 +338,6 @@ const EditTabs = props => {
                 caption: _t.textChart,
                 id: 'edit-chart',
                 component: <EditChartController />
-            })
-        }
-        if(inToc) {
-            editors.push({
-                caption: _t.textTableOfCont,
-                id: 'edit-table-contents',
-                component: <EditTableContentsController />
             })
         }
         if (settings.indexOf('hyperlink') > -1) {
