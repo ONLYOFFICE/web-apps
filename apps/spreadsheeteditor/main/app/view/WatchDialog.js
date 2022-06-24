@@ -89,12 +89,12 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 simpleAddMode: true,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;pointer-events:none;">',
-                        '<div style="width:141px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(book) %></div>',
-                        '<div style="width:141px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(sheet) %></div>',
-                        '<div style="width:141px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                        '<div style="width:141px;padding-right: 5px;"><%= cell %></div>',
-                        '<div style="width:141px;padding-right: 5px;"><%= value %></div>',
-                        '<div style="width:117px;"><%= formula %></div>',
+                        '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(book) %></div>',
+                        '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(sheet) %></div>',
+                        '<div style="width:70px;padding-right: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                        '<div style="width:70px;padding-right: 5px;"><%= cell %></div>',
+                        '<div style="width:110px;padding-right: 5px;"><%= value %></div>',
+                        '<div style="width:135px;"><%= formula %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1
@@ -129,7 +129,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
 
         _setDefaults: function (props) {
             this.refreshList();
-            this.api.asc_registerCallback('asc_onRefreshWatchList', this.wrapEvents.onRefreshWatchList);
+            this.api.asc_registerCallback('asc_onUpdateCellWatches', this.wrapEvents.onRefreshWatchList);
         },
 
         refreshList: function() {
@@ -185,7 +185,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         onDeleteWatch: function() {
             var rec = this.watchList.getSelectedRec();
             if (rec) {
-                this.api.asc_deleteCellWatches(rec.get(props));
+                this.api.asc_deleteCellWatches([rec.get('props')]);
             }
             this.refreshList();
         },
@@ -205,7 +205,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         },
 
         close: function () {
-            this.api.asc_unregisterCallback('asc_onRefreshWatchList', this.wrapEvents.onRefreshWatchList);
+            this.api.asc_unregisterCallback('asc_onUpdateCellWatches', this.wrapEvents.onRefreshWatchList);
 
             Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
         },

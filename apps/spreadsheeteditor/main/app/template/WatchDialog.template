@@ -9,17 +9,17 @@
             </tr>
             <tr>
                 <td>
-                    <label class="header" style="width: 70px;"><%= scope.textBook %></label>
-                    <label class="header" style="width: 70px;"><%= scope.textSheet %></label>
-                    <label class="header" style="width: 70px;"><%= scope.textName %></label>
-                    <label class="header" style="width: 70px;"><%= scope.textCell %></label>
-                    <label class="header" style="width: 100px;"><%= scope.textValue %></label>
-                    <label class="header" style=""><%= scope.textFormula %></label>
+                    <label class="header" style="width: 76px;"><%= scope.textBook %></label><!--
+                    --><label class="header" style="width: 70px;"><%= scope.textSheet %></label><!--
+                    --><label class="header" style="width: 70px;"><%= scope.textName %></label><!--
+                    --><label class="header" style="width: 70px;"><%= scope.textCell %></label><!--
+                    --><label class="header" style="width: 110px;"><%= scope.textValue %></label><!--
+                    --><label class="header" style=""><%= scope.textFormula %></label>
                 </td>
             </tr>
             <tr>
                 <td class="padding-small">
-                    <div id="watch-dialog-list" class="" style="width:100%; height: 143px;"></div>
+                    <div id="watch-dialog-list" class="range-tableview" style="width:100%; height: 143px;"></div>
                 </td>
             </tr>
         </table>
