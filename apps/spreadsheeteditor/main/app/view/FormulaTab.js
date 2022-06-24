@@ -69,8 +69,8 @@ define([
             me.btnNamedRange.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('function:namedrange', [menu, item, e]);
             });
-            me.btnWatch.on('click', function(){
-                me.fireEvent('function:watch');
+            me.btnWatch.on('click', function(b, e){
+                me.fireEvent('function:watch', [b.pressed]);
             });
         }
         return {
@@ -328,7 +328,8 @@ define([
                     caption: this.txtWatch,
                     hint: this.tipWatch,
                     disabled: true,
-                    lock: [_set.editText, _set.lostConnect, _set.coAuth],
+                    enableToggle: true,
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

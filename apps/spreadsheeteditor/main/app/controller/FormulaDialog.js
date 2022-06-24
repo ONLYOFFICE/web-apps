@@ -411,13 +411,22 @@ define([
             }
         },
 
-        onWatch: function() {
-            (new SSE.Views.WatchDialog({
-                api: this.api,
-                handler: function(result) {
-                    Common.NotificationCenter.trigger('edit:complete');
-                },
-            })).show();
+        onWatch: function(state) {
+            if (state) {
+                var me = this;
+                this._watchDlg = new SSE.Views.WatchDialog({
+                    api: this.api,
+                    handler: function(result) {
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+                this._watchDlg.on('close', function(win){
+                    me.formulaTab.btnWatch.toggle(false, true);
+                    me._watchDlg = null;
+                }).show();
+            } else if (this._watchDlg)
+                this._watchDlg.close();
+
         },
 
         sCategoryAll:                   'All',

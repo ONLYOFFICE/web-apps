@@ -53,6 +53,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
             alias: 'WatchDialog',
             contentWidth: 560,
             height: 294,
+            modal: false,
             buttons: null
         },
 
@@ -148,9 +149,8 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                         props: watch
                     });
                 }
-                this.watchList.store.reset(arr);
             }
-
+            this.watchList.store.reset(arr);
             this.updateButtons();
         },
 
