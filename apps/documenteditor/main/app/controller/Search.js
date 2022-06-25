@@ -100,6 +100,7 @@ define([
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
             }
             return this;
         },
@@ -215,7 +216,7 @@ define([
                 searchSettings.put_MatchCase(this._state.matchCase);
                 searchSettings.put_WholeWords(this._state.matchWord);
                 if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 }
             }
         },
@@ -242,14 +243,14 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.allResultsWasRemoved();
+                this.removeResultItems();
             }
         },
 
-        allResultsWasRemoved: function () {
+        removeResultItems: function (type) {
             this.resultItems = [];
             this.hideResults();
-            this.view.updateResultsNumber(undefined, 0);
+            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
@@ -418,6 +419,10 @@ define([
                 this.api.asc_selectSearchingResults(val);
                 this._state.isHighlightedResults = val;
             }
+        },
+
+        onApiSearchEnd: function () {
+            this.removeResultItems('stop');
         },
 
         notcriticalErrorTitle: 'Warning',
