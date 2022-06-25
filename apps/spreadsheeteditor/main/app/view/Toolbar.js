@@ -783,7 +783,7 @@ define([
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
                     signals: ['disabled'],
                     dataHint    : '1',
-                    dataHintDirection: 'top',
+                    dataHintDirection: 'bottom',
                     dataHintTitle: 'P'
                 });
 
@@ -794,7 +794,7 @@ define([
                     lock        : [_set.lostConnect],
                     signals     : ['disabled'],
                     dataHint    : '1',
-                    dataHintDirection: 'bottom',
+                    dataHintDirection: 'top',
                     dataHintTitle: 'S'
                 });
                 me.btnCollabChanges = me.btnSave;
@@ -2792,6 +2792,7 @@ define([
                     this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
+                !mode.canPrint && this.btnPrint.hide();
                 this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
 

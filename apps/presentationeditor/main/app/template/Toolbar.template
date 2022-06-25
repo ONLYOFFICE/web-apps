@@ -8,10 +8,10 @@
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-print"></span>
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
+                    <span class="btn-slot" id="slot-btn-print"></span>
                 </div>
             </div>
             <div class="separator long"></div>
