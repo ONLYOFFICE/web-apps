@@ -191,7 +191,7 @@ define([
                         lock: [_set.cantPrint, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
-                        dataHintDirection: 'top',
+                        dataHintDirection: 'bottom',
                         dataHintTitle: 'P'
                     });
                     this.toolbarControls.push(this.btnPrint);
@@ -203,7 +203,7 @@ define([
                         lock: [_set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        dataHintDirection: 'top',
                         dataHintTitle: 'S'
                     });
                     this.toolbarControls.push(this.btnSave);
@@ -2419,8 +2419,11 @@ define([
                         this.synchTooltip.hide();
                     if (!mode.enableDownload)
                         this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
-                } else
+                } else {
                     this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+                    !mode.canPrint && this.btnPrint.hide();
+                }
+
 
                 this.mode = mode;
 
