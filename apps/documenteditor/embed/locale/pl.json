@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "</b>Formularz załączony poprawnie</b><br>Kliknij aby zamknąć podpowiedź.",
   "DE.ApplicationController.txtClose": "Zamknij",
   "DE.ApplicationController.txtEmpty": "(Pusty)",
-  "DE.ApplicationController.txtPressLink": "Naciśnij Ctrl i kliknij w link",
+  "DE.ApplicationController.txtPressLink": "Naciśnij %1 i kliknij w link",
   "DE.ApplicationController.unknownErrorText": "Nieznany błąd.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Twoja przeglądarka nie jest wspierana.",
   "DE.ApplicationController.waitText": "Proszę czekać...",

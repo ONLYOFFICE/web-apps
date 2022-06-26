@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formularul a fost remis cu succes</b><br>Faceţi clic pentru a închide sfatul",
   "DE.ApplicationController.txtClose": "Închidere",
   "DE.ApplicationController.txtEmpty": "(Gol)",
-  "DE.ApplicationController.txtPressLink": "Apăsați Ctrl și faceți clic pe linkul",
+  "DE.ApplicationController.txtPressLink": "Apăsați %1 și faceți clic pe linkul",
   "DE.ApplicationController.unknownErrorText": "Eroare necunoscută.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Browserul nu este compatibil.",
   "DE.ApplicationController.waitText": "Vă rugăm să așteptați...",

@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulario enviado con éxito. </b><br>Haga clic para cerrar el consejo",
   "DE.ApplicationController.txtClose": "Cerrar",
   "DE.ApplicationController.txtEmpty": "(Vacío)",
-  "DE.ApplicationController.txtPressLink": "Pulse CTRL y haga clic en el enlace",
+  "DE.ApplicationController.txtPressLink": "Pulse %1 y haga clic en el enlace",
   "DE.ApplicationController.unknownErrorText": "Error desconocido.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Su navegador no es compatible.",
   "DE.ApplicationController.waitText": "Espere...",

@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "\n<b>Formularen blev indsendt</b><br>Klik for at lukke tippet",
   "DE.ApplicationController.txtClose": "Luk",
   "DE.ApplicationController.txtEmpty": "(Tom)",
-  "DE.ApplicationController.txtPressLink": "Tryk CTRL og klik på linket",
+  "DE.ApplicationController.txtPressLink": "Tryk %1 og klik på linket",
   "DE.ApplicationController.unknownErrorText": "Ukendt fejl.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Din browser understøttes ikke.",
   "DE.ApplicationController.waitText": "Vent venligst...",

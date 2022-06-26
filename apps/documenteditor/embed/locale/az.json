@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b> Forma uğurla təqdim edildi </b> <br> İpucunu bağlamaq üçün bura klikləyin",
   "DE.ApplicationController.txtClose": "Bağla",
   "DE.ApplicationController.txtEmpty": "(Boşdur)",
-  "DE.ApplicationController.txtPressLink": "Ctrl düyməsinə basıb linkə klikləyin",
+  "DE.ApplicationController.txtPressLink": "%1 düyməsinə basıb linkə klikləyin",
   "DE.ApplicationController.unknownErrorText": "Naməlum xəta.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Brauzeriniz dəstəklənmir.",
   "DE.ApplicationController.waitText": "Zəhmət olmasa, gözləyin...",

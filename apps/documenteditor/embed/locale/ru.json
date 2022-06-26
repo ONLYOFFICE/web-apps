@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Форма успешно отправлена</b><br>Нажмите, чтобы закрыть подсказку",
   "DE.ApplicationController.txtClose": "Закрыть",
   "DE.ApplicationController.txtEmpty": "(Пусто)",
-  "DE.ApplicationController.txtPressLink": "Нажмите CTRL и щелкните по ссылке",
+  "DE.ApplicationController.txtPressLink": "Нажмите %1 и щелкните по ссылке",
   "DE.ApplicationController.unknownErrorText": "Неизвестная ошибка.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш браузер не поддерживается.",
   "DE.ApplicationController.waitText": "Пожалуйста, подождите...",

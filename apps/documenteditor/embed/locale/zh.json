@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>表单提交成功</b><br>点击以关闭提示",
   "DE.ApplicationController.txtClose": "关闭",
   "DE.ApplicationController.txtEmpty": "（空）",
-  "DE.ApplicationController.txtPressLink": "按CTRL并单击链接",
+  "DE.ApplicationController.txtPressLink": "按%1并单击链接",
   "DE.ApplicationController.unknownErrorText": "未知错误。",
   "DE.ApplicationController.unsupportedBrowserErrorText": "您的浏览器不受支持",
   "DE.ApplicationController.waitText": "请稍候...",
