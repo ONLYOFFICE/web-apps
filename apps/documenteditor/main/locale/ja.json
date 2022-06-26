@@ -1618,7 +1618,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "テキストの上のバー",
   "DE.Views.DocumentHolder.txtOverwriteCells": "セルを上書きする",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "元の書式付けを保存する",
-  "DE.Views.DocumentHolder.txtPressLink": "Ctrlキーを押しながらリンクをクリックしてください",
+  "DE.Views.DocumentHolder.txtPressLink": "{0}キーを押しながらリンクをクリックしてください",
   "DE.Views.DocumentHolder.txtPrintSelection": "選択範囲の印刷",
   "DE.Views.DocumentHolder.txtRemFractionBar": "分数線の削除",
   "DE.Views.DocumentHolder.txtRemLimit": "制限を削除する",

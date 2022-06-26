@@ -1293,7 +1293,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Cél téma használata",
   "PE.Views.DocumentHolder.txtPastePicture": "Kép",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Forrás formátumának megtartása",
-  "PE.Views.DocumentHolder.txtPressLink": "Nyomja meg a CTRL billentyűt és kattintson a hivatkozásra",
+  "PE.Views.DocumentHolder.txtPressLink": "Nyomja meg a {0} billentyűt és kattintson a hivatkozásra",
   "PE.Views.DocumentHolder.txtPreview": "Diavetítés elindítása",
   "PE.Views.DocumentHolder.txtPrintSelection": "Nyomtató kiválasztás",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Törtjel eltávolítása",

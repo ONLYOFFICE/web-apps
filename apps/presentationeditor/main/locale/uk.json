@@ -1477,7 +1477,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Використовувати кінцеву тему",
   "PE.Views.DocumentHolder.txtPastePicture": "Зображення",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Зберегти початкове форматування",
-  "PE.Views.DocumentHolder.txtPressLink": "Натисніть CTRL та клацніть по посиланню",
+  "PE.Views.DocumentHolder.txtPressLink": "Натисніть {0} та клацніть по посиланню",
   "PE.Views.DocumentHolder.txtPreview": "Розпочати слайдшоу",
   "PE.Views.DocumentHolder.txtPrintSelection": "Надрукувати виділене",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Видалити фракційну стрічку",

@@ -1537,7 +1537,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Χρήση θέματος προορισμού",
   "PE.Views.DocumentHolder.txtPastePicture": "Εικόνα",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Διατήρηση μορφοποίησης πηγής",
-  "PE.Views.DocumentHolder.txtPressLink": "Πατήστε Ctrl και κάντε κλικ στο σύνδεσμο",
+  "PE.Views.DocumentHolder.txtPressLink": "Πατήστε {0} και κάντε κλικ στο σύνδεσμο",
   "PE.Views.DocumentHolder.txtPreview": "Εκκίνηση παρουσίασης",
   "PE.Views.DocumentHolder.txtPrintSelection": "Εκτύπωση Επιλογής",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Αφαίρεση γραμμής κλάσματος",

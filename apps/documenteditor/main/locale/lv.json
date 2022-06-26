@@ -966,7 +966,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Pārrakstīt šūnas",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Atstāt sākotnējo formatējumu",
-  "DE.Views.DocumentHolder.txtPressLink": "Nospiediet CTRL un noklikšķiniet saiti",
+  "DE.Views.DocumentHolder.txtPressLink": "Nospiediet {0} un noklikšķiniet saiti",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
   "DE.Views.DocumentHolder.txtRemLimit": "Remove limit",
   "DE.Views.DocumentHolder.txtRemoveAccentChar": "Remove accent character",

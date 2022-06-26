@@ -657,7 +657,7 @@
   "PE.Views.DocumentHolder.txtKeepTextOnly": "Ohrani le besedilo",
   "PE.Views.DocumentHolder.txtNewSlide": "Nov diapozitiv",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Ohrani izvorno oblikovanje",
-  "PE.Views.DocumentHolder.txtPressLink": "Pritisnite CTRL in pritisnite povezavo",
+  "PE.Views.DocumentHolder.txtPressLink": "Pritisnite {0} in pritisnite povezavo",
   "PE.Views.DocumentHolder.txtPreview": "Predogled",
   "PE.Views.DocumentHolder.txtSelectAll": "Izberi vse",
   "PE.Views.DocumentHolder.txtSlide": "Diapozitiv",

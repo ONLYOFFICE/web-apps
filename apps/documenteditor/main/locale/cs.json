@@ -1619,7 +1619,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Čárka nad textem",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Přepsat buňky",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Ponechat formátování zdroje",
-  "DE.Views.DocumentHolder.txtPressLink": "Stiskněte CTRL a klikněte na odkaz",
+  "DE.Views.DocumentHolder.txtPressLink": "Stiskněte {0} a klikněte na odkaz",
   "DE.Views.DocumentHolder.txtPrintSelection": "Vytisknout vybrané",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Odstranit zlomkovou čáru",
   "DE.Views.DocumentHolder.txtRemLimit": "Odebrat limit",

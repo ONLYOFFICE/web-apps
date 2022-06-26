@@ -1537,7 +1537,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Fes servir el tema de destinació",
   "PE.Views.DocumentHolder.txtPastePicture": "Imatge",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Conserva el format original",
-  "PE.Views.DocumentHolder.txtPressLink": "Prem CTRL i clica a l'enllaç",
+  "PE.Views.DocumentHolder.txtPressLink": "Prem {0} i clica a l'enllaç",
   "PE.Views.DocumentHolder.txtPreview": "Inicia la presentació de diapositives",
   "PE.Views.DocumentHolder.txtPrintSelection": "Imprimeix la selecció",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Suprimeix la barra de fracció",

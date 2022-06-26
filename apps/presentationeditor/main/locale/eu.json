@@ -1536,7 +1536,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Erabili helburuko gaia",
   "PE.Views.DocumentHolder.txtPastePicture": "Irudia",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Mantendu jatorrizko formatua",
-  "PE.Views.DocumentHolder.txtPressLink": "Sakatu Ctrl eta egin klik estekan",
+  "PE.Views.DocumentHolder.txtPressLink": "Sakatu {0} eta egin klik estekan",
   "PE.Views.DocumentHolder.txtPreview": "Aurkezpena hasi",
   "PE.Views.DocumentHolder.txtPrintSelection": "Inprimatu hautapena",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Kendu frakzio-barra",

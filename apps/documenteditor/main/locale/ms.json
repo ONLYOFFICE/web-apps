@@ -1582,7 +1582,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar melepasi teks",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Tulis Ganti Sel",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Kekalkan sumber pemformatan",
-  "DE.Views.DocumentHolder.txtPressLink": "Tekan Ctrl dan klik pautan",
+  "DE.Views.DocumentHolder.txtPressLink": "Tekan {0} dan klik pautan",
   "DE.Views.DocumentHolder.txtPrintSelection": "Pemilihan Cetakan",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Alih keluar bar pecahan",
   "DE.Views.DocumentHolder.txtRemLimit": "Alih keluar had",

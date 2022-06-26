@@ -1619,7 +1619,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Տեքստի վրա գիծ",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Փոխարինել վանդակների բովանդակությունը",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Պահպանել սկզբնական ձևաչափը",
-  "DE.Views.DocumentHolder.txtPressLink": "Սեղմել Ctrl և անցնել հղումը",
+  "DE.Views.DocumentHolder.txtPressLink": "Սեղմել {0} և անցնել հղումը",
   "DE.Views.DocumentHolder.txtPrintSelection": "Տպել ընտրվածքը",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Հեռացնել կոտորակի գիծը",
   "DE.Views.DocumentHolder.txtRemLimit": "Հեռացնել սահմանը",

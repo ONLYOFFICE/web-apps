@@ -1477,7 +1477,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Använd destinationstema",
   "PE.Views.DocumentHolder.txtPastePicture": "Bild",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Behåll ursprungsformatering",
-  "PE.Views.DocumentHolder.txtPressLink": "Tryck CTRL och klicka på länken",
+  "PE.Views.DocumentHolder.txtPressLink": "Tryck {0} och klicka på länken",
   "PE.Views.DocumentHolder.txtPreview": "Starta visning",
   "PE.Views.DocumentHolder.txtPrintSelection": "Skriv ut markering",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Ta bort fraktionslinje",

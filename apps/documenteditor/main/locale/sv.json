@@ -1584,7 +1584,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Linje ovanför text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Skriv över celler",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Behåll källformatering",
-  "DE.Views.DocumentHolder.txtPressLink": "Tryck på CTRL och klicka på länken",
+  "DE.Views.DocumentHolder.txtPressLink": "Tryck på {0} och klicka på länken",
   "DE.Views.DocumentHolder.txtPrintSelection": "Skriv ut markering",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Ta bort fraktionslinje",
   "DE.Views.DocumentHolder.txtRemLimit": "Ta bort begränsning",

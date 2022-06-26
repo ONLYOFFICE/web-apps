@@ -1501,7 +1501,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Лінія па-над тэкстам",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Перазапісаць ячэйкі",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Пакінуць зыходнае фарматаванне",
-  "DE.Views.DocumentHolder.txtPressLink": "Націсніце CTRL і пстрыкніце па спасылцы",
+  "DE.Views.DocumentHolder.txtPressLink": "Націсніце {0} і пстрыкніце па спасылцы",
   "DE.Views.DocumentHolder.txtPrintSelection": "Надрукаваць вылучанае",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Выдаліць рыску дробу",
   "DE.Views.DocumentHolder.txtRemLimit": "Выдаліць ліміт",

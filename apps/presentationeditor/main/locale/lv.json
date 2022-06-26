@@ -845,7 +845,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Izmantot galamērķa dizainu",
   "PE.Views.DocumentHolder.txtPastePicture": "Attēls",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Atstāt sākotnējo formatējumu",
-  "PE.Views.DocumentHolder.txtPressLink": "Press CTRL and click link",
+  "PE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "PE.Views.DocumentHolder.txtPreview": "Preview",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Noņemt dalījuma joslu",
   "PE.Views.DocumentHolder.txtRemLimit": "Noņemt limitu",

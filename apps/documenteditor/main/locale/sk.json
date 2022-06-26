@@ -1584,7 +1584,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Čiara nad textom",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Prepísať bunky",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Uchovať zdrojové formátovanie",
-  "DE.Views.DocumentHolder.txtPressLink": "Stlačte CTRL a kliknite na odkaz",
+  "DE.Views.DocumentHolder.txtPressLink": "Stlačte {0} a kliknite na odkaz",
   "DE.Views.DocumentHolder.txtPrintSelection": "Výber tlače",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Odstrániť zlomok",
   "DE.Views.DocumentHolder.txtRemLimit": "Odstrániť limitu",

@@ -1425,7 +1425,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Hedef temayı kullan",
   "PE.Views.DocumentHolder.txtPastePicture": "Resim",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Kaynak biçimlendirmesini koruyun",
-  "PE.Views.DocumentHolder.txtPressLink": "CTRL'ye basın ve bağlantıya tıklayın",
+  "PE.Views.DocumentHolder.txtPressLink": "{0}'ye basın ve bağlantıya tıklayın",
   "PE.Views.DocumentHolder.txtPreview": "Önizleme",
   "PE.Views.DocumentHolder.txtPrintSelection": "Seçimi Yazdır",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Kesir barını kaldır",

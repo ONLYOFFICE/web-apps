@@ -1572,7 +1572,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Pasek nad tekstem",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Wymień zawartość komórki",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Zachowaj formatowanie źródłowe",
-  "DE.Views.DocumentHolder.txtPressLink": "Naciśnij Ctrl i kliknij w link",
+  "DE.Views.DocumentHolder.txtPressLink": "Naciśnij {0} i kliknij w link",
   "DE.Views.DocumentHolder.txtPrintSelection": "Drukuj wybrane",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Usuń belkę ułamka",
   "DE.Views.DocumentHolder.txtRemLimit": "Usuń limit",

@@ -1229,7 +1229,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Выкарыстоўваць канцавую тэму",
   "PE.Views.DocumentHolder.txtPastePicture": "Малюнак",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Пакінуць зыходнае фарматаванне",
-  "PE.Views.DocumentHolder.txtPressLink": "Націсніце CTRL і пстрыкніце па спасылцы",
+  "PE.Views.DocumentHolder.txtPressLink": "Націсніце {0} і пстрыкніце па спасылцы",
   "PE.Views.DocumentHolder.txtPreview": "Распачаць слайд-шоу",
   "PE.Views.DocumentHolder.txtPrintSelection": "Надрукаваць вылучанае",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Выдаліць рыску дробу",

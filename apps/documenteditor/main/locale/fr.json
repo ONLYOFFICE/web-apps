@@ -1619,7 +1619,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Barre au-dessus d'un texte",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Remplacer les cellules",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Garder la mise en forme source",
-  "DE.Views.DocumentHolder.txtPressLink": "Appuyez sur Ctrl et cliquez sur le lien",
+  "DE.Views.DocumentHolder.txtPressLink": "Appuyez sur {0} et cliquez sur le lien",
   "DE.Views.DocumentHolder.txtPrintSelection": "Imprimer la sélection",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Supprimer la barre de fraction",
   "DE.Views.DocumentHolder.txtRemLimit": "Supprimer la limite",

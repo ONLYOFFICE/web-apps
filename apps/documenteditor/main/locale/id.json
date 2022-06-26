@@ -1584,7 +1584,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar di atas teks",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Tiban sel",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Pertahankan formatting sumber",
-  "DE.Views.DocumentHolder.txtPressLink": "Tekan Ctrl dan klik link",
+  "DE.Views.DocumentHolder.txtPressLink": "Tekan {0} dan klik link",
   "DE.Views.DocumentHolder.txtPrintSelection": "Print Pilihan",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Hilangkan bar pecahan",
   "DE.Views.DocumentHolder.txtRemLimit": "Hilangkan limit",

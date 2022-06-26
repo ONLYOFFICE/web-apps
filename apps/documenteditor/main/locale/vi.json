@@ -854,7 +854,7 @@
   "DE.Views.DocumentHolder.txtMatchBrackets": "Chỉnh dấu ngoặc phù hợp với độ cao đối số",
   "DE.Views.DocumentHolder.txtMatrixAlign": "Căn chỉnh ma trận",
   "DE.Views.DocumentHolder.txtOverbar": "Gạch trên văn bản",
-  "DE.Views.DocumentHolder.txtPressLink": "Ấn CTRL và nhấp vào liên kết",
+  "DE.Views.DocumentHolder.txtPressLink": "Ấn {0} và nhấp vào liên kết",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Xóa dấu phân số",
   "DE.Views.DocumentHolder.txtRemLimit": "Xóa giới hạn",
   "DE.Views.DocumentHolder.txtRemoveAccentChar": "Xóa ký tự dấu phụ",

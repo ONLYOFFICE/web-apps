@@ -1619,7 +1619,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "文本上一条",
   "DE.Views.DocumentHolder.txtOverwriteCells": "覆盖单元格",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "保持源格式",
-  "DE.Views.DocumentHolder.txtPressLink": "按CTRL并单击链接",
+  "DE.Views.DocumentHolder.txtPressLink": "按{0}并单击链接",
   "DE.Views.DocumentHolder.txtPrintSelection": "打印选择",
   "DE.Views.DocumentHolder.txtRemFractionBar": "去除分数吧",
   "DE.Views.DocumentHolder.txtRemLimit": "删除限制",

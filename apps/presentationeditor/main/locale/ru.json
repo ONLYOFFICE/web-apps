@@ -1544,7 +1544,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Использовать конечную тему",
   "PE.Views.DocumentHolder.txtPastePicture": "Изображение",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Сохранить исходное форматирование",
-  "PE.Views.DocumentHolder.txtPressLink": "Нажмите Ctrl и щелкните по ссылке",
+  "PE.Views.DocumentHolder.txtPressLink": "Нажмите {0} и щелкните по ссылке",
   "PE.Views.DocumentHolder.txtPreview": "Начать показ слайдов",
   "PE.Views.DocumentHolder.txtPrintSelection": "Напечатать выделенное",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Удалить дробную черту",

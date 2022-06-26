@@ -1494,7 +1494,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "ໃຊ້ຫົວຂໍ້ເປົ້າໝາຍ",
   "PE.Views.DocumentHolder.txtPastePicture": "ຮູບພາບ",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "ຈັດຮູບແບບແຫຼ່ງທີ່ມາ",
-  "PE.Views.DocumentHolder.txtPressLink": "ກົດ Ctrl ແລະກົດລິ້ງ",
+  "PE.Views.DocumentHolder.txtPressLink": "ກົດ {0} ແລະກົດລິ້ງ",
   "PE.Views.DocumentHolder.txtPreview": "ເລີ່ມສະໄລ້",
   "PE.Views.DocumentHolder.txtPrintSelection": "ານຄັດເລືອກການພິມ",
   "PE.Views.DocumentHolder.txtRemFractionBar": "ລຶບແຖບສວ່ນໜຶ່ງອອກ",

@@ -1254,7 +1254,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Brug destinations tema",
   "PE.Views.DocumentHolder.txtPastePicture": "Billede",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Behold oprindelig formatering",
-  "PE.Views.DocumentHolder.txtPressLink": "Tryk CTRL og klik på linket",
+  "PE.Views.DocumentHolder.txtPressLink": "Tryk {0} og klik på linket",
   "PE.Views.DocumentHolder.txtPreview": "Start diasshow",
   "PE.Views.DocumentHolder.txtPrintSelection": "Printer-valg",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Fjern fraktionsbar",

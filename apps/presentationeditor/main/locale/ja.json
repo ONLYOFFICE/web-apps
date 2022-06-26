@@ -1536,7 +1536,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "宛先テーマを使用する",
   "PE.Views.DocumentHolder.txtPastePicture": "画像",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "元の書式付けを保存する",
-  "PE.Views.DocumentHolder.txtPressLink": "CTRLを押してリンクをクリックしてください。",
+  "PE.Views.DocumentHolder.txtPressLink": "{0}を押してリンクをクリックしてください。",
   "PE.Views.DocumentHolder.txtPreview": "スライドショーの開始",
   "PE.Views.DocumentHolder.txtPrintSelection": "選択範囲の印刷",
   "PE.Views.DocumentHolder.txtRemFractionBar": "分数線の削除",

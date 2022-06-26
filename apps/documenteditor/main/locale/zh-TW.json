@@ -1586,7 +1586,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "槓覆蓋文字",
   "DE.Views.DocumentHolder.txtOverwriteCells": "覆蓋儲存格",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "保持源格式",
-  "DE.Views.DocumentHolder.txtPressLink": "按Ctrl並單擊連結",
+  "DE.Views.DocumentHolder.txtPressLink": "按{0}並單擊連結",
   "DE.Views.DocumentHolder.txtPrintSelection": "列印選擇",
   "DE.Views.DocumentHolder.txtRemFractionBar": "刪除分數欄",
   "DE.Views.DocumentHolder.txtRemLimit": "取消限制",

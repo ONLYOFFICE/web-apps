@@ -1580,7 +1580,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Риска над текстом",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Перезаписати комірки",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Зберегти початкове форматування",
-  "DE.Views.DocumentHolder.txtPressLink": "Натисніть CTRL та клацніть по посиланню",
+  "DE.Views.DocumentHolder.txtPressLink": "Натисніть {0} та клацніть по посиланню",
   "DE.Views.DocumentHolder.txtPrintSelection": "Надрукувати виділене",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Видалити фракційну стрічку",
   "DE.Views.DocumentHolder.txtRemLimit": "Вилучити обмеження",
