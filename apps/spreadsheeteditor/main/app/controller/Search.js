@@ -225,10 +225,10 @@ define([
                             if (me.view.$el.is(':visible')) {
                                 me.api.asc_StartTextAroundSearch();
                             }
-                            me.view.disableReplaceButtons(false);
+                            //me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
-                            me.view.disableReplaceButtons(true);
+                            //me.view.disableReplaceButtons(true);
                         }
                         clearInterval(me.searchTimer);
                         me.searchTimer = undefined;
@@ -265,7 +265,7 @@ define([
             if (!this.api.asc_findText(options)) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
-                this.view.disableReplaceButtons(true);
+                //this.view.disableReplaceButtons(true);
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
                 this.view.disableNavButtons();
@@ -275,23 +275,21 @@ define([
         },
 
         onQueryReplace: function(textSearch, textReplace) {
-            if (textSearch !== '') {
-                this.api.isReplaceAll = false;
-                var options = new Asc.asc_CFindOptions();
-                options.asc_setFindWhat(textSearch);
-                options.asc_setReplaceWith(textReplace);
-                options.asc_setIsMatchCase(this._state.matchCase);
-                options.asc_setIsWholeCell(this._state.matchWord);
-                options.asc_setScanOnOnlySheet(this._state.withinSheet);
-                if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
-                    options.asc_setSpecificRange(this._state.selectedRange);
-                }
-                options.asc_setScanByRows(this._state.searchByRows);
-                options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-                options.asc_setIsReplaceAll(false);
-
-                this.api.asc_replaceText(options);
+            this.api.isReplaceAll = false;
+            var options = new Asc.asc_CFindOptions();
+            options.asc_setFindWhat(textSearch);
+            options.asc_setReplaceWith(textReplace);
+            options.asc_setIsMatchCase(this._state.matchCase);
+            options.asc_setIsWholeCell(this._state.matchWord);
+            options.asc_setScanOnOnlySheet(this._state.withinSheet);
+            if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
+                options.asc_setSpecificRange(this._state.selectedRange);
             }
+            options.asc_setScanByRows(this._state.searchByRows);
+            options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+            options.asc_setIsReplaceAll(false);
+
+            this.api.asc_replaceText(options);
         },
 
         onQueryReplaceAll: function(textSearch, textReplace) {
@@ -348,7 +346,7 @@ define([
             this.resultItems = [];
             this.hideResults();
             this.view.updateResultsNumber(undefined, 0);
-            this.view.disableReplaceButtons(true);
+            //this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
             this.view.disableNavButtons();
@@ -495,13 +493,13 @@ define([
 
             this.hideResults();
             if (text && text !== '' && text === this._state.searchText) { // search was made
-                this.view.disableReplaceButtons(false);
+                //this.view.disableReplaceButtons(false);
                 this.api.asc_StartTextAroundSearch();
             } else if (text && text !== '') { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
                 this.resultItems = [];
-                this.view.disableReplaceButtons(true);
+                //this.view.disableReplaceButtons(true);
                 this.view.clearResultsNumber();
             }
             this.view.disableNavButtons(this._state.currentResult, this._state.resultsNumber);
