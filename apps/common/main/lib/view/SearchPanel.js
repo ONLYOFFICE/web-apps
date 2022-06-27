@@ -331,7 +331,7 @@ define([
                     (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count)));
             }
             this.$reaultsNumber.text(text);
-            this.disableReplaceButtons(!count);
+            !window.SSE && this.disableReplaceButtons(!count);
         },
 
         onClickClosePanel: function() {
