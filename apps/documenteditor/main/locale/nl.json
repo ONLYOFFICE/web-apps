@@ -1619,7 +1619,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Streep boven tekst",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Cellen overschrijven",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Behoud bronopmaak",
-  "DE.Views.DocumentHolder.txtPressLink": "Druk op Ctrl en klik op koppeling",
+  "DE.Views.DocumentHolder.txtPressLink": "Druk op {0} en klik op koppeling",
   "DE.Views.DocumentHolder.txtPrintSelection": "Selectie afdrukken",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Deelteken verwijderen",
   "DE.Views.DocumentHolder.txtRemLimit": "Limiet verwijderen",

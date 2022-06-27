@@ -1495,7 +1495,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "목적 테마를 사용하기",
   "PE.Views.DocumentHolder.txtPastePicture": "그림",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "소스 포맷을 유지하세요",
-  "PE.Views.DocumentHolder.txtPressLink": "Ctrl 키를 누르고 링크를 클릭합니다.",
+  "PE.Views.DocumentHolder.txtPressLink": "{0} 키를 누르고 링크를 클릭합니다.",
   "PE.Views.DocumentHolder.txtPreview": "슬라이드 쇼 시작",
   "PE.Views.DocumentHolder.txtPrintSelection": "선택 항목 인쇄",
   "PE.Views.DocumentHolder.txtRemFractionBar": "분수 막대 제거",

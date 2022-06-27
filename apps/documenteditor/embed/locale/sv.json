@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b> Formulär skickat </b><br> Klicka för att stänga tipset",
   "DE.ApplicationController.txtClose": "Stäng",
   "DE.ApplicationController.txtEmpty": "(Tom)",
-  "DE.ApplicationController.txtPressLink": "Tryck på CTRL och klicka på länken",
+  "DE.ApplicationController.txtPressLink": "Tryck på %1 och klicka på länken",
   "DE.ApplicationController.unknownErrorText": "Okänt fel.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Din webbläsare stöds ej.",
   "DE.ApplicationController.waitText": "Vänligen vänta...",

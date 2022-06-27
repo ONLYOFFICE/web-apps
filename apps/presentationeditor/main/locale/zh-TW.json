@@ -1495,7 +1495,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "使用目標主題",
   "PE.Views.DocumentHolder.txtPastePicture": "圖片",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "保持源格式",
-  "PE.Views.DocumentHolder.txtPressLink": "按Ctrl並單擊連結",
+  "PE.Views.DocumentHolder.txtPressLink": "按{0}並單擊連結",
   "PE.Views.DocumentHolder.txtPreview": "開始投影片放映",
   "PE.Views.DocumentHolder.txtPrintSelection": "列印選擇",
   "PE.Views.DocumentHolder.txtRemFractionBar": "刪除分數欄",

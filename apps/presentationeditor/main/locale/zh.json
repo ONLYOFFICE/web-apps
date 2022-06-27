@@ -1537,7 +1537,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "使用目标主题",
   "PE.Views.DocumentHolder.txtPastePicture": "图片",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "保持源格式",
-  "PE.Views.DocumentHolder.txtPressLink": "按CTRL并单击链接",
+  "PE.Views.DocumentHolder.txtPressLink": "按{0}并单击链接",
   "PE.Views.DocumentHolder.txtPreview": "开始幻灯片放映",
   "PE.Views.DocumentHolder.txtPrintSelection": "打印选择",
   "PE.Views.DocumentHolder.txtRemFractionBar": "删除分数栏",

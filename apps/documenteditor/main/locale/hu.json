@@ -1586,7 +1586,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Sáv a szöveg fölött",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Cellák felülírása",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Forrás formátumának megtartása",
-  "DE.Views.DocumentHolder.txtPressLink": "Nyomja meg a CTRL billentyűt és kattintson a hivatkozásra",
+  "DE.Views.DocumentHolder.txtPressLink": "Nyomja meg a {0} billentyűt és kattintson a hivatkozásra",
   "DE.Views.DocumentHolder.txtPrintSelection": "Nyomtató kiválasztás",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Törtjel eltávolítása",
   "DE.Views.DocumentHolder.txtRemLimit": "Limit eltávolítása",

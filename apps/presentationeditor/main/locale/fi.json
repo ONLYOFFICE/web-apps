@@ -830,7 +830,7 @@
   "PE.Views.DocumentHolder.txtNewSlide": "Uusi dia",
   "PE.Views.DocumentHolder.txtOverbar": "Tekstin yläpalkki",
   "PE.Views.DocumentHolder.txtPastePicture": "Kuva",
-  "PE.Views.DocumentHolder.txtPressLink": "Paina CTRL näppäintä ja klikkaa linkkiä",
+  "PE.Views.DocumentHolder.txtPressLink": "Paina {0} näppäintä ja klikkaa linkkiä",
   "PE.Views.DocumentHolder.txtPreview": "Aloita Diaesitys",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Poista murtoluku pylväs",
   "PE.Views.DocumentHolder.txtRemLimit": "Poista rajoitus",

@@ -1537,7 +1537,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Use el tema de destino",
   "PE.Views.DocumentHolder.txtPastePicture": "Imagen",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Mantener el formato original",
-  "PE.Views.DocumentHolder.txtPressLink": "Pulse CTRL y haga clic en el enlace",
+  "PE.Views.DocumentHolder.txtPressLink": "Pulse {0} y haga clic en el enlace",
   "PE.Views.DocumentHolder.txtPreview": "Iniciar presentación",
   "PE.Views.DocumentHolder.txtPrintSelection": "Imprimir selección",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Quitar la barra de fracción",

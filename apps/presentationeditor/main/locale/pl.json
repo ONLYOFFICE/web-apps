@@ -899,7 +899,7 @@
   "PE.Views.DocumentHolder.txtNewSlide": "Nowy slajd",
   "PE.Views.DocumentHolder.txtOverbar": "Pasek nad tekstem",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Zachowaj formatowanie źródłowe",
-  "PE.Views.DocumentHolder.txtPressLink": "Naciśnij CTRL i kliknij link",
+  "PE.Views.DocumentHolder.txtPressLink": "Naciśnij {0} i kliknij link",
   "PE.Views.DocumentHolder.txtPreview": "Rozpocznij pokaz slajdów",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Usuń belkę ułamka",
   "PE.Views.DocumentHolder.txtRemLimit": "Usuń limit",

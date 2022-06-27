@@ -1619,7 +1619,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Barra sobre el text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Sobreescriu les cel·les",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Conserva el format original",
-  "DE.Views.DocumentHolder.txtPressLink": "Premeu CTRL i feu clic a l'enllaç",
+  "DE.Views.DocumentHolder.txtPressLink": "Premeu {0} i feu clic a l'enllaç",
   "DE.Views.DocumentHolder.txtPrintSelection": "Imprimeix la selecció",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Suprimeix la barra de fracció",
   "DE.Views.DocumentHolder.txtRemLimit": "Suprimeix el límit",

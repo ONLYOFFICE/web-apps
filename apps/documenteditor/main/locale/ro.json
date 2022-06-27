@@ -1626,7 +1626,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bară deasupra textului",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Suprascriere celule",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Păstrare formatare sursă",
-  "DE.Views.DocumentHolder.txtPressLink": "Apăsați Ctrl și faceți clic pe linkul",
+  "DE.Views.DocumentHolder.txtPressLink": "Apăsați {0} și faceți clic pe linkul",
   "DE.Views.DocumentHolder.txtPrintSelection": "Imprimare selecție",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Eliminare bară de fracție",
   "DE.Views.DocumentHolder.txtRemLimit": "Eliminare limită",

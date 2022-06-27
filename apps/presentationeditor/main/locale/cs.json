@@ -1537,7 +1537,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Použít cílový vzhledu prostředí",
   "PE.Views.DocumentHolder.txtPastePicture": "Obrázek",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Ponechat formátování zdroje",
-  "PE.Views.DocumentHolder.txtPressLink": "Stikněte CTRL a klikněte na odkaz",
+  "PE.Views.DocumentHolder.txtPressLink": "Stikněte {0} a klikněte na odkaz",
   "PE.Views.DocumentHolder.txtPreview": "Spustit prezentaci",
   "PE.Views.DocumentHolder.txtPrintSelection": "Vytisknout vybrané",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Odstranit zlomkovou čáru",

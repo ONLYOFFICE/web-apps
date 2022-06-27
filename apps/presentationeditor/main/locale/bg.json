@@ -1072,7 +1072,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Използвайте целевата тема",
   "PE.Views.DocumentHolder.txtPastePicture": "Снимка",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Запазете форматирането на източника",
-  "PE.Views.DocumentHolder.txtPressLink": "Натиснете CTRL и кликнете върху връзката",
+  "PE.Views.DocumentHolder.txtPressLink": "Натиснете {0} и кликнете върху връзката",
   "PE.Views.DocumentHolder.txtPreview": "Започнете слайдшоуто",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Премахване на фракционната лента",
   "PE.Views.DocumentHolder.txtRemLimit": "Премахване на ограничението",

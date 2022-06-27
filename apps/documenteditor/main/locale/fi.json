@@ -956,7 +956,7 @@
   "DE.Views.DocumentHolder.txtMatchBrackets": "Sovita hakasulkeet argumentin korkeuteen",
   "DE.Views.DocumentHolder.txtMatrixAlign": "Matriisin tasaus",
   "DE.Views.DocumentHolder.txtOverbar": "Tekstin yläpalkki",
-  "DE.Views.DocumentHolder.txtPressLink": "Paina CTRL näppäintä ja klikkaa linkkiä",
+  "DE.Views.DocumentHolder.txtPressLink": "Paina {0} näppäintä ja klikkaa linkkiä",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Poista murtoluku pylväs",
   "DE.Views.DocumentHolder.txtRemLimit": "Poista rajoitus",
   "DE.Views.DocumentHolder.txtRemoveAccentChar": "Poista aksentti kirjain",

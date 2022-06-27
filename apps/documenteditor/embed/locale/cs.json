@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulář úspěšně uložen.</b><br>Klikněte pro zavření nápovědy.",
   "DE.ApplicationController.txtClose": "Zavřít",
   "DE.ApplicationController.txtEmpty": "(Prázdné)",
-  "DE.ApplicationController.txtPressLink": "Stiskněte CTRL a klikněte na odkaz",
+  "DE.ApplicationController.txtPressLink": "Stiskněte %1 a klikněte na odkaz",
   "DE.ApplicationController.unknownErrorText": "Neznámá chyba.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Vámi používaný webový prohlížeč není podporován.",
   "DE.ApplicationController.waitText": "Čekejte prosím…",

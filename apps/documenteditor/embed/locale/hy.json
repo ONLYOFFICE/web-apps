@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Ձևը հաջողությամբ ուղարկվեց</b><br>Սեղմեք՝ հուշակը փակելու համար",
   "DE.ApplicationController.txtClose": "Փակել",
   "DE.ApplicationController.txtEmpty": "(Դատարկ)",
-  "DE.ApplicationController.txtPressLink": "Սեղմել Ctrl և անցնել հղումը",
+  "DE.ApplicationController.txtPressLink": "Սեղմել %1 և անցնել հղումը",
   "DE.ApplicationController.unknownErrorText": "Անհայտ սխալ։",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ձեր դիտարկիչը չի աջակցվում։",
   "DE.ApplicationController.waitText": "Խնդրում ենք սպասել...",

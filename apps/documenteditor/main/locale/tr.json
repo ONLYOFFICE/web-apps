@@ -1618,7 +1618,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Hücrelerin üzerine yaz",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Kaynak biçimlendirmesini koruyun",
-  "DE.Views.DocumentHolder.txtPressLink": "Ctrl'ye basın ve bağlantıya tıklayın",
+  "DE.Views.DocumentHolder.txtPressLink": "{0}'ye basın ve bağlantıya tıklayın",
   "DE.Views.DocumentHolder.txtPrintSelection": "Seçimi Yazdır",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
   "DE.Views.DocumentHolder.txtRemLimit": "Remove limit",

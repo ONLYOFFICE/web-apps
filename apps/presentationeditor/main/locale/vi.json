@@ -748,7 +748,7 @@
   "PE.Views.DocumentHolder.txtMatrixAlign": "Căn chỉnh ma trận",
   "PE.Views.DocumentHolder.txtNewSlide": "Slide mới",
   "PE.Views.DocumentHolder.txtOverbar": "Gạch trên văn bản",
-  "PE.Views.DocumentHolder.txtPressLink": "Ấn CTRL và nhấp vào liên kết",
+  "PE.Views.DocumentHolder.txtPressLink": "Ấn {0} và nhấp vào liên kết",
   "PE.Views.DocumentHolder.txtPreview": "Bắt đầu trình chiếu",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Xóa dấu phân số",
   "PE.Views.DocumentHolder.txtRemLimit": "Xóa giới hạn",

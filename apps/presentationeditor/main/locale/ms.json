@@ -1489,7 +1489,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Guna tema destinasi",
   "PE.Views.DocumentHolder.txtPastePicture": "Gambar",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Kekalkan sumber pemformatan",
-  "PE.Views.DocumentHolder.txtPressLink": "Tekan Ctrl dan klik pautan",
+  "PE.Views.DocumentHolder.txtPressLink": "Tekan {0} dan klik pautan",
   "PE.Views.DocumentHolder.txtPreview": "Mulakan persembahan slaid",
   "PE.Views.DocumentHolder.txtPrintSelection": "Pemilihan Cetakan",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Alih keluar bar pecahan",

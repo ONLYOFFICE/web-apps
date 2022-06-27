@@ -2269,7 +2269,7 @@ define([
         hyperlinkText           : 'Hyperlink',
         editHyperlinkText       : 'Edit Hyperlink',
         removeHyperlinkText     : 'Remove Hyperlink',
-        txtPressLink            : 'Press CTRL and click link',
+        txtPressLink            : 'Press {0} and click link',
         selectText              : 'Select',
         insertRowText           : 'Insert Row',
         insertColumnText        : 'Insert Column',

@@ -1569,7 +1569,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Linie over tekst",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Overskriv celler",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Behold oprindelig formattering",
-  "DE.Views.DocumentHolder.txtPressLink": "Tryk CTRL og klik på linket",
+  "DE.Views.DocumentHolder.txtPressLink": "Tryk {0} og klik på linket",
   "DE.Views.DocumentHolder.txtPrintSelection": "Printer-valg",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Fjern fraktionsbar",
   "DE.Views.DocumentHolder.txtRemLimit": "Slet begrænsning",

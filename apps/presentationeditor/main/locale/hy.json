@@ -1537,7 +1537,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Օգտագործել նպատակակետի ոճը",
   "PE.Views.DocumentHolder.txtPastePicture": "Նկար",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Պահպանել աղբյուրի ձևաչափը",
-  "PE.Views.DocumentHolder.txtPressLink": "Սեղմել Ctrl և անցնել հղումը",
+  "PE.Views.DocumentHolder.txtPressLink": "Սեղմել {0} և անցնել հղումը",
   "PE.Views.DocumentHolder.txtPreview": "Սկսել պատկերահանդեսը",
   "PE.Views.DocumentHolder.txtPrintSelection": "Տպել ընտրվածքը",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Հեռացնել կոտորակի գիծը",

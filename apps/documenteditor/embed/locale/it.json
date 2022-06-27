@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Modulo è stato inviato con successo</b><br>Clicca su per chiudere la notifica</br>",
   "DE.ApplicationController.txtClose": "Chiudi",
   "DE.ApplicationController.txtEmpty": "(Vuoto)",
-  "DE.ApplicationController.txtPressLink": "Premi CTRL e clicca sul collegamento",
+  "DE.ApplicationController.txtPressLink": "Premi %1 e clicca sul collegamento",
   "DE.ApplicationController.unknownErrorText": "Errore sconosciuto.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Il tuo browser non è supportato.",
   "DE.ApplicationController.waitText": "Per favore, attendi...",

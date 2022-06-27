@@ -1619,7 +1619,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Μπάρα πάνω από κείμενο",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Αντικατάσταση κελιών",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Διατήρηση μορφοποίησης πηγής",
-  "DE.Views.DocumentHolder.txtPressLink": "Πατήστε Ctrl και κάντε κλικ στο σύνδεσμο",
+  "DE.Views.DocumentHolder.txtPressLink": "Πατήστε {0} και κάντε κλικ στο σύνδεσμο",
   "DE.Views.DocumentHolder.txtPrintSelection": "Εκτύπωση Επιλογής",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Αφαίρεση γραμμής κλάσματος",
   "DE.Views.DocumentHolder.txtRemLimit": "Αφαίρεση ορίου",

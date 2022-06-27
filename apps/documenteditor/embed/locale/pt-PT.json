@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulário submetido com sucesso</b><br>Clique para fechar a dica",
   "DE.ApplicationController.txtClose": "Fechar",
   "DE.ApplicationController.txtEmpty": "(Vazio)",
-  "DE.ApplicationController.txtPressLink": "Prima Ctrl e clique na ligação",
+  "DE.ApplicationController.txtPressLink": "Prima %1 e clique na ligação",
   "DE.ApplicationController.unknownErrorText": "Erro desconhecido.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "O seu navegador não é suportado.",
   "DE.ApplicationController.waitText": "Aguarde…",

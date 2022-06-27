@@ -1479,7 +1479,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Použiť cieľový vzhľad ",
   "PE.Views.DocumentHolder.txtPastePicture": "Obrázok",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Uchovať zdrojové formátovanie",
-  "PE.Views.DocumentHolder.txtPressLink": "Stlačte CTRL a kliknite na odkaz",
+  "PE.Views.DocumentHolder.txtPressLink": "Stlačte {0} a kliknite na odkaz",
   "PE.Views.DocumentHolder.txtPreview": "Spustiť prezentáciu",
   "PE.Views.DocumentHolder.txtPrintSelection": "Vytlačiť výber",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Odstrániť zlomok",

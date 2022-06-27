@@ -1383,7 +1383,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Gebruik doel thema",
   "PE.Views.DocumentHolder.txtPastePicture": "Afbeelding",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Behoud bronopmaak",
-  "PE.Views.DocumentHolder.txtPressLink": "Druk op Ctrl en klik op koppeling",
+  "PE.Views.DocumentHolder.txtPressLink": "Druk op {0} en klik op koppeling",
   "PE.Views.DocumentHolder.txtPreview": "Diavoorstelling starten",
   "PE.Views.DocumentHolder.txtPrintSelection": "Selectie afdrukken",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Deelteken verwijderen",

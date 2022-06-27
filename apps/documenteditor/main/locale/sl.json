@@ -1083,7 +1083,7 @@
   "DE.Views.DocumentHolder.txtMatrixAlign": "Matrix alignment",
   "DE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Ohrani izvorno oblikovanje",
-  "DE.Views.DocumentHolder.txtPressLink": "Pritisnite CTRL in pritisnite povezavo",
+  "DE.Views.DocumentHolder.txtPressLink": "Pritisnite {0} in pritisnite povezavo",
   "DE.Views.DocumentHolder.txtPrintSelection": "Nastisni izbor",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
   "DE.Views.DocumentHolder.txtRemLimit": "Remove limit",

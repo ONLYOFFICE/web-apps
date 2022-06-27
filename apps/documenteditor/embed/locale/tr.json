@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Form başarılı bir şekilde kaydedildi</b><br>İpucunu kapatmak için tıklayın",
   "DE.ApplicationController.txtClose": "Kapat",
   "DE.ApplicationController.txtEmpty": "(Boş)",
-  "DE.ApplicationController.txtPressLink": "CTRL'ye basın ve bağlantıya tıklayın",
+  "DE.ApplicationController.txtPressLink": "%1'ye basın ve bağlantıya tıklayın",
   "DE.ApplicationController.unknownErrorText": "Bilinmeyen hata.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Tarayıcınız desteklenmiyor.",
   "DE.ApplicationController.waitText": "Lütfen bekleyin...",

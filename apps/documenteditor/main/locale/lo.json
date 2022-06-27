@@ -1586,7 +1586,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "ຂີດທັບຕົວໜັງສື",
   "DE.Views.DocumentHolder.txtOverwriteCells": "ຂຽນທັບແຊວ",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "ຮັກສາຮູບແບບແຫຼ່ງຂໍ້ມູນ",
-  "DE.Views.DocumentHolder.txtPressLink": "ກົດ Ctrl ແລະກົດລິ້ງ",
+  "DE.Views.DocumentHolder.txtPressLink": "ກົດ {0} ແລະກົດລິ້ງ",
   "DE.Views.DocumentHolder.txtPrintSelection": "ານຄັດເລືອກການພິມ",
   "DE.Views.DocumentHolder.txtRemFractionBar": "ລຶບແຖບສວ່ນໜຶ່ງອອກ",
   "DE.Views.DocumentHolder.txtRemLimit": "ເອົາຂໍ້ຈຳກັດອອກ",

@@ -829,7 +829,7 @@ define([
                             ToolTip = ToolTip.substr(0, 256) + '...';
 
                         if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + me.documentHolder.txtPressLink + '</b>'));
+                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>'));
                             screenTip.tipLength = ToolTip.length;
                             screenTip.strTip = ToolTip;
                             recalc = true;

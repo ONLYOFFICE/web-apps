@@ -1256,7 +1256,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Təyinat mövzusundan istifadə edin",
   "PE.Views.DocumentHolder.txtPastePicture": "Şəkil",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Mənbə formatını saxlayın",
-  "PE.Views.DocumentHolder.txtPressLink": "Ctrl düyməsinə basıb linkə klikləyin",
+  "PE.Views.DocumentHolder.txtPressLink": "{0} düyməsinə basıb linkə klikləyin",
   "PE.Views.DocumentHolder.txtPreview": "Slaydı başladın",
   "PE.Views.DocumentHolder.txtPrintSelection": "Seçimi çap edin",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Kəsr xəttini silin",

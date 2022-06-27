@@ -1618,7 +1618,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Barra testuaren gainean",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Gainidatzi gelaxkak",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Mantendu jatorrizko formatua",
-  "DE.Views.DocumentHolder.txtPressLink": "Sakatu Ctrl eta egin klik estekan",
+  "DE.Views.DocumentHolder.txtPressLink": "Sakatu {0} eta egin klik estekan",
   "DE.Views.DocumentHolder.txtPrintSelection": "Inprimatu hautapena",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Kendu frakzio-barra",
   "DE.Views.DocumentHolder.txtRemLimit": "Kendu muga",

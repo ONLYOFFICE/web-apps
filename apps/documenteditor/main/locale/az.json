@@ -1569,7 +1569,7 @@
   "DE.Views.DocumentHolder.txtOverbar": "Mətnin üstündə xətt",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Xanaların üzərinə yazın",
   "DE.Views.DocumentHolder.txtPasteSourceFormat": "Mənbə formatını saxlayın",
-  "DE.Views.DocumentHolder.txtPressLink": "Ctrl düyməsinə basıb linkə klikləyin",
+  "DE.Views.DocumentHolder.txtPressLink": "{0} düyməsinə basıb linkə klikləyin",
   "DE.Views.DocumentHolder.txtPrintSelection": "Seçimi çap edin",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Kəsr xəttini silin",
   "DE.Views.DocumentHolder.txtRemLimit": "Limiti silin",

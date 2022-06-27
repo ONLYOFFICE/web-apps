@@ -1544,7 +1544,7 @@
   "PE.Views.DocumentHolder.txtPasteDestFormat": "Utilizare temă destinație",
   "PE.Views.DocumentHolder.txtPastePicture": "Imagine",
   "PE.Views.DocumentHolder.txtPasteSourceFormat": "Păstrare formatare sursă",
-  "PE.Views.DocumentHolder.txtPressLink": "Apăsați Ctrl și faceți clic pe linkul",
+  "PE.Views.DocumentHolder.txtPressLink": "Apăsați {0} și faceți clic pe linkul",
   "PE.Views.DocumentHolder.txtPreview": "Pornire expunere diapozitive",
   "PE.Views.DocumentHolder.txtPrintSelection": "Imprimare selecție",
   "PE.Views.DocumentHolder.txtRemFractionBar": "Eliminare bară de fracție",
