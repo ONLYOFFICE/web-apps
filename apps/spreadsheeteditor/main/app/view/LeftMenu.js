@@ -216,6 +216,7 @@ define([
             if (this.panelSearch) {
                 if (this.btnSearchBar.pressed) {
                     this.panelSearch.show();
+                    this.panelSearch.focus();
                 } else {
                     this.panelSearch.hide();
                 }
