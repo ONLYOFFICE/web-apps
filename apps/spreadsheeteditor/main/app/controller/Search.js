@@ -105,6 +105,7 @@ define([
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
             }
             return this;
         },
@@ -314,9 +315,9 @@ define([
             var me = this;
             if (this.api.isReplaceAll) {
                 if (!found) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 } else {
-                    !(found-replaced) && this.allResultsWasRemoved();
+                    !(found-replaced) && this.removeResultItems();
                     Common.UI.info({
                         msg: !(found-replaced) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
                         callback: function() {
@@ -337,15 +338,15 @@ define([
                 options.asc_setScanByRows(this._state.searchByRows);
                 options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                 if (!this.api.asc_findText(options)) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 }
             }
         },
 
-        allResultsWasRemoved: function () {
+        removeResultItems: function (type) {
             this.resultItems = [];
             this.hideResults();
-            this.view.updateResultsNumber(undefined, 0);
+            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             //this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
@@ -539,6 +540,10 @@ define([
                 this.api.asc_selectSearchingResults(val);
                 this._state.isHighlightedResults = val;
             }
+        },
+
+        onApiSearchEnd: function () {
+            this.removeResultItems('stop');
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
