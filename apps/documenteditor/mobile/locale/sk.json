@@ -513,7 +513,8 @@
       "X Axis": "Os X (XAS)",
       "Y Axis": "Os Y",
       "Your text here": "Tu napíšte svoj text",
-      "Zero Divide": "Delenie nulou"
+      "Zero Divide": "Delenie nulou",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "Anonymný",
     "textBuyNow": "Navštíviť webovú stránku",

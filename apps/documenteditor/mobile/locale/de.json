@@ -513,7 +513,8 @@
       "X Axis": "Achse X (XAS)",
       "Y Axis": "Achse Y",
       "Your text here": "Text hier eingeben",
-      "Zero Divide": "Nullteilung"
+      "Zero Divide": "Nullteilung",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "Anonym",
     "textBuyNow": "Webseite besuchen",

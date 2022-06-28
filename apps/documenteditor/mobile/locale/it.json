@@ -513,7 +513,8 @@
       "X Axis": "Asse X (XAS)",
       "Y Axis": "Asse Y",
       "Your text here": "Il tuo testo qui",
-      "Zero Divide": "Dividere per zero"
+      "Zero Divide": "Dividere per zero",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "Anonimo",
     "textBuyNow": "Visitare il sito web",

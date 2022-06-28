@@ -513,7 +513,8 @@
       "X Axis": "X 軸 XAS",
       "Y Axis": "Y軸",
       "Your text here": "在這輸入文字",
-      "Zero Divide": "零分度"
+      "Zero Divide": "零分度",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "匿名",
     "textBuyNow": "瀏覽網站",

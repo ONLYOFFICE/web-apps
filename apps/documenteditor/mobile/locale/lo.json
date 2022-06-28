@@ -513,7 +513,8 @@
       "X Axis": "ແກນ X (XAS)",
       "Y Axis": "ແກນ Y",
       "Your text here": "ເນື້ອຫາຂອງທ່ານຢູ່ນີ້",
-      "Zero Divide": "ສູນແບ່ງ"
+      "Zero Divide": "ສູນແບ່ງ",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "ບໍ່ລະບຸຊື່",
     "textBuyNow": "ເຂົ້າໄປຍັງເວັບໄຊ",
