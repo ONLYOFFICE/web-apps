@@ -513,7 +513,8 @@
       "X Axis": "Axă X (XAS)",
       "Y Axis": "Axa Y",
       "Your text here": "Textul dvs. aici",
-      "Zero Divide": "Împărțirea cu zero"
+      "Zero Divide": "Împărțirea cu zero",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "Anonim",
     "textBuyNow": "Vizitarea site-ul Web",

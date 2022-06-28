@@ -513,7 +513,8 @@
       "X Axis": "X ardatza XAS",
       "Y Axis": "Y ardatza",
       "Your text here": "Zure testua hemen",
-      "Zero Divide": "Zatitzailea zero"
+      "Zero Divide": "Zatitzailea zero",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "Anonimoa",
     "textBuyNow": "Bisitatu webgunea",

@@ -513,7 +513,8 @@
       "X Axis": "Eixo X",
       "Y Axis": "Eixo Y",
       "Your text here": "O seu texto aqui",
-      "Zero Divide": "Divisão por zero"
+      "Zero Divide": "Divisão por zero",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "Anónimo",
     "textBuyNow": "Visitar website",

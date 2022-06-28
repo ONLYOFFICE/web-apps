@@ -514,7 +514,8 @@
       "X Axis": "X Axis XAS",
       "Y Axis": "Y Axis",
       "Your text here": "Your text here",
-      "Zero Divide": "Zero Divide"
+      "Zero Divide": "Zero Divide",
+      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
     },
     "textAnonymous": "Anonymous",
     "textBuyNow": "Visit website",
