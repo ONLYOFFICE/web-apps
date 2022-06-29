@@ -2344,6 +2344,18 @@ define([
                         }
                     });
                     win.show();
+                } else if (id == Asc.c_oAscConfirm.ConfirmAddCellWatches) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: Common.Utils.String.format(this.confirmAddCellWatches, data),
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback(btn === 'yes');
+                            }
+                        }, this)
+                    });
                 }
             },
 
@@ -3598,7 +3610,9 @@ define([
             textReconnect: 'Connection is restored',
             errorCannotUseCommandProtectedSheet: 'You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.',
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
-            textRememberMacros: 'Remember my choice for all macros'
+            textRememberMacros: 'Remember my choice for all macros',
+            confirmAddCellWatches: 'This action will add {0} cell watches.<br>Do you want to continue?'
+
         }
     })(), SSE.Controllers.Main || {}))
 });
