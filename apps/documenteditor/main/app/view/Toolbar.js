@@ -259,7 +259,7 @@ define([
                         id: 'id-toolbar-btn-cut',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-cut',
-                        lock: [_set.copyLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.copyLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'X'
