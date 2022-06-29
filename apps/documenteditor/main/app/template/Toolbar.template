@@ -25,6 +25,14 @@
                     <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-cut"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                </div>
+            </div>
             <div class="separator long"></div>
         </section>
         <section class="box-panels">

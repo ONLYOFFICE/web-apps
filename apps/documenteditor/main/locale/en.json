@@ -2907,6 +2907,8 @@
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
   "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.tipSelectAll": "Select all",
+  "DE.Views.Toolbar.tipCut": "Cut",
   "DE.Views.ViewTab.textAlwaysShowToolbar": "Always show toolbar",
   "DE.Views.ViewTab.textDarkDocument": "Dark document",
   "DE.Views.ViewTab.textFitToPage": "Fit To Page",
