@@ -215,11 +215,12 @@
     }
 }
 
-.navigation-sheet {
+.sheet-modal.navigation-sheet {
     box-shadow: 0px -2px 20px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     .sheet-modal-inner {
         background: @background-tertiary;
+        overflow-y: auto;
     }
     &.sheet-modal-bottom:before, &.sheet-modal:not(.sheet-modal-top):before {
         display: none;
@@ -324,3 +325,4 @@
         color: @brandColor;
     }
 }
+
