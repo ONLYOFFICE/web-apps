@@ -4,17 +4,17 @@
             <tr>
                 <td class="padding-large">
                     <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="watch-dialog-btn-add"><%= scope.textAdd %></button>
-                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="watch-dialog-btn-delete"><%= scope.textDelete %></button>
+                    <div id="watch-dialog-btn-delete" style="display: inline-block;"></div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label class="header" style="width: 76px;"><%= scope.textBook %></label><!--
-                    --><label class="header" style="width: 70px;"><%= scope.textSheet %></label><!--
-                    --><label class="header" style="width: 70px;"><%= scope.textName %></label><!--
-                    --><label class="header" style="width: 70px;"><%= scope.textCell %></label><!--
-                    --><label class="header" style="width: 110px;"><%= scope.textValue %></label><!--
-                    --><label class="header" style=""><%= scope.textFormula %></label>
+                    <label class="header" style="width: 76px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textBook %></label><!--
+                    --><label class="header" style="width: 70px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textSheet %></label><!--
+                    --><label class="header" style="width: 70px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textName %></label><!--
+                    --><label class="header" style="width: 70px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textCell %></label><!--
+                    --><label class="header" style="width: 110px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textValue %></label><!--
+                    --><label class="header" style="width: 140px;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;"><%= scope.textFormula %></label>
                 </td>
             </tr>
             <tr>

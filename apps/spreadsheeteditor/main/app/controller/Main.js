@@ -3612,7 +3612,7 @@ define([
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
             textRememberMacros: 'Remember my choice for all macros',
             confirmAddCellWatches: 'This action will add {0} cell watches.<br>Do you want to continue?',
-            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason. Do you want to continue?'
+            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?'
 
         }
     })(), SSE.Controllers.Main || {}))

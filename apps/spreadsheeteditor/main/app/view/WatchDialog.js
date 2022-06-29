@@ -109,10 +109,26 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
             this.btnAdd.on('click', _.bind(this.onAddWatch, this, false));
 
             this.btnDelete = new Common.UI.Button({
-                el: $('#watch-dialog-btn-delete', this.$window)
+                parentEl: $('#watch-dialog-btn-delete', this.$window),
+                cls: 'btn-text-split-default auto',
+                caption: this.textDelete,
+                split: true,
+                menu        : new Common.UI.Menu({
+                    style: 'min-width:100px;',
+                    items: [
+                        {
+                            caption: this.textDelete,
+                            value: 0
+                        },
+                        {
+                            caption:  this.textDeleteAll,
+                            value: 1
+                        }]
+                })
             });
+            $(this.btnDelete.cmpEl.find('button')[0]).css('min-width', '87px');
             this.btnDelete.on('click', _.bind(this.onDeleteWatch, this));
-
+            this.btnDelete.menu.on('item:click', _.bind(this.onDeleteMenu, this));
             this.afterRender();
         },
 
@@ -197,6 +213,13 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
             }
         },
 
+        onDeleteMenu: function(menu, item) {
+            if (item.value == 1) {
+                this.api.asc_deleteCellWatches(undefined, true);
+            } else
+                this.onDeleteWatch();
+        },
+
         onSelectWatch: function(lisvView, itemView, record) {
             this.updateButtons();
         },
@@ -222,6 +245,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         txtTitle: 'Watch Window',
         textAdd: 'Add watch',
         textDelete: 'Delete watch',
+        textDeleteAll: 'Delete all',
         closeButtonText: 'Close',
         textBook: 'Book',
         textSheet: 'Sheet',
