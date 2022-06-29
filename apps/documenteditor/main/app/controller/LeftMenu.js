@@ -680,6 +680,8 @@ define([
         menuFilesShowHide: function(state) {
             if (this.api && state == 'hide')
                 this.api.asc_enableKeyEvents(true);
+            else
+                this.api.asc_enableKeyEvents(false);
         },
 
         onMenuChange: function (value) {

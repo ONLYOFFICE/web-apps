@@ -247,7 +247,7 @@ define([
 
         template: _.template([
         '<div class="flex-settings">',
-            '<table style="margin: 10px 14px 0;"><tbody>',
+            '<table class="oo" style="margin: 10px 14px 0;"><tbody>',
                 '<tr class="editsave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
@@ -738,6 +738,12 @@ define([
 
             this.updateSettings();
             this.updateScroller();
+
+            var me = this;
+            setTimeout(function () {
+                $(me.el).find('.ps-container table')[0].focus();
+                console.log($(':focus'));
+            }, 300);
         },
 
         updateScroller: function() {

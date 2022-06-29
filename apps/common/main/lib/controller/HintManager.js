@@ -118,7 +118,8 @@ Common.UI.HintManager = new(function() {
         _isDocReady = false,
         _isEditDiagram = false,
         _usedTitles = [],
-        _appPrefix;
+        _appPrefix,
+        _isScroll = false;
 
     var _api;
 
@@ -461,7 +462,14 @@ Common.UI.HintManager = new(function() {
             _clearHints();
         });
         $(document).on('keyup', function(e) {
-            if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
+            if (_isScroll && (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN)) {
+                _isScroll = false;
+                _hideHints();
+                _currentHints.length = 0;
+                _currentControls.length = 0;
+                _showHints();
+                console.log($(':focus'));
+            } else if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
                     $('input:focus').blur(); // to change value in inputField
@@ -484,7 +492,9 @@ Common.UI.HintManager = new(function() {
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
                 e.preventDefault();
-                if (e.keyCode == Common.UI.Keys.ESC ) {
+                if (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN) {
+                    _isScroll = true;
+                } else if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
                         if (_currentLevel === 0) {
                             _hideHints();
