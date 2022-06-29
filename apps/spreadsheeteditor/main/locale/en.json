@@ -1106,6 +1106,7 @@
   "SSE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "SSE.Controllers.Main.confirmAddCellWatches": "This action will add {0} cell watches.<br>Do you want to continue?",
+  "SSE.Controllers.Main.confirmAddCellWatchesMax": "This action will add only {0} cell watches by memory save reason. Do you want to continue?",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
   "SSE.Controllers.Print.textFirstRow": "First row",
