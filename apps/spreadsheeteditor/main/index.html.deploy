@@ -108,7 +108,7 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 763px;
+            left: 854px;
             width: inherit;
             height: 44px;
         }
@@ -278,8 +278,8 @@
             <div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li/><li class="space"/><li style="width: 219px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li style="width: 340px;"/><li class="fat"/></ul>
-            <ul><li/><li class="space"/><li style="width: 219px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li style="width: 340px;"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 244px;"/><li class="space"/><li style="width: 118px;"/><li class="fat"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 244px;"/><li class="space"/><li style="width: 118px;"/></ul>
         </div>
         <div class="skformula" style="display: none;">
             <ul><li/><li/></ul>
@@ -321,6 +321,16 @@
                 document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
         } else if (notoolbar) {
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
+        }
+
+        if (compact) {
+            document.querySelectorAll('.not-compact').forEach(function(item){
+                item.remove();
+            });
+            document.querySelectorAll('.compact').forEach(function(item){
+                item.style.display = 'inline-block';
+            });
+            document.querySelector('.fat').style.left = '923px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');

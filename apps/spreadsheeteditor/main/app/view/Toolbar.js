@@ -737,6 +737,25 @@ define([
                     ]}
                 );
 
+                me.btnCut = new Common.UI.Button({
+                    id: 'id-toolbar-btn-cut',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-cut',
+                    lock: [_set.coAuth, _set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintTitle: 'X'
+                });
+
+                me.btnSelectAll = new Common.UI.Button({
+                    id: 'id-toolbar-btn-select-all',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon select-all',
+                    lock: [_set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+
                 me.cmbFontSize = new Common.UI.ComboBox({
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
@@ -2031,7 +2050,7 @@ define([
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
-                    me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
+                    me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
                     me.chPrintGridlines, me.chPrintHeadings, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
@@ -2183,6 +2202,8 @@ define([
             _injectComponent('#slot-btn-redo',           this.btnRedo);
             _injectComponent('#slot-btn-copy',           this.btnCopy);
             _injectComponent('#slot-btn-paste',          this.btnPaste);
+            _injectComponent('#slot-btn-cut',            this.btnCut);
+            _injectComponent('#slot-btn-select-all',     this.btnSelectAll);
             _injectComponent('#slot-btn-incfont',        this.btnIncFontSize);
             _injectComponent('#slot-btn-decfont',        this.btnDecFontSize);
             _injectComponent('#slot-btn-bold',           this.btnBold);
@@ -2274,6 +2295,8 @@ define([
             _updateHint(this.btnSave, this.btnSaveTip);
             _updateHint(this.btnCopy, this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
             _updateHint(this.btnPaste, this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+            _updateHint(this.btnCut, this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
+            _updateHint(this.btnSelectAll, this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
             _updateHint(this.btnUndo, this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
             _updateHint(this.btnRedo, this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
             _updateHint(this.btnIncFontSize, this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
@@ -3279,6 +3302,8 @@ define([
         textDone: 'Done',
         tipTextFormatting: 'More text formatting tools',
         tipHAligh: 'Horizontal Align',
-        tipVAligh: 'Vertical Align'
+        tipVAligh: 'Vertical Align',
+        tipSelectAll: 'Select all',
+        tipCut: 'Cut'
     }, SSE.Views.Toolbar || {}));
 });

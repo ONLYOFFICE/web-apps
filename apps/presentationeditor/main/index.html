@@ -121,7 +121,7 @@
         }
 
         .loadmask > .sktoolbar li.big {
-            width: 55px;
+            width: 50px;
             height: 46px;
             margin-top: -46px;
         }
@@ -131,7 +131,7 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 758px;
+            left: 800px;
             width: inherit;
             height: 44px;
         }
@@ -287,8 +287,8 @@
             <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li/><li class="space" style="width: 76px;"/><li class="split" /><li class="space"/><li style="width: 176px;"/><li class="space"/><li style="width: 115px;"/><li class="space" style="width: 183px;"/><li style="width: 95px;"/><li class="fat"/></ul>
-            <ul><li/><li class="space"/><li class="big" style="width: 70px;"/><li class="split" /><li class="space"/><li style="width: 176px;"/><li class="space"/><li style="width: 115px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li style="width: 95px;"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 216px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 168px;"/><li class="space"/><li style="width: 65px;"/><li class="fat"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 216px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 65px;"/></ul>
         </div>
         <div class="placeholder" style="display: none;">
             <div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div>
@@ -314,6 +314,16 @@
                 document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
         } else if (notoolbar) {
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
+        }
+
+        if (compact) {
+            document.querySelectorAll('.not-compact').forEach(function(item){
+                item.remove();
+            });
+            document.querySelectorAll('.compact').forEach(function(item){
+                item.style.display = 'inline-block';
+            });
+            document.querySelector('.fat').style.left = '868px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
