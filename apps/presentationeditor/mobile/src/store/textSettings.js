@@ -191,11 +191,11 @@ export class storeTextSettings {
     }
 
     get isSuperscript() {
-        return (this.typeBaseline === 1);
+        return (this.typeBaseline === Asc.vertalign_SuperScript);
     }
 
     get isSubscript() {
-        return (this.typeBaseline === 2);
+        return (this.typeBaseline === Asc.vertalign_SubScript);
     }
 
     // bullets
