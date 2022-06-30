@@ -193,7 +193,6 @@ const EditParagraph = props => {
     const curStyleName = storeParagraphSettings.styleName;
     const curStyle = paragraphStyles.find(style => style.name === curStyleName);
     const thumbSize = storeParagraphSettings.styleThumbSize;
-
     const paragraph = props.storeFocusObjects.paragraphObject;
     const curBackColor = storeParagraphSettings.backColor ? storeParagraphSettings.backColor : storeParagraphSettings.getBackgroundColor(paragraph);
     const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : '';
@@ -203,14 +202,14 @@ const EditParagraph = props => {
         <Fragment>
             <BlockTitle>{t('Edit.textParagraphStyle')}</BlockTitle>
             <List className={activeStyle} style={{marginBottom: 0}}>
-                <ListItem link="/edit-paragraph-style/" routeProps={{
+                <ListItem link="/edit-paragraph-style/" title={!curStyle && curStyleName} routeProps={{
                     onStyleClick: props.onStyleClick,
                     onSaveStyle: props.onSaveStyle,
                     onStyleMenuDelete: props.onStyleMenuDelete
                 }}>
-                    <div slot="inner"
-                        style={{backgroundImage: 'url(' + curStyle.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
-                    ></div>
+                    {curStyle && 
+                        <div slot="inner" style={{backgroundImage: 'url(' + curStyle.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}></div>
+                    }
                 </ListItem>
             </List>
             <List>

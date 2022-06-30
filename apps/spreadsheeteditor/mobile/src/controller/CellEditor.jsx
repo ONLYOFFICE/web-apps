@@ -93,14 +93,22 @@ const CellEditor = inject("storeFunctions")(observer(props => {
 
                 return {name, type, descr, caption, args};
             });
-    
-            setHintArr(hintArr);
+
             setFuncArr(funcArr);
+            setHintArr(hintArr);
 
             f7.popover.open('#idx-functions-list', '#idx-list-target');
+
+            const listTarget = document.querySelector('#idx-list-target');
+            const rect = listTarget.getBoundingClientRect();
+            const popoverList = document.querySelector('#idx-functions-list');
+
+            popoverList.style.top = `${rect.bottom}px`;
+            popoverList.style.left = `${rect.left}px`;
         } else {
             f7.popover.close('#idx-functions-list');
             setFuncArr('');
+            setHintArr('');
         }
     }
 
