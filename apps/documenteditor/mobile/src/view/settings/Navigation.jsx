@@ -9,7 +9,6 @@ const NavigationPopover = props => {
     const api = Common.EditorApi.get();
     const navigationObject = api.asc_ShowDocumentOutline();
     const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : null);
-    
     let arrHeaders = [];
 
     if(currentPosition) {
@@ -44,8 +43,12 @@ const NavigationSheet = props => {
     const { t } = useTranslation();
     const api = Common.EditorApi.get();
     const navigationObject = api.asc_ShowDocumentOutline();
-    const [currentPosition, setCurrentPosition] = useState(navigationObject.get_CurrentPosition());
-    const arrHeaders = props.updateNavigation();
+    const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : null);
+    let arrHeaders = [];
+
+    if(currentPosition) {
+        arrHeaders = props.updateNavigation();
+    }
 
     const [stateHeight, setHeight] = useState('45%');
     const [stateOpacity, setOpacity] = useState(1);
