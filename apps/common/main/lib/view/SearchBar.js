@@ -139,6 +139,7 @@ define([
                 left = Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32;
             Common.UI.Window.prototype.show.call(this, left, top);
 
+            this.disableNavButtons();
             if (text) {
                 this.inputSearch.val(text);
                 this.fireEvent('search:input', [text]);
@@ -146,7 +147,6 @@ define([
                 this.inputSearch.val('');
             }
 
-            this.disableNavButtons();
             this.focus();
         },
 
@@ -185,9 +185,9 @@ define([
         },
 
         disableNavButtons: function (resultNumber, allResults) {
-            var disable = this.inputSearch.val() === '';
-            this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
-            this.btnNext.setDisabled(disable || resultNumber + 1 === allResults);
+            var disable = this.inputSearch.val() === '' || !allResults;
+            this.btnBack.setDisabled(disable);
+            this.btnNext.setDisabled(disable);
         },
 
         textFind: 'Find',

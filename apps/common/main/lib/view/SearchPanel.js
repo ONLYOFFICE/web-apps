@@ -373,9 +373,9 @@ define([
         },
 
         disableNavButtons: function (resultNumber, allResults) {
-            var disable = this.inputText._input.val() === '';
-            this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
-            this.btnNext.setDisabled(disable || !allResults || resultNumber + 1 === allResults);
+            var disable = this.inputText._input.val() === '' || !allResults;
+            this.btnBack.setDisabled(disable);
+            this.btnNext.setDisabled(disable);
         },
 
         disableReplaceButtons: function (disable) {

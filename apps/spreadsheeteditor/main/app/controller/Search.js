@@ -229,6 +229,7 @@ define([
                             //me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
+                            me.view.disableNavButtons();
                             //me.view.disableReplaceButtons(true);
                         }
                         clearInterval(me.searchTimer);
