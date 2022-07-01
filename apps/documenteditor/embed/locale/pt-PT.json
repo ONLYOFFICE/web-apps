@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "A ligação está muito lenta e alguns dos componentes não foram carregados. Recarregue a página.",
   "DE.ApplicationController.textAnonymous": "Anónimo",
   "DE.ApplicationController.textClear": "Limpar todos os campos",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "Percebi",
   "DE.ApplicationController.textGuest": "Convidado",
   "DE.ApplicationController.textLoadingDocument": "A carregar documento",

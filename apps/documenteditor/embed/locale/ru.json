@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
   "DE.ApplicationController.textAnonymous": "Анонимный пользователь",
   "DE.ApplicationController.textClear": "Очистить все поля",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "ОК",
   "DE.ApplicationController.textGuest": "Гость",
   "DE.ApplicationController.textLoadingDocument": "Загрузка документа",

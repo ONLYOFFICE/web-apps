@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "La conexión a Internet es demasiado lenta, algunos de los componentes no se han podido cargar. Recargue la página.",
   "DE.ApplicationController.textAnonymous": "Anónimo",
   "DE.ApplicationController.textClear": "Borrar todos los campos",
+  "DE.ApplicationController.textCtrl": "Control",
   "DE.ApplicationController.textGotIt": "Entendido",
   "DE.ApplicationController.textGuest": "Invitado",
   "DE.ApplicationController.textLoadingDocument": "Cargando documento",
