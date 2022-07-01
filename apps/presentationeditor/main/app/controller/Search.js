@@ -57,7 +57,13 @@ define([
                 'SearchBar': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
-                    'search:input': _.bind(this.onInputSearchChange, this),
+                    'search:input': _.bind(function (text) {
+                        if (this._state.searchText === text) {
+                            Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
+                            return;
+                        }
+                        this.onInputSearchChange(text);
+                    }, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
                 },
                 'Common.Views.SearchPanel': {
@@ -166,6 +172,7 @@ define([
                             me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
+                            me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
                         }
                         clearInterval(me.searchTimer);
