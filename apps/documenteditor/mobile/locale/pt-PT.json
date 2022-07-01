@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "Recarregar toda a tabela",
     "textRefreshPageNumbersOnly": "Recarregar número das páginas",
     "textRows": "Linhas",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",

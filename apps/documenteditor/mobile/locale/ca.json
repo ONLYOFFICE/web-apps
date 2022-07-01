@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "Actualitza la taula sencera",
     "textRefreshPageNumbersOnly": "Actualitza només els números de pàgina",
     "textRows": "Files",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertiment",

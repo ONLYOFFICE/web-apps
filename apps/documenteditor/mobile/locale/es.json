@@ -200,11 +200,11 @@
     "textRefreshEntireTable": "Actualizar toda la tabla",
     "textRefreshPageNumbersOnly": "Actualizar solamente los números de página",
     "textRows": "Filas",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertencia",
-    "textActualSize": "Tamaño actual",
+    "textActualSize": "Tamaño Real",
     "textAddCustomColor": "Agregar color personalizado",
     "textAdditional": "Adicional",
     "textAdditionalFormatting": "Formato adicional",
