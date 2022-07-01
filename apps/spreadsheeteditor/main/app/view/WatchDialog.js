@@ -149,33 +149,55 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
             this.api.asc_registerCallback('asc_onUpdateCellWatches', this.wrapEvents.onRefreshWatchList);
         },
 
-        refreshList: function() {
-            var arr = [];
-            var watches = this.api.asc_getCellWatches();
-            if (watches) {
-                for (var i=0; i<watches.length; i++) {
-                    var watch = watches[i];
-                    arr.push({
-                        book: watch.asc_getWorkbook(),
-                        sheet: watch.asc_getSheet(),
-                        name: watch.asc_getName(),
-                        cell: watch.asc_getCell(),
-                        value: watch.asc_getValue(),
-                        formula: watch.asc_getFormula(),
-                        props: watch
-                    });
+        refreshList: function(watches) {
+            if (watches) { // change existing watches
+                for (var idx in watches) {
+                    if (watches.hasOwnProperty(idx)) {
+                        var index = parseInt(idx),
+                            item = watches[idx],
+                            store = this.watchList.store;
+                        if (index>=0 && index<store.length) {
+                            var rec = store.at(index);
+                            rec.set({
+                                book: item.asc_getWorkbook(),
+                                sheet: item.asc_getSheet(),
+                                name: item.asc_getName(),
+                                cell: item.asc_getCell(),
+                                value: item.asc_getValue(),
+                                formula: item.asc_getFormula(),
+                                props: item
+                            });
+                        }
+                    }
                 }
+            } else { // get list of watches
+                var arr = [];
+                watches = this.api.asc_getCellWatches();
+                if (watches) {
+                    for (var i=0; i<watches.length; i++) {
+                        var watch = watches[i];
+                        arr.push({
+                            book: watch.asc_getWorkbook(),
+                            sheet: watch.asc_getSheet(),
+                            name: watch.asc_getName(),
+                            cell: watch.asc_getCell(),
+                            value: watch.asc_getValue(),
+                            formula: watch.asc_getFormula(),
+                            props: watch
+                        });
+                    }
+                }
+                this.watchList.store.reset(arr);
+                if (this._deletedIndex!==undefined) {
+                    var store = this.watchList.store;
+                    (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
+                    this.watchList.scrollToRecord(this.watchList.getSelectedRec());
+                    this._fromKeyDown && this.watchList.focus();
+                    this._fromKeyDown = false;
+                    this._deletedIndex=undefined;
+                }
+                this.updateButtons();
             }
-            this.watchList.store.reset(arr);
-            if (this._deletedIndex!==undefined) {
-                var store = this.watchList.store;
-                (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
-                this.watchList.scrollToRecord(this.watchList.getSelectedRec());
-                this._fromKeyDown && this.watchList.focus();
-                this._fromKeyDown = false;
-                this._deletedIndex=undefined;
-            }
-            this.updateButtons();
         },
 
         onAddWatch: function() {
