@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "Recarregar toda a tabela",
     "textRefreshPageNumbersOnly": "Recarregar número das páginas",
     "textRows": "Linhas",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
@@ -513,8 +513,7 @@
       "X Axis": "Eixo X",
       "Y Axis": "Eixo Y",
       "Your text here": "O seu texto aqui",
-      "Zero Divide": "Divisão por zero",
-      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
+      "Zero Divide": "Divisão por zero"
     },
     "textAnonymous": "Anónimo",
     "textBuyNow": "Visitar website",

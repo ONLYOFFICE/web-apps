@@ -302,6 +302,16 @@ class MainController extends Component {
                                 _translate[item] += ' ';
                         }
                     }
+                    ["Error! Bookmark not defined",
+                     "No table of contents entries found",
+                     "No table of figures entries found",
+                     "Error! Main Document Only",
+                     "Error! Not a valid bookmark self-reference",
+                     "Error! No text of specified style in document"].forEach(item => {
+                        _translate[item + '.'] = _translate[item];
+                        delete _translate[item];
+                    });
+
                     this.api = new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,

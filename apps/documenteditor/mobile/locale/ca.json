@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "Actualitza la taula sencera",
     "textRefreshPageNumbersOnly": "Actualitza només els números de pàgina",
     "textRows": "Files",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertiment",
@@ -513,8 +513,7 @@
       "X Axis": "Eix X XAS",
       "Y Axis": "Eix Y",
       "Your text here": "El teu text aquí",
-      "Zero Divide": "Divideix per zero",
-      "No table of contents entries found.": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents."
+      "Zero Divide": "Divideix per zero"
     },
     "textAnonymous": "Anònim",
     "textBuyNow": "Visita el Lloc Web",

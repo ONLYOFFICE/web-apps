@@ -59,9 +59,9 @@
     "textColumns": "Sloupce",
     "textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
     "textDoNotShowAgain": "Nezobrazovat znovu",
+    "textOk": "OK",
     "textRows": "Řádky",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
   },
   "Controller": {
     "Main": {

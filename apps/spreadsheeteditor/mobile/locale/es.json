@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "Advertencia",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "Aceptar",
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -78,7 +78,7 @@
       "leavePageText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
       "notcriticalErrorTitle": "Advertencia",
       "SDK": {
-        "txtAccent": "Énfasis",
+        "txtAccent": "Acentuación",
         "txtAll": "(Todos)",
         "txtArt": "Su texto aquí",
         "txtBlank": "(en blanco)",
@@ -154,7 +154,7 @@
       "textRemember": "Recordar mi elección",
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
-      "textRequestMacros": "Una macro hace una petición a la URL. ¿Quiere permitir la petición al %1?",
+      "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
@@ -375,7 +375,7 @@
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
       "textAccounting": "Contabilidad",
-      "textActualSize": "Tamaño actual",
+      "textActualSize": "Tamaño Real",
       "textAddCustomColor": "Agregar color personalizado",
       "textAddress": "Dirección",
       "textAlign": "Alinear",
@@ -621,7 +621,7 @@
       "textMatchCell": "Hacer coincidir las celdas",
       "textNoTextFound": "Texto no encontrado",
       "textOk": "OK",
-      "textOpenFile": "Introduzca la contraseña para abrir el archivo",
+      "textOpenFile": "Introduzca una contraseña para abrir el archivo",
       "textOrientation": "Orientación ",
       "textOwner": "Propietario",
       "textPoint": "Punto",

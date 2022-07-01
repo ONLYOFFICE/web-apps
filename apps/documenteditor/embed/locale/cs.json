@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Připojení je příliš pomalé, některé součásti se nepodařilo načíst. Načtěte stránku znovu.",
   "DE.ApplicationController.textAnonymous": "Anonymní",
   "DE.ApplicationController.textClear": "Odstranit všechny kolonky",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "Rozumím",
   "DE.ApplicationController.textGuest": "Návštěvník",
   "DE.ApplicationController.textLoadingDocument": "Načítání dokumentu",
