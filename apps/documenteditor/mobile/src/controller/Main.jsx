@@ -31,7 +31,8 @@ import { Device } from '../../../../common/mobile/utils/device';
     "storeChartSettings",
     "storeApplicationSettings",
     "storeLinkSettings",
-    "storeToolbarSettings"
+    "storeToolbarSettings",
+    "storeNavigation"
     )
 class MainController extends Component {
     constructor(props) {
@@ -742,6 +743,12 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onReplaceAll', this.onApiTextReplaced.bind(this));
+
+        const storeNavigation = this.props.storeNavigation;
+
+        this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', (bookmarks) => {
+            storeNavigation.initBookmarks(bookmarks);
+        });
     }
 
     onApiTextReplaced(found, replaced) {
