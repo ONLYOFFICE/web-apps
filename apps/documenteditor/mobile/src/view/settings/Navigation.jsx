@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Device } from '../../../../../common/mobile/utils/device';
 import {f7, View, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link, ListButton, Toggle, Actions, ActionsButton, ActionsGroup, Sheet} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import { inject, observer } from "mobx-react";
 
-const NavigationPopover = props => {
+const NavigationPopover = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const api = Common.EditorApi.get();
+    const storeNavigation = props.storeNavigation;
+    const bookmarks = storeNavigation.bookmarks;
     const navigationObject = api.asc_ShowDocumentOutline();
-    const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : null);
+    const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : bookmarks.length ? bookmarks[0] : null);
     let arrHeaders = [];
 
-    if(currentPosition) {
+    if(navigationObject) {
         arrHeaders = props.updateNavigation();
+    } else if(bookmarks.length) {
+        arrHeaders = props.updateViewerNavigation(bookmarks);
     }
 
     return (
@@ -37,17 +42,21 @@ const NavigationPopover = props => {
             }
         </Page>
     )
-}
+}));
 
-const NavigationSheet = props => {
+const NavigationSheet = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
     const api = Common.EditorApi.get();
+    const storeNavigation = props.storeNavigation;
+    const bookmarks = storeNavigation.bookmarks;
     const navigationObject = api.asc_ShowDocumentOutline();
-    const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : null);
+    const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : bookmarks.length ? bookmarks[0] : null);
     let arrHeaders = [];
 
-    if(currentPosition) {
+    if(navigationObject) {
         arrHeaders = props.updateNavigation();
+    } else if(bookmarks.length) {
+        arrHeaders = props.updateViewerNavigation(bookmarks);
     }
 
     const [stateHeight, setHeight] = useState('45%');
@@ -122,7 +131,7 @@ const NavigationSheet = props => {
             }
         </Sheet>
     )
-}
+}));
 
 export {
     NavigationPopover,
