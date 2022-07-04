@@ -464,11 +464,8 @@ Common.UI.HintManager = new(function() {
         $(document).on('keyup', function(e) {
             if (_isScroll && (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN)) {
                 _isScroll = false;
-                _hideHints();
-                _currentHints.length = 0;
-                _currentControls.length = 0;
                 _showHints();
-                console.log($(':focus'));
+                Common.NotificationCenter.trigger('hints:hover', false);
             } else if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
@@ -492,8 +489,12 @@ Common.UI.HintManager = new(function() {
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
                 e.preventDefault();
-                if (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN) {
+                if ($('#file-menu-panel').is(':visible') && _currentLevel === 2 && (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN)) {
+                    _hideHints();
+                    _currentHints.length = 0;
+                    _currentControls.length = 0;
                     _isScroll = true;
+                    Common.NotificationCenter.trigger('hints:hover', true);
                 } else if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
                         if (_currentLevel === 0) {

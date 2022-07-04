@@ -386,17 +386,21 @@
       };
 
       var bindKeyboardHandler = function () {
-        var hovered = false;
+        var hovered = false,
+            altHovered = false;
         $this.bind('mouseenter' + eventClassName, function (e) {
           hovered = true;
         });
         $this.bind('mouseleave' + eventClassName, function (e) {
           hovered = false;
         });
+        Common.NotificationCenter.on('hints:hover', function (isHover) {
+          altHovered = isHover;
+        });
 
         var shouldPrevent = false;
         $(document).bind('keydown' + eventClassName, function (e) {
-          if (!hovered || $(document.activeElement).is(":input,[contenteditable]")) {
+          if ((!hovered && !altHovered) || $(document.activeElement).is(":input,[contenteditable]")) {
             return;
           }
 
