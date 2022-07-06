@@ -387,16 +387,23 @@
 
       var bindKeyboardHandler = function () {
         var hovered = false,
-            altHovered = false;
+            altHovered = false,
+            altLevel = $this.data('hint-container');
         $this.bind('mouseenter' + eventClassName, function (e) {
+          if (Common.UI.HintManager.isHovered()) return;
           hovered = true;
         });
         $this.bind('mouseleave' + eventClassName, function (e) {
+          if (Common.UI.HintManager.isHovered()) return;
           hovered = false;
         });
-        Common.NotificationCenter.on('hints:hover', function (isHover) {
-          altHovered = isHover;
-        });
+        if (altLevel !== undefined) {
+          Common.NotificationCenter.on('hints:hover', function (isHover, level) {
+            if (level === parseInt(altLevel)) {
+              altHovered = isHover;
+            }
+          });
+        }
 
         var shouldPrevent = false;
         $(document).bind('keydown' + eventClassName, function (e) {

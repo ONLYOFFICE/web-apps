@@ -337,6 +337,10 @@ define([
             this.api.asc_enableKeyEvents(false);
 
             this.fireEvent('menu:show', [this]);
+
+            setTimeout(_.bind(function () {
+                this.$el.find('.panel-menu')[0].focus();
+            }, this), 10);
         },
 
         hide: function() {

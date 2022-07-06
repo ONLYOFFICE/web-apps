@@ -246,7 +246,7 @@ define([
         menu: undefined,
 
         template: _.template([
-        '<div class="flex-settings" tabindex="0">',
+        '<div class="flex-settings" data-hint-container="2">',
             '<table style="margin: 10px 14px 0;"><tbody>',
                 '<tr class="editsave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
@@ -738,10 +738,6 @@ define([
 
             this.updateSettings();
             this.updateScroller();
-
-            setTimeout(_.bind(function () {
-                $(this.el).find('.ps-container')[0].focus();
-            }, this), 10);
         },
 
         updateScroller: function() {
@@ -1179,7 +1175,7 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-            '<div class="flex-settings">',
+            '<div class="flex-settings" data-hint-container="2">',
                 '<table class="main" style="margin: 30px 0 0;">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',

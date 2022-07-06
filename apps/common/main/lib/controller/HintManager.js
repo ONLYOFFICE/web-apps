@@ -465,7 +465,7 @@ Common.UI.HintManager = new(function() {
             if (_isScroll && (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN)) {
                 _isScroll = false;
                 _showHints();
-                Common.NotificationCenter.trigger('hints:hover', false);
+                Common.NotificationCenter.trigger('hints:hover', false, _currentLevel);
             } else if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
@@ -489,12 +489,12 @@ Common.UI.HintManager = new(function() {
         $(document).on('keydown', function(e) {
             if (_hintVisible) {
                 e.preventDefault();
-                if ($('#file-menu-panel').is(':visible') && _currentLevel === 2 && (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN)) {
+                if ($('#file-menu-panel').is(':visible') && (e.keyCode === Common.UI.Keys.UP || e.keyCode === Common.UI.Keys.DOWN)) {
                     _hideHints();
                     _currentHints.length = 0;
                     _currentControls.length = 0;
                     _isScroll = true;
-                    Common.NotificationCenter.trigger('hints:hover', true);
+                    Common.NotificationCenter.trigger('hints:hover', true, _currentLevel);
                 } else if (e.keyCode == Common.UI.Keys.ESC ) {
                     setTimeout(function () {
                         if (_currentLevel === 0) {
@@ -670,11 +670,16 @@ Common.UI.HintManager = new(function() {
         _isEditDiagram = mode.isEditDiagram || mode.isEditMailMerge || mode.isEditOle;
     };
 
+    var _isHovered = function () {
+        return ($('#file-menu-panel').is(':visible') && (_hintVisible || _isScroll));
+    };
+
     return {
         init: _init,
         setMode: _setMode,
         clearHints: _clearHints,
         needCloseFileMenu: _needCloseFileMenu,
-        isHintVisible: _isHintVisible
+        isHintVisible: _isHintVisible,
+        isHovered: _isHovered
     }
 })();
