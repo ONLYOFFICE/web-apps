@@ -1601,7 +1601,7 @@ define([
                                 else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
                                     me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
-                                    store.url = me.urlPref + '/Contents.json';
+                                    store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }
                             } else {
