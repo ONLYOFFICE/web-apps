@@ -543,6 +543,13 @@ Common.UI.HintManager = new(function() {
                                 _hideHints();
                                 curr.focus();
                                 _resetToDefault();
+                            }  else if (curr.hasClass('treeview')) {
+                                _hideHints();
+                                _resetToDefault();
+                                curr.trigger('hint:focus');
+                                setTimeout(function () {
+                                    curr.focus();
+                                }, 10);
                             } else {
                                 _isComplete = false;
                                 _hideHints();

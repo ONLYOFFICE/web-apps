@@ -110,6 +110,12 @@ define([
         },
 
         onAfterRender: function(panelNavigation) {
+            panelNavigation.viewNavigationList.cmpEl.on('hint:focus', '.treeview', _.bind(function (e) {
+                this.api.asc_enableKeyEvents(false);
+                $(e.currentTarget).on('keydown', _.bind(function (e) {
+                    console.log('keydown');
+                }, this));
+            }, this));
             panelNavigation.viewNavigationList.on('item:click', _.bind(this.onSelectItem, this));
             panelNavigation.viewNavigationList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
             panelNavigation.viewNavigationList.on('item:add', _.bind(this.onItemAdd, this));

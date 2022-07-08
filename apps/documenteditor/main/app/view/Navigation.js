@@ -77,6 +77,8 @@ define([
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-close',
                 hint: this.txtClosePanel,
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
 
             this.btnSettings = new Common.UI.Button({
@@ -155,7 +157,9 @@ define([
                             value: 'wrap'
                         }
                     ]
-                })
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom'
             });
             this.btnSettingsMenu = this.btnSettings.menu;
 
@@ -167,7 +171,8 @@ define([
                 emptyItemText: this.txtEmptyItem,
                 style: 'border: none;',
                 delayRenderTips: true,
-                minScrollbarLength: 25
+                minScrollbarLength: 25,
+                dataHint: '1'
             });
 
             this.viewNavigationList.cmpEl.off('click');
