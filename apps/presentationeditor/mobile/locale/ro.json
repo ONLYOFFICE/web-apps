@@ -59,7 +59,9 @@
     "textColumns": "Coloane",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
-    "textRows": "Rânduri"
+    "textOk": "OK",
+    "textRows": "Rânduri",
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {
     "Main": {

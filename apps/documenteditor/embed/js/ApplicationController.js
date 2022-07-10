@@ -229,7 +229,7 @@ DE.ApplicationController = new(function(){
             if (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Form) { // hyperlink
                 me.isHideBodyTip = false;
 
-                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? me.txtPressLink : data.get_FormHelpText();
+                var str = (type == Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (me.txtPressLink.replace('%1', common.utils.isMac ? '⌘' : me.textCtrl)) : data.get_FormHelpText();
                 if (str.length>500)
                     str = str.substr(0, 500) + '...';
                 str = common.utils.htmlEncode(str);
@@ -401,7 +401,6 @@ DE.ApplicationController = new(function(){
 
         if ( permissions.print === false) {
             $('#idt-print').hide();
-            $(dividers[0]).hide();
             itemsCount--;
         }
 
@@ -413,8 +412,6 @@ DE.ApplicationController = new(function(){
         if ( !appOptions.canFillForms || permissions.download === false) {
             $('#idt-download-docx').hide();
             $('#idt-download-pdf').hide();
-            $(dividers[0]).hide();
-            $(dividers[1]).hide();
             itemsCount -= 2;
         }
 
@@ -428,8 +425,10 @@ DE.ApplicationController = new(function(){
             itemsCount--;
         }
 
-        if (itemsCount<3)
-            $(dividers[2]).hide();
+        if (itemsCount < 7) {
+            $(dividers[0]).hide();
+            $(dividers[1]).hide();
+        }
 
         if ( !embedConfig.embedUrl || appOptions.canFillForms) {
             $('#idt-embed').hide();
@@ -449,10 +448,6 @@ DE.ApplicationController = new(function(){
         common.controller.modals.attach({
             share: '#idt-share',
             embed: '#idt-embed'
-        });
-
-        common.controller.SearchBar.attach({
-            search: '#id-search'
         });
 
         api.asc_registerCallback('asc_onStartAction',           onLongActionBegin);
@@ -522,6 +517,11 @@ DE.ApplicationController = new(function(){
         DE.ApplicationView.tools.get('#idt-download-pdf')
             .on('click', function(){
                 downloadAs(Asc.c_oAscFileType.PDF);
+            });
+
+        DE.ApplicationView.tools.get('#idt-search')
+            .on('click', function(){
+                common.controller.SearchBar.show();
             });
 
         $('#id-btn-zoom-in').on('click', api.zoomIn.bind(this));
@@ -957,9 +957,10 @@ DE.ApplicationController = new(function(){
         textGotIt: 'Got it',
         errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
         txtEmpty: '(Empty)',
-        txtPressLink: 'Press Ctrl and click link',
+        txtPressLink: 'Press %1 and click link',
         errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
         errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
-        openErrorText: 'An error has occurred while opening the file'
+        openErrorText: 'An error has occurred while opening the file',
+        textCtrl: 'Ctrl'
     }
 })();

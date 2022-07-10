@@ -3,11 +3,11 @@
     "textAbout": "À propos",
     "textAddress": "Adresse",
     "textBack": "Retour",
+    "textEditor": "Éditeur de Documents",
     "textEmail": "E-mail",
     "textPoweredBy": "Réalisation",
     "textTel": "Tél.",
-    "textVersion": "Version",
-    "textEditor": "Document Editor"
+    "textVersion": "Version"
   },
   "Add": {
     "notcriticalErrorTitle": "Avertissement",
@@ -199,7 +199,8 @@
     "textOk": "Ok",
     "textRefreshEntireTable": "Actualiser le tableau entier",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
-    "textRows": "Lignes"
+    "textRows": "Lignes",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertissement",

@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b>Форму успішно відправлено</b><br>Натисніть, щоб закрити підказку",
   "DE.ApplicationController.txtClose": "Закрити",
   "DE.ApplicationController.txtEmpty": "(Пусто)",
-  "DE.ApplicationController.txtPressLink": "Натисніть CTRL та клацніть по посиланню",
+  "DE.ApplicationController.txtPressLink": "Натисніть %1 та клацніть по посиланню",
   "DE.ApplicationController.unknownErrorText": "Невідома помилка.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш браузер не підтримується",
   "DE.ApplicationController.waitText": "Будь ласка, зачекайте...",

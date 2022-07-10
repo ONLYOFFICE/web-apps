@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formularioa behar bezala bidali da</b><br>Egin klik argibidea ixteko",
   "DE.ApplicationController.txtClose": "Itxi",
   "DE.ApplicationController.txtEmpty": "(Hutsik)",
-  "DE.ApplicationController.txtPressLink": "Sakatu Ctrl eta egin klik estekan",
+  "DE.ApplicationController.txtPressLink": "Sakatu %1 eta egin klik estekan",
   "DE.ApplicationController.unknownErrorText": "Errore ezezaguna.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Zure nabigatzaileak ez du euskarririk.",
   "DE.ApplicationController.waitText": "Mesedez, itxaron...",
@@ -47,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Ireki fitxategiaren kokalekua",
   "DE.ApplicationView.txtFullScreen": "Pantaila osoa",
   "DE.ApplicationView.txtPrint": "Inprimatu",
+  "DE.ApplicationView.txtSearch": "Bilatu",
   "DE.ApplicationView.txtShare": "Partekatu"
 }

@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>フォームが正常に送信されました。</b><br>クリックしてヒントを閉じます。",
   "DE.ApplicationController.txtClose": "閉じる",
   "DE.ApplicationController.txtEmpty": "(空)",
-  "DE.ApplicationController.txtPressLink": "リンクをクリックしてCTRLを押してください",
+  "DE.ApplicationController.txtPressLink": "リンクをクリックして%1を押してください",
   "DE.ApplicationController.unknownErrorText": "不明なエラー",
   "DE.ApplicationController.unsupportedBrowserErrorText": "お使いのブラウザはサポートされていません。",
   "DE.ApplicationController.waitText": "少々お待ちください...",

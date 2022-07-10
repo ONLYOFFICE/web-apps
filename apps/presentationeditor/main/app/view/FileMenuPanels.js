@@ -748,7 +748,6 @@ define([
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
         txtFitSlide: 'Fit to Slide',
-        txtInput: 'Alternate Input',
         txtWin: 'as Windows',
         txtMac: 'as OS X',
         txtNative: 'Native',
@@ -767,7 +766,6 @@ define([
         txtInch: 'Inch',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)',
         txtSpellCheck: 'Spell Checking',
         txtCacheMode: 'Default cache mode',
         strMacrosSettings: 'Macros Settings',
@@ -777,7 +775,6 @@ define([
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
-        strPaste: 'Cut, copy and paste',
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
         strTheme: 'Theme',
@@ -1604,7 +1601,7 @@ define([
                                 else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
                                     me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
-                                    store.url = me.urlPref + '/Contents.json';
+                                    store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }
                             } else {

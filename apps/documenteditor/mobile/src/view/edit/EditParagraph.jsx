@@ -195,7 +195,7 @@ const EditParagraph = props => {
     const thumbSize = storeParagraphSettings.styleThumbSize;
     const paragraph = props.storeFocusObjects.paragraphObject;
     const curBackColor = storeParagraphSettings.backColor ? storeParagraphSettings.backColor : storeParagraphSettings.getBackgroundColor(paragraph);
-    const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : curBackColor;
+    const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : '';
     
     return (
         <Fragment>

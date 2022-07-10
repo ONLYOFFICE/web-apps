@@ -63,6 +63,8 @@
     "notcriticalErrorTitle": "Avertisment",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
+    "textOk": "OK",
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
     "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {

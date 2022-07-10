@@ -1048,7 +1048,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCoAuthMode": "Chế độ đồng chỉnh sửa",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFast": "Nhanh",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFontRender": "Phông chữ gợi ý",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strForcesave": "Luôn lưu vào server (hoặc lưu vào server khi đóng tài liệu)",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Ngôn ngữ công thức",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Ví dụ: SUM; MIN; MAX; COUNT",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Thiết lập khu vực",

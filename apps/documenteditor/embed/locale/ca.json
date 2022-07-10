@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>El formulari s'ha enviat amb èxit</b><br>Feu clic per a tancar el consell",
   "DE.ApplicationController.txtClose": "Tanca",
   "DE.ApplicationController.txtEmpty": "(Buit)",
-  "DE.ApplicationController.txtPressLink": "Premeu CTRL i feu clic a l'enllaç",
+  "DE.ApplicationController.txtPressLink": "Premeu %1 i feu clic a l'enllaç",
   "DE.ApplicationController.unknownErrorText": "Error desconegut.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "El vostre navegador no és compatible.",
   "DE.ApplicationController.waitText": "Espereu...",
@@ -47,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Obre la ubicació del fitxer",
   "DE.ApplicationView.txtFullScreen": "Pantalla completa",
   "DE.ApplicationView.txtPrint": "Imprimeix",
+  "DE.ApplicationView.txtSearch": "Cerca",
   "DE.ApplicationView.txtShare": "Comparteix"
 }

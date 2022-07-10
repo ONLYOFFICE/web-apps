@@ -3,11 +3,11 @@
     "textAbout": "Quant a...",
     "textAddress": "Adreça",
     "textBack": "Enrere",
+    "textEditor": "Editor del full de càlcul",
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel",
-    "textVersion": "Versió",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Versió"
   },
   "Common": {
     "Collaboration": {
@@ -63,6 +63,8 @@
     "notcriticalErrorTitle": "Advertiment",
     "textCopyCutPasteActions": "Accions de copia, talla i enganxa ",
     "textDoNotShowAgain": "No ho mostris més",
+    "textOk": "D'acord",
+    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?",
     "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?"
   },
   "Controller": {
@@ -226,7 +228,7 @@
     "errorUsersExceed": "S'ha superat el nombre d’usuaris que permet el vostre pla",
     "errorViewerDisconnect": "S'ha perdut la connexió. Encara podeu veure el document, <br>però no el podreu baixar fins que es restableixi la connexió i es torni a carregar la pàgina.",
     "errorWrongBracketsCount": "Hi ha un error en la fórmula. <br>El nombre de parèntesis no és correcte.",
-    "errorWrongOperator": "\nS'ha produït un error en la fórmula introduïda. S'utilitza un operador incorrecte.<br>Corregiu l'error.",
+    "errorWrongOperator": "S'ha produït un error en la fórmula introduïda. S'utilitza un operador incorrecte.<br>Corregiu l'error.",
     "notcriticalErrorTitle": "Advertiment",
     "openErrorText": "S'ha produït un error en obrir el fitxer",
     "pastInMergeAreaError": "No es pot canviar una part d'una cel·la combinada",
@@ -576,7 +578,7 @@
       "textCollaboration": "Col·laboració",
       "textColorSchemes": "Combinacions de colors",
       "textComment": "Comentari",
-      "textCommentingDisplay": "Visualització dels comentaris",
+      "textCommentingDisplay": "Visualitzar Comentaris",
       "textComments": "Comentaris",
       "textCreated": "S'ha creat",
       "textCustomSize": "Mida personalitzada",
@@ -679,7 +681,7 @@
       "txtScheme3": "Vèrtex",
       "txtScheme4": "Aspecte",
       "txtScheme5": "Cívic",
-      "txtScheme6": "Esplanada",
+      "txtScheme6": "Concit",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
       "txtScheme9": "Foneria",

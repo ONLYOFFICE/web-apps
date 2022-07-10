@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Xəbərdarlıq",
     "textCopyCutPasteActions": "Kopyalama, Kəsmə və Yapışdırma Əməliyyatları",
     "textDoNotShowAgain": "Bir daha göstərmə",
-    "warnMergeLostData": "Birləşdirilmiş xanada yalnız yuxarı sol xanadakı məlumatlar qalacaq. <br>Davam etmək istədiyinizdən əminsiniz?"
+    "warnMergeLostData": "Birləşdirilmiş xanada yalnız yuxarı sol xanadakı məlumatlar qalacaq. <br>Davam etmək istədiyinizdən əminsiniz?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

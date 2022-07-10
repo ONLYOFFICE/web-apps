@@ -63,7 +63,9 @@
     "menuUnmerge": "Unmerge",
     "menuUnwrap": "Unwrap",
     "menuViewComment": "View Comment",
-    "notcriticalErrorTitle": "Warning"
+    "notcriticalErrorTitle": "Warning",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

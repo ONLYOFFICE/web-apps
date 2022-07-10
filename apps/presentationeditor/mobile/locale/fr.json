@@ -3,11 +3,11 @@
     "textAbout": "À propos",
     "textAddress": "Adresse",
     "textBack": "Retour",
+    "textEditor": "Éditeur de Présentation",
     "textEmail": "E-mail",
     "textPoweredBy": "Réalisation",
     "textTel": "Tél.",
-    "textVersion": "Version",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Version"
   },
   "Common": {
     "Collaboration": {
@@ -59,7 +59,9 @@
     "textColumns": "Colonnes",
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
-    "textRows": "Lignes"
+    "textRows": "Lignes",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

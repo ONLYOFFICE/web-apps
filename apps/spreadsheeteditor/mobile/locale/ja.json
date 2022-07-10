@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": " 警告",
     "textCopyCutPasteActions": "コピー,切り取り,貼り付けの操作",
     "textDoNotShowAgain": "再度表示しない",
-    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？"
+    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

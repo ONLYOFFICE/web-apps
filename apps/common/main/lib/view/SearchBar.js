@@ -39,7 +39,8 @@
  */
 
 define([
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/component/Button'
 ], function () {
     'use strict';
 
@@ -51,7 +52,8 @@ define([
             header: false,
             cls: 'search-bar',
             alias: 'SearchBar',
-            showOpenPanel: true
+            showOpenPanel: true,
+            toolclose: 'hide'
         },
 
         initialize : function(options) {
@@ -70,6 +72,7 @@ define([
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
+            this.iconType = this.options.iconType;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
 
@@ -91,7 +94,7 @@ define([
             this.btnBack = new Common.UI.Button({
                 parentEl: $('#search-bar-back'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-arrow-up',
+                iconCls: this.iconType === 'svg' ? 'svg-icon search-arrow-up' : 'toolbar__icon btn-arrow-up',
                 hint: this.tipPreviousResult
             });
             this.btnBack.on('click', _.bind(this.onBtnNextClick, this, 'back'));
@@ -99,7 +102,7 @@ define([
             this.btnNext = new Common.UI.Button({
                 parentEl: $('#search-bar-next'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-arrow-down',
+                iconCls: this.iconType === 'svg' ? 'svg-icon search-arrow-down' : 'toolbar__icon btn-arrow-down',
                 hint: this.tipNextResult
             });
             this.btnNext.on('click', _.bind(this.onBtnNextClick, this, 'next'));
@@ -117,7 +120,7 @@ define([
             this.btnClose = new Common.UI.Button({
                 parentEl: $('#search-bar-close'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-close',
+                iconCls: this.iconType === 'svg' ? 'svg-icon search-close' : 'toolbar__icon btn-close',
                 hint: this.tipCloseSearch
             });
             this.btnClose.on('click', _.bind(function () {
@@ -132,10 +135,11 @@ define([
         },
 
         show: function(text) {
-            var top = $('#app-title').height() + $('#toolbar').height() + 2,
+            var top = ($('#app-title').length > 0 ? $('#app-title').height() : 0) + $('#toolbar').height() + 2,
                 left = Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32;
             Common.UI.Window.prototype.show.call(this, left, top);
 
+            this.disableNavButtons();
             if (text) {
                 this.inputSearch.val(text);
                 this.fireEvent('search:input', [text]);
@@ -143,7 +147,6 @@ define([
                 this.inputSearch.val('');
             }
 
-            this.disableNavButtons();
             this.focus();
         },
 
@@ -182,9 +185,9 @@ define([
         },
 
         disableNavButtons: function (resultNumber, allResults) {
-            var disable = this.inputSearch.val() === '';
-            this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
-            this.btnNext.setDisabled(disable || resultNumber + 1 === allResults);
+            var disable = this.inputSearch.val() === '' || !allResults;
+            this.btnBack.setDisabled(disable);
+            this.btnNext.setDisabled(disable);
         },
 
         textFind: 'Find',

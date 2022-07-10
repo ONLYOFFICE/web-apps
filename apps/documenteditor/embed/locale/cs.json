@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Výška",
   "common.view.modals.txtShare": "Odkaz pro sdílení",
   "common.view.modals.txtWidth": "Šířka",
+  "common.view.SearchBar.textFind": "Najít",
   "DE.ApplicationController.convertationErrorText": "Převod se nezdařil.",
   "DE.ApplicationController.convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
   "DE.ApplicationController.criticalErrorTitle": "Chyba",
@@ -25,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Připojení je příliš pomalé, některé součásti se nepodařilo načíst. Načtěte stránku znovu.",
   "DE.ApplicationController.textAnonymous": "Anonymní",
   "DE.ApplicationController.textClear": "Odstranit všechny kolonky",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "Rozumím",
   "DE.ApplicationController.textGuest": "Návštěvník",
   "DE.ApplicationController.textLoadingDocument": "Načítání dokumentu",
@@ -35,7 +37,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulář úspěšně uložen.</b><br>Klikněte pro zavření nápovědy.",
   "DE.ApplicationController.txtClose": "Zavřít",
   "DE.ApplicationController.txtEmpty": "(Prázdné)",
-  "DE.ApplicationController.txtPressLink": "Stiskněte CTRL a klikněte na odkaz",
+  "DE.ApplicationController.txtPressLink": "Stiskněte %1 a klikněte na odkaz",
   "DE.ApplicationController.unknownErrorText": "Neznámá chyba.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Vámi používaný webový prohlížeč není podporován.",
   "DE.ApplicationController.waitText": "Čekejte prosím…",
@@ -46,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "Otevřít umístění souboru",
   "DE.ApplicationView.txtFullScreen": "Na celou obrazovku",
   "DE.ApplicationView.txtPrint": "Tisk",
+  "DE.ApplicationView.txtSearch": "Hledat",
   "DE.ApplicationView.txtShare": "Sdílet"
 }

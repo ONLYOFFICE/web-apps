@@ -3,11 +3,11 @@
     "textAbout": "Acerca de",
     "textAddress": "Dirección",
     "textBack": "Atrás",
+    "textEditor": "Editor de presentaciones",
     "textEmail": "Correo",
     "textPoweredBy": "Con tecnología de",
     "textTel": "Tel",
-    "textVersion": "Versión ",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Versión "
   },
   "Common": {
     "Collaboration": {
@@ -59,7 +59,9 @@
     "textColumns": "Columnas",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
-    "textRows": "Filas"
+    "textOk": "Aceptar",
+    "textRows": "Filas",
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -114,7 +116,7 @@
       "textRemember": "Recordar mi elección",
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
-      "textRequestMacros": "Una macro hace una petición a la URL. ¿Quiere permitir la petición al %1?",
+      "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
       "titleLicenseExp": "Licencia ha expirado",
       "titleServerVersion": "Editor ha sido actualizado",

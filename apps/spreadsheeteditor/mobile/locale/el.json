@@ -3,11 +3,11 @@
     "textAbout": "Περί",
     "textAddress": "Διεύθυνση",
     "textBack": "Πίσω",
+    "textEditor": "Συντάκτης Λογιστικού Φύλλου",
     "textEmail": "Email",
     "textPoweredBy": "Υποστηρίζεται Από",
     "textTel": "Τηλ",
-    "textVersion": "Έκδοση",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Έκδοση"
   },
   "Common": {
     "Collaboration": {
@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Προειδοποίηση",
     "textCopyCutPasteActions": "Ενέργειες Αντιγραφής, Αποκοπής και Επικόλλησης",
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
-    "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;"
+    "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -152,6 +154,7 @@
       "textRemember": "Απομνημόνευση επιλογής",
       "textReplaceSkipped": "Η αντικατάσταση έγινε. {0} εμφανίσεις προσπεράστηκαν.",
       "textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
+      "textRequestMacros": "Μια μακροεντολή κάνει ένα αίτημα σε διεύθυνση URL. Θέλετε να επιτρέψετε το αίτημα στο %1;",
       "textYes": "Ναι",
       "titleServerVersion": "Ο συντάκτης ενημερώθηκε",
       "titleUpdateVersion": "Η έκδοση άλλαξε",
@@ -161,8 +164,7 @@
       "warnLicenseUsersExceeded": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με τον διαχειριστή σας για περισσότερες πληροφορίες.",
       "warnNoLicense": "Φτάσατε το όριο ταυτόχρονων συνδέσεων σε %1 συντάκτες. Το έγγραφο θα ανοίξει μόνο για ανάγνωση. Επικοινωνήστε με την ομάδα πωλήσεων %1 για τους όρους αναβάθμισης.",
       "warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
-      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
   "Error": {
@@ -300,9 +302,9 @@
     "textRenameSheet": "Μετονομασία Φύλλου",
     "textSheet": "Φύλλο",
     "textSheetName": "Όνομα Φύλλου",
+    "textTabColor": "Χρώμα Στηλοθέτη",
     "textUnhide": "Αναίρεση απόκρυψης",
-    "textWarnDeleteSheet": "Το φύλλο εργασίας ίσως περιέχει δεδομένα. Να συνεχιστεί η λειτουργία;",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "Το φύλλο εργασίας ίσως περιέχει δεδομένα. Να συνεχιστεί η λειτουργία;"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές στο έγγραφο. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
@@ -401,6 +403,7 @@
       "textBottomBorder": "Κάτω Περίγραμμα",
       "textBringToForeground": "Μεταφορά στο Προσκήνιο",
       "textCell": "Κελί",
+      "textCellStyle": "Τεχνοτροπία Κελιού",
       "textCenter": "Κέντρο",
       "textChart": "Γράφημα",
       "textChartTitle": "Τίτλος Γραφήματος",
@@ -549,8 +552,7 @@
       "textYen": "Γιέν",
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSortHigh2Low": "Ταξινόμηση από το Υψηλότερο στο Χαμηλότερο",
-      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο"
     },
     "Settings": {
       "advCSVOptions": "Επιλέξτε CSV επιλογές",
@@ -582,6 +584,7 @@
       "textCustomSize": "Προσαρμοσμένο Μέγεθος",
       "textDarkTheme": "Σκούρο θέμα",
       "textDelimeter": "Διαχωριστικό",
+      "textDirection": "Κατεύθυνση",
       "textDisableAll": "Απενεργοποίηση Όλων",
       "textDisableAllMacrosWithNotification": "Απενεργοποίηση όλων των μακροεντολών με ειδοποίηση",
       "textDisableAllMacrosWithoutNotification": "Απενεργοποίηση όλων των μακροεντολών χωρίς ειδοποίηση",
@@ -593,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "Ενεργοποίηση όλων των μακροεντολών χωρίς ειδοποίηση",
       "textEncoding": "Κωδικοποίηση",
       "textExample": "Παράδειγμα",
+      "textFeedback": "Ανατροφοδότηση & Υποστήριξη",
       "textFind": "Εύρεση",
       "textFindAndReplace": "Εύρεση και Αντικατάσταση",
       "textFindAndReplaceAll": "Εύρεση και Αντικατάσταση Όλων",
@@ -608,6 +612,7 @@
       "textLastModified": "Τελευταίο Τροποποιημένο",
       "textLastModifiedBy": "Τελευταία Τροποποίηση Από",
       "textLeft": "Αριστερά",
+      "textLeftToRight": "Αριστερά Προς Δεξιά",
       "textLocation": "Τοποθεσία",
       "textLookIn": "Αναζήτηση Σε",
       "textMacrosSettings": "Ρυθμίσεις Mακροεντολών",
@@ -628,7 +633,9 @@
       "textReplace": "Αντικατάσταση",
       "textReplaceAll": "Αντικατάσταση Όλων",
       "textResolvedComments": "Επιλυμένα Σχόλια",
+      "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
       "textRight": "Δεξιά",
+      "textRightToLeft": "Δεξιά Προς Αριστερά",
       "textSearch": "Αναζήτηση",
       "textSearchBy": "Αναζήτηση",
       "textSearchIn": "Αναζήτηση Σε",
@@ -681,12 +688,7 @@
       "txtSemicolon": "Ανω τελεία",
       "txtSpace": "Κενό διάστημα",
       "txtTab": "Καρτέλα",
-      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
-      "textDirection": "Direction",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRightToLeft": "Right To Left"
+      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;"
     }
   }
 }

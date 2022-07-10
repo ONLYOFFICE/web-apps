@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b>양식이 성공적으로 전송되었습니다.</b><br>여기를 클릭하여 프롬프트를 닫으십시오",
   "DE.ApplicationController.txtClose": "닫기",
   "DE.ApplicationController.txtEmpty": "(없음)",
-  "DE.ApplicationController.txtPressLink": "CTRL 키를 누른 상태에서 링크 클릭",
+  "DE.ApplicationController.txtPressLink": "%1 키를 누른 상태에서 링크 클릭",
   "DE.ApplicationController.unknownErrorText": "알 수없는 오류.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "사용중인 브라우저가 지원되지 않습니다.",
   "DE.ApplicationController.waitText": "잠시만 기다려주세요...",

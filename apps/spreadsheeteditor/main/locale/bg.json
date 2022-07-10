@@ -1463,7 +1463,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCoAuthMode": "Режим на съвместно редактиране",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFast": "Бърз",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFontRender": "Подказване на шрифт",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strForcesave": "Винаги да се съхранява в сървъра (в противен случай да се запази на сървър на документ затворен)",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Език на формулата",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Пример: SUM; MIN; MAX; БРОЯ",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Регионални настройки",

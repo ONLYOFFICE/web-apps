@@ -88,7 +88,10 @@ const Search = withTranslation()(props => {
         f7.popover.close('.document-menu.modal-in', false);
 
         if (params.find && params.find.length) {
-            api.asc_findText(params.find, params.forward, params.caseSensitive, function(resultCount) {
+            var options = new AscCommon.CSearchSettings();
+            options.put_Text(params.find);
+            options.put_MatchCase(params.caseSensitive);
+            api.asc_findText(options, params.forward, function(resultCount) {
                 !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
             });
 
@@ -105,7 +108,10 @@ const Search = withTranslation()(props => {
         const api = Common.EditorApi.get();
 
         if (params.find && params.find.length) {
-            api.asc_replaceText(params.find, params.replace || '', false, params.caseSensitive);
+            var options = new AscCommon.CSearchSettings();
+            options.put_Text(params.find);
+            options.put_MatchCase(params.caseSensitive);
+            api.asc_replaceText(options, params.replace || '', false);
         }
     }
 
@@ -113,7 +119,10 @@ const Search = withTranslation()(props => {
         const api = Common.EditorApi.get();
 
         if (params.find && params.find.length) {
-            api.asc_replaceText(params.find, params.replace || '', true, params.caseSensitive);
+            var options = new AscCommon.CSearchSettings();
+            options.put_Text(params.find);
+            options.put_MatchCase(params.caseSensitive);
+            api.asc_replaceText(options, params.replace || '', true);
         }
     }
 

@@ -59,7 +59,9 @@
     "textColumns": "열",
     "textCopyCutPasteActions": "복사, 잘라내기 및 붙여 넣기",
     "textDoNotShowAgain": "다시 표시하지 않음",
-    "textRows": "행"
+    "textRows": "행",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

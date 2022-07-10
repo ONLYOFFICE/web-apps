@@ -105,6 +105,7 @@ define([
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
             }
             return this;
         },
@@ -225,10 +226,11 @@ define([
                             if (me.view.$el.is(':visible')) {
                                 me.api.asc_StartTextAroundSearch();
                             }
-                            me.view.disableReplaceButtons(false);
+                            //me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
-                            me.view.disableReplaceButtons(true);
+                            me.view.disableNavButtons();
+                            //me.view.disableReplaceButtons(true);
                         }
                         clearInterval(me.searchTimer);
                         me.searchTimer = undefined;
@@ -265,7 +267,7 @@ define([
             if (!this.api.asc_findText(options)) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
-                this.view.disableReplaceButtons(true);
+                //this.view.disableReplaceButtons(true);
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
                 this.view.disableNavButtons();
@@ -275,23 +277,21 @@ define([
         },
 
         onQueryReplace: function(textSearch, textReplace) {
-            if (textSearch !== '') {
-                this.api.isReplaceAll = false;
-                var options = new Asc.asc_CFindOptions();
-                options.asc_setFindWhat(textSearch);
-                options.asc_setReplaceWith(textReplace);
-                options.asc_setIsMatchCase(this._state.matchCase);
-                options.asc_setIsWholeCell(this._state.matchWord);
-                options.asc_setScanOnOnlySheet(this._state.withinSheet);
-                if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
-                    options.asc_setSpecificRange(this._state.selectedRange);
-                }
-                options.asc_setScanByRows(this._state.searchByRows);
-                options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-                options.asc_setIsReplaceAll(false);
-
-                this.api.asc_replaceText(options);
+            this.api.isReplaceAll = false;
+            var options = new Asc.asc_CFindOptions();
+            options.asc_setFindWhat(textSearch);
+            options.asc_setReplaceWith(textReplace);
+            options.asc_setIsMatchCase(this._state.matchCase);
+            options.asc_setIsWholeCell(this._state.matchWord);
+            options.asc_setScanOnOnlySheet(this._state.withinSheet);
+            if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
+                options.asc_setSpecificRange(this._state.selectedRange);
             }
+            options.asc_setScanByRows(this._state.searchByRows);
+            options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+            options.asc_setIsReplaceAll(false);
+
+            this.api.asc_replaceText(options);
         },
 
         onQueryReplaceAll: function(textSearch, textReplace) {
@@ -316,11 +316,11 @@ define([
             var me = this;
             if (this.api.isReplaceAll) {
                 if (!found) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 } else {
-                    !(found-replaced) && this.allResultsWasRemoved();
+                    !(found-replaced) && this.removeResultItems();
                     Common.UI.info({
-                        msg: !(found-replaced) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
+                        msg: (!(found-replaced) || replaced > found) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
                         callback: function() {
                             me.view.focus();
                         }
@@ -339,16 +339,16 @@ define([
                 options.asc_setScanByRows(this._state.searchByRows);
                 options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                 if (!this.api.asc_findText(options)) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 }
             }
         },
 
-        allResultsWasRemoved: function () {
+        removeResultItems: function (type) {
             this.resultItems = [];
             this.hideResults();
-            this.view.updateResultsNumber(undefined, 0);
-            this.view.disableReplaceButtons(true);
+            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
+            //this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
             this.view.disableNavButtons();
@@ -482,7 +482,7 @@ define([
 
             var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 &&
-                (!this._state.matchCase && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
                     this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                 return;
             }
@@ -494,14 +494,14 @@ define([
             }
 
             this.hideResults();
-            if (text !== '' && text === this._state.searchText) { // search was made
-                this.view.disableReplaceButtons(false);
+            if (text && text !== '' && text === this._state.searchText) { // search was made
+                //this.view.disableReplaceButtons(false);
                 this.api.asc_StartTextAroundSearch();
-            } else if (text !== '') { // search wasn't made
+            } else if (text && text !== '') { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
                 this.resultItems = [];
-                this.view.disableReplaceButtons(true);
+                //this.view.disableReplaceButtons(true);
                 this.view.clearResultsNumber();
             }
             this.view.disableNavButtons(this._state.currentResult, this._state.resultsNumber);
@@ -541,6 +541,10 @@ define([
                 this.api.asc_selectSearchingResults(val);
                 this._state.isHighlightedResults = val;
             }
+        },
+
+        onApiSearchEnd: function () {
+            this.removeResultItems('stop');
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',

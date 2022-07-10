@@ -265,36 +265,55 @@ PE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -1);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
-        if ( permissions.print === false)
+        var dividers = $('#box-tools .divider');
+        var itemsCount = $('#box-tools a').length;
+
+        $('#idt-search').hide(); // TO DO: remove when search will be ready
+        itemsCount--;
+
+        if ( permissions.print === false) {
             $('#idt-print').hide();
+            itemsCount--;
+        }
 
-        if (!embedConfig.saveUrl || permissions.download === false)
+        if (!embedConfig.saveUrl || permissions.download === false) {
             $('#idt-download').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.shareUrl )
+        if ( !embedConfig.shareUrl ) {
             $('#idt-share').hide();
+            itemsCount--;
+        }
 
-        if (!config.canBackToFolder)
+        if (!config.canBackToFolder) {
             $('#idt-close').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.embedUrl )
+        if (itemsCount < 7) {
+            $(dividers[0]).hide();
+            $(dividers[1]).hide();
+        }
+
+        if ( !embedConfig.embedUrl ) {
             $('#idt-embed').hide();
+            itemsCount--;
+        }
 
-        if ( !embedConfig.fullscreenUrl )
+        if ( !embedConfig.fullscreenUrl ) {
             $('#idt-fullscreen').hide();
+            itemsCount--;
+        }
 
-        if ( (!embedConfig.saveUrl || permissions.download === false) && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl && !config.canBackToFolder)
+        if (itemsCount < 1)
             $('#box-tools').addClass('hidden');
         else if (!embedConfig.embedUrl && !embedConfig.fullscreenUrl)
-            $('#box-tools .divider').hide();
+            $(dividers[2]).hide();
 
         common.controller.modals.attach({
             share: '#idt-share',
             embed: '#idt-embed'
-        });
-
-        common.controller.SearchBar.attach({
-            search: '#id-search'
         });
 
         api.asc_registerCallback('asc_onMouseMoveStart',        onDocMouseMoveStart);
@@ -348,6 +367,11 @@ PE.ApplicationController = new(function(){
                         }
                     }
                 }
+            });
+
+        PE.ApplicationView.tools.get('#idt-search')
+            .on('click', function(){
+                common.controller.SearchBar.show();
             });
 
         var $pagenum = $('#page-number');

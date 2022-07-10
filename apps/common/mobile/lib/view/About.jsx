@@ -128,7 +128,7 @@ const PageAbout = props => {
 };
 
 const About = inject("storeAppOptions")(observer(PageAbout));
-About.appVersion = () => (__PRODUCT_VERSION__);
+About.appVersion = () => (__PRODUCT_VERSION__).match(/\d+.\d+.\d+/)[0];     // skip build number
 About.compareVersions = () => /d$/.test(__PRODUCT_VERSION__);
 About.developVersion = () => /(?:d|debug)$/.test(__PRODUCT_VERSION__);
 

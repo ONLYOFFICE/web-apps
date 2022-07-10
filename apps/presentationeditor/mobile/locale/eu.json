@@ -3,11 +3,11 @@
     "textAbout": "Honi buruz",
     "textAddress": "Helbidea",
     "textBack": "Atzera",
+    "textEditor": "Aurkezpen editorea",
     "textEmail": "Posta elektronikoa",
     "textPoweredBy": "Garatzailea:",
     "textTel": "Tel.",
-    "textVersion": "Bertsioa",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Bertsioa"
   },
   "Common": {
     "Collaboration": {
@@ -59,7 +59,9 @@
     "textColumns": "Zutabeak",
     "textCopyCutPasteActions": "Kopiatu, ebaki eta itsatsi ekintzak",
     "textDoNotShowAgain": "Ez erakutsi berriro",
-    "textRows": "Errenkadak"
+    "textRows": "Errenkadak",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

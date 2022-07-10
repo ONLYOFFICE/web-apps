@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Altura",
   "common.view.modals.txtShare": "Compartir enlace",
   "common.view.modals.txtWidth": "Ancho",
+  "common.view.SearchBar.textFind": "Buscar",
   "DE.ApplicationController.convertationErrorText": "Fallo de conversión.",
   "DE.ApplicationController.convertationTimeoutText": "Se ha superado el tiempo de conversión.",
   "DE.ApplicationController.criticalErrorTitle": "Error",
@@ -25,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "La conexión a Internet es demasiado lenta, algunos de los componentes no se han podido cargar. Recargue la página.",
   "DE.ApplicationController.textAnonymous": "Anónimo",
   "DE.ApplicationController.textClear": "Borrar todos los campos",
+  "DE.ApplicationController.textCtrl": "Control",
   "DE.ApplicationController.textGotIt": "Entendido",
   "DE.ApplicationController.textGuest": "Invitado",
   "DE.ApplicationController.textLoadingDocument": "Cargando documento",
@@ -35,7 +37,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulario enviado con éxito. </b><br>Haga clic para cerrar el consejo",
   "DE.ApplicationController.txtClose": "Cerrar",
   "DE.ApplicationController.txtEmpty": "(Vacío)",
-  "DE.ApplicationController.txtPressLink": "Pulse CTRL y haga clic en el enlace",
+  "DE.ApplicationController.txtPressLink": "Pulse %1 y haga clic en el enlace",
   "DE.ApplicationController.unknownErrorText": "Error desconocido.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Su navegador no es compatible.",
   "DE.ApplicationController.waitText": "Espere...",
@@ -46,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "Abrir ubicación del archivo",
   "DE.ApplicationView.txtFullScreen": "Pantalla completa",
   "DE.ApplicationView.txtPrint": "Imprimir",
+  "DE.ApplicationView.txtSearch": "Búsqueda",
   "DE.ApplicationView.txtShare": "Compartir"
 }

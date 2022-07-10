@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b>Az űrlap sikeresen elküldve</b><br>Kattintson a tipp bezárásához",
   "DE.ApplicationController.txtClose": "Bezárás",
   "DE.ApplicationController.txtEmpty": "(Üres)",
-  "DE.ApplicationController.txtPressLink": "Nyomja meg a CTRL billentyűt és kattintson a hivatkozásra",
+  "DE.ApplicationController.txtPressLink": "Nyomja meg a %1 billentyűt és kattintson a hivatkozásra",
   "DE.ApplicationController.unknownErrorText": "Ismeretlen hiba.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "A böngészője nem támogatott.",
   "DE.ApplicationController.waitText": "Kérjük, várjon...",

@@ -418,6 +418,14 @@ define([
 
             me.pmiCellMenuSeparator =  new Common.UI.MenuItem({
                 caption     : '--'
+            })
+
+            me.pmiFunctionSeparator =  new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            me.pmiFreezeSeparator =  new Common.UI.MenuItem({
+                caption     : '--'
             });
 
             me.pmiAddNamedRange = new Common.UI.MenuItem({
@@ -549,7 +557,11 @@ define([
             me.pmiCondFormat = new Common.UI.MenuItem({
                 caption     : me.txtCondFormat
             });
-            
+
+            me.pmiGetRangeList = new Common.UI.MenuItem({
+                caption     : me.txtGetLink
+            });
+
             me.ssMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -580,7 +592,9 @@ define([
                     me.pmiNumFormat,
                     me.pmiCondFormat,
                     me.pmiEntriesList,
+                    me.pmiGetRangeList,
                     me.pmiAddNamedRange,
+                    me.pmiFunctionSeparator,
                     me.pmiInsFunction,
                     me.menuAddHyperlink,
                     me.menuHyperlink,
@@ -588,6 +602,7 @@ define([
                     me.pmiColumnWidth,
                     me.pmiEntireHide,
                     me.pmiEntireShow,
+                    me.pmiFreezeSeparator,
                     me.pmiFreezePanes
                 ]
             });
@@ -1303,7 +1318,8 @@ define([
         tipMarkersFRhombus: 'Filled rhombus bullets',
         tipMarkersDash: 'Dash bullets',
         chartDataText: 'Select Chart Data',
-        chartTypeText: 'Change Chart Type'
+        chartTypeText: 'Change Chart Type',
+        txtGetLink: 'Get link to this range'
 
     }, SSE.Views.DocumentHolder || {}));
 });

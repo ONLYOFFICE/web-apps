@@ -3,11 +3,11 @@
     "textAbout": "Quant a...",
     "textAddress": "Adreça",
     "textBack": "Enrere",
+    "textEditor": "Editor de documents",
     "textEmail": "Correu electrònic",
     "textPoweredBy": "Amb tecnologia de",
     "textTel": "Tel.",
-    "textVersion": "Versió",
-    "textEditor": "Document Editor"
+    "textVersion": "Versió"
   },
   "Add": {
     "notcriticalErrorTitle": "Advertiment",
@@ -70,9 +70,9 @@
       "textAcceptAllChanges": "Accepta tots els canvis",
       "textAddComment": "Afegeix un comentari",
       "textAddReply": "Afegeix una resposta",
-      "textAllChangesAcceptedPreview": "S'han acceptat tots els canvis (Previsualitzar)",
+      "textAllChangesAcceptedPreview": "S'han acceptat tots el canvis (Visualització prèvia)",
       "textAllChangesEditing": "Tots els canvis (Edició)",
-      "textAllChangesRejectedPreview": "S'han rebutjat tots els canvis (Previsualitzar)",
+      "textAllChangesRejectedPreview": "S'han rebutjat tots els canvis (Visualització prèvia)",
       "textAtLeast": "pel cap baix",
       "textAuto": "automàtic",
       "textBack": "Enrere",
@@ -199,7 +199,8 @@
     "textOk": "D'acord",
     "textRefreshEntireTable": "Actualitza la taula sencera",
     "textRefreshPageNumbersOnly": "Actualitza només els números de pàgina",
-    "textRows": "Files"
+    "textRows": "Files",
+    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertiment",

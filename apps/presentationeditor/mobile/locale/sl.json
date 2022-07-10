@@ -59,7 +59,9 @@
     "menuViewComment": "View Comment",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "textRows": "Rows"
+    "textOk": "Ok",
+    "textRows": "Rows",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "View": {
     "Add": {

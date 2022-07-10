@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "Ma",
   "Common.UI.Calendar.textShortWednesday": "Mi",
   "Common.UI.Calendar.textYears": "Ani",
+  "Common.UI.SearchBar.textFind": "Găsire",
+  "Common.UI.SearchBar.tipCloseSearch": "Închide căutare",
+  "Common.UI.SearchBar.tipNextResult": "Următorul rezultat",
+  "Common.UI.SearchBar.tipPreviousResult": "Rezultatul anterior",
   "Common.UI.Themes.txtThemeClassicLight": "Clasic Luminos",
   "Common.UI.Themes.txtThemeDark": "Întunecat",
   "Common.UI.Themes.txtThemeLight": "Luminos",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Deschidere locația fișierului",
   "DE.Views.ApplicationView.txtFullScreen": "Ecran complet",
   "DE.Views.ApplicationView.txtPrint": "Imprimare",
+  "DE.Views.ApplicationView.txtSearch": "Căutare",
   "DE.Views.ApplicationView.txtShare": "Partajează",
   "DE.Views.ApplicationView.txtTheme": "Tema interfeței"
 }

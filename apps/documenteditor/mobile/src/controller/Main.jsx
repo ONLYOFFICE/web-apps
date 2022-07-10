@@ -61,9 +61,7 @@ class MainController extends Component {
             !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
                                                             '../../../../sdkjs/word/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
-                                '../../../vendor/sockjs/sockjs.min.js',
-                                '../../../vendor/jszip/jszip.min.js',
-                                '../../../vendor/jszip-utils/jszip-utils.min.js'];
+                                '../../../vendor/sockjs/sockjs.min.js'];
             dep_scripts.push(...window.sdk_scripts);
 
             const promise_get_script = (scriptpath) => {
@@ -305,6 +303,16 @@ class MainController extends Component {
                                 _translate[item] += ' ';
                         }
                     }
+                    ["Error! Bookmark not defined",
+                     "No table of contents entries found",
+                     "No table of figures entries found",
+                     "Error! Main Document Only",
+                     "Error! Not a valid bookmark self-reference",
+                     "Error! No text of specified style in document"].forEach(item => {
+                        _translate[item + '.'] = _translate[item];
+                        delete _translate[item];
+                    });
+
                     this.api = new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,

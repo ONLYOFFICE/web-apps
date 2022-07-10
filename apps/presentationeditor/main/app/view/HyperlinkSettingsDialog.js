@@ -100,6 +100,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.slides = this.options.slides;
             this.api = this.options.api;
+            this.urlType = AscCommon.c_oAscUrlType.Invalid;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -137,9 +138,8 @@ define([
                     var trimmed = $.trim(value);
                     if (trimmed.length>2083) return me.txtSizeLimit;
 
-                    var urltype = me.api.asc_getUrlType(trimmed);
-                    me.isEmail = (urltype==2);
-                    return (urltype>0) ? true : me.txtNotUrl;
+                    me.urlType = me.api.asc_getUrlType(trimmed);
+                    return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
                 }
             });
             me.inputUrl._input.on('input', function (e) {
@@ -236,8 +236,8 @@ define([
                 def_display = tip;
             } else {
                 var url = $.trim(me.inputUrl.getValue());
-                if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                    url = ( (me.isEmail) ? 'mailto:' : 'http://' ) + url;
+                if (me.urlType!==AscCommon.c_oAscUrlType.Unsafe && ! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
+                    url = ( (me.urlType==AscCommon.c_oAscUrlType.Email) ? 'mailto:' : 'http://' ) + url;
                 url = url.replace(new RegExp("%20",'g')," ");
                 props.put_Value( url );
                 props.put_ToolTip(me.inputTip.getValue());

@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "Tu",
   "Common.UI.Calendar.textShortWednesday": "We",
   "Common.UI.Calendar.textYears": "Years",
+  "Common.UI.SearchBar.textFind": "Find",
+  "Common.UI.SearchBar.tipCloseSearch": "Close search",
+  "Common.UI.SearchBar.tipNextResult": "Next result",
+  "Common.UI.SearchBar.tipPreviousResult": "Previous result",
   "Common.UI.Themes.txtThemeClassicLight": "Classic Light",
   "Common.UI.Themes.txtThemeDark": "Dark",
   "Common.UI.Themes.txtThemeLight": "Light",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Open file location",
   "DE.Views.ApplicationView.txtFullScreen": "Full Screen",
   "DE.Views.ApplicationView.txtPrint": "Print",
+  "DE.Views.ApplicationView.txtSearch": "Search",
   "DE.Views.ApplicationView.txtShare": "Share",
   "DE.Views.ApplicationView.txtTheme": "Interface theme"
 }

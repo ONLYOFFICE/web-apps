@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
   "DE.ApplicationController.textAnonymous": "Анонимный пользователь",
   "DE.ApplicationController.textClear": "Очистить все поля",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "ОК",
   "DE.ApplicationController.textGuest": "Гость",
   "DE.ApplicationController.textLoadingDocument": "Загрузка документа",
@@ -36,7 +37,7 @@
   "DE.ApplicationController.textSubmited": "<b>Форма успешно отправлена</b><br>Нажмите, чтобы закрыть подсказку",
   "DE.ApplicationController.txtClose": "Закрыть",
   "DE.ApplicationController.txtEmpty": "(Пусто)",
-  "DE.ApplicationController.txtPressLink": "Нажмите CTRL и щелкните по ссылке",
+  "DE.ApplicationController.txtPressLink": "Нажмите %1 и щелкните по ссылке",
   "DE.ApplicationController.unknownErrorText": "Неизвестная ошибка.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш браузер не поддерживается.",
   "DE.ApplicationController.waitText": "Пожалуйста, подождите...",
@@ -47,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "DE.ApplicationView.txtFullScreen": "Во весь экран",
   "DE.ApplicationView.txtPrint": "Печать",
+  "DE.ApplicationView.txtSearch": "Поиск",
   "DE.ApplicationView.txtShare": "Поделиться"
 }

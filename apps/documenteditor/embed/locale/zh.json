@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "高度",
   "common.view.modals.txtShare": "分享链接",
   "common.view.modals.txtWidth": "宽度",
+  "common.view.SearchBar.textFind": "查找",
   "DE.ApplicationController.convertationErrorText": "转换失败",
   "DE.ApplicationController.convertationTimeoutText": "转换超时",
   "DE.ApplicationController.criticalErrorTitle": "错误",
@@ -35,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>表单提交成功</b><br>点击以关闭提示",
   "DE.ApplicationController.txtClose": "关闭",
   "DE.ApplicationController.txtEmpty": "（空）",
-  "DE.ApplicationController.txtPressLink": "按CTRL并单击链接",
+  "DE.ApplicationController.txtPressLink": "按%1并单击链接",
   "DE.ApplicationController.unknownErrorText": "未知错误。",
   "DE.ApplicationController.unsupportedBrowserErrorText": "您的浏览器不受支持",
   "DE.ApplicationController.waitText": "请稍候...",
@@ -46,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "打开文件所在位置",
   "DE.ApplicationView.txtFullScreen": "全屏",
   "DE.ApplicationView.txtPrint": "打印",
+  "DE.ApplicationView.txtSearch": "搜索",
   "DE.ApplicationView.txtShare": "共享"
 }

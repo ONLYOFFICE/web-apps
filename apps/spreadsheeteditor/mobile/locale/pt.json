@@ -63,7 +63,9 @@
     "notcriticalErrorTitle": "Aviso",
     "textCopyCutPasteActions": "Copiar, Cortar e Colar",
     "textDoNotShowAgain": "Não volte a aparecer",
-    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? "
+    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? ",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

@@ -183,7 +183,7 @@ define([
     });
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
-        el: '#panel-settings-general',
+        el: '#panel-settings',
         menu: undefined,
 
         template: _.template([
@@ -271,7 +271,7 @@ define([
                 '<tr>',
                     '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="">',
                     '<td><label><%= scope.strFuncLocale %></label></td>',
                     '<td>',
                         '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
@@ -309,7 +309,7 @@ define([
                     '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
                 '</tr>',
                 '<tr  class="edit">',
-                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
                  '<tr class="fms-btn-apply">',
@@ -321,7 +321,7 @@ define([
         '<div class="fms-flex-apply hidden">',
             '<table class="main" style="margin: 10px 18px; width: 100%"><tbody>',
                 '<tr>',
-                    '<td><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
                 '</tr>',
             '</tbody></table>',
@@ -540,7 +540,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big">',
+                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
                     '<span class="icon input-icon lang-flag"></span>',
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                             '<span class="caret" />',
@@ -1056,7 +1056,6 @@ define([
         strUnit: 'Unit of Measurement',
         txtCm: 'Centimeter',
         txtPt: 'Point',
-        strAutosave: 'Turn on autosave',
         textAutoSave: 'Autosave',
         txtEn: 'English',
         txtDe: 'Deutsch',
@@ -1082,7 +1081,6 @@ define([
         textAutoRecover: 'Autorecover',
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)',
         textRefStyle: 'Reference Style',
         strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
         strDecimalSeparator: 'Decimal separator',
@@ -1095,7 +1093,6 @@ define([
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
-        strPaste: 'Cut, copy and paste',
         strTheme: 'Theme',
         txtThemeLight: 'Light',
         txtThemeDark: 'Dark',
@@ -1959,7 +1956,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                 else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
                                     me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
-                                    store.url = me.urlPref + '/Contents.json';
+                                    store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }
                             } else {
@@ -2247,7 +2244,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                     '<tr><td class="padding-small"><label class="header"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
+                                    '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2578,8 +2575,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.$el = $(node).html($markup);
 
-            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
-            this.$headerSettings = $('#print-header-footer-settings');
+            if (!this.mode.isEdit) {
+                $markup.find('.header-settings').hide();
+            } else {
+                this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
+            }
 
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');

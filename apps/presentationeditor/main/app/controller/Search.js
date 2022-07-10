@@ -57,7 +57,13 @@ define([
                 'SearchBar': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
-                    'search:input': _.bind(this.onInputSearchChange, this),
+                    'search:input': _.bind(function (text) {
+                        if (this._state.searchText === text) {
+                            Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
+                            return;
+                        }
+                        this.onInputSearchChange(text);
+                    }, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
                 },
                 'Common.Views.SearchPanel': {
@@ -97,6 +103,7 @@ define([
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
             }
             return this;
         },
@@ -165,6 +172,7 @@ define([
                             me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
+                            me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
                         }
                         clearInterval(me.searchTimer);
@@ -198,7 +206,7 @@ define([
                 searchSettings.put_MatchCase(this._state.matchCase);
                 searchSettings.put_WholeWords(this._state.matchWord);
                 if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 }
             }
         },
@@ -211,14 +219,14 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.allResultsWasRemoved();
+                this.removeResultItems();
             }
         },
 
-        allResultsWasRemoved: function () {
+        removeResultItems: function (type) {
             this.resultItems = [];
             this.hideResults();
-            this.view.updateResultsNumber(undefined, 0);
+            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
@@ -337,10 +345,10 @@ define([
             }
 
             this.hideResults();
-            if (text !== '' && text === this._state.searchText) { // search was made
+            if (text && text !== '' && text === this._state.searchText) { // search was made
                 this.view.disableReplaceButtons(false);
                 this.api.asc_StartTextAroundSearch();
-            } else if (text !== '') { // search wasn't made
+            } else if (text && text !== '') { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
                 this.resultItems = [];
@@ -371,6 +379,10 @@ define([
 
         onHidePanel: function () {
             this.hideResults();
+        },
+
+        onApiSearchEnd: function () {
+            this.removeResultItems('stop');
         },
 
         notcriticalErrorTitle: 'Warning',
