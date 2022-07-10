@@ -196,12 +196,11 @@ const EditParagraph = props => {
     const paragraph = props.storeFocusObjects.paragraphObject;
     const curBackColor = storeParagraphSettings.backColor ? storeParagraphSettings.backColor : storeParagraphSettings.getBackgroundColor(paragraph);
     const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : curBackColor;
-    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
     
     return (
         <Fragment>
             <BlockTitle>{t('Edit.textParagraphStyle')}</BlockTitle>
-            <List className={activeStyle} style={{marginBottom: 0}}>
+            <List style={{marginBottom: 0}}>
                 <ListItem link="/edit-paragraph-style/" title={!curStyle && curStyleName} routeProps={{
                     onStyleClick: props.onStyleClick,
                     onSaveStyle: props.onSaveStyle,
@@ -246,7 +245,6 @@ const EditParagraphStyle = props => {
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
     const curStyleName = storeParagraphSettings.styleName;
     const thumbSize = storeParagraphSettings.styleThumbSize;
-    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
 
     return (
         <Page>
@@ -266,7 +264,7 @@ const EditParagraphStyle = props => {
                     {Device.android && <Icon slot="media" icon="icon-create-style"></Icon>}
                 </ListItem>
             </List>
-            <List className={activeStyle}>
+            <List>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
                         key={index}
@@ -345,13 +343,12 @@ const ChangeNextParagraphStyle = props => {
     const storeParagraphSettings = props.storeParagraphSettings;
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
     const thumbSize = storeParagraphSettings.styleThumbSize;
-    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
     const [newParagraph, setParagraph] = useState(nextParagraphStyle);
 
     return (
         <Page>
             <Navbar title={t('Edit.textNextParagraphStyle')} backLink={_t.textBack}></Navbar>
-            <List className={activeStyle}>
+            <List>
                 <ListItem style={{paddingLeft: '5px'}} radio radioIcon="start" checked={!newParagraph} onClick={() => {
                     if(newParagraph) {
                         setParagraph('');
