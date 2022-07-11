@@ -86,6 +86,7 @@ export class storeAppOptions {
             && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
         this.canBack = this.canBackToFolder === true;
         this.canPlugins = false;
+        this.canFeatureForms = !!Common.EditorApi.get().asc_isSupportFeature("forms");
 
         AscCommon.UserInfoParser.setParser(true);
         AscCommon.UserInfoParser.setCurrentName(this.user.fullname);
