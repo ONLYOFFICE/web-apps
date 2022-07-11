@@ -253,11 +253,13 @@ define([
                     this.cmbLookIn.setValue(0);
 
                     var tableTemplate = '<div class="search-table">' +
+                        '<div class="header-items">' +
                         '<div class="header-item">' + this.textSheet + '</div>' +
                         '<div class="header-item">' + this.textName + '</div>' +
                         '<div class="header-item">' + this.textCell + '</div>' +
                         '<div class="header-item">' + this.textValue + '</div>' +
                         '<div class="header-item">' + this.textFormula + '</div>' +
+                        '</div>' +
                         '<div class="ps-container oo search-items"></div>' +
                         '</div>',
                         $resultTable = $(tableTemplate).appendTo(this.$resultsContainer);
