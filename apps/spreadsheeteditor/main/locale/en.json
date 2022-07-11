@@ -2212,6 +2212,8 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWin": "as Windows",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWorkspace": "Workspace",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtZh": "Chinese",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCalculating": "Calculating",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strDateFormat1904": "Use 1904 date system",
   "SSE.Views.FileMenuPanels.ProtectDoc.notcriticalErrorTitle": "Warning",
   "SSE.Views.FileMenuPanels.ProtectDoc.strEncrypt": "With password",
   "SSE.Views.FileMenuPanels.ProtectDoc.strProtect": "Protect Spreadsheet",

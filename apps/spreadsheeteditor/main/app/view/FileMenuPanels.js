@@ -312,6 +312,13 @@ define([
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtCalculating %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><span id="fms-chb-date-1904"></span></td>',
+                '</tr>',
+                '<tr class ="edit divider-group"></tr>',
                  '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
@@ -694,6 +701,14 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chDateSystem = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-date-1904'),
+                labelText: this.strDateFormat1904,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.btnAutoCorrect = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-auto-correct')
             });
@@ -911,6 +926,7 @@ define([
 
                 this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
                 this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
+                this.chDateSystem.setValue(this.api.asc_getDate1904());
             }
         },
 
@@ -992,6 +1008,9 @@ define([
                     this.menu.fireEvent('spellcheck:apply', [this.menu]);
                 }
             }
+
+            if (this.mode.isEdit)
+                this.api.asc_setDate1904(this.chDateSystem.isChecked());
         },
 
         updateRegionalExample: function(landId) {
@@ -1150,7 +1169,9 @@ define([
         txtAutoCorrect: 'AutoCorrect options...',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
-        strShowOthersChanges: 'Show changes from other users'
+        strShowOthersChanges: 'Show changes from other users',
+        txtCalculating: 'Calculating',
+        strDateFormat1904: 'Use 1904 date system'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
