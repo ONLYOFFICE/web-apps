@@ -1690,6 +1690,7 @@
   "PE.Views.FileMenuPanels.Settings.txtWarnMacrosDesc": "Disable all macros with a notification",
   "PE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "PE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
   "PE.Views.HeaderFooterDialog.applyAllText": "Apply to all",
   "PE.Views.HeaderFooterDialog.applyText": "Apply",
   "PE.Views.HeaderFooterDialog.diffLanguage": "You can’t use a date format in a different language than the slide master.<br>To change the master, click 'Apply to all' instead of 'Apply'",

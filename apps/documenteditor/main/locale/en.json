@@ -1829,6 +1829,7 @@
   "DE.Views.FileMenuPanels.Settings.txtWarnMacrosDesc": "Disable all macros with a notification",
   "DE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "DE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
   "DE.Views.FormSettings.textAlways": "Always",
   "DE.Views.FormSettings.textAspect": "Lock aspect ratio",
   "DE.Views.FormSettings.textAtLeast": "At least",
