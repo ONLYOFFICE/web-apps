@@ -187,7 +187,6 @@ define([
         menu: undefined,
 
         template: _.template([
-        '<div>',
         '<div class="flex-settings">',
             '<table class="main" style="margin: 10px 14px auto;"><tbody>',
                 '<tr class="editsave">',
@@ -325,7 +324,6 @@ define([
                     '<td></td>',
                 '</tr>',
             '</tbody></table>',
-        '</div>',
         '</div>'
         ].join('')),
 
