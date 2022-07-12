@@ -2211,8 +2211,9 @@ define([
                 });
             } else {
                 var arr = [];
-                _.each(styles, function(style){
+                _.each(styles, function(style, index){
                     arr.push({
+                        group: Common.define.styleData.getStyleData()[index].group,
                         imageUrl: style.asc_getImage(),
                         name    : style.asc_getName(),
                         tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),

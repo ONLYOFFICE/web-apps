@@ -1,0 +1,2 @@
+/*! For license information please see 592.js.LICENSE.txt */
+"use strict";(self.webpackChunkdocumenteditor=self.webpackChunkdocumenteditor||[]).push([[592],{"./node_modules/framework7/framework7-bundle-rtl.css":function(e,o,r){r.r(o)}}]);

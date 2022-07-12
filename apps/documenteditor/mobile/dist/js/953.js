@@ -1,0 +1,2 @@
+/*! For license information please see 953.js.LICENSE.txt */
+"use strict";(self.webpackChunkdocumenteditor=self.webpackChunkdocumenteditor||[]).push([[953],{"./node_modules/framework7/framework7-bundle-rtl.min.css":function(e,n,o){o.r(n)}}]);

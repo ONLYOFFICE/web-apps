@@ -598,6 +598,84 @@ define(function(){ 'use strict';
         }
     })(), Common.define.conditionalData || {});
 
+
+    Common.define.styleData = _.extend( new(function() {
+        return {
+            textGoodBadAndNeutral: 'Good, Bad and Neutral',
+            textDataAndModel: 'Data and Model',
+            textTitlesAndHeadings: 'Titles and Headings',
+            textThemedCallStyles: 'Themed Call Styles',
+            textNumberFormat: 'Number Format',
+        
+            getStyleGroupData: function () {
+                return [
+                    {id: 'menu-style-group-color',  caption: this.textGoodBadAndNeutral },
+                    {id: 'menu-style-group-model',  caption: this.textDataAndModel },
+                    {id: 'menu-style-group-title',  caption: this.textTitlesAndHeadings },
+                    {id: 'menu-style-group-themed', caption: this.textThemedCallStyles }, 
+                    {id: 'menu-style-group-number', caption: this.textNumberFormat } 
+                ];
+            },
+
+            getStyleData: function () {
+                return [
+                    {group: 'menu-style-group-color',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-color',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-color',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-color',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-model',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    
+                    {group: 'menu-style-group-title',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-title',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-title',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-title',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-title',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-title',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-themed',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    
+                    {group: 'menu-style-group-number',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-number',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-number',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-number',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear},
+                    {group: 'menu-style-group-number',   value: AscFormat.ENTRANCE_APPEAR,                   iconCls: 'animation-entrance-appear',               displayValue: this.textAppear}
+                ];
+            },
+        }
+    })(), Common.define.styleData || {});
+
+
     Common.define.effectData = _.extend(new (function () {
         return {
             textEntrance: 'Entrance Effect',
