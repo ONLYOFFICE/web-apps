@@ -162,7 +162,8 @@
     margin-left: 2px;
 }
 
-#special-paste-container {
+#special-paste-container,
+#equation-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
 
@@ -170,6 +171,10 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+}
+
+#equation-container {
+    padding: 2px;
 }
 
 .dropdown-menu.list-settings-level {

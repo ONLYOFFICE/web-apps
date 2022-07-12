@@ -2720,7 +2720,7 @@ define([
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-equationgroup' + i +
                                 '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                equationGroup.get('groupHeight') + 'margin-left:5px;"></div>') }
+                                equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
                         ]
                     })
                 });
@@ -2771,16 +2771,21 @@ define([
             var me = this;
             var onShowBefore = function(menu) {
                 me.onMathTypes(me._equationTemp);
+                if (me._equationTemp && me._equationTemp.get_Data().length>0)
+                    me.fillEquations();
                 me.toolbar.btnInsertEquation.menu.off('show:before', onShowBefore);
             };
             me.toolbar.btnInsertEquation.menu.on('show:before', onShowBefore);
         },
 
         onMathTypes: function(equation) {
+            equation = equation || this._equationTemp;
+
             var equationgrouparray = [],
                 equationsStore = this.getCollection('EquationGroups');
 
-            equationsStore.reset();
+            if (equationsStore.length>0)
+                return;
 
             // equations groups
 
@@ -2869,12 +2874,13 @@ define([
                                 groupName   : c_oAscMathMainTypeStrings[id][0],
                                 groupStore  : store,
                                 groupWidth  : width,
-                                groupHeight : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : ''
+                                groupHeight : normHeight,
+                                groupHeightStr : c_oAscMathMainTypeStrings[id][2] ? ' height:'+ normHeight +'px!important; ' : ''
                             });
                         }
                     }
                     equationsStore.add(equationgrouparray);
-                    this.fillEquations();
+                    // this.fillEquations();
                 }
             }
         },
