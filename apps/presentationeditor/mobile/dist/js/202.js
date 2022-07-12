@@ -1,2 +1,0 @@
-/*! For license information please see 202.js.LICENSE.txt */
-"use strict";(self.webpackChunkdocumenteditor=self.webpackChunkdocumenteditor||[]).push([[202],{"./node_modules/framework7/framework7-bundle.min.css":function(e,n,o){o.r(n)}}]);

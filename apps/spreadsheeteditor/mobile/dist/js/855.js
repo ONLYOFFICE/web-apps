@@ -1,2 +1,0 @@
-/*! For license information please see 855.js.LICENSE.txt */
-"use strict";(self.webpackChunkdocumenteditor=self.webpackChunkdocumenteditor||[]).push([[855],{"./node_modules/framework7/framework7-bundle.css":function(e,o,u){u.r(o)}}]);
