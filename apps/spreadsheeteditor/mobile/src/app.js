@@ -16,13 +16,6 @@ window.$ = jQuery;
 
 // Import Framework7 Styles
 
-const htmlElem = document.querySelector('html');
-const direction = LocalStorage.getItem('mode-direction');
-
-direction === 'rtl' ? htmlElem.setAttribute('dir', 'rtl') : htmlElem.setAttribute('dir', 'ltr');
-
-import(`framework7/framework7-bundle${direction === 'rtl' ? '-rtl' : ''}.css`);
-
 // Import App Custom Styles
 
 import('./less/app.less');

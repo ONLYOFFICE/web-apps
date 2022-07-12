@@ -232,6 +232,14 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
+            from: resolvePath('node_modules/framework7/framework7-bundle.css'),
+            to: `../../${editor}/mobile/css/framework7.css`,
+        },
+        {
+            from: resolvePath('node_modules/framework7/framework7-bundle-rtl.css'),
+            to: `../../${editor}/mobile/css/framework7-rtl.css`,
+        },
+        {
           noErrorOnMissing: true,
           from: resolvePath('src/static'),
           to: resolvePath('www/static'),

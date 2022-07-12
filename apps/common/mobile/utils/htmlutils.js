@@ -7,3 +7,19 @@ if ( !obj ) {
 }
 
 document.body.classList.add(`theme-type-${obj.type}`);
+
+const load_stylesheet = reflink => {
+    let link = document.createElement( "link" );
+    link.href = reflink;
+    link.type = "text/css";
+    link.rel = "stylesheet";
+
+    document.getElementsByTagName("head")[0].appendChild(link);
+};
+
+if ( !localStorage && localStorage.getItem('mode-direction') === 'rtl' ) {
+    document.body.classList.add('rtl');
+    load_stylesheet('./css/framework7-rtl.css')
+} else {
+    load_stylesheet('./css/framework7.css')
+}
