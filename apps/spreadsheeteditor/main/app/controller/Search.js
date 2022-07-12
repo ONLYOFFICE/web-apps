@@ -196,7 +196,7 @@ define([
 
         onSearchNext: function (type, text, e) {
             var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
-            if (text && text.length > 0 && (isReturnKey || type !== 'keydown')) {
+            if (isReturnKey || type !== 'keydown') {
                 this._state.searchText = text;
                 if (this.onQuerySearch(type) && (this.searchTimer || isReturnKey)) {
                     this.hideResults();
@@ -222,7 +222,7 @@ define([
 
                         me.hideResults();
                         me._state.searchText = me._state.newSearchText;
-                        if (me._state.newSearchText !== '' && me.onQuerySearch()) {
+                        if (me.onQuerySearch()) {
                             if (me.view.$el.is(':visible')) {
                                 me.api.asc_StartTextAroundSearch();
                             }
