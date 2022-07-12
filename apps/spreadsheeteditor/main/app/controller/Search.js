@@ -158,7 +158,7 @@ define([
                     this._state.lookInFormulas = value;
                     break;
             }
-            if (runSearch && this._state.searchText) {
+            if (runSearch) {
                 this.hideResults();
                 if (this.onQuerySearch()) {
                     this.searchTimer && clearInterval(this.searchTimer);
