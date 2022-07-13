@@ -193,13 +193,18 @@ var utils = new(function() {
             me.innerHeight = window.innerHeight * me.zoom;
             me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
         };
+        checkSizeIE = function() {
+            me.innerWidth = window.innerWidth;
+            me.innerHeight = window.innerHeight;
+        };
         me.zoom = 1;
         me.applicationPixelRatio = 1;
         me.innerWidth = window.innerWidth;
         me.innerHeight = window.innerHeight;
-        if ( isIE )
+        if ( isIE ) {
             $(document.body).addClass('ie');
-        else {
+            $(window).on('resize', checkSizeIE);
+        } else {
             checkSize();
             $(window).on('resize', checkSize);
         }

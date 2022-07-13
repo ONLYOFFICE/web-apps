@@ -109,6 +109,7 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 140px;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
@@ -127,6 +128,7 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group small" id="slot-combo-insertshape"></div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -212,6 +214,7 @@
                         <div class="btn-slot text"  id="animation-trigger"></div>
                     </div>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-duration"></span>
@@ -222,6 +225,7 @@
                         <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
                     </div>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-repeat"></span>
