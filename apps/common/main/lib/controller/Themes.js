@@ -36,6 +36,11 @@ define([
                 type: 'dark',
                 source: 'static',
             },
+            'theme-contrast-dark': {
+                text: locale.txtThemeContrastDark || 'Dark Contrast',
+                type: 'dark',
+                source: 'static',
+            },
         }
 
         if ( !!window.currentLoaderTheme ) {
@@ -118,6 +123,7 @@ define([
             "canvas-page-border",
 
             "canvas-ruler-background",
+            "canvas-ruler-border",
             "canvas-ruler-margins-background",
             "canvas-ruler-mark",
             "canvas-ruler-handle-border",
