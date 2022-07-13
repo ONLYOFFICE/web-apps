@@ -214,6 +214,7 @@
         padding: 12px 10px 7px 0;
         border-radius: 0;
         z-index:999;
+        overflow: hidden;
         .compactwidth {
             .btn-group, .btn-toolbar {
                 &.x-huge {
@@ -258,7 +259,7 @@
         &.small {
             padding-left: 10px;
 
-            + .separator {
+            + .separator:not(.invisible) {
                 margin-left: 10px;
             }
         }
@@ -288,6 +289,11 @@
 
         &.close {
             margin-left: 5px;
+        }
+
+        &.invisible {
+            margin-left: 0;
+            border: none;
         }
 
         &.long {
