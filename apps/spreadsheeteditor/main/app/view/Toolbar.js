@@ -1285,7 +1285,15 @@ define([
                     itemWidth       : 112,
                     itemHeight      : 40,
                     style: 'min-width:158px;',
-                    menuMaxHeight   : 226,
+                    groups: new Common.UI.DataViewGroupStore([
+                        {id: 'menu-style-group-custom',  caption: this.textCustom },
+                        {id: 'menu-style-group-color',  caption: this.textGoodBadAndNeutral },
+                        {id: 'menu-style-group-model',  caption: this.textDataAndModel },
+                        {id: 'menu-style-group-title',  caption: this.textTitlesAndHeadings },
+                        {id: 'menu-style-group-themed', caption: this.textThemedCallStyles }, 
+                        {id: 'menu-style-group-number', caption: this.textNumberFormat } 
+                    ]),
+                    menuMaxHeight   : 350,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
                     dataHintDirection: 'bottom',
@@ -3280,6 +3288,12 @@ define([
         textDone: 'Done',
         tipTextFormatting: 'More text formatting tools',
         tipHAligh: 'Horizontal Align',
-        tipVAligh: 'Vertical Align'
+        tipVAligh: 'Vertical Align',
+        textCustom: 'Custom',
+        textGoodBadAndNeutral: 'Good, Bad, and Neutral',
+        textDataAndModel: 'Data and Model',
+        textTitlesAndHeadings: 'Titles and Headings',
+        textThemedCallStyles: 'Themed Call Styles',
+        textNumberFormat: 'Number Format'
     }, SSE.Views.Toolbar || {}));
 });

@@ -2198,6 +2198,13 @@ define([
             var mainController = this.getApplication().getController('Main');
             var count = listStyles.menuPicker.store.length;
             var rec = listStyles.menuPicker.getSelectedRec();
+            var groups = [];
+            for (let i = 0; i < 4; i++) { groups.push('menu-style-group-color'); }
+            for (let i = 0; i < 8; i++) { groups.push('menu-style-group-model'); }
+            for (let i = 0; i < 6; i++) { groups.push('menu-style-group-title'); }
+            for (let i = 0; i < 24; i++) { groups.push('menu-style-group-themed'); }
+            for (let i = 0; i < 5; i++) { groups.push('menu-style-group-number'); }
+            
             if (count>0 && count==styles.length) {
                 var data = listStyles.menuPicker.dataViewItems;
                 data && _.each(styles, function(style, index){
@@ -2211,14 +2218,22 @@ define([
                 });
             } else {
                 var arr = [];
-                _.each(styles, function(style){
+                var countCustomStyles = 0;
+                _.each(styles, function(style, index){
                     arr.push({
                         imageUrl: style.asc_getImage(),
                         name    : style.asc_getName(),
+                        group   : (style.asc_getType() == 0 ? groups[index - countCustomStyles] : 'menu-style-group-custom'),
                         tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                         uid     : Common.UI.getId()
                     });
+                    if(style.asc_getType() == 1){
+                        countCustomStyles += 1;
+                    }
                 });
+                if(countCustomStyles == 0){
+                    listStyles.groups.remove(listStyles.groups.models.find(style => style.id === 'menu-style-group-custom'));
+                }
                 listStyles.menuPicker.store.reset(arr);
             }
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
