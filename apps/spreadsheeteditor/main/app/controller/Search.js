@@ -106,6 +106,7 @@ define([
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
+                this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onActiveSheetChanged, this));
             }
             return this;
         },
@@ -543,6 +544,17 @@ define([
 
         onApiSearchEnd: function () {
             this.removeResultItems('stop');
+        },
+
+        onActiveSheetChanged: function (index) {
+            if (this._state.isHighlightedResults && this._state.withinSheet === Asc.c_oAscSearchBy.Sheet) {
+                this.hideResults();
+                if (this.onQuerySearch()) {
+                    this.searchTimer && clearInterval(this.searchTimer);
+                    this.searchTimer = undefined;
+                    this.api.asc_StartTextAroundSearch();
+                }
+            }
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
