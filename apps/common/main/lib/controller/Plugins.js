@@ -242,6 +242,10 @@ define([
                         $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
                         _group = $('<div class="group"></div>');
                         rank_plugins = 0;
+                    } else {
+                        _group.appendTo(me.$toolbarPanelPlugins);
+                        $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
+                        _group = $('<div class="group" style="padding-left: 0;"></div>');
                     }
 
                     var btn = me.panelPlugins.createPluginButton(model);
