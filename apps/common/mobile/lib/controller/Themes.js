@@ -26,6 +26,14 @@ class ThemesController {
         }
 
         this.switchDarkTheme(theme, true);
+
+        $$(window).on('storage', e => {
+            if ( e.key == LocalStorage.prefix + 'ui-theme' ) {
+                if ( !!e.newValue ) {
+                    this.switchDarkTheme(JSON.parse(e.newValue), true);
+                }
+            }
+        });
     }
 
     get isCurrentDark() {
