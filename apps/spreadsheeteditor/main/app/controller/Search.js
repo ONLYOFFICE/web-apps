@@ -80,7 +80,7 @@ define([
         },
         onLaunch: function () {
             this._state = {
-                searchText: '',
+                searchText: undefined,
                 matchCase: false,
                 matchWord: false,
                 useRegExp: false,
@@ -226,11 +226,10 @@ define([
                             if (me.view.$el.is(':visible')) {
                                 me.api.asc_StartTextAroundSearch();
                             }
-                            //me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
                             me.view.disableNavButtons();
-                            //me.view.disableReplaceButtons(true);
+                            Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
                         }
                         clearInterval(me.searchTimer);
                         me.searchTimer = undefined;
@@ -267,10 +266,10 @@ define([
             if (!this.api.asc_findText(options)) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
-                //this.view.disableReplaceButtons(true);
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
                 this.view.disableNavButtons();
+                Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
                 return false;
             }
             return true;
@@ -348,10 +347,10 @@ define([
             this.resultItems = [];
             this.hideResults();
             this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
-            //this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
             this.view.disableNavButtons();
+            Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
@@ -482,7 +481,8 @@ define([
 
             var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 &&
-                (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    (!text && !this.view.inputText.getValue() ||
+                    !this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
                     this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                 return;
             }
@@ -494,14 +494,12 @@ define([
             }
 
             this.hideResults();
-            if (text && text !== '' && text === this._state.searchText) { // search was made
-                //this.view.disableReplaceButtons(false);
+            if (this._state.searchText !== undefined && text === this._state.searchText) { // search was made
                 this.api.asc_StartTextAroundSearch();
-            } else if (text && text !== '') { // search wasn't made
+            } else if (this._state.searchText !== undefined) { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
                 this.resultItems = [];
-                //this.view.disableReplaceButtons(true);
                 this.view.clearResultsNumber();
             }
             this.view.disableNavButtons(this._state.currentResult, this._state.resultsNumber);
