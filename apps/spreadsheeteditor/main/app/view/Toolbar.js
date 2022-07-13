@@ -1330,11 +1330,17 @@ define([
                             menu.menuAlignEl = cmp.cmpEl;
 
                             menu.menuAlign = 'tl-tl';
-                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
+                            var menuWidth = columnCount * (itemMargin + itemWidth),
+                                buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                            // if (menuWidth>buttonOffsetLeft)
+                            //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                            if (menuWidth>Common.Utils.innerWidth())
+                                menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
                             menu.setOffset(Math.min(offset, 0));
 
                             menu.cmpEl.css({
-                                'width' : columnCount * (itemWidth + itemMargin),
+                                'width': menuWidth,
                                 'min-height': cmp.cmpEl.height()
                             });
                         }
