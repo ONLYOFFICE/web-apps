@@ -197,6 +197,7 @@
   "Common.UI.ThemeColorPalette.textThemeColors": "Theme Colors",
   "Common.UI.Themes.txtThemeClassicLight": "Classic Light",
   "Common.UI.Themes.txtThemeDark": "Dark",
+  "Common.UI.Themes.txtThemeContrastDark": "Dark Contrast",
   "Common.UI.Themes.txtThemeLight": "Light",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Cancel",
