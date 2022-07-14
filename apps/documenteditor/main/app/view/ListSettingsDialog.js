@@ -55,7 +55,7 @@ define([
         options: {
             type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
             width: 300,
-            height: 422,
+            height: 424,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -67,7 +67,7 @@ define([
 
             _.extend(this.options, {
                 title: this.txtTitle,
-                height: (this.type==2) ? 376 : 422,
+                height: (this.type==2) ? 376 : 424,
                 width: (this.type==2) ? 430 : 300
         }, options || {});
 

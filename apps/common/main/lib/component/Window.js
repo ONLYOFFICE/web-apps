@@ -241,7 +241,7 @@ define([
 
         function _autoSize() {
             if (this.initConfig.height == 'auto') {
-                var height = parseInt(this.$window.find('> .body').css('height'));
+                var height = Math.ceil(parseFloat(this.$window.find('> .body').css('height')));
                 this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
                 this.$window.height(height);
             }
