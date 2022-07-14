@@ -239,7 +239,7 @@ define([
             }
         },
 
-        onQuerySearch: function (d, w, opts, fromPanel) {
+        onQuerySearch: function (d, isNeedRecalc) {
             var me = this;
             if (this._state.withinSheet === Asc.c_oAscSearchBy.Range && !this._state.isValidSelectedRange) {
                 Common.UI.warning({
@@ -264,6 +264,7 @@ define([
             }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+            options.asc_setNeedRecalc(isNeedRecalc);
             if (!this.api.asc_findText(options)) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
@@ -549,7 +550,7 @@ define([
         onActiveSheetChanged: function (index) {
             if (this._state.isHighlightedResults && this._state.withinSheet === Asc.c_oAscSearchBy.Sheet) {
                 this.hideResults();
-                if (this.onQuerySearch()) {
+                if (this.onQuerySearch(undefined, true)) {
                     this.searchTimer && clearInterval(this.searchTimer);
                     this.searchTimer = undefined;
                     this.api.asc_StartTextAroundSearch();
