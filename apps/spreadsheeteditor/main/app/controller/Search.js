@@ -80,7 +80,7 @@ define([
         },
         onLaunch: function () {
             this._state = {
-                searchText: '',
+                searchText: undefined,
                 matchCase: false,
                 matchWord: false,
                 useRegExp: false,
@@ -106,6 +106,7 @@ define([
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
+                this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onActiveSheetChanged, this));
             }
             return this;
         },
@@ -158,7 +159,7 @@ define([
                     this._state.lookInFormulas = value;
                     break;
             }
-            if (runSearch && this._state.searchText) {
+            if (runSearch) {
                 this.hideResults();
                 if (this.onQuerySearch()) {
                     this.searchTimer && clearInterval(this.searchTimer);
@@ -196,7 +197,7 @@ define([
 
         onSearchNext: function (type, text, e) {
             var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
-            if (text && text.length > 0 && (isReturnKey || type !== 'keydown')) {
+            if (isReturnKey || type !== 'keydown') {
                 this._state.searchText = text;
                 if (this.onQuerySearch(type) && (this.searchTimer || isReturnKey)) {
                     this.hideResults();
@@ -222,15 +223,14 @@ define([
 
                         me.hideResults();
                         me._state.searchText = me._state.newSearchText;
-                        if (me._state.newSearchText !== '' && me.onQuerySearch()) {
+                        if (me.onQuerySearch()) {
                             if (me.view.$el.is(':visible')) {
                                 me.api.asc_StartTextAroundSearch();
                             }
-                            //me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
                             me.view.disableNavButtons();
-                            //me.view.disableReplaceButtons(true);
+                            Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
                         }
                         clearInterval(me.searchTimer);
                         me.searchTimer = undefined;
@@ -239,7 +239,7 @@ define([
             }
         },
 
-        onQuerySearch: function (d, w, opts, fromPanel) {
+        onQuerySearch: function (d, isNeedRecalc) {
             var me = this;
             if (this._state.withinSheet === Asc.c_oAscSearchBy.Range && !this._state.isValidSelectedRange) {
                 Common.UI.warning({
@@ -264,13 +264,14 @@ define([
             }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+            options.asc_setNeedRecalc(isNeedRecalc);
             if (!this.api.asc_findText(options)) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
-                //this.view.disableReplaceButtons(true);
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
                 this.view.disableNavButtons();
+                Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
                 return false;
             }
             return true;
@@ -348,10 +349,10 @@ define([
             this.resultItems = [];
             this.hideResults();
             this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
-            //this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
             this.view.disableNavButtons();
+            Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
@@ -482,7 +483,8 @@ define([
 
             var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 &&
-                (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    (!text && !this.view.inputText.getValue() ||
+                    !this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
                     this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                 return;
             }
@@ -494,14 +496,12 @@ define([
             }
 
             this.hideResults();
-            if (text && text !== '' && text === this._state.searchText) { // search was made
-                //this.view.disableReplaceButtons(false);
+            if (this._state.searchText !== undefined && text === this._state.searchText) { // search was made
                 this.api.asc_StartTextAroundSearch();
-            } else if (text && text !== '') { // search wasn't made
+            } else if (this._state.searchText !== undefined) { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
                 this.resultItems = [];
-                //this.view.disableReplaceButtons(true);
                 this.view.clearResultsNumber();
             }
             this.view.disableNavButtons(this._state.currentResult, this._state.resultsNumber);
@@ -545,6 +545,17 @@ define([
 
         onApiSearchEnd: function () {
             this.removeResultItems('stop');
+        },
+
+        onActiveSheetChanged: function (index) {
+            if (this._state.isHighlightedResults && this._state.withinSheet === Asc.c_oAscSearchBy.Sheet) {
+                this.hideResults();
+                if (this.onQuerySearch(undefined, true)) {
+                    this.searchTimer && clearInterval(this.searchTimer);
+                    this.searchTimer = undefined;
+                    this.api.asc_StartTextAroundSearch();
+                }
+            }
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',

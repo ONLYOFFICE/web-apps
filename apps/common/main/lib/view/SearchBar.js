@@ -185,7 +185,7 @@ define([
         },
 
         disableNavButtons: function (resultNumber, allResults) {
-            var disable = this.inputSearch.val() === '' || !allResults;
+            var disable = (this.inputSearch.val() === '' && !window.SSE) || !allResults;
             this.btnBack.setDisabled(disable);
             this.btnNext.setDisabled(disable);
         },
