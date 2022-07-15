@@ -2199,11 +2199,11 @@ define([
             var count = listStyles.menuPicker.store.length;
             var rec = listStyles.menuPicker.getSelectedRec();
             var groups = [];
-            for (let i = 0; i < 4; i++) { groups.push('menu-style-group-color'); }
-            for (let i = 0; i < 8; i++) { groups.push('menu-style-group-model'); }
-            for (let i = 0; i < 6; i++) { groups.push('menu-style-group-title'); }
-            for (let i = 0; i < 24; i++) { groups.push('menu-style-group-themed'); }
-            for (let i = 0; i < 5; i++) { groups.push('menu-style-group-number'); }
+            for (var i = 0; i < 4; i++) { groups.push('menu-style-group-color'); }
+            for (var i = 0; i < 8; i++) { groups.push('menu-style-group-model'); }
+            for (var i = 0; i < 6; i++) { groups.push('menu-style-group-title'); }
+            for (var i = 0; i < 24; i++) { groups.push('menu-style-group-themed'); }
+            for (var i = 0; i < 5; i++) { groups.push('menu-style-group-number'); }
             
             if (count>0 && count==styles.length) {
                 var data = listStyles.menuPicker.dataViewItems;
@@ -2232,7 +2232,11 @@ define([
                     }
                 });
                 if(countCustomStyles == 0){
-                    listStyles.groups.remove(listStyles.groups.models.find(style => style.id === 'menu-style-group-custom'));
+                    listStyles.groups.models.forEach.forEach(function(style) {
+                        if(style.id === 'menu-style-group-custom'){
+                            listStyles.groups.remove(style);
+                        }
+                    });
                 }
                 listStyles.menuPicker.store.reset(arr);
             }
