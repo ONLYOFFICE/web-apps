@@ -149,18 +149,25 @@
 
 .combo-styles {
     .menu-picker-container .dataview {
-      padding: 10px 0 0 2px;
+      padding: 10px 2px 0 2px;
     }
-    .dropdown-menu {
-      padding-bottom: 5px;
+
+    .group-description {
+        padding: 3px 0 3px 10px;
+        .font-weight-bold();
+    }    
+
+    .grouped-data .group-items-container .item {
+        box-shadow: none;
+        &:hover {
+            .box-shadow(inset 0 0 0 2px @border-preview-hover-ie) !important;
+            .box-shadow(inset 0 0 0 @scaled-two-px-value @border-preview-hover) !important;
+        }
+  
+          &.selected {
+            .box-shadow(inset 0 0 0 2px @border-preview-select-ie) !important;
+            .box-shadow(inset 0 0 0 @scaled-two-px-value @border-preview-select) !important;
+        }
     }
 }
 
-.dataview {
-    padding: 0 0 0 2px;
-
-    .group-description {
-      padding: 3px 0 3px 10px;
-      .font-weight-bold();
-    }
-} 
