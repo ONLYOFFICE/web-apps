@@ -1169,7 +1169,7 @@ define([
 
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
-                documentHolder.cmpEl.append(pasteContainer);
+                documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-special-paste'),
