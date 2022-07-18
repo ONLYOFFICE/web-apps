@@ -35,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "ファイルを開く",
   "PE.ApplicationView.txtFullScreen": "全画面表示",
   "PE.ApplicationView.txtPrint": "印刷する",
+  "PE.ApplicationView.txtSearch": "検索",
   "PE.ApplicationView.txtShare": "シェア"
 }

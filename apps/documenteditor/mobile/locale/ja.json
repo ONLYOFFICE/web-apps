@@ -3,11 +3,11 @@
     "textAbout": "情報",
     "textAddress": "アドレス",
     "textBack": "戻る",
+    "textEditor": "ドキュメントエディター",
     "textEmail": "メール",
     "textPoweredBy": "によって提供されています",
     "textTel": "電話",
-    "textVersion": "バージョン",
-    "textEditor": "Document Editor"
+    "textVersion": "バージョン"
   },
   "Add": {
     "notcriticalErrorTitle": " 警告",
@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "テーブル全体を更新する",
     "textRefreshPageNumbersOnly": "ページ番号のみを更新する",
     "textRows": "行",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？"
   },
   "Edit": {
     "notcriticalErrorTitle": " 警告",
@@ -454,7 +454,7 @@
     "leavePageText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "notcriticalErrorTitle": " 警告",
     "SDK": {
-      " -Section ": "セクション",
+      " -Section ": "-セクション",
       "above": "上に",
       "below": "下に",
       "Caption": "標題",

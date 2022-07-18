@@ -1722,7 +1722,7 @@
   "SSE.Views.ChartSettingsDlg.textMajorType": "Type principal",
   "SSE.Views.ChartSettingsDlg.textManual": "Manuellement",
   "SSE.Views.ChartSettingsDlg.textMarkers": "Marqueurs",
-  "SSE.Views.ChartSettingsDlg.textMarksInterval": "Intervalle entre les marques",
+  "SSE.Views.ChartSettingsDlg.textMarksInterval": "Intervalle entre les graduations",
   "SSE.Views.ChartSettingsDlg.textMaxValue": "Valeur maximale",
   "SSE.Views.ChartSettingsDlg.textMillions": "Millions",
   "SSE.Views.ChartSettingsDlg.textMinor": "Secondaires",

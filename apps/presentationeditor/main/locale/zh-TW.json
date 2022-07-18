@@ -954,6 +954,7 @@
   "PE.Controllers.Main.warnNoLicense": "您的系統已經達到同時編輯連線的 %1 編輯者。只能以檢視模式開啟此文件。<br> 請聯繫 %1 銷售團隊來取得個人升級的需求。",
   "PE.Controllers.Main.warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
   "PE.Controllers.Main.warnProcessRightsChange": "您被拒絕編輯文件的權利。",
+  "PE.Controllers.Search.warnReplaceString": "{0}不是有效的字元",
   "PE.Controllers.Statusbar.textDisconnect": "<b>連線失敗</b><br>正在嘗試連線。請檢查網路連線設定。",
   "PE.Controllers.Statusbar.zoomText": "放大{0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "您要保存的字體在當前設備上不可用。<br>文本樣式將使用一種系統字體顯示，保存的字體將在可用時使用。<br>要繼續嗎？ ？",

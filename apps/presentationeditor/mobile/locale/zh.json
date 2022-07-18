@@ -59,9 +59,9 @@
     "textColumns": "列",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
+    "textOk": "确定",
     "textRows": "行",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "点击该链接可能会损害您的设备或数据。<br>您确定要继续吗？"
   },
   "Controller": {
     "Main": {
@@ -256,12 +256,12 @@
       "textAddress": "地址",
       "textAfter": "之后",
       "textAlign": "对齐",
-      "textAlignBottom": "底部对齐",
+      "textAlignBottom": "靠下对齐",
       "textAlignCenter": "居中对齐",
       "textAlignLeft": "左对齐",
       "textAlignMiddle": "垂直居中",
       "textAlignRight": "右对齐",
-      "textAlignTop": "顶端对齐",
+      "textAlignTop": "靠上对齐",
       "textAllCaps": "全部大写字母",
       "textApplyAll": "应用于所有幻灯片",
       "textAuto": "自动",

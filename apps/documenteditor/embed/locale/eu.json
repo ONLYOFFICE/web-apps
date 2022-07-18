@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Interneterako konexioa motelegia da, ezin izan dira osagai batzuk kargatu. Kargatu berriro orria.",
   "DE.ApplicationController.textAnonymous": "Anonimoa",
   "DE.ApplicationController.textClear": "Garbitu eremu guztiak",
+  "DE.ApplicationController.textCtrl": "Ktrl",
   "DE.ApplicationController.textGotIt": "Ulertu dut",
   "DE.ApplicationController.textGuest": "Gonbidatua",
   "DE.ApplicationController.textLoadingDocument": "Dokumentua kargatzen",

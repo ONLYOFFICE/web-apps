@@ -3,11 +3,11 @@
     "textAbout": "詳細情報",
     "textAddress": "アドレス",
     "textBack": "戻る",
+    "textEditor": "プレゼンテーションエディター",
     "textEmail": "メール",
     "textPoweredBy": "によって提供されています",
     "textTel": "電話",
-    "textVersion": "バージョン",
-    "textEditor": "Presentation Editor"
+    "textVersion": "バージョン"
   },
   "Common": {
     "Collaboration": {
@@ -59,9 +59,9 @@
     "textColumns": "列",
     "textCopyCutPasteActions": "コピー,切り取り,貼り付けの操作",
     "textDoNotShowAgain": "再度表示しない",
+    "textOk": "OK",
     "textRows": "行",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？"
   },
   "Controller": {
     "Main": {
