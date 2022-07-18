@@ -17,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "Ocorreu um erro ao guardar o ficheiro. Utilize a opção 'Descarregar como' para guardar o ficheiro no computador ou tente mais tarde.",
   "SSE.ApplicationController.errorLoadingFont": "Tipos de letra não carregados.<br>Por favor contacte o administrador do servidor de documentos.",
   "SSE.ApplicationController.errorTokenExpire": "O 'token' de segurança do documento expirou.<br>Entre em contacto com o administrador do servidor de documentos.",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "A ligação à Internet foi restaurada e a versão do ficheiro foi alterada.<br>Antes de continuar o seu trabalho, descarregue o ficheiro ou copie o seu conteúdo para ter a certeza de que não perde os seus elementos e depois recarregue esta página.",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "A ligação foi restaurada e a versão do ficheiro foi alterada.<br>Antes de poder continuar a trabalhar, é necessário descarregar o ficheiro ou copiar o seu conteúdo para garantir que nada se perde e depois voltar a carregar esta página.",
   "SSE.ApplicationController.errorUserDrop": "De momento, não é possível aceder ao ficheiro.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Aviso",
   "SSE.ApplicationController.openErrorText": "Ocorreu um erro ao abrir o ficheiro.",

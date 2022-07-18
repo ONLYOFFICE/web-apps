@@ -32,6 +32,9 @@
   "Common.UI.Calendar.textShortTuesday": "火",
   "Common.UI.Calendar.textShortWednesday": "水",
   "Common.UI.Calendar.textYears": "年",
+  "Common.UI.SearchBar.tipCloseSearch": "検索を閉じる",
+  "Common.UI.SearchBar.tipNextResult": "次の結果",
+  "Common.UI.SearchBar.tipPreviousResult": "前の結果",
   "Common.UI.Themes.txtThemeClassicLight": "ライト(クラシック)",
   "Common.UI.Themes.txtThemeDark": "ダーク",
   "Common.UI.Themes.txtThemeLight": "ライト",
@@ -166,6 +169,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "ファイルを開く",
   "DE.Views.ApplicationView.txtFullScreen": "全画面表示",
   "DE.Views.ApplicationView.txtPrint": "印刷する",
+  "DE.Views.ApplicationView.txtSearch": "検索",
   "DE.Views.ApplicationView.txtShare": "シェア",
   "DE.Views.ApplicationView.txtTheme": "インターフェイスのテーマ"
 }

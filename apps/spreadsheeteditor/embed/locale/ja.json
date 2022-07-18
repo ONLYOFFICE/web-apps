@@ -35,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "ファイルを開く",
   "SSE.ApplicationView.txtFullScreen": "全画面表示",
   "SSE.ApplicationView.txtPrint": "印刷する",
+  "SSE.ApplicationView.txtSearch": "検索",
   "SSE.ApplicationView.txtShare": "シェア"
 }

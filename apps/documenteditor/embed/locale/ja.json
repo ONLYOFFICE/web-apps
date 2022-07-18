@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "接続が非常に遅いため、いくつかのコンポーネントはロードされませんでした。ページを再読み込みしてください。",
   "DE.ApplicationController.textAnonymous": "匿名",
   "DE.ApplicationController.textClear": "すべてのフィールドを削除する",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "OK",
   "DE.ApplicationController.textGuest": "ゲスト",
   "DE.ApplicationController.textLoadingDocument": "ドキュメントを読み込んでいます",
@@ -47,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "ファイルを開く",
   "DE.ApplicationView.txtFullScreen": "全画面表示",
   "DE.ApplicationView.txtPrint": "印刷する",
+  "DE.ApplicationView.txtSearch": "検索",
   "DE.ApplicationView.txtShare": "シェア"
 }
