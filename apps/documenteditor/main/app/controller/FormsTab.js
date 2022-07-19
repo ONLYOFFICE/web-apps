@@ -140,7 +140,7 @@ define([
             var in_control = this.api.asc_IsContentControl();
             var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
                 lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()===Asc.c_oAscSdtLevelType.Inline && !control_props.get_ComplexFormPr()) : false;
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var arr = [ this.view.btnTextField, this.view.btnComboBox, this.view.btnDropDown, this.view.btnCheckBox,
