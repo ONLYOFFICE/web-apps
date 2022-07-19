@@ -187,8 +187,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.cmbFromX = new Common.UI.ComboBox({
                 el: $('#shape-advanced-combo-from-x'),
                 cls: 'input-group-nr',
-                style: "width: 115px;",
-                menuStyle: 'min-width: 115px;',
+                style: "width: 125px;",
+                menuStyle: 'min-width: 125px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
@@ -200,8 +200,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.cmbFromY = new Common.UI.ComboBox({
                 el: $('#shape-advanced-combo-from-y'),
                 cls: 'input-group-nr',
-                style: "width: 115px;",
-                menuStyle: 'min-width: 115px;',
+                style: "width: 125px;",
+                menuStyle: 'min-width: 125px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
