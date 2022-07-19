@@ -337,7 +337,8 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
+            var selectedText = this.api.asc_GetSelectedText(),
+                text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             if (text) {
                 this.view.setFindText(text);
             } else if (text !== undefined) { // panel was opened from empty searchbar, clear to start new search
