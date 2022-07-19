@@ -104,6 +104,7 @@ define([
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
+                this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
             }
             return this;
         },
@@ -336,7 +337,8 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
+            var selectedText = this.api.asc_GetSelectedText(),
+                text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             if (text) {
                 this.view.setFindText(text);
             } else if (text !== undefined) { // panel was opened from empty searchbar, clear to start new search
@@ -385,8 +387,21 @@ define([
             this.removeResultItems('stop');
         },
 
+        onApiTextReplaced: function(found, replaced) {
+            if (found) {
+                !(found - replaced > 0) ?
+                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+            } else {
+                Common.UI.info({msg: this.textNoTextFound});
+            }
+        },
+
         notcriticalErrorTitle: 'Warning',
-        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
+        warnReplaceString: '{0} is not a valid special character for the Replace With box.',
+        textReplaceSuccess: 'Search has been done. {0} occurrences have been replaced',
+        textReplaceSkipped: 'The replacement has been made. {0} occurrences were skipped.',
+        textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.'
 
     }, PE.Controllers.Search || {}));
 });

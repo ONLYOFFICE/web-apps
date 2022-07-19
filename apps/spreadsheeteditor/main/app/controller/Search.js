@@ -481,7 +481,8 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
+            var selectedText = this.api.asc_GetSelectedText(),
+                text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 &&
                     (!text && !this.view.inputText.getValue() ||
                     !this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
