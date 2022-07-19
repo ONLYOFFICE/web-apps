@@ -91,6 +91,11 @@ define([
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
+                this.inputReplace._input.on('keydown', _.bind(function (e) {
+                    if (e.keyCode === Common.UI.Keys.RETURN && !this.btnReplace.isDisabled()) {
+                        this.onReplaceClick('replace');
+                    }
+                }, this));
 
                 this.btnBack = new Common.UI.Button({
                     parentEl: $('#search-adv-back'),
