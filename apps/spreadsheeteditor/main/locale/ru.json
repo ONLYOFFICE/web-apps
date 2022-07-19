@@ -3455,6 +3455,7 @@
   "SSE.Views.Toolbar.textTitlesAndHeadings": "Названия и заголовки",
   "SSE.Views.Toolbar.textThemedCallStyles": "Стили ячеек с темой",
   "SSE.Views.Toolbar.textNumberFormat": "Числовой формат",   
+  "SSE.Views.Toolbar.textNoName": "Без имени",   
   "SSE.Views.Toolbar.tipAlignBottom": "Выровнять по нижнему краю",
   "SSE.Views.Toolbar.tipAlignCenter": "Выровнять по центру",
   "SSE.Views.Toolbar.tipAlignJust": "Выровнять по ширине",

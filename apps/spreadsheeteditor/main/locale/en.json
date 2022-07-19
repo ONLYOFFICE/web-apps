@@ -3457,6 +3457,7 @@
   "SSE.Views.Toolbar.textTitlesAndHeadings": "Titles and Headings",
   "SSE.Views.Toolbar.textThemedCallStyles": "Themed Call Styles",
   "SSE.Views.Toolbar.textNumberFormat": "Number Format",   
+  "SSE.Views.Toolbar.textNoName": "No Name",   
   "SSE.Views.Toolbar.tipAlignBottom": "Align bottom",
   "SSE.Views.Toolbar.tipAlignCenter": "Align center",
   "SSE.Views.Toolbar.tipAlignJust": "Justified",

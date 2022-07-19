@@ -2219,11 +2219,26 @@ define([
             } else {
                 var arr = [];
                 var countCustomStyles = 0;
+                var hasNoNameGroup = false;
                 _.each(styles, function(style, index){
+                    var styleGroup;
+                    if(style.asc_getType() == 0) {
+                        if(index - countCustomStyles < groups.length){
+                            styleGroup = groups[index - countCustomStyles];
+                        }
+                        else {
+                            styleGroup = 'menu-style-group-no-name';
+                            hasNoNameGroup = true;
+                        }
+                    }
+                    else {
+                        styleGroup = 'menu-style-group-custom';
+                    }
+                    
                     arr.push({
                         imageUrl: style.asc_getImage(),
                         name    : style.asc_getName(),
-                        group   : (style.asc_getType() == 0 ? groups[index - countCustomStyles] : 'menu-style-group-custom'),
+                        group   : styleGroup,
                         tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                         uid     : Common.UI.getId()
                     });
@@ -2231,9 +2246,17 @@ define([
                         countCustomStyles += 1;
                     }
                 });
+
                 if(countCustomStyles == 0){
-                    listStyles.groups.models.forEach.forEach(function(style) {
+                    listStyles.groups.models.forEach(function(style) {
                         if(style.id === 'menu-style-group-custom'){
+                            listStyles.groups.remove(style);
+                        }
+                    });
+                }
+                if(hasNoNameGroup === false){
+                    listStyles.groups.models.forEach(function(style) {
+                        if(style.id === 'menu-style-group-no-name'){
                             listStyles.groups.remove(style);
                         }
                     });

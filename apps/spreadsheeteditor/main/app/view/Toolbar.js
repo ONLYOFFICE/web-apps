@@ -1286,12 +1286,13 @@ define([
                     itemHeight      : 40,
                     style: 'min-width:158px;',
                     groups: new Common.UI.DataViewGroupStore([
-                        {id: 'menu-style-group-custom',  caption: this.textCustom },
-                        {id: 'menu-style-group-color',  caption: this.textGoodBadAndNeutral },
-                        {id: 'menu-style-group-model',  caption: this.textDataAndModel },
-                        {id: 'menu-style-group-title',  caption: this.textTitlesAndHeadings },
-                        {id: 'menu-style-group-themed', caption: this.textThemedCallStyles }, 
-                        {id: 'menu-style-group-number', caption: this.textNumberFormat } 
+                        {id: 'menu-style-group-custom',     caption: this.textCustom },
+                        {id: 'menu-style-group-color',      caption: this.textGoodBadAndNeutral },
+                        {id: 'menu-style-group-model',      caption: this.textDataAndModel },
+                        {id: 'menu-style-group-title',      caption: this.textTitlesAndHeadings },
+                        {id: 'menu-style-group-themed',     caption: this.textThemedCallStyles }, 
+                        {id: 'menu-style-group-number',     caption: this.textNumberFormat },
+                        {id: 'menu-style-group-no-name',    caption: this.textNoName }
                     ]),
                     menuMaxHeight   : 350,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
@@ -1305,7 +1306,7 @@ define([
                             minMenuColumn = 6;
 
                         if (menu.cmpEl) {
-                            var itemEl = $(menu.menuRoot.find('.dataview .group-items-container .item').get(0));
+                            var itemEl = $(menu.menuRoot.find('.dataview .item').get(0));
                             var itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
                             Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1/Common.Utils.applicationPixelRatio());
                             var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
@@ -3296,6 +3297,7 @@ define([
         textDataAndModel: 'Data and Model',
         textTitlesAndHeadings: 'Titles and Headings',
         textThemedCallStyles: 'Themed Call Styles',
-        textNumberFormat: 'Number Format'
+        textNumberFormat: 'Number Format',
+        textNoName: 'No name'
     }, SSE.Views.Toolbar || {}));
 });
