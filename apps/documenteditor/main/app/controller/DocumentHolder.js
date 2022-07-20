@@ -2319,7 +2319,7 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 5px;' + (i==0 ? 'margin-left: 5px;' : '');
+                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
                     eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
                 }
                 eqStr += '</div>';
@@ -2353,7 +2353,7 @@ define([
                     var btn = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-equation-' + i, documentHolder.cmpEl),
                         cls         : 'btn-toolbar no-caret',
-                        iconCls     : 'toolbar__icon btn-paste',
+                        iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
