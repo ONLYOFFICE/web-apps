@@ -415,9 +415,9 @@ define([
                 if (store) {
                     if (forceFill || !me.fieldPicker.store.findWhere({'id': record.get('id')})){
                         if (me.itemMarginLeft===undefined) {
-                            var div = $($(this.fieldPickerEl).find('.inner > div:not(.grouped-data):not(.ps-scrollbar-x-rail):not(.ps-scrollbar-y-rail)')[0]);
+                            var div = $($(this.menuPicker.el).find('.inner > div:not(.grouped-data):not(.ps-scrollbar-x-rail):not(.ps-scrollbar-y-rail)')[0]);
                             if (!div || div.length<1) { // try to find items in groups
-                                div = $($(this.fieldPickerEl).find('.inner .group-items-container > div:not(.grouped-data):not(.ps-scrollbar-x-rail):not(.ps-scrollbar-y-rail)')[0]);
+                                div = $($(this.menuPicker.el).find('.inner .group-items-container > div:not(.grouped-data):not(.ps-scrollbar-x-rail):not(.ps-scrollbar-y-rail)')[0]);
                             }
                             if (div.length > 0) {
                                 me.itemMarginLeft  = parseInt(div.css('margin-left'));
