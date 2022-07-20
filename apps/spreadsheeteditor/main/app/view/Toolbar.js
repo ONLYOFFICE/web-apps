@@ -1307,6 +1307,7 @@ define([
 
                         if (menu.cmpEl) {
                             var itemEl = $(menu.menuRoot.find('.dataview .item').get(0));
+                            var groupContainerEl = $(menu.menuRoot.find('.dataview .group-items-container').get(0));
                             var itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
                             Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1/Common.Utils.applicationPixelRatio());
                             var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
@@ -1321,7 +1322,7 @@ define([
 
                             menu.menuAlign = 'tl-tl';
                             var dataviewEl = $(menu.menuRoot.find('.dataview').get(0));
-                            var menuWidth = columnCount * (itemWidth + itemMargin) + parseFloat(dataviewEl.css('padding-left')) + parseFloat(dataviewEl.css('padding-right'));
+                            var menuWidth = + columnCount * (itemWidth + itemMargin) + parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(dataviewEl.css('padding-left')) + parseFloat(dataviewEl.css('padding-right'));
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - menuWidth - 1;
                             menu.setOffset(Math.min(offset, 0));
 
