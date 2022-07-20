@@ -231,8 +231,8 @@
         };
     </script>
 
-    <!--<inline src="resources/img/header/buttons.svg" />-->
-    <inline src="resources/img/toolbar/charttypes.svg" />
+    <!--<inline src="../../common/main/resources/img/header/buttons.svg" />-->
+    <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
 
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 </body>
