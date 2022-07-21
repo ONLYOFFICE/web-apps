@@ -514,6 +514,7 @@ define([
                 this.levels[this.level] = this.props.get_Lvl(this.level);
             this.fillLevelProps(this.levels[this.level]);
             this._changedProps = this.levels[this.level];
+            this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
         },
 
         fillLevelProps: function(levelProps) {
