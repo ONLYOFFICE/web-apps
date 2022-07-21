@@ -62,8 +62,13 @@ if ( window.desktop ) {
         }
 
         if ( theme.id ) {
-            // params.uitheme = undefined;
-            localStorage.setItem("ui-theme-id", theme.id);
+            if ( theme.id == 'theme-system' ) {
+                localStorage.setItem("ui-theme-use-system", "1");
+                localStorage.removeItem("ui-theme-id");
+            } else {
+                localStorage.setItem("ui-theme-id", theme.id);
+            }
+
             localStorage.removeItem("ui-theme");
         }
     }
