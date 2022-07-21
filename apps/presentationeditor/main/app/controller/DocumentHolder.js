@@ -408,6 +408,7 @@ define([
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
             view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
+            view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
             view.mnuGroupImg.on('click', _.bind(me.onGroupImg, me));
             view.mnuUnGroupImg.on('click', _.bind(me.onUnGroupImg, me));
             view.mnuArrangeFront.on('click', _.bind(me.onArrangeFront, me));
@@ -1921,6 +1922,39 @@ define([
                                         }
                                         me.editComplete();
                                         Common.component.Analytics.trackEvent('DocumentHolder', 'Image Paragraph Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onChartAdvanced: function(item, e){
+            var me = this;
+            if (me.api) {
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                            (new PE.Views.ChartSettingsAdvanced(
+                                {
+                                    chartProps: elValue,
+                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ChartApply(value.chartProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Chart Settings Advanced');
                                     }
                                 })).show();
                             break;
