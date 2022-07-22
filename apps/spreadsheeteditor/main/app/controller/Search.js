@@ -57,7 +57,13 @@ define([
                 'SearchBar': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
-                    'search:input': _.bind(this.onInputSearchChange, this),
+                    'search:input': _.bind(function (text) {
+                        if (this._state.searchText === text) {
+                            Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
+                            return;
+                        }
+                        this.onInputSearchChange(text);
+                    }, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
                     'show': _.bind(this.onSelectSearchingResults, this, true),
                     'hide': _.bind(this.onSelectSearchingResults, this, false)
@@ -557,6 +563,10 @@ define([
                     this.api.asc_StartTextAroundSearch();
                 }
             }
+        },
+
+        getSearchText: function () {
+            return this._state.searchText;
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
