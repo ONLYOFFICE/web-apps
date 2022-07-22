@@ -620,13 +620,18 @@ define([
                 }
             }
             var i = -1,
-                in_equation = false;
+                in_equation = false,
+                locked = false;
             while (++i < selectedElements.length) {
-                if (selectedElements[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.Math) {
+                var type = selectedElements[i].get_ObjectType();
+                if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Paragraph || type === Asc.c_oAscTypeSelectElement.Table || type === Asc.c_oAscTypeSelectElement.Header) {
+                    var value = selectedElements[i].get_ObjectValue();
+                    value && (locked = locked || value.get_Locked());
                 }
             }
-            in_equation ? this.onEquationPanelShow() : this.onEquationPanelHide();
+            in_equation ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
         },
 
         handleDocumentWheel: function(event) {
@@ -2307,7 +2312,7 @@ define([
             return false;
         },
 
-        onEquationPanelShow: function() {
+        onEquationPanelShow: function(disabled) {
             var me = this,
                 documentHolder = me.documentHolder,
                 eqContainer = documentHolder.cmpEl.find('#equation-container');
@@ -2324,6 +2329,8 @@ define([
                     var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
                     eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
                 }
+                eqStr += '<div class="separator"></div>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.find('#id_main_view').append(eqContainer);
@@ -2371,11 +2378,41 @@ define([
                     btn.menu.on('show:before', onShowBefore);
                     me.equationBtns.push(btn);
                 }
+
+                me.equationSettingsBtn = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
+                    cls         : 'btn-toolbar no-caret',
+                    iconCls     : 'toolbar__icon more-vertical',
+                    hint        : me.documentHolder.advancedEquationText,
+                    menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
+                });
+                me.equationSettingsBtn.menu.options.initMenu = function() {
+                    var eq = me.api.asc_GetMathInputType();
+                    var menu = me.equationSettingsBtn.menu;
+                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                };
+                me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
+                me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    menu.options.initMenu();
+                });
             }
 
             var showPoint = [(me._Width - eqContainer.outerWidth())/2, 0];
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
-            eqContainer.show();
+            if (eqContainer.is(':visible')) {
+                if (me.equationSettingsBtn.menu.isVisible()) {
+                    me.equationSettingsBtn.menu.options.initMenu();
+                    me.equationSettingsBtn.menu.alignPosition();
+                }
+            } else {
+                eqContainer.show();
+            }
+            me.equationBtns.forEach(function(item){
+                item && item.setDisabled(!!disabled);
+            });
+            me.equationSettingsBtn.setDisabled(!!disabled);
         },
 
         onEquationPanelHide: function() {
