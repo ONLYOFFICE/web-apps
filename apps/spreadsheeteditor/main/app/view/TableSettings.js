@@ -560,21 +560,62 @@ define([
                     data[index].model.set('imageUrl', img, {silent: true});
                     $(data[index].el).find('img').attr('src', img);
                 });
-            } else {
-                var arr = [];
-                _.each(Templates, function(template){
-                    arr.push({
+            } else {            
+                var arrStyles = [];
+                var groups = [
+                    {id: 'menu-table-group-custom',    caption: self.txtGroupTable_Custom},
+                    {id: 'menu-table-group-light',     caption: self.txtGroupTable_Light},
+                    {id: 'menu-table-group-medium',    caption: self.txtGroupTable_Medium},
+                    {id: 'menu-table-group-dark',      caption: self.txtGroupTable_Dark},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp'},
+                ];
+                var hasCustomGroup = false;
+                var hasNoNameGroup = false;
+                _.each(Templates, function(item){
+                    var tip = item.asc_getDisplayName();
+                    var groupItem = '';
+                    if (item.asc_getType()==0) {
+                        var arr = tip.split(' '),
+                            last = arr.pop();
+                        if(arr.length > 0){
+                            groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                        }
+                        if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                            groupItem = 'menu-table-group-no-name';
+                            hasNoNameGroup = true;
+                        }
+                        arr = 'txtTable_' + arr.join('');
+                        tip = self[arr] ? self[arr] + ' ' + last : tip;
+                    }
+                    else {
+                        groupItem = 'menu-table-group-custom'
+                        hasCustomGroup = true;
+                    }                        
+                    arrStyles.push({
                         id          : Common.UI.getId(),
-                        name        : template.asc_getName(),
-                        caption     : template.asc_getDisplayName(),
-                        type        : template.asc_getType(),
-                        imageUrl    : template.asc_getImage(),
+                        name        : item.asc_getName(),
+                        caption     : item.asc_getDisplayName(),
+                        type        : item.asc_getType(),
+                        imageUrl    : item.asc_getImage(),
+                        group       : groupItem, 
                         allowSelected : true,
                         selected    : false,
-                        tip         : template.asc_getDisplayName()
+                        tip         : tip
                     });
                 });
-                self.mnuTableTemplatePicker.store.reset(arr);
+                if(hasCustomGroup === false){
+                    groups = groups.filter(function(item) {
+                        return item.id != 'menu-table-group-custom';
+                    });
+                }
+                if(hasNoNameGroup === false){
+                    groups = groups.filter(function(item) {
+                        return item.id != 'menu-table-group-no-name';
+                    });
+                }
+
+                self.mnuTableTemplatePicker.groups.reset(groups);
+                self.mnuTableTemplatePicker.store.reset(arrStyles);
             }
         },
 
@@ -700,7 +741,15 @@ define([
         textRemDuplicates: 'Remove duplicates',
         textSlicer: 'Insert slicer',
         textPivot: 'Insert pivot table',
-        textActions: 'Table actions'
+        textActions: 'Table actions',
+        txtTable_TableStyleMedium: 'Table Style Medium',
+        txtTable_TableStyleDark: 'Table Style Dark',
+        txtTable_TableStyleLight: 'Table Style Light',
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Light: 'Light',
+        txtGroupTable_Medium: 'Medium',
+        txtGroupTable_Dark: 'Dark',
+        
         
     }, SSE.Views.TableSettings || {}));
 });
