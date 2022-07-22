@@ -393,7 +393,7 @@
     "errorSessionIdle": "Fa molt de temps que no s'edita el document. Torna a carregar la pàgina.",
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torna a carregar la pàgina.",
     "errorStockChart": "L'ordre de la fila no és correcte. Per construir un gràfic de valors, posa les dades al full de càlcul en l'ordre següent: <br>preu d'obertura, preu màxim, preu mínim, preu de tancament.",
-    "errorUpdateVersionOnDisconnect": "S'ha restaurat la connexió a internet i la versió del fitxer ha canviat. <br> Abans de continuar treballant, has de baixar el fitxer o copiar-ne el contingut per assegurar-te que no es perdi res i, després, torna a carregar aquesta pàgina.",
+    "errorUpdateVersionOnDisconnect": "S'ha restaurat la connexió a internet i la versió del fitxer ha canviat. <br> Abans de continuar treballant, heu de baixar el fitxer o copiar-ne el contingut per assegurar-vos que no es perdi res i, després, torneu a carregar aquesta pàgina.",
     "errorUserDrop": "Ara mateix no es pot accedir al fitxer.",
     "errorUsersExceed": "S'ha superat el nombre d’usuaris que permet el teu pla",
     "errorViewerDisconnect": "S'ha perdut la connexió. Encara pots veure el document, <br>però no podràs baixar-lo fins que es restableixi la connexió i es torni a carregar la pàgina.",

@@ -32,6 +32,10 @@
   "Common.UI.Calendar.textShortTuesday": "Ke",
   "Common.UI.Calendar.textShortWednesday": "Sze",
   "Common.UI.Calendar.textYears": "Évek",
+  "Common.UI.SearchBar.textFind": "Keres",
+  "Common.UI.SearchBar.tipCloseSearch": "Keresés bezárása",
+  "Common.UI.SearchBar.tipNextResult": "Következő eredmény",
+  "Common.UI.SearchBar.tipPreviousResult": "Előző eredmény",
   "Common.UI.Themes.txtThemeClassicLight": "Klasszikus Világos",
   "Common.UI.Themes.txtThemeDark": "Sötét",
   "Common.UI.Themes.txtThemeLight": "Világos",
@@ -166,6 +170,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Fájl helyének megnyitása",
   "DE.Views.ApplicationView.txtFullScreen": "Teljes képernyő",
   "DE.Views.ApplicationView.txtPrint": "Nyomtatás",
+  "DE.Views.ApplicationView.txtSearch": "Keresés",
   "DE.Views.ApplicationView.txtShare": "Megosztás",
   "DE.Views.ApplicationView.txtTheme": "Felhasználói felület témája"
 }

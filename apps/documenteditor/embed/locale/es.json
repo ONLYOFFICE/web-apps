@@ -19,7 +19,7 @@
   "DE.ApplicationController.errorLoadingFont": "Los tipos de letra no están cargados. <br>Contacte con el administrador del servidor de documentos.",
   "DE.ApplicationController.errorSubmit": "Error al enviar.",
   "DE.ApplicationController.errorTokenExpire": "El token de seguridad del documento ha expirado. <br>Contacte con el administrador del servidor de documentos",
-  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Se ha restablecido la conexión a Internet y se ha cambiado la versión del archivo.<br>Para poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se ha perdido nada, y luego volver a cargar esta página.",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Se ha restablecido la conexión a Internet y se ha cambiado la versión del archivo. <br>Para poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se ha perdido nada, y luego volver a cargar esta página.",
   "DE.ApplicationController.errorUserDrop": "No se puede acceder al archivo.",
   "DE.ApplicationController.notcriticalErrorTitle": "Advertencia",
   "DE.ApplicationController.openErrorText": "Se ha producido un error al abrir el archivo. ",
