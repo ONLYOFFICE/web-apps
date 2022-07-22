@@ -397,6 +397,10 @@ define([
             }
         },
 
+        getSearchText: function () {
+            return this._state.searchText;
+        },
+
         notcriticalErrorTitle: 'Warning',
         warnReplaceString: '{0} is not a valid special character for the Replace With box.',
         textReplaceSuccess: 'Search has been done. {0} occurrences have been replaced',
