@@ -12,7 +12,7 @@
   "Common": {
     "Collaboration": {
       "notcriticalErrorTitle": "Figyelmeztetés",
-      "textAddComment": "Hozzászólás hozzáadása",
+      "textAddComment": "Megjegyzés hozzáadása",
       "textAddReply": "Válasz hozzáadása",
       "textBack": "Vissza",
       "textCancel": "Mégse",
@@ -45,7 +45,7 @@
   },
   "ContextMenu": {
     "errorCopyCutPaste": "A másolás, kivágás és beillesztés a helyi menü segítségével csak az aktuális fájlon belül történik.",
-    "menuAddComment": "Hozzászólás hozzáadása",
+    "menuAddComment": "Megjegyzés hozzáadása",
     "menuAddLink": "Link hozzáadása",
     "menuCancel": "Mégse",
     "menuDelete": "Törlés",
@@ -116,20 +116,20 @@
       "textRemember": "Választás megjegyzése",
       "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
       "textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
-      "textRequestMacros": "A makró kérést intéz az URL-hez. Szeretné engedélyezni a kérést a %1-hoz?",
+      "textRequestMacros": "A makró URL-kérést indít. Engedélyezi a %1 lekérdezését?",
       "textYes": "Igen",
       "titleLicenseExp": "Lejárt licenc",
       "titleServerVersion": "Szerkesztő frissítve",
       "titleUpdateVersion": "A verzió megváltozott",
       "txtIncorrectPwd": "Érvénytelen jelszó",
       "txtProtected": "Miután megadta a jelszót és megnyitotta a fájlt, annak jelenlegi jelszava visszaállítódik.",
-      "warnLicenseExceeded": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. További információért forduljon rendszergazdájához.",
+      "warnLicenseExceeded": "Ön elérte az egyidejű kapcsolódások számának határát a(z) %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. További információkért forduljon a rendszergazdához.",
       "warnLicenseExp": "Az ön licence lejárt. Kérjük, újítsa azt meg aztán frissítse az oldalt.",
       "warnLicenseLimitedNoAccess": "Licensz lejárt. Nincs hozzáférése a dokumentumszerkesztési funkciókhoz. Kérjük, forduljon rendszergazdájához.",
       "warnLicenseLimitedRenewed": "A licencet meg kell újítani. Korlátozott hozzáférése van a dokumentumszerkesztési funkciókhoz.<br>A teljes hozzáférés érdekében forduljon rendszergazdájához",
-      "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. További információért forduljon rendszergazdájához.",
-      "warnNoLicense": "Elérte a(z) %1 szerkesztővel való egyidejű kapcsolódási korlátot. Ez a dokumentum csak megtekintésre nyílik meg. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a személyes frissítés feltételekért.",
-      "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
+      "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. További információért forduljon rendszergazdájához.",
+      "warnNoLicense": "Ön elérte az egyidejű kapcsolódáok számának határát a(z) %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a perszonális frissítés feltételéhez.",
+      "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
       "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
     }
   },
