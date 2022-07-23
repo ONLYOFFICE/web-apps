@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="description" content="Paramètres avancés de Document Editor" />
     <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
     <script type="text/javascript" src="../search/js/page-search.js"></script>
 </head>
@@ -14,14 +15,14 @@
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
         <h1>Paramètres avancés de Document Editor</h1>
-        <p><a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> vous permet de modifier ses paramètres avancés. Pour y accéder, ouvrez l'onglet <b>Fichier</b> de la barre d'outils supérieure et sélectionnez l'option <b>Paramètres avancés...</b>. Vous pouvez également cliquer sur l'icône <b>Paramètres d'affichage</b> <img alt="L'icône Paramètres d'affichage" src="../images/viewsettingsicon.png" /> sur le côté droit de l'en-tête de l'éditeur et sélectionner l'option <b>Paramètres avancés</b>.</p>
+        <p><a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> vous permet de modifier ses paramètres avancés. Pour y accéder, ouvrez l'onglet <b>Fichier</b> de la barre d'outils supérieure et sélectionnez l'option <b>Paramètres avancés...</b>. Vous pouvez également cliquer sur l'icône <b>Paramètres d'affichage</b> <div class = "icon icon-viewsettingsicon"></div> sur le côté droit de l'en-tête de l'éditeur et sélectionner l'option <b>Paramètres avancés</b>.</p>
         <p>Les paramètres avancés sont les suivants:</p>
         <ul>
             <li>
                 Affichage des commentaires sert à activer/désactiver les commentaires en temps réel.
                 <ul>
-                    <li><b>Activer l'affichage des commentaires</b> - si cette option est désactivée, les passages commentés seront mis en surbrillance uniquement si vous cliquez sur l'icône <img alt="L'icône Commentaires" src="../images/commentsicon.png" /> de la barre latérale gauche.</li>
-                    <li><b>Activer l'affichage des commentaires résolus</b> - cette fonction est désactivée par défaut pour que les commentaires résolus soient cachés dans le texte du document. Vous ne pourrez voir ces commentaires que si vous cliquez sur l'icône <b>Commentaires</b> <img alt="L'icône Commentaires" src="../images/commentsicon.png" /> dans la barre latérale de gauche. Activez cette option si vous voulez afficher les commentaires résolus dans le texte du document.</li>
+                    <li><b>Activer l'affichage des commentaires</b> - si cette option est désactivée, les passages commentés seront mis en surbrillance uniquement si vous cliquez sur l'icône <div class = "icon icon-commentsicon"></div> de la barre latérale gauche.</li>
+                    <li><b>Activer l'affichage des commentaires résolus</b> - cette fonction est désactivée par défaut pour que les commentaires résolus soient cachés dans le texte du document. Vous ne pourrez voir ces commentaires que si vous cliquez sur l'icône <b>Commentaires</b> <div class = "icon icon-commentsicon"></div> dans la barre latérale de gauche. Activez cette option si vous voulez afficher les commentaires résolus dans le texte du document.</li>
                 </ul>
             </li>
             <li>
@@ -42,7 +43,7 @@
                 Le <b>Mode de co-édition</b> permet de sélectionner l'affichage des modifications effectuées lors de la co-édition:
                 <ul>
                     <li>Par défaut, le mode <b>Rapide</b> est sélectionné, les utilisateurs qui participent à la co-édition du document verront les changements en temps réel une fois qu'ils sont faits par d'autres utilisateurs.</li>
-                    <li>Si vous préférez ne pas voir d'autres changements d'utilisateur (pour ne pas vous déranger, ou pour toute autre raison), sélectionnez le mode <b>Strict</b> et tous les changements apparaîtront seulement après avoir cliqué sur l'icône <b>Enregistrer</b> <img alt="L'icône Enregistrer" src="../images/saveupdate.png" /> pour vous informer qu'il y a des changements effectués par d'autres utilisateurs.</li>
+                    <li>Si vous préférez ne pas voir d'autres changements d'utilisateur (pour ne pas vous déranger, ou pour toute autre raison), sélectionnez le mode <b>Strict</b> et tous les changements apparaîtront seulement après avoir cliqué sur l'icône <b>Enregistrer</b> <div class = "icon icon-saveupdate"></div> pour vous informer qu'il y a des changements effectués par d'autres utilisateurs.</li>
                 </ul>
             </li>
             <li class="onlineDocumentFeatures">
@@ -50,7 +51,7 @@
                 <ul>
                     <li>En sélectionnant <b>N'afficher aucune modification</b>, aucune des modifications effectuées au cours de la session ne sera mise en surbrillance.</li>
                     <li>L'option <b>Tout sélectionnée</b>, toutes les modifications effectuées au cours de la session seront mises en surbrillance.</li>
-                    <li>En sélectionnant <b>Afficher les modifications récentes</b>, seules les modifications effectuées depuis la dernière fois que vous avez cliqué sur l'icône <b>Enregistrer</b> <img alt="L'icône Enregistrer" src="../images/saveupdate.png" /> seront mises en surbrillance. Cette option n'est disponible que lorsque le mode <b>Strict</b> est sélectionné.</li>
+                    <li>En sélectionnant <b>Afficher les modifications récentes</b>, seules les modifications effectuées depuis la dernière fois que vous avez cliqué sur l'icône <b>Enregistrer</b> <div class = "icon icon-saveupdate"></div> seront mises en surbrillance. Cette option n'est disponible que lorsque le mode <b>Strict</b> est sélectionné.</li>
                 </ul>
             </li>
             <li>

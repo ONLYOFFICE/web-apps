@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "高さ",
   "common.view.modals.txtShare": "共有リンク",
   "common.view.modals.txtWidth": "幅",
+  "common.view.SearchBar.textFind": "検索する",
   "PE.ApplicationController.convertationErrorText": "変換に失敗しました",
   "PE.ApplicationController.convertationTimeoutText": "変換のタイムアウトを超過しました。",
   "PE.ApplicationController.criticalErrorTitle": "エラー",

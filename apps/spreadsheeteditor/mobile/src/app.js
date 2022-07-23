@@ -1,6 +1,6 @@
 // Import React and ReactDOM
 import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 // Import Framework7
 import Framework7 from 'framework7/lite-bundle';
@@ -37,15 +37,19 @@ import { Provider } from 'mobx-react';
 import { stores } from './store/mainStore';
 import { LocalStorage } from '../../../common/mobile/utils/LocalStorage';
 
+const container = document.getElementById('app');
+const root = createRoot(container); 
+
 // Init F7 React Plugin
 Framework7.use(Framework7React);
 
 // Mount React App
-ReactDOM.render(
+root.render(
     <I18nextProvider i18n={i18n}>
         <Provider {...stores}>
-            <App />
+            {/*<Suspense fallback="loading...">*/}
+                <App />
+            {/*</Suspense>*/}
         </Provider>
-    </I18nextProvider>,
-  document.getElementById('app'),
+    </I18nextProvider>
 );

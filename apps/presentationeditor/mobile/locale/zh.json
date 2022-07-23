@@ -3,6 +3,7 @@
     "textAbout": "关于",
     "textAddress": "地址",
     "textBack": "返回",
+    "textEditor": "幻灯片编辑器",
     "textEmail": "电子邮件",
     "textPoweredBy": "支持方",
     "textTel": "电话",
@@ -58,7 +59,9 @@
     "textColumns": "列",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
-    "textRows": "行"
+    "textRows": "行",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "记住我的选择",
       "textReplaceSkipped": "已更换。 {0}次跳过。",
       "textReplaceSuccess": "搜索已完成。更换次数：{0}",
+      "textRequestMacros": "宏发起一个请求至URL。你是否允许请求到％1？",
       "textYes": "是",
       "titleLicenseExp": "许可证过期",
       "titleServerVersion": "编辑器已更新",
@@ -126,8 +130,7 @@
       "warnLicenseUsersExceeded": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
       "warnNoLicense": "你已经触发了 %1 编辑器的同时在线数限制. 该文档打开后，你将只能查看。请联系 %1 的销售团队，获取个人升级条款。",
       "warnNoLicenseUsers": "你触发了 %1 编辑器的同时在线数限制。可联系管理员来了解更多信息。",
-      "warnProcessRightsChange": "你没有编辑文件的权限。",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
   },
   "Error": {
@@ -398,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "标准（4：3）",
       "mniSlideWide": "宽屏（16：9）",
+      "notcriticalErrorTitle": "警告",
       "textAbout": "关于",
       "textAddress": "地址：",
       "textApplication": "应用",
@@ -420,6 +424,7 @@
       "textEmail": "电子邮件：",
       "textEnableAll": "启动所有项目",
       "textEnableAllMacrosWithoutNotification": "启动所有不带通知的宏",
+      "textFeedback": "反馈和支持",
       "textFind": "查找",
       "textFindAndReplace": "查找和替换",
       "textFindAndReplaceAll": "查找并替换所有",
@@ -432,6 +437,7 @@
       "textLocation": "位置",
       "textMacrosSettings": "宏设置",
       "textNoTextFound": "文本没找到",
+      "textOk": "确定",
       "textOwner": "创建者",
       "textPoint": "点",
       "textPoweredBy": "支持方",
@@ -441,6 +447,8 @@
       "textPrint": "打印",
       "textReplace": "替换",
       "textReplaceAll": "全部替换",
+      "textRestartApplication": "请重新启动应用程序使修改生效",
+      "textRTL": "RTL",
       "textSearch": "搜索",
       "textSettings": "设置",
       "textShowNotification": "显示通知",
@@ -473,12 +481,7 @@
       "txtScheme6": "中央大厅",
       "txtScheme7": "公平",
       "txtScheme8": "流动",
-      "txtScheme9": "发现",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRTL": "RTL",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "txtScheme9": "发现"
     }
   }
 }

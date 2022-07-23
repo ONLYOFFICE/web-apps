@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Aangedreven door",
     "textTel": "Tel.",
-    "textVersion": "Versie"
+    "textVersion": "Versie",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Waarschuwing",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?"
+    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -399,7 +402,6 @@
       "textBottomBorder": "Onderrand",
       "textBringToForeground": "Naar voorgrond brengen",
       "textCell": "Cel",
-      "textCellStyles": "Celstijlen",
       "textCenter": "Midden",
       "textChart": "Grafiek",
       "textChartTitle": "Grafiektitel",
@@ -682,11 +684,11 @@
       "txtSpace": "Spatie",
       "txtTab": "Tab",
       "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

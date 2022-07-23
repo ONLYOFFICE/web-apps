@@ -45,7 +45,8 @@ define([
     'spreadsheeteditor/main/app/collection/FormulaGroups',
     'spreadsheeteditor/main/app/view/FormulaDialog',
     'spreadsheeteditor/main/app/view/FormulaTab',
-    'spreadsheeteditor/main/app/view/FormulaWizard'
+    'spreadsheeteditor/main/app/view/FormulaWizard',
+    'spreadsheeteditor/main/app/view/WatchDialog'
 ], function () {
     'use strict';
 
@@ -69,8 +70,6 @@ define([
             this.addListeners({
                 'FileMenu': {
                     'settings:apply': function() {
-                        if (!me.mode || !me.mode.isEdit) return;
-
                         me.needUpdateFormula = true;
 
                         var lang = Common.localStorage.getItem("sse-settings-func-locale");
@@ -82,7 +81,8 @@ define([
                 },
                 'FormulaTab': {
                     'function:apply': this.applyFunction,
-                    'function:calculate': this.onCalculate
+                    'function:calculate': this.onCalculate,
+                    'function:watch': this.onWatch
                 },
                 'Toolbar': {
                     'function:apply': this.applyFunction,
@@ -116,12 +116,12 @@ define([
 
         setApi: function (api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
-            if (this.formulasGroups && this.api) {
+            if (this.formulasGroups) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
-
                 this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true);
+
+                if (!this.mode.isEdit) return;
 
                 var me = this;
 
@@ -140,6 +140,7 @@ define([
             }
 
             this.formulaTab && this.formulaTab.setApi(this.api);
+            this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
             return this;
         },
@@ -192,6 +193,8 @@ define([
                         }
                     });
             }
+
+            if (!this.mode.isEdit) return;
 
             if (me.langDescJson[lang])
                 me.loadingFormulas(me.langDescJson[lang], suppressEvent);
@@ -406,6 +409,24 @@ define([
             if (type === Asc.c_oAscCalculateType.All || type === Asc.c_oAscCalculateType.ActiveSheet) {
                 this.api && this.api.asc_calculate(type);
             }
+        },
+
+        onWatch: function(state) {
+            if (state) {
+                var me = this;
+                this._watchDlg = new SSE.Views.WatchDialog({
+                    api: this.api,
+                    handler: function(result) {
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+                this._watchDlg.on('close', function(win){
+                    me.formulaTab.btnWatch.toggle(false, true);
+                    me._watchDlg = null;
+                }).show();
+            } else if (this._watchDlg)
+                this._watchDlg.close();
+
         },
 
         sCategoryAll:                   'All',

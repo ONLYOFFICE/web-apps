@@ -60,10 +60,12 @@ define([
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
 
-        var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
+        var nativevars;
 
         if ( !!native ) {
             native.features = native.features || {};
+            nativevars = window.RendererProcessVariable;
+
             window.on_native_message = function (cmd, param) {
                 if (/^style:change/.test(cmd)) {
                     var obj = JSON.parse(param);
@@ -139,7 +141,7 @@ define([
                     }
                 } else
                 if (/althints:show/.test(cmd)) {
-                    if ( param == /false|hide/.test(param) )
+                    if ( /false|hide/.test(param) )
                         Common.NotificationCenter.trigger('hints:clear');
                 }
             };
@@ -192,7 +194,21 @@ define([
         };
 
         var _onHintsShow = function (visible, level) {
-            native.execCommand('althints:show', JSON.stringify(visible && !(level > 0)));
+            let info = {
+                visible: visible && !(level > 0),
+            };
+
+            if ( !!titlebuttons ) {
+                info.hints = {
+                    'print': titlebuttons['print'].btn.btnEl.attr('data-hint-title'),
+                    // 'home': Common.UI.HintManager.getStaticHint('btnhome'),
+                    'undo': titlebuttons['undo'].btn.btnEl.attr('data-hint-title'),
+                    'redo': titlebuttons['redo'].btn.btnEl.attr('data-hint-title'),
+                    'save': titlebuttons['save'].btn.btnEl.attr('data-hint-title'),
+                };
+            }
+
+            native.execCommand('althints:show', JSON.stringify(info));
         }
 
         var _onKeyDown = function (e) {
@@ -207,6 +223,8 @@ define([
                 _.extend(config, opts);
 
                 if ( config.isDesktopApp ) {
+                    let is_win_xp = nativevars && nativevars.os === 'winxp';
+
                     Common.UI.Themes.setAvailable(!is_win_xp);
                     Common.NotificationCenter.on('app:ready', function (opts) {
                         _.extend(config, opts);
@@ -341,6 +359,15 @@ define([
                     return native[name].apply(this, args);
                 }
             },
+            helpUrl: function () {
+                if ( !!nativevars && nativevars.helpUrl ) {
+                    var webapp = window.SSE ? 'spreadsheeteditor' :
+                                    window.PE ? 'presentationeditor' : 'documenteditor';
+                    return nativevars.helpUrl + webapp + '/main/resources/help';
+                }
+
+                return undefined;
+            }
         };
     };
 

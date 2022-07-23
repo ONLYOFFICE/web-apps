@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháňaný ",
     "textTel": "Tel",
-    "textVersion": "Verzia"
+    "textVersion": "Verzia",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Stĺpce",
     "textCopyCutPasteActions": "Akcia kopírovať, vystrihnúť a prilepiť",
     "textDoNotShowAgain": "Nezobrazovať znova",
-    "textRows": "Riadky"
+    "textRows": "Riadky",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -474,11 +477,11 @@
       "txtScheme7": "Spravodlivosť",
       "txtScheme8": "Tok",
       "txtScheme9": "Zlieváreň",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

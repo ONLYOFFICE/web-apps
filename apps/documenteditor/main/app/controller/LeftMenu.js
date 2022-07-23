@@ -688,7 +688,6 @@ define([
                     if (this.leftMenu.btnComments.isActive()) {
                         this.leftMenu.btnComments.toggle(false);
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
-
                         // focus to sdk
                         this.api.asc_enableKeyEvents(true);
                     } else if (this.leftMenu.btnThumbnails.isActive()) {
@@ -715,6 +714,7 @@ define([
                 case 'replace':
                 case 'search':
                     this.leftMenu.btnAbout.toggle(false);
+                    Common.UI.Menu.Manager.hideAll();
                     var selectedText = this.api.asc_GetSelectedText();
                     if (this.isSearchPanelVisible()) {
                         selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
@@ -767,7 +767,6 @@ define([
 //                        if (!this.leftMenu.isOpened()) return true;
                     var btnSearch = this.getApplication().getController('Viewport').header.btnSearch;
                     btnSearch.pressed && btnSearch.toggle(false);
-                    this.leftMenu._state.isSearchOpen && (this.leftMenu._state.isSearchOpen = false);
 
                     if ( this.leftMenu.menuFile.isVisible() ) {
                         if (Common.UI.HintManager.needCloseFileMenu())
@@ -878,11 +877,10 @@ define([
                 var mode = this.mode.isEdit && !this.viewmode ? undefined : 'no-replace';
                 this.leftMenu.panelSearch.setSearchMode(mode);
             }
-            this.leftMenu._state.isSearchOpen = show;
         },
 
         isSearchPanelVisible: function () {
-            return this.leftMenu._state.isSearchOpen;
+            return this.leftMenu && this.leftMenu.panelSearch && this.leftMenu.panelSearch.isVisible();
         },
 
         isCommentsVisible: function() {

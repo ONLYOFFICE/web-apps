@@ -6,7 +6,8 @@
     "textEmail": "Электронная пошта",
     "textPoweredBy": "Распрацавана",
     "textTel": "Тэлефон",
-    "textVersion": "Версія"
+    "textVersion": "Версія",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textCopyCutPasteActions": "Скапіяваць, выразаць, уставіць",
     "textRows": "Радкі",
     "menuSplit": "Split",
-    "textDoNotShowAgain": "Don't show again"
+    "textDoNotShowAgain": "Don't show again",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -118,6 +121,7 @@
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "textCustomLoader": "Sorry, you are not entitled to change the loader. Please, contact our sales department to get a quote.",
       "textRemember": "Remember my choice",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "txtIncorrectPwd": "Password is incorrect",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnLicenseExp": "Your license has expired. Please, update it and refresh the page.",
@@ -126,8 +130,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -467,18 +470,18 @@
       "txtScheme7": "Справядлівасць",
       "txtScheme8": "Плынь",
       "txtScheme9": "Ліцейня",
+      "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
-      "textFindAndReplaceAll": "Find and Replace All",
       "textFeedback": "Feedback & Support",
-      "textTel": "tel:",
-      "txtScheme22": "New Office",
+      "textFindAndReplaceAll": "Find and Replace All",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL",
+      "textTel": "tel:",
+      "txtScheme22": "New Office"
     }
   }
 }

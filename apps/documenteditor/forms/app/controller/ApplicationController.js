@@ -1348,6 +1348,7 @@ define([
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
             }
             DE.getController('Plugins').setApi(this.api);
+            DE.getController('SearchBar').setApi(this.api);
 
             this.updateWindowTitle(true);
 
@@ -1414,6 +1415,9 @@ define([
                         embedConfig: this.embedConfig
                     })).show();
                     break;
+                case 'search':
+                    Common.NotificationCenter.trigger('search:show');
+                    break;
             }
         },
 
@@ -1477,51 +1481,46 @@ define([
                 menuItems = this.view.btnOptions.menu.items,
                 itemsCount = menuItems.length-4;
             var initMenu = function(menu) {
-                var last;
-                // print
-                if (!menuItems[0].isVisible())
-                    menuItems[1].setVisible(false);
-                else
-                    last = menuItems[1];
+                var last; // divider item
 
-                // download
-                if (!menuItems[2].isVisible() && !menuItems[3].isVisible() && !menuItems[4].isVisible())
-                    menuItems[5].setVisible(false);
+                // download and print
+                if (!menuItems[0].isVisible() && !menuItems[1].isVisible() && !menuItems[2].isVisible() && !menuItems[3].isVisible())
+                    menuItems[4].setVisible(false);
                 else
-                    last = menuItems[5];
+                    last = menuItems[4];
 
                 // theme and zoom
-                if (!menuItems[6].isVisible() && !menuItems[7].isVisible())
-                    menuItems[8].setVisible(false);
+                if (!menuItems[7].isVisible() && !menuItems[8].isVisible())
+                    menuItems[9].setVisible(false);
                 else
-                    last = menuItems[8];
+                    last = menuItems[9];
 
                 // share, location
-                if (!menuItems[9].isVisible() && !menuItems[10].isVisible())
-                    menuItems[11].setVisible(false);
+                if (!menuItems[10].isVisible() && !menuItems[11].isVisible())
+                    menuItems[12].setVisible(false);
                 else
-                    last = menuItems[11];
+                    last = menuItems[12];
 
                 // embed, fullscreen
-                if (!menuItems[12].isVisible() && !menuItems[13].isVisible())
+                if (!menuItems[13].isVisible() && !menuItems[14].isVisible())
                     last && last.setVisible(false);
 
                 menu.off('show:after', initMenu);
             };
 
             if (!this.appOptions.canPrint) {
-                menuItems[0].setVisible(false);
+                menuItems[3].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.saveUrl || !this.appOptions.canDownload || this.appOptions.isOFORM) {
-                menuItems[2].setVisible(false);
+                menuItems[0].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.appOptions.isOFORM || !this.appOptions.canDownload || this.appOptions.isOffline) {
-                menuItems[3].setVisible(false);
-                menuItems[4].setVisible(false);
+                menuItems[1].setVisible(false);
+                menuItems[2].setVisible(false);
                 itemsCount -= 2;
             }
 
@@ -1538,7 +1537,7 @@ define([
                 }
             }
             if (this.view.mnuThemes.items.length<1) {
-                menuItems[6].setVisible(false);
+                menuItems[7].setVisible(false);
                 itemsCount--;
             } else {
                 this.view.menuItemsDarkMode = new Common.UI.MenuItem({
@@ -1556,22 +1555,22 @@ define([
             }
 
             if ( !this.embedConfig.shareUrl || this.appOptions.isOFORM) {
-                menuItems[9].setVisible(false);
-                itemsCount--;
-            }
-
-            if (!this.appOptions.canBackToFolder) {
                 menuItems[10].setVisible(false);
                 itemsCount--;
             }
 
+            if (!this.appOptions.canBackToFolder) {
+                menuItems[11].setVisible(false);
+                itemsCount--;
+            }
+
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
-                menuItems[12].setVisible(false);
+                menuItems[13].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.fullscreenUrl || this.appOptions.isOFORM) {
-                menuItems[13].setVisible(false);
+                menuItems[14].setVisible(false);
                 itemsCount--;
             }
             if (itemsCount<1)
@@ -1824,10 +1823,10 @@ define([
                 this.view && this.view.btnDownload.setDisabled(true);
                 this.view && this.view.btnSubmit.setDisabled(true);
                 if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
-                    this.view.btnOptions.menu.items[0].setDisabled(true); // print
-                    this.view.btnOptions.menu.items[2].setDisabled(true); // download
-                    this.view.btnOptions.menu.items[3].setDisabled(true); // download docx
-                    this.view.btnOptions.menu.items[4].setDisabled(true); // download pdf
+                    this.view.btnOptions.menu.items[3].setDisabled(true); // print
+                    this.view.btnOptions.menu.items[0].setDisabled(true); // download
+                    this.view.btnOptions.menu.items[1].setDisabled(true); // download docx
+                    this.view.btnOptions.menu.items[2].setDisabled(true); // download pdf
                 }
             }
         },

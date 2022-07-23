@@ -126,7 +126,8 @@ define([
             };
             /** coauthoring begin **/
             this.wrapEvents = {
-                apiHideComment: _.bind(this.onApiHideComment, this)
+                apiHideComment: _.bind(this.onApiHideComment, this),
+                onKeyUp: _.bind(this.onKeyUp, this)
             };
             /** coauthoring end **/
 
@@ -188,6 +189,7 @@ define([
                 'protect:wslock': _.bind(me.onChangeProtectSheet, me)
             });
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
+            Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
         },
 
         onCreateDelayedElements: function(view) {
@@ -264,6 +266,7 @@ define([
                 view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
+                view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -1165,6 +1168,33 @@ define([
             this.api && this.api.asc_editPointsGeometry();
         },
 
+        onGetLink: function(item) {
+            if (this.api) {
+                var range = this.api.asc_getActiveRangeStr(Asc.referenceType.A, false, true),
+                    name = this.api.asc_getEscapeSheetName(this.api.asc_getWorksheetName(this.api.asc_getActiveWorksheetIndex()));
+                name = (name + ((name!=='' && range!=='') ? '!' : '') + range);
+                name && Common.Gateway.requestMakeActionLink({
+                    action: {
+                        type: "internallink", data: name
+                    }
+                });
+            }
+        },
+
+        onSetActionLink: function (url) {
+            if (Common.Utils.InternalSettings.get("sse-dialog-link-visible"))
+                return;
+
+            var me = this;
+            navigator.clipboard && navigator.clipboard.writeText(url)
+                .then(function() {
+                    Common.NotificationCenter.trigger('showmessage', {msg: me.txtCopySuccess}, {timeout: 3000, hideCloseTip: true});
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        },
+
         onApiCoAuthoringDisconnect: function() {
             this.permissions.isEdit = false;
         },
@@ -1641,7 +1671,8 @@ define([
                 });
                 return;
             }
-            if (this.api.asc_getUrlType(url)>0)
+            var type = this.api.asc_getUrlType(url);
+            if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                 window.open(url, '_blank');
             else
                 Common.UI.warning({
@@ -1855,6 +1886,9 @@ define([
         onDocumentKeyDown: function(event){
             if (this.api){
                 var key = event.keyCode;
+                if (this.hkSpecPaste) {
+                    this._needShowSpecPasteMenu = !event.shiftKey && !event.altKey && event.keyCode == Common.UI.Keys.CTRL;
+                }
                 if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey){
                     if (key === Common.UI.Keys.NUM_PLUS || key === Common.UI.Keys.EQUALITY || (Common.Utils.isGecko && key === Common.UI.Keys.EQUALITY_FF) || (Common.Utils.isOpera && key == 43)){
                         if (!this.api.isCellEdited) {
@@ -2314,6 +2348,8 @@ define([
                 documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = xfs.asc_getNumFormatInfo();
                 documentHolder.pmiAdvancedNumFormat.options.numformat = xfs.asc_getNumFormat();
 
+                documentHolder.pmiGetRangeList.setVisible(!Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && !internaleditor && this.permissions.canMakeActionLink && !!navigator.clipboard);
+
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
                 });
@@ -2343,6 +2379,7 @@ define([
                 documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddComment.setDisabled(isCellLocked || this._state.wsProps['Objects']);
+                documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
                     var canGroup = this.api.asc_canGroupPivot();
@@ -2351,6 +2388,11 @@ define([
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
+
+                documentHolder.pmiFunctionSeparator.setVisible(documentHolder.pmiInsFunction.isVisible() || documentHolder.menuAddHyperlink.isVisible() || documentHolder.menuHyperlink.isVisible() ||
+                                                                isrowmenu || iscolmenu || isallmenu);
+                documentHolder.pmiFreezeSeparator.setVisible(documentHolder.pmiFreezePanes.isVisible());
+
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
                 if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
 
@@ -2953,8 +2995,10 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
+                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
                     menu        : new Common.UI.Menu({items: []})
                 });
+                me.initSpecialPasteEvents();
             }
 
             if (pasteItems.length>0) {
@@ -2972,49 +3016,19 @@ define([
                 _.each(pasteItems, function(menuItem, index) {
                     if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
                         importText = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0],
+                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
                             checkable: true,
                             toggleGroup : 'specialPasteGroup'
-                        }).on('click', function(item, e) {
-                            (new Common.Views.OpenDialog({
-                                title: me.txtImportWizard,
-                                closable: true,
-                                type: Common.Utils.importTextType.Paste,
-                                preview: true,
-                                api: me.api,
-                                handler: function (result, settings) {
-                                    if (result == 'ok') {
-                                        if (me && me.api) {
-                                            var props = new Asc.SpecialPasteProps();
-                                            props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-                                            props.asc_setAdvancedOptions(settings.textOptions);
-                                            me.api.asc_SpecialPaste(props);
-                                        }
-                                        me._state.lastSpecPasteChecked = item;
-                                    } else {
-                                        item.setChecked(false, true);
-                                        me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
-                                    }
-                                }
-                            })).show();
-                            setTimeout(function(){menu.hide();}, 100);
-                        });
+                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
                         me._arrSpecialPaste[menuItem][2] = importText;
                     } else if (me._arrSpecialPaste[menuItem]) {
                         var mnu = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0],
+                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
                             checkable: true,
                             toggleGroup : 'specialPasteGroup'
-                        }).on('click', function(item, e) {
-                            me._state.lastSpecPasteChecked = item;
-
-                            var props = new Asc.SpecialPasteProps();
-                            props.asc_setProps(item.value);
-                            me.api.asc_SpecialPaste(props);
-                            setTimeout(function(){menu.hide();}, 100);
-                        });
+                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
                         groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
                         me._arrSpecialPaste[menuItem][2] = mnu;
                     }
@@ -3065,6 +3079,7 @@ define([
 
             if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
+                $(document).off('keyup', this.wrapEvents.onKeyUp);
                 return;
             }
 
@@ -3090,12 +3105,117 @@ define([
 
             pasteContainer.css({left: showPoint[0], top : showPoint[1]});
             pasteContainer.show();
+            setTimeout(function() {
+                $(document).on('keyup', me.wrapEvents.onKeyUp);
+            }, 10);
         },
 
         onHideSpecialPasteOptions: function() {
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
-            if (pasteContainer.is(':visible'))
+            if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
+                $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        onSpecialPasteItemClick: function(item, e) {
+            var me = this,
+                menu = this.btnSpecialPaste.menu;
+            if (item.value == Asc.c_oSpecialPasteProps.useTextImport) {
+                (new Common.Views.OpenDialog({
+                    title: me.txtImportWizard,
+                    closable: true,
+                    type: Common.Utils.importTextType.Paste,
+                    preview: true,
+                    api: me.api,
+                    handler: function (result, settings) {
+                        if (result == 'ok') {
+                            if (me && me.api) {
+                                var props = new Asc.SpecialPasteProps();
+                                props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
+                                props.asc_setAdvancedOptions(settings.textOptions);
+                                me.api.asc_SpecialPaste(props);
+                            }
+                            me._state.lastSpecPasteChecked = item;
+                        } else if (item.cmpEl) {
+                            item.setChecked(false, true);
+                            me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
+                        }
+                    }
+                })).show();
+                setTimeout(function(){menu.hide();}, 100);
+            } else {
+                me._state.lastSpecPasteChecked = item;
+                var props = new Asc.SpecialPasteProps();
+                props.asc_setProps(item.value);
+                me.api.asc_SpecialPaste(props);
+                setTimeout(function(){menu.hide();}, 100);
+            }
+            if (!item.cmpEl && me._state.lastSpecPasteChecked) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    menu.items[i].setChecked(menu.items[i].value===me._state.lastSpecPasteChecked.value, true);
+                }
+            }
+            return false;
+        },
+
+        onKeyUp: function (e) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+                $('button', this.btnSpecialPaste.cmpEl).click();
+                e.preventDefault();
+            }
+            this._needShowSpecPasteMenu = false;
+        },
+
+        initSpecialPasteEvents: function() {
+            var me = this;
+            me.hkSpecPaste = [];
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.paste] = 'P';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = 'O';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = 'B';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = 'W';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = 'G';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.transpose] = 'T';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = 'V';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = 'A';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = 'E';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = 'R';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.link] = 'N';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.linkedPicture] = 'I';
+
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'M';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = 'T';
+            // me.hkSpecPaste[Asc.c_oSpecialPasteProps.useTextImport] = '';
+
+            var str = '';
+            for(var key in me.hkSpecPaste){
+                if(me.hkSpecPaste.hasOwnProperty(key)){
+                    if (str.indexOf(me.hkSpecPaste[key])<0)
+                        str += me.hkSpecPaste[key] + ',';
+                }
+            }
+            str = str.substring(0, str.length-1)
+            var keymap = {};
+            keymap[str] = _.bind(function(e) {
+                var menu = this.btnSpecialPaste.menu;
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (this.hkSpecPaste[menu.items[i].value] === String.fromCharCode(e.keyCode)) {
+                        return me.onSpecialPasteItemClick({value: menu.items[i].value});
+                    }
+                }
+            }, me);
+            Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+            Common.util.Shortcuts.suspendEvents(str, undefined, true);
+
+            me.btnSpecialPaste.menu.on('show:after', function(menu) {
+                Common.util.Shortcuts.resumeEvents(str);
+            }).on('hide:after', function(menu) {
+                Common.util.Shortcuts.suspendEvents(str, undefined, true);
+            });
         },
 
         onToggleAutoCorrectOptions: function(autoCorrectOptions) {
@@ -4317,7 +4437,8 @@ define([
         txtAllTableHint: 'Returns the entire contents of the table or specified table columns including column headers, data and total rows',
         txtDataTableHint: 'Returns the data cells of the table or specified table columns',
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
-        txtTotalsTableHint: 'Returns the total rows for the table or specified table columns'
+        txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
+        txtCopySuccess: 'Link copied to the clipboard'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

@@ -283,7 +283,11 @@ define([
                 return;
             }
             if (!this.searchBar) {
-                this.searchBar = new Common.UI.SearchBar({});
+                var isVisible = leftMenu && leftMenu.leftMenu && leftMenu.leftMenu.isVisible();
+                this.searchBar = new Common.UI.SearchBar( !isVisible ? {
+                    showOpenPanel: false,
+                    width: 303
+                } : {});
                 this.searchBar.on('hide', _.bind(function () {
                     this.header.btnSearch.toggle(false, true);
                 }, this));

@@ -45,7 +45,6 @@
 
     common.controller.SearchBar = new(function() {
         var $searchBar,
-            $searchBtn,
             $searchInput,
             appConfig,
             api,
@@ -86,34 +85,27 @@
             $searchBar.find('#search-bar-close').on('click', function(e){
                 highlightResults(false);
                 $searchBar.hide();
-                $searchBtn.find('button').button('toggle');
             });
 
             common.view.SearchBar.disableNavButtons();
         };
 
-        var attachToView = function(config) {
+        var onShow = function () {
             if ( !$searchBar ) {
                 create();
             }
+            if (!$searchBar.is(':visible')) {
+                highlightResults(true);
+                var text = (api && api.asc_GetSelectedText()) || _state.searchText;
+                $searchInput.val(text);
+                (text.length > 0) && onInputSearchChange(text);
 
-            $searchBtn = $(config.search);
-            $searchBtn.on('click', function(e){
-                if ($searchBar.is(':visible')) {
-                    highlightResults(false);
-                    $searchBar.hide();
-                } else {
-                    highlightResults(true);
-                    var text = (api && api.asc_GetSelectedText()) || _state.searchText;
-                    $searchInput.val(text);
-                    (text.length > 0) && onInputSearchChange(text);
-
-                    $searchBar.show();
+                $searchBar.show();
+                setTimeout(function () {
                     $searchInput.focus();
                     $searchInput.select();
-                }
-                $searchBtn.find('button').button('toggle');
-            });
+                }, 10);
+            }
         };
 
         var onInputSearchChange = function (text) {
@@ -172,8 +164,8 @@
 
         return {
             init: function(config) { appConfig = config; },
-            attach: attachToView,
-            setApi: setApi
+            setApi: setApi,
+            show: onShow
         };
     });
 }();

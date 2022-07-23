@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháňaný ",
     "textTel": "Tel",
-    "textVersion": "Verzia"
+    "textVersion": "Verzia",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Upozornenie",
     "textCopyCutPasteActions": "Kopírovať, vystrihnúť a prilepiť",
     "textDoNotShowAgain": "Nezobrazovať znova",
-    "warnMergeLostData": "Iba údaje z ľavej hornej bunky zostanú v zlúčenej bunke.<br>Ste si istý, že chcete pokračovať?"
+    "warnMergeLostData": "Iba údaje z ľavej hornej bunky zostanú v zlúčenej bunke.<br>Ste si istý, že chcete pokračovať?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -400,7 +403,6 @@
       "textBottomBorder": "Spodné orámovanie",
       "textBringToForeground": "Premiestniť do popredia",
       "textCell": "Bunka",
-      "textCellStyles": "Štýly bunky",
       "textCenter": "Stred",
       "textChart": "Graf",
       "textChartTitle": "Názov grafu",
@@ -682,11 +684,11 @@
       "txtSpace": "Priestor",
       "txtTab": "Tabulátor",
       "warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

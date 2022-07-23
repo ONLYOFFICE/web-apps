@@ -6,7 +6,8 @@
     "textEmail": "電子郵件",
     "textPoweredBy": "於支援",
     "textTel": "電話",
-    "textVersion": "版本"
+    "textVersion": "版本",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "欄",
     "textCopyCutPasteActions": "複製, 剪下, 與貼上之動作",
     "textDoNotShowAgain": "不再顯示",
-    "textRows": "行列"
+    "textRows": "行列",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -474,11 +477,11 @@
       "txtScheme7": "產權",
       "txtScheme8": "流程",
       "txtScheme9": "鑄造廠",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

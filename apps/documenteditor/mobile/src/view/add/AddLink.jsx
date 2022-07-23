@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {List, Page, Navbar, Icon, ListButton, ListInput} from 'framework7-react';
+import {List, Page, Navbar, Icon, ListButton, ListInput, NavRight, Link, NavLeft, f7, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -17,12 +17,28 @@ const PageLink = props => {
    
     return (
         <Page>
-            {!props.noNavbar && <Navbar title={_t.textAddLink} backLink={_t.textBack}></Navbar>}
+            <Navbar className="navbar-link-settings">
+                <NavLeft>
+                    <Link text={Device.ios ? t('Add.textCancel') : ''} onClick={() => {
+                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                    }}>
+                        {Device.android && <Icon icon='icon-close' />}
+                    </Link>
+                </NavLeft>
+                <NavTitle>{t('Add.textLinkSettings')}</NavTitle>
+                <NavRight>
+                    <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
+                        props.onInsertLink(stateLink, stateDisplay, stateTip);
+                    }} text={Device.ios ? t('Add.textDone') : ''}>
+                        {Device.android && <Icon icon={stateLink.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                    </Link>
+                </NavRight>
+            </Navbar>
             <List inlineLabels className='inputs-list'>
                 <ListInput
                     label={_t.textLink}
                     type="text"
-                    placeholder={_t.textLink}
+                    placeholder={t('Add.textRequired')}
                     value={stateLink}
                     onChange={(event) => {
                         setLink(event.target.value); 
@@ -32,7 +48,7 @@ const PageLink = props => {
                 <ListInput
                     label={_t.textDisplay}
                     type="text"
-                    placeholder={_t.textDisplay}
+                    placeholder={t('Add.textRecommended')}
                     value={stateDisplay}
                     onChange={(event) => {
                         setDisplay(event.target.value); 
@@ -47,11 +63,11 @@ const PageLink = props => {
                     onChange={(event) => {setTip(event.target.value)}}
                 ></ListInput>
             </List>
-            <List className="buttons-list">
+            {/* <List className="buttons-list">
                 <ListButton className={'button-fill button-raised' + (stateLink.length < 1 ? ' disabled' : '')} title={_t.textInsert} onClick={() => {
-                    props.onInsertLink(stateLink, stateDisplay, stateTip)
+                    props.onInsertLink(stateLink, stateDisplay)
                 }}></ListButton>
-            </List>
+            </List> */}
         </Page>
     )
 };

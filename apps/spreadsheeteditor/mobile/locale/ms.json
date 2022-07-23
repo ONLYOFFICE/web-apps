@@ -6,7 +6,8 @@
     "textEmail": "E-mel",
     "textPoweredBy": "Dikuasakan Oleh",
     "textTel": "Tel",
-    "textVersion": "Versi"
+    "textVersion": "Versi",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Amaran",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
-    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?"
+    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -400,7 +403,6 @@
       "textBottomBorder": "Sempadan Bawah",
       "textBringToForeground": "Bawa ke Tanah",
       "textCell": "Sel",
-      "textCellStyles": "Gaya Sel",
       "textCenter": "Pusat",
       "textChart": "Carta",
       "textChartTitle": "Tajuk Carta",
@@ -681,12 +683,12 @@
       "txtSpace": "Jarak",
       "txtTab": "Tab",
       "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
-      "textFeedback": "Feedback & Support",
-      "textSubject": "Subject",
-      "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
       "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left",
+      "textSubject": "Subject"
     }
   }
 }

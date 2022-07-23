@@ -6,7 +6,8 @@
     "textEmail": "メール",
     "textPoweredBy": "によって提供されています",
     "textTel": "電話",
-    "textVersion": "バージョン"
+    "textVersion": "バージョン",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "列",
     "textCopyCutPasteActions": "コピー,切り取り,貼り付けの操作",
     "textDoNotShowAgain": "再度表示しない",
-    "textRows": "行"
+    "textRows": "行",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "選択を覚える",
       "textReplaceSkipped": "置換が完了しました。{0}つスキップされました。",
       "textReplaceSuccess": "検索が完了しました。{0}つが置換されました。",
+      "textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
       "textYes": "はい",
       "titleLicenseExp": "ライセンスの有効期限が切れています",
       "titleServerVersion": "編集者が更新された",
@@ -126,8 +130,7 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
     }
   },
   "Error": {
@@ -398,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
       "mniSlideWide": "ワイド画面(16:9)",
+      "notcriticalErrorTitle": "警告",
       "textAbout": "詳細情報",
       "textAddress": "アドレス：",
       "textApplication": "アプリ",
@@ -420,6 +424,7 @@
       "textEmail": "メール：",
       "textEnableAll": "全てを有効にする",
       "textEnableAllMacrosWithoutNotification": "警告を表示してないすべてのマクロを有効にする",
+      "textFeedback": "フィードバック＆サポート",
       "textFind": "検索する",
       "textFindAndReplace": "検索と置換",
       "textFindAndReplaceAll": "全てを 検索して置換する",
@@ -432,6 +437,7 @@
       "textLocation": "場所",
       "textMacrosSettings": "マクロの設定",
       "textNoTextFound": "テキストが見つかりませんでした",
+      "textOk": "OK",
       "textOwner": "所有者",
       "textPoint": "ポイント",
       "textPoweredBy": "によって提供されています",
@@ -441,6 +447,8 @@
       "textPrint": "印刷する",
       "textReplace": "並べ替え",
       "textReplaceAll": "全てを置換する",
+      "textRestartApplication": "変更を有効にするには、アプリケーションを再起動してください",
+      "textRTL": "右から左へ",
       "textSearch": "検索",
       "textSettings": "設定",
       "textShowNotification": "通知を表示する",
@@ -473,12 +481,7 @@
       "txtScheme6": "コンコース",
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
-      "txtScheme9": "ファウンドリ",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRTL": "RTL",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "txtScheme9": "ファウンドリ"
     }
   }
 }

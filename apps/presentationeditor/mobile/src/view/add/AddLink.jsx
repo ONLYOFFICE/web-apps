@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button} from 'framework7-react';
+import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button, Link, NavLeft, NavRight, NavTitle, f7} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
@@ -8,9 +8,16 @@ const PageTypeLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const [typeLink, setTypeLink] = useState(props.curType);
+
     return (
         <Page>
-            <Navbar title={_t.textLinkType} backLink={_t.textBack}/>
+            <Navbar className="navbar-link-settings" title={_t.textLinkType} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-close' popupClose="#add-link-popup"></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
                 <ListItem title={_t.textExternalLink} radio checked={typeLink === 1} onClick={() => {setTypeLink(1); props.changeType(1);}}></ListItem>
                 <ListItem title={_t.textSlideInThisPresentation} radio checked={typeLink === 0} onClick={() => {setTypeLink(0); props.changeType(0);}}></ListItem>
@@ -42,28 +49,35 @@ const PageLinkTo = props => {
         setNumberTo(value);
         props.changeTo(4, value);
     };
+
     return (
         <Page>
-            <Navbar title={_t.textLinkTo} backLink={_t.textBack}/>
+            <Navbar className="navbar-link-settings" title={_t.textLinkTo}  backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link icon='icon-close' popupClose="#add-link-popup"></Link>
+                    </NavRight>
+                }
+            </Navbar>
             <List>
-            <ListItem title={_t.textNextSlide} radio checked={stateTypeTo === 0} onClick={() => {changeTypeTo(0)}}></ListItem>
-            <ListItem title={_t.textPreviousSlide} radio checked={stateTypeTo === 1} onClick={() => {changeTypeTo(1)}}></ListItem>
-            <ListItem title={_t.textFirstSlide} radio checked={stateTypeTo === 2} onClick={() => {changeTypeTo(2)}}></ListItem>
-            <ListItem title={_t.textLastSlide} radio checked={stateTypeTo === 3} onClick={() => {changeTypeTo(3)}}></ListItem>
-            <ListItem title={_t.textSlideNumber}>
-                {!isAndroid && <div slot='after-start'>{stateNumberTo + 1}</div>}
-                <div slot='after'>
-                    <Segmented>
-                        <Button outline className='decrement item-link' onClick={() => {changeNumber(stateNumberTo, true);}}>
-                            {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
-                        </Button>
-                        {isAndroid && <label>{stateNumberTo + 1}</label>}
-                        <Button outline className='increment item-link' onClick={() => {changeNumber(stateNumberTo, false);}}>
-                            {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
-                        </Button>
-                    </Segmented>
-                </div>
-            </ListItem>
+                <ListItem title={_t.textNextSlide} radio checked={stateTypeTo === 0} onClick={() => {changeTypeTo(0)}}></ListItem>
+                <ListItem title={_t.textPreviousSlide} radio checked={stateTypeTo === 1} onClick={() => {changeTypeTo(1)}}></ListItem>
+                <ListItem title={_t.textFirstSlide} radio checked={stateTypeTo === 2} onClick={() => {changeTypeTo(2)}}></ListItem>
+                <ListItem title={_t.textLastSlide} radio checked={stateTypeTo === 3} onClick={() => {changeTypeTo(3)}}></ListItem>
+                <ListItem title={_t.textSlideNumber}>
+                    {!isAndroid && <div slot='after-start'>{stateNumberTo + 1}</div>}
+                    <div slot='after'>
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {changeNumber(stateNumberTo, true);}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{stateNumberTo + 1}</label>}
+                            <Button outline className='increment item-link' onClick={() => {changeNumber(stateNumberTo, false);}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
+                        </Segmented>
+                    </div>
+                </ListItem>
             </List>
         </Page>
     )
@@ -104,7 +118,25 @@ const PageLink = props => {
 
     return (
         <Page>
-            {!props.noNavbar && <Navbar title={_t.textLink} backLink={_t.textBack}/>}
+            <Navbar className="navbar-link-settings">
+                <NavLeft>
+                    <Link text={Device.ios ? t('View.Add.textCancel') : ''} onClick={() => {
+                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                    }}>
+                        {Device.android && <Icon icon='icon-close' />}
+                    </Link>
+                </NavLeft>
+                <NavTitle>{t('View.Add.textLinkSettings')}</NavTitle>
+                <NavRight>
+                    <Link className={`${typeLink === 1 && link.length < 1 && 'disabled'}`} onClick={() => {
+                        props.onInsertLink(typeLink, (typeLink === 1 ?
+                            {url: link, display: stateDisplay, displayDisabled, tip: screenTip } :
+                            {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, displayDisabled, tip: screenTip}));
+                    }} text={Device.ios ? t('View.Add.textDone') : ''}>
+                        {Device.android && <Icon icon={link.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                    </Link>
+                </NavRight>
+            </Navbar>
             <List inlineLabels className='inputs-list'>
                 <ListItem link={'/add-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
                     changeType: changeType,
@@ -113,7 +145,7 @@ const PageLink = props => {
                 {typeLink === 1 ?
                     <ListInput label={_t.textLink}
                                type="text"
-                               placeholder={_t.textLink}
+                               placeholder={t('View.Add.textRequired')}
                                value={link}
                                onChange={(event) => {
                                 setLink(event.target.value);
@@ -127,7 +159,7 @@ const PageLink = props => {
                 }
                 <ListInput label={_t.textDisplay}
                            type="text"
-                           placeholder={_t.textDisplay}
+                           placeholder={t('View.Add.textRecommended')}
                            value={stateDisplay}
                            disabled={displayDisabled}
                            onChange={(event) => {
@@ -142,16 +174,16 @@ const PageLink = props => {
                            onChange={(event) => {setScreenTip(event.target.value)}}
                 />
             </List>
-            <List className="buttons-list">
+            {/* <List className="buttons-list">
                 <ListButton title={_t.textInsert}
                             className={`button-fill button-raised ${typeLink === 1 && link.length < 1 && ' disabled'}`}
                             onClick={() => {
                                 props.onInsertLink(typeLink, (typeLink === 1 ?
-                                    {url: link, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled } :
-                                    {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled}));
+                                    {url: link, display: stateDisplay, displayDisabled: displayDisabled, tip: screenTip } :
+                                    {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, displayDisabled: displayDisabled, tip: screenTip}));
                             }}
                 />
-            </List>
+            </List> */}
         </Page>
     )
 };

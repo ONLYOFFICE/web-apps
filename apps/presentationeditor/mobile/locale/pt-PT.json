@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel",
-    "textVersion": "Versão"
+    "textVersion": "Versão",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Colunas",
     "textCopyCutPasteActions": "Ações copiar, cortar e colar",
     "textDoNotShowAgain": "Não mostrar novamente",
-    "textRows": "Linhas"
+    "textRows": "Linhas",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -68,7 +71,7 @@
       "criticalErrorTitle": "Erro",
       "errorAccessDeny": "Está a tentar realizar uma ação para a qual não tem autorização.<br>Por favor, contacte o seu administrador.",
       "errorOpensource": "Utilizando a versão comunitária gratuita, pode abrir documentos apenas para visualização. Para aceder aos editores da web móvel, é necessária uma licença comercial.",
-      "errorProcessSaveResult": "Salvamento falhou.",
+      "errorProcessSaveResult": "Falha ao guardar.",
       "errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
       "errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",
       "leavePageText": "Tem alterações não guardadas neste documento. Clique em 'Ficar nesta página' para aguardar pelo guardar automaticamente. Clique em 'Deixar esta página' para se desfazer de todas as alterações não guardadas.",
@@ -113,6 +116,7 @@
       "textRemember": "Memorizar a minha escolha",
       "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
+      "textRequestMacros": "Uma macro faz um pedido de URL. Quer permitir o pedido à %1?",
       "textYes": "Sim",
       "titleLicenseExp": "Licença expirada",
       "titleServerVersion": "Editor atualizado",
@@ -126,8 +130,7 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
       "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
     }
   },
   "Error": {
@@ -189,10 +192,10 @@
     "openTitleText": "Abrindo documento",
     "printTextText": "Imprimindo documento...",
     "printTitleText": "Imprimindo documento",
-    "savePreparingText": "Preparando para salvar",
-    "savePreparingTitle": "A preparar para guardar. Por favor aguarde...",
-    "saveTextText": "Salvando documento...",
-    "saveTitleText": "Salvando documento",
+    "savePreparingText": "A preparar para guardar",
+    "savePreparingTitle": "A preparar para guardar. Aguarde...",
+    "saveTextText": "A guardar documento...",
+    "saveTitleText": "A guardar documento",
     "textLoadingDocument": "Carregando documento",
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
@@ -398,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
       "mniSlideWide": "Ecrã panorâmico (16:9)",
+      "notcriticalErrorTitle": "Aviso",
       "textAbout": "Acerca",
       "textAddress": "endereço:",
       "textApplication": "Aplicação",
@@ -420,6 +424,7 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Ativar tudo",
       "textEnableAllMacrosWithoutNotification": "Ativar todas as macros sem notificação",
+      "textFeedback": "Feedback e Suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFindAndReplaceAll": "Localizar e substituir tudo",
@@ -432,6 +437,7 @@
       "textLocation": "Localização",
       "textMacrosSettings": "Definições de macros",
       "textNoTextFound": "Texto não encontrado",
+      "textOk": "Ok",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
       "textPoweredBy": "Desenvolvido por",
@@ -441,6 +447,8 @@
       "textPrint": "Imprimir",
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
+      "textRestartApplication": "Por favor reinicie o pedido para que as alterações tenham efeito",
+      "textRTL": "RTL",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",
       "textShowNotification": "Mostrar notificação",
@@ -473,12 +481,7 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRTL": "RTL",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "txtScheme9": "Fundição"
     }
   }
 }

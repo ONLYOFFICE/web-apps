@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Sviluppato da",
     "textTel": "Tel.",
-    "textVersion": "Versione"
+    "textVersion": "Versione",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Avvertimento",
     "textCopyCutPasteActions": "Funzioni di Copiare, Tagliare e Incollare",
     "textDoNotShowAgain": "Non mostrare di nuovo",
-    "warnMergeLostData": "Solo i dati dalla cella sinistra superiore rimangono nella cella unita.<br>Sei sicuro di voler continuare?"
+    "warnMergeLostData": "Solo i dati dalla cella sinistra superiore rimangono nella cella unita.<br>Sei sicuro di voler continuare?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -400,7 +403,6 @@
       "textBottomBorder": "Bordo inferiore",
       "textBringToForeground": "Portare in primo piano",
       "textCell": "Cella",
-      "textCellStyles": "Stili di cella",
       "textCenter": "Al centro",
       "textChart": "Grafico",
       "textChartTitle": "Titolo di grafico",
@@ -682,11 +684,11 @@
       "txtSpace": "Spazio",
       "txtTab": "Tabulazione",
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
+      "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
       "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

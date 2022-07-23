@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Hauteur",
   "common.view.modals.txtShare": "Partager un lien",
   "common.view.modals.txtWidth": "Largeur",
+  "common.view.SearchBar.textFind": "Rechercher",
   "DE.ApplicationController.convertationErrorText": "Échec de la conversion.",
   "DE.ApplicationController.convertationTimeoutText": "Délai d'attente de la conversion dépassé ",
   "DE.ApplicationController.criticalErrorTitle": "Erreur",

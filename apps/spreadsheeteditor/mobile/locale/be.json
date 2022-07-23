@@ -3,6 +3,7 @@
     "textAbout": "Пра праграму",
     "textAddress": "Адрас",
     "textBack": "Back",
+    "textEditor": "Spreadsheet Editor",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "Warning",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?"
+    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -151,6 +154,7 @@
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textYes": "Yes",
       "titleServerVersion": "Editor updated",
       "titleUpdateVersion": "Version changed",
@@ -160,8 +164,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -258,8 +261,8 @@
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
-    "textUnhide": "Unhide",
     "textTabColor": "Tab Color",
+    "textUnhide": "Unhide",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
   "View": {
@@ -536,6 +539,7 @@
       "textCustomSize": "Custom Size",
       "textDarkTheme": "Dark Theme",
       "textDelimeter": "Delimiter",
+      "textDirection": "Direction",
       "textDisableAll": "Disable All",
       "textDisableAllMacrosWithNotification": "Disable all macros with a notification",
       "textDisableAllMacrosWithoutNotification": "Disable all macros without a notification",
@@ -547,6 +551,7 @@
       "textEnableAllMacrosWithoutNotification": "Enable all macros without a notification",
       "textEncoding": "Encoding",
       "textExample": "Example",
+      "textFeedback": "Feedback & Support",
       "textFind": "Find",
       "textFindAndReplace": "Find and Replace",
       "textFindAndReplaceAll": "Find and Replace All",
@@ -554,7 +559,6 @@
       "textFormulaLanguage": "Formula Language",
       "textFormulas": "Formulas",
       "textHelp": "Help",
-      "textFeedback": "Feedback & Support",
       "textHideGridlines": "Hide Gridlines",
       "textHideHeadings": "Hide Headings",
       "textHighlightRes": "Highlight results",
@@ -563,6 +567,7 @@
       "textLastModified": "Last Modified",
       "textLastModifiedBy": "Last Modified By",
       "textLeft": "Left",
+      "textLeftToRight": "Left To Right",
       "textLocation": "Location",
       "textLookIn": "Look In",
       "textMacrosSettings": "Macros Settings",
@@ -583,7 +588,9 @@
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
       "textResolvedComments": "Resolved Comments",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
+      "textRightToLeft": "Right To Left",
       "textSearch": "Search",
       "textSearchBy": "Search",
       "textSearchIn": "Search In",
@@ -634,11 +641,7 @@
       "txtSemicolon": "Semicolon",
       "txtSpace": "Space",
       "txtTab": "Tab",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textLeftToRight": "Left To Right",
-      "textRightToLeft": "Right To Left",
-      "textDirection": "Direction",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   },
   "LongActions": {

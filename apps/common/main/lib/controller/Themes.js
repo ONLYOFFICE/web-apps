@@ -39,7 +39,8 @@ define([
         }
 
         if ( !!window.currentLoaderTheme ) {
-            themes_map[currentLoaderTheme.id] = {};
+            if ( !themes_map[currentLoaderTheme.id] )
+                themes_map[currentLoaderTheme.id] = currentLoaderTheme;
             window.currentLoaderTheme = undefined;
         }
 
@@ -208,6 +209,8 @@ define([
                 themes_map[obj.id] = {text: theme_label, type: obj.type};
                 write_theme_css( create_colors_css(obj.id, obj.colors) );
             }
+
+            Common.NotificationCenter.trigger('uitheme:countchanged');
         }
 
         var get_themes_config = function (url) {
@@ -446,6 +449,7 @@ define([
                         var theme_obj = {
                             id: id,
                             type: obj.type,
+                            text: themes_map[id].text,
                         };
 
                         if ( themes_map[id].source != 'static' ) {

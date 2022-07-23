@@ -59,13 +59,6 @@ define([
         // Delegated events for creating new items, and clearing completed ones.
         events: function() {
             return {
-                /** coauthoring begin **/
-                'click #left-btn-comments': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
-                /** coauthoring end **/
-                'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-spellcheck': _.bind(this.onCoauthOptions, this),
-                'click #left-btn-searchbar': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -91,6 +84,7 @@ define([
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
@@ -100,6 +94,7 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
 
             this.btnSupport = new Common.UI.Button({
                 action: 'support',
@@ -116,6 +111,8 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
+            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
@@ -124,13 +121,10 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
 
             this.btnComments.hide();
             this.btnChat.hide();
-
-            this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
-            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
-            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             /** coauthoring end **/
 
             this.btnPlugins = new Common.UI.Button({
@@ -153,11 +147,8 @@ define([
             this.btnSpellcheck.hide();
             this.btnSpellcheck.on('click',      _.bind(this.onBtnMenuClick, this));
 
-            this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
-            this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
-
             this.menuFile = new SSE.Views.FileMenu({});
-            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: 'Spreadsheet Editor'}));
+            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
             this.$el.html($markup);
 
             return this;
@@ -183,19 +174,16 @@ define([
         onBtnMenuClick: function(btn, e) {
             this.btnAbout.toggle(false);
 
-            if (btn.options.action == 'search') {
-            } else {
-                if (btn.pressed) {
-                    if (!(this.$el.width() > SCALE_MIN)) {
-                        this.$el.width(Common.localStorage.getItem('sse-mainmenu-width') || MENU_SCALE_PART);
-                    }
-                } else if (!this._state.pluginIsRunning){
-                    Common.localStorage.setItem('sse-mainmenu-width',this.$el.width());
-                    this.$el.width(SCALE_MIN);
+            if (btn.pressed) {
+                if (!(this.$el.width() > SCALE_MIN)) {
+                    this.$el.width(Common.localStorage.getItem('sse-mainmenu-width') || MENU_SCALE_PART);
                 }
+            } else if (!this._state.pluginIsRunning){
+                this.isVisible() && Common.localStorage.setItem('sse-mainmenu-width',this.$el.width());
+                this.$el.width(SCALE_MIN);
             }
-
-//            this.btnChat.id == btn.id && !this.btnChat.pressed && this.fireEvent('chat:hide', this);
+            this.onCoauthOptions();
+            btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -228,7 +216,6 @@ define([
             if (this.panelSearch) {
                 if (this.btnSearchBar.pressed) {
                     this.panelSearch.show();
-                    this.fireEvent('search:aftershow', this);
                 } else {
                     this.panelSearch.hide();
                 }
@@ -335,7 +322,6 @@ define([
                             !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                         this.btnChat.toggle(true);
                         this.onBtnMenuClick(this.btnChat);
-                        this.onCoauthOptions();
                         this.panelChat.focus();
                     }
                 } else
@@ -344,7 +330,6 @@ define([
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
                         this.btnComments.toggle(true);
                         this.onBtnMenuClick(this.btnComments);
-                        this.onCoauthOptions();
                         this.btnComments.$el.focus();
                     }
                 } else if (menu == 'advancedsearch') {
@@ -352,7 +337,6 @@ define([
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
-                        this.onCoauthOptions();
                     }
                 }
                 /** coauthoring end **/
@@ -455,6 +439,10 @@ define([
             Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
+        isVisible: function () {
+            return this.$el && this.$el.is(':visible');
+        },
+
         /** coauthoring begin **/
         tipComments : 'Comments',
         tipChat     : 'Chat',
@@ -468,6 +456,7 @@ define([
         txtTrial: 'TRIAL MODE',
         tipSpellcheck: 'Spell checking',
         txtTrialDev: 'Trial Developer Mode',
-        txtLimit: 'Limit Access'
+        txtLimit: 'Limit Access',
+        txtEditor: 'Spreadsheet Editor'
     }, SSE.Views.LeftMenu || {}));
 });

@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Sviluppato da",
     "textTel": "Tel.",
-    "textVersion": "Versione"
+    "textVersion": "Versione",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Colonne",
     "textCopyCutPasteActions": "Funzioni di Copiare, Tagliare e Incollare",
     "textDoNotShowAgain": "Non mostrare di nuovo",
-    "textRows": "Righe"
+    "textRows": "Righe",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -474,11 +477,11 @@
       "txtScheme7": "Equità",
       "txtScheme8": "Flusso",
       "txtScheme9": "Fonderia",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

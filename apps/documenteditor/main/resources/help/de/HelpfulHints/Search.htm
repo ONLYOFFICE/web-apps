@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Die Beschreibung der Such- und Ersetzungsfunktion für Dokumente im Dokumenteneditor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -14,13 +15,13 @@
 				<input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
 			</div>
 			<h1>Suchen und Ersetzen</h1>
-			<p>Um nach den erforderlichen Zeichen, Wörtern oder Ausdrücken zu suchen, die im aktuell bearbeiteten Dokument verwendet werden, klicken Sie auf das Symbol <img alt="Suchsymbol" src="../images/searchicon.png" /> in der linken Seitenleiste des <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Dokumenteneditors</b></a> oder verwenden Sie die Tastenkombination <em>Strg+F</em>.</p>
+			<p>Um nach den erforderlichen Zeichen, Wörtern oder Ausdrücken zu suchen, die im aktuell bearbeiteten Dokument verwendet werden, klicken Sie auf das Symbol <div class = "icon icon-searchicon"></div> in der linken Seitenleiste des <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Dokumenteneditors</b></a> oder verwenden Sie die Tastenkombination <em>Strg+F</em>.</p>
 			<p>Das Fenster <b>Suchen und Ersetzen</b> wird geöffnet:</p>
 			<p><img alt="Suchen und Ersetzen Fenster" src="../images/search_window.png" /></p>
 			<ol>
 				<li>Geben Sie Ihre Anfrage in das entsprechende Dateneingabefeld ein.</li>
 				<li>
-					Geben Sie Suchparameter an, indem Sie auf das Symbol <img alt="Suchoptionen Symbol" src="../images/search_options.png" /> klicken und die erforderlichen Optionen aktivieren:
+					Geben Sie Suchparameter an, indem Sie auf das Symbol <div class = "icon icon-search_options"></div> klicken und die erforderlichen Optionen aktivieren:
 					<ul>
 						<li><b>Groß-/Kleinschreibung beachten</b> wird verwendet, um nur die Vorkommen zu finden, die in der gleichen Groß-/Kleinschreibung wie Ihre Anfrage eingegeben wurden (z. B. wenn Ihre Anfrage „Editor“ lautet und diese Option aktiviert ist, werden Wörter wie „editor“ oder „EDITOR“ usw. nicht gefunden). Um diese Option zu deaktivieren, klicken Sie erneut darauf.</li>
 						<li><b>Ergebnisse hervorheben</b> wird verwendet, um alle gefundenen Vorkommen hervorzuheben. Um diese Option zu deaktivieren und die Hervorhebung zu entfernen, klicken Sie erneut auf die Option.</li>
@@ -28,7 +29,7 @@
 				</li>
 				<li>
 					Klicken Sie auf eine der <b>Pfeilschaltflächen</b> unten rechts im Fenster.
-					Die Suche wird entweder am Anfang des Dokuments (wenn Sie auf die Schaltfläche <img alt="Linker Pfeil" src="../images/searchupbutton.png" /> klicken) oder am Ende des Dokuments (wenn Sie an der aktuellen Position auf die Schaltfläche <img alt="Rechtspfeil" src="../images/searchdownbutton.png" /> klicken) durchgeführt.
+					Die Suche wird entweder am Anfang des Dokuments (wenn Sie auf die Schaltfläche <div class = "icon icon-searchupbutton"></div> klicken) oder am Ende des Dokuments (wenn Sie an der aktuellen Position auf die Schaltfläche <div class = "icon icon-searchdownbutton"></div> klicken) durchgeführt.
 					<p class="note">Wenn die Option <b>Ergebnisse hervorheben</b> aktiviert ist, verwenden Sie diese Schaltflächen, um durch die hervorgehobenen Ergebnisse zu navigieren.</p>
 				</li>
 			</ol>

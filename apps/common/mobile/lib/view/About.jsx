@@ -12,6 +12,7 @@ const PageAbout = props => {
     const customer = licInfo ? licInfo.customer : null;
     const nameCustomer = customer ? customer.name : null;
     const mailCustomer = customer ? customer.mail : null;
+    const phoneCustomer = customer ? customer.phone : null;
     const addressCustomer = customer ? customer.address : null;
     const urlCustomer = customer ? customer.www : null;
     const infoCustomer = customer ? customer.info : null;
@@ -27,7 +28,7 @@ const PageAbout = props => {
         sse: 'SPREADSHEET EDITOR'
     };
 
-    const nameEditor = editors[editorType];
+    const nameEditor = (_t.textEditor || editors[editorType]).toUpperCase();
 
     return (
         <Page className="about">
@@ -52,7 +53,7 @@ const PageAbout = props => {
                         {addressCustomer && addressCustomer.length ? (
                             <p>
                                 <label>{_t.textAddress}:</label>
-                                <Link id="settings-about-address" className="external">{addressCustomer}</Link>
+                                <Link id="settings-about-address" external={true}>{addressCustomer}</Link>
                             </p>
                         ) : null}
                         {mailCustomer && mailCustomer.length ? (
@@ -61,9 +62,16 @@ const PageAbout = props => {
                                 <Link id="settings-about-email" external={true} href={"mailto:"+mailCustomer}>{mailCustomer}</Link>
                             </p>
                         ) : null}
+                        {phoneCustomer && phoneCustomer.length ? (
+                            <p>
+                                <label>{_t.textTel}:</label>
+                                <Link id="settings-about-tel" external={true} href={"tel:"+phoneCustomer}>{phoneCustomer}</Link>
+                            </p>
+                        ) : null}
+
                         {urlCustomer && urlCustomer.length ? (
                             <p>
-                                <Link id="settings-about-url" className="external" target="_blank" 
+                                <Link id="settings-about-url" external={true} target="_blank" 
                                     href={!/^https?:\/{2}/i.test(urlCustomer) ? "http:\/\/" : '' + urlCustomer}>
                                     {urlCustomer}
                                 </Link>
@@ -82,7 +90,7 @@ const PageAbout = props => {
                         </p>
                         <h3 className="vendor">{publisherName}</h3>
                         <p>
-                            <Link className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
+                            <Link external={true} target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
                         </p>
                     </div>
                 </Fragment>
@@ -110,7 +118,7 @@ const PageAbout = props => {
                             <Link id="settings-about-tel" external={true} href={`tel:${__PUBLISHER_PHONE__}`}>{__PUBLISHER_PHONE__}</Link>
                         </p>
                         <p>
-                            <a id="settings-about-url" className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</a>
+                            <Link id="settings-about-url" external={true} target="_blank" href={publisherUrl}>{publisherPrintUrl}</Link>
                         </p>
                     </div>
                 </Fragment>

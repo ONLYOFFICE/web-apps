@@ -104,11 +104,13 @@ class ContextMenu extends ContextMenuController {
             case 'openlink':
                 const stack = api.getSelectedElements();
                 let value;
+
                 stack.forEach((item) => {
                     if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
                         value = item.get_ObjectValue().get_Value();
                     }
                 });
+
                 value && this.openLink(value);
                 break;
             case 'review':
@@ -215,10 +217,31 @@ class ContextMenu extends ContextMenuController {
     }
 
     openLink(url) {
-        if (Common.EditorApi.get().asc_getUrlType(url) > 0) {
-            const newDocumentPage = window.open(url, '_blank');
-            if (newDocumentPage) {
-                newDocumentPage.focus();
+        if (url) {
+            const type = Common.EditorApi.get().asc_getUrlType(url);
+            if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) {
+                const newDocumentPage = window.open(url, '_blank');
+                if (newDocumentPage) {
+                    newDocumentPage.focus();
+                }
+            } else {
+                const { t } = this.props;
+                const _t = t("ContextMenu", { returnObjects: true });
+                f7.dialog.create({
+                    title: t('Settings', {returnObjects: true}).notcriticalErrorTitle,
+                    text  : _t.txtWarnUrl,
+                    buttons: [{
+                        text: _t.textOk,
+                        bold: true,
+                        onClick: () => {
+                            const newDocumentPage = window.open(url, '_blank');
+                            if (newDocumentPage) {
+                                newDocumentPage.focus();
+                            }
+                        }
+                    },
+                    { text: _t.menuCancel }]
+                }).open();
             }
         }
     }
@@ -316,6 +339,10 @@ class ContextMenu extends ContextMenuController {
                 itemsText.push({
                     caption: _t.menuOpenLink,
                     event: 'openlink'
+                });
+                itemsText.push({
+                    caption: t('ContextMenu.menuEditLink'),
+                    event: 'editlink'
                 });
             }
 

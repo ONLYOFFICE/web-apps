@@ -6,7 +6,8 @@
     "textEmail": "이메일",
     "textPoweredBy": "기술 지원",
     "textTel": "전화 번호",
-    "textVersion": "버전"
+    "textVersion": "버전",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "열",
     "textCopyCutPasteActions": "복사, 잘라내기 및 붙여 넣기",
     "textDoNotShowAgain": "다시 표시하지 않음",
-    "textRows": "행"
+    "textRows": "행",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -474,11 +477,11 @@
       "txtScheme7": "같음",
       "txtScheme8": "플로우",
       "txtScheme9": "발견",
+      "notcriticalErrorTitle": "Warning",
       "textFeedback": "Feedback & Support",
       "textOk": "Ok",
-      "textRTL": "RTL",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "notcriticalErrorTitle": "Warning"
+      "textRTL": "RTL"
     }
   }
 }

@@ -177,20 +177,27 @@ define([
                 });
 
                 if (Common.UI.Themes.available()) {
-                    var menuItems = [],
-                        currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                    for (var t in Common.UI.Themes.map()) {
-                        menuItems.push({
-                            value: t,
-                            caption: Common.UI.Themes.get(t).text,
-                            checked: t === currentTheme,
-                            checkable: true,
-                            toggleGroup: 'interface-theme'
-                        });
+                    function _fill_themes() {
+                        var btn = this.view.btnInterfaceTheme;
+                        if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                        else btn.setMenu(new Common.UI.Menu());
+
+                        var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                        for (var t in Common.UI.Themes.map()) {
+                            btn.menu.addItem({
+                                value: t,
+                                caption: Common.UI.Themes.get(t).text,
+                                checked: t === currentTheme,
+                                checkable: true,
+                                toggleGroup: 'interface-theme'
+                            });
+                        }
                     }
 
-                    if (menuItems.length) {
-                        this.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
+                    Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
+                    _fill_themes.call(me);
+
+                    if (me.view.btnInterfaceTheme.menu.items.length) {
                         this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                             var value = item.value;
                             Common.UI.Themes.setTheme(value);

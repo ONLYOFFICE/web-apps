@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Altuera",
   "common.view.modals.txtShare": "Partekatu esteka",
   "common.view.modals.txtWidth": "Zabalera",
+  "common.view.SearchBar.textFind": "Bilatu",
   "DE.ApplicationController.convertationErrorText": "Bihurketak huts egin du.",
   "DE.ApplicationController.convertationTimeoutText": "Bihurketaren denbora-muga gainditu da.",
   "DE.ApplicationController.criticalErrorTitle": "Errorea",
@@ -46,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Ireki fitxategiaren kokalekua",
   "DE.ApplicationView.txtFullScreen": "Pantaila osoa",
   "DE.ApplicationView.txtPrint": "Inprimatu",
+  "DE.ApplicationView.txtSearch": "Bilatu",
   "DE.ApplicationView.txtShare": "Partekatu"
 }

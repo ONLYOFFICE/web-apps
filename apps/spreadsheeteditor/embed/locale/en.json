@@ -35,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Open file location",
   "SSE.ApplicationView.txtFullScreen": "Full Screen",
   "SSE.ApplicationView.txtPrint": "Print",
+  "SSE.ApplicationView.txtSearch": "Search",
   "SSE.ApplicationView.txtShare": "Share"
 }
