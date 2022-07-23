@@ -2159,40 +2159,43 @@ define([
         onApiInitTableTemplates: function(images) {
             var me = this;
             var store = this.getCollection('TableTemplates');
-            var hasCustomGroup = false;
-            var hasNoNameGroup = false;
             this.fillTableTemplates();
 
             if (store) {
                 var templates = [];
                 var groups = [
-                    {id: 'menu-table-group-custom',    caption: me.txtGroupTable_Custom},
-                    {id: 'menu-table-group-light',     caption: me.txtGroupTable_Light},
-                    {id: 'menu-table-group-medium',    caption: me.txtGroupTable_Medium},
-                    {id: 'menu-table-group-dark',      caption: me.txtGroupTable_Dark},
-                    {id: 'menu-table-group-no-name',   caption: '&nbsp'},
+                    {id: 'menu-table-group-custom',    caption: me.txtGroupTable_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: me.txtGroupTable_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: me.txtGroupTable_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: me.txtGroupTable_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                 templates: []},
                 ];
                 _.each(images, function(item) {
                     var tip = item.asc_getDisplayName();
                     var groupItem = '';
+                    
                     if (item.asc_getType()==0) {
                         var arr = tip.split(' '),
                             last = arr.pop();
-                        if(arr.length > 0){
-                            groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                           
+                        if(tip == 'None'){
+                            groupItem = 'menu-table-group-light';
                         }
-                        if(groups.some(function(item) {return item.id === groupItem;}) == false) {
-                            groupItem = 'menu-table-group-no-name';
-                            hasNoNameGroup = true;
+                        else {
+                            if(arr.length > 0){
+                                groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                            }
+                            if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                                groupItem = 'menu-table-group-no-name';
+                            }
                         }
                         arr = 'txtTable_' + arr.join('');
                         tip = me[arr] ? me[arr] + ' ' + last : tip;
                     }
                     else {
                         groupItem = 'menu-table-group-custom'
-                        hasCustomGroup = true;
                     }
-                    templates.push({
+                    groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                         name        : item.asc_getName(),
                         caption     : item.asc_getDisplayName(),
                         type        : item.asc_getType(),
@@ -2204,17 +2207,15 @@ define([
                     });
                 });
 
-                if(hasCustomGroup === false){
-                    groups = groups.filter(function(item) {
-                        return item.id != 'menu-table-group-custom';
-                    });
-                }
-                if(hasNoNameGroup === false){
-                    groups = groups.filter(function(item) {
-                        return item.id != 'menu-table-group-no-name';
-                    });
-                }
+                groups = groups.filter(function(item, index){
+                    return item.templates.length > 0
+                });
                 
+                groups.forEach(function(item){
+                    templates = templates.concat(item.templates);
+                    delete item.templates;
+                });
+
                 me.toolbar.mnuTableTemplatePicker.groups.reset(groups);
                 store.reset(templates);
             }
