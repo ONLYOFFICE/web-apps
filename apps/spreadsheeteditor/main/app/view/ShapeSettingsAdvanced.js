@@ -376,7 +376,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-begin-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -394,7 +394,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-menu-begin-style'),
                 parentMenu: this.btnBeginStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuBeginStylePicker.on('item:click', _.bind(this.onSelectBeginStyle, this));
             this._selectStyleItem(this.btnBeginStyle, null);
@@ -403,7 +403,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-begin-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -421,7 +421,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-menu-begin-size'),
                 parentMenu: this.btnBeginSizeMenu,
                 store: new Common.UI.DataViewStore(_arrSize),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuBeginSizePicker.on('item:click', _.bind(this.onSelectBeginSize, this));
             this._selectStyleItem(this.btnBeginSize, null);
@@ -436,7 +436,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-end-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -454,7 +454,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-menu-end-style'),
                 parentMenu: this.btnEndStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuEndStylePicker.on('item:click', _.bind(this.onSelectEndStyle, this));
             this._selectStyleItem(this.btnEndStyle, null);
@@ -463,7 +463,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-end-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="img-arrows form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -481,7 +481,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 el: $('#shape-advanced-menu-end-size'),
                 parentMenu: this.btnEndSizeMenu,
                 store: new Common.UI.DataViewStore(_arrSize),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuEndSizePicker.on('item:click', _.bind(this.onSelectEndSize, this));
             this._selectStyleItem(this.btnEndSize, null);

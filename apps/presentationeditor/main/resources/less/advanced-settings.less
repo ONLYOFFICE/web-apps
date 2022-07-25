@@ -4,11 +4,9 @@
         background-color: white;
 
         &.image {
-            .background-ximage('@{common-image-path}/right-panels/Begin-EndStyle.png', '@{common-image-path}/right-panels/Begin-EndStyle@2x.png', 480px);
-            background-repeat: no-repeat;
             background-position: 10px 0;
             background-attachment: scroll;
-            background-color: white;
+            background-color: @background-normal;
         }
     }
 
@@ -22,8 +20,11 @@
     }
 }
 
+.img-arrows {
+    .background-ximage-v2('right-panels/Begin-EndStyle.png', 480px, @commonimage: true);
+}
+
 .item-arrow {
-    .background-ximage('@{common-image-path}/right-panels/Begin-EndStyle.png', '@{common-image-path}/right-panels/Begin-EndStyle@2x.png', 480px);
     width:44px;
     height:20px;
 }
