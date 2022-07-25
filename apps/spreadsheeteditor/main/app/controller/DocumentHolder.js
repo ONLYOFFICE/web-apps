@@ -1857,7 +1857,7 @@ define([
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
                         factor -= 0.1;
-                        if (!(factor < .5)) {
+                        if (!(factor < .1)) {
                             this.api.asc_setZoom(factor);
                         }
                     } else if (delta > 0) {
@@ -1897,7 +1897,7 @@ define([
                         if (!this.api.isCellEdited) {
                             factor = Math.ceil(this.api.asc_getZoom() * 10)/10;
                             factor -= .1;
-                            if (!(factor < .5)) {
+                            if (!(factor < .1)) {
                                 this.api.asc_setZoom(factor);
                             }
 
