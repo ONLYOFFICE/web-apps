@@ -208,14 +208,16 @@ define([
                 var me = this;
                 var str = this.api.asc_GetErrorForReplaceString(textReplace);
                 if (str) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: Common.Utils.String.format(this.warnReplaceString, str),
-                        buttons: ['ok'],
-                        callback: function(){
-                            me.view.focus('replace');
-                        }
-                    });
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            title: me.notcriticalErrorTitle,
+                            msg: Common.Utils.String.format(me.warnReplaceString, str),
+                            buttons: ['ok'],
+                            callback: function(){
+                                me.view.focus('replace');
+                            }
+                        });
+                    }, 1);
                     return;
                 }
 
@@ -234,14 +236,16 @@ define([
                 var me = this;
                 var str = this.api.asc_GetErrorForReplaceString(textReplace);
                 if (str) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: Common.Utils.String.format(this.warnReplaceString, str),
-                        buttons: ['ok'],
-                        callback: function(){
-                            me.view.focus('replace');
-                        }
-                    });
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            title: me.notcriticalErrorTitle,
+                            msg: Common.Utils.String.format(me.warnReplaceString, str),
+                            buttons: ['ok'],
+                            callback: function(){
+                                me.view.focus('replace');
+                            }
+                        });
+                    }, 1);
                     return;
                 }
 
