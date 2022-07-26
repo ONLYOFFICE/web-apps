@@ -2246,6 +2246,24 @@ define([
                 _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
 
                 _conf = this.mnuNumbersPicker.conf;
+                var items = [
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                ];
+                if ('{{DEFAULT_LANG}}' === 'ru') {
+                    items = items.concat([
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 8}, skipRenderOnChange: true, tip: this.tipRusUpperPoints},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 9}, skipRenderOnChange: true, tip: this.tipRusUpperParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 10}, skipRenderOnChange: true, tip: this.tipRusLowerPoints},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 11}, skipRenderOnChange: true, tip: this.tipRusLowerParentheses}
+                    ]);
+                }
                 this.mnuNumbersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
@@ -2253,16 +2271,7 @@ define([
                     restoreHeight: 92,
                     allowScrollbar: false,
                     delayRenderTips: true,
-                    store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
-                    ]),
+                    store: new Common.UI.DataViewStore(items),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
                 this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
@@ -2870,7 +2879,11 @@ define([
             mniRemoveFooter: 'Remove Footer',
             mniInsertSSE: 'Insert Spreadsheet',
             tipSelectAll: 'Select all',
-            tipCut: 'Cut'
+            tipCut: 'Cut',
+            tipRusUpperPoints: 'А. Б. В.',
+            tipRusUpperParentheses: 'А) Б) В)',
+            tipRusLowerPoints: 'а. б. в.',
+            tipRusLowerParentheses: 'а) б) в)'
         }
     })(), DE.Views.Toolbar || {}));
 });
