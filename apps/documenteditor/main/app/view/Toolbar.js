@@ -2043,7 +2043,7 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 153px; margin: 0 0 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
@@ -2074,7 +2074,7 @@ define([
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 353px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 361px; margin: 0 0 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuNumberChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
@@ -2105,7 +2105,7 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 177px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 185px; margin: 0 0 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuMultiChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
@@ -2226,8 +2226,7 @@ define([
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
                     outerMenu:  {menu: this.btnMarkers.menu, index: 0},
-                    restoreHeight: 138,
-                    allowScrollbar: false,
+                    restoreHeight: 144,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
                         {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
@@ -2269,8 +2268,7 @@ define([
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
                     outerMenu:  {menu: this.btnNumbers.menu, index: 0},
-                    restoreHeight: 92,
-                    allowScrollbar: false,
+                    restoreHeight: 265,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore(items),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
@@ -2283,8 +2281,7 @@ define([
                     el: $('#id-toolbar-menu-multilevels'),
                     parentMenu: this.btnMultilevels.menu,
                     outerMenu:  {menu: this.btnMultilevels.menu, index: 0},
-                    restoreHeight: 92,
-                    allowScrollbar: false,
+                    restoreHeight: 176,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
                         {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
