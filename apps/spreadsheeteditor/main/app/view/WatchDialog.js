@@ -32,7 +32,7 @@
 */
 /**
  *
- *  WatchDialogDialog.js
+ *  WatchDialog.js
  *
  *  Created by Julia.Radzhabova on 24.06.22
  *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
