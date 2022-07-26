@@ -2256,7 +2256,8 @@ define([
                     {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
                     {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                 ];
-                if ('{{DEFAULT_LANG}}' === 'ru') {
+                // if ('{{DEFAULT_LANG}}' === 'ru') {
+                if ('ru' === 'ru') {
                     items = items.concat([
                         {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 8}, skipRenderOnChange: true, tip: this.tipRusUpperPoints},
                         {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 9}, skipRenderOnChange: true, tip: this.tipRusUpperParentheses},

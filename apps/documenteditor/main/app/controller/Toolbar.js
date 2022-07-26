@@ -569,7 +569,8 @@ define([
                                 idx = 7;
                                 break;
                         }
-                        if ('{{DEFAULT_LANG}}' === 'ru') {
+                        // if ('{{DEFAULT_LANG}}' === 'ru') {
+                        if ('ru' === 'ru') {
                             if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
                                 idx = this._state.bullets.subtype;
                             }
@@ -1372,7 +1373,7 @@ define([
                 arr.push(item.get('id'));
             });
             if (this.api) {
-                this.api.SetDrawImagePreviewBulletForMenu(arr, type);
+                // this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
         },
 
