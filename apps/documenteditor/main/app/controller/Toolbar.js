@@ -569,6 +569,11 @@ define([
                                 idx = 7;
                                 break;
                         }
+                        if ('{{DEFAULT_LANG}}' === 'ru') {
+                            if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
+                                idx = this._state.bullets.subtype;
+                            }
+                        }
                         this.toolbar.btnNumbers.toggle(true, true);
                         if (idx!==undefined)
                             this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
