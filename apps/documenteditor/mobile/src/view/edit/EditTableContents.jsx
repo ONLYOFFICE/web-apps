@@ -260,12 +260,12 @@ const PageEditStructureTableContents = props => {
                 <List>
                     {styles.map((style, index) => {
                         return (
-                            <ListItem checkbox key={index} title={style.displayValue} checked={style.checked}>
-                                {!isAndroid && <div slot='after-start'>{style.value}</div>}
+                            <ListItem checkbox key={index} title={style.displayValue} checked={style.checked && style.value >= 1}>
+                                {!isAndroid && <div slot='after-start'>{style.value === 0 ? '' : style.value}</div>}
                                 <div slot='after'>
                                     <Segmented>
                                         <Button outline className='decrement item-link' onClick={() => {
-                                            if(style.value > 1) {
+                                            if(style.value >= 1) {
                                                 setAmountLevels(-1);
                                                 addNewStyle(style);
                                                 props.addStyles(chosenStyles, style.name, style.value - 1);
