@@ -188,16 +188,6 @@
             }
         }
 
-        #panel-settings {
-            & > div {
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                display: flex;
-                flex-direction: column;
-            }
-        }
-
         #panel-info {
             padding: 0;
             display: flex;
@@ -206,6 +196,8 @@
 
         #panel-settings {
             padding: 0;
+            display: flex;
+            flex-direction: column;
 
             #id-settings-menu {
                 .dataview {
@@ -532,7 +524,6 @@
             }
 
             .userLink {
-                .background-ximage('@{common-image-path}/@{common-controls}', '@{common-image-path}/@{common-controls2x}', 100px);
                 background-position: -81px -234px;
                 background-repeat: no-repeat;
                 padding: 0 0 0 17px;
@@ -759,20 +750,25 @@
             height: 100%;
             position: relative;
         }
-        .header-item {
-            width:16%;
-            display: inline-block;
-            height: 18px;
-            text-align: start;
-            font-weight: normal;
-            padding-left: 4px;
-            padding-top: 2px;
-            &:not(:first-child) {
-                border-left: @scaled-one-px-value-ie solid @border-divider-ie;
-                border-left: @scaled-one-px-value solid @border-divider;
-            }
-            &:last-child {
-                width:36%;
+        .header-items {
+            display: flex;
+            .header-item {
+                width: 16%;
+                height: 18px;
+                text-align: start;
+                font-weight: normal;
+                padding-left: 4px;
+                padding-top: 2px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                &:not(:first-child) {
+                    border-left: @scaled-one-px-value-ie solid @border-divider-ie;
+                    border-left: @scaled-one-px-value solid @border-divider;
+                }
+                &:last-child {
+                    width: 36%;
+                }
             }
         }
         .search-items {

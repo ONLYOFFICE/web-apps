@@ -321,7 +321,8 @@ define([
                 }, this));
             }
             if (this.header.btnSearch.pressed) {
-                this.searchBar.show(this.api.asc_GetSelectedText());
+                var selectedText = this.api.asc_GetSelectedText();
+                this.searchBar.show(selectedText && selectedText.trim() || this.getApplication().getController('Search').getSearchText());
             } else {
                 this.searchBar.hide();
             }

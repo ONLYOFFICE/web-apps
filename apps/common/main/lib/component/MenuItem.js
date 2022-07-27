@@ -301,6 +301,7 @@ define([
         },
 
         onItemMouseDown: function(e) {
+            Common.UI.HintManager && Common.UI.HintManager.clearHints();
             if (e.which != 1) {
                 e.preventDefault();
                 e.stopPropagation();

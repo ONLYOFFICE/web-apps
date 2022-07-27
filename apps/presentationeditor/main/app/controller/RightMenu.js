@@ -292,10 +292,18 @@ define([
 
         onInsertShape:  function() {
             // this._settings[Common.Utils.documentSettingsType.Shape].needShow = true;
+            var idx = this._priorityArr.indexOf(Common.Utils.documentSettingsType.Shape);
+            if (idx>=0)
+                this._priorityArr.splice(idx, 1);
+            this._priorityArr.unshift(Common.Utils.documentSettingsType.Shape);
         },
 
         onInsertTextArt:  function() {
             // this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
+            var idx = this._priorityArr.indexOf(Common.Utils.documentSettingsType.TextArt);
+            if (idx>=0)
+                this._priorityArr.splice(idx, 1);
+            this._priorityArr.unshift(Common.Utils.documentSettingsType.TextArt);
         },
 
         UpdateThemeColors:  function() {

@@ -560,7 +560,10 @@ define([
             this.rbChangesTip = new Common.UI.RadioBox({
                 el          :$markup.findById('#fms-rb-show-track-tooltips'),
                 name        : 'show-track-changes',
-                labelText   : this.txtChangesTip
+                labelText   : this.txtChangesTip,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.rbShowChangesNone = new Common.UI.RadioBox({
@@ -963,10 +966,8 @@ define([
         txtAll: 'View All',
         txtNone: 'View Nothing',
         txtLast: 'View Last',
-        txtLiveComment: 'Live Commenting',
         /** coauthoring end **/
         okButtonText: 'Apply',
-        txtInput: 'Alternate Input',
         txtWin: 'as Windows',
         txtMac: 'as OS X',
         txtNative: 'Native',
@@ -976,9 +977,7 @@ define([
         txtPt: 'Point',
         textAutoSave: 'Autosave',
         txtSpellCheck: 'Spell Checking',
-        strSpellCheckMode: 'Turn on spell checking option',
         textAlignGuides: 'Alignment Guides',
-        strAlignGuides: 'Turn on alignment guides',
         strCoAuthMode: 'Co-editing mode',
         strFast: 'Fast',
         strStrict: 'Strict',
@@ -987,8 +986,6 @@ define([
         txtFitPage: 'Fit to Page',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)',
-        textCompatible: 'Compatibility',
         textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
         txtCacheMode: 'Default cache mode',
         strMacrosSettings: 'Macros Settings',
@@ -998,7 +995,6 @@ define([
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
-        strPaste: 'Cut, copy and paste',
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
         strTheme: 'Theme',
@@ -1385,7 +1381,7 @@ define([
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}"></div><div class="tool close img-commonctrl" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}"></div><div class="tool close img-commonctrl img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -2093,7 +2089,7 @@ define([
                                 else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
                                     me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
-                                    store.url = me.urlPref + '/Contents.json';
+                                    store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }
                             } else {

@@ -291,6 +291,13 @@ const EditTabs = props => {
             component: <EmptyEditLayout />
         });
     } else {
+        if(inToc) {
+            editors.push({
+                caption: _t.textTableOfCont,
+                id: 'edit-table-contents',
+                component: <EditTableContentsController />
+            })
+        }
         if (settings.indexOf('image') > -1) {
             editors.push({
                 caption: _t.textImage,
@@ -324,13 +331,6 @@ const EditTabs = props => {
                 caption: headerType === 2 ? _t.textFooter : _t.textHeader,
                 id: 'edit-header',
                 component: <EditHeaderController />
-            })
-        }
-        if(inToc) {
-            editors.push({
-                caption: _t.textTableOfCont,
-                id: 'edit-table-contents',
-                component: <EditTableContentsController />
             })
         }
         if (settings.indexOf('paragraph') > -1) {

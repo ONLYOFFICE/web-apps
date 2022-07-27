@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "警告",
     "textCopyCutPasteActions": "拷贝，剪切和粘贴操作",
     "textDoNotShowAgain": "不要再显示",
-    "warnMergeLostData": "只有来自左上方单元格的数据将保留在合并的单元格中。<br>您确定要继续吗？",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "确定",
+    "txtWarnUrl": "点击该链接可能会损害您的设备或数据。<br>您确定要继续吗？",
+    "warnMergeLostData": "只有来自左上方单元格的数据将保留在合并的单元格中。<br>您确定要继续吗？"
   },
   "Controller": {
     "Main": {
@@ -379,12 +379,12 @@
       "textAddCustomColor": "\n添加自定义颜色",
       "textAddress": "地址",
       "textAlign": "对齐",
-      "textAlignBottom": "底部对齐",
+      "textAlignBottom": "靠下对齐",
       "textAlignCenter": "居中对齐",
       "textAlignLeft": "左对齐",
       "textAlignMiddle": "垂直居中",
       "textAlignRight": "右对齐",
-      "textAlignTop": "顶端对齐",
+      "textAlignTop": "靠上对齐",
       "textAllBorders": "所有边框",
       "textAngleClockwise": "顺时针方向角",
       "textAngleCounterclockwise": "逆时针方向角",

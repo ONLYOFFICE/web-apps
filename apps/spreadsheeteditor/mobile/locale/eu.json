@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "Abisua",
     "textCopyCutPasteActions": "Kopiatu, ebaki eta itsatsi ekintzak",
     "textDoNotShowAgain": "Ez erakutsi berriro",
-    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "Ados",
+    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
+    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?"
   },
   "Controller": {
     "Main": {

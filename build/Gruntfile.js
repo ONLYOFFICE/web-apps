@@ -320,7 +320,7 @@ module.exports = function(grunt) {
                     src: packageFile.main.clean.prebuild
                 },
                 postbuild: {
-                    src: [...packageFile.main.svgicons.clean, ...packageFile.main.clean.postbuild]
+                    src: [...packageFile.main.clean.postbuild]
                 }
             },
 

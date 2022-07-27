@@ -9,6 +9,46 @@ class NavigationController extends Component {
         this.updateNavigation = this.updateNavigation.bind(this);
     }
 
+    updateViewerNavigation(bookmarks) {
+        let count = bookmarks.length,
+            prevLevel = -1,
+            headerLevel = -1,
+            firstHeader = true,
+            arrHeaders = [];
+
+        for (let i = 0; i < count; i++) {
+            let level = bookmarks[i].level - 1,
+                hasParent = true;
+
+            if (level > prevLevel && i > 0)
+                arrHeaders[i - 1]['hasSubItems'] = true;
+
+            if (headerLevel < 0 || level <= headerLevel) {
+                if (i > 0 || firstHeader)
+                    headerLevel = level;
+                hasParent = false;
+            }
+
+            arrHeaders.push({
+                name: bookmarks[i].description,
+                level: level,
+                index: i,
+                hasParent: hasParent,
+                isEmptyItem: !bookmarks[i].description
+            });
+
+            prevLevel = level;
+        }
+
+        if (count > 0 && !firstHeader) {
+            arrHeaders[0]['hasSubItems'] = false;
+            arrHeaders[0]['isNotHeader'] =  true;
+            arrHeaders[0]['name'] = t('Settings.textBeginningDocument');
+        }
+
+        return arrHeaders;
+    }
+
     updateNavigation() {
         const api = Common.EditorApi.get();
         const navigationObject = api.asc_ShowDocumentOutline();
@@ -60,6 +100,8 @@ class NavigationController extends Component {
 
         if (navigationObject) {
             navigationObject.goto(index);
+        } else {
+            api.asc_viewerNavigateTo(index);
         }
     };
 
@@ -69,11 +111,13 @@ class NavigationController extends Component {
                 <NavigationPopover
                     onSelectItem={this.onSelectItem} 
                     updateNavigation={this.updateNavigation}
+                    updateViewerNavigation={this.updateViewerNavigation}
                 />
             :
                 <NavigationSheet
                     onSelectItem={this.onSelectItem} 
                     updateNavigation={this.updateNavigation}
+                    updateViewerNavigation={this.updateViewerNavigation}
                     onclosed={this.props.onclosed}
                 /> 
         );

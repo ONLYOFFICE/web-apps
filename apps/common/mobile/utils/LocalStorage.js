@@ -8,6 +8,7 @@ class LocalStorage {
         });
 
         this._store = {};
+        this._prefix = 'mobile-';
 
         try {
             this._isAllowed = !!window.localStorage;
@@ -32,6 +33,14 @@ class LocalStorage {
         return this._filter;
     }
 
+    get prefix() {
+        return this._prefix;
+    }
+
+    set prefix(p) {
+        this._prefix = p;
+    }
+
     sync() {
         if ( !this._isAllowed )
             Common.Gateway.internalMessage('localstorage', {cmd:'get', keys:this._filter});
@@ -43,6 +52,7 @@ class LocalStorage {
     }
 
     setItem(name, value, just) {
+        name = this._prefix + name;
         if ( this._isAllowed ) {
             try {
                 localStorage.setItem(name, value);
@@ -57,6 +67,7 @@ class LocalStorage {
     }
 
     getItem(name) {
+        name = this._prefix + name;
         if ( this._isAllowed )
             return localStorage.getItem(name);
         else return this._store[name]===undefined ? null : this._store[name];

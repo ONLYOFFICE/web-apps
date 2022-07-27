@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Výška",
   "common.view.modals.txtShare": "Odkaz pro sdílení",
   "common.view.modals.txtWidth": "Šířka",
+  "common.view.SearchBar.textFind": "Najít",
   "SSE.ApplicationController.convertationErrorText": "Převod se nezdařil.",
   "SSE.ApplicationController.convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
   "SSE.ApplicationController.criticalErrorTitle": "Chyba",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Otevřít umístění souboru",
   "SSE.ApplicationView.txtFullScreen": "Na celou obrazovku",
   "SSE.ApplicationView.txtPrint": "Tisk",
+  "SSE.ApplicationView.txtSearch": "Hledat",
   "SSE.ApplicationView.txtShare": "Sdílet"
 }

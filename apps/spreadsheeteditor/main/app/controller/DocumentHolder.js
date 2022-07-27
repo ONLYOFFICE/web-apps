@@ -1857,7 +1857,7 @@ define([
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
                         factor -= 0.1;
-                        if (!(factor < .5)) {
+                        if (!(factor < .1)) {
                             this.api.asc_setZoom(factor);
                         }
                     } else if (delta > 0) {
@@ -1897,7 +1897,7 @@ define([
                         if (!this.api.isCellEdited) {
                             factor = Math.ceil(this.api.asc_getZoom() * 10)/10;
                             factor -= .1;
-                            if (!(factor < .5)) {
+                            if (!(factor < .1)) {
                                 this.api.asc_setZoom(factor);
                             }
 
@@ -2980,7 +2980,7 @@ define([
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.useTextImport] = [me.txtUseTextImport, 3];
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
-                documentHolderView.cmpEl.append(pasteContainer);
+                documentHolderView.cmpEl.find('#ws-canvas-outer').append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-special-paste'),

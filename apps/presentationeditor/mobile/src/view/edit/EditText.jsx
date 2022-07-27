@@ -631,18 +631,16 @@ const PageNumbers = observer(props => {
     return (
         <View className='numbers dataview'>
             <List className="row" style={{listStyle: 'none'}}>
-                {numberArrays.map((number, index) => (
-                    <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) && 
+                {numberArrays.map( number => (
+                    <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) &&
                         (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                         onClick={() => {
                             storeTextSettings.resetNumbers(number.subtype);
                             props.onNumber(number.subtype);
                         }}>
-                        <div id={number.id} className='item-number'>
-                        
-                        </div>
+                        <div id={number.id} className='item-number'></div>
                     </ListItem>
-                    ))}
+                ))}
             </List>
         </View>
     );

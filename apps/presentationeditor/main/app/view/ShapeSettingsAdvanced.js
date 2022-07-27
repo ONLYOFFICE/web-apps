@@ -187,8 +187,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.cmbFromX = new Common.UI.ComboBox({
                 el: $('#shape-advanced-combo-from-x'),
                 cls: 'input-group-nr',
-                style: "width: 115px;",
-                menuStyle: 'min-width: 115px;',
+                style: "width: 125px;",
+                menuStyle: 'min-width: 125px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
@@ -200,8 +200,8 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.cmbFromY = new Common.UI.ComboBox({
                 el: $('#shape-advanced-combo-from-y'),
                 cls: 'input-group-nr',
-                style: "width: 115px;",
-                menuStyle: 'min-width: 115px;',
+                style: "width: 125px;",
+                menuStyle: 'min-width: 125px;',
                 data: [
                     { value: 'left', displayValue: this.textTopLeftCorner },
                     { value: 'center', displayValue: this.textCenter }
@@ -406,7 +406,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-begin-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="form-control" style="width: 100px;">',
+                        '<i class="image img-arrows"></i>',
+                    '</div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -424,7 +426,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-menu-begin-style'),
                 parentMenu: this.btnBeginStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuBeginStylePicker.on('item:click', _.bind(this.onSelectBeginStyle, this));
             this._selectStyleItem(this.btnBeginStyle, null);
@@ -433,7 +435,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-begin-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="form-control" style="width: 100px;">',
+                        '<i class="image img-arrows"></i>',
+                    '</div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -451,7 +455,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-menu-begin-size'),
                 parentMenu: this.btnBeginSizeMenu,
                 store: new Common.UI.DataViewStore(_arrSize),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuBeginSizePicker.on('item:click', _.bind(this.onSelectBeginSize, this));
             this._selectStyleItem(this.btnBeginSize, null);
@@ -466,7 +470,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-end-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="form-control" style="width: 100px;">',
+                        '<i class="image img-arrows"></i>',
+                    '</div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -484,7 +490,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-menu-end-style'),
                 parentMenu: this.btnEndStyleMenu,
                 store: new Common.UI.DataViewStore(_arrStyles),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuEndStylePicker.on('item:click', _.bind(this.onSelectEndStyle, this));
             this._selectStyleItem(this.btnEndStyle, null);
@@ -493,7 +499,9 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-end-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                    '<div class="form-control image" style="width: 100px;"></div>',
+                    '<div class="form-control" style="width: 100px;">',
+                        '<i class="image img-arrows"></i>',
+                    '</div>',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
@@ -511,7 +519,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 el: $('#shape-advanced-menu-end-size'),
                 parentMenu: this.btnEndSizeMenu,
                 store: new Common.UI.DataViewStore(_arrSize),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
             });
             this.mnuEndSizePicker.on('item:click', _.bind(this.onSelectEndSize, this));
             this._selectStyleItem(this.btnEndSize, null);
@@ -853,7 +861,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         },
 
         _selectStyleItem: function(combo, record) {
-            var formcontrol = $(combo.el).find('.form-control');
+            var formcontrol = $(combo.el).find('.form-control > .image');
             formcontrol.css('background-position', ((record) ? (-record.get('offsetx')+20) + 'px' : '0') + ' ' + ((record) ? '-' + record.get('offsety') + 'px' : '-30px'));
         },
 

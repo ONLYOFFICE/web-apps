@@ -830,7 +830,7 @@ define([
                             ToolTip = ToolTip.substr(0, 256) + '...';
 
                         if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + me.documentHolder.txtPressLink + '</b>'));
+                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>'));
                             screenTip.tipLength = ToolTip.length;
                             screenTip.strTip = ToolTip;
                             recalc = true;
@@ -1170,7 +1170,7 @@ define([
 
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
-                documentHolder.cmpEl.append(pasteContainer);
+                documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-special-paste'),

@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b>表格傳送成功</b><br>點此關閉提示",
   "DE.ApplicationController.txtClose": "結束",
   "DE.ApplicationController.txtEmpty": "（空）",
-  "DE.ApplicationController.txtPressLink": "按Ctrl並點擊連結",
+  "DE.ApplicationController.txtPressLink": "按%1並點擊連結",
   "DE.ApplicationController.unknownErrorText": "未知錯誤。",
   "DE.ApplicationController.unsupportedBrowserErrorText": "不支援您的瀏覽器",
   "DE.ApplicationController.waitText": "請耐心等待...",
