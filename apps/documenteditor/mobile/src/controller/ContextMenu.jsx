@@ -319,7 +319,7 @@ class ContextMenu extends ContextMenuController {
                 });
             }
 
-            if(inToc) {
+            if(inToc && isEdit) {
                 itemsText.push({
                     caption: t('ContextMenu.textRefreshEntireTable'),
                     event: 'refreshEntireTable'
