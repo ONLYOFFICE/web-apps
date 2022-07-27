@@ -2735,6 +2735,7 @@
   "SSE.Views.PivotSettingsAdvanced.textWrapRow": "Report filter fields per row",
   "SSE.Views.PivotSettingsAdvanced.txtEmpty": "This field is required",
   "SSE.Views.PivotSettingsAdvanced.txtName": "Name",
+  "SSE.Views.PivotSettingsAdvanced.textAutofitColWidth": "Autofit column widths on update",
   "SSE.Views.PivotTable.capBlankRows": "Blank Rows",
   "SSE.Views.PivotTable.capGrandTotals": "Grand Totals",
   "SSE.Views.PivotTable.capLayout": "Report Layout",

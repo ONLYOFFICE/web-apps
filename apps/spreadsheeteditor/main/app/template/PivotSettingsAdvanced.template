@@ -45,12 +45,12 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <label class="header"><%= scope.textHeaders %></label>
+                    <div id="pivot-adv-chk-show-headers"></div>
                 </td>
             </tr>
             <tr>
                 <td class="padding-small">
-                    <div id="pivot-adv-chk-show-headers"></div>
+                    <div id="pivot-adv-chk-autofit-col-width"></div>
                 </td>
             </tr>
         </table>
