@@ -381,6 +381,7 @@ define([
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this),
                         help: !!help,
+                        loader: plugin.get_Loader(),
                         modal: isModal!==undefined ? isModal : true
                     });
                     me.pluginDlg.on({

@@ -77,6 +77,7 @@ define([
             _options.tpl = _.template(this.template)(_options);
 
             this.url = options.url || '';
+            this.loader = (options.loader!==undefined) ? options.loader : true;
             this.frameId = options.frameId || 'plugin_iframe';
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -102,13 +103,15 @@ define([
             iframe.onload       = _.bind(this._onLoad,this);
 
             var me = this;
-            setTimeout(function(){
-                if (me.isLoaded) return;
-                me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
-                me.loadMask.setTitle(me.textLoading);
-                me.loadMask.show();
-                if (me.isLoaded) me.loadMask.hide();
-            }, 500);
+            if (this.loader) {
+                setTimeout(function(){
+                    if (me.isLoaded) return;
+                    me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
+                    me.loadMask.setTitle(me.textLoading);
+                    me.loadMask.show();
+                    if (me.isLoaded) me.loadMask.hide();
+                }, 500);
+            }
 
             iframe.src = this.url;
             $('#id-plugin-placeholder').append(iframe);
