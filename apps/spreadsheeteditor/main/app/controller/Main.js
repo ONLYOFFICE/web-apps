@@ -1535,6 +1535,11 @@ define([
             },
 
             onError: function(id, level, errData, callback) {
+                if (this.isFrameClosed) {
+                    this.lastFrameError = {id: id, level: level, errData: errData, callback: callback};
+                    return;
+                }
+
                 if (id == Asc.c_oAscError.ID.LoadingScriptError) {
                     this.showTips([this.scriptLoadError]);
                     this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
@@ -2590,6 +2595,10 @@ define([
                 if (typeof chart === 'object' && this.api) {
                     this.api.asc_addChartDrawingObject(chart);
                     this.isFrameClosed = false;
+                    if (this.lastFrameError) {
+                        this.onError(this.lastFrameError.id, this.lastFrameError.level, this.lastFrameError.errData, this.lastFrameError.callback);
+                        this.lastFrameError = undefined;
+                    }
                 }
             },
 
@@ -2613,6 +2622,10 @@ define([
                 if ((typeof obj === 'object' || obj==="empty") && this.api) {
                     this.api.asc_addTableOleObjectInOleEditor(typeof obj === 'object' ? obj : undefined);
                     this.isFrameClosed = false;
+                    if (this.lastFrameError) {
+                        this.onError(this.lastFrameError.id, this.lastFrameError.level, this.lastFrameError.errData, this.lastFrameError.callback);
+                        this.lastFrameError = undefined;
+                    }
                 }
             },
 
@@ -2631,6 +2644,10 @@ define([
                 if (typeof merge === 'object' && this.api) {
                     this.api.asc_setData(merge);
                     this.isFrameClosed = false;
+                    if (this.lastFrameError) {
+                        this.onError(this.lastFrameError.id, this.lastFrameError.level, this.lastFrameError.errData, this.lastFrameError.callback);
+                        this.lastFrameError = undefined;
+                    }
                 }
             },
 
