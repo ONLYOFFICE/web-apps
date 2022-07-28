@@ -32,7 +32,7 @@ const NavigationPopover = inject('storeNavigation')(observer(props => {
                     <List className="navigation-list">
                         {arrHeaders.map((header, index) => {
                             return (
-                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textEmptyHeading') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
+                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
                                     setCurrentPosition(header.index);
                                     props.onSelectItem(header.index);
                                 }}></ListItem>
@@ -121,7 +121,7 @@ const NavigationSheet = inject('storeNavigation')(observer(props => {
                     <List className="navigation-list">
                         {arrHeaders.map((header, index) => {
                             return (
-                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textEmptyHeading') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
+                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
                                     setCurrentPosition(header.index);
                                     props.onSelectItem(header.index);
                                 }}></ListItem>
