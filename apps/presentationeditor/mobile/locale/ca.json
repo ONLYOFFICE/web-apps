@@ -47,7 +47,7 @@
     "errorCopyCutPaste": "Les accions de copiar, tallar i enganxar mitjançant el menú contextual només es realitzaran en el fitxer actual.",
     "menuAddComment": "Afegir comentari",
     "menuAddLink": "Afegir Enllaç",
-    "menuCancel": "Cancel·la",
+    "menuCancel": "Cancel·lar",
     "menuDelete": "Suprimeix",
     "menuDeleteTable": "Suprimeix la taula",
     "menuEdit": "Edita",
@@ -59,9 +59,9 @@
     "textColumns": "Columnes",
     "textCopyCutPasteActions": "Accions de copiar, tallar i enganxar ",
     "textDoNotShowAgain": "No ho mostris més",
+    "textOk": "D'acord",
     "textRows": "Files",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?"
   },
   "Controller": {
     "Main": {
@@ -214,7 +214,7 @@
       "textAddLink": "Afegir Enllaç",
       "textAddress": "Adreça",
       "textBack": "Enrere",
-      "textCancel": "Cancel·la",
+      "textCancel": "Cancel·lar",
       "textColumns": "Columnes",
       "textComment": "Comentari",
       "textDefault": "Text seleccionat",
@@ -392,7 +392,7 @@
       "textVerticalIn": "Vertical entrant",
       "textVerticalOut": "Vertical sortint",
       "textWedge": "Falca",
-      "textWipe": "Elimina",
+      "textWipe": "Eliminar",
       "textZoom": "Zoom",
       "textZoomIn": "Amplia",
       "textZoomOut": "Redueix",
@@ -411,7 +411,7 @@
       "textCaseSensitive": "Sensible a majúscules i minúscules",
       "textCentimeter": "Centímetre",
       "textCollaboration": "Col·laboració",
-      "textColorSchemes": "Combinacions de colors",
+      "textColorSchemes": "Esquema de Color",
       "textComment": "Comentari",
       "textCreated": "S'ha creat",
       "textDarkTheme": "Tema fosc",

@@ -57,7 +57,13 @@ define([
                 'SearchBar': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
-                    'search:input': _.bind(this.onInputSearchChange, this),
+                    'search:input': _.bind(function (text) {
+                        if (this._state.searchText === text) {
+                            Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
+                            return;
+                        }
+                        this.onInputSearchChange(text);
+                    }, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown'),
                     'show': _.bind(this.onSelectSearchingResults, this, true),
                     'hide': _.bind(this.onSelectSearchingResults, this, false)
@@ -100,6 +106,8 @@ define([
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
+                this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
             }
             return this;
         },
@@ -168,6 +176,7 @@ define([
                             me.view.disableReplaceButtons(false);
                         } else if (me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
+                            me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
                         }
                         clearInterval(me.searchTimer);
@@ -199,14 +208,16 @@ define([
                 var me = this;
                 var str = this.api.asc_GetErrorForReplaceString(textReplace);
                 if (str) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: Common.Utils.String.format(this.warnReplaceString, str),
-                        buttons: ['ok'],
-                        callback: function(){
-                            me.view.focus('replace');
-                        }
-                    });
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            title: me.notcriticalErrorTitle,
+                            msg: Common.Utils.String.format(me.warnReplaceString, str),
+                            buttons: ['ok'],
+                            callback: function(){
+                                me.view.focus('replace');
+                            }
+                        });
+                    }, 1);
                     return;
                 }
 
@@ -215,7 +226,7 @@ define([
                 searchSettings.put_MatchCase(this._state.matchCase);
                 searchSettings.put_WholeWords(this._state.matchWord);
                 if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 }
             }
         },
@@ -225,14 +236,16 @@ define([
                 var me = this;
                 var str = this.api.asc_GetErrorForReplaceString(textReplace);
                 if (str) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: Common.Utils.String.format(this.warnReplaceString, str),
-                        buttons: ['ok'],
-                        callback: function(){
-                            me.view.focus('replace');
-                        }
-                    });
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            title: me.notcriticalErrorTitle,
+                            msg: Common.Utils.String.format(me.warnReplaceString, str),
+                            buttons: ['ok'],
+                            callback: function(){
+                                me.view.focus('replace');
+                            }
+                        });
+                    }, 1);
                     return;
                 }
 
@@ -242,14 +255,14 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.allResultsWasRemoved();
+                this.removeResultItems();
             }
         },
 
-        allResultsWasRemoved: function () {
+        removeResultItems: function (type) {
             this.resultItems = [];
             this.hideResults();
-            this.view.updateResultsNumber(undefined, 0);
+            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
@@ -359,7 +372,8 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
+            var selectedText = this.api.asc_GetSelectedText(),
+                text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 &&
                 (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
                     this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
@@ -420,8 +434,29 @@ define([
             }
         },
 
+        onApiSearchEnd: function () {
+            this.removeResultItems('stop');
+        },
+
+        onApiTextReplaced: function(found, replaced) {
+            if (found) {
+                !(found - replaced > 0) ?
+                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+            } else {
+                Common.UI.info({msg: this.textNoTextFound});
+            }
+        },
+
+        getSearchText: function () {
+            return this._state.searchText;
+        },
+
         notcriticalErrorTitle: 'Warning',
-        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
+        warnReplaceString: '{0} is not a valid special character for the Replace With box.',
+        textReplaceSuccess: 'Search has been done. {0} occurrences have been replaced',
+        textReplaceSkipped: 'The replacement has been made. {0} occurrences were skipped.',
+        textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.'
 
     }, DE.Controllers.Search || {}));
 });

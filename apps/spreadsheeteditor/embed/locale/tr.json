@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Yükseklik",
   "common.view.modals.txtShare": "Bağlantıyı Paylaş",
   "common.view.modals.txtWidth": "Genişlik",
+  "common.view.SearchBar.textFind": "Bul",
   "SSE.ApplicationController.convertationErrorText": "Değişim başarısız oldu.",
   "SSE.ApplicationController.convertationTimeoutText": "Değişim süresi aşıldı.",
   "SSE.ApplicationController.criticalErrorTitle": "Hata",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Dosya konumunu aç",
   "SSE.ApplicationView.txtFullScreen": "Tam Ekran",
   "SSE.ApplicationView.txtPrint": "Yazdır",
+  "SSE.ApplicationView.txtSearch": "Arama",
   "SSE.ApplicationView.txtShare": "Paylaş"
 }

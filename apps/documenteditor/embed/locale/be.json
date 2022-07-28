@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b>Форма паспяхова адпраўленая</b><br>Пстрыкніце, каб закрыць падказку",
   "DE.ApplicationController.txtClose": "Закрыць",
   "DE.ApplicationController.txtEmpty": "(Пуста)",
-  "DE.ApplicationController.txtPressLink": "Націсніце CTRL і пстрыкніце па спасылцы",
+  "DE.ApplicationController.txtPressLink": "Націсніце %1 і пстрыкніце па спасылцы",
   "DE.ApplicationController.unknownErrorText": "Невядомая памылка.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш браўзер не падтрымліваецца.",
   "DE.ApplicationController.waitText": "Калі ласка, пачакайце...",

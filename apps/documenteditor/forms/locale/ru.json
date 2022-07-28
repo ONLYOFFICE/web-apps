@@ -103,7 +103,7 @@
   "DE.Controllers.ApplicationController.errorToken": "Токен безопасности документа имеет неправильный формат.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "Истек срок действия токена безопасности документа.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "Версия файла была изменена. Страница будет перезагружена.",
-  "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Подключение к Интернету было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
+  "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Соединение было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
   "DE.Controllers.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Подключение прервано. Вы по-прежнему можете просматривать документ,<br>но не сможете скачать или напечатать его до восстановления подключения и обновления страницы.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Изображение из файла",

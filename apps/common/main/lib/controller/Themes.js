@@ -36,6 +36,11 @@ define([
                 type: 'dark',
                 source: 'static',
             },
+            'theme-contrast-dark': {
+                text: locale.txtThemeContrastDark || 'Dark Contrast',
+                type: 'dark',
+                source: 'static',
+            },
         }
 
         if ( !!window.currentLoaderTheme ) {
@@ -118,6 +123,7 @@ define([
             "canvas-page-border",
 
             "canvas-ruler-background",
+            "canvas-ruler-border",
             "canvas-ruler-margins-background",
             "canvas-ruler-mark",
             "canvas-ruler-handle-border",
@@ -413,10 +419,11 @@ define([
                 Common.NotificationCenter.trigger('contenttheme:dark', !is_current_dark);
             },
 
-            setTheme: function (obj, force) {
+            setTheme: function (obj) {
                 if ( !obj ) return;
 
-                var id = get_ui_theme_name(obj);
+                var id = get_ui_theme_name(obj),
+                    refresh_only = arguments[1];
 
                 if ( is_theme_type_system(id) ) {
                     Common.localStorage.setBool('ui-theme-use-system', true);
@@ -425,7 +432,7 @@ define([
                     Common.localStorage.setBool('ui-theme-use-system', false);
                 }
 
-                if ( (this.currentThemeId() != id || force) && !!themes_map[id] ) {
+                if ( (this.currentThemeId() != id || refresh_only) && !!themes_map[id] ) {
                     document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
                     document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
 
@@ -456,10 +463,12 @@ define([
                             theme_obj.colors = obj;
                         }
 
-                        Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+                        if ( !refresh_only )
+                            Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
                     }
 
-                    Common.localStorage.setItem('ui-theme-id', id);
+                    if ( !refresh_only )
+                        Common.localStorage.setItem('ui-theme-id', id);
                     Common.NotificationCenter.trigger('uitheme:changed', id);
                 }
             },

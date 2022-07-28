@@ -210,7 +210,7 @@ define([
                         this._state.keepRatio=value;
                     }
 
-                    var chartSettings = this.api.asc_getChartObject(),
+                    var chartSettings = this.api.asc_getChartObject(true), // don't lock chart object
                         series = chartSettings ? chartSettings.getSeries() : null;
                     this.btnSwitch.setDisabled(!series || series.length<1 || !chartSettings || !chartSettings.getRange());
                 } else { //sparkline
@@ -1287,7 +1287,7 @@ define([
 
         onSwitch:   function() {
             if (this.api){
-                var props = this.api.asc_getChartObject();
+                var props = this.api.asc_getChartObject(true);
                 if (props) {
                     props.startEdit();
                     var res = props.switchRowCol();

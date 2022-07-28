@@ -2966,7 +2966,7 @@ define([
         styleText               : 'Formatting as Style',
         saveStyleText           : 'Create new style',
         updateStyleText         : 'Update %1 style',
-        txtPressLink            : 'Press CTRL and click link',
+        txtPressLink            : 'Press {0} and click link',
         selectText              : 'Select',
         insertRowText           : 'Insert Row',
         insertColumnText        : 'Insert Column',

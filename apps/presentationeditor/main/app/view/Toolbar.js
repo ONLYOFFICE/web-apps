@@ -274,6 +274,27 @@ define([
                     });
                     me.paragraphControls.push(me.btnPaste);
 
+                    me.btnCut = new Common.UI.Button({
+                        id: 'id-toolbar-btn-cut',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-cut',
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.shapeLock, _set.slideLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'X'
+                    });
+                    me.paragraphControls.push(me.btnCut);
+
+                    me.btnSelectAll = new Common.UI.Button({
+                        id: 'id-toolbar-btn-select-all',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon select-all',
+                        lock: [_set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
+                    });
+                    me.slideOnlyControls.push(me.btnSelectAll);
+
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls: 'input-group-nr',
                         menuCls: 'scrollable-menu',
@@ -1067,11 +1088,17 @@ define([
                                 menu.menuAlignEl = cmp.cmpEl;
 
                                 menu.menuAlign = 'tl-tl';
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
+                                var menuWidth = columnCount * (itemMargin + itemWidth),
+                                    buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                                // if (menuWidth>buttonOffsetLeft)
+                                //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                                if (menuWidth>Common.Utils.innerWidth())
+                                    menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
                                 menu.setOffset(Math.min(offset, 0));
 
                                 menu.cmpEl.css({
-                                    'width': columnCount * (itemWidth + itemMargin),
+                                    'width': menuWidth,
                                     'min-height': cmp.cmpEl.height()
                                 });
                             }
@@ -1100,7 +1127,7 @@ define([
                     });
 
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
-                        this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
+                        this.btnCopy, this.btnPaste, this.btnCut, this.btnSelectAll,this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
                         this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
@@ -1206,6 +1233,8 @@ define([
                 _injectComponent('#slot-btn-redo', this.btnRedo);
                 _injectComponent('#slot-btn-copy', this.btnCopy);
                 _injectComponent('#slot-btn-paste', this.btnPaste);
+                _injectComponent('#slot-btn-cut', this.btnCut);
+                _injectComponent('#slot-btn-select-all', this.btnSelectAll);
                 _injectComponent('#slot-btn-bold', this.btnBold);
                 _injectComponent('#slot-btn-italic', this.btnItalic);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
@@ -1338,6 +1367,8 @@ define([
                 this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
                 this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
                 this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+                this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
+                this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -2033,7 +2064,9 @@ define([
             tipMarkersDash: 'Dash bullets',
             tipNone: 'None',
             textTabView: 'View',
-            mniInsertSSE: 'Insert Spreadsheet'
+            mniInsertSSE: 'Insert Spreadsheet',
+            tipSelectAll: 'Select all',
+            tipCut: 'Cut'
         }
     }()), PE.Views.Toolbar || {}));
 });

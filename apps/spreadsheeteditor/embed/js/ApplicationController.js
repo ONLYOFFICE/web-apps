@@ -321,7 +321,7 @@ SSE.ApplicationController = new(function(){
             if (api){
                 var f = Math.ceil(api.asc_getZoom() * 10)/10;
                 f -= .1;
-                !(f < .5) && api.asc_setZoom(f);
+                !(f < .1) && api.asc_setZoom(f);
             }
         });
 

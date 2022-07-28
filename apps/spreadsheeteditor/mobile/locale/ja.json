@@ -3,11 +3,11 @@
     "textAbout": "詳細情報",
     "textAddress": "アドレス",
     "textBack": "戻る",
+    "textEditor": "スプレッドシートエディター",
     "textEmail": "メール",
     "textPoweredBy": "によって提供されています",
     "textTel": "電話",
-    "textVersion": "バージョン",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "バージョン"
   },
   "Common": {
     "Collaboration": {
@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": " 警告",
     "textCopyCutPasteActions": "コピー,切り取り,貼り付けの操作",
     "textDoNotShowAgain": "再度表示しない",
-    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "OK",
+    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？",
+    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？"
   },
   "Controller": {
     "Main": {
@@ -223,7 +223,7 @@
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
     "errorStockChart": "行の順序が正しくありません。株価チャートを作るようにシートにこのようにデータを配置してください：<br>始値、最高価格、最小価格、終値。",
     "errorUnexpectedGuid": "外部エラーがあります。<br>　予期しない　Guid　があります。サポートを連絡してください。",
-    "errorUpdateVersionOnDisconnect": "インターネット接続が復旧し、ファイルのバージョンが更新されました。<br>作業を継続する前に、ファイルをダウンロードするか、内容をコピーして、変更が消えてしまわないように確認してから、ページを再びお読み込みください。",
+    "errorUpdateVersionOnDisconnect": "インターネット接続が復旧し、ファイルのバージョンが更新されています。<br>作業を継続する前に、ファイルをダウンロードするか内容をコピーして変更が失われていないことを確認してから、このページを再読み込みしてください。",
     "errorUserDrop": "今、ファイルにアクセスすることはできません。",
     "errorUsersExceed": "料金プランで許可されているユーザー数を超えました。",
     "errorViewerDisconnect": "接続が失われました。文書の表示は可能ですが、<br>再度接続されてページが再ロードされるまで、ダウンロードまたは印刷することはできません。",
@@ -520,7 +520,7 @@
       "textRouble": "ルーブル",
       "textScientific": "科学的",
       "textScreenTip": "ヒント",
-      "textSelectAll": "全て選択",
+      "textSelectAll": "すべて選択",
       "textSelectObjectToEdit": "編集するためにオブジェクト​​を選んでください",
       "textSendToBackground": "背景へ動かす",
       "textSettings": "設定",

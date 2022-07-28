@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Le formulaire a été soumis avec succès</b><br>Cliquez ici pour fermer l'astuce",
   "DE.ApplicationController.txtClose": "Fermer",
   "DE.ApplicationController.txtEmpty": "(Vide)",
-  "DE.ApplicationController.txtPressLink": "Appuyez sur Ctrl et cliquez sur le lien",
+  "DE.ApplicationController.txtPressLink": "Appuyez sur %1 et cliquez sur le lien",
   "DE.ApplicationController.unknownErrorText": "Erreur inconnue.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Votre navigateur n'est pas pris en charge.",
   "DE.ApplicationController.waitText": "Veuillez patienter...",
@@ -47,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Ouvrir l'emplacement du fichier",
   "DE.ApplicationView.txtFullScreen": "Plein écran",
   "DE.ApplicationView.txtPrint": "Imprimer",
+  "DE.ApplicationView.txtSearch": "Recherche",
   "DE.ApplicationView.txtShare": "Partager"
 }

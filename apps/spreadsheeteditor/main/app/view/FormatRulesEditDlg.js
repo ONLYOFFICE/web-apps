@@ -2061,6 +2061,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
                 }
                 if (!msg && res) {
+                    var mainController = SSE.getController('Main');
                     switch (res) {
                         case Asc.c_oAscError.ID.NotValidPercentile:
                             msg = this.textNotValidPercentile;
@@ -2079,6 +2080,42 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             break;
                         case Asc.c_oAscError.ID.IconDataRangesOverlap:
                             msg = this.textIconsOverlap;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
+                            msg = mainController.errorWrongBracketsCount;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongOperator:
+                            msg = mainController.errorWrongOperator;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
+                            msg = mainController.errorCountArgExceed;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongCountArgument:
+                            msg = mainController.errorCountArg;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongFunctionName:
+                            msg = mainController.errorFormulaName;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlAnotherParsingError:
+                            msg = mainController.errorFormulaParsing;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
+                            msg = mainController.errorArgsRange;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlOperandExpected:
+                            msg = mainController.errorOperandExpected;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongReferences:
+                            msg = mainController.errorFrmlWrongReferences;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlMaxTextLength:
+                            msg = mainController.errorFrmlMaxTextLength;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlMaxReference:
+                            msg = mainController.errorFrmlMaxReference;
+                            break;
+                        case  Asc.c_oAscError.ID.FrmlMaxLength:
+                            msg = mainController.errorFrmlMaxLength;
                             break;
                         default:
                             msg = this.textInvalid;

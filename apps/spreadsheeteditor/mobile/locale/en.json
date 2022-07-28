@@ -64,9 +64,9 @@
     "notcriticalErrorTitle": "Warning",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+    "warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -226,7 +226,7 @@
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
     "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
     "errorUnexpectedGuid": "External error.<br>Unexpected Guid. Please, contact support.",
-    "errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
+    "errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
     "errorUserDrop": "The file cannot be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",

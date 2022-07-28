@@ -109,7 +109,7 @@
       "textIndentRight": "右缩进",
       "textInserted": "已插入:",
       "textItalic": "斜体",
-      "textJustify": "对齐验证的物件",
+      "textJustify": "两端对齐",
       "textKeepLines": "保持同一行",
       "textKeepNext": "与下一个保持一致",
       "textLeft": "左对齐",
@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "刷新整个表格",
     "textRefreshPageNumbersOnly": "仅刷新页号",
     "textRows": "行",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "点击该链接可能会损害您的设备或数据。<br>您确定要继续吗？"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",

@@ -196,12 +196,6 @@
             "common": [
                 {
                     "expand": true,
-                    "cwd": "../apps/common/main/resources/img",
-                    "src": "**/*.svg",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img"
-                },
-                {
-                    "expand": true,
                     "cwd": "../apps/spreadsheeteditor/main/resources/img",
                     "src": "**/*.svg",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img"

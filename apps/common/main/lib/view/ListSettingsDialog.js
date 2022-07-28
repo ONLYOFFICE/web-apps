@@ -61,7 +61,7 @@ define([
         options: {
             type: 0, // 0 - markers, 1 - numbers
             width: 280,
-            height: 255,
+            height: 261,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
