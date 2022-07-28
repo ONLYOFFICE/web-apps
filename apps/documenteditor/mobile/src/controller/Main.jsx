@@ -713,6 +713,12 @@ class MainController extends Component {
           storeDocumentInfo.changeCount(this.objectInfo);
         });
 
+        this.api.asc_registerCallback('asc_onMeta', (meta) => {
+            if(meta) {
+                storeDocumentInfo.changeTitle(meta.title);
+            }
+        });
+
         // Color Schemes
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {

@@ -434,6 +434,16 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onReplaceAll', this.onApiTextReplaced.bind(this));
+
+        // Presentation Info
+
+        const storePresentationInfo = this.props.storePresentationInfo;
+
+        this.api.asc_registerCallback('asc_onMeta', (meta) => {
+            if(meta) {
+                storePresentationInfo.changeTitle(meta.title);
+            }
+        });
     }
 
     onApiTextReplaced(found, replaced) {
