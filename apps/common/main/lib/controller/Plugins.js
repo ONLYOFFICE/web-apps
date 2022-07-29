@@ -162,8 +162,8 @@ define([
                 this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
                 this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
-                this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginsShowButton, this));
-                this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginsHideButton, this));
+                this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
+                this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
 
                 this.loadPlugins();
             }
@@ -464,12 +464,12 @@ define([
             this.parsePlugins(pluginsdata)
         },
 
-        onPluginsShowButton: function(type) {
-            this.pluginDlg && this.pluginDlg.showButton(type);
+        onPluginShowButton: function(id) {
+            this.pluginDlg && this.pluginDlg.showButton(id);
         },
 
-        onPluginsHideButton: function(type) {
-            this.pluginDlg && this.pluginDlg.hideButton(type);
+        onPluginHideButton: function(id) {
+            this.pluginDlg && this.pluginDlg.hideButton(id);
         },
 
         runAutoStartPlugins: function() {

@@ -185,14 +185,14 @@ define([
             }
         },
 
-        showButton: function(type) {
+        showButton: function(id) {
             var header = this.$window.find('.header .tools.left');
-            if (type=='back') {
-                var btn = header.find('#id-plugindlg-' + type);
+            if (id=='back') {
+                var btn = header.find('#id-plugindlg-' + id);
                 if (btn.length<1) {
-                    btn = $('<div id="id-plugindlg-' + type + '" class="tool help" style="font-size:20px;">←</div>');
+                    btn = $('<div id="id-plugindlg-' + id + '" class="tool help" style="font-size:20px;">←</div>');
                     btn.on('click', _.bind(function() {
-                        this.fireEvent('header:click',type);
+                        this.fireEvent('header:click',id);
                     }, this));
                     header.prepend(btn);
                 }
@@ -201,10 +201,10 @@ define([
             }
         },
 
-        hideButton: function(type) {
+        hideButton: function(id) {
             var header = this.$window.find('.header .tools.left');
-            if (type=='back') {
-                var btn = header.find('#id-plugindlg-' + type);
+            if (id=='back') {
+                var btn = header.find('#id-plugindlg-' + id);
                 if (btn.length>0) {
                     btn.hide();
                 }
