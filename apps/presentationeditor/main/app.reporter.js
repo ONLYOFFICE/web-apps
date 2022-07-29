@@ -107,6 +107,7 @@ require([
             docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(data.key);
             docInfo.put_Url(data.url);
+            docInfo.put_DirectUrl(data.directUrl);
             docInfo.put_Title(data.title);
             docInfo.put_Format(data.fileType);
             docInfo.put_VKey(data.vkey);
