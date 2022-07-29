@@ -1285,7 +1285,16 @@ define([
                     itemWidth       : 112,
                     itemHeight      : 40,
                     style: 'min-width:158px;',
-                    menuMaxHeight   : 226,
+                    groups: new Common.UI.DataViewGroupStore([
+                        {id: 'menu-style-group-custom',     caption: this.textCustom },
+                        {id: 'menu-style-group-color',      caption: this.textGoodBadAndNeutral },
+                        {id: 'menu-style-group-model',      caption: this.textDataAndModel },
+                        {id: 'menu-style-group-title',      caption: this.textTitlesAndHeadings },
+                        {id: 'menu-style-group-themed',     caption: this.textThemedCallStyles }, 
+                        {id: 'menu-style-group-number',     caption: this.textNumberFormat },
+                        {id: 'menu-style-group-no-name',    caption: this.textNoName }
+                    ]),
+                    menuMaxHeight   : 350,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
                     dataHintDirection: 'bottom',
@@ -1297,8 +1306,9 @@ define([
                             minMenuColumn = 6;
 
                         if (menu.cmpEl) {
-                            var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                            var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
+                            var itemEl = $(menu.menuRoot.find('.dataview .item').get(0));
+                            var groupContainerEl = $(menu.menuRoot.find('.dataview .group-items-container').get(0));
+                            var itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
                             Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1/Common.Utils.applicationPixelRatio());
                             var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                 (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
@@ -1311,11 +1321,13 @@ define([
                             menu.menuAlignEl = cmp.cmpEl;
 
                             menu.menuAlign = 'tl-tl';
-                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
+                            var dataviewEl = $(menu.menuRoot.find('.dataview').get(0));
+                            var menuWidth = + columnCount * (itemWidth + itemMargin) + parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(dataviewEl.css('padding-left')) + parseFloat(dataviewEl.css('padding-right'));
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - menuWidth - 1;
                             menu.setOffset(Math.min(offset, 0));
 
                             menu.cmpEl.css({
-                                'width' : columnCount * (itemWidth + itemMargin),
+                                'width' : menuWidth,
                                 'min-height': cmp.cmpEl.height()
                             });
                         }
@@ -3280,6 +3292,13 @@ define([
         textDone: 'Done',
         tipTextFormatting: 'More text formatting tools',
         tipHAligh: 'Horizontal Align',
-        tipVAligh: 'Vertical Align'
+        tipVAligh: 'Vertical Align',
+        textCustom: 'Custom',
+        textGoodBadAndNeutral: 'Good, Bad, and Neutral',
+        textDataAndModel: 'Data and Model',
+        textTitlesAndHeadings: 'Titles and Headings',
+        textThemedCallStyles: 'Themed Call Styles',
+        textNumberFormat: 'Number Format',
+        textNoName: 'No name'
     }, SSE.Views.Toolbar || {}));
 });

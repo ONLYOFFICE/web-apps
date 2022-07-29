@@ -2102,6 +2102,7 @@ define([
                     el: element,
                     parentMenu  : menu,
                     restoreHeight: 300,
+                    groups: new Common.UI.DataViewGroupStore(),
                     style: 'max-height: 300px;',
                     store: me.getCollection('TableTemplates'),
                     itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:60px;height:44px;"></div>'),
@@ -2158,30 +2159,66 @@ define([
         onApiInitTableTemplates: function(images) {
             var me = this;
             var store = this.getCollection('TableTemplates');
+            this.fillTableTemplates();
+
             if (store) {
                 var templates = [];
+                var groups = [
+                    {id: 'menu-table-group-custom',    caption: me.txtGroupTable_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: me.txtGroupTable_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: me.txtGroupTable_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: me.txtGroupTable_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                 templates: []},
+                ];
                 _.each(images, function(item) {
                     var tip = item.asc_getDisplayName();
+                    var groupItem = '';
+                    
                     if (item.asc_getType()==0) {
                         var arr = tip.split(' '),
                             last = arr.pop();
+                           
+                        if(tip == 'None'){
+                            groupItem = 'menu-table-group-light';
+                        }
+                        else {
+                            if(arr.length > 0){
+                                groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                            }
+                            if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                                groupItem = 'menu-table-group-no-name';
+                            }
+                        }
                         arr = 'txtTable_' + arr.join('');
                         tip = me[arr] ? me[arr] + ' ' + last : tip;
                     }
-                    templates.push({
+                    else {
+                        groupItem = 'menu-table-group-custom'
+                    }
+                    groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                         name        : item.asc_getName(),
                         caption     : item.asc_getDisplayName(),
                         type        : item.asc_getType(),
                         imageUrl    : item.asc_getImage(),
+                        group       : groupItem,  
                         allowSelected : true,
                         selected    : false,
                         tip         : tip
                     });
                 });
 
+                groups = groups.filter(function(item, index){
+                    return item.templates.length > 0
+                });
+                
+                groups.forEach(function(item){
+                    templates = templates.concat(item.templates);
+                    delete item.templates;
+                });
+
+                me.toolbar.mnuTableTemplatePicker.groups.reset(groups);
                 store.reset(templates);
             }
-            this.fillTableTemplates();
         },
 
         onApiInitEditorStyles: function(styles){
@@ -2198,6 +2235,13 @@ define([
             var mainController = this.getApplication().getController('Main');
             var count = listStyles.menuPicker.store.length;
             var rec = listStyles.menuPicker.getSelectedRec();
+            var groups = [];
+            for (var i = 0; i < 4; i++) { groups.push('menu-style-group-color'); }
+            for (var i = 0; i < 8; i++) { groups.push('menu-style-group-model'); }
+            for (var i = 0; i < 6; i++) { groups.push('menu-style-group-title'); }
+            for (var i = 0; i < 24; i++) { groups.push('menu-style-group-themed'); }
+            for (var i = 0; i < 5; i++) { groups.push('menu-style-group-number'); }
+            
             if (count>0 && count==styles.length) {
                 var data = listStyles.menuPicker.dataViewItems;
                 data && _.each(styles, function(style, index){
@@ -2211,14 +2255,49 @@ define([
                 });
             } else {
                 var arr = [];
-                _.each(styles, function(style){
+                var countCustomStyles = 0;
+                var hasNoNameGroup = false;
+                _.each(styles, function(style, index){
+                    var styleGroup;
+                    if(style.asc_getType() == 0) {
+                        if(index - countCustomStyles < groups.length){
+                            styleGroup = groups[index - countCustomStyles];
+                        }
+                        else {
+                            styleGroup = 'menu-style-group-no-name';
+                            hasNoNameGroup = true;
+                        }
+                    }
+                    else {
+                        styleGroup = 'menu-style-group-custom';
+                    }
+                    
                     arr.push({
                         imageUrl: style.asc_getImage(),
                         name    : style.asc_getName(),
+                        group   : styleGroup,
                         tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                         uid     : Common.UI.getId()
                     });
+                    if(style.asc_getType() == 1){
+                        countCustomStyles += 1;
+                    }
                 });
+
+                if(countCustomStyles == 0){
+                    listStyles.groups.models.forEach(function(style) {
+                        if(style.id === 'menu-style-group-custom'){
+                            listStyles.groups.remove(style);
+                        }
+                    });
+                }
+                if(hasNoNameGroup === false){
+                    listStyles.groups.models.forEach(function(style) {
+                        if(style.id === 'menu-style-group-no-name'){
+                            listStyles.groups.remove(style);
+                        }
+                    });
+                }
                 listStyles.menuPicker.store.reset(arr);
             }
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
@@ -5063,6 +5142,10 @@ define([
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
         txtTable_TableStyleLight: 'Table Style Light',
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Light: 'Light',
+        txtGroupTable_Medium: 'Medium',
+        txtGroupTable_Dark: 'Dark',
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
         txtDeleteCells: 'Delete Cells',

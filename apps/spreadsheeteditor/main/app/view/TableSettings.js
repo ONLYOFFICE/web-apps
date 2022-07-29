@@ -560,21 +560,64 @@ define([
                     data[index].model.set('imageUrl', img, {silent: true});
                     $(data[index].el).find('img').attr('src', img);
                 });
-            } else {
-                var arr = [];
-                _.each(Templates, function(template){
-                    arr.push({
+            } else {            
+                var templates = [];
+                var groups = [
+                    {id: 'menu-table-group-custom',    caption: self.txtGroupTable_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: self.txtGroupTable_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: self.txtGroupTable_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: self.txtGroupTable_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                 templates: []},
+                ];
+                _.each(Templates, function(item){
+                    var tip = item.asc_getDisplayName();
+                    var groupItem = '';
+                    
+                    if (item.asc_getType()==0) {
+                        var arr = tip.split(' '),
+                            last = arr.pop();
+                            
+                        if(tip == 'None'){
+                            groupItem = 'menu-table-group-light';
+                        }
+                        else {
+                            if(arr.length > 0){
+                                groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                            }
+                            if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                                groupItem = 'menu-table-group-no-name';
+                            }
+                        }
+                        arr = 'txtTable_' + arr.join('');
+                        tip = self[arr] ? self[arr] + ' ' + last : tip;
+                    }
+                    else {
+                        groupItem = 'menu-table-group-custom'
+                    }                        
+                    groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                         id          : Common.UI.getId(),
-                        name        : template.asc_getName(),
-                        caption     : template.asc_getDisplayName(),
-                        type        : template.asc_getType(),
-                        imageUrl    : template.asc_getImage(),
+                        name        : item.asc_getName(),
+                        caption     : item.asc_getDisplayName(),
+                        type        : item.asc_getType(),
+                        imageUrl    : item.asc_getImage(),
+                        group       : groupItem, 
                         allowSelected : true,
                         selected    : false,
-                        tip         : template.asc_getDisplayName()
+                        tip         : tip
                     });
                 });
-                self.mnuTableTemplatePicker.store.reset(arr);
+
+                groups = groups.filter(function(item, index){
+                    return item.templates.length > 0
+                });
+                
+                groups.forEach(function(item){
+                    templates = templates.concat(item.templates);
+                    delete item.templates;
+                });
+
+                self.mnuTableTemplatePicker.groups.reset(groups);
+                self.mnuTableTemplatePicker.store.reset(templates);
             }
         },
 
@@ -700,7 +743,15 @@ define([
         textRemDuplicates: 'Remove duplicates',
         textSlicer: 'Insert slicer',
         textPivot: 'Insert pivot table',
-        textActions: 'Table actions'
+        textActions: 'Table actions',
+        txtTable_TableStyleMedium: 'Table Style Medium',
+        txtTable_TableStyleDark: 'Table Style Dark',
+        txtTable_TableStyleLight: 'Table Style Light',
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Light: 'Light',
+        txtGroupTable_Medium: 'Medium',
+        txtGroupTable_Dark: 'Dark',
+        
         
     }, SSE.Views.TableSettings || {}));
 });
