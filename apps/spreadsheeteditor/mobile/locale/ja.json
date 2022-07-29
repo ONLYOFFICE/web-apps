@@ -211,7 +211,7 @@
     "errorLockedAll": "シートは他のユーザーによってロックされているので、操作を実行することができません。",
     "errorLockedCellPivot": "ピボット表内のデータを変更することはできません。",
     "errorLockedWorksheetRename": "他のユーザーによって名前が変更されているのでシートの名前を変更することはできません。",
-    "errorMaxPoints": "グラプごとの直列のポイントの最大数は4096です。",
+    "errorMaxPoints": "グラフごとの直列のポイントの最大数は4096です。",
     "errorMoveRange": "結合したセルの一部は変更できません",
     "errorMultiCellFormula": "複数セルの配列数式はテーブルでは使用できません。",
     "errorOpenWarning": "数式の長さを超過しましたので。許可された文字数を削除されました。",
