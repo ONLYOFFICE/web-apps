@@ -32,7 +32,9 @@
       "textReopen": "Reopen",
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
-      "textUsers": "Users"
+      "textUsers": "Users",
+      "textWidow": "Widow control",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
