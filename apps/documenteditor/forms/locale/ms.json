@@ -32,6 +32,7 @@
   "Common.UI.Calendar.textShortTuesday": "Sel",
   "Common.UI.Calendar.textShortWednesday": "Kami",
   "Common.UI.Calendar.textYears": "Tahun",
+  "Common.UI.SearchBar.textFind": "Cari",
   "Common.UI.Themes.txtThemeClassicLight": "Klasik Cerah",
   "Common.UI.Themes.txtThemeDark": "Gelap",
   "Common.UI.Themes.txtThemeLight": "Ringan",
@@ -164,6 +165,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Buka lokasi fail",
   "DE.Views.ApplicationView.txtFullScreen": "Skrin penuh",
   "DE.Views.ApplicationView.txtPrint": "Cetak",
+  "DE.Views.ApplicationView.txtSearch": "Carian",
   "DE.Views.ApplicationView.txtShare": "Kongsi",
   "DE.Views.ApplicationView.txtTheme": "Tema antara muka"
 }

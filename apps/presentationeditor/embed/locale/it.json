@@ -17,7 +17,7 @@
   "PE.ApplicationController.errorForceSave": "Si è verificato un errore durante il salvataggio del file. Utilizzare l'opzione 'Scarica come' per salvare il file sul disco rigido del computer o riprovare più tardi.",
   "PE.ApplicationController.errorLoadingFont": "I caratteri non sono caricati.<br>Si prega di contattare il tuo amministratore di Document Server.",
   "PE.ApplicationController.errorTokenExpire": "Il token di sicurezza del documento è scaduto.<br>Ti preghiamo di contattare l'amministratore del Document Server.",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, è necessario scaricare il file o copiarne il contenuto per assicurarsi che non vada perso nulla, successivamente ricaricare questa pagina.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, devi scaricare il file o copiarne il contenuto per assicurarti che nulla vada perso, quindi ricarica questa pagina.",
   "PE.ApplicationController.errorUserDrop": "Impossibile accedere al file subito.",
   "PE.ApplicationController.notcriticalErrorTitle": "Avviso",
   "PE.ApplicationController.openErrorText": "Si è verificato un errore durante l'apertura del file.",
