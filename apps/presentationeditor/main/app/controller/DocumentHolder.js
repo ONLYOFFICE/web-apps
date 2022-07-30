@@ -230,7 +230,7 @@ define([
                 me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(me.onApiUpdateThemeIndex, me));
                 me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(me.onApiLockDocumentTheme, me));
                 me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(me.onApiUnLockDocumentTheme, me));
-                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration));
+                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration, me));
 
                 me.documentHolder.setApi(me.api);
             }
