@@ -707,28 +707,72 @@ define([
 
         onAddTableStylesPreview: function(Templates){
             var self = this;
-            var arr = [];
+            var templates = [];
+            var groups = [
+                {id: 'menu-table-group-custom',    caption: self.txtGroupTable_Custom,  templates: []},
+                {id: 'menu-table-group-optimal',   caption: self.txtGroupTable_Optimal, templates: []},
+                {id: 'menu-table-group-light',     caption: self.txtGroupTable_Light,   templates: []},
+                {id: 'menu-table-group-medium',    caption: self.txtGroupTable_Medium,  templates: []},
+                {id: 'menu-table-group-dark',      caption: self.txtGroupTable_Dark,    templates: []},
+                {id: 'menu-table-group-no-name',   caption: '&nbsp',                    templates: []},
+            ];
+
+            self.mnuTableTemplatePicker.store.models.forEach(function(template) {
+                groups.filter(function(item){ return item.id == template.attributes.group; })[0].templates.push(template);
+            });
             _.each(Templates, function(template){
                 var tip = template.asc_getDisplayName();
+                var groupItem = '';
+
                 if (template.asc_getType()==0) {
+                    var arr = tip.split(' ');
+                    
+                    if(new RegExp('No Style|Themed Style', 'i').test(tip)){
+                        groupItem = 'menu-table-group-optimal';
+                    }
+                    else{
+                        if(arr[0]){
+                            groupItem = 'menu-table-group-' + arr[0].toLowerCase();
+                        }
+                        if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                            groupItem = 'menu-table-group-no-name';
+                        }
+                    }
+
                     ['No Style', 'No Grid', 'Table Grid', 'Themed Style', 'Light Style', 'Medium Style', 'Dark Style', 'Accent'].forEach(function(item){
                         var str = 'txtTable_' + item.replace(' ', '');
                         if (self[str])
                             tip = tip.replace(new RegExp(item, 'g'), self[str]);
                     });
                 }
-                arr.push({
+                else {
+                    groupItem = 'menu-table-group-custom'
+                }   
+
+                groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                     imageUrl: template.asc_getImage(),
                     id     : Common.UI.getId(),
                     templateId: template.asc_getId(),
+                    group  : groupItem,
                     tip    : tip
                 });
             });
+            
+            groups = groups.filter(function(item, index){
+                return item.templates.length > 0
+            });
+            
+            groups.forEach(function(item){
+                templates = templates.concat(item.templates);
+                delete item.templates;
+            });
+            
             if (this._state.beginPreviewStyles) {
                 this._state.beginPreviewStyles = false;
-                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(arr);
-            } else
-                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(arr);
+            } 
+            
+            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(groups);
+            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templates);
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
         },
 
@@ -878,7 +922,12 @@ define([
         txtTable_LightStyle: 'Light Style',
         txtTable_MediumStyle: 'Medium Style',
         txtTable_DarkStyle: 'Dark Style',
-        txtTable_Accent: 'Accent'
+        txtTable_Accent: 'Accent',
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Optimal: 'Best Match for Document',
+        txtGroupTable_Light: 'Light',
+        txtGroupTable_Medium: 'Medium',
+        txtGroupTable_Dark: 'Dark',
 
 }, PE.Views.TableSettings || {}));
 });
