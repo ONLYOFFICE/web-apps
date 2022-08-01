@@ -163,8 +163,7 @@
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
       "textUnderline": "Underline",
       "textUsers": "Users",
-      "textWidow": "Widow control",
-      "textWidow": "Widow control",
+      "textWindow": "Window control",
       "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
