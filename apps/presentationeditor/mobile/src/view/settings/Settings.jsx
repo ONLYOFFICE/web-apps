@@ -12,7 +12,7 @@ import PresentationSettingsController from "../../controller/settings/Presentati
 import { PresentationColorSchemes } from "./PresentationSettings";
 // import PresentationAboutController from '../../controller/settings/PresentationAbout';
 import About from '../../../../../common/mobile/lib/view/About';
-import SharingSettingsController from "../../../../../common/mobile/lib/controller/SharingSettings";
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 
 const routes = [
     {
@@ -52,7 +52,7 @@ const routes = [
 
     {
         path: '/sharing-settings/',
-        component: SharingSettingsController
+        component: SharingSettings
     }
     /*{
         path: '/presentation-settings/',

@@ -13,7 +13,7 @@ import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSe
 // import SpreadsheetAbout from './SpreadsheetAbout.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
 import { Direction } from '../../../../../spreadsheeteditor/mobile/src/view/settings/ApplicationSettings';
-import SharingSettingsController from "../../../../../common/mobile/lib/controller/SharingSettings";
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 
 const routes = [
     {
@@ -73,7 +73,7 @@ const routes = [
 
     {
         path: '/sharing-settings/',
-        component: SharingSettingsController
+        component: SharingSettings
     }
 ];
 
