@@ -439,6 +439,18 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onEntriesListMenu', this.onEntriesListMenu.bind(this, false));
         this.api.asc_registerCallback('asc_onValidationListMenu', this.onEntriesListMenu.bind(this, true));
+
+        // Spreadsheet Info
+
+        const storeSpreadsheetInfo = this.props.storeSpreadsheetInfo;
+
+        this.api.asc_registerCallback('asc_onMeta', (meta) => {
+            if(meta) {
+                storeSpreadsheetInfo.changeTitle(meta.title);
+            }
+        });
+
+
     }
 
     onEntriesListMenu(validation, textArr, addArr) {
