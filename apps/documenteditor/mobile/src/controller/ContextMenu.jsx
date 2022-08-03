@@ -19,7 +19,8 @@ import EditorUIController from '../lib/patch';
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
     displayMode: stores.storeReview.displayMode,
-    dataDoc: stores.storeDocumentInfo.dataDoc
+    dataDoc: stores.storeDocumentInfo.dataDoc,
+    objects: stores.storeFocusObjects.settings
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -32,6 +33,7 @@ class ContextMenu extends ContextMenuController {
         this.getUserName = this.getUserName.bind(this);
         this.isUserVisible = this.isUserVisible.bind(this);
         this.ShowModal = this.ShowModal.bind(this);
+        this.checkShapeSelection = this.checkShapeSelection.bind(this);
     }
 
     static closeContextMenu() {
@@ -55,6 +57,7 @@ class ContextMenu extends ContextMenuController {
         api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
         api.asc_unregisterCallback('asc_onShowRevisionsChange', this.onApiShowChange);
+        api.asc_unregisterCallback('asc_onShowPopMenu', this.checkShapeSelection);
         Common.Notifications.off('showSplitModal', this.ShowModal);
     }
 
@@ -129,6 +132,15 @@ class ContextMenu extends ContextMenuController {
             case 'refreshPageNumbers':
                 this.onTableContentsUpdate('pages');
                 break;
+        }
+    }
+
+    checkShapeSelection() {
+        const objects = this.props.objects;
+        const contextMenuElem = document.querySelector('#idx-context-menu-popover');
+
+        if(objects.indexOf('shape') > -1) {
+            contextMenuElem.style.top = `${+(contextMenuElem.style.top.replace(/px$/, '')) - 40}px`;
         }
     }
 
@@ -232,6 +244,7 @@ class ContextMenu extends ContextMenuController {
         api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
         api.asc_registerCallback('asc_onShowRevisionsChange', this.onApiShowChange);
+        api.asc_registerCallback('asc_onShowPopMenu', this.checkShapeSelection);
         Common.Notifications.on('showSplitModal', this.ShowModal);
     }
 
