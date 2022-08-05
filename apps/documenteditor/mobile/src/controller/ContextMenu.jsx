@@ -156,6 +156,7 @@ class ContextMenu extends ContextMenuController {
     showCopyCutPasteModal() {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
+
         f7.dialog.create({
             title: _t.textCopyCutPasteActions,
             text: _t.errorCopyCutPaste,
@@ -180,6 +181,7 @@ class ContextMenu extends ContextMenuController {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
         let picker;
+
         const dialog = f7.dialog.create({
             title: _t.menuSplit,
             text: '',
@@ -250,6 +252,7 @@ class ContextMenu extends ContextMenuController {
 
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
+
         const { isEdit, canFillForms, isDisconnected } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {

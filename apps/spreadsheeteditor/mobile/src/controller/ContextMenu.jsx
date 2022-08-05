@@ -19,7 +19,9 @@ import EditorUIController from '../lib/patch';
     isDisconnected: stores.users.isDisconnected,
     storeSheets: stores.sheets,
     wsProps: stores.storeWorksheets.wsProps,
-    wsLock: stores.storeWorksheets.wsLock
+    wsLock: stores.storeWorksheets.wsLock,
+    objects: stores.storeFocusObjects.objects,
+    focusOn: stores.storeFocusObjects.focusOn
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -34,6 +36,7 @@ class ContextMenu extends ContextMenuController {
         this.isUserVisible = this.isUserVisible.bind(this);
         this.onApiMouseMove = this.onApiMouseMove.bind(this);
         this.onApiHyperlinkClick = this.onApiHyperlinkClick.bind(this);
+        this.checkShapeSelection = this.checkShapeSelection.bind(this);
     }
 
     static closeContextMenu() {
@@ -59,6 +62,7 @@ class ContextMenu extends ContextMenuController {
             api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
             api.asc_unregisterCallback('asc_onMouseMove', this.onApiMouseMove);
             api.asc_unregisterCallback('asc_onHyperlinkClick', this.onApiHyperlinkClick);
+            api.asc_unregisterCallback('asc_onShowPopMenu', this.checkShapeSelection);
         }
     }
 
@@ -208,6 +212,7 @@ class ContextMenu extends ContextMenuController {
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
         api.asc_registerCallback('asc_onMouseMove', this.onApiMouseMove);
         api.asc_registerCallback('asc_onHyperlinkClick', this.onApiHyperlinkClick);
+        api.asc_registerCallback('asc_onShowPopMenu', this.checkShapeSelection);
     }
 
     initMenuItems() {
@@ -277,6 +282,16 @@ class ContextMenu extends ContextMenuController {
                 }
 
             return itemsIcon.concat(itemsText);
+        }
+    }
+
+    checkShapeSelection() {
+        const objects = this.props.objects;
+        const focusOn = this.props.focusOn;
+        const contextMenuElem = document.querySelector('#idx-context-menu-popover');
+
+        if(objects.indexOf('shape') > -1 && focusOn === 'obj') {
+            contextMenuElem.style.top = `${+(contextMenuElem.style.top.replace(/px$/, '')) - 40}px`;
         }
     }
 
