@@ -774,10 +774,39 @@ define([
 
         onAddTableStylesPreview: function(Templates){
             var self = this;
-            var arr = [];
+            var templates = [];
+            var groups = [
+                {id: 'menu-table-group-custom',     caption: self.txtGroupTable_Custom,     templates: []},
+                {id: 'menu-table-group-plain',      caption: self.txtGroupTable_Plain,      templates: []},
+                {id: 'menu-table-group-grid',       caption: self.txtGroupTable_Grid,       templates: []},
+                {id: 'menu-table-group-list',       caption: self.txtGroupTable_List,       templates: []},
+                {id: 'menu-table-group-lined',      caption: self.txtGroupTable_Lined,      templates: []},
+                {id: 'menu-table-group-bordered',   caption: self.txtGroupTable_Bordered,   templates: []},
+                {id: 'menu-table-group-no-name',    caption: '&nbsp',                       templates: []},
+            ];
+
+            self.mnuTableTemplatePicker.store.models.forEach(function(template) {
+                groups.filter(function(item){ return item.id == template.attributes.group; })[0].templates.push(template);
+            });
             _.each(Templates, function(template){
                 var tip = template.asc_getDisplayName();
+                var groupItem = '';
+
                 if (template.asc_getType()==0) {
+                    var arr = tip.split(' ');
+                    
+                    if(new RegExp('Table Grid|Normal', 'i').test(tip)){
+                        groupItem = 'menu-table-group-plain';
+                    }
+                    else{
+                        if(arr[0]){
+                            groupItem = 'menu-table-group-' + arr[0].toLowerCase();
+                        }
+                        if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                            groupItem = 'menu-table-group-no-name';
+                        }
+                    }
+
                     ['Table Grid', 'Plain Table', 'Grid Table', 'List Table', 'Light', 'Dark', 'Colorful', 'Accent'].forEach(function(item){
                         var str = 'txtTable_' + item.replace(' ', '');
                         if (self[str])
@@ -785,18 +814,33 @@ define([
                     });
 
                 }
-                arr.push({
+                else {
+                    groupItem = 'menu-table-group-custom'
+                }
+
+                groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                     imageUrl: template.asc_getImage(),
                     id     : Common.UI.getId(),
+                    group : groupItem,
                     templateId: template.asc_getId(),
                     tip    : tip
                 });
             });
+
+            groups = groups.filter(function(item, index){
+                return item.templates.length > 0
+            });
+            groups.forEach(function(item){
+                templates = templates.concat(item.templates);
+                delete item.templates;
+            });
+            
             if (this._state.beginPreviewStyles) {
                 this._state.beginPreviewStyles = false;
-                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(arr);
-            } else
-                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(arr);
+            } 
+            
+            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(groups);
+            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templates);
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
         },
 
@@ -989,7 +1033,13 @@ define([
         txtTable_Dark: 'Dark',
         txtTable_Colorful: 'Colorful',
         txtTable_Accent: 'Accent',
-        textConvert: 'Convert Table to Text'
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Plain: 'Plain Tables',
+        txtGroupTable_Grid: 'Grid Tables',
+        txtGroupTable_List: 'List Tables',
+        txtGroupTable_Lined: 'Lined Tables',
+        txtGroupTable_Bordered: 'Bordered Tables',
+        textConvert: 'Convert Table to Text',
 
     }, DE.Views.TableSettings || {}));
 });
