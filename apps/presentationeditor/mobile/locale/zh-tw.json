@@ -59,9 +59,9 @@
     "textColumns": "欄",
     "textCopyCutPasteActions": "複製, 剪下, 與貼上之動作",
     "textDoNotShowAgain": "不再顯示",
+    "textOk": "確定",
     "textRows": "行列",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？"
   },
   "Controller": {
     "Main": {
@@ -116,6 +116,7 @@
       "textRemember": "記住我的選擇",
       "textReplaceSkipped": "替換已完成。 {0}個事件被跳過。",
       "textReplaceSuccess": "搜索已完成。發生的事件已替換：{0}",
+      "textRequestMacros": "有一個巨集指令要求連結至URL。是否允許該要求至%1?",
       "textYes": "是",
       "titleLicenseExp": "證件過期",
       "titleServerVersion": "編輯器已更新",
@@ -129,8 +130,7 @@
       "warnLicenseUsersExceeded": "您已達到％1個編輯器的用戶限制。請與您的管理員聯繫以了解更多信息。",
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-      "warnProcessRightsChange": "您沒有編輯此文件的權限。",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "您沒有編輯此文件的權限。"
     }
   },
   "Error": {
@@ -401,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "標準(4:3)",
       "mniSlideWide": "寬銀幕(16:9)",
+      "notcriticalErrorTitle": "警告",
       "textAbout": "關於",
       "textAddress": "地址:",
       "textApplication": "應用程式",
@@ -423,6 +424,7 @@
       "textEmail": "電子郵件：",
       "textEnableAll": "全部啟用",
       "textEnableAllMacrosWithoutNotification": "啟用所有不帶通知的巨集",
+      "textFeedback": "反饋與支持",
       "textFind": "尋找",
       "textFindAndReplace": "尋找與取代",
       "textFindAndReplaceAll": "尋找與全部取代",
@@ -435,6 +437,7 @@
       "textLocation": "位置",
       "textMacrosSettings": "巨集設定",
       "textNoTextFound": "找不到文字",
+      "textOk": "確定",
       "textOwner": "擁有者",
       "textPoint": "點",
       "textPoweredBy": "於支援",
@@ -477,9 +480,6 @@
       "txtScheme7": "產權",
       "txtScheme8": "流程",
       "txtScheme9": "鑄造廠",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL"
     }
