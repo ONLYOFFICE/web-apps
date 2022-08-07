@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "Amaran",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
+    "textOk": "Okey",
     "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
-    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
-    "textOk": "Ok"
+    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?"
   },
   "Controller": {
     "Main": {
