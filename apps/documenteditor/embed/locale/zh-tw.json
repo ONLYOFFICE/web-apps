@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "高度",
   "common.view.modals.txtShare": "分享連結",
   "common.view.modals.txtWidth": "寬度",
+  "common.view.SearchBar.textFind": "尋找",
   "DE.ApplicationController.convertationErrorText": "轉換失敗。",
   "DE.ApplicationController.convertationTimeoutText": "轉換逾時。",
   "DE.ApplicationController.criticalErrorTitle": "錯誤",
@@ -25,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "連接速度太慢，某些組件無法載入。請重新整理頁面。",
   "DE.ApplicationController.textAnonymous": "匿名",
   "DE.ApplicationController.textClear": "清除所有段落",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "我瞭解了",
   "DE.ApplicationController.textGuest": "訪客",
   "DE.ApplicationController.textLoadingDocument": "載入文件中",
@@ -46,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "打開文件所在位置",
   "DE.ApplicationView.txtFullScreen": "全螢幕",
   "DE.ApplicationView.txtPrint": "列印",
+  "DE.ApplicationView.txtSearch": "搜索",
   "DE.ApplicationView.txtShare": "分享"
 }
