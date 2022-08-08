@@ -44,19 +44,19 @@ export class storeFocusObjects {
         for (let object of this._focusObjects) {
             const type = object.get_ObjectType();
 
-            if (Asc.c_oAscTypeSelectElement.Paragraph == type) {
+            if (Asc.c_oAscTypeSelectElement.Paragraph === type) {
                 _objects.push('text', 'paragraph');
-            } else if (Asc.c_oAscTypeSelectElement.Table == type) {
+            } else if (Asc.c_oAscTypeSelectElement.Table === type) {
                 _objects.push('table');
-            } else if (Asc.c_oAscTypeSelectElement.Image == type) {
+            } else if (Asc.c_oAscTypeSelectElement.Image === type) {
                 if (object.get_ObjectValue().get_ChartProperties()) {
                     _objects.push('chart');
-                } else if (object.get_ObjectValue().get_ShapeProperties()) {
+                } else if (object.get_ObjectValue().get_ShapeProperties() && !_objects.includes('chart')) {
                     _objects.push('shape');
                 } else {
                     _objects.push('image');
                 }
-            } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
+            } else if (Asc.c_oAscTypeSelectElement.Hyperlink === type) {
                 _objects.push('hyperlink');
             }
         }
