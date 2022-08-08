@@ -18,7 +18,7 @@ import EditTableContentsController from "../../controller/edit/EditTableContents
 import {PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor} from "./EditText";
 import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor, PageParagraphStyle, PageCreateTextStyle, PageChangeNextParagraphStyle} from "./EditParagraph";
 import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
-import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
+import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings, PageWrappingStyle} from "./EditImage";
 import {PageTableOptions, PageTableWrap, PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor} from "./EditTable";
 import {PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartWrap, PageChartReorder} from "./EditChart";
 import { PageEditLeaderTableContents, PageEditStylesTableContents, PageEditStructureTableContents } from './EditTableContents';
@@ -118,7 +118,8 @@ const routes = [
         path: '/edit-shape-replace/',
         component: PageReplace,
     },
-    //Edit image
+
+    // Edit image
     {
         path: '/edit-image-wrap/',
         component: PageImageWrap,
@@ -135,7 +136,12 @@ const routes = [
         path: '/edit-image-link/',
         component: PageLinkSettings,
     },
-    //Edit table
+    {
+        path: '/edit-image-wrapping-style/',
+        component: PageWrappingStyle
+    },
+
+    // Edit table
     {
         path: '/edit-table-options/',
         component: PageTableOptions,
