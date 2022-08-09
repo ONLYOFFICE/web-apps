@@ -324,7 +324,8 @@
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRemoveChart": "Remove Chart",
-    "textRemoveImage": "Remove Image",
+    "del_textRemoveImage": "Remove Image",
+    "textDeleteImage": "Delete Image",
     "del_textRemoveLink": "Remove Link",
     "textDeleteLink": "Delete Link",
     "textRemoveShape": "Remove Shape",
@@ -373,6 +374,8 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
+    "textTextWrapping": "Text Wrapping",
+    "textWrappingStyle": "Wrapping Style",
     "textTableOfCont": "TOC",
     "textPageNumbers": "Page Numbers",
     "textSimple": "Simple",
@@ -396,7 +399,8 @@
     "textStyles": "Styles",
     "textAmountOfLevels": "Amount of Levels",
     "textRecommended": "Recommended",
-    "textRequired": "Required"
+    "textRequired": "Required",
+    "textChangeShape": "Change Shape"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
