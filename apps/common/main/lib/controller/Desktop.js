@@ -292,7 +292,7 @@ define([
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'uitheme:changed' : function (name) {
                             if (Common.localStorage.getBool('ui-theme-use-system', false)) {
-                                native.execCommand("system:changed", JSON.stringify({'colorscheme':name}));
+                                native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
                             } else {
                                 var theme = Common.UI.Themes.get(name);
                                 if ( theme )
