@@ -407,9 +407,7 @@ define([
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
                     me.view.$resultsContainer.append(item.el);
-                    if (item.selected) {
-                        $(item.el).addClass('selected');
-                    }
+                    $(item.el)[item.selected ? 'addClass' : 'removeClass']('selected');
                     $(item.el).on('click', function (el) {
                         me.api.asc_SelectSearchElement(item.id);
                         $('#search-results').find('.item').removeClass('selected');
