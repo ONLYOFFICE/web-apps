@@ -776,13 +776,12 @@ define([
             var self = this;
             var templates = [];
             var groups = [
-                {id: 'menu-table-group-custom',     caption: self.txtGroupTable_Custom,     templates: []},
-                {id: 'menu-table-group-plain',      caption: self.txtGroupTable_Plain,      templates: []},
-                {id: 'menu-table-group-grid',       caption: self.txtGroupTable_Grid,       templates: []},
-                {id: 'menu-table-group-list',       caption: self.txtGroupTable_List,       templates: []},
-                {id: 'menu-table-group-lined',      caption: self.txtGroupTable_Lined,      templates: []},
-                {id: 'menu-table-group-bordered',   caption: self.txtGroupTable_Bordered,   templates: []},
-                {id: 'menu-table-group-no-name',    caption: '&nbsp',                       templates: []},
+                {id: 'menu-table-group-custom',             caption: self.txtGroupTable_Custom,             templates: []},
+                {id: 'menu-table-group-plain',              caption: self.txtGroupTable_Plain,              templates: []},
+                {id: 'menu-table-group-grid',               caption: self.txtGroupTable_Grid,               templates: []},
+                {id: 'menu-table-group-list',               caption: self.txtGroupTable_List,               templates: []},
+                {id: 'menu-table-group-bordered-and-lined', caption: self.txtGroupTable_BorderedAndLined,   templates: []},
+                {id: 'menu-table-group-no-name',            caption: '&nbsp',                               templates: []},
             ];
 
             self.mnuTableTemplatePicker.store.models.forEach(function(template) {
@@ -798,6 +797,9 @@ define([
                     if(new RegExp('Table Grid|Normal', 'i').test(tip)){
                         groupItem = 'menu-table-group-plain';
                     }
+                    else if(new RegExp('Lined|Bordered', 'i').test(tip)) {
+                        groupItem = 'menu-table-group-bordered-and-lined';
+                    }
                     else{
                         if(arr[0]){
                             groupItem = 'menu-table-group-' + arr[0].toLowerCase();
@@ -807,8 +809,8 @@ define([
                         }
                     }
 
-                    ['Table Grid', 'Plain Table', 'Grid Table', 'List Table', 'Light', 'Dark', 'Colorful', 'Accent'].forEach(function(item){
-                        var str = 'txtTable_' + item.replace(' ', '');
+                    ['Table Grid', 'Plain Table', 'Grid Table', 'List Table', 'Light', 'Dark', 'Colorful', 'Accent', 'Bordered & Lined', 'Bordered', 'Lined'].forEach(function(item){
+                        var str = 'txtTable_' + item.replace('&', 'And').replace(new RegExp(' ', 'g'), '');
                         if (self[str])
                             tip = tip.replace(item, self[str]);
                     });
@@ -1033,12 +1035,14 @@ define([
         txtTable_Dark: 'Dark',
         txtTable_Colorful: 'Colorful',
         txtTable_Accent: 'Accent',
+        txtTable_Lined: 'Lined',
+        txtTable_Bordered: 'Bordered',
+        txtTable_BorderedAndLined: 'Bordered & Lined',
         txtGroupTable_Custom: 'Custom',
         txtGroupTable_Plain: 'Plain Tables',
         txtGroupTable_Grid: 'Grid Tables',
         txtGroupTable_List: 'List Tables',
-        txtGroupTable_Lined: 'Lined Tables',
-        txtGroupTable_Bordered: 'Bordered Tables',
+        txtGroupTable_BorderedAndLined: 'Bordered & Lined Tables',
         textConvert: 'Convert Table to Text',
 
     }, DE.Views.TableSettings || {}));
