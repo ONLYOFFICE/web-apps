@@ -199,12 +199,15 @@ define([
                 if (this.oleEditorView) {
                     if (eventData.type == 'documentReady') {
                         this.oleEditorView._isExternalDocReady = true;
-                        this.oleEditorView.setControlsDisabled(false);
                         this.isExternalEditorVisible && (isAppFirstOpened = false);
                         this.oleEditorView._oleData && this.setOleData();
                         if (this.needDisableEditing) {
                             this.onOleEditingDisabled();
                         }
+                    } else
+                    if (eventData.type == 'oleEditorReady') {
+                        if (this.needDisableEditing===undefined)
+                            this.oleEditorView.setControlsDisabled(false);
                     } else
                     if (eventData.type == "shortcut") {
                         if (eventData.data.key == 'escape')
