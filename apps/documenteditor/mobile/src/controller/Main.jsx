@@ -124,7 +124,7 @@ class MainController extends Component {
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
-                    docInfo.put_DirectUrl(data.doc.directUrl);
+                    // docInfo.put_DirectUrl(data.doc.directUrl);
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
@@ -214,6 +214,7 @@ class MainController extends Component {
 
                 this.applyMode(storeAppOptions);
 
+                this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
                 this.api.asc_LoadDocument();
                 this.api.Resize();
             };
