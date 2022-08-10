@@ -99,7 +99,8 @@ define([
         noAnimationPreview: 'no-animation-preview',
         noAnimationRepeat: 'no-animation-repeat',
         noAnimationDuration: 'no-animation-duration',
-        timingLock: 'timing-lock'
+        timingLock: 'timing-lock',
+        copyLock:   'can-copy'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -256,7 +257,7 @@ define([
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copy',
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.copyLock],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'C'
@@ -278,7 +279,7 @@ define([
                         id: 'id-toolbar-btn-cut',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-cut',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.shapeLock, _set.slideLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.shapeLock, _set.slideLock, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.copyLock],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'X'
