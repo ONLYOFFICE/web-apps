@@ -225,6 +225,8 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chNotes);
+
+                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
@@ -247,6 +249,12 @@ define([
                 this.chRulers.render($host.find('#slot-chk-rulers'));
                 this.chNotes.render($host.find('#slot-chk-notes'));
                 return this.$el;
+            },
+
+            onAppReady: function () {
+                this.btnFitToSlide.updateHint(this.tipFitToSlide);
+                this.btnFitToWidth.updateHint(this.tipFitToWidth);
+                this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
             },
 
             show: function () {
@@ -283,7 +291,10 @@ define([
             textStatusBar: 'Status Bar',
             textAlwaysShowToolbar: 'Always show toolbar',
             textRulers: 'Rulers',
-            textNotes: 'Notes'
+            textNotes: 'Notes',
+            tipFitToSlide: 'Fit to slide',
+            tipFitToWidth: 'Fit to width',
+            tipInterfaceTheme: 'Interface theme'
         }
     }()), PE.Views.ViewTab || {}));
 });

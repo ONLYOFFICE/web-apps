@@ -2368,5 +2368,8 @@
   "PE.Views.ViewTab.textNotes": "Notes",
   "PE.Views.ViewTab.textRulers": "Rulers",
   "PE.Views.ViewTab.textStatusBar": "Status Bar",
-  "PE.Views.ViewTab.textZoom": "Zoom"
+  "PE.Views.ViewTab.textZoom": "Zoom",
+  "PE.Views.ViewTab.tipFitToSlide": "Fit to slide",
+  "PE.Views.ViewTab.tipFitToWidth": "Fit to width",
+  "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
 }
