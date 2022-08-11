@@ -302,7 +302,9 @@ define([
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
                         if ( !!e.originalEvent.newValue ) {
-                            me.setTheme(e.originalEvent.newValue, true);
+                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                                me.setTheme('theme-system');
+                            } else me.setTheme(e.originalEvent.newValue, true);
                         }
                     } else
                     if ( e.key == 'content-theme' ) {

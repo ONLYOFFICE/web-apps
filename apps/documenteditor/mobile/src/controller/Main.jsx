@@ -124,6 +124,7 @@ class MainController extends Component {
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
+                    docInfo.put_DirectUrl(data.doc.directUrl);
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
@@ -445,7 +446,8 @@ class MainController extends Component {
                 || licType === Asc.c_oLicenseResult.SuccessLimit && (appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
             this._state.licenseType = licType;
 
-        if (licType !== undefined && appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS))
+        if (licType !== undefined && appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
+                                                                licType===Asc.c_oLicenseResult.UsersViewCount || licType===Asc.c_oLicenseResult.UsersViewCountOS))
             this._state.licenseType = licType;
 
         if (this._isDocReady && this._state.licenseType)
@@ -480,7 +482,8 @@ class MainController extends Component {
         }
 
         if (appOptions.config.mode === 'view') {
-            if (appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS)) {
+            if (appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
+                                            this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
                 appOptions.canLiveView = false;
                 this.api.asc_SetFastCollaborative(false);
             }
@@ -719,6 +722,12 @@ class MainController extends Component {
           clearTimeout(this.timerLoading);
           clearInterval(this.timerDocInfo);
           storeDocumentInfo.changeCount(this.objectInfo);
+        });
+
+        this.api.asc_registerCallback('asc_onMeta', (meta) => {
+            if(meta) {
+                storeDocumentInfo.changeTitle(meta.title);
+            }
         });
 
         // Color Schemes

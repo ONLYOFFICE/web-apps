@@ -32,7 +32,10 @@
       "textReopen": "Reopen",
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
-      "textUsers": "Users"
+      "textUsers": "Users",
+      "del_textWidow": "Widow control",
+      "del_textWindow": "Window control",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "No Fill"
@@ -356,13 +359,16 @@
       "textPt": "pt",
       "textPush": "Push",
       "textRemoveChart": "Remove Chart",
-      "textRemoveImage": "Remove Image",
+      "del_textRemoveImage": "Remove Image",
+      "textDeleteImage": "Delete Image",
       "del_textRemoveLink": "Remove Link",
       "textDeleteLink": "Delete Link",
       "textRemoveShape": "Remove Shape",
       "textRemoveTable": "Remove Table",
-      "textReorder": "Reorder",
+      "del_textReorder": "Reorder",
+      "textArrange": "Arrange",
       "textReplace": "Replace",
+      "textChangeShape": "Change Shape",
       "textReplaceAll": "Replace All",
       "textReplaceImage": "Replace Image",
       "textRight": "Right",

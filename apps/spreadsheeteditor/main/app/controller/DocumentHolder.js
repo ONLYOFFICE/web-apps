@@ -277,6 +277,7 @@ define([
                         oleEditor.on('hide', _.bind(function(cmp, message) {
                             if (me.api) {
                                 me.api.asc_enableKeyEvents(true);
+                                me.api.asc_onCloseChartFrame();
                             }
                             setTimeout(function(){
                                 view.fireEvent('editcomplete', view);

@@ -65,6 +65,7 @@ if ( window.desktop ) {
             if ( theme.id == 'theme-system' ) {
                 localStorage.setItem("ui-theme-use-system", "1");
                 localStorage.removeItem("ui-theme-id");
+                delete params.uitheme;
             } else {
                 localStorage.setItem("ui-theme-id", theme.id);
             }

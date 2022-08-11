@@ -103,7 +103,7 @@
   "DE.Controllers.ApplicationController.errorToken": "Il token di sicurezza del documento non è formato correttamente.<br>Si prega di contattare l'amministratore di Document Server.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "Il token di sicurezza del documento è scaduto.<br>Si prega di contattare l'amministratore di Document Server.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "La versione del file è stata cambiata. La pagina verrà ricaricata.",
-  "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, è necessario scaricare il file o copiarne il contenuto per assicurarsi che non vada perso nulla, successivamente ricaricare questa pagina.",
+  "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, devi scaricare il file o copiarne il contenuto per assicurarti che nulla vada perso, quindi ricarica questa pagina.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Impossibile accedere al file subito.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "La connessione è stata persa. È ancora possibile visualizzare il documento, <br> ma non sarà possibile scaricarlo o stamparlo fino a quando la connessione non sarà ripristinata e la pagina sarà ricaricata.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Immagine da file",

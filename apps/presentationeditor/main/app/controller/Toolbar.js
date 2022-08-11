@@ -108,7 +108,8 @@ define([
                 in_equation: undefined,
                 in_chart: false,
                 no_columns: false,
-                clrhighlight: undefined
+                clrhighlight: undefined,
+                can_copycut: undefined
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -403,6 +404,7 @@ define([
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
+                this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -2531,6 +2533,7 @@ define([
         activateControls: function() {
             this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
             this.toolbar.lockToolbar(Common.enumLock.disableOnStart, false, {array: this.toolbar.slideOnlyControls.concat(this.toolbar.shapeControls)});
+            this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
             this._state.activated = true;
         },
 
@@ -2675,6 +2678,13 @@ define([
 
         onAddVideo: function() {
             this.api && this.api.asc_AddVideo();
+        },
+
+        onApiCanCopyCut: function(can) {
+            if (this._state.can_copycut !== can) {
+                this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
+                this._state.can_copycut = can;
+            }
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

@@ -98,7 +98,7 @@
                 "expand": true,
                 "cwd": "../apps/common/main/resources/help/",
                 "src": [
-                    "**/*.{png,jpg,gif,html}",
+                    "**/*.{png,jpg,gif,html,css}",
                     "!*_/**",
                     "!**/src/**"
                 ],

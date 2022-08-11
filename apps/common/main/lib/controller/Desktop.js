@@ -291,9 +291,13 @@ define([
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'uitheme:changed' : function (name) {
-                            var theme = Common.UI.Themes.get(name);
-                            if ( theme )
-                                native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                                native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
+                            } else {
+                                var theme = Common.UI.Themes.get(name);
+                                if ( theme )
+                                    native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                            }
                         },
                         'hints:show': _onHintsShow.bind(this),
                     });

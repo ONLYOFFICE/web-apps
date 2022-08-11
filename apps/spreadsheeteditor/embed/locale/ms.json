@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Ketinggian",
   "common.view.modals.txtShare": "Kongsi Pautan",
   "common.view.modals.txtWidth": "Lebar",
+  "common.view.SearchBar.textFind": "Cari",
   "SSE.ApplicationController.convertationErrorText": "Penukaran telah gagal.",
   "SSE.ApplicationController.convertationTimeoutText": "Melebihi masa tamat penukaran.",
   "SSE.ApplicationController.criticalErrorTitle": "Ralat",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Buka lokasi fail",
   "SSE.ApplicationView.txtFullScreen": "Skrin penuh",
   "SSE.ApplicationView.txtPrint": "Cetak",
+  "SSE.ApplicationView.txtSearch": "Carian",
   "SSE.ApplicationView.txtShare": "Kongsi"
 }

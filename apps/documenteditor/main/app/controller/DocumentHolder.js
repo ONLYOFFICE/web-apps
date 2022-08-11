@@ -320,6 +320,7 @@ define([
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
+                        this.api.asc_onCloseChartFrame();
                     }
                     setTimeout(function(){
                         me.editComplete();

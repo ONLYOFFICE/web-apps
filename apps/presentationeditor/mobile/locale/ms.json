@@ -59,9 +59,9 @@
     "textColumns": "Lajur",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
+    "textOk": "Okey",
     "textRows": "Baris",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?"
   },
   "Controller": {
     "Main": {
@@ -401,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Skrin lebar (16:9)",
+      "notcriticalErrorTitle": "Amaran",
       "textAbout": "Perihal",
       "textAddress": "alamat",
       "textApplication": "Permohonan",
@@ -423,6 +424,7 @@
       "textEmail": "e-mel:",
       "textEnableAll": "Mendayakan Semua",
       "textEnableAllMacrosWithoutNotification": "Mendayakan semua makro tanpa pemberitahuan",
+      "textFeedback": "Maklum Balas & Sokongan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
       "textFindAndReplaceAll": "Cari dan Ganti Semua",
@@ -435,6 +437,7 @@
       "textLocation": "Lokasi",
       "textMacrosSettings": "Seting Makro",
       "textNoTextFound": "Teks tidak dijumpai",
+      "textOk": "Okey",
       "textOwner": "Pemilik",
       "textPoint": "Mata",
       "textPoweredBy": "Dikuasakan Oleh",
@@ -476,9 +479,6 @@
       "txtScheme7": "Ekuiti",
       "txtScheme8": "Aliran",
       "txtScheme9": "Faundri",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
       "textSubject": "Subject"
