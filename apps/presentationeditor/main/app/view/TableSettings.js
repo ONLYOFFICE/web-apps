@@ -717,9 +717,15 @@ define([
                 {id: 'menu-table-group-no-name',   caption: '&nbsp',                    templates: []},
             ];
 
-            self.mnuTableTemplatePicker.store.models.forEach(function(template) {
-                groups.filter(function(item){ return item.id == template.attributes.group; })[0].templates.push(template);
-            });
+            if (this._state.beginPreviewStyles) {
+                this._state.beginPreviewStyles = false;
+            } 
+            else {
+                self.mnuTableTemplatePicker.store.each(function(template) {
+                    groups.filter(function(item){ return item.id == template.get('group') ; })[0].templates.push(template);
+                });
+            }
+
             _.each(Templates, function(template){
                 var tip = template.asc_getDisplayName();
                 var groupItem = '';
@@ -766,11 +772,7 @@ define([
                 templates = templates.concat(item.templates);
                 delete item.templates;
             });
-            
-            if (this._state.beginPreviewStyles) {
-                this._state.beginPreviewStyles = false;
-            } 
-            
+                        
             self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(groups);
             self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templates);
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
