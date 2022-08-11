@@ -326,7 +326,9 @@ define([
 
                 var group = _.findWhere(this.EffectGroups, {id: record.get('group')});
                 group = group ? group.value : undefined;
-                this.addNewEffect(type, group, record.get('group'),this._state.Effect != AscFormat.ANIM_PRESET_NONE);
+                var prevEffect = this._state.Effect;
+                this._state.Effect = undefined;
+                this.addNewEffect(type, group, record.get('group'),prevEffect != AscFormat.ANIM_PRESET_NONE);
             }
         },
 
