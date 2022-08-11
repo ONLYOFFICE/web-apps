@@ -26,13 +26,22 @@ export class storeAppOptions {
             changeDocReady: action,
 
             isViewer: observable,
-            changeViewerMode: action
+            changeViewerMode: action,
+
+            isMobileView: observable,
+            changeMobileView: action
         });
     }
 
     isEdit = false;
-    isViewer = true;
 
+    isMobileView = false;
+    changeMobileView() {
+        this.isMobileView = !this.isMobileView;
+    }
+
+
+    isViewer = true;
     changeViewerMode() {
         this.isViewer = !this.isViewer;
     }

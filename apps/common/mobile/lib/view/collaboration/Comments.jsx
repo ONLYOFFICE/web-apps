@@ -636,7 +636,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
     const displayMode = storeReview.displayMode;
-
+    const isViewer = storeAppOptions.isViewer;
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
     const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
@@ -678,7 +678,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     {isEdit && !viewMode &&
                                         <div className='right'>
                                             {(comment.editable && displayMode === 'markup' && !wsProps?.Objects) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
-                                            {(displayMode === 'markup' && !wsProps?.Objects) &&
+                                            {(displayMode === 'markup' && !wsProps?.Objects && !isViewer) &&
                                                 <div className='comment-menu'
                                                     onClick={() => {setComment(comment); openActionComment(true);}}>
                                                     <Icon icon='icon-menu-comment'/>
@@ -708,7 +708,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {isEdit && !viewMode && reply.editable &&
+                                                                    {isEdit && !viewMode && reply.editable && !isViewer &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                  onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}

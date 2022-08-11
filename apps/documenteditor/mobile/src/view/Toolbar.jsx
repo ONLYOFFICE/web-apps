@@ -1,17 +1,20 @@
 import React, {Fragment} from 'react';
+import { useTranslation } from 'react-i18next';
 import {NavLeft, NavRight, NavTitle, Link, Icon} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 
 const ToolbarView = props => {
+    const { t } = useTranslation();
     const isDisconnected = props.isDisconnected;
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
+    const isMobileView = props.isMobileView;
 
     return (
         <Fragment>
             <NavLeft>
-                {!isViewer && <Link text="Ok" onClick={() => props.turnOnViewerMode()}></Link>}
+                {!isViewer && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-back-reader-mode' : null} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}></Link>}
                 {(props.isShowBack && isViewer) && <Link className={`btn-doc-back${props.disabledControls && ' disabled'}`} icon='icon-back' onClick={props.onBack}></Link>}
                 {(Device.ios && props.isEdit && !isViewer) && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo || isDisconnected,
@@ -28,6 +31,7 @@ const ToolbarView = props => {
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
+                {isViewer && <Link className={props.disabledControls ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => props.changeMobileView()}></Link>}
                 {(props.showEditDocument && !isViewer) &&
                     <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
                 }

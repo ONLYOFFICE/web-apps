@@ -10,6 +10,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
     const isViewer = appOptions.isViewer;
+    const isMobileView = appOptions.isMobileView;
     const isDisconnected = props.users.isDisconnected;
     const displayMode = props.storeReview.displayMode;
     const stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
@@ -128,14 +129,24 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const turnOffViewerMode = () => {
         const api = Common.EditorApi.get();
+
         appOptions.changeViewerMode();
+        api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
     }
 
     const turnOnViewerMode = () => {
         const api = Common.EditorApi.get();
+
         appOptions.changeViewerMode();
         api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+    }
+
+    const changeMobileView = () => {
+        const api = Common.EditorApi.get();
+
+        appOptions.changeMobileView();
+        api.ChangeReaderMode();
     }
 
     return (
@@ -161,6 +172,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      isViewer={isViewer}
                      turnOffViewerMode={turnOffViewerMode}
                      turnOnViewerMode={turnOnViewerMode}
+                     isMobileView={isMobileView}
+                     changeMobileView={changeMobileView}
         />
     )
 }));
