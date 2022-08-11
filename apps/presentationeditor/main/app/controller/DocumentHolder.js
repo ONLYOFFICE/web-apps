@@ -230,7 +230,7 @@ define([
                 me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(me.onApiUpdateThemeIndex, me));
                 me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(me.onApiLockDocumentTheme, me));
                 me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(me.onApiUnLockDocumentTheme, me));
-                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration));
+                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration, me));
 
                 me.documentHolder.setApi(me.api);
             }
@@ -342,6 +342,7 @@ define([
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
+                        this.api.asc_onCloseChartFrame();
                     }
                     var me = this;
                     setTimeout(function(){

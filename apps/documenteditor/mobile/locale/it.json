@@ -200,7 +200,7 @@
     "textRefreshEntireTable": "Aggiorna intera tabella",
     "textRefreshPageNumbersOnly": "Aggiorna solo numeri di pagina",
     "textRows": "Righe",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Fare clic su questo collegamento può danneggiare il tuo dispositivo e i tuoi dati.<br>Sei sicuro che vuoi continuare?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avvertimento",
@@ -393,7 +393,7 @@
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
     "errorStockChart": "Ordine delle righe incorretto. Per creare un grafico azionario, inserisci i dati sul foglio nel seguente ordine:<br> prezzo di apertura, prezzo massimo, prezzo minimo, prezzo di chiusura.",
-    "errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata cambiata.<br>Prima di poter continuare a lavorare, è necessario scaricare il file o copiarne il contenuto per assicurarsi che non vada perso nulla, poi ricaricare questa pagina.",
+    "errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, devi scaricare il file o copiarne il contenuto per assicurarti che nulla vada perso, quindi ricarica questa pagina.",
     "errorUserDrop": "Non si può accedere al file al momento.",
     "errorUsersExceed": "È stato superato il numero degli utenti consentito dalla tariffa",
     "errorViewerDisconnect": "La connessione è stata persa. È ancora possibile visualizzare il documento, <br> ma non sarà possibile scaricarlo o stamparlo fino a quando la connessione non sarà ripristinata e la pagina sarà ricaricata.",

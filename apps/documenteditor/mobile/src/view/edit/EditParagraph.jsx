@@ -207,7 +207,7 @@ const EditParagraph = props => {
                     onStyleMenuDelete: props.onStyleMenuDelete
                 }}>
                     {curStyle && 
-                        <div slot="inner" style={{backgroundImage: 'url(' + curStyle.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}></div>
+                        <div slot="inner" style={{backgroundImage: 'url(' + curStyle.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: '100% ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}></div>
                     }
                 </ListItem>
             </List>
@@ -278,7 +278,7 @@ const EditParagraphStyle = props => {
                         }}
                     >
                         <div slot="inner"
-                            style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
+                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: '100% ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
                         ></div>
                         {!api.asc_IsStyleDefault(style.name) && (
                             <div slot="inner-end">
@@ -369,7 +369,7 @@ const ChangeNextParagraphStyle = props => {
                         }}
                     >
                         <div slot="inner"
-                            style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
+                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: '100% ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
                         ></div>
                     </ListItem>
                 ))}

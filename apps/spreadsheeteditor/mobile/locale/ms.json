@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "Amaran",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
-    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "Okey",
+    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
+    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?"
   },
   "Controller": {
     "Main": {
@@ -302,9 +302,9 @@
     "textRenameSheet": "Namakan Semula Helaian",
     "textSheet": "Helaian",
     "textSheetName": "Nama Helaian",
+    "textTabColor": "Warna Tab",
     "textUnhide": "Nyahsembunyi",
-    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
@@ -403,6 +403,7 @@
       "textBottomBorder": "Sempadan Bawah",
       "textBringToForeground": "Bawa ke Tanah",
       "textCell": "Sel",
+      "textCellStyle": "Gaya Sel",
       "textCenter": "Pusat",
       "textChart": "Carta",
       "textChartTitle": "Tajuk Carta",
@@ -551,8 +552,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "txtSortHigh2Low": "Isih Tertinggi Ke Terendah",
-      "txtSortLow2High": "Isih Terendah Ke Tertinggi.",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Isih Terendah Ke Tertinggi."
     },
     "Settings": {
       "advCSVOptions": "Pilih pilihan CSV",
@@ -584,6 +584,7 @@
       "textCustomSize": "Saiz Tersuai",
       "textDarkTheme": "Tema Gelap",
       "textDelimeter": "Pembatas",
+      "textDirection": "Arah",
       "textDisableAll": "Nyahdayakan Semua",
       "textDisableAllMacrosWithNotification": "Nyahdayakan semua makro dengan pemberitahuan",
       "textDisableAllMacrosWithoutNotification": "Nyahdayakan semua makro tanpa pemberitahuan",
@@ -595,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "Mendayakan semua makro tanpa pemberitahuan",
       "textEncoding": "Pengekodan",
       "textExample": "Contoh",
+      "textFeedback": "Maklum Balas & Sokongan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
       "textFindAndReplaceAll": "Cari dan Ganti Semua",
@@ -610,6 +612,7 @@
       "textLastModified": "Dibodifikasi Terakhir",
       "textLastModifiedBy": "Terakhir Dimodifikasi Oleh",
       "textLeft": "Kiri",
+      "textLeftToRight": "Kiri ke kanan",
       "textLocation": "Lokasi",
       "textLookIn": "Cari Ke Dalam",
       "textMacrosSettings": "Seting Makro",
@@ -631,6 +634,7 @@
       "textReplaceAll": "Gantikan Semua",
       "textResolvedComments": "Komen Diselesaikan",
       "textRight": "Kanan",
+      "textRightToLeft": "Kanan ke Kiri",
       "textSearch": "Carian",
       "textSearchBy": "Carian",
       "textSearchIn": "Carian Dalam",
@@ -683,11 +687,7 @@
       "txtSpace": "Jarak",
       "txtTab": "Tab",
       "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
-      "textDirection": "Direction",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRightToLeft": "Right To Left",
       "textSubject": "Subject"
     }
   }

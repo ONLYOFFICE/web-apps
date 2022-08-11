@@ -77,6 +77,7 @@ define([
             _options.tpl = _.template(this.template)(_options);
 
             this.url = options.url || '';
+            this.loader = (options.loader!==undefined) ? options.loader : true;
             this.frameId = options.frameId || 'plugin_iframe';
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -90,6 +91,8 @@ define([
             if (!this.options.header) this._headerFooterHeight -= 34;
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
 
+            this.$window.find('.header').prepend($('<div class="tools left hidden"></div>'));
+
             var iframe = document.createElement("iframe");
             iframe.id           = this.frameId;
             iframe.name         = 'pluginFrameEditor';
@@ -102,13 +105,15 @@ define([
             iframe.onload       = _.bind(this._onLoad,this);
 
             var me = this;
-            setTimeout(function(){
-                if (me.isLoaded) return;
-                me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
-                me.loadMask.setTitle(me.textLoading);
-                me.loadMask.show();
-                if (me.isLoaded) me.loadMask.hide();
-            }, 500);
+            if (this.loader) {
+                setTimeout(function(){
+                    if (me.isLoaded) return;
+                    me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
+                    me.loadMask.setTitle(me.textLoading);
+                    me.loadMask.show();
+                    if (me.isLoaded) me.loadMask.hide();
+                }, 500);
+            }
 
             iframe.src = this.url;
             $('#id-plugin-placeholder').append(iframe);
@@ -176,6 +181,32 @@ define([
                 if (win_width>main_width-bordersOffset*2) {
                     this.setWidth(Math.max(main_width-bordersOffset*2, this.initConfig.minwidth));
                     this.$window.css('left', bordersOffset);
+                }
+            }
+        },
+
+        showButton: function(id) {
+            var header = this.$window.find('.header .tools.left');
+            if (id=='back') {
+                var btn = header.find('#id-plugindlg-' + id);
+                if (btn.length<1) {
+                    btn = $('<div id="id-plugindlg-' + id + '" class="tool help" style="font-size:20px;">←</div>');
+                    btn.on('click', _.bind(function() {
+                        this.fireEvent('header:click',id);
+                    }, this));
+                    header.prepend(btn);
+                }
+                btn.show();
+                header.removeClass('hidden');
+            }
+        },
+
+        hideButton: function(id) {
+            var header = this.$window.find('.header .tools.left');
+            if (id=='back') {
+                var btn = header.find('#id-plugindlg-' + id);
+                if (btn.length>0) {
+                    btn.hide();
                 }
             }
         },
