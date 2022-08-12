@@ -522,6 +522,7 @@ define([
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
                     var $item = $(item.el).appendTo($tableBody);
+                    item.$el = $item;
                     if (item.selected) {
                         $item.addClass('selected');
                     }
