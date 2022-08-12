@@ -3,11 +3,11 @@
     "textAbout": "關於",
     "textAddress": "地址",
     "textBack": "返回",
+    "textEditor": "簡報編輯器",
     "textEmail": "電子郵件",
     "textPoweredBy": "於支援",
     "textTel": "電話",
-    "textVersion": "版本",
-    "textEditor": "Presentation Editor"
+    "textVersion": "版本"
   },
   "Common": {
     "Collaboration": {
@@ -447,6 +447,8 @@
       "textPrint": "打印",
       "textReplace": "取代",
       "textReplaceAll": "全部替換",
+      "textRestartApplication": "請重新啟動應用程式以讓變更生效",
+      "textRTL": "從右至左",
       "textSearch": "搜尋",
       "textSettings": "設定",
       "textShowNotification": "顯示通知",
@@ -479,9 +481,7 @@
       "txtScheme6": "大堂",
       "txtScheme7": "產權",
       "txtScheme8": "流程",
-      "txtScheme9": "鑄造廠",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "txtScheme9": "鑄造廠"
     }
   }
 }

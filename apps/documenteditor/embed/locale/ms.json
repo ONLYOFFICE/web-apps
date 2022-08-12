@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Sambungan terlalu perlahan, beberapa komponen tidak dapat dimuatkan. Sila muat semula halaman.",
   "DE.ApplicationController.textAnonymous": "Tanpa Nama",
   "DE.ApplicationController.textClear": "Kosongkan Semua Medan",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "Faham",
   "DE.ApplicationController.textGuest": "Tetamu",
   "DE.ApplicationController.textLoadingDocument": "Dokumen dimuatkan",
