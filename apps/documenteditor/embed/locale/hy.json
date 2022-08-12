@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Կապը խիստ թույլ է, բաղադրիչների մի մասը չբեռնվեց։ Խնդրում ենք էջը թարմացնել։",
   "DE.ApplicationController.textAnonymous": "Անանուն",
   "DE.ApplicationController.textClear": "Մաքրել բոլոր դաշտերը",
+  "DE.ApplicationController.textCtrl": "Ctrl ստեղն",
   "DE.ApplicationController.textGotIt": "Հասկանալի է",
   "DE.ApplicationController.textGuest": "Հյուր",
   "DE.ApplicationController.textLoadingDocument": "Փաստաթղթի բեռնում",
