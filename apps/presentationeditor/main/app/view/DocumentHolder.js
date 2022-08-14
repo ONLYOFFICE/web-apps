@@ -1383,6 +1383,11 @@ define([
                 caption     : me.advancedParagraphText
             });
 
+            me.menuChartAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-chart',
+                caption     : me.advancedChartText
+            });
+
             var menuCommentParaSeparator = new Common.UI.MenuItem({
                 caption : '--'
             });
@@ -1542,7 +1547,6 @@ define([
             });
 
             me.menuChartEdit = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-chart',
                 caption     : me.editChartText
             });
 
@@ -2155,7 +2159,8 @@ define([
                     me.menuImageAdvanced.setVisible(isimage);
                     me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible());
+                    me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
+                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuCommentSeparatorImg.setVisible(me.menuAddCommentImg.isVisible());
@@ -2170,6 +2175,7 @@ define([
                     }
                     me.menuImageAdvanced.setDisabled(disabled);
                     me.menuShapeAdvanced.setDisabled(disabled);
+                    me.menuChartAdvanced.setDisabled(disabled);
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(disabled);
 
@@ -2195,6 +2201,7 @@ define([
                     me.menuImageAdvanced,
                     me.menuShapeAdvanced
                     ,me.menuChartEdit
+                    ,me.menuChartAdvanced
                 /** coauthoring begin **/
                     ,menuCommentSeparatorImg,
                     me.menuAddCommentImg,
@@ -2434,7 +2441,8 @@ define([
         txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
         textEditPoints: 'Edit Points',
         txtMoveSlidesToEnd: 'Move Slide to End',
-        txtMoveSlidesToStart: 'Move Slide to Beginning'
+        txtMoveSlidesToStart: 'Move Slide to Beginning',
+        advancedChartText   : 'Chart Advanced Settings'
 
     }, PE.Views.DocumentHolder || {}));
 });

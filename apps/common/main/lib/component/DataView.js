@@ -328,6 +328,7 @@ define([
                 if (this.listenStoreEvents) {
                     this.listenTo(this.store, 'add',    this.onAddItem);
                     this.listenTo(this.store, 'reset',  this.onResetItems);
+                    this.groups && this.listenTo(this.groups, 'add',  this.onAddGroup);
                 }
                 this.onResetItems();
 
@@ -506,6 +507,35 @@ define([
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
+                }
+            }
+        },
+
+        onAddGroup: function(group) {
+            var el = $(_.template([
+                '<% if (group.headername !== undefined) { %>',
+                '<div class="header-name"><%= group.headername %></div>',
+                '<% } %>',
+                '<div class="grouped-data <% if (group.inline) { %> group.inline <% } %> <% if (!_.isEmpty(group.caption)) { %> margin <% } %>" id="<%= group.id %>">',
+                '<% if (!_.isEmpty(group.caption)) { %>',
+                    '<div class="group-description">',
+                        '<span><%= group.caption %></span>',
+                    '</div>',
+                '<% } %>',
+                    '<div class="group-items-container">',
+                    '</div>',
+                '</div>'
+            ].join(''))({
+                group: group.toJSON()
+            }));
+            var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
+            if (innerEl) {
+                var idx = _.indexOf(this.groups.models, group);
+                var innerDivs = innerEl.find('.grouped-data');
+                if (idx > 0)
+                    $(innerDivs.get(idx - 1)).after(el);
+                else {
+                    (innerDivs.length > 0) ? $(innerDivs[idx]).before(el) : innerEl.append(el);
                 }
             }
         },

@@ -1401,6 +1401,7 @@
   "PE.Views.DocumentHolder.advancedParagraphText": "Paragraph Advanced Settings",
   "PE.Views.DocumentHolder.advancedShapeText": "Shape Advanced Settings",
   "PE.Views.DocumentHolder.advancedTableText": "Table Advanced Settings",
+  "PE.Views.DocumentHolder.advancedChartText": "Chart Advanced Settings",
   "PE.Views.DocumentHolder.alignmentText": "Alignment",
   "PE.Views.DocumentHolder.belowText": "Below",
   "PE.Views.DocumentHolder.cellAlignText": "Cell Vertical Alignment",

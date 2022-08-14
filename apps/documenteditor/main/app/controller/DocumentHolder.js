@@ -422,6 +422,8 @@ define([
             view.menuTableTOC.menu.on('item:click', _.bind(me.onTOCMenu, me));
             view.menuParaTOCRefresh.menu.on('item:click', _.bind(me.onTOCMenu, me));
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
+            view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
         },
 
         getView: function (name) {
@@ -2292,6 +2294,17 @@ define([
                 }, 100);
             }
             return false;
+        },
+
+        convertEquation: function(menu, item, e) {
+            if (this.api) {
+                if (item.options.type=='input')
+                    this.api.asc_SetMathInputType(item.value);
+                else if (item.options.type=='view')
+                    this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if (item.options.type=='mode')
+                    this.api.asc_ConvertMathDisplayMode(item.checked);
+            }
         },
 
         editComplete: function() {
