@@ -112,7 +112,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
     let _isEdit = false,
         _canDownload = false,
         _canDownloadOrigin = false,
-        // _canReader = false,
         _canAbout = true,
         _canHelp = true,
         _canPrint = false;
@@ -122,7 +121,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
             _canPrint = _canDownload = _canDownloadOrigin = false;
     } else {
         _isEdit = appOptions.isEdit;
-        // _canReader = !appOptions.isEdit && !appOptions.isRestrictedEdit && appOptions.canReader;
         _canDownload = appOptions.canDownload;
         _canDownloadOrigin = appOptions.canDownloadOrigin;
         _canPrint = appOptions.canPrint;
@@ -139,7 +137,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
             <Page>
                 {navbar}
                 <List>
-                    {/*disabled={appOptions.readerMode ? true : false}*/}
                     {!props.inPopover &&
                         <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={closeModal} className='no-indicator'>
                             <Icon slot="media" icon="icon-search"></Icon>
@@ -158,12 +155,6 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-collaboration"></Icon>
                         </ListItem> 
                     : null}
-                    {/*{_canReader &&*/}
-                    {/*    <ListItem title={_t.textReaderMode}> /!*ToDo*!/*/}
-                    {/*        <Icon slot="media" icon="icon-reader"></Icon>*/}
-                    {/*        <Toggle checked={appOptions.readerMode} onToggleChange={() => {props.onReaderMode()}}/>*/}
-                    {/*    </ListItem>*/}
-                    {/*}*/}
                     {Device.sailfish && _isEdit &&
                         <ListItem title={_t.textSpellcheck} onClick={() => {props.onOrthographyCheck()}} className='no-indicator' link="#">
                             <Icon slot="media" icon="icon-spellcheck"></Icon>

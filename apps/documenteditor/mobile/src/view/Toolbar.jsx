@@ -11,6 +11,19 @@ const ToolbarView = props => {
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
 
+    const shortTitle = (title) => {
+        const arrDocTitle = title.split('.');
+        const ext = arrDocTitle[1];
+        const name = arrDocTitle[0];
+
+        if(name.length > 7 && Device.phone) {
+            let shortName = name.substring(0, 7);
+            return `${shortName}...${ext}`;
+        }
+
+        return title;
+    };
+
     return (
         <Fragment>
             <NavLeft>
@@ -23,7 +36,7 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
             </NavLeft>
-            {(!Device.phone || isViewer) && <NavTitle>{props.docTitle}</NavTitle>}
+            {(!Device.phone || isViewer) && <NavTitle>{shortTitle(props.docTitle)}</NavTitle>}
             <NavRight>
                 {(Device.android && props.isEdit && !isViewer) && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo,
