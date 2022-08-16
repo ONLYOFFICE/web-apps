@@ -213,9 +213,7 @@ const PageBullets = observer( props => {
                             storeTextSettings.resetBullets(bullet.subtype);
                             props.onBullet(bullet.subtype);
                         }}>
-                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'>
-                        
-                        </div>
+                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'></div>
                     </ListItem>
                 ))}
             </List>
