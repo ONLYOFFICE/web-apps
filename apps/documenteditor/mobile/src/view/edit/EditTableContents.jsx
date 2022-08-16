@@ -273,7 +273,7 @@ const PageEditStructureTableContents = props => {
                                         }}>
                                             {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                                         </Button>
-                                        {isAndroid && <label>{style.value}</label>}
+                                        {isAndroid && <label>{style.value === 0 ? '' : style.value}</label>}
                                         <Button outline className='increment item-link' onClick={() => {
                                             if(style.value < 9) {
                                                 setAmountLevels(-1);
