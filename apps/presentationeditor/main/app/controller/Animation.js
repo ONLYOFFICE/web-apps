@@ -155,6 +155,10 @@ define([
                     this.AnimationProperties.asc_putSubtype(value);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
                 }
+                else if(toggleGroup=='custompath') {
+                    var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
+                    this.addNewEffect(AscFormat.MOTION_CUSTOM_PATH, this._state.EffectGroup, groupName,true, value);
+                }
                 else {
                     var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
                     this.addNewEffect(value, this._state.EffectGroup, groupName,true, this._state.EffectOption);
