@@ -756,7 +756,7 @@ define([
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
                                 me.imgCrypted && me.imgCrypted.toggleClass('hidden', false);
-                                //label[0].selectionStart = label[0].selectionEnd = 0;
+                                Common.Utils.isGecko && (label[0].selectionStart = label[0].selectionEnd = 0);
                                 if(!me.isSaveDocName) {
                                     me.withoutExt = false;
                                     me.setDocTitle(me.documentCaption);
