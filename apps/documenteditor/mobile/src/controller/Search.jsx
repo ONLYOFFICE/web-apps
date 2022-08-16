@@ -25,6 +25,7 @@ class SearchSettings extends SearchSettingsView {
         const _t = t("Settings", {returnObjects: true});
         const storeAppOptions = this.props.storeAppOptions;
         const isEdit = storeAppOptions.isEdit;
+        const isViewer = storeAppOptions.isViewer;
         const storeReview =  this.props.storeReview;
         const displayMode = storeReview.displayMode;
 
@@ -39,7 +40,7 @@ class SearchSettings extends SearchSettingsView {
                     </Navbar>
                     <List>
                         <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
-                        {isEdit && displayMode === 'markup' ? [
+                        {isEdit && displayMode === 'markup' && !isViewer ? [
                             <ListItem key="replace" radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
                                 onClick={e => this.onFindReplaceClick('replace')} />, 
                             <ListItem key="replace-all" radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}

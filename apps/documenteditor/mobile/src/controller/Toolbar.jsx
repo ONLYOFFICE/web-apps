@@ -3,11 +3,14 @@ import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
+import {storeAppOptions} from "../store/appOptions";
 
 const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
+    const isViewer = appOptions.isViewer;
+    const isMobileView = appOptions.isMobileView;
     const isDisconnected = props.users.isDisconnected;
     const displayMode = props.storeReview.displayMode;
     const stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
@@ -124,6 +127,28 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Gateway.requestEditRights();
     };
 
+    const turnOffViewerMode = () => {
+        const api = Common.EditorApi.get();
+
+        appOptions.changeViewerMode();
+        api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
+        api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
+    }
+
+    const turnOnViewerMode = () => {
+        const api = Common.EditorApi.get();
+
+        appOptions.changeViewerMode();
+        api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+    }
+
+    const changeMobileView = () => {
+        const api = Common.EditorApi.get();
+
+        appOptions.changeMobileView();
+        api.ChangeReaderMode();
+    }
+
     return (
         <ToolbarView openOptions={props.openOptions}
                      isEdit={appOptions.isEdit}
@@ -144,6 +169,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      showEditDocument={showEditDocument}
                      onEditDocument={onEditDocument}
                      isDisconnected={isDisconnected}
+                     isViewer={isViewer}
+                     turnOffViewerMode={turnOffViewerMode}
+                     turnOnViewerMode={turnOnViewerMode}
+                     isMobileView={isMobileView}
+                     changeMobileView={changeMobileView}
         />
     )
 }));
