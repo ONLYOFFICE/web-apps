@@ -774,25 +774,15 @@ define([
 
         onAddTableStylesPreview: function(Templates){
             var self = this;
-            var templates = [];
-            var groups = [
-                {id: 'menu-table-group-custom',             caption: self.txtGroupTable_Custom,             templates: []},
-                {id: 'menu-table-group-plain',              caption: self.txtGroupTable_Plain,              templates: []},
-                {id: 'menu-table-group-grid',               caption: self.txtGroupTable_Grid,               templates: []},
-                {id: 'menu-table-group-list',               caption: self.txtGroupTable_List,               templates: []},
-                {id: 'menu-table-group-bordered-and-lined', caption: self.txtGroupTable_BorderedAndLined,   templates: []},
-                {id: 'menu-table-group-no-name',            caption: '&nbsp',                               templates: []},
-            ];
+            var groups = {
+                'menu-table-group-custom':              {id: 'menu-table-group-custom',             caption: self.txtGroupTable_Custom,             index: 0},
+                'menu-table-group-plain':               {id: 'menu-table-group-plain',              caption: self.txtGroupTable_Plain,              index: 1},
+                'menu-table-group-grid':                {id: 'menu-table-group-grid',               caption: self.txtGroupTable_Grid,               index: 2},
+                'menu-table-group-list':                {id: 'menu-table-group-list',               caption: self.txtGroupTable_List,               index: 3},
+                'menu-table-group-bordered-and-lined':  {id: 'menu-table-group-bordered-and-lined', caption: self.txtGroupTable_BorderedAndLined,   index: 4},
+                'menu-table-group-no-name':             {id: 'menu-table-group-no-name',            caption: '&nbsp',                               index: 5},
+            };
 
-            if (this._state.beginPreviewStyles) {
-                this._state.beginPreviewStyles = false;
-            } 
-            else {
-                self.mnuTableTemplatePicker.store.each(function(template) {
-                    groups.filter(function(item){ return item.id == template.get('group') ; })[0].templates.push(template);
-                });
-            }
-            
             _.each(Templates, function(template){
                 var tip = template.asc_getDisplayName();
                 var groupItem = '';
@@ -810,9 +800,10 @@ define([
                         if(arr[0]){
                             groupItem = 'menu-table-group-' + arr[0].toLowerCase();
                         }
-                        if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                        if(groups.hasOwnProperty(groupItem) == false) {
                             groupItem = 'menu-table-group-no-name';
                         }
+                        
                     }
 
                     ['Table Grid', 'Plain Table', 'Grid Table', 'List Table', 'Light', 'Dark', 'Colorful', 'Accent', 'Bordered & Lined', 'Bordered', 'Lined'].forEach(function(item){
@@ -826,25 +817,34 @@ define([
                     groupItem = 'menu-table-group-custom'
                 }
 
-                groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
+                var templateObj = {
                     imageUrl: template.asc_getImage(),
                     id     : Common.UI.getId(),
                     group : groupItem,
                     templateId: template.asc_getId(),
                     tip    : tip
-                });
-            });
+                };
+                var templateIndex = 0;
 
-            groups = groups.filter(function(item, index){
-                return item.templates.length > 0
+                self.mnuTableTemplatePicker.store.each(function(item) {
+                    if(groups[item.get('group')].index <= groups[groupItem].index) {
+                        templateIndex += 1;
+                    }
+                });
+
+                if (self._state.beginPreviewStyles) {
+                    self._state.beginPreviewStyles = false;
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(groups[groupItem]);
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templateObj);
+                    self.mnuTableTemplatePicker.groups.comparator = function(item) {
+                        return item.get('index');
+                    };
+                } 
+                else {
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.add(groups[groupItem]);
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(templateObj, {at: templateIndex});
+                }
             });
-            groups.forEach(function(item){
-                templates = templates.concat(item.templates);
-                delete item.templates;
-            });
-                        
-            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(groups);
-            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templates);
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
         },
 
