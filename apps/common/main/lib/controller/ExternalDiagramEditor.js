@@ -243,15 +243,6 @@ define([
                 }
             },
 
-            showExternalEditor: function () {
-                if ( externalEditor ) {
-                    var value = Common.localStorage.getItem("ui-theme-id", "theme-light");
-                    externalEditor.serviceCommand('theme:change', value);
-                }
-
-                this.diagramEditorView.show();
-            },
-
             warningTitle: 'Warning',
             warningText: 'The object is disabled because of editing by another user.',
             textClose: 'Close',

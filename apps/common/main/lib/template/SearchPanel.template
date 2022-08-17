@@ -17,16 +17,16 @@
                         <label id="search-adv-results-number" style="display: inline-block;">
                             <%= scope.textSearchResults %>
                         </label>
-                        <div class="search-nav-btns" style="display: inline-block; float: right;">
-                            <div id="search-adv-back" style="display: inline-block; margin-right: 4px;"></div>
-                            <div id="search-adv-next" style="display: inline-block;"></div>
+                        <div class="search-nav-btns">
+                            <div id="search-adv-back"></div>
+                            <div id="search-adv-next"></div>
                         </div>
                     </td>
                 </tr>
                 <tr class="edit-setting">
                     <td class="padding-large">
-                       <button type="button" class="btn btn-text-default" id="search-adv-replace" style="display: inline-block; min-width: 62px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplace %></button>
-                       <button type="button" class="btn btn-text-default" id="search-adv-replace-all" style="display: inline-block; min-width: 78px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplaceAll %></button>
+                       <button type="button" class="btn btn-text-default" id="search-adv-replace" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplace %></button>
+                       <button type="button" class="btn btn-text-default" id="search-adv-replace-all" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplaceAll %></button>
                     </td>
                 </tr>
                 <tr class="search-options-block">

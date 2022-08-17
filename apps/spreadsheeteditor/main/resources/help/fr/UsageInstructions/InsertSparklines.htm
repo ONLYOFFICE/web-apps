@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Ajouter un graphique sparkline à votre feuille de calcul, paramétrer son position, taille et caractéristiques" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -16,7 +17,7 @@
             <h1>Insérer des graphiques sparkline</h1>
             <h3>Utiliser des graphiques sparkline</h3>
             <p>Un graphique sparkline est un graphique tout petit qui s'adapte à la taille de la cellule et représente des tendances ou des variations des données. Les fonctionnalités des graphiques sparkline sont limitées par comparaison avec des graphiques habituels mais c'est un excellent outil d'analyse rapide des données et de représentation visuelle compacte.  La taille d'un graphique sparkline dépend de la taille de la cellule, ajustez la largeur et la longueur de la cellule pour paramétrer la taille du graphique sparkline. Une fois le graphique sparkline ajouté, il est possible de saisir du texte ou appliquer une mise en forme conditionnelle dans la même cellule. ONLYOFFICE <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"> <b>Spreadsheet Editor</b></a> vous propose trois types de graphiques sparkline:</p>
-            <p><img alt="Types de graphiques sparkline:" src="../images/sparklines_types.png" /> </p>
+            <p><div class = "big big-sparklines_types"></div> </p>
             <ul>
                 <li><b>Colonne</b>  est similaire à un <b>Graphique à colonnes </b>ordinaire.</li>
                 <li><b>Ligne</b> est similaire à un <b>Graphique à lignes</b> ordinaire.</li>
@@ -77,10 +78,10 @@
                             <b>Valeur minimale/maximale</b>
                             <ul>
                                 <li><b>Automatique pour chaque</b> - cette option est sélectionnée par défaut. Elle permet d'utiliser des valeurs minimum/maximum propres pour chaque graphique sparkline. Les valeurs minimum/maximum sont extraites des séries de données séparées qui sont utilisées pour tracer chaque graphique sparkline. La valeur maximale pour chaque graphique sparkline sera située en haut de la cellule, et la valeur minimale sera en bas.
-                                    <p><img alt="Auto pour chaque" src="../images/autoforeach.png" /></p>
+                                    <p><span class="big big-autoforeach"></span></p>
                                 </li>
                                 <li><b>La même pour tous</b> - cette option permet d'utiliser la même valeur minimum/maximum pour tout le groupe de graphiques sparklines. Les valeurs minimum/maximum sont extraites de toute la plage de données et utilisées pour tracer toutes les graphiques sparklines. Les valeurs maximum/minimum pour chaque sparkline seront mises à l'échelle par rapport à la valeur la plus haute/la plus basse dans la plage. Si vous sélectionnez cette option, il sera plus facile de comparer plusieurs graphiques sparklines.
-                                    <p><img alt="La même pour tous" src="../images/sameforall.png" /></p>
+                                    <p><span class="big big-sameforall"></span></p>
                                 </li><li><b>Fixé</b> - cette option permet de définir une valeur minimale/maximale personnalisée. Les valeurs inférieures ou supérieures à celles spécifiées ne sont pas affichées dans le graphique sparkline.</li>
                             </ul>
                         </li>

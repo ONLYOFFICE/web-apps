@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Créer et modifier les tableaux croisés dynamiques. Filtrer, modifier l'aspect des  tableaux croisés dynamiques dans un classeur." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -21,22 +22,22 @@
                 <li>Préparez l'ensemble de données sources à partir duquel vous voulez créer un tableau croisé dynamique. Ceux-ci doivent comprendre les en-têtes. L'ensemble de données ne peut pas comprendre les lignes ou les colonnes vides.</li>
                 <li>Sélectionnez une cellule appartenant à la plage de données sources.</li>
                 <li>
-                    Passez à l'onglet <b>Tableau croisé dynamique</b> dans la barre d'outils supérieure et cliquez sur l'icône <b><b>Insérer un tableau</b></b> <img alt="L'icône Insérer un tableau" src="../images/insert_pivot.png" /> .
-                    <p>Si vous voulez créer un tableau croisé dynamique basé sur <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">une tableau mis en forme</a>, vous pouvez aussi utiliser l'option <img alt="Insérer un tableau croisé dynamique" src="../images/insertpivot.png" /> <b><b>Insérer un tableau</b> <b>croisé</b></b> <b>dynamique</b> sous l'onglet <b>Paramètres du tableau </b>dans la barre latérale droite.</p>
+                    Passez à l'onglet <b>Tableau croisé dynamique</b> dans la barre d'outils supérieure et cliquez sur l'icône <b><b>Insérer un tableau</b></b> <div class = "icon icon-insert_pivot"></div> .
+                    <p>Si vous voulez créer un tableau croisé dynamique basé sur <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">une tableau mis en forme</a>, vous pouvez aussi utiliser l'option <span class="icon icon-insertpivot"></span> <b><b>Insérer un tableau</b> <b>croisé</b></b> <b>dynamique</b> sous l'onglet <b>Paramètres du tableau </b>dans la barre latérale droite.</p>
                 </li>
                 <li>
                     Une fenêtre <b>Créer un tableau croisé dynamique</b> apparaîtra.
                     <p><img alt="Fenêtre Créer un tableau croisé dynamique" src="../images/create_pivot.png" /></p>
                     <ul>
                         <li>
-                            La <b>Ligne de données de la source</b> est déjà spécifié. Dans ce cas, toutes le données sources sont utilisées. Si vous voulez modifier la plage de données (par exemple, à inclure seulement une part de données), cliquez sur l'icône <img alt="L'icône Sélectionner des données" src="../images/changerange.png" /> . Dans la fenêtre <b>Sélectionner une plage de données</b>, saisissez la plage de données appropriée sous le format suivant: <em>Sheet1!$A$1:$E$10</em>. Vous pouvez aussi sélectionner la plage de cellules qui vous convient avec la souris. Cliquez <b>OK</b> pour confirmer.
+                            La <b>Ligne de données de la source</b> est déjà spécifié. Dans ce cas, toutes le données sources sont utilisées. Si vous voulez modifier la plage de données (par exemple, à inclure seulement une part de données), cliquez sur l'icône <div class = "icon icon-changerange"></div> . Dans la fenêtre <b>Sélectionner une plage de données</b>, saisissez la plage de données appropriée sous le format suivant: <em>Sheet1!$A$1:$E$10</em>. Vous pouvez aussi sélectionner la plage de cellules qui vous convient avec la souris. Cliquez <b>OK</b> pour confirmer.
                         </li>
                         <li>
                             Choisissez l'emplacement du tableau croisé dynamique<b></b>.
                             <ul>
                                 <li>La valeur par défaut est <b>Nouvelle feuille de calcul</b>. Votre tableau croisé dynamique sera créé dans une feuille de calcul nouvelle.<b><b>  </b></b></li>
                                 <li>
-                                    Vous pouvez également sélectionner l'élément <b>Feuille de calcul existante</b> et choisir la cellule. Dans ce cas, c'est la cellule supérieure droite du tableau croisé dynamique créé. Pour sélectionner la cellule, cliquez sur l'icône <img alt="L'icône Sélectionner des données" src="../images/changerange.png" /> .
+                                    Vous pouvez également sélectionner l'élément <b>Feuille de calcul existante</b> et choisir la cellule. Dans ce cas, c'est la cellule supérieure droite du tableau croisé dynamique créé. Pour sélectionner la cellule, cliquez sur l'icône <div class = "icon icon-changerange"></div> .
                                     <p><img alt="La fenêtre Sélectionner une plage de données" src="../images/pivot_selectdata2.png" /></p>
                                     <p>Dans la fenêtre <b>Sélectionner une plage de données</b>, saisissez l'adresse de la cellule sous le format suivant: <em>Sheet1!$G$2</em>. Vous pouvez également sélectionner la cellule nécessaire dans votre feuille. Cliquez <b>OK</b> pour confirmer. </p>
                                 </li>
@@ -47,7 +48,7 @@
                 </li>
             </ol>
             <p>Le tableau croisé dynamique vide est inséré selon l'emplacement choisi.</p>
-            <p>L'onglet <b>Paramètres du tableau croisé dynamique</b> s'ouvre sur la barre latérale droite. Cliquez sur l'icône <img alt="L'onglet Paramètres du tableau croisé dynamique" src="../images/pivot_settings.png" /> pour masquer ou afficher cet onglet.</p>
+            <p>L'onglet <b>Paramètres du tableau croisé dynamique</b> s'ouvre sur la barre latérale droite. Cliquez sur l'icône <span class="icon icon-pivot_settings"></span> pour masquer ou afficher cet onglet.</p>
             <p><img alt="L'onglet Paramètres du tableau croisé dynamique" src="../images/right_pivot.png" /></p>
 
             <h4>Sélectionner les champs à afficher</h4>
@@ -59,7 +60,7 @@
             <p>Ci-dessous, vous pouvez découvrir quelques exemples d'utilisation des sections <b>Filtres, Colonnes, Lignes et Valeurs.</b></p>
             <ul>
                 <li>
-                    Lorsque un champ est ajouté à <b>Filtres</b>, un filtre de rapport apparaisse au-dessus du tableau croisé dynamique. Celui-ci est appliqué au tableau croisé dynamique entier. Si vous cliquer sur la flèche <img alt="Flèche déroulante" src="../images/dropdownarrow.png" /> de filtre ajouté, vous pouvez voir toutes les valeurs du champ choisi. Lorsque vous désactivez quelques valeurs parmi les options de filtre et appuyez sur <b>OK</b>, celles-ci ne sont pas affichées dans le tableau croisé dynamique.
+                    Lorsque un champ est ajouté à <b>Filtres</b>, un filtre de rapport apparaisse au-dessus du tableau croisé dynamique. Celui-ci est appliqué au tableau croisé dynamique entier. Si vous cliquer sur la flèche <div class = "icon icon-dropdownarrow"></div> de filtre ajouté, vous pouvez voir toutes les valeurs du champ choisi. Lorsque vous désactivez quelques valeurs parmi les options de filtre et appuyez sur <b>OK</b>, celles-ci ne sont pas affichées dans le tableau croisé dynamique.
                     <p><img alt="Filtres du tableau croisé dynamique" src="../images/pivot_filter_field.png" /></p>
                 </li>
                 <li>
@@ -204,8 +205,8 @@
                     <p class="note"><b>Remarque</b>: les options similaires sont aussi disponibles parmi les paramètres avancés du tableau croisé dynamique dans la section <b>Grand </b><b>totaux </b>sous l'onglet <b>Nom et disposition</b>.</p>
                 </li>
             </ul>
-            <p>Le bouton <img alt="L'icône Sélectionner tableau croisé dynamique complet" src="../images/pivotselecticon.png" /> <b>Sélectionner </b><b>tableau croisé dynamique complet</b> permet de sélectionner le tableau croisé dynamique entier.</p>
-            <p>Quand vous avez modifié l'ensemble de données sources, sélectionnez le tableau croisé dynamique et cliquez sur le bouton <img alt="L'icône Actualiser tableau croisé dynamique" src="../images/pivot_refresh.png" /> <b>Actualiser</b> pour mettre à jour le tableau croisé dynamique.</p>
+            <p>Le bouton <span class="icon icon-pivotselecticon"></span> <b>Sélectionner </b><b>tableau croisé dynamique complet</b> permet de sélectionner le tableau croisé dynamique entier.</p>
+            <p>Quand vous avez modifié l'ensemble de données sources, sélectionnez le tableau croisé dynamique et cliquez sur le bouton <span class="icon icon-pivot_refresh"></span> <b>Actualiser</b> pour mettre à jour le tableau croisé dynamique.</p>
 
             <h3>Modifier le style d'un tableau croisé dynamique</h3>
             <p>Vous pouvez modifier la présentation du tableau croisé dynamique dans une feuille de calcul en utilisant les outils d'édition dans la barre d'outils supérieure.</p>
@@ -225,7 +226,7 @@
             <h3>Filtrer, trier et insérer des segments dans des tableaux croisées dynamiques</h3>
             <p>Vous pouvez filtrez les tableaux croisé dynamique par étiquettes ou valeurs aussi que utiliser les options de tri supplémentaires.</p>
             <h4>Filtrage</h4>
-            <p>Cliquez sur la flèche déroulante dans <img alt="Flèche déroulante" src="../images/dropdownarrow.png" /> <b>Étiquettes de lignes</b> ou <b>Étiquettes de colonnes</b> du tableau croisé dynamique. La liste des options de Filtrage s'affiche:</p>
+            <p>Cliquez sur la flèche déroulante dans <span class="icon icon-dropdownarrow"></span> <b>Étiquettes de lignes</b> ou <b>Étiquettes de colonnes</b> du tableau croisé dynamique. La liste des options de Filtrage s'affiche:</p>
             <p><img alt="La fenêtre de Filtrage" src="../images/pivot_filterwindow.png" /></p>
             <p>Configurez les paramètres du filtre. Procédez d'une des manières suivantes: sélectionnez les données à afficher ou filtrez les données selon certains critères.</p>
             <ul>
@@ -261,10 +262,10 @@
                     <p>La première liste déroulante permet de choisir si vous souhaitez afficher les valeurs les plus élevées <b>(Haut)</b> ou les plus basses<b> (Bas)</b>. La deuxième permet de spécifier le nombre d'entrées dans la liste ou le pourcentage du nombre total des entrées que vous souhaitez afficher (vous pouvez entrer un nombre compris entre 1 et 500). La troisième liste déroulante permet de définir des unités de mesure: <b>Élément</b>, <b>P</b><b>our cent</b> ou <b>Somme</b>. La quatrième liste déroulante affiche le nom du champ choisi. Une fois les paramètres nécessaires définis, cliquez sur<b> OK </b>pour appliquer le filtre.</p>
                 </li>
             </ul>
-            <p>Le bouton de <b>Filtrage</b> <img alt="Bouton Filtrage" src="../images/filterbutton.png" /> s'affiche dans <b>Étiquettes de lignes</b> ou <b>Étiquettes de colonnes</b> du tableau croisé dynamique. Cela signifie que le filtre est appliqué. <!--The number of filtered records will be displayed at the status bar (e.g. <em>25 of 80 records filtered</em>).--></p>
+            <p>Le bouton de <b>Filtrage</b> <span class="icon icon-filterbutton"></span> s'affiche dans <b>Étiquettes de lignes</b> ou <b>Étiquettes de colonnes</b> du tableau croisé dynamique. Cela signifie que le filtre est appliqué. <!--The number of filtered records will be displayed at the status bar (e.g. <em>25 of 80 records filtered</em>).--></p>
 
             <h4>Tri</h4>
-            <p>Vous pouvez effectuer le tri des données du tableau croisé dynamique en utilisant les options de <b>tri</b>. Cliquez sur la flèche  <img alt="Flèche déroulante" src="../images/dropdownarrow.png" /> de la liste déroulante dans <b>Étiquettes de lignes</b> ou <b>Étiquettes de colonnes</b> du tableau croisé dynamique et sélectionnez <b>Trier du plus bas au plus élevé</b> ou <b>Trier du plus élevé au plus bas</b> dans le sous-menu.</p>
+            <p>Vous pouvez effectuer le tri des données du tableau croisé dynamique en utilisant les options de <b>tri</b>. Cliquez sur la flèche  <span class="icon icon-dropdownarrow"></span> de la liste déroulante dans <b>Étiquettes de lignes</b> ou <b>Étiquettes de colonnes</b> du tableau croisé dynamique et sélectionnez <b>Trier du plus bas au plus élevé</b> ou <b>Trier du plus élevé au plus bas</b> dans le sous-menu.</p>
             <p>Les Options de tri supplémentaires vous permettent d'ouvrir la fenêtre et choisir une option de tri: <em>Ordre croissant</em> ou <em>Ordre décroissant</em>, et puis spécifier le champ à trier.</p>
             <p><img alt="Options de tri tableau croisé dynamique" src="../images/pivot_sort.png" /></p>
 
@@ -293,7 +294,7 @@
             </ul>
             <p><img alt="Paramètres avancés du tableau croisé dynamique" src="../images/pivot_advanced2.png" /></p>
             <p>Sous l'onglet <b>La source de données</b> vous pouvez modifier les données à utiliser pour créer le tableau croisé dynamique.</p>
-            <p>Vérifiez la <b>Plage de données</b> et modifiez-la si nécessaire. Pour ce faire, cliquez sur l'icône <img alt="Plage de données source" src="../images/changerange.png" /> . </p>
+            <p>Vérifiez la <b>Plage de données</b> et modifiez-la si nécessaire. Pour ce faire, cliquez sur l'icône <span class="icon icon-changerange"></span> . </p>
             <p><img alt="La fenêtre Sélectionner une plage de données" src="../images/pivot_selectdata.png" /></p>
             <p>Dans la fenêtre <b>Sélectionner une plage de données</b>, saisissez la plage de données appropriée sous le format suivant: <em>Sheet1!$A$1:$E$10</em>. Vous pouvez aussi sélectionner la plage de cellules qui vous convient avec la souris. Cliquez <b>OK</b> pour confirmer.</p>
             <p><img alt="Paramètres avancés du tableau croisé dynamique" src="../images/pivot_advanced3.png" /></p>
@@ -301,7 +302,7 @@
             <h3>Supprimer le tableau croisé dynamique</h3>
             <p>Pour supprimer un tableau croisé dynamique,</p>
             <ol>
-                <li>sélectionnez le tableau croisé dynamique entier en utilisant le bouton <b> <img alt="L'icône Sélectionner tableau croisé dynamique complet" src="../images/pivotselecticon.png" /> </b>Sélectionner dans la barre d'outils supérieure.</li>
+                <li>Sélectionnez le tableau croisé dynamique entier en utilisant le bouton <div class="icon icon-pivotselecticon"></div> <b>Sélectionner</b> dans la barre d'outils supérieure.</li>
                 <li>Appuyez sur la touche de <b>Suppression</b>.</li>
             </ol>
         </div>

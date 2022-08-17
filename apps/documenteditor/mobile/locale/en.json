@@ -3,11 +3,11 @@
     "textAbout": "About",
     "textAddress": "Address",
     "textBack": "Back",
+    "textEditor": "Document Editor",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
-    "textVersion": "Version",
-    "textEditor": "Document Editor"
+    "textVersion": "Version"
   },
   "Add": {
     "notcriticalErrorTitle": "Warning",
@@ -199,7 +199,8 @@
     "textOk": "OK",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "textRows": "Rows"
+    "textRows": "Rows",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
@@ -392,7 +393,7 @@
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
     "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
-    "errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
+    "errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
     "errorUserDrop": "The file can't be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
@@ -668,12 +669,14 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this page"
+    "stayButtonText": "Stay on this page",
+    "textOk": "OK"
   }
 }

@@ -66,9 +66,9 @@ common.view.SearchBar = new(function() {
         },
 
         disableNavButtons: function (resultNumber, allResults) {
-            var disable = $('#search-bar-text').val() === '';
-            $('#search-bar-back').attr({disabled: disable || !allResults || resultNumber === 0});
-            $('#search-bar-next').attr({disabled: disable || resultNumber + 1 === allResults});
+            var disable = $('#search-bar-text').val() === '' || !allResults;
+            $('#search-bar-back').attr({disabled: disable});
+            $('#search-bar-next').attr({disabled: disable});
         },
 
         textFind: 'Find'

@@ -466,6 +466,7 @@
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
+    z-index: 1;
 
     .btn-slot {
         display: inline-block;
@@ -513,6 +514,7 @@
         background-color: transparent;
         border: 0 none;
         cursor: default;
+        .user-select(text);
 
         &:hover:not(:disabled),&:focus{
             box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;

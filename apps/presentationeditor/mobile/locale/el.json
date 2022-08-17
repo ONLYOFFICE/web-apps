@@ -3,11 +3,11 @@
     "textAbout": "Περί",
     "textAddress": "Διεύθυνση",
     "textBack": "Πίσω",
+    "textEditor": "Συντάκτης Παρουσίασης",
     "textEmail": "Email",
     "textPoweredBy": "Υποστηρίζεται Από",
     "textTel": "Τηλ",
-    "textVersion": "Έκδοση",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Έκδοση"
   },
   "Common": {
     "Collaboration": {
@@ -59,7 +59,9 @@
     "textColumns": "Στήλες",
     "textCopyCutPasteActions": "Ενέργειες Αντιγραφής, Αποκοπής και Επικόλλησης",
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
-    "textRows": "Γραμμές"
+    "textRows": "Γραμμές",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -114,6 +116,7 @@
       "textRemember": "Απομνημόνευση επιλογής",
       "textReplaceSkipped": "Η αντικατάσταση έγινε. {0} εμφανίσεις προσπεράστηκαν.",
       "textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
+      "textRequestMacros": "Μια μακροεντολή κάνει ένα αίτημα σε διεύθυνση URL. Θέλετε να επιτρέψετε το αίτημα στο %1;",
       "textYes": "Ναι",
       "titleLicenseExp": "Η άδεια έληξε",
       "titleServerVersion": "Ο συντάκτης ενημερώθηκε",
@@ -127,8 +130,7 @@
       "warnLicenseUsersExceeded": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με τον διαχειριστή σας για περισσότερες πληροφορίες.",
       "warnNoLicense": "Φτάσατε το όριο ταυτόχρονων συνδέσεων σε %1 συντάκτες. Το έγγραφο θα ανοίξει μόνο για ανάγνωση. Επικοινωνήστε με την ομάδα πωλήσεων %1 για τους όρους αναβάθμισης.",
       "warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
-      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
   "Error": {
@@ -399,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Τυπικό (4:3)",
       "mniSlideWide": "Ευρεία οθόνη (16:9)",
+      "notcriticalErrorTitle": "Προειδοποίηση",
       "textAbout": "Περί",
       "textAddress": "διεύθυνση: ",
       "textApplication": "Εφαρμογή",
@@ -421,6 +424,7 @@
       "textEmail": "email: ",
       "textEnableAll": "Ενεργοποίηση Όλων",
       "textEnableAllMacrosWithoutNotification": "Ενεργοποίηση όλων των μακροεντολών χωρίς ειδοποίηση",
+      "textFeedback": "Ανατροφοδότηση & Υποστήριξη",
       "textFind": "Εύρεση",
       "textFindAndReplace": "Εύρεση και Αντικατάσταση",
       "textFindAndReplaceAll": "Εύρεση και Αντικατάσταση Όλων",
@@ -433,6 +437,7 @@
       "textLocation": "Τοποθεσία",
       "textMacrosSettings": "Ρυθμίσεις Mακροεντολών",
       "textNoTextFound": "Δεν βρέθηκε το κείμενο",
+      "textOk": "Εντάξει",
       "textOwner": "Κάτοχος",
       "textPoint": "Σημείο",
       "textPoweredBy": "Υποστηρίζεται Από",
@@ -442,6 +447,8 @@
       "textPrint": "Εκτύπωση",
       "textReplace": "Αντικατάσταση",
       "textReplaceAll": "Αντικατάσταση Όλων",
+      "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
+      "textRTL": "ΑΠΔ",
       "textSearch": "Αναζήτηση",
       "textSettings": "Ρυθμίσεις",
       "textShowNotification": "Εμφάνιση Ειδοποίησης",
@@ -474,12 +481,7 @@
       "txtScheme6": "Συνάθροιση",
       "txtScheme7": "Μετοχή",
       "txtScheme8": "Ροή",
-      "txtScheme9": "Χυτήριο",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "txtScheme9": "Χυτήριο"
     }
   }
 }

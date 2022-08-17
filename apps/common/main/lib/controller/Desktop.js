@@ -194,7 +194,21 @@ define([
         };
 
         var _onHintsShow = function (visible, level) {
-            native.execCommand('althints:show', JSON.stringify(visible && !(level > 0)));
+            let info = {
+                visible: visible && !(level > 0),
+            };
+
+            if ( !!titlebuttons ) {
+                info.hints = {
+                    'print': titlebuttons['print'].btn.btnEl.attr('data-hint-title'),
+                    // 'home': Common.UI.HintManager.getStaticHint('btnhome'),
+                    'undo': titlebuttons['undo'].btn.btnEl.attr('data-hint-title'),
+                    'redo': titlebuttons['redo'].btn.btnEl.attr('data-hint-title'),
+                    'save': titlebuttons['save'].btn.btnEl.attr('data-hint-title'),
+                };
+            }
+
+            native.execCommand('althints:show', JSON.stringify(info));
         }
 
         var _onKeyDown = function (e) {
@@ -277,9 +291,13 @@ define([
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'uitheme:changed' : function (name) {
-                            var theme = Common.UI.Themes.get(name);
-                            if ( theme )
-                                native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                                native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
+                            } else {
+                                var theme = Common.UI.Themes.get(name);
+                                if ( theme )
+                                    native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                            }
                         },
                         'hints:show': _onHintsShow.bind(this),
                     });
@@ -349,7 +367,7 @@ define([
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
                                     window.PE ? 'presentationeditor' : 'documenteditor';
-                    return nativevars.helpUrl + webapp + '/main/resources/help';
+                    return nativevars.helpUrl + '/' + webapp + '/main/resources/help';
                 }
 
                 return undefined;

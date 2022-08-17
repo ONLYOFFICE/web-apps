@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Höhe",
   "common.view.modals.txtShare": "Link teilen",
   "common.view.modals.txtWidth": "Breite",
+  "common.view.SearchBar.textFind": "Suchen",
   "DE.ApplicationController.convertationErrorText": "Konvertierung ist fehlgeschlagen.",
   "DE.ApplicationController.convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
   "DE.ApplicationController.criticalErrorTitle": "Fehler",
@@ -25,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
   "DE.ApplicationController.textAnonymous": "Anonym",
   "DE.ApplicationController.textClear": "Alle Felder löschen",
+  "DE.ApplicationController.textCtrl": "Strg",
   "DE.ApplicationController.textGotIt": "OK",
   "DE.ApplicationController.textGuest": "Gast",
   "DE.ApplicationController.textLoadingDocument": "Dokument wird geladen...",
@@ -35,7 +37,7 @@
   "DE.ApplicationController.textSubmited": "<b>Das Formular wurde erfolgreich abgesendet</b><br>Klicken Sie hier, um den Tipp auszublenden",
   "DE.ApplicationController.txtClose": "Schließen",
   "DE.ApplicationController.txtEmpty": "(Leer)",
-  "DE.ApplicationController.txtPressLink": "Drücken Sie STRG und klicken Sie auf den Link",
+  "DE.ApplicationController.txtPressLink": "Drücken Sie %1 und klicken Sie auf den Link",
   "DE.ApplicationController.unknownErrorText": "Unbekannter Fehler.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Ihr Webbrowser wird nicht unterstützt.",
   "DE.ApplicationController.waitText": "Bitte warten...",
@@ -46,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "Dateispeicherort öffnen",
   "DE.ApplicationView.txtFullScreen": "Vollbild-Modus",
   "DE.ApplicationView.txtPrint": "Drucken",
+  "DE.ApplicationView.txtSearch": "Suche",
   "DE.ApplicationView.txtShare": "Freigeben"
 }

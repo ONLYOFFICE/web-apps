@@ -193,13 +193,18 @@ var utils = new(function() {
             me.innerHeight = window.innerHeight * me.zoom;
             me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
         };
+        checkSizeIE = function() {
+            me.innerWidth = window.innerWidth;
+            me.innerHeight = window.innerHeight;
+        };
         me.zoom = 1;
         me.applicationPixelRatio = 1;
         me.innerWidth = window.innerWidth;
         me.innerHeight = window.innerHeight;
-        if ( isIE )
+        if ( isIE ) {
             $(document.body).addClass('ie');
-        else {
+            $(window).on('resize', checkSizeIE);
+        } else {
             checkSize();
             $(window).on('resize', checkSize);
         }
@@ -436,7 +441,7 @@ var metrics = new(function() {
     }
 })();
 
-Common.Utils.Metric = _extend_object(Common.Utils.Metric, metrics);
+Common.Utils.Metric = _extend_object(metrics, Common.Utils.Metric);
 
 Common.Utils.RGBColor = function(colorString) {
     var r, g, b;
@@ -603,8 +608,12 @@ Common.Utils.RGBColor = function(colorString) {
     }
 };
 
-Common.Utils.String = new (function() {
+var utilsString = new (function() {
     return {
+        textCtrl: 'Ctrl',
+        textShift: 'Shift',
+        textAlt: 'Alt',
+
         format: function(format) {
             var args = _.toArray(arguments).slice(1);
             if (args.length && typeof args[0] == 'object')
@@ -648,7 +657,7 @@ Common.Utils.String = new (function() {
                 return Common.Utils.String.format(template, string.replace(/\+(?=\S)/g, '').replace(/Ctrl|ctrl/g, '⌘').replace(/Alt|alt/g, '⌥').replace(/Shift|shift/g, '⇧'));
             }
 
-            return Common.Utils.String.format(template, string);
+            return Common.Utils.String.format(template, string.replace(/Ctrl|ctrl/g, this.textCtrl).replace(/Alt|alt/g, this.textAlt).replace(/Shift|shift/g, this.textShift));
         },
 
         parseFloat: function(string) {
@@ -679,6 +688,8 @@ Common.Utils.String = new (function() {
         }
     }
 })();
+
+Common.Utils.String = _extend_object(utilsString, Common.Utils.String);
 
 Common.Utils.isBrowserSupported = function() {
     return !((Common.Utils.ieVersion != 0 && Common.Utils.ieVersion < 10.0) ||

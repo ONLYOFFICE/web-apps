@@ -585,7 +585,7 @@ Common.UI.HintManager = new(function() {
                                 if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
                                     curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
                                     curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about' ||
-                                    curr.prop('id') === 'left-btn-support') {
+                                    curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search') {
                                     _resetToDefault();
                                     return;
                                 }
@@ -620,7 +620,9 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
+                !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
+                !(window.PE && $('#pe-preview').is(':visible')));
             if (e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }

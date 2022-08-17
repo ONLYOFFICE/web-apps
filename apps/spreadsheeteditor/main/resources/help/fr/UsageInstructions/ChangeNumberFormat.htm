@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Modifier le format de nombre pour afficher les nombres d'une manière convenable" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -28,13 +29,13 @@
 						<li><b>Scientifique</b> (exponentiel) sert à exprimer le nombre sous la forme d.dddE+ddd ou d.dddE-ddd où chaque d c'est un chiffre de 0 à 9,</li>
                         <li><b>Comptabilité</b> - est utilisé pour afficher les valeurs monétaires avec le symbole monétaire par défaut et deux décimales. Pour appliquer un autre symbole monétaire ou nombre de décimales, suivez <a href="../UsageInstructions/ChangeNumberFormat.htm#customize" onclick="onhyperlinkclick(this)">les instructions ci-dessous</a>. Contrairement au format <b>Devise</b>, le format <b>Comptabilité</b> aligne les symboles monétaires sur le côté gauche de la cellule, représente les valeurs nulles sous forme de tirets et affiche les valeurs négatives entre parenthèses.
                             <p><img alt="Formats numériques Comptabilité et Devise" src="../images/accounting_currency.png" /></p>
-                            <p class="note"><b>Remarque</b>: pour appliquer rapidement le format <b>Comptabilité</b> aux données sélectionnées, vous pouvez également cliquer sur l'icône <b>Style comptable</b> <img alt="L'icône Style comptable" src="../images/accountingstyle.png" /> dans l'onglet <b>Accueil</b> de la barre d'outils supérieure et sélectionner le symbole de devise requis parmi les symboles monétaires suivants: <b>$</b> Dollar, <b>&euro;</b> Euro, <b>&amp;pound</b> Livre Sterling, <b>₽</b> Rouble, <b>&amp;yen</b> Yen, <b>kn</b> Kuna Croate.</p>
+                            <p class="note"><b>Remarque</b>: pour appliquer rapidement le format <b>Comptabilité</b> aux données sélectionnées, vous pouvez également cliquer sur l'icône <b>Style comptable</b> <span class="icon icon-accountingstyle"></span> dans l'onglet <b>Accueil</b> de la barre d'outils supérieure et sélectionner le symbole de devise requis parmi les symboles monétaires suivants: <b>$</b> Dollar, <b>&euro;</b> Euro, <b>&amp;pound</b> Livre Sterling, <b>₽</b> Rouble, <b>&amp;yen</b> Yen, <b>kn</b> Kuna Croate.</p>
                         </li>
                         <li><b>Monétaire</b> - est utilisé pour afficher les valeurs monétaires avec le symbole monétaire par défaut et deux décimales. Pour appliquer un autre symbole monétaire ou nombre de décimales, suivez <a href="../UsageInstructions/ChangeNumberFormat.htm#customize" onclick="onhyperlinkclick(this)">les instructions ci-dessous</a>. Contrairement au format <b>Comptabilité</b>, le format <b>Monétaire</b> place un symbole de devise directement avant le premier chiffre et affiche des valeurs négatives avec le signe négatif (-).</li>
 						<li>Date - est utilisé pour afficher les dates<!--. You can select one of the following date formats: <em>MM-dd-yy</em>, <em>MM-dd-yyyy</em>, <em>dd-MM-yy</em>, <em>dd-MM-yyyy</em>, <em>dd-MMM-yyyy</em>, <em>dd-MMM</em>, <em>MMM-yy</em>-->,</li>
 						<li>Heure - est utilisé pour afficher les heures<!--. You can select one of the following time formats: <em>HH:mm</em>, <em>HH:MM:ss</em>, <em>hh:mm tt</em>, <em>hh:mm:ss tt</em>, <em>[h]:mm:ss</em>-->,</li>
 						<li><b>Pourcentage</b> sert à afficher les données en pourcentage avec un symbole de pourcentage <b>%</b>,
-							<p class="note"><b>Remarque</b>: pour ajouter rapidement un symbole de pourcentage à vos données vous pouvez également utiliser l'icône <b>Pour cent style</b> <img alt="L'icône Pour cent style" src="../images/percentstyle.png" /> située sous l'onglet <b>Accueil </b>sur la barre d'outils supérieure.</p>
+							<p class="note"><b>Remarque</b>: pour ajouter rapidement un symbole de pourcentage à vos données vous pouvez également utiliser l'icône <b>Pour cent style</b> <span class="icon icon-percentstyle"></span> située sous l'onglet <b>Accueil </b>sur la barre d'outils supérieure.</p>
 						</li>
                         <li><b>Fraction</b>  sert à afficher les nombres comme des fractions usuelles plutôt que des nombres décimaux.</li>
 						<li><b>Texte</b> sert à afficher les valeurs numériques qui sont traitées comme du texte simple avec la plus grande précision disponible.</li>
@@ -51,8 +52,8 @@
 				</li>
 				<li>modifiez le nombre de décimales, si nécessaire:
 				    <ul>
-				        <li>utilisez l'icône <b>Ajouter une décimale</b> <img alt="L'icône Ajouter une décimale" src="../images/increasedecimal.png" /> située dans l'onglet <b>Accueil</b> de la barre d'outils supérieure pour afficher plus de chiffres après la virgule,</li>
-				        <li>utilisez l'icône <b>Réduire les décimales</b> <img alt="L'icône réduire les décimales" src="../images/decreasedecimal.png" /> située dans l'onglet <b>Accueil</b> de la barre d'outils supérieure pour afficher moins de chiffres après la virgule.</li>
+				        <li>utilisez l'icône <b>Ajouter une décimale</b> <div class = "icon icon-increasedecimal"></div> située dans l'onglet <b>Accueil</b> de la barre d'outils supérieure pour afficher plus de chiffres après la virgule,</li>
+				        <li>utilisez l'icône <b>Réduire les décimales</b> <div class = "icon icon-decreasedecimal"></div> située dans l'onglet <b>Accueil</b> de la barre d'outils supérieure pour afficher moins de chiffres après la virgule.</li>
 				    </ul>
 				 </li>
 			</ol>

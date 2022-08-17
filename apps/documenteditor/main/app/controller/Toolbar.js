@@ -268,8 +268,10 @@ define([
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
             toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
-            toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
-            toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+            toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+            toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
+            toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
+            toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
             toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
@@ -493,8 +495,8 @@ define([
 
         onApiVerticalAlign: function(typeBaseline) {
             if (this._state.valign !== typeBaseline) {
-                this.toolbar.btnSuperscript.toggle(typeBaseline==1, true);
-                this.toolbar.btnSubscript.toggle(typeBaseline==2, true);
+                this.toolbar.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
+                this.toolbar.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
                 this._state.valign = typeBaseline;
             }
         },
@@ -515,7 +517,7 @@ define([
 
         onApiCanCopyCut: function(can) {
             if (this._state.can_copycut !== can) {
-                this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy]});
+                this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
                 this._state.can_copycut = can;
             }
         },
@@ -566,6 +568,11 @@ define([
                             case 7:
                                 idx = 7;
                                 break;
+                        }
+                        if ('{{DEFAULT_LANG}}' === 'ru') {
+                            if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
+                                idx = this._state.bullets.subtype;
+                            }
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         if (idx!==undefined)
@@ -1101,10 +1108,10 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Redo');
         },
 
-        onCopyPaste: function(copy, e) {
+        onCopyPaste: function(type, e) {
             var me = this;
             if (me.api) {
-                var res = (copy) ? me.api.Copy() : me.api.Paste();
+                var res = (type === 'cut') ? me.api.Cut() : ((type === 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
                     if (!Common.localStorage.getBool("de-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
@@ -1118,6 +1125,14 @@ define([
                     Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+        },
+
+        onSelectAll: function(e) {
+            if (this.api)
+                this.api.asc_EditSelectAll();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Select All');
         },
 
         onIncrease: function(e) {
@@ -1176,7 +1191,7 @@ define([
             if (!this.toolbar.btnSubscript.pressed) {
                 this._state.valign = undefined;
                 if (this.api)
-                    this.api.put_TextPrBaseline(btn.pressed ? 1 : 0);
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Superscript');
@@ -1187,7 +1202,7 @@ define([
             if (!this.toolbar.btnSuperscript.pressed) {
                 this._state.valign = undefined;
                 if (this.api)
-                    this.api.put_TextPrBaseline(btn.pressed ? 2 : 0);
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Subscript');
@@ -2159,14 +2174,12 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
-                var controller = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor');
                 if (!this.diagramEditor)
-                    this.diagramEditor = controller.getView('Common.Views.ExternalDiagramEditor');
+                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
 
                 if (this.diagramEditor && me.api) {
                     this.diagramEditor.setEditMode(false);
-                    // this.diagramEditor.show();
-                    controller.showExternalEditor();
+                    this.diagramEditor.show();
 
                     chart = me.api.asc_getChartObject(type);
                     if (chart) {
@@ -2885,7 +2898,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
-            this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy]});
+            this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
             this.toolbar.lockToolbar(Common.enumLock.mmergeLock, !!this._state.mmdisable, {array: [this.toolbar.btnMailRecepients]});
             if (!this._state.mmdisable) {
                 this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients);
@@ -3182,6 +3195,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
+                    me.toolbar.processPanelVisible(null, true, true);
                 }
 
                 if ( config.isDesktopApp ) {

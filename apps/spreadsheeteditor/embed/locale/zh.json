@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "高度",
   "common.view.modals.txtShare": "分享链接",
   "common.view.modals.txtWidth": "宽度",
+  "common.view.SearchBar.textFind": "查找",
   "SSE.ApplicationController.convertationErrorText": "转换失败",
   "SSE.ApplicationController.convertationTimeoutText": "转换超时",
   "SSE.ApplicationController.criticalErrorTitle": "错误",
@@ -16,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "保存文件时发生错误。请使用“下载为”选项将文件保存到计算机硬盘中或稍后重试。",
   "SSE.ApplicationController.errorLoadingFont": "字体未加载。<br>请与文档服务器管理员联系。",
   "SSE.ApplicationController.errorTokenExpire": "文档安全令牌已过期。<br>请与您的文档服务器管理员联系。",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "网络连接已恢复，文件版本已变更。<br>在继续工作之前，需要下载文件或复制其内容以避免丢失数据，然后刷新此页。",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "网络连接已恢复，文件版本已变更。<br>在继续工作之前，需要下载文件或复制其内容以避免丢失数据，然后重新加载此页。",
   "SSE.ApplicationController.errorUserDrop": "该文件现在无法访问。",
   "SSE.ApplicationController.notcriticalErrorTitle": "警告",
   "SSE.ApplicationController.openErrorText": "打开文件时出现错误",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "打开文件所在位置",
   "SSE.ApplicationView.txtFullScreen": "全屏",
   "SSE.ApplicationView.txtPrint": "打印",
+  "SSE.ApplicationView.txtSearch": "搜索",
   "SSE.ApplicationView.txtShare": "共享"
 }

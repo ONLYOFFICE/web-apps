@@ -27,19 +27,6 @@ const Settings = props => {
         }
     };
 
-    const onReaderMode = () => {
-        const appOptions = props.storeAppOptions;
-        appOptions.changeReaderMode();
-
-        Common.EditorApi.get().ChangeReaderMode();
-
-        if (Device.phone) {
-            setTimeout(() => {
-                closeModal();
-            }, 1);
-        }
-    };
-
     const onPrint = () => {
         const api = Common.EditorApi.get();
 
@@ -76,7 +63,7 @@ const Settings = props => {
         setTimeout(() => {
             if(config && !!config.feedback && !!config.feedback.url) {
                 window.open(config.feedback.url, "_blank");
-            } else window.open('{{__SUPPORT_URL__}}', "_blank");
+            } else window.open(__SUPPORT_URL__, "_blank");
         }, 400);
     }
 
@@ -94,15 +81,27 @@ const Settings = props => {
         }, 0);
     };
 
+    const onChangeMobileView = () => {
+        const api = Common.EditorApi.get()
+        const appOptions = props.storeAppOptions;
+
+        appOptions.changeMobileView();
+        api.ChangeReaderMode();
+
+        if (Device.phone) {
+            closeModal();
+        }
+    }
+
     return <SettingsView usePopover={!Device.phone}
                          openOptions={props.openOptions}
                          onclosed={props.onclosed}
-                         onReaderMode={onReaderMode}
                          onPrint={onPrint}
                          showHelp={showHelp}
                          showFeedback={showFeedback}
                          onOrthographyCheck={onOrthographyCheck}
                          onDownloadOrigin={onDownloadOrigin}
+                         onChangeMobileView={onChangeMobileView}
     />
 };
 

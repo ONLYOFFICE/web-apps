@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Altura",
   "common.view.modals.txtShare": "Compartir enlace",
   "common.view.modals.txtWidth": "Ancho",
+  "common.view.SearchBar.textFind": "Buscar",
   "SSE.ApplicationController.convertationErrorText": "Se ha producido un error en la conversión.",
   "SSE.ApplicationController.convertationTimeoutText": "Se ha superado el tiempo de conversión.",
   "SSE.ApplicationController.criticalErrorTitle": "Error",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Abrir ubicación del archivo",
   "SSE.ApplicationView.txtFullScreen": "Pantalla completa",
   "SSE.ApplicationView.txtPrint": "Imprimir",
+  "SSE.ApplicationView.txtSearch": "Búsqueda",
   "SSE.ApplicationView.txtShare": "Compartir"
 }

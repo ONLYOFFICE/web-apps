@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Wysokość",
   "common.view.modals.txtShare": "Udostępnij link",
   "common.view.modals.txtWidth": "Szerokość",
+  "common.view.SearchBar.textFind": "Znajdź",
   "DE.ApplicationController.convertationErrorText": "Konwertowanie nieudane.",
   "DE.ApplicationController.convertationTimeoutText": "Przekroczono limit czasu konwersji.",
   "DE.ApplicationController.criticalErrorTitle": "Błąd",
@@ -25,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Połączenie jest zbyt wolne, niektóre komponenty mogą być niezaładowane. Proszę odświeżyć stronę.",
   "DE.ApplicationController.textAnonymous": "Anonimowy użytkownik ",
   "DE.ApplicationController.textClear": "Wyczyść wszystkie pola",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "Rozumiem",
   "DE.ApplicationController.textGuest": "Gość",
   "DE.ApplicationController.textLoadingDocument": "Wgrywanie dokumentu",
@@ -35,7 +37,7 @@
   "DE.ApplicationController.textSubmited": "</b>Formularz załączony poprawnie</b><br>Kliknij aby zamknąć podpowiedź.",
   "DE.ApplicationController.txtClose": "Zamknij",
   "DE.ApplicationController.txtEmpty": "(Pusty)",
-  "DE.ApplicationController.txtPressLink": "Naciśnij Ctrl i kliknij w link",
+  "DE.ApplicationController.txtPressLink": "Naciśnij %1 i kliknij w link",
   "DE.ApplicationController.unknownErrorText": "Nieznany błąd.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Twoja przeglądarka nie jest wspierana.",
   "DE.ApplicationController.waitText": "Proszę czekać...",
@@ -46,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "Otwórz miejsce lokalizacji pliku",
   "DE.ApplicationView.txtFullScreen": "Pełny ekran",
   "DE.ApplicationView.txtPrint": "Drukuj",
+  "DE.ApplicationView.txtSearch": "Szukaj",
   "DE.ApplicationView.txtShare": "Udostępnij"
 }

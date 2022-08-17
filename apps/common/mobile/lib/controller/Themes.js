@@ -12,7 +12,9 @@ class ThemesController {
                 id: 'theme-light',
                 type: 'light'
             }};
+    }
 
+    init() {
         const obj = LocalStorage.getItem("ui-theme");
         let theme = this.themes_map.light;
         if ( !!obj )
@@ -23,10 +25,15 @@ class ThemesController {
             LocalStorage.setItem("ui-theme", JSON.stringify(theme));
         }
 
-        const $$ = Dom7;
-        const $body = $$('body');
-        $body.attr('class') && $body.attr('class',  $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
-        $body.addClass(`theme-type-${theme.type}`);
+        this.switchDarkTheme(theme, true);
+
+        $$(window).on('storage', e => {
+            if ( e.key == LocalStorage.prefix + 'ui-theme' ) {
+                if ( !!e.newValue ) {
+                    this.switchDarkTheme(JSON.parse(e.newValue), true);
+                }
+            }
+        });
     }
 
     get isCurrentDark() {
@@ -35,12 +42,23 @@ class ThemesController {
     }
 
     switchDarkTheme(dark) {
-        const theme = this.themes_map[dark ? 'dark' : 'light'];
-        LocalStorage.setItem("ui-theme", JSON.stringify(theme));
+        const theme = typeof dark == 'object' ? dark : this.themes_map[dark ? 'dark' : 'light'];
+        const refresh_only = !!arguments[1];
+
+        if ( !refresh_only )
+            LocalStorage.setItem("ui-theme", JSON.stringify(theme));
 
         const $body = $$('body');
         $body.attr('class') && $body.attr('class',  $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
         $body.addClass(`theme-type-${theme.type}`);
+
+        const on_engine_created = api => {
+            api.asc_setSkin(theme.id);
+        };
+
+        const api = Common.EditorApi ? Common.EditorApi.get() : undefined;
+        if(!api) Common.Notifications.on('engineCreated', on_engine_created);
+        else on_engine_created(api);
     }
 }
 

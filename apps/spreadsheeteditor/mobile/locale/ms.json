@@ -3,11 +3,11 @@
     "textAbout": "Perihal",
     "textAddress": "Alamat",
     "textBack": "Kembali",
+    "textEditor": "Editor Hamparan",
     "textEmail": "E-mel",
     "textPoweredBy": "Dikuasakan Oleh",
     "textTel": "Tel",
-    "textVersion": "Versi",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Versi"
   },
   "Common": {
     "Collaboration": {
@@ -63,6 +63,8 @@
     "notcriticalErrorTitle": "Amaran",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
+    "textOk": "Okey",
+    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
     "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?"
   },
   "Controller": {
@@ -152,6 +154,7 @@
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Gantian telah dilakukan. {0} kejadian telah dilangkau.",
       "textReplaceSuccess": "Carian telah dilakukan. Kejadian digantikan: {0}",
+      "textRequestMacros": "Makro membuat permintaan ke URL. Adakah anda mahu membenarkan permintaan kepada %1?",
       "textYes": "Ya",
       "titleServerVersion": "Editor dikemas kini",
       "titleUpdateVersion": "Perubahan versi",
@@ -161,8 +164,7 @@
       "warnLicenseUsersExceeded": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pentadbir anda untuk ketahui selanjutnya.",
       "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
-      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini."
     }
   },
   "Error": {
@@ -181,6 +183,7 @@
     "errorChangeArray": "Anda tidak boleh mengubah bahagian tatasusunan.",
     "errorChangeOnProtectedSheet": "Sel atau carta yang anda cuba ubah ialah helaian dilindung. Untuk membuat perubahan, nyahlindung helaian. Anda mungkin diminta untuk memasukkan kata laluan.",
     "errorConnectToServer": "Tidak dapat menyimpan dok ini. Semak seting sambungan anda atau hubungi pentadbir.<br>Apabila anda klik ‘OK’, anda akan diminta untuk muat turun dokumennya.",
+    "errorCopyMultiselectArea": "Perintah ini tidak boleh digunakan dengan berbilang pilihan.<br> Pilih julat tunggal dan cuba lagi.",
     "errorCountArg": "Terdapat ralat di dalam formula.<br>Bilangan argumen yang tidak sah.",
     "errorCountArgExceed": "Terdapat ralat di dalam formula.<br>Bilangan argumen telah melebihi maksimum.",
     "errorCreateDefName": "Julat nama sedia ada tidak boleh diedit dan yang baharu tidak boleh dicipta<br>pada masa sekarang kerana beberapa daripadanya sedang diedit.",
@@ -235,8 +238,7 @@
     "unknownErrorText": "Ralat tidak diketahui.",
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
-    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
-    "errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again."
+    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Kata laluan",
@@ -300,9 +302,9 @@
     "textRenameSheet": "Namakan Semula Helaian",
     "textSheet": "Helaian",
     "textSheetName": "Nama Helaian",
+    "textTabColor": "Warna Tab",
     "textUnhide": "Nyahsembunyi",
-    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "Lembaran kerja mungkin mempunyai data. Teruskan operasi?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
@@ -401,6 +403,7 @@
       "textBottomBorder": "Sempadan Bawah",
       "textBringToForeground": "Bawa ke Tanah",
       "textCell": "Sel",
+      "textCellStyle": "Gaya Sel",
       "textCenter": "Pusat",
       "textChart": "Carta",
       "textChartTitle": "Tajuk Carta",
@@ -549,8 +552,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "txtSortHigh2Low": "Isih Tertinggi Ke Terendah",
-      "txtSortLow2High": "Isih Terendah Ke Tertinggi.",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Isih Terendah Ke Tertinggi."
     },
     "Settings": {
       "advCSVOptions": "Pilih pilihan CSV",
@@ -582,6 +584,7 @@
       "textCustomSize": "Saiz Tersuai",
       "textDarkTheme": "Tema Gelap",
       "textDelimeter": "Pembatas",
+      "textDirection": "Arah",
       "textDisableAll": "Nyahdayakan Semua",
       "textDisableAllMacrosWithNotification": "Nyahdayakan semua makro dengan pemberitahuan",
       "textDisableAllMacrosWithoutNotification": "Nyahdayakan semua makro tanpa pemberitahuan",
@@ -593,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "Mendayakan semua makro tanpa pemberitahuan",
       "textEncoding": "Pengekodan",
       "textExample": "Contoh",
+      "textFeedback": "Maklum Balas & Sokongan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
       "textFindAndReplaceAll": "Cari dan Ganti Semua",
@@ -608,6 +612,7 @@
       "textLastModified": "Dibodifikasi Terakhir",
       "textLastModifiedBy": "Terakhir Dimodifikasi Oleh",
       "textLeft": "Kiri",
+      "textLeftToRight": "Kiri ke kanan",
       "textLocation": "Lokasi",
       "textLookIn": "Cari Ke Dalam",
       "textMacrosSettings": "Seting Makro",
@@ -628,7 +633,9 @@
       "textReplace": "Gantikan",
       "textReplaceAll": "Gantikan Semua",
       "textResolvedComments": "Komen Diselesaikan",
+      "textRestartApplication": "Mulakan semula aplikasi untuk perubahan tersebut berkuat kuasa",
       "textRight": "Kanan",
+      "textRightToLeft": "Kanan ke Kiri",
       "textSearch": "Carian",
       "textSearchBy": "Carian",
       "textSearchIn": "Carian Dalam",
@@ -639,6 +646,7 @@
       "textSpreadsheetInfo": "Maklumat Hamparan",
       "textSpreadsheetSettings": "Seting Hamparan",
       "textSpreadsheetTitle": "Tajuk Hamparan",
+      "textSubject": "Subjek",
       "textTel": "Tel",
       "textTitle": "Tajuk",
       "textTop": "Atas",
@@ -680,13 +688,7 @@
       "txtSemicolon": "Koma bertindih",
       "txtSpace": "Jarak",
       "txtTab": "Tab",
-      "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
-      "textDirection": "Direction",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRightToLeft": "Right To Left",
-      "textSubject": "Subject"
+      "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?"
     }
   }
 }

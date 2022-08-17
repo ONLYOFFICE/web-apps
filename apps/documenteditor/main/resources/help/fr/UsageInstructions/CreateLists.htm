@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Créer des listes à puces et des listes numérotées et changer la structure et les paramètres des listes" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -21,9 +22,9 @@
                 <li>
                     sélectionnez le type de liste à créer:
                     <ul>
-                        <li><b>Liste non ordonnée</b> avec des marqueurs est créée à l'aide de l'icône <b>Puces</b> <img alt="L'icône de la liste non ordonnée" src="../images/bullets.png" /> de la barre d'outils supérieure</li>
+                        <li><b>Liste non ordonnée</b> avec des marqueurs est créée à l'aide de l'icône <b>Puces</b> <div class = "icon icon-bullets"></div> de la barre d'outils supérieure</li>
                         <li>
-                            <b>Liste ordonnée</b> avec numérotage spécial est créée à l'aide de l'icône <b>Numérotation</b> <img alt="L'icône de la liste ordonnée" src="../images/numbering.png" /> de la barre d'outils supérieure
+                            <b>Liste ordonnée</b> avec numérotage spécial est créée à l'aide de l'icône <b>Numérotation</b> <div class = "icon icon-numbering"></div> de la barre d'outils supérieure
                             <p class="note">Cliquez sur la flèche vers le bas à côté de l'icône <b>Puces</b> ou <b>Numérotation</b> pour sélectionner le format de puces ou de numérotation souhaité.</p>
                         </li>
                     </ul>
@@ -31,8 +32,8 @@
                 <li>appuyez sur la touche <b>Entrée</b> à la fin de la ligne pour ajouter un nouvel élément à la liste.  Pour terminer la liste, appuyez sur la touche <b>Retour arrière</b> et continuez le travail.</li>
             </ol>
             <p>L'éditeur commence automatiquement une liste numérotée lorsque vous tapez 1 et un point ou une parenthèse droite et un espace: <b>1.</b>, <b>1)</b>. La liste à puces commence automatiquement lorsque vous tapez  <b>-</b> ou <b>* </b> et un espace.</p>
-            <p>Vous pouvez aussi changer le retrait du texte dans les listes et leur imbrication en utilisant les icônes <b>Liste multi-niveaux</b> <img alt="L'icône de la liste multi-niveaux" src="../images/outline.png" />, <b>Réduire le retrait</b> <img alt="L'icône Réduire le retrait" src="../images/decreaseindent.png" /> et <b>Augmenter le retrait</b> <img alt="L'icône Augmenter le retrait" src="../images/increaseindent.png" /> sous l'onglet <b>Accueil</b> de la barre d'outils supérieure.</p>
-            <p>Pour modifier le niveau de la liste, cliquez sur l'icône  <b>Numérotation </b> <img alt="L'icône de la liste ordonnée" src="../images/numbering.png" />, <b>Puces</b>  <img alt="L'icône de la liste non ordonnée" src="../images/bullets.png" />, ou <b>Liste multi-niveaux</b> <img alt="L'icône de la liste multi-niveaux" src="../images/outline.png" /> et choisissez <b>Changer le niveau de liste</b>, ou placer le curseur au début de la ligne et appuyez sur la touche Tab du clavier pour augmenter le niveau de la liste. Procédez au niveau de liste approprié.</p>
+            <p>Vous pouvez aussi changer le retrait du texte dans les listes et leur imbrication en utilisant les icônes <b>Liste multi-niveaux</b> <span class = "icon icon-outline"></span>, <b>Réduire le retrait</b> <span class = "icon icon-decreaseindent"></span> et <b>Augmenter le retrait</b> <span class = "icon icon-increaseindent"></span> sous l'onglet <b>Accueil</b> de la barre d'outils supérieure.</p>
+            <p>Pour modifier le niveau de la liste, cliquez sur l'icône  <b>Numérotation </b> <span class = "icon icon-numbering"></span>, <b>Puces</b>  <span class = "icon icon-bullets"></span>, ou <b>Liste multi-niveaux</b> <span class = "icon icon-outline"></span> et choisissez <b>Changer le niveau de liste</b>, ou placer le curseur au début de la ligne et appuyez sur la touche Tab du clavier pour augmenter le niveau de la liste. Procédez au niveau de liste approprié.</p>
             <p><img alt="Changer le niveau de liste" src="../images/listlevel.png" /></p>
             <p class="note">Vous pouvez configurez les paramètres supplémentaires du retrait et de l'espacement sur la barre latérale droite et dans la fenêtre de configuration de paramètres avancées.  Pour en savoir plus, consultez les pages  <a href="ParagraphIndents.htm" onclick="onhyperlinkclick(this)">Modifier le retrait des paragraphes</a> et <a href="LineSpacing.htm" onclick="onhyperlinkclick(this)">Régler l'interligne du paragraphe</a> .</p>
 
@@ -70,7 +71,7 @@
             <p>Pour configurer les paramètres de la liste comme la puce/la numérotation, l'alignement, la taille et la couleur:</p>
             <ol>
                 <li>cliquez sur un élément de la liste actuelle ou sélectionnez le texte à partir duquel vous souhaitez créer une liste,</li>
-                <li>cliquez sur l'icône <b>Puces</b> <img alt="L'icône de la liste non ordonnée" src="../images/bullets.png" /> ou <b>Numérotation</b> <img alt="L'icône de la liste ordonnée" src="../images/numbering.png" /> sous l'onglet <b>Accueil</b> dans la barre d'outils en haut,</li>
+                <li>cliquez sur l'icône <b>Puces</b> <div class = "icon icon-bullets"></div> ou <b>Numérotation</b> <div class = "icon icon-numbering"></div> sous l'onglet <b>Accueil</b> dans la barre d'outils en haut,</li>
                 <li>sélectionnez l'option <b>Paramètres de la liste</b>,</li>
                 <li>
                     la fenêtre <b>Paramètres de la liste</b> s'affiche.  La fenêtre de paramètres de la liste à puces se présente sous cet aspect:
@@ -92,7 +93,7 @@
             <p>Pour configurer les paramètres de la liste à plusieurs niveaux,</p>
             <ol>
                 <li>appuyez sur un élément de la liste,</li>
-                <li>cliquez sur l'icône <b>Liste multiniveaux</b> <img alt="L'icône de la liste multi-niveaux" src="../images/outline.png" /> sous l'onglet <b>Accueil</b> dans la barre d'outils en haut,</li>
+                <li>cliquez sur l'icône <b>Liste multiniveaux</b> <div class = "icon icon-outline"></div> sous l'onglet <b>Accueil</b> dans la barre d'outils en haut,</li>
                 <li>sélectionnez l'option <b>Paramètres de la liste</b>,</li>
                 <li>
                     la fenêtre <b>Paramètres de la liste</b> s'affiche. La fenêtre Paramètres de la liste multiniveaux se présente sous cet aspect:

@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Insérer des objets textuels tels que des zones de texte et des objets Text Art pour attirer l'attention sur une partie spécifique de la feuille de calcul" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -21,10 +22,10 @@
                 <li>passez à l'onglet Insertion de la barre d'outils supérieure,</li>
                 <li>sélectionnez le type d'objet textuel voulu:
                 <ul>
-                    <li>Pour ajouter une zone de texte, cliquez sur l'icône <img alt="L'icône Zone de texte" src="../images/inserttexticon.png" /> <b>Zone de texte</b> de la barre d'outils supérieure, puis cliquez sur l'emplacement où vous souhaitez insérer la zone de texte, maintenez le bouton de la souris enfoncé et faites glisser la bordure pour définir sa taille. Lorsque vous relâchez le bouton de la souris, le point d'insertion apparaîtra dans la zone de texte ajoutée, vous permettant d'entrer votre texte.
-                        <p class="note"><b>Remarque</b>: il est également possible d'insérer une zone de texte en cliquant sur l'icône <img alt="L'icône Forme" src="../images/insertautoshape.png" /> <b>Forme</b> dans la barre d'outils supérieure et en sélectionnant la forme <img alt="Insérer une forme automatique textuelle" src="../images/text_autoshape.png" /> dans le groupe <b>Formes de base</b>.</p>
+                    <li>Pour ajouter une zone de texte, cliquez sur l'icône <div class = "icon icon-inserttexticon"></div> <b>Zone de texte</b> de la barre d'outils supérieure, puis cliquez sur l'emplacement où vous souhaitez insérer la zone de texte, maintenez le bouton de la souris enfoncé et faites glisser la bordure pour définir sa taille. Lorsque vous relâchez le bouton de la souris, le point d'insertion apparaîtra dans la zone de texte ajoutée, vous permettant d'entrer votre texte.
+                        <p class="note"><b>Remarque</b>: il est également possible d'insérer une zone de texte en cliquant sur l'icône <span class="icon icon-insertautoshape"></span> <b>Forme</b> dans la barre d'outils supérieure et en sélectionnant la forme <span class="icon icon-text_autoshape"></span> dans le groupe <b>Formes de base</b>.</p>
                     </li>
-                    <li>Pour ajouter un objet Text Art, cliquez sur l'icône <img alt="L'icône Text Art" src="../images/inserttextarticon.png" /> <b>Text Art</b> dans la barre d'outils supérieure, puis cliquez sur le modèle de style souhaité - l'objet Text Art sera ajouté au centre de la feuille de calcul. Sélectionnez le texte par défaut dans la zone de texte avec la souris et remplacez-le par votre propre texte.</li>
+                    <li>Pour ajouter un objet Text Art, cliquez sur l'icône <span class = "icon icon-inserttextarticon"></span> <b>Text Art</b> dans la barre d'outils supérieure, puis cliquez sur le modèle de style souhaité - l'objet Text Art sera ajouté au centre de la feuille de calcul. Sélectionnez le texte par défaut dans la zone de texte avec la souris et remplacez-le par votre propre texte.</li>
                 </ul>
                 </li>
                 <li>cliquez en dehors de l'objet texte pour appliquer les modifications et revenir à la feuille de calcul.</li>
@@ -37,7 +38,7 @@
             <p><img alt="Zone de texte sélectionnée" src="../images/textbox_boxselected.png" /></p>
             <ul>
                 <li>Pour <a href="ManipulateObjects.htm" onclick="onhyperlinkclick(this)">redimensionner, déplacer, faire pivoter</a> la zone de texte manuellement, utilisez les poignées spéciales sur les bords de la forme.</li>
-                <li>Pour modifier <a href="InsertAutoshapes.htm#shape_fill" onclick="onhyperlinkclick(this)">le remplissage</a>, <a href="InsertAutoshapes.htm#shape_stroke" onclick="onhyperlinkclick(this)">le contour</a>ou <b>remplacer</b> la boîte rectangulaire par une forme différente, cliquez sur l'icône <a href="InsertAutoshapes.htm#shape_advanced" onclick="onhyperlinkclick(this)">Paramèteres avancés de forme</a>, cliquez sur l'icône <b>Paramètres de forme</b> <img alt="L'icône Paramètres de la forme" src="../images/shape_settings_icon.png" /> dans la barre latérale de droite et utilisez les options correspondantes.</li>                
+                <li>Pour modifier <a href="InsertAutoshapes.htm#shape_fill" onclick="onhyperlinkclick(this)">le remplissage</a>, <a href="InsertAutoshapes.htm#shape_stroke" onclick="onhyperlinkclick(this)">le contour</a>ou <b>remplacer</b> la boîte rectangulaire par une forme différente, cliquez sur l'icône <a href="InsertAutoshapes.htm#shape_advanced" onclick="onhyperlinkclick(this)">Paramèteres avancés de forme</a>, cliquez sur l'icône <b>Paramètres de forme</b> <div class = "icon icon-shape_settings_icon"></div> dans la barre latérale de droite et utilisez les options correspondantes.</li>                
                 <li>Pour <b>organiser</b> les zones de texte par rapport à d'autres objets, <b>aligner plusieurs zones de texte</b> les unes par rapport aux autres, <b>faire pivoter</b> ou <b>retourner</b> une zone de texte, cliquer avec le bouton droit de la souris sur la bordure de la zone de texte et utiliser les options du menu contextuel. Pour en savoir plus sur l'organisation et l'alignement des objets, vous pouvez vous référer à <a href="../UsageInstructions/ManipulateObjects.htm" onclick="onhyperlinkclick(this)">cette page</a>.</li>
                 <li>Pour créer <b>des colonnes de texte</b> dans la zone de texte, cliquez avec le bouton droit sur la bordure de la zone de texte, cliquez ensuite sur l'option <b>Paramètres avancés de forme</b> et passez à l'onglet <a href="../UsageInstructions/InsertAutoshapes.htm#columns" onclick="onhyperlinkclick(this)">Colonnes</a> de la fenêtre F<b>orme - Paramètres avancés</b>.</li>
             </ul>
@@ -66,7 +67,7 @@
                 </li>
                 <li>insérer <a href="../UsageInstructions/AddHyperlinks.htm" onclick="onhyperlinkclick(this)">un lien hypertexte</a></li>
                 <li>
-                    Définissez <b>l'espacement des lignes et des paragraphes</b> pour le texte multiligne dans la zone de texte à l'aide de l'onglet <b>Paramètres du paragraphe</b> de la barre latérale de droite qui s'ouvre si vous cliquez sur l'icône Paramètres du paragraphe <img alt="L'icône Paramètres du texte" src="../images/textsettings.png" /> . Spécifiez l'interligne pour les lignes de texte dans le paragraphe ainsi que les marges entre le paragraphe courant et le précédent ou le suivant.
+                    Définissez <b>l'espacement des lignes et des paragraphes</b> pour le texte multiligne dans la zone de texte à l'aide de l'onglet <b>Paramètres du paragraphe</b> de la barre latérale de droite qui s'ouvre si vous cliquez sur l'icône Paramètres du paragraphe <div class = "icon icon-textsettings"></div> . Spécifiez l'interligne pour les lignes de texte dans le paragraphe ainsi que les marges entre le paragraphe courant et le précédent ou le suivant.
                     <p><img alt="L'onglet Paramètres du texte" src="../images/textsettingstab.png" /></p>
                     <ul>
                         <li><b>Interligne</b> - réglez la hauteur de la ligne pour les lignes de texte dans le paragraphe. Vous pouvez choisir parmi deux options: <b>Multiple</b> (sert à régler l'interligne exprimée en nombre supérieur à 1), <b>Exactement</b> (sert à définir l'interligne fixe). Spécifiez la valeur nécessaire dans le champ situé à droite.</li>
@@ -140,7 +141,7 @@
                 </li>
             </ul>                            
             <h3>Modifier un style Text Art</h3>
-            <p>Sélectionnez un objet texte et cliquez sur l'icône des <b>Paramètres de Text Art</b> <img alt="L'icône Paramètres de Text Art" src="../images/textart_settings_icon.png" /> dans la barre latérale de droite.</p>
+            <p>Sélectionnez un objet texte et cliquez sur l'icône des <b>Paramètres de Text Art</b> <span class="icon icon-textart_settings_icon"></span> dans la barre latérale de droite.</p>
             <p><img alt="Onglet Paramètres de Text Art" src="../images/right_textart.png" /></p>
             <ul>
                 <li>Modifiez le style de texte appliqué en sélectionnant un nouveau <b>Modèle</b> dans la galerie. Vous pouvez également modifier le style de base en sélectionnant un type de police différent, une autre taille, etc.</li>

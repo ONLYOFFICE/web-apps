@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Add a table to your presentation and adjust its properties" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -19,7 +20,7 @@
 			<ol>
 				<li>Wählen Sie die gewünschte Folie aus, in die Sie eine Tabelle einfügen möchten.</li>
                 <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Einfügen</b>.</li>
-				<li>Klicken Sie auf das Symbol <img alt="Tabelle" src="../images/inserttable.png" /> <b>Tabelle</b>.</li>
+				<li>Klicken Sie auf das Symbol <div class = "icon icon-inserttable"></div> <b>Tabelle</b>.</li>
 				<li>Wählen Sie die gewünschte Option für die Erstellung einer Tabelle:<ul>
 						<li><p>Tabelle mit einer vordefinierten Zellenanzahl (maximal 10 x 8 Zellen)</p>
 						<p>Wenn Sie schnell eine Tabelle erstellen möchten, wählen Sie einfach die Anzahl der Zeilen (maximal 8) und Spalten (maximal 10) aus.</p></li>
@@ -31,7 +32,9 @@
 			</ol>
 			<p>Sie können die <a href="../UsageInstructions/ManipulateObjects.htm" onclick="onhyperlinkclick(this)">Position der Tabelle</a> auf der Folie bestimmen, indem Sie diese vertikal oder horizontal verschieben.</p>
 			<hr />
-            <h3>Tabelleneinstellungen anpassen</h3><img class="floatleft"alt="Registerkarte Tabelleneinstellungen" src="../images/tablesettingstab.png" /><p>Die meisten Tabelleneigenschaften sowie die Struktur, können Sie in der rechten Seitenleiste ändern. Um diese zu aktivieren, klicken Sie auf die Tabelle und wählen Sie rechts das Symbol <b>Tabelleneinstellungen</b> <img alt="Tabelleneinstellungen" src="../images/table_settings_icon.png" /> aus.</p>
+            <h3>Tabelleneinstellungen anpassen</h3>
+            <img class="floatleft"alt="Registerkarte Tabelleneinstellungen" src="../images/tablesettingstab.png" />
+            <p>Die meisten Tabelleneigenschaften sowie die Struktur, können Sie in der rechten Seitenleiste ändern. Um diese zu aktivieren, klicken Sie auf die Tabelle und wählen Sie rechts das Symbol <b>Tabelleneinstellungen</b> <span class="icon icon-table_settings_icon"></span> aus.</p>
 			<p>In den Abschnitten <b>Zeilen</b> und <b>Spalten</b>, haben Sie die Möglichkeit, bestimmte Zeilen/Spalten hervorzuheben, eine bestimmte Formatierung anzuwenden oder die Zeilen/Spalten in den verschiedenen Hintergrundfarben einzufärben, um sie klar zu unterscheiden. Folgende Auswahlmöglichkeiten stehen zur Verfügung:</p>
 			<ul style="margin-left: 280px;">
 				<li><b>Kopfzeile</b> - die erste Zeile der Tabelle wird durch eine bestimmte Formatierung hervorgehoben.</li>
@@ -42,14 +45,15 @@
 				<li><b>Gebänderte Spalten</b> - gerade und ungerade Spalten werden unterschiedlich formatiert.</li>
 			</ul>
 			<p>Im Abschnitt <b>Aus Vorlage wählen</b> können Sie einen vordefinierten Tabellenstil auswählen. Jede Vorlage kombiniert bestimmte Formatierungsparameter, wie Hintergrundfarbe, Rahmenstil, Zellen-/Spaltenformat usw. Abhängig von den in den Abschnitten <b>Zeilen</b> oder <b>Spalten</b> ausgewählten Optionen, werden die Vorlagen unterschiedlich dargestellt. Wenn Sie zum Beispiel die Option <b>Kopfzeile</b> im Abschnitt <b>Zeilen</b> und die Option <b>Gebänderte Spalten</b> im Abschnitt <b>Spalten</b> aktiviert haben, enthält die angezeigte Vorlagenliste nur Vorlagen mit Kopfzeile und gebänderten Spalten:</p>
-			<p><img alt="Vorlagenliste" src="../images/templateslist.png" /></p>
+			<p><span class="big big-templateslist"></span></p>
 			<p>Im Abschnitt <b>Rahmenstil</b> können Sie die angewandte Formatierung ändern, die der gewählten Vorlage entspricht. Sie können die ganze Tabelle auswählen oder einen bestimmten Zellenbereich, dessen Formatierung Sie ändern möchten, und alle Parameter manuell bestimmen.</p>
 			<ul>
-				<li><b>Rahmen</b> - legen Sie die Stärke des Rahmens in der Liste <img alt="Liste Rahmenstärke" src="../images/bordersize.png" /> fest (oder wählen Sie die Option <b>Kein Rahmen</b>) sowie den gewünschten Rahmenstil und wählen Sie die <b>Rahmenfarbe</b> aus den verfügbaren Paletten aus:<p><img alt="Liste Rahmenstil" src="../images/bordertype.png" /></p>
+				<li><b>Rahmen</b> - legen Sie die Stärke des Rahmens in der Liste <div class = "big big-bordersize"></div> fest (oder wählen Sie die Option <b>Kein Rahmen</b>) sowie den gewünschten Rahmenstil und wählen Sie die <b>Rahmenfarbe</b> aus den verfügbaren Paletten aus:
+                <p><span class="big big-bordertype"></span></p>
 				</li>
 				<li><b>Hintergrundfarbe</b> - wählen Sie eine Farbe für den Hintergrund innerhalb der ausgewählten Zellen.</li>
 			</ul>
-			<p>Im Abschnitt <b>Zeilen &amp; Spalten</b> <img alt="Zeilen &amp; Spalten" src="../images/rowsandcolumns.png" /> können Sie folgende Vorgänge durchzuführen:</p>
+			<p>Im Abschnitt <b>Zeilen &amp; Spalten</b> <span class="icon icon-rowsandcolumns"></span> können Sie folgende Vorgänge durchzuführen:</p>
 			<ul>
 				<li><b>Auswählen</b> - eine Zeile, Spalte, Zelle (abhängig von der Cursorposition) oder die ganze Tabelle auswählen.</li>
 				<li><b>Einfügen</b> eine neue Zeile unter oder über der ausgewählten Zeile bzw. eine neue Spalte links oder rechts von der ausgewählten Spalte einfügen.</li>

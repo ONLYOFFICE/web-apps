@@ -45,8 +45,11 @@ PE.ApplicationView = new(function(){
         $btnTools.addClass('dropdown-toggle').attr('data-toggle', 'dropdown').attr('aria-expanded', 'true');
         $btnTools.parent().append(
             '<ul class="dropdown-menu pull-right">' +
-            '<li><a id="idt-print"><span class="mi-icon svg-icon print"></span>' + this.txtPrint + '</a></li>' +
             '<li><a id="idt-download"><span class="mi-icon svg-icon download"></span>' + this.txtDownload + '</a></li>' +
+            '<li><a id="idt-print"><span class="mi-icon svg-icon print"></span>' + this.txtPrint + '</a></li>' +
+            '<li class="divider"></li>' +
+            '<li><a id="idt-search"><span class="mi-icon svg-icon search"></span>' + this.txtSearch + '</a></li>' +
+            '<li class="divider"></li>' +
             '<li><a id="idt-share" data-toggle="modal"><span class="mi-icon svg-icon share"></span>' + this.txtShare + '</a></li>' +
             '<li><a id="idt-close" data-toggle="modal"><span class="mi-icon svg-icon go-to-location"></span>' + this.txtFileLocation + '</a></li>' +
             '<li class="divider"></li>' +
@@ -70,6 +73,7 @@ PE.ApplicationView = new(function(){
         txtShare: 'Share',
         txtEmbed: 'Embed',
         txtFullScreen: 'Full Screen',
-        txtFileLocation: 'Open file location'
+        txtFileLocation: 'Open file location',
+        txtSearch: 'Search'
     }
 })();

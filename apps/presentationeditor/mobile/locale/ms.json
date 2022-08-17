@@ -3,11 +3,11 @@
     "textAbout": "Perihal",
     "textAddress": "Alamat",
     "textBack": "Kembali",
+    "textEditor": "Editor Persembahan",
     "textEmail": "E-mel",
     "textPoweredBy": "Dikuasakan Oleh",
     "textTel": "Tel",
-    "textVersion": "Versi",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Versi"
   },
   "Common": {
     "Collaboration": {
@@ -59,7 +59,9 @@
     "textColumns": "Lajur",
     "textCopyCutPasteActions": "Tindakan Salin, Potong dan Tampal",
     "textDoNotShowAgain": "Jangan tunjukkan semula",
-    "textRows": "Baris"
+    "textOk": "Okey",
+    "textRows": "Baris",
+    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?"
   },
   "Controller": {
     "Main": {
@@ -114,6 +116,7 @@
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Gantian telah dilakukan. {0} kejadian telah dilangkau.",
       "textReplaceSuccess": "Carian telah dilakukan. Kejadian digantikan: {0}",
+      "textRequestMacros": "Makro membuat permintaan ke URL. Adakah anda mahu membenarkan permintaan kepada %1?",
       "textYes": "Ya",
       "titleLicenseExp": "Lesen tamat tempoh",
       "titleServerVersion": "Editor dikemas kini",
@@ -127,8 +130,7 @@
       "warnLicenseUsersExceeded": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pentadbir anda untuk ketahui selanjutnya.",
       "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
-      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini."
     }
   },
   "Error": {
@@ -399,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Skrin lebar (16:9)",
+      "notcriticalErrorTitle": "Amaran",
       "textAbout": "Perihal",
       "textAddress": "alamat",
       "textApplication": "Permohonan",
@@ -421,6 +424,7 @@
       "textEmail": "e-mel:",
       "textEnableAll": "Mendayakan Semua",
       "textEnableAllMacrosWithoutNotification": "Mendayakan semua makro tanpa pemberitahuan",
+      "textFeedback": "Maklum Balas & Sokongan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
       "textFindAndReplaceAll": "Cari dan Ganti Semua",
@@ -433,6 +437,7 @@
       "textLocation": "Lokasi",
       "textMacrosSettings": "Seting Makro",
       "textNoTextFound": "Teks tidak dijumpai",
+      "textOk": "Okey",
       "textOwner": "Pemilik",
       "textPoint": "Mata",
       "textPoweredBy": "Dikuasakan Oleh",
@@ -442,11 +447,14 @@
       "textPrint": "Cetak",
       "textReplace": "Gantikan",
       "textReplaceAll": "Gantikan Semua",
+      "textRestartApplication": "Mulakan semula aplikasi untuk perubahan tersebut berkuat kuasa",
+      "textRTL": "RTL",
       "textSearch": "Carian",
       "textSettings": "Seting",
       "textShowNotification": "Tunjuk Pemberitahuan",
       "textSlideSize": "Saiz Slaid",
       "textSpellcheck": "Menyemak Ejaan",
+      "textSubject": "Subjek",
       "textTel": "Tel:",
       "textTitle": "Tajuk",
       "textUnitOfMeasurement": "Unit Pengukuran",
@@ -473,13 +481,7 @@
       "txtScheme6": "Konkos",
       "txtScheme7": "Ekuiti",
       "txtScheme8": "Aliran",
-      "txtScheme9": "Faundri",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL",
-      "textSubject": "Subject"
+      "txtScheme9": "Faundri"
     }
   }
 }

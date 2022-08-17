@@ -109,8 +109,12 @@
             });
 
             if (opts.hideonclick) {
+                var me = this;
                 var tip = this.$element.data('bs.tooltip');
-                if (tip) tip.tip().on('click', function() {tip.hide();});
+                if (tip) tip.tip().on('click', function() {
+                    tip.hide();
+                    me.trigger('tooltip:hideonclick', this);
+                });
             }
 
             this.$element.on('shown.bs.tooltip', _.bind(this.onTipShown, this));

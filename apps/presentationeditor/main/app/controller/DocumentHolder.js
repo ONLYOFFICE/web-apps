@@ -230,7 +230,7 @@ define([
                 me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(me.onApiUpdateThemeIndex, me));
                 me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(me.onApiLockDocumentTheme, me));
                 me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(me.onApiUnLockDocumentTheme, me));
-                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration));
+                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration, me));
 
                 me.documentHolder.setApi(me.api);
             }
@@ -342,6 +342,7 @@ define([
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
+                        this.api.asc_onCloseChartFrame();
                     }
                     var me = this;
                     setTimeout(function(){
@@ -759,13 +760,13 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            var me = this;
             if (url) {
-                if (me.api.asc_getUrlType(url)>0)
+                var type = this.api.asc_getUrlType(url);
+                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                     window.open(url);
                 else
                     Common.UI.warning({
-                        msg: me.documentHolder.txtWarnUrl,
+                        msg: this.documentHolder.txtWarnUrl,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
@@ -829,7 +830,7 @@ define([
                             ToolTip = ToolTip.substr(0, 256) + '...';
 
                         if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + me.documentHolder.txtPressLink + '</b>'));
+                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>'));
                             screenTip.tipLength = ToolTip.length;
                             screenTip.strTip = ToolTip;
                             recalc = true;
@@ -1169,7 +1170,7 @@ define([
 
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
-                documentHolder.cmpEl.append(pasteContainer);
+                documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-special-paste'),

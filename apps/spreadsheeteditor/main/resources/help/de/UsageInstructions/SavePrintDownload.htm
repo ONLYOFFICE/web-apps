@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Save, print and download your spreadsheet in various formats" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -18,7 +19,7 @@
             <p class="onlineDocumentFeatures">Standardmäßig speichert die Online-<a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabellenkalkulation</b></a> Ihre Datei während der Bearbeitung automatisch alle 2 Sekunden, um Datenverluste im Falle eines unerwarteten Schließen des Programmes zu verhindern. Wenn Sie die Datei im <b>Schnellmodus</b> co-editieren, fordert der Timer 25 Mal pro Sekunde Aktualisierungen an und speichert vorgenommene Änderungen. Wenn Sie die Datei im Modus <b>Strikt</b> co-editieren, werden Änderungen automatisch alle 10 Minuten gespeichert. Sie können den bevorzugten Co-Modus nach Belieben auswählen oder die Funktion <b>AutoSpeichern</b> auf der Seite <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Erweiterte Einstellungen</a> deaktivieren.</p>
             <p>Um die aktuelle Tabelle manuell im aktuellen Format im aktuellen Verzeichnis zu speichern:</p>
             <ul>
-                <li>Verwenden Sie das Symbol <b>Speichern</b> <img alt="Speichern" src="../images/save.png" /> im linken Bereich der Kopfzeile des Editors oder</li>
+                <li>Verwenden Sie das Symbol <b>Speichern</b> <div class = "icon icon-save"></div> im linken Bereich der Kopfzeile des Editors oder</li>
                 <li>drücken Sie die Tasten <b>STRG+S</b> oder</li>
                 <li>wechseln Sie in der oberen Menüleiste in die Registerkarte <b>Datei</b> und wählen Sie die Option <b>Speichern</b>.</li>
             </ul>
@@ -54,7 +55,7 @@
             <h3 id="print">Drucken</h3>
             <p>Um die aktuelle Kalkulationstabelle zu drucken:</p>
             <ul>
-                <li>Klicken Sie auf das Symbol <b>Drucken</b> <img alt="Drucken" src="../images/print.png" /> im linken Bereich der Kopfzeile des Editors oder</li>
+                <li>Klicken Sie auf das Symbol <b>Drucken</b> <div class = "icon icon-print"></div> im linken Bereich der Kopfzeile des Editors oder</li>
                 <li>nutzen Sie die Tastenkombination <b>STRG+P</b> oder</li>
                 <li>wechseln Sie in der oberen Menüleiste in die Registerkarte <b>Datei</b> und wählen Sie die Option <b>Drucken</b>.</li>
             </ul>
@@ -100,7 +101,7 @@
             <ol>
                 <li>wählen Sie den gewünschten Zellbereich in der Arbeitsmappe aus: Um mehrere Zellen auszuwählen, drücken Sie die Taste <em>STRG</em> und halten Sie diese gedrückt.</li>
                 <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Layout</b>.</li>
-                <li>Klicken Sie auf den Pfeil neben dem Symbol <img alt="Druckbereich" src="../images/printareabutton.png" /> <b>Druckbereich</b> und wählen Sie die Option <b>Druckbereich festlegen</b>.</li>
+                <li>Klicken Sie auf den Pfeil neben dem Symbol <div class = "icon icon-printareabutton"></div> <b>Druckbereich</b> und wählen Sie die Option <b>Druckbereich festlegen</b>.</li>
             </ol>
             <p>Wenn Sie die Arbeitsmappe speichern, wird der festgelegte Druckbereich ebenfalls gespeichert. Wenn Sie die Datei das nächste Mal öffnen, wird der festgelegte Druckbereich gedruckt.</p>
             <p class="note">Wenn Sie einen Druckbereich erstellen, wird automatisch ein als <em>Druck_Bereich</em> <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">benannter Bereich</a> erstellt, der im <b>Namensmanger</b> angezeigt wird. Um die Ränder aller Druckbereiche im aktuellen Arbeitsblatt hervorzuheben, klicken Sie auf den Pfeil im Namensfeld links neben der Bearbeitungsleiste und wählen Sie den Namen <em>Druck_Bereich</em> aus der Namensliste aus.</p>
@@ -109,14 +110,14 @@
                 <li>Öffnen Sie die Arbeitsmappe mit dem festgelegten Druckbereich.</li>
                 <li>Wählen Sie den gewünschten Zellbereich in der Arbeitsmappe aus.</li>
                 <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Layout</b>.</li>
-                <li>Klicken Sie auf den Pfeil neben dem Symbol <img alt="Druckbereich" src="../images/printareabutton.png" /> <b>Druckbereich</b> und wählen Sie die Option <b>Druckbereich festlegen</b>.</li>
+                <li>Klicken Sie auf den Pfeil neben dem Symbol <div class = "icon icon-printareabutton"></div> <b>Druckbereich</b> und wählen Sie die Option <b>Druckbereich festlegen</b>.</li>
             </ol>
             <p><!--If the selected cell range is adjacent to the existing print area, it will be added to this print area. If the selected cell range is not adjacent to the existing print area,--> Ein neuer Druckbereich wird hinzugefügt. Jeder Druckbereich wird auf einer separaten Seite gedruckt.</p>
             <p>Um einen Druckbereich zu löschen:</p>
             <ol>
                 <li>Öffnen Sie die Arbeitsmappe mit dem festgelegten Druckbereich.</li>
                 <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Layout</b>.</li>
-                <li>Klicken Sie auf den Pfeil neben dem Symbol <img alt="Druckbereich" src="../images/printareabutton.png" /> <b>Druckbereich</b> und wählen Sie die Option <b>Druckbereich festlegen</b>.</li>
+                <li>Klicken Sie auf den Pfeil neben dem Symbol <div class = "icon icon-printareabutton"></div> <b>Druckbereich</b> und wählen Sie die Option <b>Druckbereich festlegen</b>.</li>
             </ol>
             <p>Alle auf diesem Blatt vorhandenen Druckbereiche werden entfernt. Anschließend wird die gesamte Arbeitsmappe gedruckt.</p>
         </div>

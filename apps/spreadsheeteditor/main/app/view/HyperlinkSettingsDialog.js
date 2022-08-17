@@ -107,6 +107,7 @@ define([
             this.api = this.options.api;
             this.appOptions = options.appOptions;
             this.dataRangeValid = '';
+            this.urlType = AscCommon.c_oAscUrlType.Invalid;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -144,9 +145,8 @@ define([
                     var trimmed = $.trim(value);
                     if (me.api.asc_getFullHyperlinkLength(trimmed)>2083) return me.txtSizeLimit;
 
-                    var urltype = me.api.asc_getUrlType(trimmed);
-                    me.isEmail = (urltype==2);
-                    return (urltype>0) ? true : me.txtNotUrl;
+                    me.urlType = me.api.asc_getUrlType(trimmed);
+                    return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
                 }
             });
             me.inputUrl._input.on('input', function (e) {
@@ -258,6 +258,16 @@ define([
             return [this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip];
         },
 
+        show: function() {
+            Common.UI.Window.prototype.show.apply(this, arguments);
+            Common.Utils.InternalSettings.set("sse-dialog-link-visible", true);
+        },
+
+        close: function() {
+            Common.Utils.InternalSettings.set("sse-dialog-link-visible", false);
+            Common.UI.Window.prototype.close.apply(this, arguments);
+        },
+
         setSettings: function(settings) {
             if (settings) {
                 var me = this;
@@ -316,8 +326,8 @@ define([
                 }
             } else {
                 var url = this.inputUrl.getValue().replace(/^\s+|\s+$/g,'');
-                if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                    url = ( (this.isEmail) ? 'mailto:' : 'http://' ) + url;
+                if (this.urlType!==AscCommon.c_oAscUrlType.Unsafe && ! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
+                    url = ( (this.urlType==AscCommon.c_oAscUrlType.Email) ? 'mailto:' : 'http://' ) + url;
                 url = url.replace(new RegExp("%20",'g')," ");
                 props.asc_setHyperlinkUrl(url);
                 def_display = url;

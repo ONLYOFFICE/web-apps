@@ -208,6 +208,7 @@ define([
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
                 this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
                 this.api.asc_registerCallback('asc_onSpellCheckInit',        _.bind(this.loadLanguages, this));
+                this.api.asc_registerCallback('asc_onOleEditorReady',        _.bind(this.onOleEditorReady, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
@@ -494,6 +495,7 @@ define([
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
+                    docInfo.put_DirectUrl(data.doc.directUrl);
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
@@ -1006,6 +1008,8 @@ define([
                         }
                     }, 50);
                 } else {
+                    var formulasDlgController = application.getController('FormulaDialog');
+                    formulasDlgController && formulasDlgController.setMode(me.appOptions).setApi(me.api);
                     documentHolderView.createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
@@ -1061,7 +1065,8 @@ define([
                     || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
-                if (licType !== undefined && this.appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS))
+                if (licType !== undefined && this.appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS||
+                                                                             licType===Asc.c_oLicenseResult.UsersViewCount || licType===Asc.c_oLicenseResult.UsersViewCountOS))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady)
@@ -1070,7 +1075,8 @@ define([
 
             applyLicense: function() {
                 if (this.editorConfig.mode === 'view') {
-                    if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS)) {
+                    if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
+                                                        this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
                         // show warning or write to log if Common.Utils.InternalSettings.get("sse-settings-coauthmode") was true ???
                         this.disableLiveViewing(true);
                     }
@@ -1427,7 +1433,7 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
 
                     var printController = app.getController('Print');
-                    printController && this.api && printController.setApi(this.api);
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
                 } else if (this.appOptions.isEditOle)
                     this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
 
@@ -1523,16 +1529,21 @@ define([
                 }
             },
 
-            onExternalMessage: function(msg) {
+            onExternalMessage: function(msg, options) {
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
-                    this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]);
+                    this.showTips([msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)], options);
 
                     Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
             onError: function(id, level, errData, callback) {
+                if (this.isFrameClosed) {
+                    this.lastFrameError = {id: id, level: level, errData: errData, callback: callback};
+                    return;
+                }
+
                 if (id == Asc.c_oAscError.ID.LoadingScriptError) {
                     this.showTips([this.scriptLoadError]);
                     this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
@@ -1934,12 +1945,19 @@ define([
                     case Asc.c_oAscError.ID.FillAllRowsWarning:
                         var fill = errData[0],
                             have = errData[1],
-                            fillWithSeparator = fill.toLocaleString(this.appOptions.lang);
+                            lang = (this.appOptions.lang || 'en').replace('_', '-').toLowerCase(),
+                            fillWithSeparator;
+                        try {
+                            fillWithSeparator = fill.toLocaleString(lang);
+                        } catch (e) {
+                            lang = 'en';
+                            fillWithSeparator = fill.toLocaleString(lang);
+                        }
                         if (this.appOptions.isDesktopApp && this.appOptions.isOffline) {
                             config.msg = fill > have ? Common.Utils.String.format(this.textFormulaFilledAllRowsWithEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledAllRows, fillWithSeparator);
                             config.buttons = [{caption: this.textFillOtherRows, primary: true, value: 'fillOther'}, 'close'];
                         } else {
-                            config.msg = fill >= have ? Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherIsEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherHaveData, fillWithSeparator, (have - fill).toLocaleString(this.appOptions.lang));
+                            config.msg = fill >= have ? Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherIsEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherHaveData, fillWithSeparator, (have - fill).toLocaleString(lang));
                             config.buttons = ['ok'];
                         }
                         config.maxwidth = 400;
@@ -2009,17 +2027,30 @@ define([
                 this._state.isDisconnected = true;
             },
 
-            showTips: function(strings) {
+            showTips: function(strings, options) {
                 var me = this;
                 if (!strings.length) return;
                 if (typeof(strings)!='object') strings = [strings];
 
+                function closeTip(cmp){
+                    me.tipTimeout && clearTimeout(me.tipTimeout);
+                    setTimeout(showNextTip, 300);
+                }
+
                 function showNextTip() {
                     var str_tip = strings.shift();
                     if (str_tip) {
-                        str_tip += '\n' + me.textCloseTip;
-                        tooltip.setTitle(str_tip);
-                        tooltip.show();
+                        if (!(options && options.hideCloseTip))
+                            str_tip += '\n' + me.textCloseTip;
+                        me.tooltip.setTitle(str_tip);
+                        me.tooltip.show();
+                        me.tipTimeout && clearTimeout(me.tipTimeout);
+                        if (options && options.timeout) {
+                            me.tipTimeout = setTimeout(function () {
+                                me.tooltip.hide();
+                                closeTip();
+                            }, options.timeout);
+                        }
                     }
                 }
 
@@ -2031,12 +2062,8 @@ define([
                         cls: 'main-info',
                         offset: 30
                     });
+                    this.tooltip.on('tooltip:hideonclick',closeTip);
                 }
-
-                var tooltip = this.tooltip;
-                tooltip.on('tooltip:hide', function(){
-                    setTimeout(showNextTip, 300);
-                });
 
                 showNextTip();
             },
@@ -2579,6 +2606,10 @@ define([
                 if (typeof chart === 'object' && this.api) {
                     this.api.asc_addChartDrawingObject(chart);
                     this.isFrameClosed = false;
+                    if (this.lastFrameError) {
+                        this.onError(this.lastFrameError.id, this.lastFrameError.level, this.lastFrameError.errData, this.lastFrameError.callback);
+                        this.lastFrameError = undefined;
+                    }
                 }
             },
 
@@ -2602,6 +2633,10 @@ define([
                 if ((typeof obj === 'object' || obj==="empty") && this.api) {
                     this.api.asc_addTableOleObjectInOleEditor(typeof obj === 'object' ? obj : undefined);
                     this.isFrameClosed = false;
+                    if (this.lastFrameError) {
+                        this.onError(this.lastFrameError.id, this.lastFrameError.level, this.lastFrameError.errData, this.lastFrameError.callback);
+                        this.lastFrameError = undefined;
+                    }
                 }
             },
 
@@ -2616,10 +2651,18 @@ define([
                 }
             },
 
+            onOleEditorReady: function() {
+                Common.Gateway.internalMessage('oleEditorReady', {});
+            },
+
             setMergeData: function(merge) {
                 if (typeof merge === 'object' && this.api) {
                     this.api.asc_setData(merge);
                     this.isFrameClosed = false;
+                    if (this.lastFrameError) {
+                        this.onError(this.lastFrameError.id, this.lastFrameError.level, this.lastFrameError.errData, this.lastFrameError.callback);
+                        this.lastFrameError = undefined;
+                    }
                 }
             },
 

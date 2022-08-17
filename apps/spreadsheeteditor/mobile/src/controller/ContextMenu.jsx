@@ -137,7 +137,7 @@ class ContextMenu extends ContextMenuController {
                     }
                 } else {
                     const url = linkinfo.asc_getHyperlinkUrl().replace(/\s/g, "%20");
-                    api.asc_getUrlType(url) > 0 && this.openLink(url);
+                    this.openLink(url);
                 }
                 break;
         }
@@ -193,10 +193,32 @@ class ContextMenu extends ContextMenuController {
     }
 
     openLink(url) {
-        const newDocumentPage = window.open(url, '_blank');
-
-        if (newDocumentPage) {
-            newDocumentPage.focus();
+        if (url) {
+            const type = Common.EditorApi.get().asc_getUrlType(url);
+            if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) {
+                const newDocumentPage = window.open(url, '_blank');
+                if (newDocumentPage) {
+                    newDocumentPage.focus();
+                }
+            } else {
+                const { t } = this.props;
+                const _t = t("ContextMenu", { returnObjects: true });
+                f7.dialog.create({
+                    title: _t.notcriticalErrorTitle,
+                    text  : _t.txtWarnUrl,
+                    buttons: [{
+                        text: _t.textOk,
+                        bold: true,
+                        onClick: () => {
+                            const newDocumentPage = window.open(url, '_blank');
+                            if (newDocumentPage) {
+                                newDocumentPage.focus();
+                            }
+                        }
+                    },
+                    { text: _t.menuCancel }]
+                }).open();
+            }
         }
     }
 

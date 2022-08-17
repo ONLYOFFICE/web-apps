@@ -3,11 +3,11 @@
     "textAbout": "Acerca de",
     "textAddress": "Dirección",
     "textBack": "Atrás",
+    "textEditor": "Editor de hojas de cálculo",
     "textEmail": "Correo",
     "textPoweredBy": "Con tecnología de",
     "textTel": "Tel",
-    "textVersion": "Versión ",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Versión "
   },
   "Common": {
     "Collaboration": {
@@ -63,6 +63,8 @@
     "notcriticalErrorTitle": "Advertencia",
     "textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
     "textDoNotShowAgain": "No mostrar de nuevo",
+    "textOk": "Aceptar",
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
     "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
   },
   "Controller": {
@@ -76,7 +78,7 @@
       "leavePageText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
       "notcriticalErrorTitle": "Advertencia",
       "SDK": {
-        "txtAccent": "Énfasis",
+        "txtAccent": "Acentuación",
         "txtAll": "(Todos)",
         "txtArt": "Su texto aquí",
         "txtBlank": "(en blanco)",
@@ -152,6 +154,7 @@
       "textRemember": "Recordar mi elección",
       "textReplaceSkipped": "Se ha realizado la sustitución. Se han omitido {0} ocurrencias.",
       "textReplaceSuccess": "Se ha realizado la búsqueda. Ocurrencias reemplazadas: {0}",
+      "textRequestMacros": "Una macro realiza una solicitud a la URL. ¿Quiere permitir la solicitud al %1?",
       "textYes": "Sí",
       "titleServerVersion": "Editor ha sido actualizado",
       "titleUpdateVersion": "Versión ha cambiado",
@@ -161,8 +164,7 @@
       "warnLicenseUsersExceeded": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con su administrador para saber más.",
       "warnNoLicense": "Ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
       "warnNoLicenseUsers": "Ha alcanzado el límite de usuarios para %1 editores. Póngase en contacto con el equipo de ventas de %1 para conocer las condiciones de actualización personal.",
-      "warnProcessRightsChange": "No tiene permiso para editar el archivo.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
   "Error": {
@@ -221,7 +223,7 @@
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
     "errorStockChart": "Orden incorrecto de las filas. Para construir un gráfico de cotizaciones, coloque los datos en la hoja en el siguiente orden:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
     "errorUnexpectedGuid": "Error externo.<br> Guid inesperado. Por favor, contacte con el equipo de soporte.",
-    "errorUpdateVersionOnDisconnect": "La conexión a Internet se ha restaurado y la versión del archivo ha cambiado.<br>Antes de continuar trabajando, necesita descargar el archivo o copiar su contenido para asegurarse de que no ha perdido nada y luego recargar esta página.",
+    "errorUpdateVersionOnDisconnect": "Se ha restablecido la conexión a Internet y se ha cambiado la versión del archivo. <br>Para poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se ha perdido nada, y luego volver a cargar esta página.",
     "errorUserDrop": "No se puede acceder al archivo ahora mismo.",
     "errorUsersExceed": "Se superó la cantidad de usuarios permitidos por el plan de precios",
     "errorViewerDisconnect": "Se ha perdido la conexión. Todavía puede ver el documento,<br>pero no podrá descargarlo ni imprimirlo hasta que se restablezca la conexión y se recargue la página.",
@@ -300,9 +302,9 @@
     "textRenameSheet": "Renombrar hoja",
     "textSheet": "Hoja",
     "textSheetName": "Nombre de hoja",
+    "textTabColor": "Color de la pestaña",
     "textUnhide": "Volver a mostrar",
-    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "La hoja de cálculo puede tener datos. ¿Continuar con la operación?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
@@ -373,7 +375,7 @@
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
       "textAccounting": "Contabilidad",
-      "textActualSize": "Tamaño actual",
+      "textActualSize": "Tamaño Real",
       "textAddCustomColor": "Agregar color personalizado",
       "textAddress": "Dirección",
       "textAlign": "Alinear",
@@ -401,6 +403,7 @@
       "textBottomBorder": "Borde inferior",
       "textBringToForeground": "Traer al primer plano",
       "textCell": "Celda",
+      "textCellStyle": "Estilo de celda",
       "textCenter": "Centro",
       "textChart": "Gráfico",
       "textChartTitle": "Título del gráfico",
@@ -549,8 +552,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Ordenar de menor a mayor "
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -582,6 +584,7 @@
       "textCustomSize": "Tamaño personalizado",
       "textDarkTheme": "Tema oscuro",
       "textDelimeter": "Delimitador",
+      "textDirection": "Dirección ",
       "textDisableAll": "Deshabilitar todo",
       "textDisableAllMacrosWithNotification": "Deshabilitar todas las macros con notificación",
       "textDisableAllMacrosWithoutNotification": "Deshabilitar todas las macros sin notificación",
@@ -593,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación ",
       "textEncoding": "Codificación",
       "textExample": "Ejemplo",
+      "textFeedback": "Comentarios y asistencia",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
       "textFindAndReplaceAll": "Buscar y reemplazar todo",
@@ -608,6 +612,7 @@
       "textLastModified": "Última modificación",
       "textLastModifiedBy": "Última modificación por",
       "textLeft": "A la izquierda",
+      "textLeftToRight": "De izquierda a derecha",
       "textLocation": "Ubicación",
       "textLookIn": "Buscar en ",
       "textMacrosSettings": "Ajustes de macros",
@@ -616,7 +621,7 @@
       "textMatchCell": "Hacer coincidir las celdas",
       "textNoTextFound": "Texto no encontrado",
       "textOk": "OK",
-      "textOpenFile": "Introduzca la contraseña para abrir el archivo",
+      "textOpenFile": "Introduzca una contraseña para abrir el archivo",
       "textOrientation": "Orientación ",
       "textOwner": "Propietario",
       "textPoint": "Punto",
@@ -628,7 +633,9 @@
       "textReplace": "Reemplazar",
       "textReplaceAll": "Reemplazar todo",
       "textResolvedComments": "Comentarios resueltos",
+      "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textRight": "A la derecha",
+      "textRightToLeft": "De derecha a izquierda",
       "textSearch": "Buscar",
       "textSearchBy": "Buscar",
       "textSearchIn": "Buscar en",
@@ -681,12 +688,7 @@
       "txtSemicolon": "Punto y coma",
       "txtSpace": "Espacio",
       "txtTab": "Pestaña",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "textDirection": "Direction",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRightToLeft": "Right To Left"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
   }
 }

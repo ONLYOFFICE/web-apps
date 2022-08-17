@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Alçada",
   "common.view.modals.txtShare": "Comparteix l'enllaç",
   "common.view.modals.txtWidth": "Amplada",
+  "common.view.SearchBar.textFind": "Cerca",
   "SSE.ApplicationController.convertationErrorText": "No s'ha pogut convertir.",
   "SSE.ApplicationController.convertationTimeoutText": "S'ha superat el temps de conversió.",
   "SSE.ApplicationController.criticalErrorTitle": "Error",
@@ -14,7 +15,7 @@
   "SSE.ApplicationController.errorFilePassProtect": "El fitxer està protegit amb contrasenya i no es pot obrir.",
   "SSE.ApplicationController.errorFileSizeExceed": "La mida del fitxer supera el límit establert per al servidor.<br>Contacteu amb l'administrador del servidor de documents per a obtenir més informació.",
   "SSE.ApplicationController.errorForceSave": "S'ha produït un error en desar el fitxer. Utilitzeu l'opció «Anomena i baixa» per a desar el fitxer al disc dur de l’ordinador o torneu-ho a provar més endavant.",
-  "SSE.ApplicationController.errorLoadingFont": "No s'han carregat les famílies tipogràfiques.<br>Contacteu amb l'administrador del servidor de documents.",
+  "SSE.ApplicationController.errorLoadingFont": "No s'han carregat les lletres tipogràfiques.<br> Contacteu amb l'administrador del Servidor de Documents.",
   "SSE.ApplicationController.errorTokenExpire": "El testimoni de seguretat del document ha caducat.<br>Contacteu amb l'administrador del servidor de documents.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "S'ha restaurat la connexió a internet i la versió del fitxer ha canviat.<br>Abans de continuar treballant, heu de baixar el fitxer o copiar-ne el contingut per a assegurar-vos que no es perdi res i, després, torneu a carregar la pàgina.",
   "SSE.ApplicationController.errorUserDrop": "No es pot accedir al fitxer.",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Obre la ubicació del fitxer",
   "SSE.ApplicationView.txtFullScreen": "Pantalla completa",
   "SSE.ApplicationView.txtPrint": "Imprimeix",
+  "SSE.ApplicationView.txtSearch": "Cerca",
   "SSE.ApplicationView.txtShare": "Comparteix"
 }

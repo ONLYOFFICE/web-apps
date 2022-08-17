@@ -89,7 +89,8 @@ define([
         thumbCanvas.width   = thumbs[thumbIdx].width;
 
         function CThumbnailLoader() {
-            this.supportBinaryFormat = !(Common.Controllers.Desktop.isActive() && !Common.Controllers.isFeatureAvailable('isSupportBinaryFontsSprite'));
+            this.supportBinaryFormat = !(Common.Controllers.Desktop.isActive() && !Common.Controllers.Desktop.isFeatureAvailable('isSupportBinaryFontsSprite'));
+            // наш формат - альфамаска с сжатием типа rle для полностью прозрачных пикселов
 
             this.image = null;
             this.binaryFormat = null;
@@ -98,6 +99,7 @@ define([
             this.height = 0;
             this.heightOne = 0;
             this.count = 0;
+            this.offsets = null;
 
             this.load = function(url, callback) {
                 if (!callback)
@@ -123,7 +125,7 @@ define([
 
                     xhr.onload = function() {
                         // TODO: check errors
-                        me.binaryFormat = this.response;
+                        me.binaryFormat = new Uint8Array(this.response);
                         callback();
                     };
 
@@ -134,37 +136,73 @@ define([
             this.openBinary = function(arrayBuffer) {
                 //var t1 = performance.now();
 
-                var binaryAlpha = new Uint8Array(arrayBuffer);
+                var binaryAlpha = this.binaryFormat;
                 this.width      = (binaryAlpha[0] << 24) | (binaryAlpha[1] << 16) | (binaryAlpha[2] << 8) | (binaryAlpha[3] << 0);
                 this.heightOne  = (binaryAlpha[4] << 24) | (binaryAlpha[5] << 16) | (binaryAlpha[6] << 8) | (binaryAlpha[7] << 0);
                 this.count      = (binaryAlpha[8] << 24) | (binaryAlpha[9] << 16) | (binaryAlpha[10] << 8) | (binaryAlpha[11] << 0);
                 this.height     = this.count * this.heightOne;
 
-                this.data = new Uint8ClampedArray(4 * this.width * this.height);
+                var MAX_MEMORY_SIZE = 50000000;
+                var memorySize = 4 * this.width * this.height;
+                var isOffsets = (memorySize > MAX_MEMORY_SIZE) ? true : false;
+                    
+                if (!isOffsets)
+                    this.data = new Uint8ClampedArray(memorySize);
+                else
+                    this.offsets = new Array(this.count);
 
                 var binaryIndex = 12;
                 var binaryLen = binaryAlpha.length;
-                var imagePixels = this.data;
                 var index = 0;
 
                 var len0 = 0;
                 var tmpValue = 0;
-                while (binaryIndex < binaryLen) {
-                    tmpValue = binaryAlpha[binaryIndex++];
-                    if (0 == tmpValue) {
-                        len0 = binaryAlpha[binaryIndex++];
-                        while (len0 > 0) {
-                            len0--;
-                            imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255;
-                            imagePixels[index + 3] = 0; // this value is already 0.
+
+                if (!isOffsets) {
+                    var imagePixels = this.data;
+                    while (binaryIndex < binaryLen) {
+                        tmpValue = binaryAlpha[binaryIndex++];
+                        if (0 == tmpValue) {
+                            len0 = binaryAlpha[binaryIndex++];
+                            while (len0 > 0) {
+                                len0--;
+                                imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255;
+                                imagePixels[index + 3] = 0; // this value is already 0.
+                                index += 4;
+                            }
+                        } else {
+                            imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255 - tmpValue;
+                            imagePixels[index + 3] = tmpValue;
                             index += 4;
                         }
-                    } else {
-                        imagePixels[index] = imagePixels[index + 1] = imagePixels[index + 2] = 255 - tmpValue;
-                        imagePixels[index + 3] = tmpValue;
-                        index += 4;
+                    }
+                } else {
+                    var module = this.width * this.heightOne;
+                    var moduleCur = module - 1;
+                    while (binaryIndex < binaryLen) {
+                        tmpValue = binaryAlpha[binaryIndex++];
+                        if (0 == tmpValue) {
+                            len0 = binaryAlpha[binaryIndex++];
+                            while (len0 > 0) {
+                                len0--;
+                                moduleCur++;
+                                if (moduleCur === module) {
+                                    this.offsets[index++] = { pos : binaryIndex, len : len0 + 1 };
+                                    moduleCur = 0;
+                                }
+                            }
+                        } else {
+                            moduleCur++;
+                            if (moduleCur === module) {
+                                this.offsets[index++] = { pos : binaryIndex - 1, len : -1 };
+                                moduleCur = 0;
+                            }
+                        }
                     }
                 }
+
+                if (!this.offsets)
+                    delete this.binaryFormat;
 
                 //var t2 = performance.now();
                 //console.log(t2 - t1);
@@ -185,14 +223,53 @@ define([
                 }
 
                 if (this.supportBinaryFormat) {
-                    if (!this.data) {
+                    if (!this.data && !this.offsets) {
                         this.openBinary(this.binaryFormat);
-                        delete this.binaryFormat;
                     }
 
                     var dataTmp = ctx.createImageData(this.width, this.heightOne);
                     var sizeImage = 4 * this.width * this.heightOne;
-                    dataTmp.data.set(new Uint8ClampedArray(this.data.buffer, index * sizeImage, sizeImage));
+
+                    if (!this.offsets) {
+                        dataTmp.data.set(new Uint8ClampedArray(this.data.buffer, index * sizeImage, sizeImage));                        
+                    } else {
+                        var binaryAlpha = this.binaryFormat;
+                        var binaryIndex = this.offsets[index].pos;
+                        var alphaChannel = 0;
+                        var pixelsCount = this.width * this.heightOne;
+                        var tmpValue = 0, len0 = 0;
+                        var imagePixels = dataTmp.data;
+                        if (-1 != this.offsets[index].len) {
+                            /*
+                            // this values is already 0.
+                            for (var i = 0; i < this.offsets[index].len; i++) {
+                                pixels[alphaChannel] = 0;
+                                alphaChannel += 4;
+                            }
+                            */
+                            alphaChannel += 4 * this.offsets[index].len;
+                        }
+                        while (pixelsCount > 0) {
+                            tmpValue = binaryAlpha[binaryIndex++];
+                            if (0 == tmpValue) {
+                                len0 = binaryAlpha[binaryIndex++];
+                                if (len0 > pixelsCount)
+                                    len0 = pixelsCount;
+                                while (len0 > 0) {
+                                    len0--;
+                                    imagePixels[alphaChannel] = imagePixels[alphaChannel + 1] = imagePixels[alphaChannel + 2] = 255;
+                                    imagePixels[alphaChannel + 3] = 0; // this value is already 0.
+                                    alphaChannel += 4;
+                                    pixelsCount--;
+                                }
+                            } else {
+                                imagePixels[alphaChannel] = imagePixels[alphaChannel + 1] = imagePixels[alphaChannel + 2] = 255 - tmpValue;
+                                imagePixels[alphaChannel + 3] = tmpValue;
+                                alphaChannel += 4;
+                                pixelsCount--;
+                            }
+                        }
+                    }
                     ctx.putImageData(dataTmp, 0, 0);
                 } else {
                     ctx.clearRect(0, 0, this.width, this.heightOne);

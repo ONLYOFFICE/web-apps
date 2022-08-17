@@ -1154,7 +1154,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strCoAuthMode": "Co-editing mode",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFast": "Fast",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFontRender": "Font Hinting",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strForcesave": "Vienmēr noglabāt serverī (pretējā gadījumā noglabāt serverī dokumenta aizvēršanas laikā)",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Formula Language",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Regional Settings",

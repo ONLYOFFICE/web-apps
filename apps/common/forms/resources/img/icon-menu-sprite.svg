@@ -1,4 +1,4 @@
-<svg width="540" height="40" viewBox="0 0 540 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="580" height="40" viewBox="0 0 580 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="icon-menu-sprite Embedded Viewer">
 <g id="view-settings">
 <path id="Vector" d="M17 26H3V27H17V26Z" fill="white"/>
@@ -203,6 +203,18 @@
 <g id="hide-password_2">
     <path id="Subtract_2" fill-rule="evenodd" clip-rule="evenodd" d="M530.948 26.052C530.638 26.0177 530.321 26 530 26C526.91 26 524.243 27.6351 523 30C523.439 30.8356 524.056 31.5801 524.807 32.1935L525.518 31.4821C524.979 31.055 524.519 30.5539 524.158 30C525.311 28.2309 527.473 27 530 27C530 27 530 27 530 27L530.948 26.052ZM530 33C532.527 32.9999 534.689 31.769 535.842 30C535.481 29.4463 535.021 28.9453 534.482 28.5182L535.194 27.8068C535.944 28.4202 536.561 29.1646 537 30C535.757 32.3649 533.09 34 530 34C529.679 34 529.363 33.9824 529.052 33.9481L530 33Z" fill="white"/>
     <path id="Vector 169_2" d="M525 35L535 25" stroke="white"/>
+</g>
+<g id="arrow-up">
+    <path id="Union_4" fill-rule="evenodd" clip-rule="evenodd" d="M550 6.29297L550.354 6.64652L555.854 12.1465L555.146 12.8536L550 7.70718L544.854 12.8536L544.146 12.1465L549.646 6.64652L550 6.29297Z" fill="black"/>
+</g>
+<g id="arrow-up_2">
+   <path id="Union_3" fill-rule="evenodd" clip-rule="evenodd" d="M550 26.293L550.354 26.6465L555.854 32.1465L555.146 32.8536L550 27.7072L544.854 32.8536L544.146 32.1465L549.646 26.6465L550 26.293Z" fill="white"/>
+</g>
+<g id="arrow-down">
+   <path id="Union_2" fill-rule="evenodd" clip-rule="evenodd" d="M570 13.7071L570.354 13.3536L575.854 7.85359L575.146 7.14648L570 12.2929L564.854 7.14648L564.146 7.85359L569.646 13.3536L570 13.7071Z" fill="black"/>
+</g>
+<g id="arrow-down_2">
+   <path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M570 33.7071L570.354 33.3536L575.854 27.8536L575.146 27.1465L570 32.2929L564.854 27.1465L564.146 27.8536L569.646 33.3536L570 33.7071Z" fill="white"/>
 </g>
 </g>
 </svg>

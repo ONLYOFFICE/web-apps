@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b> ແບບຟອມທີ່ສົ່ງມາແລ້ວ",
   "DE.ApplicationController.txtClose": " ປິດ",
   "DE.ApplicationController.txtEmpty": "(ຫວ່າງເປົ່າ)",
-  "DE.ApplicationController.txtPressLink": "ກົດ Ctrl ແລະກົດລິ້ງ",
+  "DE.ApplicationController.txtPressLink": "ກົດ %1 ແລະກົດລິ້ງ",
   "DE.ApplicationController.unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
   "DE.ApplicationController.unsupportedBrowserErrorText": "ບຣາວເຊີຂອງທ່ານບໍ່ສາມານຳໃຊ້ໄດ້",
   "DE.ApplicationController.waitText": "ກະລຸນາລໍຖ້າ...",

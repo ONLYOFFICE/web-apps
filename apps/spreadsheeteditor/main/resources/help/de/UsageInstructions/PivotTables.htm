@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Pivot-Tabellen erstellen und bearbeiten. Filter verwenden, die Darstellung der Pivot-Tabellen ändern." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -21,22 +22,22 @@
                 <li>Bereiten Sie den Quelldatensatz vor, den Sie zum Erstellen einer Pivot-Tabelle verwenden möchten. Er sollte Spaltenkopfzeilen enthalten. Der Datensatz sollte keine leeren Zeilen oder Spalten enthalten.</li>
                 <li>Wählen Sie eine Zelle im Datenquelle-Bereich aus.</li>
                 <li>
-                    Öffnen Sie die Registerkarte <b>Pivot-Tabelle</b> in der oberen Symbolleiste und klicken Sie die Schaltfläche <b>Tabelle einfügen</b> <img alt="Tabelle einfügen - Symbol" src="../images/insert_pivot.png" /> an.
-                    <p>Wenn Sie eine Pivot-Tabelle auf der Basis einer <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">formatierten Tabelle</a> erstellen möchten, verwenden Sie die Option <img alt="Pivot-Tabelle einfügen" src="../images/insertpivot.png" /> <b>Pivot-Tabelle einfügen</b> im Menü <b>Tabelle-Einstellungen</b> in der rechten Randleiste.</p>
+                    Öffnen Sie die Registerkarte <b>Pivot-Tabelle</b> in der oberen Symbolleiste und klicken Sie die Schaltfläche <b>Tabelle einfügen</b> <div class = "icon icon-insert_pivot"></div> an.
+                    <p>Wenn Sie eine Pivot-Tabelle auf der Basis einer <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">formatierten Tabelle</a> erstellen möchten, verwenden Sie die Option <span class="icon icon-insertpivot"></span> <b>Pivot-Tabelle einfügen</b> im Menü <b>Tabelle-Einstellungen</b> in der rechten Randleiste.</p>
                 </li>
                 <li>
                     Das Fenster <b>Pivot-Tabelle erstellen</b> wird geöffnet.
                     <p><img alt="Pivot-Tabelle erstellen - Fenster" src="../images/create_pivot.png" /></p>
                     <ul>
                         <li>
-                            Die Option <b>Datenquelle-Bereich</b> wird schon konfiguriert. Alle Daten aus dem ausgewählten Datenquelle-Bereich werden verwendet. Wenn Sie den Bereich ändern möchten (z.B., nur einen Teil der Datenquelle enthalten), klicken Sie die Schaltfläche <img alt="Daten auswählen" src="../images/changerange.png" /> an. Im Fenster <b>Datenbereich auswählen</b> geben Sie den Datenbereich im nachfolgenden Format ein: <em>Sheet1!$A$1:$E$10</em>. Sie können auch den gewünschten Datenbereich per Maus auswählen. Klicken Sie auf <b>OK</b>.
+                            Die Option <b>Datenquelle-Bereich</b> wird schon konfiguriert. Alle Daten aus dem ausgewählten Datenquelle-Bereich werden verwendet. Wenn Sie den Bereich ändern möchten (z.B., nur einen Teil der Datenquelle enthalten), klicken Sie die Schaltfläche <div class = "icon icon-changerange"></div> an. Im Fenster <b>Datenbereich auswählen</b> geben Sie den Datenbereich im nachfolgenden Format ein: <em>Sheet1!$A$1:$E$10</em>. Sie können auch den gewünschten Datenbereich per Maus auswählen. Klicken Sie auf <b>OK</b>.
                         </li>
                         <li>
                             Wählen Sie die Stelle für die Pivot-Tabelle aus.
                             <ul>
                                 <li>Die Option <b>Neues Arbeitsblatt</b> ist standardmäßig markiert. Die Pivot-Tabelle wird auf einem neuen Arbeitsblatt erstellt.</li>
                                 <li>
-                                    Die Option <b>Existierendes Arbeitsblatt</b> fordert eine Auswahl der bestimmten Zelle. Die ausgewählte Zelle befindet sich in der oberen rechten Ecke der erstellten Pivot-Tabelle. Um eine Zelle auszuwählen, klicken Sie die Schaltfläche <img alt="Daten auswählen" src="../images/changerange.png" /> an.
+                                    Die Option <b>Existierendes Arbeitsblatt</b> fordert eine Auswahl der bestimmten Zelle. Die ausgewählte Zelle befindet sich in der oberen rechten Ecke der erstellten Pivot-Tabelle. Um eine Zelle auszuwählen, klicken Sie die Schaltfläche <div class = "icon icon-changerange"></div> an.
                                     <p><img alt="Datenbereich auswählen - Fenster" src="../images/pivot_selectdata2.png" /></p>
                                     <p>Im Fenster <b>Datenbereich auswählen</b> geben Sie die Zelladresse im nachfolgenden Format ein: <em>Sheet1!$G$2</em>. Sie können auch die gewünschte Zelle per Maus auswählen. Klicken Sie auf <b>OK</b>.</p>
                                 </li>
@@ -47,7 +48,7 @@
                 </li>
             </ol>
             <p>Eine leere Pivot-Tabelle wird an der ausgewählten Position eingefügt.</p>
-            <p>Die Registerkarte <b>Pivot-Tabelle Einstellungen</b> wird in der rechten Randleiste geöffnet. Sie können diese Registerkarte mithilfe der Schaltfläche <img alt="Pivot-Tabelle Einstellungen - Symbol" src="../images/pivot_settings.png" /> ein-/ausblenden.</p>
+            <p>Die Registerkarte <b>Pivot-Tabelle Einstellungen</b> wird in der rechten Randleiste geöffnet. Sie können diese Registerkarte mithilfe der Schaltfläche <span class="icon icon-pivot_settings"></span> ein-/ausblenden.</p>
             <p><img alt="Pivot table settings tab" src="../images/right_pivot.png" /></p>
 
             <h4>Wählen Sie die Felder zur Ansicht aus</h4>
@@ -59,7 +60,7 @@
             <p>Unten sehen Sie einige Beispiele für die Verwendung der Abschnitte <b>Filter</b>, <b>Spalten</b>, <b>Zeilen</b> und <b>Werte</b>.</p>
             <ul>
                 <li>
-                    Wenn Sie ein Feld dem Abschnitt <b>Filter</b> hunzufügen, wird ein gesonderter Filter oberhalb der Pivot-Tabelle erstellt. Der Filter wird für die ganze Pivot-Tabelle verwendet. Klicken Sie den Abwärtspfeil <img alt="Abwärtspfeil" src="../images/dropdownarrow.png" /> im erstellten Filter an, um die Werte aus dem ausgewählten Feld anzuzeigen. Wenn einige der Werten im Filter-Fenster demarkiert werden, klicken Sie auf <b>OK</b>, um die demarkierten Werte in der Pivot-Tabelle nicht anzuzeigen.
+                    Wenn Sie ein Feld dem Abschnitt <b>Filter</b> hunzufügen, wird ein gesonderter Filter oberhalb der Pivot-Tabelle erstellt. Der Filter wird für die ganze Pivot-Tabelle verwendet. Klicken Sie den Abwärtspfeil <div class = "icon icon-dropdownarrow"></div> im erstellten Filter an, um die Werte aus dem ausgewählten Feld anzuzeigen. Wenn einige der Werten im Filter-Fenster demarkiert werden, klicken Sie auf <b>OK</b>, um die demarkierten Werte in der Pivot-Tabelle nicht anzuzeigen.
                     <p><img alt="Pivot Filter" src="../images/pivot_filter_field.png" /></p>
                 </li>
                 <li>
@@ -208,8 +209,8 @@
                     <p class="note"><b>Hinweis</b>: Diese Einstellungen befinden sich auch im Fenster für die erweiterten Einstellungen der Pivot-Tabellen im Abschnitt <b>Gesamtergebnisse</b> in der Registerkarte <b>Name und Layout</b>.</p>
                 </li>
             </ul>
-            <p>Die Schaltfläche <img alt="Pivot-Tabelle auswählen Symbol" src="../images/pivotselecticon.png" /> <b>Auswählen</b> wählt die ganze Pivot-Tabelle aus.</p>
-            <p>Wenn Sie die Daten in der Datenquelle ändern, wählen Sie die Pivot-Tabelle aus und klicken Sie die Schaltfläche <img alt="Pivot-Tabelle aktualisieren Symbol" src="../images/pivot_refresh.png" /> <b>Aktualisieren</b> an, um die Pivot-Tabelle zu aktualisieren.</p>
+            <p>Die Schaltfläche <span class="icon icon-pivotselecticon"></span> <b>Auswählen</b> wählt die ganze Pivot-Tabelle aus.</p>
+            <p>Wenn Sie die Daten in der Datenquelle ändern, wählen Sie die Pivot-Tabelle aus und klicken Sie die Schaltfläche <span class="icon icon-pivot_refresh"></span> <b>Aktualisieren</b> an, um die Pivot-Tabelle zu aktualisieren.</p>
 
             <h3>Den Stil der Pivot-Tabellen ändern</h3>
             <p>Sie können die Darstellung von Pivot-Tabellen mithilfe der in der oberen Symbolleiste verfügbaren Stilbearbeitungswerkzeuge ändern.</p>
@@ -230,7 +231,7 @@
             <h3>Pivot-Tabellen filtern und sortieren</h3>
             <p>Sie können Pivot-Tabellen nach Beschriftungen oder Werten filtern und die zusätzlichen Sortierparameter verwenden.</p>
             <h4>Filtern</h4>
-            <p>Klicken Sie auf den Dropdown-Pfeil <img alt="Dropdown-Pfeil" src="../images/dropdownarrow.png" /> in den Spaltenbeschriftungen <b>Zeilen</b> oder <b>Spalten</b> in der Pivot-Tabelle. Die Optionsliste <b>Filter</b> wird geöffnet:</p>
+            <p>Klicken Sie auf den Dropdown-Pfeil <span class="icon icon-dropdownarrow"></span> in den Spaltenbeschriftungen <b>Zeilen</b> oder <b>Spalten</b> in der Pivot-Tabelle. Die Optionsliste <b>Filter</b> wird geöffnet:</p>
             <p><img alt="Filterfenster" src="../images/pivot_filterwindow.png" /></p>
             <p>Passen Sie die Filterparameter an. Sie können auf eine der folgenden Arten vorgehen: Wählen Sie die Daten aus, die angezeigt werden sollen, oder filtern Sie die Daten nach bestimmten Kriterien.</p>
             <ul>
@@ -270,10 +271,10 @@
                     <p>In der ersten Dropdown-Liste können Sie auswählen, ob Sie den höchsten (<b>Oben</b>) oder den niedrigsten (<b>Unten</b>) Wert anzeigen möchten. Im zweiten Feld können Sie angeben, wie viele Einträge aus der Liste oder wie viel Prozent der Gesamtzahl der Einträge angezeigt werden sollen (Sie können eine Zahl zwischen 1 und 500 eingeben). In der dritten Dropdown-Liste können Sie die Maßeinheiten festlegen: <b>Element</b> oder <b>Prozent</b>. In der vierten Dropdown-Liste wird der ausgewählte Feldname angezeigt. Sobald die erforderlichen Parameter festgelegt sind, klicken Sie auf <b>OK</b>, um den Filter anzuwenden.</p>
                 </li>
             </ul>
-            <p>Die Schaltfläche <b>Filter</b> <img alt="Filter Schaltfläche" src="../images/filterbutton.png" /> wird in den <b>Zeilenbeschriftungen</b> oder <b>Spaltenbeschriftungen</b> der Pivot-Tabelle angezeigt. Dies bedeutet, dass der Filter angewendet wird. <!-- Die Anzahl der gefilterten Datensätze wird in der Statusleiste angezeigt (z.B. <em>25 von 80 gefilterten Datensätzen</em>).--></p>
+            <p>Die Schaltfläche <b>Filter</b> <span class="icon icon-filterbutton"></span> wird in den <b>Zeilenbeschriftungen</b> oder <b>Spaltenbeschriftungen</b> der Pivot-Tabelle angezeigt. Dies bedeutet, dass der Filter angewendet wird. <!-- Die Anzahl der gefilterten Datensätze wird in der Statusleiste angezeigt (z.B. <em>25 von 80 gefilterten Datensätzen</em>).--></p>
 
             <h4>Sortierung</h4>
-            <p>Sie können die Pivot-Tabellendaten <b>sortieren</b>. Klicken Sie auf den Dropdown-Pfeil <img alt="Dropdown-Pfeil" src="../images/dropdownarrow.png" /> in den <b>Zeilenbeschriftungen</b> oder <b>Spaltenbeschriftungen</b> der Pivot-Tabelle und wählen Sie dann im Menü die Option <b>Aufsteigend sortieren</b> oder <b>Absteigend sortieren</b> aus.</p>
+            <p>Sie können die Pivot-Tabellendaten <b>sortieren</b>. Klicken Sie auf den Dropdown-Pfeil <span class="icon icon-dropdownarrow"></span> in den <b>Zeilenbeschriftungen</b> oder <b>Spaltenbeschriftungen</b> der Pivot-Tabelle und wählen Sie dann im Menü die Option <b>Aufsteigend sortieren</b> oder <b>Absteigend sortieren</b> aus.</p>
             <p>Mit der Option <b>Mehr Sortierungsoptionen</b> können Sie das Fenster <b>Sortieren</b> öffnen, in dem Sie die erforderliche Sortierreihenfolge auswählen können - <em>Aufsteigend</em> oder <em>Absteigend</em> - und wählen Sie dann ein bestimmtes Feld aus, das Sie sortieren möchten.</p>
             <p><img alt="Sortierungsoptionen für Pivot-Tabellen" src="../images/pivot_sort.png" /></p>
 
@@ -302,7 +303,7 @@
             </ul>
             <p><img alt="Pivot-Tabelle Erweiterte Einstellungen" src="../images/pivot_advanced2.png" /></p>
             <p>Der Abschnitt <b>Datenquelle</b> ändert die verwendeten Daten für die Pivot-Tabelle.</p>
-            <p>Prüfen Sie den <b>Datenbereich</b> und ändern Sie ihn gegebenfalls. Um den Datenbereich zu ändern, klicken Sie die Schaltfläche <img alt="Datenquellebereich Symbol" src="../images/changerange.png" /> an.</p>
+            <p>Prüfen Sie den <b>Datenbereich</b> und ändern Sie ihn gegebenfalls. Um den Datenbereich zu ändern, klicken Sie die Schaltfläche <span class="icon icon-changerange"></span> an.</p>
             <p><img alt="Datenbereich auswählen Symbol" src="../images/pivot_selectdata.png" /></p>
             <p>Im Fenster <b>Datenbereich auswählen</b> geben Sie den gewünschten Datenbereich im nachfolgenden Format ein: <em>Sheet1!$A$1:$E$10</em> oder verwenden Sie die Maus. Klicken Sie auf <b>OK</b>.</p>
             <p><img alt="Pivot-Tabelle Erweiterte Einstellungen" src="../images/pivot_advanced3.png" /></p>
@@ -310,7 +311,7 @@
             <h3>Eine Pivot-Tabelle löschen</h3>
             <p>Um eine Pivot-Tabelle zu löschen,</p>
             <ol>
-                <li>Wählen Sie die ganze Pivot-Tabelle mithilfe der Schaltfläche <img alt="Pivot-Tabelle auswählen Symbol" src="../images/pivotselecticon.png" /> <b>Auswählen</b> in der oberen Symbolleiste aus.</li>
+                <li>Wählen Sie die ganze Pivot-Tabelle mithilfe der Schaltfläche <div class = "icon icon-pivotselecticon"></div> <b>Auswählen</b> in der oberen Symbolleiste aus.</li>
                 <li>Drucken Sie die <b>Entfernen</b>-Taste.</li>
             </ol>
         </div>

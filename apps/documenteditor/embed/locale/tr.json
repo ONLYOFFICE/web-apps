@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Yükseklik",
   "common.view.modals.txtShare": "Bağlantıyı Paylaş",
   "common.view.modals.txtWidth": "Genişlik",
+  "common.view.SearchBar.textFind": "Bul",
   "DE.ApplicationController.convertationErrorText": "Değişim başarısız oldu.",
   "DE.ApplicationController.convertationTimeoutText": "Değişim süresi aşıldı.",
   "DE.ApplicationController.criticalErrorTitle": "Hata",
@@ -35,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Form başarılı bir şekilde kaydedildi</b><br>İpucunu kapatmak için tıklayın",
   "DE.ApplicationController.txtClose": "Kapat",
   "DE.ApplicationController.txtEmpty": "(Boş)",
-  "DE.ApplicationController.txtPressLink": "CTRL'ye basın ve bağlantıya tıklayın",
+  "DE.ApplicationController.txtPressLink": "%1'ye basın ve bağlantıya tıklayın",
   "DE.ApplicationController.unknownErrorText": "Bilinmeyen hata.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Tarayıcınız desteklenmiyor.",
   "DE.ApplicationController.waitText": "Lütfen bekleyin...",
@@ -46,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Dosya konumunu aç",
   "DE.ApplicationView.txtFullScreen": "Tam Ekran",
   "DE.ApplicationView.txtPrint": "Yazdır",
+  "DE.ApplicationView.txtSearch": "Arama",
   "DE.ApplicationView.txtShare": "Paylaş"
 }

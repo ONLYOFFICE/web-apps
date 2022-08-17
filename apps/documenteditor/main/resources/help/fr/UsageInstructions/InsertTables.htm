@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Insérer un tableau dans le texte de votre document et configurer les paramètres du tableau." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -19,7 +20,7 @@
 			<ol>
                 <li>placez le curseur à l'endroit où vous voulez insérer le tableau,</li>
                 <li>passez à l'onglet <b>Insertion</b> de la barre d'outils supérieure,</li>
-				<li>cliquez sur l'icône <img alt="L'icône Tableau" src="../images/table.png" /> <b>Tableau</b> sur la la barre d'outils supérieure,</li>
+				<li>cliquez sur l'icône <div class = "icon icon-table"></div> <b>Tableau</b> sur la la barre d'outils supérieure,</li>
 				<li>sélectionnez une des options pour créer le tableau:
 					<ul>
 						<li><p>soit un tableau avec le nombre prédéfini de cellules (10 par 8 cellules maximum)</p>
@@ -28,10 +29,8 @@
 						<p>Si vous avez besoin d'un tableau de plus de 10 par 8 cellules, sélectionnez l'option <b>Insérer un tableau personnalisé</b> pour ouvrir la fenêtre et spécifiez le nombre nécessaire de lignes et de colonnes, ensuite cliquez sur le bouton <b>OK</b>.</p>
 						<p><img alt="Tableau personnalisé" src="../images/customtable.png" /></p>
 						</li>
-                        <li>Sélectionnez l'option <b>Dessiner un tableau</b>, si vous souhaitez dessiner un tableau à la souris. Cette option est utile lorsque vous devez créer un tableau et délimiter des lignes et des colonnes  de tailles différentes. Le pointeur de la souris se transforme en crayon <img alt="Le pointeur de la souris en dessinant le tableau." src="../images/pencil_tool.png" />.  Tracez le contour du tableau où vous souhaitez l'ajouter, puis tracez les traits horizontaux pour délimiter des lignes et les traits verticaux pour délimiter des colonnes à l'intérieur du contour.</li>
-					</ul>
-				</li>
-                        <li>
+                        <li>Sélectionnez l'option <b>Dessiner un tableau</b>, si vous souhaitez dessiner un tableau à la souris. Cette option est utile lorsque vous devez créer un tableau et délimiter des lignes et des colonnes  de tailles différentes. Le pointeur de la souris se transforme en crayon <div class = "icon icon-pencil_tool"></div>.  Tracez le contour du tableau où vous souhaitez l'ajouter, puis tracez les traits horizontaux pour délimiter des lignes et les traits verticaux pour délimiter des colonnes à l'intérieur du contour.</li>
+					    <li>
                             Si vous souhaitez convertir du texte en tableau, sélectionnez l'option <b>Convertir un texte en tableau</b>. Cette fonctionnalité peut ce rendre utile lorsque vous avez déjà saisi du texte et il faut l'organiser en tableau. La fenêtre <b>Convertir un texte en tableau</b> comporte 3 sections:
                             <p><img alt="Convert Text to Table" src="../images/converttotable.png" /></p>
                             <ul>
@@ -45,17 +44,17 @@
 				</li>
 				<li>après avoir ajouté le tableau, vous pouvez modifier sa taille, ses paramètres et sa position.</li>
 			</ol>
-            <p>Pour redimensionner un tableau, placez le curseur de la souris sur la poignée <img alt="L'icône Carreaux" src="../images/resizetable_handle.png" /> dans son coin inférieur droit et faites-la glisser jusqu'à ce que la taille du tableau soit atteinte.</p>
-            <p><img alt="Redimensionner le tableau" src="../images/resizetable.png" /></p>
-            <p>Vous pouvez également modifier manuellement la largeur d'une certaine colonne ou la hauteur d'une ligne. Déplacez le curseur de la souris sur la bordure droite de la colonne de sorte que le curseur se transforme en flèche bidirectionnelle <img alt="Curseur de la souris lors de la modification de la largeur d'une colonne" src="../images/changecolumnwidth.png" /> et faites glisser la bordure vers la gauche ou la droite pour définir la largeur nécessaire. Pour modifier manuellement la hauteur d'une seule ligne, déplacez le curseur de la souris sur la bordure inférieure de la ligne afin que le curseur devienne la flèche bidirectionnelle <img alt="Curseur de la souris lors de la modification de la hauteur d'une ligne" src="../images/changerowheight.png" /> et déplacez la bordure vers le haut ou le bas.</p>
-            <p>Pour déplacer une table, maintenez la poignée <img alt="Poignée Sélectionner un tableau" src="../images/movetable_handle.png" /> dans son coin supérieur gauche et faites-la glisser à l'endroit voulu dans le document.</p>
+            <p>Pour redimensionner un tableau, placez le curseur de la souris sur la poignée <span class = "icon icon-resizetable_handle"></span> dans son coin inférieur droit et faites-la glisser jusqu'à ce que la taille du tableau soit atteinte.</p>
+            <p><span class = "big big-resizetable"></span></p>
+            <p>Vous pouvez également modifier manuellement la largeur d'une certaine colonne ou la hauteur d'une ligne. Déplacez le curseur de la souris sur la bordure droite de la colonne de sorte que le curseur se transforme en flèche bidirectionnelle <span class = "icon icon-changecolumnwidth"></span> et faites glisser la bordure vers la gauche ou la droite pour définir la largeur nécessaire. Pour modifier manuellement la hauteur d'une seule ligne, déplacez le curseur de la souris sur la bordure inférieure de la ligne afin que le curseur devienne la flèche bidirectionnelle <span class = "icon icon-changerowheight"></span> et déplacez la bordure vers le haut ou le bas.</p>
+            <p>Pour déplacer une table, maintenez la poignée <span class = "icon icon-movetable_handle"></span> dans son coin supérieur gauche et faites-la glisser à l'endroit voulu dans le document.</p>
             <p>On peut aussi ajouter une légende au tableau. Veuillez consulter <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">cet article</a> pour en savoir plus sur utilisation des légendes avec les tableaux.</p>
             <hr />
             <h3>Sélectionnez un tableau ou une portion de tableau</h3>
-            <p>Pour sélectionner un tableau entier, cliquez sur la poignée <img alt="Poignée Sélectionner un tableau" src="../images/movetable_handle.png" /> dans son coin supérieur gauche.</p>
-            <p>Pour sélectionner une certaine cellule, déplacez le curseur de la souris sur le côté gauche de la cellule nécessaire pour que le curseur devienne la flèche noire <img alt="Sélectionner la cellule" src="../images/selectcellpointer.png" />, puis cliquez avec le bouton gauche de la souris.</p>
-            <p>Pour sélectionner une certaine ligne, déplacez le curseur de la souris sur la bordure gauche du tableau à côté de la ligne voulue pour que le curseur devienne la flèche noire horizontale <img alt="Sélectionner une ligne" src="../images/selectrowpointer.png" />, puis cliquez avec le bouton gauche de la souris.</p>
-            <p>Pour sélectionner une certaine colonne, déplacez le curseur de la souris sur la bordure supérieure de la colonne voulue pour que le curseur se transforme en flèche noire dirigée vers le bas <img alt="Sélectionner une colonne" src="../images/selectcolumnpointer.png" />, puis cliquez avec le bouton gauche de la souris.</p>
+            <p>Pour sélectionner un tableau entier, cliquez sur la poignée <span class = "icon icon-movetable_handle"></span> dans son coin supérieur gauche.</p>
+            <p>Pour sélectionner une certaine cellule, déplacez le curseur de la souris sur le côté gauche de la cellule nécessaire pour que le curseur devienne la flèche noire <span class = "icon icon-selectcellpointer"></span>, puis cliquez avec le bouton gauche de la souris.</p>
+            <p>Pour sélectionner une certaine ligne, déplacez le curseur de la souris sur la bordure gauche du tableau à côté de la ligne voulue pour que le curseur devienne la flèche noire horizontale <span class = "icon icon-selectrowpointer"></span>, puis cliquez avec le bouton gauche de la souris.</p>
+            <p>Pour sélectionner une certaine colonne, déplacez le curseur de la souris sur la bordure supérieure de la colonne voulue pour que le curseur se transforme en flèche noire dirigée vers le bas <span class = "icon icon-selectcolumnpointer"></span>, puis cliquez avec le bouton gauche de la souris.</p>
             <p>Il est également possible de sélectionner une cellule, une ligne, une colonne ou un tableau à l'aide des options du menu contextuel ou de la section <b>Lignes et colonnes</b> de la barre latérale droite.</p>
             <p class="note">
                 <b>Remarque</b>: pour vous déplacer dans un tableau, vous pouvez utiliser <a href="../HelpfulHints/KeyboardShortcuts.htm#workwithtables" onclick="onhyperlinkclick(this)">des raccourcis clavier</a>.
@@ -72,12 +71,12 @@
 				<li><b>Supprimer</b> sert à supprimer une ligne, une colonne ou un tableau. Lorsque l'option <b>Cellule</b> est sélectionnée, la fenêtre<b> Supprimer les cellules</b> apparaît où on peut choisir parmi les options: <b>Décaler les cellules vers la gauche</b>, <b>Supprimer la ligne entière</b> ou <b>Supprimer la colonne entière</b>.</li>
 				<li><b>Fusionner</b> les cellules est disponible si deux ou plusieurs cellules sont sélectionnées et est utilisé pour les fusionner.
                     <p>
-                        Il est aussi possible de fusionner les cellules en effaçant la bordure à l'aide de l'outil gomme. Pour le faire, cliquez sur l'icône <img alt="L'icône Tableau" src="../images/table.png" /> <b>Tableau </b>dans la barre d'outils supérieure et sélectionnez l'option <b>Supprimer un tableau</b>. Le pointeur de la souris se transforme en gomme <img alt="Le pointeur de la souris effaçant les bordures" src="../images/eraser_tool.png" />. Faites glisser le pointeur de la souris vers la bordure séparant les cellules que vous souhaitez fusionner et effacez-la.
+                        Il est aussi possible de fusionner les cellules en effaçant la bordure à l'aide de l'outil gomme. Pour le faire, cliquez sur l'icône <span class = "icon icon-table"></span> <b>Tableau </b>dans la barre d'outils supérieure et sélectionnez l'option <b>Supprimer un tableau</b>. Le pointeur de la souris se transforme en gomme <span class = "icon icon-eraser_tool"></span>. Faites glisser le pointeur de la souris vers la bordure séparant les cellules que vous souhaitez fusionner et effacez-la.
                     </p>
                 </li>
 				<li><b>Fractionner la cellule...</b> sert à ouvrir la fenêtre où vous pouvez sélectionner le nombre nécessaire de colonnes et de lignes de la cellule qui doit être divisée.
                     <p>
-                        Il est aussi possible de fractionner la cellule en dessinant les lignes et les colonnes à l'aide de l'outil crayon. Pour le faire, cliquez sur l'icône <img alt="L'icône Tableau" src="../images/table.png" /> <b>Tableau </b>dans la barre d'outils supérieure et sélectionnez l'option <b>Dessiner un tableau</b>. Le pointeur de la souris se transforme en crayon <img alt="Le pointeur de la souris en dessinant le tableau." src="../images/pencil_tool.png" />. Tracez un trait horizontal pour délimiter une ligne ou un trait vertical pour délimiter une colonne.
+                        Il est aussi possible de fractionner la cellule en dessinant les lignes et les colonnes à l'aide de l'outil crayon. Pour le faire, cliquez sur l'icône <span class = "icon icon-table"></span> <b>Tableau </b>dans la barre d'outils supérieure et sélectionnez l'option <b>Dessiner un tableau</b>. Le pointeur de la souris se transforme en crayon <span class = "icon icon-pencil_tool"></span>. Tracez un trait horizontal pour délimiter une ligne ou un trait vertical pour délimiter une colonne.
                     </p>
                 </li>
 				<li><b>Distribuer les lignes</b> est utilisé pour ajuster les cellules sélectionnées afin qu'elles aient la même hauteur sans changer la hauteur globale du tableau.</li>
@@ -126,7 +125,7 @@
                         <b>Largeur</b> - par défaut, la largeur du tableau est ajustée automatiquement à la largeur de la page, c-à-d le tableau occupe tout l'espace entre la marge gauche et la marge droite de la page. Vous pouvez cocher cette case et spécifier la largeur du tableau manuellement.
                     </li>
                     <li><b>Mesure en</b> permet de définir la largeur du tableau en unités absolues c-à-d <b>Centimètres/Points/Pouces</b> (selon l'option choisie dans l'onglet <b>Fichier -&gt; Paramètres avancés...</b> tab) ou en <b>Pour cent</b> de la largeur totale de la page.
-                        <p class="note"><b>Remarque</b>: vous pouvez aussi ajuster la taille du tableau manuellement en changeant la hauteur des lignes et la largeur des colonnes. Déplacez le curseur de la souris sur la bordure de la ligne/ de la colonne jusqu'à ce qu'elle se transforme en flèche bidirectionnelle et faites glisser la bordure. Vous pouvez aussi utiliser les marqueurs <img alt="Tableau - Marqueur de largeur de la colonne" src="../images/columnwidthmarker.png" /> sur la règle horizontale pour changer la largeur de la colonne et les marqueurs <img alt="Tableau - Marqueur de hauteur de la ligne" src="../images/rowheightmarker.png" /> sur la règle verticale pour modifier la hauteur de la ligne.</p>
+                        <p class="note"><b>Remarque</b>: vous pouvez aussi ajuster la taille du tableau manuellement en changeant la hauteur des lignes et la largeur des colonnes. Déplacez le curseur de la souris sur la bordure de la ligne/ de la colonne jusqu'à ce qu'elle se transforme en flèche bidirectionnelle et faites glisser la bordure. Vous pouvez aussi utiliser les marqueurs <span class = "icon icon-columnwidthmarker"></span> sur la règle horizontale pour changer la largeur de la colonne et les marqueurs <span class = "icon icon-rowheightmarker"></span> sur la règle verticale pour modifier la hauteur de la ligne.</p>
                     </li>
                     <li><b>Redimensionner automatiquement pour ajuster au contenu</b> - permet de changer automatiquement la largeur de chaque colonne selon le texte dans ses cellules.</li>
                 </ul>
@@ -146,7 +145,7 @@
                     <ul>
                         <li><b>Largeur préférée</b> - permet de définir la largeur de la cellule par défaut. C'est la taille à laquelle la cellule essaie de correspondre, mais dans certains cas ce n'est pas possible se s'adapter à cette valeur exacte. Par exemple, si le texte dans une cellule dépasse la largeur spécifiée, il sera rompu par la ligne suivante de sorte que la largeur de cellule préférée reste intacte, mais si vous insérez une nouvelle colonne, la largeur préférée sera réduite.</li>
                         <li><b>Mesure en</b> - permet de définir la largeur de la cellule en unités absolues c-à-d <b>Centimètres/Points/Pouces</b> (selon l'option spécifiée dans l'onglet <b>Fichier -&gt; Paramètres avancés...</b>) ou en <b>Pour cent</b> de la largeur totale du tableau.
-                            <p class="note"><b>Remarque</b>: vous pouvez aussi définir la largeur de la cellule manuellement. Pour rendre une cellule plus large ou plus étroite dans une colonne, sélectionnez la cellule nécessaire et déplacez le curseur de la souris sur sa bordure droite jusqu'à ce qu'elle se transforme en flèche bidirectionnelle, puis faites glisser la bordure. Pour modifier la largeur de toutes les cellules d'une colonne, utilisez les marqueurs <img alt="Tableau - Marqueur de largeur de la colonne" src="../images/columnwidthmarker.png" /> sur la règle horizontale pour modifier la largeur de la colonne.</p>
+                            <p class="note"><b>Remarque</b>: vous pouvez aussi définir la largeur de la cellule manuellement. Pour rendre une cellule plus large ou plus étroite dans une colonne, sélectionnez la cellule nécessaire et déplacez le curseur de la souris sur sa bordure droite jusqu'à ce qu'elle se transforme en flèche bidirectionnelle, puis faites glisser la bordure. Pour modifier la largeur de toutes les cellules d'une colonne, utilisez les marqueurs <span class = "icon icon-columnwidthmarker"></span> sur la règle horizontale pour modifier la largeur de la colonne.</p>
                         </li>
                     </ul>
                 </li>
@@ -164,7 +163,7 @@
                 <li>
                     Les paramètres de la <b>Bordure</b> (taille, couleur, présence ou absence) - définissez la taille de la bordure, sélectionnez sa couleur et choisissez la façon d'affichage dans les cellules.
                     <p class="note">
-                        <b>Remarque</b>: si vous choisissez de ne pas afficher les bordures du tableau en cliquant sur le bouton <img alt="Pas de bordures" src="../images/noborders.png" /> ou en désélectionnant toutes les bordures manuellement sur le diagramme, les bordures seront indiquées par une ligne pointillée. Pour les faire disparaître, cliquez sur l'icône<b> Caractères non imprimables</b> <img alt="Caractères non imprimables" src="../images/nonprintingcharacters.png" /> sur la barre d'outils supérieure et sélectionnez l'option <b>Bordures du tableau cachées</b>.
+                        <b>Remarque</b>: si vous choisissez de ne pas afficher les bordures du tableau en cliquant sur le bouton <span class = "icon icon-noborders"></span> ou en désélectionnant toutes les bordures manuellement sur le diagramme, les bordures seront indiquées par une ligne pointillée. Pour les faire disparaître, cliquez sur l'icône<b> Caractères non imprimables</b> <span class = "icon icon-nonprintingcharacters"></span> sur la barre d'outils supérieure et sélectionnez l'option <b>Bordures du tableau cachées</b>.
                     </p>
                 </li>
                 <li><b>Fond de la cellule</b> - la couleur d'arrière plan dans les cellules (disponible uniquement si une ou plusieurs cellules sont sélectionnées ou l'option <b>Espacement entre les cellules</b> est sélectionnée dans l'onglet <b>Tableau</b>).</li>

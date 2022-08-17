@@ -183,11 +183,10 @@ define([
     });
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
-        el: '#panel-settings-general',
+        el: '#panel-settings',
         menu: undefined,
 
         template: _.template([
-        '<div>',
         '<div class="flex-settings">',
             '<table class="main" style="margin: 10px 14px auto;"><tbody>',
                 '<tr class="editsave">',
@@ -271,7 +270,7 @@ define([
                 '<tr>',
                     '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="">',
                     '<td><label><%= scope.strFuncLocale %></label></td>',
                     '<td>',
                         '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
@@ -309,7 +308,14 @@ define([
                     '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
                 '</tr>',
                 '<tr  class="edit">',
-                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
+                '</tr>',
+                '<tr class ="edit divider-group"></tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtCalculating %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><span id="fms-chb-date-1904"></span></td>',
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
                  '<tr class="fms-btn-apply">',
@@ -321,11 +327,10 @@ define([
         '<div class="fms-flex-apply hidden">',
             '<table class="main" style="margin: 10px 18px; width: 100%"><tbody>',
                 '<tr>',
-                    '<td><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
                 '</tr>',
             '</tbody></table>',
-        '</div>',
         '</div>'
         ].join('')),
 
@@ -540,7 +545,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big">',
+                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
                     '<span class="icon input-icon lang-flag"></span>',
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                             '<span class="caret" />',
@@ -689,6 +694,14 @@ define([
             this.chIgnoreNumbers = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-ignore-numbers-words'),
                 labelText: this.strIgnoreWordsWithNumbers,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chDateSystem = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-date-1904'),
+                labelText: this.strDateFormat1904,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -911,6 +924,7 @@ define([
 
                 this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
                 this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
+                this.chDateSystem.setValue(this.api.asc_getDate1904());
             }
         },
 
@@ -992,6 +1006,9 @@ define([
                     this.menu.fireEvent('spellcheck:apply', [this.menu]);
                 }
             }
+
+            if (this.mode.isEdit)
+                this.api.asc_setDate1904(this.chDateSystem.isChecked());
         },
 
         updateRegionalExample: function(landId) {
@@ -1056,7 +1073,6 @@ define([
         strUnit: 'Unit of Measurement',
         txtCm: 'Centimeter',
         txtPt: 'Point',
-        strAutosave: 'Turn on autosave',
         textAutoSave: 'Autosave',
         txtEn: 'English',
         txtDe: 'Deutsch',
@@ -1082,7 +1098,6 @@ define([
         textAutoRecover: 'Autorecover',
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)',
         textRefStyle: 'Reference Style',
         strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
         strDecimalSeparator: 'Decimal separator',
@@ -1095,7 +1110,6 @@ define([
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
-        strPaste: 'Cut, copy and paste',
         strTheme: 'Theme',
         txtThemeLight: 'Light',
         txtThemeDark: 'Dark',
@@ -1153,7 +1167,9 @@ define([
         txtAutoCorrect: 'AutoCorrect options...',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
-        strShowOthersChanges: 'Show changes from other users'
+        strShowOthersChanges: 'Show changes from other users',
+        txtCalculating: 'Calculating',
+        strDateFormat1904: 'Use 1904 date system'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -1449,7 +1465,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1574,8 +1590,15 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
-                if (value)
-                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                if (value) {
+                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                    try {
+                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    } catch (e) {
+                        lang = 'en';
+                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    }
+                }
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -1600,8 +1623,15 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
-                if (value)
-                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                if (value) {
+                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                    try {
+                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    } catch (e) {
+                        lang = 'en';
+                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    }
+                }
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1732,7 +1762,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 '<table>',
                     '<% _.each(users, function(item) { %>',
                     '<tr>',
-                        '<td><span class="userLink <% if (item.isLink) { %>sharedLink<% } %>"></span><span><%= Common.Utils.String.htmlEncode(item.user) %></span></td>',
+                        '<td><span class="userLink img-commonctrl <% if (item.isLink) { %>sharedLink<% } %>"></span><span><%= Common.Utils.String.htmlEncode(item.user) %></span></td>',
                         '<td><%= Common.Utils.String.htmlEncode(item.permissions) %></td>',
                     '</tr>',
                     '<% }); %>',
@@ -1959,7 +1989,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                 else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
                                     me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
-                                    store.url = me.urlPref + '/Contents.json';
+                                    store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }
                             } else {
@@ -2247,7 +2277,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                     '<tr><td class="padding-small"><label class="header"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
+                                    '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2578,8 +2608,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.$el = $(node).html($markup);
 
-            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
-            this.$headerSettings = $('#print-header-footer-settings');
+            if (!this.mode.isEdit) {
+                $markup.find('.header-settings').hide();
+            } else {
+                this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
+            }
 
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');

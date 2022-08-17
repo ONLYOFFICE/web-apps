@@ -123,8 +123,7 @@ const PageTabColor =  inject("storePalette")(observer(props =>  {
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
             if (effectId !== undefined ) {
-                const newColor = {color: color, effectId: effectId, effectValue: effectValue};
-                sheets.changeTabColor(newColor);
+                sheets.changeTabColor(color);
                 props.onSetWorkSheetColor(color);
             } else {
                 sheets.changeTabColor(color);

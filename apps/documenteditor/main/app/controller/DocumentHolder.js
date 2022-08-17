@@ -320,6 +320,7 @@ define([
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
+                        this.api.asc_onCloseChartFrame();
                     }
                     setTimeout(function(){
                         me.editComplete();
@@ -802,13 +803,13 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            var me = this;
             if (url) {
-                if (me.api.asc_getUrlType(url)>0)
+                var type = this.api.asc_getUrlType(url);
+                if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                     window.open(url);
                 else
                     Common.UI.warning({
-                        msg: me.documentHolder.txtWarnUrl,
+                        msg: this.documentHolder.txtWarnUrl,
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
@@ -998,7 +999,7 @@ define([
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                        screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + me.documentHolder.txtPressLink + '</b>') : ToolTip);
+                        screenTip.toolTip.setTitle((type==Asc.c_oAscMouseMoveDataTypes.Hyperlink) ? (ToolTip + '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>') : ToolTip);
                         screenTip.tipLength = ToolTip.length;
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;

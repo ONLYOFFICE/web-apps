@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b>Form berhasil disubmit</b><br>Klik untuk menutup tips",
   "DE.ApplicationController.txtClose": "Tutup",
   "DE.ApplicationController.txtEmpty": "(Kosong)",
-  "DE.ApplicationController.txtPressLink": "Tekan CTRL dan klik tautan",
+  "DE.ApplicationController.txtPressLink": "Tekan %1 dan klik tautan",
   "DE.ApplicationController.unknownErrorText": "Kesalahan tidak diketahui",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Peramban kamu tidak didukung",
   "DE.ApplicationController.waitText": "Silahkan menunggu",

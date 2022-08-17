@@ -3,11 +3,11 @@
     "textAbout": "Despre",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
+    "textEditor": "Editor de documente text",
     "textEmail": "Email",
     "textPoweredBy": "Dezvoltat de",
     "textTel": "Tel",
-    "textVersion": "Versiune",
-    "textEditor": "Document Editor"
+    "textVersion": "Versiune"
   },
   "Add": {
     "notcriticalErrorTitle": "Avertisment",
@@ -199,7 +199,8 @@
     "textOk": "OK",
     "textRefreshEntireTable": "Reîmprospătarea întregului tabel",
     "textRefreshPageNumbersOnly": "Actualizare numai numere de pagină",
-    "textRows": "Rânduri"
+    "textRows": "Rânduri",
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertisment",
@@ -392,7 +393,7 @@
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
     "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
-    "errorUpdateVersionOnDisconnect": "Conexiunea la Internet s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
+    "errorUpdateVersionOnDisconnect": "Conexiunea s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
     "errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
     "errorUsersExceed": "Limita de utilizatori stipulată de planul tarifar a fost depășită",
     "errorViewerDisconnect": "Conexiunea a fost pierdută. Încă mai puteți vizualiza documentul,<br>dar nu și să-l descărcați până când conexiunea se restabilește și pagina se reîmprospătează.",

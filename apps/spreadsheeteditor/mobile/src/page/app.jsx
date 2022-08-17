@@ -17,6 +17,7 @@ import Notifications from '../../../../common/mobile/utils/notifications.js';
 import {MainController} from '../controller/Main';
 import {Device} from '../../../../common/mobile/utils/device';
 import CellEditor from '../controller/CellEditor';
+import {Themes} from '../../../../common/mobile/lib/controller/Themes'
 
 const f7params = {
     name: 'Spreadsheet Editor', // App name
@@ -31,6 +32,7 @@ export default class extends React.Component {
        
         Common.Notifications = new Notifications();
         Common.localStorage = LocalStorage;
+        Themes.init();
     }
 
     render() {

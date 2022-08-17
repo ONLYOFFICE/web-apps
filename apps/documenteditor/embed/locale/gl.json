@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Altura",
   "common.view.modals.txtShare": "Compartir ligazón",
   "common.view.modals.txtWidth": "Largura",
+  "common.view.SearchBar.textFind": "Buscar",
   "DE.ApplicationController.convertationErrorText": "Fallou a conversión.",
   "DE.ApplicationController.convertationTimeoutText": "Excedeu o tempo límite de conversión.",
   "DE.ApplicationController.criticalErrorTitle": "Erro",
@@ -35,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulario enviado con éxito</b><br>Prema para pechar o consello",
   "DE.ApplicationController.txtClose": "Pechar",
   "DE.ApplicationController.txtEmpty": "(Vacío)",
-  "DE.ApplicationController.txtPressLink": "Prema Ctrl e na ligazón",
+  "DE.ApplicationController.txtPressLink": "Prema %1 e na ligazón",
   "DE.ApplicationController.unknownErrorText": "Erro descoñecido.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "O seu navegador non é compatible.",
   "DE.ApplicationController.waitText": "Agarde...",
@@ -46,5 +47,6 @@
   "DE.ApplicationView.txtFileLocation": "Abrir ubicación do ficheiro",
   "DE.ApplicationView.txtFullScreen": "Pantalla completa",
   "DE.ApplicationView.txtPrint": "Imprimir",
+  "DE.ApplicationView.txtSearch": "Buscar",
   "DE.ApplicationView.txtShare": "Compartir"
 }

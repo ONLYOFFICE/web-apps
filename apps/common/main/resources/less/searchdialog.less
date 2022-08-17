@@ -85,7 +85,7 @@
 .search-bar {
     z-index: 950;
     .box {
-        padding: 16px;
+        padding: 15px;
         display: flex;
         input[type=text] {
             width: 192px;
@@ -159,6 +159,30 @@
             width: calc(100% - 48px);
             color: @text-secondary-ie;
             color: @text-secondary;
+        }
+
+        .search-nav-btns {
+            display: inline-block;
+            float: right;
+            div {
+                display: inline-block;
+            }
+            #search-adv-back {
+                margin-right: 4px;
+            }
+        }
+
+        .btn-text-default {
+            display: inline-block;
+            width: auto;
+        }
+
+        #search-adv-replace {
+            min-width: 62px;
+        }
+
+        #search-adv-replace-all {
+            min-width: 78px;
         }
     }
 

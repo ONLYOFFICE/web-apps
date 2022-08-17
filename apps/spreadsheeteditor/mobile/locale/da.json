@@ -5,9 +5,9 @@
     "textBack": "Tilbage",
     "textEmail": "E-mail",
     "textPoweredBy": "Drevet af",
+    "textEditor": "Spreadsheet Editor",
     "textTel": "Tel",
-    "textVersion": "Version",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Version"
   },
   "Common": {
     "Collaboration": {
@@ -63,7 +63,9 @@
     "menuUnmerge": "Unmerge",
     "menuUnwrap": "Unwrap",
     "menuViewComment": "View Comment",
-    "notcriticalErrorTitle": "Warning"
+    "notcriticalErrorTitle": "Warning",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {

@@ -6,7 +6,7 @@
                 <div id="paragraphadv-spin-text-alignment"></div>
             </div>
         </div>
-        <div style="padding-bottom: 4px;"><label class="header"><%= scope.strIndent %></label></div>
+        <div class="padding-very-small"><label class="header"><%= scope.strIndent %></label></div>
         <div>
             <div class="padding-large" style="display: inline-block;margin-right: 3px;">
                 <label class="input-label"><%= scope.strIndentsLeftText %></label>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div style="padding-bottom: 4px;"><label class="header"><%= scope.strSpacing %></label></div>
+        <div class="padding-very-small"><label class="header"><%= scope.strSpacing %></label></div>
         <div>
             <div style="display: inline-block;margin-right: 3px;">
                 <label class="input-label"><%= scope.strIndentsSpacingBefore %></label>
@@ -55,7 +55,7 @@
 </div>
 <div id="id-adv-paragraph-font" class="settings-panel">
     <div class="inner-content" style="width: 100%;">
-        <div class="padding-small">
+        <div class="padding-very-small">
             <label class="header"><%= scope.textEffects %></label>
         </div>
         <table cols="2">
@@ -84,7 +84,7 @@
                 </td>
             </tr>
         </table>
-        <div class="padding-small">
+        <div class="padding-very-small">
             <label class="header"><%= scope.textCharacterSpacing %></label>
         </div>
         <div class="padding-large">
