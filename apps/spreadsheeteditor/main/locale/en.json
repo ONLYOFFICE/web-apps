@@ -3679,6 +3679,7 @@
   "SSE.Views.ViewTab.tipCreate": "Create sheet view",
   "SSE.Views.ViewTab.tipFreeze": "Freeze panes",
   "SSE.Views.ViewTab.tipSheetView": "Sheet view",
+  "SSE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "SSE.Views.WBProtection.hintAllowRanges": "Allow edit ranges",
   "SSE.Views.WBProtection.hintProtectSheet": "Protect sheet",
   "SSE.Views.WBProtection.hintProtectWB": "Protect workbook",

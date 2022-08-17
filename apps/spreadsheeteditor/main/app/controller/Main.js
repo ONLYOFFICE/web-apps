@@ -1945,12 +1945,19 @@ define([
                     case Asc.c_oAscError.ID.FillAllRowsWarning:
                         var fill = errData[0],
                             have = errData[1],
-                            fillWithSeparator = fill.toLocaleString(this.appOptions.lang);
+                            lang = (this.appOptions.lang || 'en').replace('_', '-').toLowerCase(),
+                            fillWithSeparator;
+                        try {
+                            fillWithSeparator = fill.toLocaleString(lang);
+                        } catch (e) {
+                            lang = 'en';
+                            fillWithSeparator = fill.toLocaleString(lang);
+                        }
                         if (this.appOptions.isDesktopApp && this.appOptions.isOffline) {
                             config.msg = fill > have ? Common.Utils.String.format(this.textFormulaFilledAllRowsWithEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledAllRows, fillWithSeparator);
                             config.buttons = [{caption: this.textFillOtherRows, primary: true, value: 'fillOther'}, 'close'];
                         } else {
-                            config.msg = fill >= have ? Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherIsEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherHaveData, fillWithSeparator, (have - fill).toLocaleString(this.appOptions.lang));
+                            config.msg = fill >= have ? Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherIsEmpty, fillWithSeparator) : Common.Utils.String.format(this.textFormulaFilledFirstRowsOtherHaveData, fillWithSeparator, (have - fill).toLocaleString(lang));
                             config.buttons = ['ok'];
                         }
                         config.maxwidth = 400;

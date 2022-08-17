@@ -23,11 +23,28 @@ export class storeAppOptions {
             canBranding: observable,
 
             isDocReady: observable,
-            changeDocReady: action
+            changeDocReady: action,
+
+            isViewer: observable,
+            changeViewerMode: action,
+
+            isMobileView: observable,
+            changeMobileView: action
         });
     }
 
     isEdit = false;
+
+    isMobileView = false;
+    changeMobileView() {
+        this.isMobileView = !this.isMobileView;
+    }
+
+
+    isViewer = true;
+    changeViewerMode() {
+        this.isViewer = !this.isViewer;
+    }
 
     canViewComments = false;
     changeCanViewComments(value) {

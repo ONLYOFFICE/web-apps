@@ -92,6 +92,8 @@ class MainPage extends Component {
 
   render() {
       const appOptions = this.props.storeAppOptions;
+      // const isViewer = appOptions.isViewer;
+      // console.log(isViewer);
       const config = appOptions.config;
 
       let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
@@ -112,10 +114,13 @@ class MainPage extends Component {
                       window.open(`${__PUBLISHER_URL__}`, "_blank");
                   }}><Icon icon="icon-logo"></Icon></div>}
                   <Subnavbar>
-                      <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
+                      <Toolbar openOptions={this.handleClickToOpenOptions}
+                               closeOptions={this.handleOptionsViewClosed}/>
                       <Search useSuspense={false}/>
                   </Subnavbar>
               </Navbar>
+
+
               {/* Page content */}
 
               <View id="editor_sdk">

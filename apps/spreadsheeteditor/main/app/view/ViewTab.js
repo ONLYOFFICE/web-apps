@@ -353,6 +353,8 @@ define([
                         me.btnCloseView.updateHint(me.tipClose);
                     }
 
+                    me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
+
                     if (config.isEdit) {
                         me.btnFreezePanes.setMenu(new Common.UI.Menu({
                             items: [
@@ -528,7 +530,8 @@ define([
             textCombineSheetAndStatusBars: 'Combine sheet and status bars',
             textAlwaysShowToolbar: 'Always show toolbar',
             textInterfaceTheme: 'Interface theme',
-            textShowFrozenPanesShadow: 'Show frozen panes shadow'
+            textShowFrozenPanesShadow: 'Show frozen panes shadow',
+            tipInterfaceTheme: 'Interface theme'
         }
     }()), SSE.Views.ViewTab || {}));
 });
