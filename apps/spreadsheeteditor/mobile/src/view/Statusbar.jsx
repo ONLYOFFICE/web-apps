@@ -41,6 +41,7 @@ const PageAllList = (props) => {
     const { t } = useTranslation();
     const { sheets, onTabListClick } = props;
     const allSheets = sheets.sheets;
+    const heightView = Device.android ? allSheets.length * 48 : allSheets.length * 44;
 
     useEffect(() => {
         const tabs = $$('.sheet-tabs .tab');
@@ -59,10 +60,10 @@ const PageAllList = (props) => {
     }, [sheets.activeWorksheet]);
 
     return (
-        <View style={{height: '240px'}}>
+        <View style={{maxHeight: '240px', height: heightView > 240 ? '240px' : `${heightView}px`}}>
             <Page>
                 <List>
-                    { allSheets.map( (model,sheetIndex) => 
+                    {allSheets.map((model, sheetIndex) =>
                         <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
                             {model.hidden ?     
                                 <div slot='after'>
