@@ -8,7 +8,7 @@ const load_stylesheet = reflink => {
     document.getElementsByTagName("head")[0].appendChild(link);
 };
 
-if ( !localStorage && localStorage.getItem('mode-direction') === 'rtl' ) {
+if ( localStorage && localStorage.getItem('mobile-mode-direction') === 'rtl' ) {
     load_stylesheet('./css/framework7-rtl.css')
     document.body.classList.add('rtl');
 } else {
