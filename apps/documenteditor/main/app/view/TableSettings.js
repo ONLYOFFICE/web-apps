@@ -761,6 +761,14 @@ define([
             this._state.beginPreviewStyles = true;
             this._state.currentStyleFound = false;
             this._state.previewStylesCount = count;
+            this._state.groups = {
+                'menu-table-group-custom':              {id: 'menu-table-group-custom',             caption: this.txtGroupTable_Custom,             index: 0,   templateCount: 0},
+                'menu-table-group-plain':               {id: 'menu-table-group-plain',              caption: this.txtGroupTable_Plain,              index: 1,   templateCount: 0},
+                'menu-table-group-grid':                {id: 'menu-table-group-grid',               caption: this.txtGroupTable_Grid,               index: 2,   templateCount: 0},
+                'menu-table-group-list':                {id: 'menu-table-group-list',               caption: this.txtGroupTable_List,               index: 3,   templateCount: 0},
+                'menu-table-group-bordered-and-lined':  {id: 'menu-table-group-bordered-and-lined', caption: this.txtGroupTable_BorderedAndLined,   index: 4,   templateCount: 0},
+                'menu-table-group-no-name':             {id: 'menu-table-group-no-name',            caption: '&nbsp',                               index: 5,   templateCount: 0},
+            }
         },
 
         onEndTableStylesPreview: function(){
@@ -774,14 +782,6 @@ define([
 
         onAddTableStylesPreview: function(Templates){
             var self = this;
-            var groups = {
-                'menu-table-group-custom':              {id: 'menu-table-group-custom',             caption: self.txtGroupTable_Custom,             index: 0},
-                'menu-table-group-plain':               {id: 'menu-table-group-plain',              caption: self.txtGroupTable_Plain,              index: 1},
-                'menu-table-group-grid':                {id: 'menu-table-group-grid',               caption: self.txtGroupTable_Grid,               index: 2},
-                'menu-table-group-list':                {id: 'menu-table-group-list',               caption: self.txtGroupTable_List,               index: 3},
-                'menu-table-group-bordered-and-lined':  {id: 'menu-table-group-bordered-and-lined', caption: self.txtGroupTable_BorderedAndLined,   index: 4},
-                'menu-table-group-no-name':             {id: 'menu-table-group-no-name',            caption: '&nbsp',                               index: 5},
-            };
 
             _.each(Templates, function(template){
                 var tip = template.asc_getDisplayName();
@@ -790,7 +790,7 @@ define([
                 if (template.asc_getType()==0) {
                     var arr = tip.split(' ');
                     
-                    if(new RegExp('Table Grid|Normal', 'i').test(tip)){
+                    if(new RegExp('Table Grid', 'i').test(tip)){
                         groupItem = 'menu-table-group-plain';
                     }
                     else if(new RegExp('Lined|Bordered', 'i').test(tip)) {
@@ -800,7 +800,7 @@ define([
                         if(arr[0]){
                             groupItem = 'menu-table-group-' + arr[0].toLowerCase();
                         }
-                        if(groups.hasOwnProperty(groupItem) == false) {
+                        if(self._state.groups.hasOwnProperty(groupItem) == false) {
                             groupItem = 'menu-table-group-no-name';
                         }
                         
@@ -826,24 +826,28 @@ define([
                 };
                 var templateIndex = 0;
 
-                self.mnuTableTemplatePicker.store.each(function(item) {
-                    if(groups[item.get('group')].index <= groups[groupItem].index) {
-                        templateIndex += 1;
+                for(var group in self._state.groups) {
+                    if(self._state.groups[group].index <= self._state.groups[groupItem].index) {
+                        templateIndex += self._state.groups[group].templateCount;
                     }
-                });
+                }
 
                 if (self._state.beginPreviewStyles) {
                     self._state.beginPreviewStyles = false;
-                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(groups[groupItem]);
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(self._state.groups[groupItem]);
                     self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templateObj);
                     self.mnuTableTemplatePicker.groups.comparator = function(item) {
                         return item.get('index');
                     };
                 } 
                 else {
-                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.add(groups[groupItem]);
+                    if(self._state.groups[groupItem].templateCount == 0) {
+                        self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.add(self._state.groups[groupItem]);
+                    } 
                     self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(templateObj, {at: templateIndex});
                 }
+
+                self._state.groups[groupItem].templateCount += 1;
             });
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
         },
