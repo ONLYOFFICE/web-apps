@@ -144,7 +144,6 @@ const PageCellStyle = props => {
             </Navbar>
             {cellStyles && cellStyles.length ? (
                 <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
-                    <div className="swiper-pagination"></div>
                     <div className="swiper-wrapper">
                         {arraySlides.map((_, indexSlide) => {
                             let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
@@ -161,6 +160,7 @@ const PageCellStyle = props => {
                                 </div>
                         )})}
                     </div>
+                    <div className="swiper-pagination"></div>
                 </div>
             ) : null}
         </Page>
