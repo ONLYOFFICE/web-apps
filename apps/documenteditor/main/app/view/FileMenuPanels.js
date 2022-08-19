@@ -344,6 +344,9 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td>',
@@ -709,6 +712,14 @@ define([
                 })).on('click', _.bind(me.applySettings, me));
             });
 
+            this.chRTL = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-rtl-ui'),
+                labelText: this.strRTLSupport,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
@@ -861,6 +872,7 @@ define([
             }
             this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
             this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
 
             if (this.mode.canViewReview) {
                 value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
@@ -918,6 +930,7 @@ define([
             }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+            Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
 
             Common.localStorage.save();
 
@@ -988,6 +1001,7 @@ define([
         textForceSave: 'Save to Server',
         textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
         txtCacheMode: 'Default cache mode',
+        strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',

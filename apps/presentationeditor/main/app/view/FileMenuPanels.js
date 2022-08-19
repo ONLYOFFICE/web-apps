@@ -269,7 +269,9 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td><span id="fms-cmb-theme"></span></td>',
@@ -540,6 +542,14 @@ define([
                 dataHintOffset: 'big'
             });
 
+            this.chRTL = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-rtl-ui'),
+                labelText: this.strRTLSupport,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
@@ -670,6 +680,7 @@ define([
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("pe-settings-paste-button"));
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -716,6 +727,7 @@ define([
             Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("pe-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+            Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
 
             Common.localStorage.save();
 
@@ -768,6 +780,7 @@ define([
         textForceSave: 'Save to Server',
         txtSpellCheck: 'Spell Checking',
         txtCacheMode: 'Default cache mode',
+        strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
