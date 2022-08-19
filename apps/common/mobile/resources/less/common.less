@@ -71,6 +71,7 @@
     .list {
         &:first-child {
             margin-top: 0;
+            margin-bottom: 0;
         }
         .inner-range-title {
             color: @text-normal;
@@ -1118,15 +1119,24 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
-.swiper-container {
-    height: 100%;
-}
+// Swiper
+//.swiper-container {
+//    height: 100%;
+//}
 
 .swiper-pagination-bullet {
     background: @background-menu-divider;
     opacity: 1;
     &-active {
         background: @text-secondary;
+    }
+}
+
+.swiper-pagination-bullets {
+    position: relative;
+    margin-top: 10px;
+    .swiper-pagination-bullet {
+        margin: 0 8px;
     }
 }
 
