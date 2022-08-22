@@ -416,6 +416,7 @@ define([
                 this.appOptions.canFeatureComparison = true;
                 this.appOptions.canFeatureContentControl = true;
                 this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
+                this.appOptions.uiRtl = Common.localStorage.getBool("ui-rtl");
 
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 

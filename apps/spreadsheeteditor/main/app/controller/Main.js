@@ -415,6 +415,7 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
+                this.appOptions.uiRtl = Common.localStorage.getBool("ui-rtl");
 
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
