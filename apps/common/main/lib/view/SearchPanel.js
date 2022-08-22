@@ -335,7 +335,8 @@ define([
             } else {
                 text = current === 'no-results' ? this.textNoSearchResults :
                     (current === 'stop' ? this.textSearchHasStopped :
-                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count)));
+                    (current === 'content-changed' ? this.textContentChanged :
+                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
             }
             this.$reaultsNumber.text(text);
             !window.SSE && this.disableReplaceButtons(!count);
@@ -422,7 +423,8 @@ define([
         textCell: 'Cell',
         textValue: 'Value',
         textFormula: 'Formula',
-        textSearchHasStopped: 'Search has stopped'
+        textSearchHasStopped: 'Search has stopped',
+        textContentChanged: 'Document content has changed.'
 
     }, Common.Views.SearchPanel || {}));
 });

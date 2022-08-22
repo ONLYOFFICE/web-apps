@@ -93,7 +93,9 @@ define([
                 withinSheet: Asc.c_oAscSearchBy.Sheet,
                 searchByRows: true,
                 lookInFormulas: true,
-                isValidSelectedRange: true
+                isValidSelectedRange: true,
+                lastSelectedItem: undefined,
+                isContentChanged: false
             };
         },
 
@@ -111,8 +113,8 @@ define([
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
-                this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onActiveSheetChanged, this));
+                this.api.asc_registerCallback('asc_onModifiedDocument', _.bind(this.onApiModifiedDocument, this));
             }
             return this;
         },
@@ -259,6 +261,8 @@ define([
                 return;
             }
 
+            this._state.isContentChanged = false;
+
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(this._state.searchText);
             options.asc_setScanForward(d != 'back');
@@ -271,6 +275,7 @@ define([
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setNeedRecalc(isNeedRecalc);
+            options.asc_setLastSearchElem(this._state.lastSelectedItem);
             if (!this.api.asc_findText(options)) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
@@ -296,6 +301,7 @@ define([
             }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+            options.asc_setLastSearchElem(this._state.lastSelectedItem);
             options.asc_setIsReplaceAll(false);
 
             this.api.asc_replaceText(options);
@@ -314,6 +320,7 @@ define([
             }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+            options.asc_setLastSearchElem(this._state.lastSelectedItem);
             options.asc_setIsReplaceAll(true);
 
             this.api.asc_replaceText(options);
@@ -345,6 +352,7 @@ define([
                 }
                 options.asc_setScanByRows(this._state.searchByRows);
                 options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+                options.asc_setLastSearchElem(this._state.lastSelectedItem);
                 if (!this.api.asc_findText(options)) {
                     this.removeResultItems();
                 }
@@ -384,6 +392,7 @@ define([
                         item.selected = false;
                     });
                     if (this.resultItems[current]) {
+                        this._state.lastSelectedItem = this.resultItems[current].data;
                         this.resultItems[current].selected = true;
                         $('#search-results').find('.item').removeClass('selected');
                         this.resultItems[current].$el.addClass('selected');
@@ -443,9 +452,14 @@ define([
                     if (isSelected) {
                         $item.addClass('selected');
                     }
-                    var resultItem = {id: item[0], $el: $item, el: tr, selected: isSelected, data: data};
+                    var resultItem = {id: item[0], $el: $item, el: tr, selected: isSelected, data: item};
                     me.resultItems.push(resultItem);
                     $item.on('click', _.bind(function (el) {
+                        if (me._state.isContentChanged) {
+                            me._state.lastSelectedItem = item;
+                            me.onQuerySearch();
+                            return;
+                        }
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
                     }, me));
@@ -551,8 +565,9 @@ define([
             }
         },
 
-        onApiSearchEnd: function () {
-            this.removeResultItems('stop');
+        onApiModifiedDocument: function () {
+            this._state.isContentChanged = true;
+            this.view.updateResultsNumber('content-changed');
         },
 
         onActiveSheetChanged: function (index) {
