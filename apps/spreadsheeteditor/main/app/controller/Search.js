@@ -451,6 +451,7 @@ define([
                     var $item = $(tr).appendTo($innerResults);
                     if (isSelected) {
                         $item.addClass('selected');
+                        me._state.lastSelectedItem = item;
                     }
                     var resultItem = {id: item[0], $el: $item, el: tr, selected: isSelected, data: item};
                     me.resultItems.push(resultItem);
