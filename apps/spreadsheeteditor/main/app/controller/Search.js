@@ -271,6 +271,10 @@ define([
         },
 
         onQueryReplace: function(textSearch, textReplace) {
+            if (this._state.isContentChanged) {
+                this.onQuerySearch();
+                return;
+            }
             this.api.isReplaceAll = false;
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(textSearch);
@@ -289,6 +293,10 @@ define([
         },
 
         onQueryReplaceAll: function(textSearch, textReplace) {
+            if (this._state.isContentChanged) {
+                this.onQuerySearch();
+                return;
+            }
             this.api.isReplaceAll = true;
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(textSearch);
