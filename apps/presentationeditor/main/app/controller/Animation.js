@@ -156,8 +156,8 @@ define([
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
                 }
                 else if(toggleGroup=='custompath') {
-                    var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
-                    this.addNewEffect(AscFormat.MOTION_CUSTOM_PATH, this._state.EffectGroup, groupName,true, value);
+                    var groupName = _.findWhere(this.EffectGroups, {value: AscFormat.PRESET_CLASS_PATH}).id;
+                    this.addNewEffect(AscFormat.MOTION_CUSTOM_PATH, AscFormat.PRESET_CLASS_PATH, groupName,true, value);
                 }
                 else {
                     var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
@@ -189,6 +189,10 @@ define([
             var type = record.get('value');
             var group = _.findWhere(this.EffectGroups, {id: record.get('group')}).value;
             this.addNewEffect(type, group, record.get('group'), false);
+            if (group===AscFormat.PRESET_CLASS_PATH && type===AscFormat.MOTION_CUSTOM_PATH) {
+                Common.Utils.lockControls(Common.enumLock.noAnimation, false, {array: [this.view.btnParameters]});
+                Common.Utils.lockControls(Common.enumLock.noAnimationParam, false, {array: [this.view.btnParameters]});
+            }
         },
 
         addNewEffect: function (type, group, groupName, replace, parametr, preview) {
@@ -333,6 +337,10 @@ define([
                 var prevEffect = this._state.Effect;
                 this._state.Effect = undefined;
                 this.addNewEffect(type, group, record.get('group'),prevEffect != AscFormat.ANIM_PRESET_NONE);
+                if (group===AscFormat.PRESET_CLASS_PATH && type===AscFormat.MOTION_CUSTOM_PATH) {
+                    Common.Utils.lockControls(Common.enumLock.noAnimation, false, {array: [this.view.btnParameters]});
+                    Common.Utils.lockControls(Common.enumLock.noAnimationParam, false, {array: [this.view.btnParameters]});
+                }
             }
         },
 
