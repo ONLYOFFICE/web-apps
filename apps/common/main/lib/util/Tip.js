@@ -112,9 +112,7 @@
                 if (!me.options.keepvisible && !me.options.hideonclick && me.tip().is(':visible'))
                     me.hide();
             }});
-            Common.NotificationCenter.on('app:ready', function (mode) {
-                me.isDesktopApp = mode.isDesktopApp;
-            });
+            this.isDesktopApp = Common.Controllers.Desktop.isActive();
         },
 
         mousemove: function (e) {
