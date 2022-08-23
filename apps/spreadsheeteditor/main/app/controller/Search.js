@@ -370,7 +370,6 @@ define([
                         this.resultItems[current].selected = true;
                         $('#search-results').find('.item').removeClass('selected');
                         this.resultItems[current].$el.addClass('selected');
-                        this.scrollToSelectedResult(current);
                     }
                 }
             }
@@ -411,7 +410,8 @@ define([
             if (this.view && this._state.isStartedAddingResults) {
                 if (data.length > 300 || !data.length) return;
                 var me = this,
-                    $innerResults = me.view.$resultsContainer.find('.search-items');
+                    $innerResults = me.view.$resultsContainer.find('.search-items'),
+                    selectedInd;
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var isSelected = ind === me._state.currentResult;
@@ -426,6 +426,7 @@ define([
                     if (isSelected) {
                         $item.addClass('selected');
                         me._state.lastSelectedItem = item;
+                        selectedInd = ind;
                     }
                     var resultItem = {id: item[0], $el: $item, el: tr, selected: isSelected, data: item};
                     me.resultItems.push(resultItem);
@@ -441,6 +442,7 @@ define([
                     me.addTooltips($item, item);
                 });
                 this.view.$resultsContainer.show();
+                this.scrollToSelectedResult(selectedInd);
             }
         },
 
