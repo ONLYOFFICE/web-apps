@@ -105,4 +105,47 @@
             }
         }
     }
+
+    // Snackbar
+    .snackbar {
+        position: absolute;
+        width: 344px;
+        max-width: 344px;
+        height: 48px;
+        left: 8px;
+        bottom: 16px;
+        background: #333333;
+        border-radius: 4px;
+        z-index: 1000000;
+        &__content {
+            padding: 14px 16px;
+        }
+        &__text {
+            margin: 0;
+            color: @fill-white;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.25px;
+        }
+    }
+
+    .snackbar-enter {
+        opacity: 0;
+    }
+
+    .snackbar-enter-active {
+        opacity: 1;
+        transition: opacity 200ms;
+    }
+
+    .snackbar-exit {
+        opacity: 1;
+    }
+
+    .snackbar-exit-active {
+        opacity: 0;
+        transition: opacity 200ms;
+    }
 }

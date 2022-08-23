@@ -87,10 +87,6 @@ const Settings = props => {
 
         appOptions.changeMobileView();
         api.ChangeReaderMode();
-
-        if (Device.phone) {
-            closeModal();
-        }
     }
 
     return <SettingsView usePopover={!Device.phone}

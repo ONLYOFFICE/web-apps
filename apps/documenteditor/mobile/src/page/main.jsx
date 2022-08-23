@@ -1,9 +1,10 @@
 
 import React, { Component } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import { f7, Link } from 'framework7-react';
 import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
 import { observer, inject } from "mobx-react";
-
+import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../controller/settings/Settings';
@@ -13,6 +14,7 @@ import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 import NavigationController from '../controller/settings/Navigation';
+import Snackbar from "../components/Snackbar/Snackbar";
 
 class MainPage extends Component {
     constructor(props) {
@@ -23,7 +25,8 @@ class MainPage extends Component {
             addShowOptions: null,
             settingsVisible: false,
             collaborationVisible: false,
-            navigationVisible: false
+            navigationVisible: false,
+            snackbarVisible: false
         };
     }
 
@@ -49,6 +52,9 @@ class MainPage extends Component {
             } else if( opts === 'navigation') {
                 this.state.navigationVisible && (opened = true);
                 newState.navigationVisible = true;
+            } else if( opts === 'snackbar') {
+                this.state.snackbarVisible && (opened = true);
+                newState.snackbarVisible = true;
             }
 
             for (let key in this.state) {
@@ -82,6 +88,8 @@ class MainPage extends Component {
                     return {collaborationVisible: false};
                 else if( opts == 'navigation') 
                     return {navigationVisible: false}
+                else if( opts == 'snackbar')
+                    return {snackbarVisible: false}
             });
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
@@ -91,9 +99,9 @@ class MainPage extends Component {
     };
 
   render() {
+      const { t } = this.props;
       const appOptions = this.props.storeAppOptions;
-      // const isViewer = appOptions.isViewer;
-      // console.log(isViewer);
+      const isMobileView = appOptions.isMobileView;
       const config = appOptions.config;
 
       let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
@@ -177,10 +185,25 @@ class MainPage extends Component {
                     !this.state.navigationVisible ? null : 
                         <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')} />
                 }
+                {
+                    <CSSTransition
+                        in={this.state.snackbarVisible}
+                        // timeout={300}
+                        timeout={{
+                            enter: 300,
+                            exit: 300
+                        }}
+                        classNames="snackbar"
+                        mountOnEnter
+                        unmountOnExit
+                    >
+                        <Snackbar text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} />
+                    </CSSTransition>
+                }
                 {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}  
           </Page>
       )
   }
 }
 
-export default inject("storeAppOptions")(observer(MainPage));
+export default inject("storeAppOptions")(observer(withTranslation()(MainPage)));

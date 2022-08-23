@@ -151,6 +151,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     return (
         <ToolbarView openOptions={props.openOptions}
+                     closeOptions={props.closeOptions}
                      isEdit={appOptions.isEdit}
                      docTitle={docTitle}
                      isShowBack={isShowBack}

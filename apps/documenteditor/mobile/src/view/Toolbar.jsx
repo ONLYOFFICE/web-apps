@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import { useTranslation } from 'react-i18next';
 import {NavLeft, NavRight, NavTitle, Link, Icon} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
-import EditorUIController from '../lib/patch'
+import EditorUIController from '../lib/patch';
 
 const ToolbarView = props => {
     const { t } = useTranslation();
@@ -44,7 +44,13 @@ const ToolbarView = props => {
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
-                {(isViewer || !Device.phone) && <Link className={props.disabledControls ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => props.changeMobileView()}></Link>}
+                {(isViewer || !Device.phone) && <Link className={props.disabledControls ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
+                    props.changeMobileView();
+                    props.openOptions('snackbar');
+                    setTimeout(() => {
+                        props.closeOptions('snackbar');
+                    },  500);
+                }}></Link>}
                 {(props.showEditDocument && !isViewer) &&
                     <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
                 }
