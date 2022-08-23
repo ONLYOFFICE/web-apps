@@ -112,10 +112,13 @@
                 if (!me.options.keepvisible && !me.options.hideonclick && me.tip().is(':visible'))
                     me.hide();
             }});
+            this.isDesktopApp = Common.Controllers.Desktop.isActive();
         },
 
         mousemove: function (e) {
-            this.targetXY = [e.clientX*Common.Utils.zoom(), e.clientY*Common.Utils.zoom()];
+            var x = e.clientX*Common.Utils.zoom(),
+                y = e.clientY*Common.Utils.zoom();
+            this.targetXY = [x, this.isDesktopApp ? Math.max(y, 14) : y];
         },
 
         leave: function(obj) {

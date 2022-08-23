@@ -516,7 +516,7 @@ define([
                         disabled: disabled === true,
                         dataHint:'0',
                         dataHintDirection: hintDirection ? hintDirection : (config.isDesktopApp ? 'right' : 'left'),
-                        dataHintOffset: hintOffset ? hintOffset : (config.isDesktopApp ? '10, -10' : '10, 10'),
+                        dataHintOffset: hintOffset ? hintOffset : (config.isDesktopApp ? '10, -18' : '10, 10'),
                         dataHintTitle: hintTitle
                     })).render(slot);
                 }
