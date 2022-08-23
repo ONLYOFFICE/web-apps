@@ -168,12 +168,7 @@ define([
                     break;
             }
             if (runSearch) {
-                this.hideResults();
-                if (this.onQuerySearch()) {
-                    this.searchTimer && clearInterval(this.searchTimer);
-                    this.searchTimer = undefined;
-                    this.api.asc_StartTextAroundSearch();
-                }
+                this.onQuerySearch();
             }
         },
 
@@ -207,16 +202,7 @@ define([
             var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
             if (isReturnKey || type !== 'keydown') {
                 this._state.searchText = text;
-                if (this.onQuerySearch(type) && (this.searchTimer || isReturnKey)) {
-                    this.hideResults();
-                    if (this.searchTimer) {
-                        clearInterval(this.searchTimer);
-                        this.searchTimer = undefined;
-                    }
-                    if (this.view.$el.is(':visible')) {
-                        this.api.asc_StartTextAroundSearch();
-                    }
-                }
+                this.onQuerySearch(type);
             }
         },
 
@@ -229,25 +215,21 @@ define([
                     this.searchTimer = setInterval(function(){
                         if ((new Date()) - me._lastInputChange < 400) return;
 
-                        me.hideResults();
                         me._state.searchText = me._state.newSearchText;
-                        if (me.onQuerySearch()) {
-                            if (me.view.$el.is(':visible')) {
-                                me.api.asc_StartTextAroundSearch();
-                            }
-                        } else if (me._state.newSearchText === '') {
+                        if (!me.onQuerySearch() && me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
                             me.view.disableNavButtons();
                             Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
                         }
-                        clearInterval(me.searchTimer);
-                        me.searchTimer = undefined;
                     }, 10);
                 }
             }
         },
 
         onQuerySearch: function (d, isNeedRecalc) {
+            this.searchTimer && clearInterval(this.searchTimer);
+            this.searchTimer = undefined;
+
             var me = this;
             if (this._state.withinSheet === Asc.c_oAscSearchBy.Range && !this._state.isValidSelectedRange) {
                 Common.UI.warning({
@@ -261,7 +243,7 @@ define([
                 return;
             }
 
-            this._state.isContentChanged = false;
+            this.hideResults();
 
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(this._state.searchText);
@@ -275,15 +257,15 @@ define([
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setNeedRecalc(isNeedRecalc);
-            options.asc_setLastSearchElem(this._state.lastSelectedItem);
+            this._state.isContentChanged && options.asc_setLastSearchElem(this._state.lastSelectedItem);
+            this._state.isContentChanged = false;
             if (!this.api.asc_findText(options)) {
-                this.resultItems = [];
-                this.view.updateResultsNumber(undefined, 0);
-                this._state.currentResult = 0;
-                this._state.resultsNumber = 0;
-                this.view.disableNavButtons();
-                Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
+                this.removeResultItems();
                 return false;
+            }
+
+            if (this.view.$el.is(':visible')) {
+                this.api.asc_StartTextAroundSearch();
             }
             return true;
         },
@@ -301,7 +283,6 @@ define([
             }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-            options.asc_setLastSearchElem(this._state.lastSelectedItem);
             options.asc_setIsReplaceAll(false);
 
             this.api.asc_replaceText(options);
@@ -320,7 +301,6 @@ define([
             }
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-            options.asc_setLastSearchElem(this._state.lastSelectedItem);
             options.asc_setIsReplaceAll(true);
 
             this.api.asc_replaceText(options);
@@ -341,21 +321,7 @@ define([
                     });
                 }
             } else {
-                var options = new Asc.asc_CFindOptions();
-                options.asc_setFindWhat(this._state.searchText);
-                options.asc_setScanForward(true);
-                options.asc_setIsMatchCase(this._state.matchCase);
-                options.asc_setIsWholeCell(this._state.matchWord);
-                options.asc_setScanOnOnlySheet(this._state.withinSheet);
-                if (this._state.withinSheet === Asc.c_oAscSearchBy.Range) {
-                    options.asc_setSpecificRange(this._state.selectedRange);
-                }
-                options.asc_setScanByRows(this._state.searchByRows);
-                options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-                options.asc_setLastSearchElem(this._state.lastSelectedItem);
-                if (!this.api.asc_findText(options)) {
-                    this.removeResultItems();
-                }
+                this.onQuerySearch();
             }
         },
 
@@ -573,12 +539,7 @@ define([
 
         onActiveSheetChanged: function (index) {
             if (this._state.isHighlightedResults && this._state.withinSheet === Asc.c_oAscSearchBy.Sheet) {
-                this.hideResults();
-                if (this.onQuerySearch(undefined, true)) {
-                    this.searchTimer && clearInterval(this.searchTimer);
-                    this.searchTimer = undefined;
-                    this.api.asc_StartTextAroundSearch();
-                }
+                this.onQuerySearch(undefined, true);
             }
         },
 
