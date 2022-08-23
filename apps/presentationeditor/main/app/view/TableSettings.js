@@ -694,6 +694,14 @@ define([
             this._state.beginPreviewStyles = true;
             this._state.currentStyleFound = false;
             this._state.previewStylesCount = count;
+            this._state.groups = {
+                'menu-table-group-custom':  {id: 'menu-table-group-custom',    caption: this.txtGroupTable_Custom,  index: 0, templateCount: 0},
+                'menu-table-group-optimal': {id: 'menu-table-group-optimal',   caption: this.txtGroupTable_Optimal, index: 1, templateCount: 0},
+                'menu-table-group-light':   {id: 'menu-table-group-light',     caption: this.txtGroupTable_Light,   index: 2, templateCount: 0},
+                'menu-table-group-medium':  {id: 'menu-table-group-medium',    caption: this.txtGroupTable_Medium,  index: 3, templateCount: 0},
+                'menu-table-group-dark':    {id: 'menu-table-group-dark',      caption: this.txtGroupTable_Dark,    index: 4, templateCount: 0},
+                'menu-table-group-no-name': {id: 'menu-table-group-no-name',   caption: '&nbsp',                    index: 5, templateCount: 0},
+            };
         },
 
         onEndTableStylesPreview: function(){
@@ -707,24 +715,6 @@ define([
 
         onAddTableStylesPreview: function(Templates){
             var self = this;
-            var templates = [];
-            var groups = [
-                {id: 'menu-table-group-custom',    caption: self.txtGroupTable_Custom,  templates: []},
-                {id: 'menu-table-group-optimal',   caption: self.txtGroupTable_Optimal, templates: []},
-                {id: 'menu-table-group-light',     caption: self.txtGroupTable_Light,   templates: []},
-                {id: 'menu-table-group-medium',    caption: self.txtGroupTable_Medium,  templates: []},
-                {id: 'menu-table-group-dark',      caption: self.txtGroupTable_Dark,    templates: []},
-                {id: 'menu-table-group-no-name',   caption: '&nbsp',                    templates: []},
-            ];
-
-            if (this._state.beginPreviewStyles) {
-                this._state.beginPreviewStyles = false;
-            } 
-            else {
-                self.mnuTableTemplatePicker.store.each(function(template) {
-                    groups.filter(function(item){ return item.id == template.get('group') ; })[0].templates.push(template);
-                });
-            }
 
             _.each(Templates, function(template){
                 var tip = template.asc_getDisplayName();
@@ -740,7 +730,7 @@ define([
                         if(arr[0]){
                             groupItem = 'menu-table-group-' + arr[0].toLowerCase();
                         }
-                        if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                        if(self._state.groups.hasOwnProperty(groupItem) == false) {
                             groupItem = 'menu-table-group-no-name';
                         }
                     }
@@ -755,26 +745,38 @@ define([
                     groupItem = 'menu-table-group-custom'
                 }   
 
-                groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
+                var templateObj = {
                     imageUrl: template.asc_getImage(),
                     id     : Common.UI.getId(),
                     templateId: template.asc_getId(),
                     group  : groupItem,
                     tip    : tip
-                });
+                };
+                var templateIndex = 0;
+
+                for(var group in self._state.groups) {
+                    if(self._state.groups[group].index <= self._state.groups[groupItem].index) {
+                        templateIndex += self._state.groups[group].templateCount;
+                    }
+                }
+
+                if (self._state.beginPreviewStyles) {
+                    self._state.beginPreviewStyles = false;
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(self._state.groups[groupItem]);
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templateObj);
+                    self.mnuTableTemplatePicker.groups.comparator = function(item) {
+                        return item.get('index');
+                    };
+                } 
+                else {
+                    if(self._state.groups[groupItem].templateCount == 0) {
+                        self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.add(self._state.groups[groupItem]);
+                    } 
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(templateObj, {at: templateIndex});
+                }
+
+                self._state.groups[groupItem].templateCount += 1;
             });
-            
-            groups = groups.filter(function(item, index){
-                return item.templates.length > 0
-            });
-            
-            groups.forEach(function(item){
-                templates = templates.concat(item.templates);
-                delete item.templates;
-            });
-                        
-            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(groups);
-            self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templates);
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
         },
 

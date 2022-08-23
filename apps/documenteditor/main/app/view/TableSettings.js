@@ -768,7 +768,7 @@ define([
                 'menu-table-group-list':                {id: 'menu-table-group-list',               caption: this.txtGroupTable_List,               index: 3,   templateCount: 0},
                 'menu-table-group-bordered-and-lined':  {id: 'menu-table-group-bordered-and-lined', caption: this.txtGroupTable_BorderedAndLined,   index: 4,   templateCount: 0},
                 'menu-table-group-no-name':             {id: 'menu-table-group-no-name',            caption: '&nbsp',                               index: 5,   templateCount: 0},
-            }
+            };
         },
 
         onEndTableStylesPreview: function(){
