@@ -29,6 +29,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
 
     const docInfo = props.storeDocumentInfo;
+    const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
     const docTitle = docInfo.dataDoc ? docInfo.dataDoc.title : '';
 
     useEffect(() => {
@@ -154,6 +155,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      closeOptions={props.closeOptions}
                      isEdit={appOptions.isEdit}
                      docTitle={docTitle}
+                     docExt={docExt}
                      isShowBack={isShowBack}
                      onBack={onBack}
                      isCanUndo={isCanUndo}
