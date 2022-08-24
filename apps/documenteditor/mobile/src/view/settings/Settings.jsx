@@ -160,7 +160,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-spellcheck"></Icon>
                         </ListItem>
                     }
-                    {!isViewer &&
+                    {!isViewer && Device.phone &&
                         <ListItem title={t('Settings.textMobileView')}>
                             <Icon slot="media" icon="icon-mobile-view"></Icon>
                             <Toggle checked={isMobileView} onToggleChange={() => props.onChangeMobileView()} />
