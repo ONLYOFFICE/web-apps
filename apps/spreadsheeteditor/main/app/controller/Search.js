@@ -153,7 +153,7 @@ define([
                     this._state.withinSheet = value === 0 ? Asc.c_oAscSearchBy.Sheet : (value === 1 ? Asc.c_oAscSearchBy.Workbook : Asc.c_oAscSearchBy.Range);
                     this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
                     if (value === Asc.c_oAscSearchBy.Range) {
-                        runSearch = false;
+                        runSearch = this._state.isValidSelectedRange && !!this._state.selectedRange;
                     }
                     break;
                 case 'range':
