@@ -257,8 +257,11 @@ define([
             options.asc_setScanByRows(this._state.searchByRows);
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setNeedRecalc(isNeedRecalc);
-            this._state.isContentChanged && options.asc_setLastSearchElem(this._state.lastSelectedItem);
-            this._state.isContentChanged = false;
+            if (this._state.isContentChanged) {
+                options.asc_setLastSearchElem(this._state.lastSelectedItem);
+                this.view.disableReplaceButtons(false);
+                this._state.isContentChanged = false;
+            }
             if (!this.api.asc_findText(options)) {
                 this.removeResultItems();
                 return false;
@@ -271,10 +274,6 @@ define([
         },
 
         onQueryReplace: function(textSearch, textReplace) {
-            if (this._state.isContentChanged) {
-                this.onQuerySearch();
-                return;
-            }
             this.api.isReplaceAll = false;
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(textSearch);
@@ -293,10 +292,6 @@ define([
         },
 
         onQueryReplaceAll: function(textSearch, textReplace) {
-            if (this._state.isContentChanged) {
-                this.onQuerySearch();
-                return;
-            }
             this.api.isReplaceAll = true;
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(textSearch);
@@ -545,6 +540,7 @@ define([
         onApiModifiedDocument: function () {
             this._state.isContentChanged = true;
             this.view.updateResultsNumber('content-changed');
+            this.view.disableReplaceButtons(true);
         },
 
         onActiveSheetChanged: function (index) {
