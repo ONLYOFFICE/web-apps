@@ -173,9 +173,10 @@ class MainPage extends Component {
                     !this.state.addOptionsVisible ? null :
                         <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
                 }
+                {/*onclosed={this.handleOptionsViewClosed.bind(this, 'settings')}*/}
                 {
                     !this.state.settingsVisible ? null :
-                        <Settings openOptions={this.handleClickToOpenOptions.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
+                        <Settings openOptions={this.handleClickToOpenOptions.bind(this)} closeOptions={this.handleOptionsViewClosed.bind(this)} />
                 }
                 {
                     !this.state.collaborationVisible ? null :
