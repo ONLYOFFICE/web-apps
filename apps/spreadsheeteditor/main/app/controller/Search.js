@@ -155,6 +155,8 @@ define([
                     if (value === Asc.c_oAscSearchBy.Range) {
                         runSearch = this._state.isValidSelectedRange && !!this._state.selectedRange;
                     }
+                    this.view.inputSelectRange.$el[value === Asc.c_oAscSearchBy.Range ? 'show' : 'hide']();
+                    this.view.updateResultsContainerHeight();
                     break;
                 case 'range':
                     this._state.selectedRange = value;
