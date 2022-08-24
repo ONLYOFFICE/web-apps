@@ -210,6 +210,7 @@ define([
                     }).on('keyup:after', function(input, e) {
                         me.fireEvent('search:options', ['range', input.getValue(), e.keyCode !== Common.UI.Keys.RETURN]);
                     });
+                    this.inputSelectRange.$el.hide();
 
                     this.cmbSearch = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-search'),
@@ -437,8 +438,8 @@ define([
         textValue: 'Value',
         textFormula: 'Formula',
         textSearchHasStopped: 'Search has stopped',
-        textContentChanged: 'Document content has changed.',
-        textSearchAgain: '{0}Search again{1} to make sure the results are current.'
+        textContentChanged: 'Document changed.',
+        textSearchAgain: '{0}Perform new search{1} for accurate results.'
 
     }, Common.Views.SearchPanel || {}));
 });
