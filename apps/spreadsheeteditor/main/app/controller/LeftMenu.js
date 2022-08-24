@@ -692,7 +692,7 @@ define([
                         if (this.isSearchPanelVisible()) {
                             selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                             this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                            this.leftMenu.fireEvent('search:aftershow', [selectedText]);
+                            this.leftMenu.fireEvent('search:aftershow', [selectedText ? selectedText : undefined]);
                             return false;
                         } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                             var viewport = this.getApplication().getController('Viewport');
@@ -708,10 +708,10 @@ define([
                             Common.NotificationCenter.trigger('search:show');
                             return false;
                         } else {
-                            this.onShowHideSearch(true, selectedText);
+                            this.onShowHideSearch(true, selectedText ? selectedText : undefined);
                         }
                         this.leftMenu.btnSearchBar.toggle(true,true);
-                        this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
+                        this.leftMenu.panelSearch.focus(selectedText ? s : 'search');
                     }
                     return false;
                 case 'save':
