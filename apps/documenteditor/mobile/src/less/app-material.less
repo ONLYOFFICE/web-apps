@@ -110,9 +110,8 @@
     .snackbar {
         position: absolute;
         width: 344px;
-        max-width: 344px;
-        height: 48px;
-        left: 8px;
+        max-height: 48px;
+        left: calc(50% - 344px / 2);
         bottom: 16px;
         background: #333333;
         border-radius: 4px;
@@ -128,24 +127,20 @@
             font-size: 14px;
             line-height: 20px;
             letter-spacing: 0.25px;
+            text-align: center;
         }
     }
 
-    .snackbar-enter {
-        opacity: 0;
-    }
-
-    .snackbar-enter-active {
-        opacity: 1;
-        transition: opacity 200ms;
-    }
-
-    .snackbar-exit {
-        opacity: 1;
-    }
-
-    .snackbar-exit-active {
-        opacity: 0;
-        transition: opacity 200ms;
+    @media(max-width: 450px) {
+        .snackbar {
+            width: auto;
+            max-width: 100%;
+            left: 16px;
+            right: 16px;
+            bottom: 8px;
+            &__text {
+                text-align: left;
+            }
+        }
     }
 }

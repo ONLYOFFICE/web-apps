@@ -189,11 +189,7 @@ class MainPage extends Component {
                 {
                     <CSSTransition
                         in={this.state.snackbarVisible}
-                        // timeout={300}
-                        timeout={{
-                            enter: 300,
-                            exit: 300
-                        }}
+                        timeout={500}
                         classNames="snackbar"
                         mountOnEnter
                         unmountOnExit
