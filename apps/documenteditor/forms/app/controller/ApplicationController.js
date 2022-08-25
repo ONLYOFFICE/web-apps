@@ -1978,4 +1978,6 @@ define([
         }
     };
     DE.Controllers.Desktop = new Desktop();
+    Common.Controllers = Common.Controllers || {};
+    Common.Controllers.Desktop = DE.Controllers.Desktop;
 });
