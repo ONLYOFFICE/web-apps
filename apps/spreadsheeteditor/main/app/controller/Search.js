@@ -349,6 +349,9 @@ define([
                     me.resultItems.splice(ind, 1);
                 }
             });
+            if (this.resultItems.length === 0) {
+                this.removeResultItems();
+            }
         },
 
         onUpdateSearchCurrent: function (current, all) {
