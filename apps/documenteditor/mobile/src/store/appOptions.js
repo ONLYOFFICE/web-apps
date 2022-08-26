@@ -35,7 +35,7 @@ export class storeAppOptions {
 
     isEdit = false;
 
-    isMobileView = false;
+    isMobileView = true;
     changeMobileView() {
         this.isMobileView = !this.isMobileView;
     }

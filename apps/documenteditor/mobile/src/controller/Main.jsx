@@ -124,7 +124,7 @@ class MainController extends Component {
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
-                    // docInfo.put_DirectUrl(data.doc.directUrl);
+                    docInfo.put_DirectUrl(data.doc.directUrl);
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
@@ -273,7 +273,7 @@ class MainController extends Component {
                 this.api.Resize();
                 this.api.zoomFitToWidth();
                 this.api.asc_GetDefaultTableStyles && setTimeout(() => {this.api.asc_GetDefaultTableStyles()}, 1);
-
+                this.api.ChangeReaderMode();
                 this.applyLicense();
 
                 Common.Notifications.trigger('document:ready');

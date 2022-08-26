@@ -88,14 +88,15 @@ const Settings = props => {
         appOptions.changeMobileView();
         api.ChangeReaderMode();
 
-        if (Device.phone) {
+        if(Device.phone) {
             closeModal();
         }
     }
 
     return <SettingsView usePopover={!Device.phone}
                          openOptions={props.openOptions}
-                         onclosed={props.onclosed}
+                         closeOptions={props.closeOptions}
+                         // onclosed={props.onclosed}
                          onPrint={onPrint}
                          showHelp={showHelp}
                          showFeedback={showFeedback}
