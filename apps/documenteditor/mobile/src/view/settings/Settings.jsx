@@ -166,9 +166,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Toggle checked={isMobileView} onToggleChange={() => {
                                 props.onChangeMobileView();
                                 props.openOptions('snackbar');
-                                setTimeout( () => {
+                                setTimeout(() => {
                                     props.closeOptions('snackbar');
-                                }, 1000);
+                                },  1000);
                             }} />
                         </ListItem>
                     }
