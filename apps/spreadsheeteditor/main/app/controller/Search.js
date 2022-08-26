@@ -125,6 +125,7 @@ define([
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onActiveSheetChanged, this));
                 this.api.asc_registerCallback('asc_onModifiedDocument', _.bind(this.onApiModifiedDocument, this));
+                this.api.asc_registerCallback('asc_onUpdateSearchElem', _.bind(this.onApiUpdateSearchElem, this));
             }
             return this;
         },
@@ -475,8 +476,12 @@ define([
             var cells = [item.find('.sheet'), item.find('.name'), item.find('.cell'), item.find('.value'), item.find('.formula')],
                 tips = [data[1], data[2], data[3], data[4], data[5]];
             cells.forEach(function (el, ind) {
+                if (el.data('bs.tooltip')) {
+                    el.removeData('bs.tooltip');
+                }
                 var tip = tips[ind];
                 if (tip) {
+                    el.off('mouseenter');
                     el.one('mouseenter', function () {
                         el.attr('data-toggle', 'tooltip');
                         el.tooltip({
@@ -590,6 +595,33 @@ define([
 
         getSearchText: function () {
             return this._state.searchText;
+        },
+
+        onApiUpdateSearchElem: function (data) { // [id, sheet, name, cell, value, formula]
+            if (this.resultItems && this.resultItems.length > 0) {
+                var me = this;
+                data.forEach(function (item) {
+                    var resultItem = _.findWhere(me.resultItems, {id: item[0]});
+                    if (resultItem) {
+                        resultItem.data = item;
+                        resultItem.el = '<div class="item" style="width: 100%;">' +
+                            '<div class="sheet">' + (item[1] ? item[1] : '') + '</div>' +
+                            '<div class="name">' + (item[2] ? item[2] : '') + '</div>' +
+                            '<div class="cell">' + (item[3] ? item[3] : '') + '</div>' +
+                            '<div class="value">' + (item[4] ? item[4] : '') + '</div>' +
+                            '<div class="formula">' + (item[5] ? item[5] : '') + '</div>' +
+                            '</div>';
+                        if (me.view.$el.is(':visible')) {
+                            resultItem.$el.find('.sheet').text(item[1] ? item[1] : '');
+                            resultItem.$el.find('.name').text(item[2] ? item[2] : '');
+                            resultItem.$el.find('.cell').text(item[3] ? item[3] : '');
+                            resultItem.$el.find('.value').text(item[4] ? item[4] : '');
+                            resultItem.$el.find('.formula').text(item[5] ? item[5] : '');
+                            me.addTooltips(resultItem.$el, item);
+                        }
+                    }
+                });
+            }
         },
 
         textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.',
