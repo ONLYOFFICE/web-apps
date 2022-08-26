@@ -57,11 +57,11 @@ const ToolbarView = props => {
                     <Link className={props.disabledControls ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
                 }
                 {props.isEdit && isAvailableExt && !isViewer && EditorUIController.getToolbarOptions && EditorUIController.getToolbarOptions({
-                        disabled: disableEditBtn || props.disabledControls,
-                        onEditClick: e => props.openOptions('edit'),
-                        onAddClick: e => props.openOptions('add')
+                    disabled: disableEditBtn || props.disabledControls,
+                    onEditClick: e => props.openOptions('edit'),
+                    onAddClick: e => props.openOptions('add')
                 })}
-                {isViewer && isAvailableExt && <Link icon='icon-edit-mode' className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} href={false} onClick={() => props.turnOffViewerMode()}></Link>}
+                {isViewer && isAvailableExt && props.isEdit && <Link icon='icon-edit-mode' className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} href={false} onClick={() => props.turnOffViewerMode()}></Link>}
                 {Device.phone ? null : <Link className={(props.disabledControls || props.readerMode) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
                 {props.displayCollaboration && window.matchMedia("(min-width: 360px)").matches ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => props.openOptions('coauth')}></Link> : null}
                 <Link className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={e => props.openOptions('settings')}></Link>
