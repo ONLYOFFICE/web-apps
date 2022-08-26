@@ -203,4 +203,4 @@ class MainPage extends Component {
   }
 }
 
-export default inject("storeAppOptions")(observer(withTranslation()(MainPage)));
+export default withTranslation()(inject("storeAppOptions")(observer(MainPage)));
