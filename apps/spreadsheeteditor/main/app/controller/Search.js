@@ -57,7 +57,14 @@ define([
                 'SearchBar': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
-                    'search:input': _.bind(function (text) {
+                    'search:input': _.bind(function (text, afterShow) {
+                        if (afterShow && !text) {
+                            if (this._state.isResults) {
+                                this._state.noSearchEmptyCells = true;
+                                this.onQuerySearch();
+                            }
+                            return;
+                        }
                         if (this._state.searchText === text) {
                             Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
                             return;
@@ -79,7 +86,7 @@ define([
                     'show': _.bind(this.onShowPanel, this),
                     'hide': _.bind(this.onHidePanel, this)
                 },
-                'LeftMenu': { // TO DO
+                'LeftMenu': {
                     'search:aftershow': _.bind(this.onShowAfterSearch, this)
                 }
             });
@@ -95,7 +102,10 @@ define([
                 lookInFormulas: true,
                 isValidSelectedRange: true,
                 lastSelectedItem: undefined,
-                isContentChanged: false
+                isContentChanged: false,
+                isResults: false,
+                noSearchEmptyCells: false,
+                isReturnPressed: false
             };
         },
 
@@ -206,9 +216,14 @@ define([
                 this._state.searchText = text;
                 this.onQuerySearch(type);
             }
+            this._state.isReturnPressed = isReturnKey;
         },
 
         onInputSearchChange: function (text) {
+            if (!text && !this._state.isReturnPressed) {
+                this._state.noSearchEmptyCells = true;
+            }
+            this._state.isReturnPressed = false;
             var me = this;
             if (this._state.searchText !== text) {
                 this._state.newSearchText = text;
@@ -263,12 +278,22 @@ define([
                 options.asc_setLastSearchElem(this._state.lastSelectedItem);
                 this.view.disableReplaceButtons(false);
                 this._state.isContentChanged = false;
+                if (!this.view.$el.is(':visible')) {
+                    this.resultItems = [];
+                }
             }
+            options.asc_setNotSearchEmptyCells(this._state.noSearchEmptyCells);
             if (!this.api.asc_findText(options)) {
-                this.removeResultItems();
+                this._state.isResults = false;
+                if (this._state.noSearchEmptyCells) {
+                    this.removeResultItems('no-results');
+                    this._state.noSearchEmptyCells = false;
+                } else {
+                    this.removeResultItems();
+                }
                 return false;
             }
-
+            this._state.isResults = true;
             if (this.view.$el.is(':visible')) {
                 this.api.asc_StartTextAroundSearch();
             }
@@ -349,6 +374,9 @@ define([
                     me.resultItems.splice(ind, 1);
                 }
             });
+            if (this.resultItems.length === 0) {
+                this.removeResultItems();
+            }
         },
 
         onUpdateSearchCurrent: function (current, all) {
@@ -470,31 +498,40 @@ define([
         },
 
         onShowAfterSearch: function (findText) {
-            var viewport = this.getApplication().getController('Viewport');
+            var fromEmptySearchBar = findText === '',
+                viewport = this.getApplication().getController('Viewport');
             if (viewport.isSearchBarVisible()) {
                 viewport.searchBar.hide();
             }
 
             var selectedText = this.api.asc_GetSelectedText(),
                 text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
-            if (this.resultItems && this.resultItems.length > 0 &&
-                    (!text && !this.view.inputText.getValue() ||
-                    !this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
-                    this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
-                return;
+            if (this.resultItems && this.resultItems.length > 0 || (!text && this._state.isResults)) {
+                if (!text && !this.view.inputText.getValue()) { // remove empty cells highlighting when we open panel again
+                    this._state.noSearchEmptyCells = true;
+                    this.onQuerySearch();
+                    return;
+                }
+                if (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    this._state.matchCase && text === this.view.inputText.getValue()) { // show old results
+                    return;
+                }
             }
             if (text) {
                 this.view.setFindText(text);
-            } else if (text !== undefined) { // panel was opened from empty searchbar, clear to start new search
+            } else if (fromEmptySearchBar) { // panel was opened from empty searchbar
                 this.view.setFindText('');
-                this._state.searchText = undefined;
+                if (!this._state.isResults) {
+                    this._state.searchText = undefined;
+                }
             }
 
             this.hideResults();
-            if (this._state.searchText !== undefined && text === this._state.searchText) { // search was made
+            if (this._state.searchText !== undefined && text && text === this._state.searchText && this._state.isResults) { // search was made
                 this.api.asc_StartTextAroundSearch();
-            } else if (this._state.searchText !== undefined) { // search wasn't made
-                this.onInputSearchChange(text);
+            } else if (this._state.searchText) { // search wasn't made
+                this._state.searchText = text;
+                this.onQuerySearch();
             } else {
                 this.resultItems = [];
                 this.view.clearResultsNumber();
