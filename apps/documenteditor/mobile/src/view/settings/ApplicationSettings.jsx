@@ -24,13 +24,14 @@ const PageApplicationSettings = props => {
 
     // set mode
     const appOptions = props.storeAppOptions;
+    const isViewer = appOptions.isViewer;
     const _isEdit = appOptions.isEdit;
     const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
 
     return (
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
-            {_isEdit &&
+            {_isEdit && !isViewer &&
                 <Fragment>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
                     <List>
@@ -90,7 +91,6 @@ const PageApplicationSettings = props => {
                     />
                 </ListItem>
             </List>
-            
             <List>
                 <ListItem title={'Dark theme'}>
                     <Toggle checked={isThemeDark}
@@ -98,11 +98,12 @@ const PageApplicationSettings = props => {
                     </Toggle>
                 </ListItem>
             </List>
-
-            <List mediaList>
-                <ListItem title={t('Settings.textDirection')} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
-            </List>
-
+            {!isViewer &&
+                <List mediaList>
+                    <ListItem title={t('Settings.textDirection')} link="/direction/"
+                              routeProps={{changeDirection: props.changeDirection}}></ListItem>
+                </List>
+            }
             {_isShowMacros &&
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{

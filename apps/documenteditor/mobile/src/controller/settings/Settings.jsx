@@ -81,15 +81,15 @@ const Settings = props => {
         }, 0);
     };
 
-    const onChangeMobileView = () => {
-        const api = Common.EditorApi.get()
+    const onChangeMobileView = async () => {
+        const api = Common.EditorApi.get();
         const appOptions = props.storeAppOptions;
 
-        appOptions.changeMobileView();
-        api.ChangeReaderMode();
+        await appOptions.changeMobileView();
+        await api.ChangeReaderMode();
 
         if(Device.phone) {
-            closeModal();
+            await closeModal();
         }
     }
 

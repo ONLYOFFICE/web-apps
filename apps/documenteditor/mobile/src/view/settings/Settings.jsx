@@ -166,9 +166,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Toggle checked={isMobileView} onToggleChange={() => {
                                 props.onChangeMobileView();
                                 props.openOptions('snackbar');
-                                setTimeout( () => {
+                                setTimeout(() => {
                                     props.closeOptions('snackbar');
-                                }, 1000);
+                                },  1000);
                             }} />
                         </ListItem>
                     }
@@ -178,12 +178,10 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                             <Icon slot="media" icon="icon-doc-setup"></Icon>
                         </ListItem>
                     }
-                    {!isViewer &&
-                        <ListItem title={_t.textApplicationSettings} link="#"
-                                  onClick={onoptionclick.bind(this, "/application-settings/")}>
-                            <Icon slot="media" icon="icon-app-settings"></Icon>
-                        </ListItem>
-                    }
+                    <ListItem title={_t.textApplicationSettings} link="#"
+                              onClick={onoptionclick.bind(this, "/application-settings/")}>
+                        <Icon slot="media" icon="icon-app-settings"></Icon>
+                    </ListItem>
                     {_canDownload &&
                         <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
                             <Icon slot="media" icon="icon-download"></Icon>
