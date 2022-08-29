@@ -2143,8 +2143,28 @@ define([
 //            }
         },
 
-        onTableTplMenuOpen: function(cmp) {
+        onTableTplMenuOpen: function(menu) {
             this.onApiInitTableTemplates(this.api.asc_getTablePictures(this.api.asc_getCellInfo().asc_getFormatTableInfo()));
+
+            if (menu && this.toolbar.mnuTableTemplatePicker) {
+                var picker = this.toolbar.mnuTableTemplatePicker,
+                    columnCount = 7;
+
+                if (picker.cmpEl) {
+                    var itemEl = $(picker.cmpEl.find('.dataview.inner .item-template').get(0)).parent(),
+                        itemMargin = 8,
+                        itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) : 60;
+
+                    var menuWidth = columnCount * (itemMargin + itemWidth) + 11, // for scroller
+                        menuMargins = parseFloat(picker.cmpEl.css('margin-left')) + parseFloat(picker.cmpEl.css('margin-right'));
+                    if (menuWidth + menuMargins>Common.Utils.innerWidth())
+                        menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-menuMargins-11)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 11;
+                    picker.cmpEl.css({
+                        'width': menuWidth
+                    });
+                    menu.alignPosition();
+                }
+            }
 
             var scroller = this.toolbar.mnuTableTemplatePicker.scroller;
             if (scroller) {
