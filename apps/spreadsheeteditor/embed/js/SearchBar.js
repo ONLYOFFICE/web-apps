@@ -58,6 +58,7 @@
             api = appApi;
             if (api) {
                 api.asc_registerCallback('asc_onSetSearchCurrent', onApiUpdateSearchCurrent);
+                api.asc_registerCallback('asc_onActiveSheetChanged', onActiveSheetChanged);
             }
         };
 
@@ -125,7 +126,7 @@
             }
         };
 
-        var onQuerySearch = function (d, w) {
+        var onQuerySearch = function (d, isNeedRecalc) {
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(_state.searchText);
             options.asc_setScanForward(d != 'back');
@@ -134,6 +135,8 @@
             options.asc_setScanOnOnlySheet(Asc.c_oAscSearchBy.Sheet);
             options.asc_setScanByRows(true);
             options.asc_setLookIn(Asc.c_oAscFindLookIn.Formulas);
+            options.asc_setNeedRecalc(isNeedRecalc);
+            options.asc_setNotSearchEmptyCells(true);
             if (!api.asc_findText(options)) {
                 common.view.SearchBar.disableNavButtons();
                 return false;
@@ -160,6 +163,10 @@
                 api.asc_selectSearchingResults(val);
                 _state.isHighlightedResults = val;
             }
+        };
+
+        var onActiveSheetChanged = function () {
+            onQuerySearch(undefined, true);
         };
 
         return {
