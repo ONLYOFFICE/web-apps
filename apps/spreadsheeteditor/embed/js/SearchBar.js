@@ -118,7 +118,7 @@
                         if ((new Date()) - _lastInputChange < 400) return;
 
                         _state.searchText = _state.newSearchText;
-                        (_state.newSearchText !== '') && onQuerySearch();
+                        onQuerySearch();
                         clearInterval(_searchTimer);
                         _searchTimer = undefined;
                     }, 10);
@@ -145,7 +145,7 @@
         };
 
         var onSearchNext = function (type, text, e) {
-            if (text && text.length > 0 && (type === 'keydown' && e.keyCode === 13 || type !== 'keydown')) {
+            if (type === 'keydown' && e.keyCode === 13 || type !== 'keydown') {
                 _state.searchText = text;
                 if (onQuerySearch(type) && _searchTimer) {
                     clearInterval(_searchTimer);
