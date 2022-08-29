@@ -257,6 +257,14 @@ class MainController extends Component {
                 appSettings.changeShowTableEmptyLine(value);
                 this.api.put_ShowTableEmptyLine(value);
 
+                value = LocalStorage.getBool('mobile-view', true);
+
+                if(value) {
+                    this.api.ChangeReaderMode();
+                } else {
+                    appOptions.changeMobileView();
+                }
+
                 if (appOptions.isEdit && this.needToUpdateVersion) {
                     Common.Notifications.trigger('api:disconnect');
                 }
@@ -273,7 +281,6 @@ class MainController extends Component {
                 this.api.Resize();
                 this.api.zoomFitToWidth();
                 this.api.asc_GetDefaultTableStyles && setTimeout(() => {this.api.asc_GetDefaultTableStyles()}, 1);
-                this.api.ChangeReaderMode();
                 this.applyLicense();
 
                 Common.Notifications.trigger('document:ready');
