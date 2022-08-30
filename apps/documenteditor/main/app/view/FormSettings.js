@@ -224,7 +224,7 @@ define([
             this.cmbWidthRule = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-width-rule'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 85px;',
+                menuStyle: 'min-width: 82px;',
                 editable: false,
                 data: this._arrWidthRule,
                 dataHint: '1',
@@ -237,7 +237,7 @@ define([
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $markup.findById('#form-spin-width'),
                 step: .1,
-                width: 85,
+                width: 82,
                 defaultUnit : "cm",
                 value: '',
                 allowAuto: false,
@@ -1317,6 +1317,9 @@ define([
                 } else
                     this._originalTextFormProps = null;
 
+                if (props.get_ComplexFormPr()) {
+                    this.labelFormName.text(this.textComplex);
+                }
                 this._noApply = false;
 
                 this.KeySettingsTd.toggleClass('padding-small', !connected);
@@ -1565,7 +1568,8 @@ define([
         textFormatSymbols: 'Allowed Symbols',
         textLetters: 'Letters',
         textDigits: 'Digits',
-        textNone: 'None'
+        textNone: 'None',
+        textComplex: 'Complex Field'
 
     }, DE.Views.FormSettings || {}));
 });

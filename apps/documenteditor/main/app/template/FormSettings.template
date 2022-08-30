@@ -42,11 +42,6 @@
     </tr>
     <tr class="form-textfield">
         <td class="padding-small">
-            <div class="separator horizontal"></div>
-        </td>
-    </tr>
-    <tr class="form-textfield">
-        <td class="padding-small">
             <label class="input-label"><%= scope.textFormat %></label>
             <div id="form-combo-format" style="width: 100%;"></div>
         </td>
@@ -67,6 +62,8 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
+</table>
+<table cols="2">
     <tr class="form-list">
         <td colspan="2" class="padding-small">
             <label class="input-label"><%= scope.textValue %></label>
@@ -74,7 +71,7 @@
     </tr>
     <tr class="form-list" style="vertical-align: top;">
         <td class="padding-small">
-            <div id="form-txt-new-value" style="margin-right: 5px;"></div>
+            <div id="form-txt-new-value" style="width:164px; margin-right: 5px;"></div>
         </td>
         <td class="padding-small">
             <div id="form-list-add" style="margin-left: 5px;"></div>
@@ -82,7 +79,7 @@
     </tr>
     <tr class="form-list" style="vertical-align: top;">
         <td class="padding-large">
-            <div id="form-list-list" style="width:162px; height: 95px;margin-right: 5px;"></div>
+            <div id="form-list-list" style="width:164px; height: 95px;margin-right: 5px;"></div>
         </td>
         <td class="padding-large">
             <div id="form-list-delete" style="margin-bottom: 5px;margin-left: 5px;"></div>
@@ -90,6 +87,8 @@
             <div id="form-list-down" style="margin-left: 5px;"></div>
         </td>
     </tr>
+</table>
+<table cols="1">
     <tr class="form-not-image">
         <td class="padding-small">
             <div id="form-chb-fixed"></div>
@@ -124,16 +123,16 @@
 </table>
 <table cols="2">
     <tr class="form-textfield">
-        <td colspan=2>
+        <td colspan=2 style="padding-left: 22px;">
             <label class="input-label"><%= scope.textWidth %></label>
         </td>
     </tr>
     <tr class="form-textfield">
-        <td class="padding-small" width="50%">
-            <div id="form-combo-width-rule" style="width: 85px;"></div>
+        <td class="padding-small" style="padding-left: 22px;">
+            <div id="form-combo-width-rule" style="width: 82px;"></div>
         </td>
-        <td class="padding-small" width="50%">
-            <div id="form-spin-width"></div>
+        <td class="padding-small">
+            <div id="form-spin-width" style="float:right;"></div>
         </td>
     </tr>
     <tr class="form-textfield">
@@ -184,7 +183,7 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-small">
             <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
             <div id="form-background-color-btn" style="display: inline-block; float: right;"></div>
         </td>

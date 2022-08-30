@@ -1888,6 +1888,7 @@
   "DE.Views.FormSettings.textLetters": "Letters",
   "DE.Views.FormSettings.textDigits": "Digits",
   "DE.Views.FormSettings.textNone": "None",
+  "DE.Views.FormSettings.textComplex": "Complex Field",
   "DE.Views.FormsTab.capBtnCheckBox": "Checkbox",
   "DE.Views.FormsTab.capBtnComboBox": "Combo Box",
   "DE.Views.FormsTab.capBtnDownloadForm": "Download as oform",
