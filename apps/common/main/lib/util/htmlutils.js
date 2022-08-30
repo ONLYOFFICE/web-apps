@@ -109,3 +109,6 @@ if ( checkLocalStorage ) {
         }
     }
 }
+
+// IE 10/11 polyfill
+!Object.getOwnPropertySymbols && (Object.getOwnPropertySymbols = function (){return[]});
