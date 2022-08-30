@@ -1314,7 +1314,8 @@ define([
                         this.txtFormatSymbols.setValue((val !== null && val !== undefined) ? val : '');
                         this._state.FormatSymbols=val;
                     }
-                }
+                } else
+                    this._originalTextFormProps = null;
 
                 this._noApply = false;
 
