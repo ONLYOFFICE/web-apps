@@ -144,7 +144,7 @@ define([
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var arr = [ this.view.btnTextField, this.view.btnComboBox, this.view.btnDropDown, this.view.btnCheckBox,
-                        this.view.btnRadioBox, this.view.btnImageField ];
+                        this.view.btnRadioBox, this.view.btnImageField, this.view.btnEmailField, this.view.btnPhoneField, this.view.btnComplexField ];
             Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: arr});
             Common.Utils.lockControls(Common.enumLock.headerLock,    header_locked,      {array: arr});
             Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
@@ -166,7 +166,7 @@ define([
             }
         },
 
-        onControlsSelect: function(type) {
+        onControlsSelect: function(type, options) {
             if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl && this.toolbar.mode.canFeatureForms)) return;
 
             var oPr,
@@ -182,7 +182,15 @@ define([
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
             else if (type == 'text') {
                 oPr = new AscCommon.CSdtTextFormPr();
+                if (options) {
+                    if (options.reg)
+                        oPr.put_RegExpFormat(options.reg);
+                    else if (options.mask)
+                        oPr.put_MaskFormat(options.mask);
+                }
                 this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+            } else if (type == 'complex') {
+                this.api.asc_AddComplexForm();
             }
 
             var me = this;

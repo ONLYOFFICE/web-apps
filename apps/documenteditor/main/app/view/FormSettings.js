@@ -1243,6 +1243,7 @@ define([
                 }
 
                 var formTextPr = props.get_TextFormPr();
+                var needUpdateTextControls = !!formTextPr && !this._originalTextFormProps || !formTextPr && !!this._originalTextFormProps;
                 if (formTextPr) {
                     this._originalTextFormProps = formTextPr;
 
@@ -1320,7 +1321,7 @@ define([
                 this.KeySettingsTd.toggleClass('padding-small', !connected);
                 this.ConnectedSettings.toggleClass('hidden', !connected);
                 this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || !(this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp));
-                if (this.type !== type || type == Asc.c_oAscContentControlSpecificType.CheckBox)
+                if (this.type !== type || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps);
                 this.type = type;
 
