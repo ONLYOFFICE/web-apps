@@ -936,7 +936,6 @@ define([
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                formTextPr.put_NoneFormat(record.value);
                 switch (record.value) {
                     case Asc.TextFormFormatType.None:
                         formTextPr.put_NoneFormat();
