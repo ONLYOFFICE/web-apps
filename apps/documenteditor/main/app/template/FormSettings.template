@@ -35,9 +35,36 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-small">
             <label class="input-label"><%= scope.textTip %></label>
             <div id="form-txt-help"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFormat %></label>
+            <div id="form-combo-format" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-txt-mask"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFormatSymbols %></label>
+            <div id="form-txt-format-symbols"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr class="form-list">

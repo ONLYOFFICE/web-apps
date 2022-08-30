@@ -173,7 +173,7 @@ define([
 
             this.textareaHelp = new Common.UI.TextareaField({
                 el          : $markup.findById('#form-txt-help'),
-                style       : 'width: 100%; height: 60px;',
+                style       : 'width: 100%; height: 36px;',
                 value       : '',
                 dataHint    : '1',
                 dataHintDirection: 'left',
@@ -499,6 +499,60 @@ define([
             var xValue = this.sldrPreviewPositionX.getValue(),
                 yValue = this.sldrPreviewPositionY.getValue();
             this.imagePositionLabel.text(xValue + ',' + yValue);
+
+            this.cmbFormat = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-format'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textNone,  value: Asc.TextFormFormatType.None },
+                    { displayValue: this.textDigits,  value: Asc.TextFormFormatType.Digit },
+                    { displayValue: this.textLetters,  value: Asc.TextFormFormatType.Letter },
+                    { displayValue: this.textMask,  value: Asc.TextFormFormatType.Mask },
+                    { displayValue: this.textReg,  value: Asc.TextFormFormatType.RegExp }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.cmbFormat);
+            this.cmbFormat.setValue(Asc.TextFormFormatType.None);
+            this.cmbFormat.on('selected', this.onFormatSelect.bind(this));
+
+            this.txtMask = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-mask'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtMask);
+            this.txtMask.on('changed:after', this.onMaskChanged.bind(this));
+            this.txtMask.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtMask.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtMask._input && me.txtMask._input.select();}, 1);
+            });
+
+            this.txtFormatSymbols = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-format-symbols'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtFormatSymbols);
+            this.txtFormatSymbols.on('changed:after', this.onFormatSymbolsChanged.bind(this));
+            this.txtFormatSymbols.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtFormatSymbols.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtFormatSymbols._input && me.txtFormatSymbols._input.select();}, 1);
+            });
 
             this.updateMetricUnit();
             this.UpdateThemeColors();
@@ -878,6 +932,64 @@ define([
             }
         },
 
+        onFormatSelect: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_NoneFormat(record.value);
+                switch (record.value) {
+                    case Asc.TextFormFormatType.None:
+                        formTextPr.put_NoneFormat();
+                        break;
+                    case Asc.TextFormFormatType.Digit:
+                        formTextPr.put_DigitFormat();
+                        break;
+                    case Asc.TextFormFormatType.Letter:
+                        formTextPr.put_LetterFormat();
+                        break;
+                    case Asc.TextFormFormatType.Mask:
+                        this.txtMask.setValue('*');
+                        formTextPr.put_MaskFormat(this.txtMask.getValue());
+                        break;
+                    case Asc.TextFormFormatType.RegExp:
+                        this.txtMask.setValue('.');
+                        formTextPr.put_RegExpFormat(this.txtMask.getValue());
+                        break;
+                }
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onMaskChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                if (this.cmbFormat.getValue()===Asc.TextFormFormatType.Mask) {
+                    formTextPr.put_MaskFormat(newValue);
+                } else if (this.cmbFormat.getValue()===Asc.TextFormFormatType.RegExp) {
+                    formTextPr.put_RegExpFormat(newValue);
+                }
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onFormatSymbolsChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_FormatSymbols(newValue);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -1183,6 +1295,24 @@ define([
                         this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
                         this._state.MaxChars=val;
                     }
+
+                    val = formTextPr.get_FormatType();
+                    if ( this._state.FormatType!==val ) {
+                        this.cmbFormat.setValue((val !== null && val !== undefined) ? val : Asc.TextFormFormatType.None);
+                        this._state.FormatType=val;
+                    }
+
+                    if ( this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp ) {
+                        val = (this._state.FormatType===Asc.TextFormFormatType.Mask) ? formTextPr.get_MaskFormat() : formTextPr.get_RegExpFormat();
+                        this.txtMask.setValue((val !== null && val !== undefined) ? val : '');
+                        this._state.Mask=val;
+                    }
+
+                    val = formTextPr.get_FormatSymbols();
+                    if ( this._state.FormatSymbols!==val ) {
+                        this.txtFormatSymbols.setValue((val !== null && val !== undefined) ? val : '');
+                        this._state.FormatSymbols=val;
+                    }
                 }
 
                 this._noApply = false;
@@ -1425,7 +1555,14 @@ define([
         textTag: 'Tag',
         textAuto: 'Auto',
         textAtLeast: 'At least',
-        textExact: 'Exactly'
+        textExact: 'Exactly',
+        textFormat: 'Format',
+        textMask: 'Arbitrary Mask',
+        textReg: 'Regular Expression',
+        textFormatSymbols: 'Allowed Symbols',
+        textLetters: 'Letters',
+        textDigits: 'Digits',
+        textNone: 'None'
 
     }, DE.Views.FormSettings || {}));
 });
