@@ -96,6 +96,7 @@ define([
             }));
 
             this.TextOnlySettings = el.find('.form-textfield');
+            this.TextOnlySettingsMask = el.find('.form-textfield-mask');
             this.PlaceholderSettings = el.find('.form-placeholder');
             this.KeySettings = el.find('.form-keyfield');
             this.KeySettingsTd = this.KeySettings.find('td');
@@ -1318,6 +1319,7 @@ define([
 
                 this.KeySettingsTd.toggleClass('padding-small', !connected);
                 this.ConnectedSettings.toggleClass('hidden', !connected);
+                this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || !(this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp));
                 if (this.type !== type || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps);
                 this.type = type;

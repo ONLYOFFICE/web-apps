@@ -51,7 +51,7 @@
             <div id="form-combo-format" style="width: 100%;"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
+    <tr class="form-textfield-mask">
         <td class="padding-small">
             <div id="form-txt-mask"></div>
         </td>
