@@ -139,7 +139,8 @@ define([
                 for (var i=0; i<links.length; i++) {
                     arr.push({
                         value: links[i].asc_getSource(),
-                        idx: i
+                        idx: i,
+                        externalRef: links[i]
                     });
                 }
             }
@@ -151,13 +152,13 @@ define([
 
         onUpdate: function() {
             var rec = this.linksList.getSelectedRec();
-            rec && this.api.asc_updateExternalReferences([rec.get('idx')]);
+            rec && this.api.asc_updateExternalReferences([rec.get('externalRef')]);
         },
 
         onUpdateAll: function() {
             var arr = [];
             this.linksList.store.each(function(item){
-                arr.push(item.get('idx'));
+                arr.push(item.get('externalRef'));
             }, this);
             (arr.length>0) && this.api.asc_updateExternalReferences(arr);
         },
