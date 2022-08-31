@@ -208,14 +208,13 @@ define([
                 { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
                 { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
                 { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
-                { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
+                { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman },
+                { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower, lang: 'ru' },
+                { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper, lang: 'ru' }
             ];
-            if ('{{DEFAULT_LANG}}' === 'ru') {
-                items = items.concat([
-                    { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower },
-                    { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper }
-                ]);
-            }
+            items = _.reject(items, function(item){
+                return (item.lang!==undefined && item.lang!=='{{DEFAULT_LANG}}');
+            });
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 220px;',

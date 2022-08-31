@@ -569,15 +569,17 @@ define([
                                 idx = 7;
                                 break;
                         }
-                        if ('{{DEFAULT_LANG}}' === 'ru') {
-                            if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
-                                idx = this._state.bullets.subtype;
-                            }
+                        if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
+                            idx = this._state.bullets.subtype;
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
-                        if (idx!==undefined)
-                            this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
-                        else
+                        if (idx!==undefined) {
+                            if (this.toolbar.mnuNumbersPicker.store && idx>=this.toolbar.mnuNumbersPicker.store.length)
+                                this.toolbar.mnuNumbersPicker.deselectAll(true);
+                            else
+                                this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+
+                        } else
                             this.toolbar.mnuNumbersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);

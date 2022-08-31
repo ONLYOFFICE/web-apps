@@ -2253,16 +2253,15 @@ define([
                     {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
                     {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
                     {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 8}, skipRenderOnChange: true, tip: this.tipRusUpperPoints, lang: 'ru'},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 9}, skipRenderOnChange: true, tip: this.tipRusUpperParentheses, lang: 'ru'},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 10}, skipRenderOnChange: true, tip: this.tipRusLowerPoints, lang: 'ru'},
+                    {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 11}, skipRenderOnChange: true, tip: this.tipRusLowerParentheses, lang: 'ru'}
                 ];
-                if ('{{DEFAULT_LANG}}' === 'ru') {
-                    items = items.concat([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 8}, skipRenderOnChange: true, tip: this.tipRusUpperPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 9}, skipRenderOnChange: true, tip: this.tipRusUpperParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 10}, skipRenderOnChange: true, tip: this.tipRusLowerPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 11}, skipRenderOnChange: true, tip: this.tipRusLowerParentheses}
-                    ]);
-                }
+                items = _.reject(items, function(item){
+                    return (item.lang!==undefined && item.lang!=='{{DEFAULT_LANG}}');
+                });
                 this.mnuNumbersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-numbering'),
                     parentMenu: this.btnNumbers.menu,
