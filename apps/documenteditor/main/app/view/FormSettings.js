@@ -619,7 +619,7 @@ define([
 
         onChMaxCharsChanged: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
-            this.spnMaxChars.setDisabled(!checked || this._state.DisabledControls);
+            this.spnMaxChars.setDisabled(!checked || this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.DisabledControls);
             if (!checked) {
                 this.chComb.setValue(false, true);
                 this.spnWidth.setDisabled(true);
@@ -651,7 +651,7 @@ define([
             var checked = (field.getValue()=='checked');
             if (checked) {
                 this.chMaxChars.setValue(true, true);
-                this.spnMaxChars.setDisabled(false || this._state.DisabledControls);
+                this.spnMaxChars.setDisabled(false || this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.DisabledControls);
             }
             this.cmbWidthRule.setDisabled(!checked || this._state.Fixed || this._state.DisabledControls);
             this.spnWidth.setDisabled(!checked || this._state.WidthRule===Asc.CombFormWidthRule.Auto || this._state.DisabledControls);
@@ -1291,14 +1291,6 @@ define([
                         this._state.Width=val;
                     }
 
-                    val = formTextPr.get_MaxCharacters();
-                    this.chMaxChars.setValue(val && val>=0);
-                    this.spnMaxChars.setDisabled(!val || val<0 || this._state.DisabledControls);
-                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
-                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
-                        this._state.MaxChars=val;
-                    }
-
                     val = formTextPr.get_FormatType();
                     if ( this._state.FormatType!==val ) {
                         this.cmbFormat.setValue((val !== null && val !== undefined) ? val : Asc.TextFormFormatType.None);
@@ -1315,6 +1307,15 @@ define([
                     if ( this._state.FormatSymbols!==val ) {
                         this.txtFormatSymbols.setValue((val !== null && val !== undefined) ? val : '');
                         this._state.FormatSymbols=val;
+                    }
+
+                    val = formTextPr.get_MaxCharacters();
+                    this.chMaxChars.setValue(val && val>=0);
+                    this.chMaxChars.setDisabled(this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.DisabledControls);
+                    this.spnMaxChars.setDisabled(!val || val<0 || this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.DisabledControls);
+                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
+                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
+                        this._state.MaxChars=val;
                     }
                 } else
                     this._originalTextFormProps = null;
@@ -1416,7 +1417,8 @@ define([
                     item.setDisabled(me._state.DisabledControls);
                 });
             }
-            this.spnMaxChars.setDisabled(this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
+            this.chMaxChars.setDisabled(this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.DisabledControls);
+            this.spnMaxChars.setDisabled(this.chMaxChars.getValue()!=='checked' || this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.DisabledControls);
             this.cmbWidthRule.setDisabled(!this._state.Comb || this._state.Fixed || this._state.DisabledControls);
             this.spnWidth.setDisabled(!this._state.Comb || this._state.WidthRule===Asc.CombFormWidthRule.Auto || this._state.DisabledControls);
             this.chMulti.setDisabled(!this._state.Fixed || this._state.Comb || this._state.DisabledControls);
