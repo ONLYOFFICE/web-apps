@@ -569,7 +569,7 @@ define([
                                 idx = 7;
                                 break;
                         }
-                        if ('{{DEFAULT_LANG}}' === 'ru') {
+                        if (Common.Locale.getDefaultLanguage() === 'ru') {
                             if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
                                 idx = this._state.bullets.subtype;
                             }
