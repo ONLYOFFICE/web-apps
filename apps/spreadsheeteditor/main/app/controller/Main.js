@@ -1140,7 +1140,7 @@ define([
                     viewMode: disable,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: true, disable: true},
+                    rightMenu: {clear: !temp, disable: true},
                     statusBar: true,
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true, history: temp},
