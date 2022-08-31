@@ -56,6 +56,9 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-email"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-phone"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-complex"></span>' +
             '</div>' +
             '<div class="separator long forms" style="display: none;"></div>' +
             '<div class="group no-group-mask inner-elset small" style="display: none;">' +
@@ -98,6 +101,15 @@ define([
             });
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
+            });
+            this.btnComplexField && this.btnComplexField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['complex']);
+            });
+            this.btnEmailField && this.btnEmailField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {reg: "\\S+@\\S+\\.\\S+"}]);
+            });
+            this.btnPhoneField && this.btnPhoneField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {mask: "(999)999-9999"}]);
             });
             this.btnViewForm && this.btnViewForm.on('click', function (b, e) {
                 me.fireEvent('forms:mode', [b.pressed]);
@@ -209,13 +221,46 @@ define([
                     this.btnImageField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         caption: this.capBtnImage,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnImageField);
+
+                    this.btnEmailField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-email',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        caption: this.capBtnEmail,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnEmailField);
+
+                    this.btnPhoneField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-phone',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        caption: this.capBtnPhone,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnPhoneField);
+
+                    this.btnComplexField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon сomplex-field',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        caption: this.capBtnComplex,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnComplexField);
 
                     this.btnViewForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -349,6 +394,9 @@ define([
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
                         me.btnViewForm.updateHint(me.tipViewForm);
+                        me.btnEmailField.updateHint(me.tipEmailField);
+                        me.btnPhoneField.updateHint(me.tipPhoneField);
+                        me.btnComplexField.updateHint(me.tipComplexField);
                     } else {
                         me.btnClear.updateHint(me.textClearFields);
                     }
@@ -381,6 +429,9 @@ define([
                     this.btnViewForm.render($host.find('#slot-btn-form-view'));
                     this.btnClearFields.render($host.find('#slot-form-clear-fields'));
                     this.btnHighlight.render($host.find('#slot-form-highlight'));
+                    this.btnEmailField.render($host.find('#slot-btn-form-email'));
+                    this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
+                    this.btnComplexField.render($host.find('#slot-btn-form-complex'));
 
                     var separator_forms = $host.find('.separator.forms');
                     separator_forms.prev('.group').show();
@@ -443,7 +494,13 @@ define([
             textCreateForm: 'Add fields and create a fillable OFORM document',
             textGotIt: 'Got it',
             capBtnDownloadForm: 'Download as oform',
-            tipDownloadForm: 'Download a file as a fillable OFORM document'
+            tipDownloadForm: 'Download a file as a fillable OFORM document',
+            capBtnEmail: 'Email Address',
+            capBtnPhone: 'Phone Number',
+            capBtnComplex: 'Complex Field',
+            tipEmailField: 'Insert email address',
+            tipPhoneField: 'Insert phone number',
+            tipComplexField: 'Insert complex field'
         }
     }()), DE.Views.FormsTab || {}));
 });
