@@ -5,6 +5,7 @@ import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import SettingsView from "../../view/settings/Settings";
+import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage";
 
 const Settings = props => {
     useEffect(() => {
@@ -84,7 +85,9 @@ const Settings = props => {
     const onChangeMobileView = async () => {
         const api = Common.EditorApi.get();
         const appOptions = props.storeAppOptions;
+        const isMobileView = appOptions.isMobileView;
 
+        await LocalStorage.setBool('mobile-view', !isMobileView);
         await appOptions.changeMobileView();
         await api.ChangeReaderMode();
 

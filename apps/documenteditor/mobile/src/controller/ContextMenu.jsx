@@ -265,12 +265,13 @@ class ContextMenu extends ContextMenuController {
         } else {
             const { t } = this.props;
             const _t = t("ContextMenu", {returnObjects: true});
-            const { canViewComments, canCoAuthoring, canComments } = this.props;
+            const { canViewComments, canCoAuthoring, canComments, dataDoc } = this.props;
 
             const api = Common.EditorApi.get();
             const inToc = api.asc_GetTableOfContentsPr(true);
             const stack = api.getSelectedElements();
             const canCopy = api.can_CopyCut();
+            const docExt = dataDoc ? dataDoc.fileType : '';
 
             let isText = false,
                 isObject = false,
@@ -306,14 +307,14 @@ class ContextMenu extends ContextMenuController {
             }
 
             if (!isDisconnected) {
-                if (canFillForms && canCopy && !locked && !isViewer) {
+                if (canFillForms && canCopy && !locked && (!isViewer || docExt === 'oform')) {
                     itemsIcon.push({
                         event: 'cut',
                         icon: 'icon-cut'
                     });
                 }
 
-                if (canFillForms && canCopy && !locked && !isViewer) {
+                if (canFillForms && canCopy && !locked && (!isViewer || docExt === 'oform')) {
                     itemsIcon.push({
                         event: 'paste',
                         icon: 'icon-paste'

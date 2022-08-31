@@ -4,6 +4,7 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 import {storeAppOptions} from "../store/appOptions";
+import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
 
 const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo')(observer(props => {
     const {t} = useTranslation();
@@ -145,7 +146,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const changeMobileView = () => {
         const api = Common.EditorApi.get();
+        const isMobileView = appOptions.isMobileView;
 
+        LocalStorage.setBool('mobile-view', !isMobileView);
         appOptions.changeMobileView();
         api.ChangeReaderMode();
     }
