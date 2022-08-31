@@ -28,7 +28,7 @@
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="form-not-in-complex">
         <td class="padding-small">
             <label class="input-label"><%= scope.textTag %></label>
             <div id="form-txt-tag"></div>
@@ -55,11 +55,6 @@
         <td class="padding-small">
             <label class="input-label"><%= scope.textFormatSymbols %></label>
             <div id="form-txt-format-symbols"></div>
-        </td>
-    </tr>
-    <tr class="form-textfield">
-        <td class="padding-small">
-            <div class="separator horizontal"></div>
         </td>
     </tr>
 </table>
@@ -89,22 +84,22 @@
     </tr>
 </table>
 <table cols="1">
-    <tr class="form-not-image">
+    <tr class="form-fixed">
         <td class="padding-small">
             <div id="form-chb-fixed"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
+    <tr class="form-textfield-simple">
         <td class="padding-small">
             <div id="form-chb-autofit"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
+    <tr class="form-textfield-simple">
         <td class="padding-small">
             <div id="form-chb-multiline"></div>
         </td>
     </tr>
-    <tr class="form-textfield">
+    <tr class="form-textfield-simple">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
@@ -195,12 +190,12 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="form-not-in-complex">
         <td class="padding-small">
             <div id="form-chb-required"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="form-not-in-complex">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
@@ -210,7 +205,7 @@
             <div id="form-btn-delete"></div>
         </td>
     </tr>
-    <tr>
+    <tr class="form-not-in-complex">
         <td class="padding-small">
             <div id="form-btn-lock"></div>
         </td>

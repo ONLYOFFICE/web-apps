@@ -96,6 +96,7 @@ define([
             }));
 
             this.TextOnlySettings = el.find('.form-textfield');
+            this.TextOnlySimpleSettings = el.find('.form-textfield-simple'); // text field not in complex form
             this.TextOnlySettingsMask = el.find('.form-textfield-mask');
             this.PlaceholderSettings = el.find('.form-placeholder');
             this.KeySettings = el.find('.form-keyfield');
@@ -105,7 +106,8 @@ define([
             this.ListOnlySettings = el.find('.form-list');
             this.ImageOnlySettings = el.find('.form-image');
             this.ConnectedSettings = el.find('.form-connected');
-            this.NotImageSettings = el.find('.form-not-image');
+            this.FixedSettings = el.find('.form-fixed');
+            this.NotInComplexSettings = el.find('.form-not-in-complex');
         },
 
         createDelayedElements: function() {
@@ -1317,7 +1319,10 @@ define([
                 } else
                     this._originalTextFormProps = null;
 
-                if (props.get_ComplexFormPr()) {
+                var isComplex = !!props.get_ComplexFormPr(), // is complex form
+                    isSimpleInsideComplex = !!this.api.asc_GetCurrentComplexForm() && !isComplex;
+
+                if (isComplex) {
                     this.labelFormName.text(this.textComplex);
                 }
                 this._noApply = false;
@@ -1325,9 +1330,10 @@ define([
                 this.KeySettingsTd.toggleClass('padding-small', !connected);
                 this.ConnectedSettings.toggleClass('hidden', !connected);
                 this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || !(this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp));
-                if (this.type !== type || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
-                    this.showHideControls(type, formTextPr, specProps);
+                if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
+                    this.showHideControls(type, formTextPr, specProps, isSimpleInsideComplex);
                 this.type = type;
+                this._state.isSimpleInsideComplex = isSimpleInsideComplex;
 
                 this._state.internalId = this.internalId;
             }
@@ -1423,7 +1429,7 @@ define([
             this.btnLockForm.setDisabled(disable);
         },
 
-        showHideControls: function(type, textProps, specProps) {
+        showHideControls: function(type, textProps, specProps, isSimpleInsideComplex) {
             var textOnly = false,
                 checkboxOnly = false,
                 radioboxOnly = false,
@@ -1442,14 +1448,16 @@ define([
                 textOnly = !!textProps;
             }
             this.TextOnlySettings.toggleClass('hidden', !textOnly);
+            this.TextOnlySimpleSettings.toggleClass('hidden', !textOnly || isSimpleInsideComplex);
             this.ListOnlySettings.toggleClass('hidden', !listOnly);
             this.ImageOnlySettings.toggleClass('hidden', !imageOnly);
             this.RadioOnlySettings.toggleClass('hidden', !radioboxOnly);
-            this.KeySettings.toggleClass('hidden', radioboxOnly);
+            this.KeySettings.toggleClass('hidden', radioboxOnly || isSimpleInsideComplex);
             var value = (checkboxOnly || radioboxOnly);
             this.PlaceholderSettings.toggleClass('hidden', value);
             this.CheckOnlySettings.toggleClass('hidden', !value);
-            this.NotImageSettings.toggleClass('hidden', imageOnly);
+            this.FixedSettings.toggleClass('hidden', imageOnly || isSimpleInsideComplex);
+            this.NotInComplexSettings.toggleClass('hidden', isSimpleInsideComplex);
         },
 
         onSelectItem: function(listView, itemView, record) {
