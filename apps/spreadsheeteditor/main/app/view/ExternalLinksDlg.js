@@ -51,7 +51,7 @@ define([
 
         options: {
             alias: 'ExternalLinksDlg',
-            contentWidth: 400,
+            contentWidth: 500,
             height: 294,
             buttons: null
         },
@@ -67,8 +67,10 @@ define([
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-update">', me.textUpdate ,'</button>',
-                                            '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-update-all">', me.textUpdateAll ,'</button>',
+                                            '<div id="external-links-btn-update" style="display: inline-block;margin-right: 5px;"></div>',
+                                            '<div id="external-links-btn-delete" style="display: inline-block;margin-right: 5px;"></div>',
+                                            '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-open">', me.textOpen ,'</button>',
+                                            '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-change">', me.textChange ,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -104,14 +106,58 @@ define([
             });
 
             this.btnUpdate = new Common.UI.Button({
-                el: $('#external-links-btn-update', this.$window)
+                parentEl: $('#external-links-btn-update', this.$window),
+                cls: 'btn-text-split-default auto',
+                caption: this.textUpdate,
+                split: true,
+                menu        : new Common.UI.Menu({
+                    style: 'min-width:100px;',
+                    items: [
+                        {
+                            caption: this.textUpdate,
+                            value: 0
+                        },
+                        {
+                            caption:  this.textUpdateAll,
+                            value: 1
+                        }]
+                })
             });
-            this.btnUpdate.on('click', _.bind(this.onUpdate, this, false));
+            $(this.btnUpdate.cmpEl.find('button')[0]).css('min-width', '87px');
+            this.btnUpdate.on('click', _.bind(this.onUpdate, this));
+            this.btnUpdate.menu.on('item:click', _.bind(this.onUpdateMenu, this));
 
-            this.btnUpdateAll = new Common.UI.Button({
-                el: $('#external-links-btn-update-all', this.$window)
+            this.btnDelete = new Common.UI.Button({
+                parentEl: $('#external-links-btn-delete', this.$window),
+                cls: 'btn-text-split-default auto',
+                caption: this.textDelete,
+                split: true,
+                menu        : new Common.UI.Menu({
+                    style: 'min-width:100px;',
+                    items: [
+                        {
+                            caption: this.textDelete,
+                            value: 0
+                        },
+                        {
+                            caption:  this.textDeleteAll,
+                            value: 1
+                        }]
+                })
             });
-            this.btnUpdateAll.on('click', _.bind(this.onUpdateAll, this, false));
+            $(this.btnDelete.cmpEl.find('button')[0]).css('min-width', '87px');
+            this.btnDelete.on('click', _.bind(this.onDelete, this));
+            this.btnDelete.menu.on('item:click', _.bind(this.onDeleteMenu, this));
+
+            this.btnOpen = new Common.UI.Button({
+                el: $('#external-links-btn-open', this.$window)
+            });
+            this.btnOpen.on('click', _.bind(this.onOpen, this));
+
+            this.btnChange = new Common.UI.Button({
+                el: $('#external-links-btn-change', this.$window)
+            });
+            this.btnChange.on('click', _.bind(this.onChange, this));
 
             this.afterRender();
         },
@@ -121,7 +167,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.btnUpdate, this.btnUpdateAll, this.linksList ];
+            return [ this.btnUpdate, this.btnDelete, this.btnOpen, this.btnChange, this.linksList ];
         },
 
         getDefaultFocusableComponent: function () {
@@ -147,7 +193,9 @@ define([
             this.linksList.store.reset(arr);
             (this.linksList.store.length>0) && this.linksList.selectByIndex(0);
             this.btnUpdate.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
-            this.btnUpdateAll.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
+            this.btnDelete.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
+            this.btnOpen.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
+            this.btnChange.setDisabled(this.linksList.store.length<1 || !this.linksList.getSelectedRec());
         },
 
         onUpdate: function() {
@@ -155,19 +203,52 @@ define([
             rec && this.api.asc_updateExternalReferences([rec.get('externalRef')]);
         },
 
-        onUpdateAll: function() {
-            var arr = [];
-            this.linksList.store.each(function(item){
-                arr.push(item.get('externalRef'));
-            }, this);
-            (arr.length>0) && this.api.asc_updateExternalReferences(arr);
+        onUpdateMenu: function(menu, item) {
+            if (item.value == 1) {
+                var arr = [];
+                this.linksList.store.each(function(item){
+                    arr.push(item.get('externalRef'));
+                }, this);
+                (arr.length>0) && this.api.asc_updateExternalReferences(arr);
+            } else
+                this.onUpdate();
+        },
+
+        onDelete: function() {
+            var rec = this.linksList.getSelectedRec();
+            rec && this.api.asc_removeExternalReferences([rec.get('externalRef')]);
+            this.refreshList();
+        },
+
+        onDeleteMenu: function(menu, item) {
+            if (item.value == 1) {
+                var arr = [];
+                this.linksList.store.each(function(item){
+                    arr.push(item.get('externalRef'));
+                }, this);
+                (arr.length>0) && this.api.asc_removeExternalReferences(arr);
+                this.refreshList();
+            } else
+                this.onDelete();
+        },
+
+        onOpen: function() {
+
+        },
+
+        onChange: function() {
+
         },
 
         txtTitle: 'External Links',
         textUpdate: 'Update Values',
         textUpdateAll: 'Update All',
         textSource: 'Source',
-        closeButtonText: 'Close'
+        closeButtonText: 'Close',
+        textDelete: 'Break Links',
+        textDeleteAll: 'Break All Links',
+        textOpen: 'Open Source',
+        textChange: 'Change Source'
 
     }, SSE.Views.ExternalLinksDlg || {}));
 });
