@@ -182,14 +182,19 @@ define([
             } else if (type == 'combobox' || type == 'dropdown')
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
             else if (type == 'text') {
+                var props = new AscCommon.CContentControlPr();
                 oPr = new AscCommon.CSdtTextFormPr();
                 if (options) {
                     if (options.reg)
                         oPr.put_RegExpFormat(options.reg);
                     else if (options.mask)
                         oPr.put_MaskFormat(options.mask);
+                    if (options.placeholder)
+                        props.put_PlaceholderText(options.placeholder);
                 }
-                this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+                props.put_TextFormPr(oPr);
+                props.put_FormPr(oFormPr);
+                this.api.asc_AddContentControlTextForm(props);
             } else if (type == 'complex') {
                 this.api.asc_AddComplexForm();
             }

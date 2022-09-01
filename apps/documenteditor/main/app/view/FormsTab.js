@@ -106,10 +106,10 @@ define([
                 me.fireEvent('forms:insert', ['complex']);
             });
             this.btnEmailField && this.btnEmailField.on('click', function (b, e) {
-                me.fireEvent('forms:insert', ['text', {reg: "\\S+@\\S+\\.\\S+"}]);
+                me.fireEvent('forms:insert', ['text', {reg: "\\S+@\\S+\\.\\S+", placeholder: 'user_name@email.com'}]);
             });
             this.btnPhoneField && this.btnPhoneField.on('click', function (b, e) {
-                me.fireEvent('forms:insert', ['text', {mask: "(999)999-9999"}]);
+                me.fireEvent('forms:insert', ['text', {mask: "(999)999-9999", placeholder: '(999)999-9999'}]);
             });
             this.btnViewForm && this.btnViewForm.on('click', function (b, e) {
                 me.fireEvent('forms:mode', [b.pressed]);
