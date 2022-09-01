@@ -129,14 +129,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Gateway.requestEditRights();
     };
 
-    const turnOffViewerMode = () => {
-        const api = Common.EditorApi.get();
-
-        appOptions.changeViewerMode();
-        api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
-        api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
-    }
-
     const turnOnViewerMode = () => {
         const api = Common.EditorApi.get();
 
@@ -176,7 +168,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      onEditDocument={onEditDocument}
                      isDisconnected={isDisconnected}
                      isViewer={isViewer}
-                     turnOffViewerMode={turnOffViewerMode}
+                     // turnOffViewerMode={turnOffViewerMode}
                      turnOnViewerMode={turnOnViewerMode}
                      isMobileView={isMobileView}
                      changeMobileView={changeMobileView}
