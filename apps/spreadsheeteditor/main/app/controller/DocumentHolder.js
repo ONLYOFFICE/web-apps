@@ -1893,6 +1893,10 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
+                        } else if (this.permissions.isEditMailMerge || this.permissions.isEditDiagram || this.permissions.isEditOle) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
                         }
                     } else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
                         if (!this.api.isCellEdited) {
@@ -1902,6 +1906,10 @@ define([
                                 this.api.asc_setZoom(factor);
                             }
 
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
+                        } else if (this.permissions.isEditMailMerge || this.permissions.isEditDiagram || this.permissions.isEditOle) {
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
