@@ -1,8 +1,7 @@
 
 import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { f7, Link } from 'framework7-react';
-import { Page, View, Navbar, Subnavbar, Icon } from 'framework7-react';
+import { f7, Link, Fab, Icon, FabButtons, FabButton, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import EditOptions from '../view/edit/Edit';
@@ -98,93 +97,110 @@ class MainPage extends Component {
 
     };
 
-  render() {
-      const { t } = this.props;
-      const appOptions = this.props.storeAppOptions;
-      const isMobileView = appOptions.isMobileView;
-      const config = appOptions.config;
+    turnOffViewerMode() {
+        const api = Common.EditorApi.get();
+        const appOptions = this.props.storeAppOptions;
 
-      let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
-      if ( !Object.keys(config).length ) {
-          showLogo = !/&(?:logo)=/.test(window.location.search);
-      }
+        appOptions.changeViewerMode();
+        api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
+        api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
+    };
 
-      const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-      if ( $$('.skl-container').length ) {
-          $$('.skl-container').remove();
-      }
+    render() {
+        const { t } = this.props;
+        const appOptions = this.props.storeAppOptions;
+        const storeToolbarSettings = this.props.storeToolbarSettings;
+        const isDisconnected = this.props.users.isDisconnected;
+        const isViewer = appOptions.isViewer;
+        const isMobileView = appOptions.isMobileView;
+        const disabledControls = storeToolbarSettings.disabledControls;
+        const disabledSettings = storeToolbarSettings.disabledSettings;
+        const config = appOptions.config;
 
-      return (
-          <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
-              {/* Top Navbar */}
-              <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
-                  {showLogo && appOptions.canBranding !== undefined && <div className="main-logo" onClick={() => {
-                      window.open(`${__PUBLISHER_URL__}`, "_blank");
-                  }}><Icon icon="icon-logo"></Icon></div>}
-                  <Subnavbar>
-                      <Toolbar openOptions={this.handleClickToOpenOptions}
-                               closeOptions={this.handleOptionsViewClosed}/>
-                      <Search useSuspense={false}/>
-                  </Subnavbar>
-              </Navbar>
+        let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+        if (!Object.keys(config).length) {
+            showLogo = !/&(?:logo)=/.test(window.location.search);
+        }
+
+        const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+        if ($$('.skl-container').length) {
+            $$('.skl-container').remove();
+        }
+
+        return (
+            <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
+                {/* Top Navbar */}
+                <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
+                    {showLogo && appOptions.canBranding !== undefined && <div className="main-logo" onClick={() => {
+                        window.open(`${__PUBLISHER_URL__}`, "_blank");
+                    }}><Icon icon="icon-logo"></Icon></div>}
+                    <Subnavbar>
+                        <Toolbar openOptions={this.handleClickToOpenOptions}
+                                 closeOptions={this.handleOptionsViewClosed}/>
+                        <Search useSuspense={false}/>
+                    </Subnavbar>
+                </Navbar>
 
 
-              {/* Page content */}
+                {/* Page content */}
 
-              <View id="editor_sdk">
-              </View>
+                <View id="editor_sdk">
+                </View>
 
-              {showPlaceholder ?
-                  <div className="doc-placeholder-container">
-                      <div className="doc-placeholder">
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                          <div className="line"></div>
-                      </div>
-                  </div> : null
-              }
+                {showPlaceholder ?
+                    <div className="doc-placeholder-container">
+                        <div className="doc-placeholder">
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                            <div className="line"></div>
+                        </div>
+                    </div> : null
+                }
 
-              {/* {
+                {/* {
                   Device.phone ? null : <SearchSettings />
               } */}
-                <SearchSettings useSuspense={false} />
+                <SearchSettings useSuspense={false}/>
                 {
                     !this.state.editOptionsVisible ? null :
-                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')}/>
                 }
                 {
                     !this.state.addOptionsVisible ? null :
-                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')}
+                                    showOptions={this.state.addShowOptions}/>
                 }
                 {/*onclosed={this.handleOptionsViewClosed.bind(this, 'settings')}*/}
                 {
                     !this.state.settingsVisible ? null :
-                        <Settings openOptions={this.handleClickToOpenOptions.bind(this)} closeOptions={this.handleOptionsViewClosed.bind(this)} />
+                        <Settings openOptions={this.handleClickToOpenOptions.bind(this)}
+                                  closeOptions={this.handleOptionsViewClosed.bind(this)}/>
                 }
                 {
                     !this.state.collaborationVisible ? null :
-                        <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} page={this.state.collaborationPage} />
+                        <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')}
+                                       page={this.state.collaborationPage}/>
                 }
                 {
-                    !this.state.navigationVisible ? null : 
-                        <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')} />
+                    !this.state.navigationVisible ? null :
+                        <NavigationController onclosed={this.handleOptionsViewClosed.bind(this, 'navigation')}/>
                 }
                 {
                     <CSSTransition
@@ -194,13 +210,20 @@ class MainPage extends Component {
                         mountOnEnter
                         unmountOnExit
                     >
-                        <Snackbar text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} />
+                        <Snackbar
+                            text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
                     </CSSTransition>
                 }
-                {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />}  
-          </Page>
-      )
-  }
+                {isViewer && !disabledSettings && !disabledControls && !isDisconnected &&
+                    <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
+                        <Icon icon="icon-edit-mode"/>
+                    </Fab>
+
+                }
+                {appOptions.isDocReady && <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)}/>}
+            </Page>
+        )
+    }
 }
 
-export default withTranslation()(inject("storeAppOptions")(observer(MainPage)));
+export default withTranslation()(inject("storeAppOptions", "storeToolbarSettings", "users")(observer(MainPage)));
