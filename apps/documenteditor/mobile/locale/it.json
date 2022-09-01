@@ -669,12 +669,16 @@
     "txtScheme6": "Concorso",
     "txtScheme7": "Equità",
     "txtScheme8": "Flusso",
-    "txtScheme9": "Fonderia"
+    "txtScheme9": "Fonderia",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",
     "dlgLeaveTitleText": "Stai lasciando l'app",
     "leaveButtonText": "Lasciare questa pagina",
-    "stayButtonText": "Rimanere su questa pagina"
+    "stayButtonText": "Rimanere su questa pagina",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

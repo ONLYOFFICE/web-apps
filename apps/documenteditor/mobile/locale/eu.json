@@ -669,12 +669,16 @@
     "txtScheme6": "Zabaldegia",
     "txtScheme7": "Berdintza",
     "txtScheme8": "Fluxua",
-    "txtScheme9": "Sortzailea"
+    "txtScheme9": "Sortzailea",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
-    "stayButtonText": "Jarraitu orrian"
+    "stayButtonText": "Jarraitu orrian",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }
