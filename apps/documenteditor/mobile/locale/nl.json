@@ -661,6 +661,7 @@
     "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
     "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
     "dlgLeaveTitleText": "U verlaat de toepassing",
     "leaveButtonText": "Pagina verlaten",
-    "stayButtonText": "Op deze pagina blijven"
+    "stayButtonText": "Op deze pagina blijven",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

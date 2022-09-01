@@ -669,12 +669,16 @@
     "txtScheme6": "Konkos",
     "txtScheme7": "Ekuiti",
     "txtScheme8": "Aliran",
-    "txtScheme9": "Faundri"
+    "txtScheme9": "Faundri",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan. Klik 'Stay on this Page' untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman ini",
-    "stayButtonText": "Kekal pada Halaman ini"
+    "stayButtonText": "Kekal pada Halaman ini",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

@@ -669,12 +669,16 @@
     "txtScheme6": "Concorrencia",
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundición"
+    "txtScheme9": "Fundición",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
     "dlgLeaveTitleText": "Saiu do aplicativo",
     "leaveButtonText": "Saír desta página",
-    "stayButtonText": "Quedarse nesta páxina"
+    "stayButtonText": "Quedarse nesta páxina",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

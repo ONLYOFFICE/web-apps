@@ -666,6 +666,7 @@
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textFeedback": "Feedback & Support",
     "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textPdfProducer": "PDF Producer",
     "textRestartApplication": "Please restart the application for the changes to take effect",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
     "dlgLeaveTitleText": "ທ່ານໄດ້ອອກຈາກໜ້າຄໍາຮ້ອງສະຫມັກ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
-    "stayButtonText": "ຢູ່ໃນໜ້ານີ້"
+    "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

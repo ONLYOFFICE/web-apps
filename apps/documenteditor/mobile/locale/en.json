@@ -606,6 +606,7 @@
     "textMargins": "Margins",
     "textMarginsH": "Top and bottom margins are too high for a given page height",
     "textMarginsW": "Left and right margins are too wide for a given page width",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNo": "No",
     "textNoCharacters": "Nonprinting Characters",
@@ -669,8 +670,7 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textMobileView": "Mobile View"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

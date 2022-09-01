@@ -669,12 +669,16 @@
     "txtScheme6": "Esplanada",
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
-    "txtScheme9": "Foneria"
+    "txtScheme9": "Foneria",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis sense desar. Feu clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",
     "dlgLeaveTitleText": "Esteu sortint de l'aplicació",
     "leaveButtonText": "Surt d'aquesta pàgina",
-    "stayButtonText": "Queda't en aquesta pàgina"
+    "stayButtonText": "Queda't en aquesta pàgina",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

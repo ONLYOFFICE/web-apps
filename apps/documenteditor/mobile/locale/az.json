@@ -661,6 +661,7 @@
     "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
     "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
     "dlgLeaveTitleText": "Proqramdan çıxdınız",
     "leaveButtonText": "Bu Səhifədən çıxın",
-    "stayButtonText": "Bu səhifədə qalın"
+    "stayButtonText": "Bu səhifədə qalın",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

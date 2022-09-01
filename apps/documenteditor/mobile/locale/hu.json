@@ -669,12 +669,16 @@
     "txtScheme6": "Együttműködés",
     "txtScheme7": "Méltányosság",
     "txtScheme8": "Folyam",
-    "txtScheme9": "Öntöde"
+    "txtScheme9": "Öntöde",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",
     "dlgLeaveTitleText": "Elhagyja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
-    "stayButtonText": "Maradjon ezen az oldalon"
+    "stayButtonText": "Maradjon ezen az oldalon",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }
