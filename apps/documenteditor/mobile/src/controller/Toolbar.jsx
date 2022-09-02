@@ -168,7 +168,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                      onEditDocument={onEditDocument}
                      isDisconnected={isDisconnected}
                      isViewer={isViewer}
-                     // turnOffViewerMode={turnOffViewerMode}
                      turnOnViewerMode={turnOnViewerMode}
                      isMobileView={isMobileView}
                      changeMobileView={changeMobileView}

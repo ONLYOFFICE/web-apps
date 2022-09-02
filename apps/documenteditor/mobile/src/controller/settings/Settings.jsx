@@ -82,19 +82,15 @@ const Settings = props => {
         }, 0);
     };
 
-    const onChangeMobileView = async () => {
+    const onChangeMobileView = () => {
         const api = Common.EditorApi.get();
         const appOptions = props.storeAppOptions;
         const isMobileView = appOptions.isMobileView;
 
-        await LocalStorage.setBool('mobile-view', !isMobileView);
-        await appOptions.changeMobileView();
-        await api.ChangeReaderMode();
-
-        if(Device.phone) {
-            await closeModal();
-        }
-    }
+        LocalStorage.setBool('mobile-view', !isMobileView);
+        appOptions.changeMobileView();
+        api.ChangeReaderMode();
+    };
 
     return <SettingsView usePopover={!Device.phone}
                          openOptions={props.openOptions}
