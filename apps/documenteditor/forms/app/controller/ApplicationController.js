@@ -1943,9 +1943,13 @@ define([
 
             Common.NotificationCenter.on({
                 'uitheme:changed' : function (name) {
-                    var theme = Common.UI.Themes.get(name);
-                    if ( theme )
-                        native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                    if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                        native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
+                    } else {
+                        const theme = Common.UI.Themes.get(name);
+                        if ( theme )
+                            native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                    }
                 },
             });
 
