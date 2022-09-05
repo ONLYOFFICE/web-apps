@@ -98,12 +98,12 @@ const PageApplicationSettings = props => {
                     </Toggle>
                 </ListItem>
             </List>
-            {!isViewer &&
-                <List mediaList>
-                    <ListItem title={t('Settings.textDirection')} link="/direction/"
-                              routeProps={{changeDirection: props.changeDirection}}></ListItem>
-                </List>
-            }
+            {/*{!isViewer &&*/}
+            {/*    <List mediaList>*/}
+            {/*        <ListItem title={t('Settings.textDirection')} link="/direction/"*/}
+            {/*                  routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
+            {/*    </List>*/}
+            {/*}*/}
             {_isShowMacros &&
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{

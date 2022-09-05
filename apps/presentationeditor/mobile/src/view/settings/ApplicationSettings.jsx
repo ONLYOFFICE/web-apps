@@ -52,7 +52,7 @@ const PageApplicationSettings = props => {
                             </Toggle>
                         </ListItem>
                     </List>
-                    <RTLSetting />
+                    {/*<RTLSetting />*/}
                 </Fragment>
             }
             {/* {_isShowMacros && */}
