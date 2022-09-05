@@ -109,6 +109,9 @@ class MainPage extends Component {
     render() {
         const { t } = this.props;
         const appOptions = this.props.storeAppOptions;
+        const storeDocumentInfo = this.props.storeDocumentInfo;
+        const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
+        const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
         const storeToolbarSettings = this.props.storeToolbarSettings;
         const isDisconnected = this.props.users.isDisconnected;
         const isViewer = appOptions.isViewer;
@@ -214,7 +217,7 @@ class MainPage extends Component {
                             text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
                     </CSSTransition>
                 }
-                {isViewer && !disabledSettings && !disabledControls && !isDisconnected &&
+                {isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt &&
                     <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
                         <Icon icon="icon-edit-mode"/>
                     </Fab>
@@ -226,4 +229,4 @@ class MainPage extends Component {
     }
 }
 
-export default withTranslation()(inject("storeAppOptions", "storeToolbarSettings", "users")(observer(MainPage)));
+export default withTranslation()(inject("storeAppOptions", "storeToolbarSettings", "users", "storeDocumentInfo")(observer(MainPage)));
