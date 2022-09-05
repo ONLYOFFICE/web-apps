@@ -115,6 +115,7 @@ class MainPage extends Component {
         const storeToolbarSettings = this.props.storeToolbarSettings;
         const isDisconnected = this.props.users.isDisconnected;
         const isViewer = appOptions.isViewer;
+        const isEdit = appOptions.isEdit;
         const isMobileView = appOptions.isMobileView;
         const disabledControls = storeToolbarSettings.disabledControls;
         const disabledSettings = storeToolbarSettings.disabledSettings;
@@ -217,7 +218,7 @@ class MainPage extends Component {
                             text={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")}/>
                     </CSSTransition>
                 }
-                {isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt &&
+                {isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit &&
                     <Fab position="right-bottom" slot="fixed" onClick={() => this.turnOffViewerMode()}>
                         <Icon icon="icon-edit-mode"/>
                     </Fab>
