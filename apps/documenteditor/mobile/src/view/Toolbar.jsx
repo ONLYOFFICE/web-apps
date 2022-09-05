@@ -46,13 +46,11 @@ const ToolbarView = props => {
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
-                {(isViewer || !Device.phone) && isAvailableExt && <Link className={props.disabledControls ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={async e => {
-                    e.target.closest('.link').classList.add('disabled');
+                {(isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && <Link icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={async e => {
                     await props.changeMobileView();
                     await props.openOptions('snackbar');
                     setTimeout(() => {
                         props.closeOptions('snackbar');
-                        e.target.closest('.link').classList.remove('disabled');
                     },  1500);
                 }}></Link>}
                 {(props.showEditDocument && !isViewer) &&
