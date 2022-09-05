@@ -1355,4 +1355,36 @@ define(function(){ 'use strict';
         }
     })(), Common.define.effectData || {});
 
+    Common.define.smartArt = _.extend( new(function() {
+        return {
+            textList: 'List',
+            textProcess: 'Process',
+            textCycle: 'Cycle',
+            textHierarchy: 'Hierarchy',
+            textRelationship: 'Relationship',
+            textMatrix: 'Matrix',
+            textPyramid: 'Pyramid',
+
+            getSmartArtGroupData: function(headername) {
+                return [
+                    {id: 'menu-smart-art-group-list', caption: this.textList},
+                    {id: 'menu-smart-art-group-process', caption: this.textProcess},
+                    {id: 'menu-smart-art-group-cycle', caption: this.textCycle},
+                    {id: 'menu-smart-art-group-hierarchy', caption: this.textHierarchy},
+                    {id: 'menu-smart-art-group-relationship', caption: this.textRelationship},
+                    {id: 'menu-smart-art-group-matrix', caption: this.textMatrix},
+                    {id: 'menu-smart-art-group-pyramid', caption: this.textPyramid}
+                ];
+            },
+
+            getSmartArtData: function() {
+                return [
+                    { group: 'menu-smart-art-group-list', type: Asc.c_oAscChartTypeSettings.barNormal, /*tip: this.*/},
+
+
+                ];
+            },
+        }
+    })(), Common.define.smartArt || {});
+
 });
