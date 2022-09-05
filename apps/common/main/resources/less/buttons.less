@@ -215,6 +215,12 @@
         &.split {
             > .inner-box-icon {
                 .box-shadow(none);
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+            > .inner-box-caption {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
             }
         }
     }
@@ -232,7 +238,7 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 1px 3px;
+            padding: 1px 4px 1px 3px;
             display: flex;
             //align-items: center;
             align-items: start;

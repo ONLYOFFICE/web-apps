@@ -362,6 +362,7 @@
   "Common.Views.Plugins.textStart": "Start",
   "Common.Views.Plugins.textStop": "Stop",
   "Common.Views.Protection.hintAddPwd": "Encrypt with password",
+  "Common.Views.Protection.hintDelPwd": "Delete password",
   "Common.Views.Protection.hintPwd": "Change or delete password",
   "Common.Views.Protection.hintSignature": "Add digital signature or signature line",
   "Common.Views.Protection.txtAddPwd": "Add password",
