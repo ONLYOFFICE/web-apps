@@ -502,7 +502,7 @@ const EditText = props => {
     const storeTextSettings = props.storeTextSettings;
     const storeFocusObjects = props.storeFocusObjects;
     const shapeObject = storeFocusObjects.shapeObject;
-    const shapePr = shapeObject.get_ShapeProperties();
+    const shapePr = shapeObject && shapeObject.get_ShapeProperties();
     const inSmartArt = shapePr && shapePr.asc_getFromSmartArt();
     const inSmartArtInternal = shapePr && shapePr.asc_getFromSmartArtInternal();
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
