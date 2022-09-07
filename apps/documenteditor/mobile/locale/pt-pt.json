@@ -606,6 +606,7 @@
     "textMargins": "Margens",
     "textMarginsH": "As margens superior e inferior são muito grandes para a altura indicada",
     "textMarginsW": "As margens direita e esquerda são muito grandes para a largura indicada",
+    "textMobileView": "Vista móvel",
     "textNavigation": "Navegação",
     "textNo": "Não",
     "textNoCharacters": "Caracteres não imprimíveis",
@@ -669,16 +670,15 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição",
-    "textMobileView": "Mobile View"
+    "txtScheme9": "Fundição"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
-    "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textOk": "Aceitar",
+    "textSwitchedMobileView": "Alterado para vista móvel",
+    "textSwitchedStandardView": "Alterado para a vista predefinida"
   }
 }

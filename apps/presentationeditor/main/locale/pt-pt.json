@@ -167,6 +167,9 @@
   "Common.define.effectData.textOutToScreenCenter": "De Fora Para a Parte Central do Ecrã",
   "Common.define.effectData.textParallelogram": "Paralelograma",
   "Common.define.effectData.textPath": "Trajetórias de Movimento ",
+  "Common.define.effectData.textPathCurve": "Curva",
+  "Common.define.effectData.textPathLine": "Linha",
+  "Common.define.effectData.textPathScribble": "Rabisco",
   "Common.define.effectData.textPeanut": "Amendoim",
   "Common.define.effectData.textPeekIn": "Deslizar",
   "Common.define.effectData.textPeekOut": "Sair",
@@ -544,6 +547,7 @@
   "Common.Views.SaveAsDlg.textTitle": "Pasta para guardar",
   "Common.Views.SearchPanel.textCaseSensitive": "Diferenciar maiúsculas de minúsculas",
   "Common.Views.SearchPanel.textCloseSearch": "Fechar pesquisa",
+  "Common.Views.SearchPanel.textContentChanged": "Documento alterado.",
   "Common.Views.SearchPanel.textFind": "Localizar",
   "Common.Views.SearchPanel.textFindAndReplace": "Localizar e substituir",
   "Common.Views.SearchPanel.textMatchUsingRegExp": "Correspondência ao usar expressões regulares",
@@ -552,6 +556,7 @@
   "Common.Views.SearchPanel.textReplace": "Substituir",
   "Common.Views.SearchPanel.textReplaceAll": "Substituir tudo",
   "Common.Views.SearchPanel.textReplaceWith": "Substituir com",
+  "Common.Views.SearchPanel.textSearchAgain": "{0}Executar nova pesquisa{1} para resultados precisos.",
   "Common.Views.SearchPanel.textSearchHasStopped": "A pesquisa parou",
   "Common.Views.SearchPanel.textSearchResults": "Resultados da pesquisa: {0}/{1}",
   "Common.Views.SearchPanel.textTooManyResults": "Existem demasiados resultados para poderem ser mostrados aqui",
@@ -2368,5 +2373,8 @@
   "PE.Views.ViewTab.textNotes": "Notas",
   "PE.Views.ViewTab.textRulers": "Réguas",
   "PE.Views.ViewTab.textStatusBar": "Barra de estado",
-  "PE.Views.ViewTab.textZoom": "Zoom"
+  "PE.Views.ViewTab.textZoom": "Zoom",
+  "PE.Views.ViewTab.tipFitToSlide": "Ajustar ao diapositivo",
+  "PE.Views.ViewTab.tipFitToWidth": "Ajustar à Largura",
+  "PE.Views.ViewTab.tipInterfaceTheme": "Tema da interface"
 }
