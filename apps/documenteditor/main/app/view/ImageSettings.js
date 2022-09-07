@@ -400,12 +400,10 @@ define([
                 var fromgroup = props.get_FromGroup() || this._locked;
                 var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                     isPictureControl = !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr() || this._locked;
-                if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup || this._state.isPictureControl!==isPictureControl) {
-                    this.cmbWrapType.setDisabled(!value || fromgroup || isPictureControl);
-                    this._state.CanBeFlow=value;
-                    this._state.FromGroup=fromgroup;
-                    this._state.isPictureControl=isPictureControl;
-                }
+                this.cmbWrapType.setDisabled(!value || fromgroup || isPictureControl);
+                this._state.CanBeFlow=value;
+                this._state.FromGroup=fromgroup;
+                this._state.isPictureControl=isPictureControl;
 
                 value = props.get_Width();
                 if ( Math.abs(this._state.Width-value)>0.001 ) {
@@ -426,12 +424,12 @@ define([
                 if (this._state.isOleObject!==value) {
                     this.btnSelectImage.setVisible(!value);
                     this.btnEditObject.setVisible(value);
-                    this.btnRotate270.setDisabled(value);
-                    this.btnRotate90.setDisabled(value);
-                    this.btnFlipV.setDisabled(value);
-                    this.btnFlipH.setDisabled(value);
                     this._state.isOleObject=value;
                 }
+                this.btnRotate270.setDisabled(value || this._locked);
+                this.btnRotate90.setDisabled(value || this._locked);
+                this.btnFlipV.setDisabled(value || this._locked);
+                this.btnFlipH.setDisabled(value || this._locked);
 
                 if (this._state.isOleObject) {
                     var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});

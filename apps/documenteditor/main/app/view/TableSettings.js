@@ -628,9 +628,9 @@ define([
                 value = props.get_RowsInHeader();
                 if ( this._state.RepeatRow!==value ) {
                     this.chRepeatRow.setValue(!!value, true);
-                    this.chRepeatRow.setDisabled(value === null);
                     this._state.RepeatRow=value;
                 }
+                this.chRepeatRow.setDisabled(this._state.RepeatRow === null || this._locked);
             }
         },
 
