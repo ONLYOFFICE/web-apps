@@ -2221,37 +2221,36 @@ define([
                 }));
 
                 var smartArtGroups = Common.define.smartArt.getSmartArtGroupData();
-                smartArtGroups.forEach(_.bind(function (item, index) {
-                    this.btnInsertSmartArt.menu.addItem({
+                smartArtGroups.forEach(function (item, index) {
+                    me.btnInsertSmartArt.menu.addItem({
                         caption: item.caption,
                         value: item.id,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: 300px; height: 500px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: 400px; height: 500px; margin-left: 5px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});
-                    console.log(this.btnInsertSmartArt.menu.items[index]);
-                    this.btnInsertSmartArt.menu.items[index].menuPicker = new Common.UI.DataViewSimple({
-                        el: $('#' + item.id),
-                        parentMenu: this.btnInsertSmartArt.menu.items[index].menu,
-                        itemTemplate: _.template([
-                            '<div>',
-                            '<img src="<%= imageUrl %>" width="' + 50 + '" height="' + 50 + '" + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
-                            '</div>'
-                        ].join('')),
-                        //store: new Common.UI.DataViewStore(),
-                        delayRenderTips: true,
-                        scrollAlwaysVisible: true
+                });
+                var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                        item.menuPicker = new Common.UI.DataViewSimple({
+                            el: $('#' + item.value),
+                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            itemTemplate: _.template([
+                                '<div>',
+                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                '</div>'
+                            ].join('')),
+                            store: new Common.UI.DataViewStore(),
+                            delayRenderTips: true,
+                            scrollAlwaysVisible: true
+                        });
                     });
-                    this.btnInsertSmartArt.menu.items[index].menuPicker.on('item:click', _.bind(function (picker, item, record, e) {
-                        console.log(record.name);
-                    }, this));
-                }, this));
-
-                $('#menu-smart-art-group-list').css('height', '700px');
-
-                this.fireEvent('generate:smartart');
+                    me.fireEvent('generate:smartart');
+                    menu.off('show:before', onShowBeforeSmartArt);
+                };
+                this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
 
                 var onShowBeforeTextArt = function (menu) {
                     var collection = DE.getCollection('Common.Collections.TextArt');

@@ -426,8 +426,8 @@ define([
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
                 Common.NotificationCenter.on('dropcap:settings', _.bind(this.onDropCapAdvancedClick, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
-                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -3322,32 +3322,45 @@ define([
             this.api.asc_generateSmartArtPreviews();
         },
 
-        onApiAddSmartArtPreview: function (previews) {
-            if (!this.smartArtPreviewStore) {
-                this.smartArtPreviewStore = [];
-            }
-            previews.forEach(_.bind(function (preview) {
-                var name = preview.asc_getName();
-                this.smartArtPreviewStore.push({
-                    name: name,
-                    imageUrl: preview.asc_getImage(),
-                    tip: name
-                });
-            }, this));
+        onApiBeginSmartArtPreview: function () {
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtItems = Common.define.smartArt.getSmartArtData();
         },
 
-        onApiEndSmartArtPreview: function () {
-            //console.log('_____________');
-            //console.log('Asc.c_oAscSmartArtTypes', Asc.c_oAscSmartArtTypes);
-            //console.log('Asc.c_oAscSmartArtNameTypes', Asc.c_oAscSmartArtNameTypes);
-
-            var menuPicker = this.toolbar.btnInsertSmartArt.menu.items[0].menuPicker;
-            menuPicker.setStore(new Common.UI.DataViewStore(this.smartArtPreviewStore));
-            menuPicker.onResetItems();
-
-            console.log(this.smartArtPreviewStore);
-
-            console.log('end');
+        onApiAddSmartArtPreview: function (previews) {
+            previews.forEach(_.bind(function (preview) {
+                var me = this;
+                var items = _.where(this.smartArtItems, {type: Asc.c_oAscSmartArtTypes[preview.asc_getName()]});
+                items.forEach(function (item) {
+                    var menu = _.findWhere(me.smartArtGroups, {value: item.group}).menuPicker,
+                        arr = [{
+                                tip: item.tip,
+                                value: item.type,
+                                imageUrl: preview.asc_getImage()
+                            }];
+                    if (menu.store.length < 1) {
+                        menu.store.reset(arr);
+                    } else {
+                        menu.store.add(arr);
+                    }
+                    menu.onResetItems();
+                    menu.on('item:click', function(picker, item, record, e) {
+                        if (record) {
+                            me.api.asc_createSmartArt(record.get('value'));
+                        }
+                        me.toolbar.btnInsertSmartArt.toggle(false, true);
+                        if (me.toolbar.btnInsertText.pressed) {
+                            me.toolbar.btnInsertText.toggle(false, true);
+                        }
+                        if (me.toolbar.btnInsertShape.pressed) {
+                            me.toolbar.btnInsertShape.toggle(false, true);
+                        }
+                        if (e.type !== 'click')
+                            me.toolbar.btnInsertSmartArt.menu.hide();
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    });
+                });
+            }, this));
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
