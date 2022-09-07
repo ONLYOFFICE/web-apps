@@ -212,7 +212,7 @@ define([
 
                     var chartSettings = this.api.asc_getChartObject(true), // don't lock chart object
                         series = chartSettings ? chartSettings.getSeries() : null;
-                    this.btnSwitch.setDisabled(!series || series.length<1 || !chartSettings || !chartSettings.getRange());
+                    this.btnSwitch.setDisabled(this._locked || !series || series.length<1 || !chartSettings || !chartSettings.getRange());
                 } else { //sparkline
                     this._originalProps = props;
                     this.isChart = false;
