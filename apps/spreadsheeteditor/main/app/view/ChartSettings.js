@@ -216,7 +216,7 @@ define([
                     }
 
                     var series = chartSettings ? chartSettings.getSeries() : null;
-                    this.btnSwitch.setDisabled(!series || series.length<1 || !chartSettings || !chartSettings.getRange());
+                    this.btnSwitch.setDisabled(this._locked || !series || series.length<1 || !chartSettings || !chartSettings.getRange());
 
                     if (props3d) {
                         value = props3d.asc_getRotX();
@@ -233,18 +233,22 @@ define([
                             this._state.Y = value;
                         }
 
-                        value = props3d.asc_getPerspective();
-                        if ( (this._state.Perspective===undefined || value===undefined)&&(this._state.Perspective!==value) ||
-                            Math.abs(this._state.Perspective-value)>0.001) {
-                            this.spnPerspective.setValue((value!==null && value !== undefined) ? value : '', true);
-                            this._state.Perspective = value;
-                        }
-
                         value = props3d.asc_getRightAngleAxes();
                         if ( this._state.RightAngle!==value ) {
                             this.chRightAngle.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
-                            this._state.RightAngle=point;
+                            this._state.RightAngle=value;
                         }
+
+                        value = props3d.asc_getPerspective();
+                        if ( (this._state.Perspective===undefined || value===undefined)&&(this._state.Perspective!==value) ||
+                            Math.abs(this._state.Perspective-value)>0.001) {
+                            this.spnPerspective.setMinValue((value!==null && value !== undefined) ? 0.1 : 0);
+                            this.spnPerspective.setValue((value!==null && value !== undefined) ? value : 0, true);
+                            this._state.Perspective = value;
+                        }
+                        this.spnPerspective.setDisabled(this._locked || !!this._state.RightAngle);
+                        this.btnNarrow.setDisabled(this._locked || !!this._state.RightAngle);
+                        this.btnWiden.setDisabled(this._locked || !!this._state.RightAngle);
 
                         value = props3d.asc_getDepth();
                         if ( Math.abs(this._state.Depth-value)>0.001 ||
@@ -258,9 +262,9 @@ define([
                             (this._state.Height3d===undefined || this._state.Height3d===null || value===null)&&(this._state.Height3d!==value)) {
                             (value!==null) && this.spn3DHeight.setValue(value, true);
                             this.chAutoscale.setValue(value===null, true);
-                            this.spn3DHeight.setDisabled(value===null);
                             this._state.Height3d = value;
                         }
+                        this.spn3DHeight.setDisabled(this._locked || value===null);
                     }
                 } else { //sparkline
                     this._originalProps = props;
@@ -831,7 +835,7 @@ define([
             this.spnX = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-x'),
                 step: 10,
-                width: 45,
+                width: 57,
                 defaultUnit : "°",
                 value: '20 °',
                 maxValue: 359.9,
@@ -873,7 +877,7 @@ define([
             this.spnY = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-y'),
                 step: 10,
-                width: 45,
+                width: 57,
                 defaultUnit : "°",
                 value: '15 °',
                 maxValue: 90,
@@ -896,7 +900,7 @@ define([
             });
             this.lockedControls.push(this.btnUp);
             this.btnUp.on('click', _.bind(function() {
-                this.spnY.setValue(this.spnY.getNumberValue() + 10);
+                this.spnY.setValue(this.spnY.getNumberValue() - 10);
             }, this));
 
             this.btnDown= new Common.UI.Button({
@@ -915,7 +919,7 @@ define([
             this.spnPerspective = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-persp'),
                 step: 5,
-                width: 45,
+                width: 57,
                 defaultUnit : "°",
                 value: '0 °',
                 maxValue: 100,
@@ -938,7 +942,7 @@ define([
             });
             this.lockedControls.push(this.btnNarrow);
             this.btnNarrow.on('click', _.bind(function() {
-                this.spnPerspective.setValue(this.spnPerspective.getNumberValue() + 5);
+                this.spnPerspective.setValue(this.spnPerspective.getNumberValue() - 5);
             }, this));
 
             this.btnWiden= new Common.UI.Button({
@@ -997,7 +1001,7 @@ define([
             this.spn3DDepth = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-3d-depth'),
                 step: 10,
-                width: 78,
+                width: 70,
                 defaultUnit : "%",
                 value: '0 %',
                 maxValue: 2000,
@@ -1013,7 +1017,7 @@ define([
             this.spn3DHeight = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-3d-height'),
                 step: 10,
-                width: 78,
+                width: 70,
                 defaultUnit : "%",
                 value: '50 %',
                 maxValue: 500,
@@ -1688,8 +1692,8 @@ define([
         textX: 'X rotation',
         textY: 'Y rotation',
         textPerspective: 'Perspective',
-        text3dDepth: 'Depth',
-        text3dHeight: 'Height',
+        text3dDepth: 'Depth (% of base)',
+        text3dHeight: 'Height (% of base)',
         textLeft: 'Left',
         textRight: 'Right',
         textUp: 'Up',
