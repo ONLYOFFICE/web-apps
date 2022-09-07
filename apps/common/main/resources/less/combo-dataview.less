@@ -79,11 +79,11 @@
 }
 
 
-.combo-styles {
+.combo-styles(@combo-dataview-height: 46px, @item-height: 46px) {
     @combo-dataview-button-width: 30px;
-    @combo-dataview-height: 46px;
-    @combo-dataview-height-calc: calc(40px + 2 * @scaled-two-px-value + 2 * @scaled-one-px-value);
-
+    @item-height-calc: calc(@item-height - 6px + 2 * @scaled-two-px-value + 2 * @scaled-one-px-value);
+    @combo-dataview-height-calc: calc(@combo-dataview-height - @scaled-one-px-value - 2 * (6px - 2 * @scaled-two-px-value - 2 * @scaled-one-px-value));
+    
     height: @combo-dataview-height;
     height: @combo-dataview-height-calc;
 
@@ -114,8 +114,8 @@
         @minus-px: calc((-1px / @pixel-ratio-factor));
         margin: 0 @minus-px-ie @minus-px-ie 0;
         margin: 0 @minus-px @minus-px 0;
-        height: @combo-dataview-height;
-        height: @combo-dataview-height-calc;
+        height: @item-height;
+        height: @item-height-calc;
         background-color: @background-normal-ie;
         background-color: @background-normal;
         display: flex;
@@ -212,6 +212,14 @@
     .ps-scrollbar-y-rail {
         margin-top: 2px;
     }
+}
+
+.combo-styles {
+    .combo-styles()
+}
+
+.combo-cell-styles {
+    .combo-styles(52px, 26px);
 }
 
 .combo-template(@combo-dataview-height: 64px) {

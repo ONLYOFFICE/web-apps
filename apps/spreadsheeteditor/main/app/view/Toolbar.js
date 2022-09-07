@@ -1280,10 +1280,10 @@ define([
                 });
 
                 me.listStyles = new Common.UI.ComboDataView({
-                    cls             : 'combo-styles',
+                    cls             : 'combo-cell-styles',
                     enableKeyEvents : true,
-                    itemWidth       : 112,
-                    itemHeight      : 40,
+                    itemWidth       : 100,
+                    itemHeight      : 20,
                     style: 'min-width:158px;',
                     groups: new Common.UI.DataViewGroupStore([
                         {id: 'menu-style-group-custom',     caption: this.textCustom },
