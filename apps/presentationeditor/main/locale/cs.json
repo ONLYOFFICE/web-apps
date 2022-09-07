@@ -167,6 +167,7 @@
   "Common.define.effectData.textOutToScreenCenter": "Vně na střed obrazovky",
   "Common.define.effectData.textParallelogram": "Rovnoběžník",
   "Common.define.effectData.textPath": "Trasy pohybu",
+  "Common.define.effectData.textPathCurve": "Křivka",
   "Common.define.effectData.textPeanut": "Burský oříšek",
   "Common.define.effectData.textPeekIn": "Přilétnutí",
   "Common.define.effectData.textPeekOut": "Odlétnutí",
@@ -427,6 +428,8 @@
   "Common.Views.InsertTableDialog.txtTitleSplit": "Rozdělit buňku",
   "Common.Views.LanguageDialog.labelSelect": "Vybrat jazyk dokumentu",
   "Common.Views.ListSettingsDialog.textBulleted": "S odrážkami",
+  "Common.Views.ListSettingsDialog.textFromFile": "Ze souboru",
+  "Common.Views.ListSettingsDialog.textFromStorage": "Z úložiště",
   "Common.Views.ListSettingsDialog.textNumbering": "Číslovaný",
   "Common.Views.ListSettingsDialog.tipChange": "Změnit odrážku",
   "Common.Views.ListSettingsDialog.txtBullet": "Odrážka",
@@ -2239,6 +2242,7 @@
   "PE.Views.Toolbar.tipColumns": "Vložit sloupce",
   "PE.Views.Toolbar.tipCopy": "Kopírovat",
   "PE.Views.Toolbar.tipCopyStyle": "Zkopírovat styl",
+  "PE.Views.Toolbar.tipCut": "Vyjmout",
   "PE.Views.Toolbar.tipDateTime": "Vložit aktuální datum a čas",
   "PE.Views.Toolbar.tipDecFont": "Zmenšit velikost písma",
   "PE.Views.Toolbar.tipDecPrLeft": "Zmenšit odsazení",
@@ -2359,5 +2363,7 @@
   "PE.Views.ViewTab.textNotes": "Poznámky",
   "PE.Views.ViewTab.textRulers": "Pravítka",
   "PE.Views.ViewTab.textStatusBar": "Stavová lišta",
-  "PE.Views.ViewTab.textZoom": "Přiblížení"
+  "PE.Views.ViewTab.textZoom": "Přiblížení",
+  "PE.Views.ViewTab.tipFitToSlide": "Přizpůsobit snímku",
+  "PE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce"
 }

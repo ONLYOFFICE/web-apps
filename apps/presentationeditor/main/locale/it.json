@@ -167,6 +167,8 @@
   "Common.define.effectData.textOutToScreenCenter": "Diminuire verso il centro dello schermo",
   "Common.define.effectData.textParallelogram": "Parallelogramma",
   "Common.define.effectData.textPath": "Percorsi di movimento",
+  "Common.define.effectData.textPathCurve": "Curva",
+  "Common.define.effectData.textPathScribble": "Bozza",
   "Common.define.effectData.textPeanut": "Arachidi",
   "Common.define.effectData.textPeekIn": "Sbirciare dentro",
   "Common.define.effectData.textPeekOut": "Sbirciare fuori",
@@ -432,6 +434,7 @@
   "Common.Views.ListSettingsDialog.tipChange": "Modifica elenco puntato",
   "Common.Views.ListSettingsDialog.txtBullet": "Elenco puntato",
   "Common.Views.ListSettingsDialog.txtColor": "Colore",
+  "Common.Views.ListSettingsDialog.txtImport": "Importa",
   "Common.Views.ListSettingsDialog.txtNewBullet": "Nuovo elenco puntato",
   "Common.Views.ListSettingsDialog.txtNone": "Nessuno",
   "Common.Views.ListSettingsDialog.txtOfText": "% del testo",
@@ -2367,5 +2370,8 @@
   "PE.Views.ViewTab.textNotes": "Appunti",
   "PE.Views.ViewTab.textRulers": "Righelli",
   "PE.Views.ViewTab.textStatusBar": "Barra di stato",
-  "PE.Views.ViewTab.textZoom": "Zoom"
+  "PE.Views.ViewTab.textZoom": "Zoom",
+  "PE.Views.ViewTab.tipFitToSlide": "Adatta alla diapositiva",
+  "PE.Views.ViewTab.tipFitToWidth": "Adatta alla larghezza",
+  "PE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
 }

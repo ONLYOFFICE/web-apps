@@ -167,6 +167,7 @@
   "Common.define.effectData.textOutToScreenCenter": "Nach außen zur Bildschirmmitte",
   "Common.define.effectData.textParallelogram": "Parallelogramm",
   "Common.define.effectData.textPath": "Animationspfad",
+  "Common.define.effectData.textPathScribble": "Skizze",
   "Common.define.effectData.textPeanut": "Erdnuss",
   "Common.define.effectData.textPeekIn": "Hineinblitzen",
   "Common.define.effectData.textPeekOut": "Hervorblitzen",
@@ -432,6 +433,8 @@
   "Common.Views.ListSettingsDialog.tipChange": "Aufzählungszeichen ändern",
   "Common.Views.ListSettingsDialog.txtBullet": "Zeichen",
   "Common.Views.ListSettingsDialog.txtColor": "Farbe",
+  "Common.Views.ListSettingsDialog.txtImage": "Bild",
+  "Common.Views.ListSettingsDialog.txtImport": "Import",
   "Common.Views.ListSettingsDialog.txtNewBullet": "Neues Aufzählungszeichen",
   "Common.Views.ListSettingsDialog.txtNone": "Kein(e)",
   "Common.Views.ListSettingsDialog.txtOfText": "% des Textes",
@@ -2367,5 +2370,6 @@
   "PE.Views.ViewTab.textNotes": "Notizen",
   "PE.Views.ViewTab.textRulers": "Lineale",
   "PE.Views.ViewTab.textStatusBar": "Statusleiste",
-  "PE.Views.ViewTab.textZoom": "Zoom"
+  "PE.Views.ViewTab.textZoom": "Zoom",
+  "PE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
 }
