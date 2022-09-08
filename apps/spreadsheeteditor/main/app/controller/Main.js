@@ -2685,9 +2685,7 @@ define([
             },
 
             onSendFromFrameToGeneralEditor: function(data) {
-                Common.Gateway.internalMessage('frameToGeneralData', {
-                    data: data
-                });
+                Common.Gateway.internalMessage('frameToGeneralData', data);
             },
 
             unitsChanged: function(m) {
