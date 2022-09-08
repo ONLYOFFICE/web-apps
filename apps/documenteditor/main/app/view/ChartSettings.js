@@ -131,10 +131,8 @@ define([
                 this.chartProps = props.get_ChartProperties();
 
                 value = props.get_SeveralCharts() || this._locked;
-                if (this._state.SeveralCharts!==value) {
-                    this.btnEditData.setDisabled(value);
-                    this._state.SeveralCharts=value;
-                }
+                this.btnEditData.setDisabled(value);
+                this._state.SeveralCharts=value;
 
                 value = props.get_SeveralChartTypes();
                 if (this._state.SeveralCharts && value) {
@@ -178,11 +176,9 @@ define([
 
                 value = props.get_CanBeFlow() && !this._locked;
                 var fromgroup = props.get_FromGroup() || this._locked;
-                if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup) {
-                    this.cmbWrapType.setDisabled(!value || fromgroup);
-                    this._state.CanBeFlow=value;
-                    this._state.FromGroup=fromgroup;
-                }
+                this.cmbWrapType.setDisabled(!value || fromgroup);
+                this._state.CanBeFlow=value;
+                this._state.FromGroup=fromgroup;
 
                 value = props.get_Width();
                 if ( Math.abs(this._state.Width-value)>0.001 ) {

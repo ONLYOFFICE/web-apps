@@ -606,6 +606,7 @@
     "textMargins": "Marjinak",
     "textMarginsH": "Goiko eta beheko marjinak altuegiak dira orriaren altuerarako",
     "textMarginsW": "Ezkerreko eta eskuineko marjinak zabalegiak dira erabilitako orriaren zabalerarako",
+    "textMobileView": "Mugikorreko ikuspegia",
     "textNavigation": "Nabigazioa",
     "textNo": "Ez",
     "textNoCharacters": "Inprimatzekoak ez diren karaktereak",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
-    "stayButtonText": "Jarraitu orrian"
+    "stayButtonText": "Jarraitu orrian",
+    "textOk": "Ados",
+    "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
+    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da"
   }
 }

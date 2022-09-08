@@ -633,6 +633,7 @@
       "textReplace": "取代",
       "textReplaceAll": "全部替換",
       "textResolvedComments": "已解決的評論",
+      "textRestartApplication": "請重新啟動應用程式以讓變更生效",
       "textRight": "右",
       "textRightToLeft": "右到左",
       "textSearch": "搜尋",
@@ -687,8 +688,7 @@
       "txtSemicolon": "分號",
       "txtSpace": "空間",
       "txtTab": "標籤",
-      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？"
     }
   }
 }

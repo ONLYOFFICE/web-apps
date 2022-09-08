@@ -530,6 +530,7 @@
     "textMargins": "Margins",
     "textMarginsH": "Top and bottom margins are too high for a given page height",
     "textMarginsW": "Left and right margins are too wide for a given page width",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNo": "No",
     "textNoCharacters": "Nonprinting Characters",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this page"
+    "stayButtonText": "Stay on this page",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

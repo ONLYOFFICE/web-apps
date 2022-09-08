@@ -115,7 +115,8 @@ define([
         cantArrange:    'cant-arrange',
         noObjectSelected:  'no-object',
         lostConnect:    'disconnect',
-        disableOnStart: 'on-start'
+        disableOnStart: 'on-start',
+        complexForm:    'complex-form'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -2255,7 +2256,7 @@ define([
                     {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
                     {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                 ];
-                if ('{{DEFAULT_LANG}}' === 'ru') {
+                if (Common.Locale.getDefaultLanguage() === 'ru') {
                     items = items.concat([
                         {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 8}, skipRenderOnChange: true, tip: this.tipRusUpperPoints},
                         {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 9}, skipRenderOnChange: true, tip: this.tipRusUpperParentheses},

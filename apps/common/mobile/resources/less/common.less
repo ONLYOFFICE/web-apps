@@ -47,6 +47,11 @@
 .subnavbar {
     .subnavbar-inner {
         padding: 0;
+        .title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
     .icon-back {
         color: @toolbar-icons;
@@ -66,6 +71,7 @@
     .list {
         &:first-child {
             margin-top: 0;
+            margin-bottom: 0;
         }
         .inner-range-title {
             color: @text-normal;
@@ -137,6 +143,7 @@
 .bullets,
 .numbers,
 .multilevels {
+    min-height: 160px;
     .row.list {
         margin: 0;
         ul {
@@ -1107,15 +1114,24 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 
-.swiper-container {
-    height: 100%;
-}
+// Swiper
+//.swiper-container {
+//    height: 100%;
+//}
 
 .swiper-pagination-bullet {
     background: @background-menu-divider;
     opacity: 1;
     &-active {
         background: @text-secondary;
+    }
+}
+
+.swiper-pagination-bullets {
+    position: relative;
+    margin-top: 10px;
+    .swiper-pagination-bullet {
+        margin: 0 8px;
     }
 }
 

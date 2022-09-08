@@ -87,7 +87,8 @@ define([
                 searchText: '',
                 matchCase: false,
                 matchWord: false,
-                useRegExp: false
+                useRegExp: false,
+                isContentChanged: false
             };
         },
 
@@ -127,14 +128,7 @@ define([
                     break;
             }
             if (this._state.searchText) {
-                this.hideResults();
-                if (this.onQuerySearch()) {
-                    if (this.searchTimer) {
-                        clearInterval(this.searchTimer);
-                        this.searchTimer = undefined;
-                    }
-                    this.api.asc_StartTextAroundSearch();
-                }
+                this.onQuerySearch();
             }
         },
 
@@ -142,16 +136,7 @@ define([
             var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
             if (text && text.length > 0 && (isReturnKey || type !== 'keydown')) {
                 this._state.searchText = text;
-                if (this.onQuerySearch(type) && (this.searchTimer || isReturnKey)) {
-                    this.hideResults();
-                    if (this.searchTimer) {
-                        clearInterval(this.searchTimer);
-                        this.searchTimer = undefined;
-                    }
-                    if (this.view.$el.is(':visible')) {
-                        this.api.asc_StartTextAroundSearch();
-                    }
-                }
+                this.onQuerySearch(type, !(this.searchTimer || isReturnKey));
             }
         },
 
@@ -164,26 +149,26 @@ define([
                     this.searchTimer = setInterval(function(){
                         if ((new Date()) - me._lastInputChange < 400) return;
 
-                        me.hideResults();
                         me._state.searchText = me._state.newSearchText;
-                        if (me._state.newSearchText !== '' && me.onQuerySearch()) {
-                            if (me.view.$el.is(':visible')) {
-                                me.api.asc_StartTextAroundSearch();
-                            }
-                            me.view.disableReplaceButtons(false);
-                        } else if (me._state.newSearchText === '') {
+                        if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
                             me.view.updateResultsNumber('no-results');
                             me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
+                            clearInterval(me.searchTimer);
+                            me.searchTimer = undefined;
                         }
-                        clearInterval(me.searchTimer);
-                        me.searchTimer = undefined;
                     }, 10);
                 }
             }
         },
 
-        onQuerySearch: function (d, w) {
+        onQuerySearch: function (d, noUpdate) {
+            var update = !noUpdate || this._state.isContentChanged;
+            this._state.isContentChanged = false;
+            this.searchTimer && clearInterval(this.searchTimer);
+            this.searchTimer = undefined;
+            update && this.hideResults();
+
             var searchSettings = new AscCommon.CSearchSettings();
             searchSettings.put_Text(this._state.searchText);
             searchSettings.put_MatchCase(this._state.matchCase);
@@ -197,6 +182,11 @@ define([
                 this.view.disableNavButtons();
                 return false;
             }
+
+            if (update && this.view.$el.is(':visible')) {
+                this.api.asc_StartTextAroundSearch();
+            }
+            this.view.disableReplaceButtons(false);
             return true;
         },
 
@@ -289,7 +279,8 @@ define([
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
                 if (data.length > 300 || !data.length) return;
-                var me = this;
+                var me = this,
+                    selectedInd;
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var el = document.createElement("div"),
@@ -299,17 +290,23 @@ define([
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');
+                        selectedInd = ind;
                     }
 
                     var resultItem = {id: item[0], $el: $(el), el: el, selected: isSelected};
                     me.resultItems.push(resultItem);
                     $(el).on('click', _.bind(function (el) {
+                        if (me._state.isContentChanged) {
+                            me.onQuerySearch();
+                            return;
+                        }
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
                     }, me));
                 });
 
                 this.view.$resultsContainer.show();
+                this.scrollToSelectedResult(selectedInd);
             }
         },
 
@@ -366,9 +363,7 @@ define([
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
                     me.view.$resultsContainer.append(item.el);
-                    if (item.selected) {
-                        $(item.el).addClass('selected');
-                    }
+                    $(item.el)[item.selected ? 'addClass' : 'removeClass']('selected');
                     $(item.el).on('click', function (el) {
                         me.api.asc_SelectSearchElement(item.id);
                         $('#search-results').find('.item').removeClass('selected');
@@ -384,7 +379,11 @@ define([
         },
 
         onApiSearchEnd: function () {
-            this.removeResultItems('stop');
+            if (!this._state.isContentChanged) {
+                this._state.isContentChanged = true;
+                this.view.updateResultsNumber('content-changed');
+                this.view.disableReplaceButtons(true);
+            }
         },
 
         onApiTextReplaced: function(found, replaced) {

@@ -145,6 +145,7 @@ define([
                 this.fireEvent('search:input', [text]);
             } else {
                 this.inputSearch.val('');
+                window.SSE && this.fireEvent('search:input', ['', true]);
             }
 
             this.focus();

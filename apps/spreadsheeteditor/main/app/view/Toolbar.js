@@ -2362,8 +2362,8 @@ define([
             _updateHint(this.btnCondFormat, this.tipCondFormat);
             _updateHint(this.btnVisibleArea, this.tipVisibleArea);
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
-            _updateHint(this.btnHorizontalAlign, this.tipHAligh);
-            _updateHint(this.btnVerticalAlign, this.tipVAligh);
+            _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
+            _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -3308,8 +3308,8 @@ define([
         tipVisibleArea: 'Visible area',
         textDone: 'Done',
         tipTextFormatting: 'More text formatting tools',
-        tipHAligh: 'Horizontal Align',
-        tipVAligh: 'Vertical Align',
+        tipHAlighOle: 'Horizontal Align',
+        tipVAlighOle: 'Vertical Align',
         tipSelectAll: 'Select all',
         tipCut: 'Cut'
     }, SSE.Views.Toolbar || {}));

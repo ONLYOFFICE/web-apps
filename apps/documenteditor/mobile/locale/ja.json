@@ -606,6 +606,7 @@
     "textMargins": "余白",
     "textMarginsH": "指定されたページの高さ対して、上下の余白が大きすぎます。",
     "textMarginsW": "右左の余白がこのページの幅に広すぎる。",
+    "textMobileView": "モバイルビュー",
     "textNavigation": "ナビゲーション",
     "textNo": "いいえ",
     "textNoCharacters": "印刷されない文字",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",
-    "stayButtonText": "このページから移動しない"
+    "stayButtonText": "このページから移動しない",
+    "textOk": "OK",
+    "textSwitchedMobileView": "モバイルビューに切り替えました",
+    "textSwitchedStandardView": "標準ビューに切り替えました"
   }
 }

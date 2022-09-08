@@ -606,6 +606,7 @@
     "textMargins": "Marges",
     "textMarginsH": "Els marges superior i inferior són massa alts per a una alçada de pàgina determinada",
     "textMarginsW": "Els marges esquerre i dret són massa amples per a una amplada de pàgina determinada",
+    "textMobileView": "Visualització mòbil",
     "textNavigation": "Navegació",
     "textNo": "No",
     "textNoCharacters": "Caràcters que no es poden imprimir",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "Teniu canvis sense desar. Feu clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",
     "dlgLeaveTitleText": "Esteu sortint de l'aplicació",
     "leaveButtonText": "Surt d'aquesta pàgina",
-    "stayButtonText": "Queda't en aquesta pàgina"
+    "stayButtonText": "Queda't en aquesta pàgina",
+    "textOk": "D'acord",
+    "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
+    "textSwitchedStandardView": "S'ha canviat a visualització estàndard"
   }
 }

@@ -94,7 +94,7 @@
   "DE.Controllers.ApplicationController.errorFilePassProtect": "El fitxer està protegit amb contrasenya i no es pot obrir.",
   "DE.Controllers.ApplicationController.errorFileSizeExceed": "La mida del fitxer supera el límit establert pel servidor. Contacteu amb l'administrador del servidor de documents per obtenir més informació.",
   "DE.Controllers.ApplicationController.errorForceSave": "S'ha produït un error en desar el fitxer. Utilitzeu l'opció \"Baixa-ho com a\" per desar el fitxer al disc dur de l’ordinador o torneu-ho a provar més endavant.",
-  "DE.Controllers.ApplicationController.errorLoadingFont": "No s'han carregat els tipus de lletra. <br>Contacteu amb l'administrador del servidor de documents.",
+  "DE.Controllers.ApplicationController.errorLoadingFont": "No s'han carregat les lletres tipogràfiques.<br> Contacteu amb l'administrador del Servidor de Documents.",
   "DE.Controllers.ApplicationController.errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
   "DE.Controllers.ApplicationController.errorSessionAbsolute": "La sessió d’edició del document ha caducat. Torneu a carregar la pàgina.",
   "DE.Controllers.ApplicationController.errorSessionIdle": "Fa temps que no s'obre el document. Torneu a carregar la pàgina.",

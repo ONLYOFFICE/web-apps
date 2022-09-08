@@ -132,8 +132,9 @@
    }
 }
 
+// Swiper
 .swiper-container {
-    height: 100%;
+    // height: 100%;
     .swiper-pagination-bullet-active{
         background: @black;
     }
@@ -326,4 +327,29 @@
         color: @brandColor;
     }
 }
+
+// Snackbar animation
+.snackbar-enter {
+    opacity: 0;
+}
+.snackbar-enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+}
+.snackbar-exit {
+    opacity: 1;
+}
+.snackbar-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
+}
+
+// FAB
+.fab a {
+    background-color: @background-primary;
+    &:focus, &:focus-within, &:active, &.active-state {
+        background-color: @background-primary;
+    }
+}
+
 

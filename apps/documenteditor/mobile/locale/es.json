@@ -606,6 +606,7 @@
     "textMargins": "Márgenes",
     "textMarginsH": "Márgenes superior e inferior son demasiado altos para una altura de página determinada ",
     "textMarginsW": "Los márgenes izquierdo y derecho son demasiado amplios para un ancho de página determinado",
+    "textMobileView": "Vista móvil",
     "textNavigation": "Navegación",
     "textNo": "No",
     "textNoCharacters": "Caracteres no imprimibles",
@@ -675,6 +676,9 @@
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
-    "stayButtonText": "Quedarse en esta página"
+    "stayButtonText": "Quedarse en esta página",
+    "textOk": "Aceptar",
+    "textSwitchedMobileView": "Cambiado a vista móvil",
+    "textSwitchedStandardView": "Cambiado a vista estándar"
   }
 }

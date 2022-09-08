@@ -569,7 +569,7 @@ define([
                                 idx = 7;
                                 break;
                         }
-                        if ('{{DEFAULT_LANG}}' === 'ru') {
+                        if (Common.Locale.getDefaultLanguage() === 'ru') {
                             if (this._state.bullets.subtype>7 && this._state.bullets.subtype<=11) {
                                 idx = this._state.bullets.subtype;
                             }
@@ -2040,8 +2040,11 @@ define([
                 else if (item.value.indexOf('combobox')>=0 || item.value.indexOf('dropdown')>=0)
                     this.api.asc_AddContentControlList(item.value.indexOf('combobox')>=0, oPr, oFormPr);
                 else if (item.value == 'new-field') {
+                    var props   = new AscCommon.CContentControlPr();
                     oPr = new AscCommon.CSdtTextFormPr();
-                    this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+                    props.put_TextFormPr(oPr);
+                    props.put_FormPr(oFormPr);
+                    this.api.asc_AddContentControlTextForm(props);
                 }
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
