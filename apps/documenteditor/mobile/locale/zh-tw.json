@@ -407,7 +407,8 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "無上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。"
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "載入資料中...",

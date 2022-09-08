@@ -407,7 +407,8 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincsenek feltöltött képek.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",

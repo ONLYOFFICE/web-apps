@@ -407,7 +407,8 @@
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
     "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",
