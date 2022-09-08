@@ -186,7 +186,7 @@ define([
                     iconCls: 'warn',
                     buttons: ['ok'],
                     callback: _.bind(function(btn){
-                        this.setControlsDisabled(false);
+                        this.oleEditorView.setControlsDisabled(false);
                         this.oleEditorView.hide();
                     }, this)
                 });
