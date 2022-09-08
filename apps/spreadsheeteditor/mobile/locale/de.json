@@ -3,11 +3,11 @@
     "textAbout": "Information",
     "textAddress": "Adresse",
     "textBack": "Zurück",
+    "textEditor": "Editor der Tabellenkalkulationen",
     "textEmail": "E-Mail",
     "textPoweredBy": "Unterstützt von",
     "textTel": "Tel.",
-    "textVersion": "Version",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Version"
   },
   "Common": {
     "Collaboration": {
@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "Warnung",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "OK",
+    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?",
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
     "Main": {

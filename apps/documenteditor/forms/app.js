@@ -126,6 +126,8 @@ require([
     'gateway',
     'locale'
 ], function (Backbone, Bootstrap, Core) {
+    if (Backbone.History && Backbone.History.started)
+        return;
     Backbone.history.start();
 
     /**

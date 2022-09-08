@@ -1015,7 +1015,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-begin-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div class="form-control" style="width: 100px;">',
+                            '<i class="image img-arrows"></i>',
+                        '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
                             '<span class="caret"></span>',
@@ -1044,7 +1046,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-begin-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div class="form-control" style="width: 100px;">',
+                            '<i class="image img-arrows"></i>',
+                        '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
                             '<span class="caret"></span>',
@@ -1079,7 +1083,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-end-style'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div class="form-control" style="width: 100px;">',
+                            '<i class="image img-arrows"></i>',
+                        '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
                             '<span class="caret"></span>',
@@ -1108,7 +1114,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 el: $('#shape-advanced-end-size'),
                 template: _.template([
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="img-arrows form-control image" style="width: 100px;"></div>',
+                        '<div class="form-control" style="width: 100px;">',
+                            '<i class="image img-arrows"></i>',
+                        '</div>',
                         '<div style="display: table-cell;"></div>',
                         '<button type="button" class="btn btn-default">',
                             '<span class="caret"></span>',
@@ -2083,7 +2091,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         },
 
         _selectStyleItem: function(combo, record) {
-            var formcontrol = $(combo.el).find('.form-control');
+            var formcontrol = $(combo.el).find('.form-control > .image');
             formcontrol.css('background-position', ((record) ? (-record.get('offsetx')+20) + 'px' : '0') + ' ' + ((record) ? '-' + record.get('offsety') + 'px' : '-30px'));
         },
 

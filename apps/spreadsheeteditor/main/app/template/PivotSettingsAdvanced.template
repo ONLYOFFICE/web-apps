@@ -1,56 +1,58 @@
 <div id="id-adv-pivot-layout" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="2" style="width: 100%;">
             <tr>
-                <td class="padding-large">
+                <td colspan="2" class="padding-large">
                     <label class="header"><%= scope.txtName %></label>
                     <div id="pivot-adv-name"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <label class="header"><%= scope.textGrandTotals %></label>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <div id="pivot-adv-chk-show-rows"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
+                <td colspan="2" class="padding-large">
                     <div id="pivot-adv-chk-show-columns"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <label class="header"><%= scope.textDisplayFields %></label>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <div id="pivot-adv-radio-down"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td colspan="2" class="padding-small">
                     <div id="pivot-adv-radio-over"></div>
                 </td>
             </tr>
             <tr>
                 <td class="padding-large">
-                    <label id="pivot-adv-label-wrap" class="input-label" style="margin-top: 4px;"></label>
+                    <label id="pivot-adv-label-wrap" class="input-label"></label>
+                </td>
+                <td class="padding-large">
                     <div id="pivot-adv-spin-wrap" style="float: right; width: 85px;"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
-                    <label class="header"><%= scope.textHeaders %></label>
+                <td colspan="2" class="padding-small">
+                    <div id="pivot-adv-chk-show-headers"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
-                    <div id="pivot-adv-chk-show-headers"></div>
+                <td colspan="2" class="padding-small">
+                    <div id="pivot-adv-chk-autofit-col-width"></div>
                 </td>
             </tr>
         </table>

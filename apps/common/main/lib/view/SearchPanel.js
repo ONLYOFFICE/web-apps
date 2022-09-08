@@ -91,6 +91,11 @@ define([
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
+                this.inputReplace._input.on('keydown', _.bind(function (e) {
+                    if (e.keyCode === Common.UI.Keys.RETURN && !this.btnReplace.isDisabled()) {
+                        this.onReplaceClick('replace');
+                    }
+                }, this));
 
                 this.btnBack = new Common.UI.Button({
                     parentEl: $('#search-adv-back'),
@@ -205,6 +210,7 @@ define([
                     }).on('keyup:after', function(input, e) {
                         me.fireEvent('search:options', ['range', input.getValue(), e.keyCode !== Common.UI.Keys.RETURN]);
                     });
+                    this.inputSelectRange.$el.hide();
 
                     this.cmbSearch = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-search'),
@@ -253,11 +259,13 @@ define([
                     this.cmbLookIn.setValue(0);
 
                     var tableTemplate = '<div class="search-table">' +
+                        '<div class="header-items">' +
                         '<div class="header-item">' + this.textSheet + '</div>' +
                         '<div class="header-item">' + this.textName + '</div>' +
                         '<div class="header-item">' + this.textCell + '</div>' +
                         '<div class="header-item">' + this.textValue + '</div>' +
                         '<div class="header-item">' + this.textFormula + '</div>' +
+                        '</div>' +
                         '<div class="ps-container oo search-items"></div>' +
                         '</div>',
                         $resultTable = $(tableTemplate).appendTo(this.$resultsContainer);
@@ -278,8 +286,7 @@ define([
                     });
                 }
                 Common.NotificationCenter.on('window:resize', function() {
-                    me.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-                    me.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                    me.updateResultsContainerHeight();
                 });
             }
 
@@ -292,8 +299,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.fireEvent('show', this );
 
-            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            this.updateResultsContainerHeight();
         },
 
         hide: function () {
@@ -321,15 +327,34 @@ define([
         ChangeSettings: function(props) {
         },
 
+        updateResultsContainerHeight: function () {
+            if (this.$resultsContainer) {
+                this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
+                this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            }
+        },
+
         updateResultsNumber: function (current, count) {
             var text;
             if (count > 300) {
                 text = this.textTooManyResults;
             } else {
-                text = current === 'no-results' ? this.textNoSearchResults : (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count));
+                text = current === 'no-results' ? this.textNoSearchResults :
+                    (current === 'stop' ? this.textSearchHasStopped :
+                    (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
+                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
             }
-            this.$reaultsNumber.text(text);
-            this.disableReplaceButtons(!count);
+            if (current === 'content-changed') {
+                var me = this;
+                this.$reaultsNumber.html(text);
+                this.$reaultsNumber.find('.search-again').on('click', function () {
+                    me.fireEvent('search:next', [me.inputText.getValue(), true]);
+                });
+            } else {
+                this.$reaultsNumber.text(text);
+            }
+            this.updateResultsContainerHeight();
+            !window.SSE && this.disableReplaceButtons(!count);
         },
 
         onClickClosePanel: function() {
@@ -358,8 +383,7 @@ define([
             this.$searchOptionsBlock[this.extendedOptions ? 'removeClass' : 'addClass']('no-expand');
             Common.localStorage.setBool('sse-search-options-extended', this.extendedOptions);
 
-            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            this.updateResultsContainerHeight();
         },
 
         setFindText: function (val) {
@@ -371,9 +395,9 @@ define([
         },
 
         disableNavButtons: function (resultNumber, allResults) {
-            var disable = this.inputText._input.val() === '';
-            this.btnBack.setDisabled(disable || !allResults || resultNumber === 0);
-            this.btnNext.setDisabled(disable || !allResults || resultNumber + 1 === allResults);
+            var disable = (this.inputText._input.val() === '' && !window.SSE) || !allResults;
+            this.btnBack.setDisabled(disable);
+            this.btnNext.setDisabled(disable);
         },
 
         disableReplaceButtons: function (disable) {
@@ -412,7 +436,10 @@ define([
         textName: 'Name',
         textCell: 'Cell',
         textValue: 'Value',
-        textFormula: 'Formula'
+        textFormula: 'Formula',
+        textSearchHasStopped: 'Search has stopped',
+        textContentChanged: 'Document changed.',
+        textSearchAgain: '{0}Perform new search{1} for accurate results.'
 
     }, Common.Views.SearchPanel || {}));
 });

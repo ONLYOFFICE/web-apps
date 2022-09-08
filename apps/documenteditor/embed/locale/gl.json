@@ -36,7 +36,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulario enviado con éxito</b><br>Prema para pechar o consello",
   "DE.ApplicationController.txtClose": "Pechar",
   "DE.ApplicationController.txtEmpty": "(Vacío)",
-  "DE.ApplicationController.txtPressLink": "Prema Ctrl e na ligazón",
+  "DE.ApplicationController.txtPressLink": "Prema %1 e na ligazón",
   "DE.ApplicationController.unknownErrorText": "Erro descoñecido.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "O seu navegador non é compatible.",
   "DE.ApplicationController.waitText": "Agarde...",

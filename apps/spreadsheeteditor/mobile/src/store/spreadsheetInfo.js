@@ -4,7 +4,8 @@ export class storeSpreadsheetInfo {
     constructor() {
         makeObservable(this, {
             dataDoc: observable,
-            setDataDoc: action
+            setDataDoc: action,
+            changeTitle: action
         })
     }
     
@@ -12,5 +13,9 @@ export class storeSpreadsheetInfo {
 
     setDataDoc(obj) {
         this.dataDoc = obj;
+    }
+
+    changeTitle(title) {
+        this.dataDoc.title = title;
     }
 }

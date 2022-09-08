@@ -15,7 +15,8 @@ import EditorUIController from '../lib/patch';
     canViewComments: stores.storeAppOptions.canViewComments,
     canCoAuthoring: stores.storeAppOptions.canCoAuthoring,
     users: stores.users,
-    isDisconnected: stores.users.isDisconnected
+    isDisconnected: stores.users.isDisconnected,
+    objects: stores.storeFocusObjects.settings
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -26,6 +27,7 @@ class ContextMenu extends ContextMenuController {
         this.onApiHideComment = this.onApiHideComment.bind(this);
         this.getUserName = this.getUserName.bind(this);
         this.isUserVisible = this.isUserVisible.bind(this);
+        this.checkShapeSelection = this.checkShapeSelection.bind(this);
     }
 
     static closeContextMenu() {
@@ -49,6 +51,7 @@ class ContextMenu extends ContextMenuController {
         if ( api ) {
             api.asc_unregisterCallback('asc_onShowComment', this.onApiShowComment);
             api.asc_unregisterCallback('asc_onHideComment', this.onApiHideComment);
+            api.asc_unregisterCallback('asc_onShowPopMenu', this.checkShapeSelection);
         }
     }
 
@@ -101,6 +104,15 @@ class ContextMenu extends ContextMenuController {
                 });
                 value && this.openLink(value);
                 break;
+        }
+    }
+
+    checkShapeSelection() {
+        const objects = this.props.objects;
+        const contextMenuElem = document.querySelector('#idx-context-menu-popover');
+
+        if(objects.indexOf('shape') > -1) {
+            contextMenuElem.style.top = `${+(contextMenuElem.style.top.replace(/px$/, '')) - 40}px`;
         }
     }
 
@@ -220,6 +232,7 @@ class ContextMenu extends ContextMenuController {
         const api = Common.EditorApi.get();
         api.asc_registerCallback('asc_onShowComment', this.onApiShowComment);
         api.asc_registerCallback('asc_onHideComment', this.onApiHideComment);
+        api.asc_registerCallback('asc_onShowPopMenu', this.checkShapeSelection);
     }
 
     initMenuItems() {

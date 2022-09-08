@@ -3,11 +3,11 @@
     "textAbout": "關於",
     "textAddress": "地址",
     "textBack": "返回",
+    "textEditor": "試算表編輯器",
     "textEmail": "電子郵件",
     "textPoweredBy": "於支援",
     "textTel": "電話",
-    "textVersion": "版本",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "版本"
   },
   "Common": {
     "Collaboration": {
@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "警告",
     "textCopyCutPasteActions": "複製, 剪下, 與貼上之動作",
     "textDoNotShowAgain": "不再顯示",
-    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "確定",
+    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
+    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？"
   },
   "Controller": {
     "Main": {
@@ -154,6 +154,7 @@
       "textRemember": "記住我的選擇",
       "textReplaceSkipped": "替換已完成。 {0}個事件被跳過。",
       "textReplaceSuccess": "搜索已完成。發生的事件已替換：{0}",
+      "textRequestMacros": "有一個巨集指令要求連結至URL。是否允許該要求至%1?",
       "textYes": "是",
       "titleServerVersion": "編輯器已更新",
       "titleUpdateVersion": "版本已更改",
@@ -163,8 +164,7 @@
       "warnLicenseUsersExceeded": "您已達到 %1 個編輯器的使用者限制。請聯繫您的管理員以了解更多資訊。",
       "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
       "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-      "warnProcessRightsChange": "您沒有編輯此文件的權限。",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "您沒有編輯此文件的權限。"
     }
   },
   "Error": {
@@ -302,9 +302,9 @@
     "textRenameSheet": "重命名工作表",
     "textSheet": "表格",
     "textSheetName": "表格名稱",
+    "textTabColor": "標籤顏色",
     "textUnhide": "取消隱藏",
-    "textWarnDeleteSheet": "工作表內可能有資料。 進行動作？",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "工作表內可能有資料。 進行動作？"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您在此文件中有未儲存的變更。點擊\"留在此頁面\"以等待自動儲存。點擊\"離開此頁面\"以放棄所有未儲存的變更。",
@@ -403,6 +403,7 @@
       "textBottomBorder": "底部邊框",
       "textBringToForeground": "移到前景",
       "textCell": "單元格",
+      "textCellStyle": "單元格樣式",
       "textCenter": "中心",
       "textChart": "圖表",
       "textChartTitle": "圖表標題",
@@ -551,8 +552,7 @@
       "textYen": "日圓",
       "txtNotUrl": "此字段應為格式為\"http://www.example.com\"的URL。",
       "txtSortHigh2Low": "最高到最低排序",
-      "txtSortLow2High": "從最低到最高排序",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "從最低到最高排序"
     },
     "Settings": {
       "advCSVOptions": "選擇CSV選項",
@@ -584,6 +584,7 @@
       "textCustomSize": "自訂大小",
       "textDarkTheme": "暗色主題",
       "textDelimeter": "分隔符號",
+      "textDirection": "方向",
       "textDisableAll": "全部停用",
       "textDisableAllMacrosWithNotification": "以提示停用全部巨集",
       "textDisableAllMacrosWithoutNotification": "不用提示停用全部巨集",
@@ -595,6 +596,7 @@
       "textEnableAllMacrosWithoutNotification": "不用提示啟用全部巨集",
       "textEncoding": "編碼",
       "textExample": "例",
+      "textFeedback": "反饋與支持",
       "textFind": "尋找",
       "textFindAndReplace": "尋找與取代",
       "textFindAndReplaceAll": "尋找與全部取代",
@@ -610,6 +612,7 @@
       "textLastModified": "上一次更改",
       "textLastModifiedBy": "最後修改者",
       "textLeft": "左",
+      "textLeftToRight": "左到右",
       "textLocation": "位置",
       "textLookIn": "探望",
       "textMacrosSettings": "巨集設定",
@@ -630,7 +633,9 @@
       "textReplace": "取代",
       "textReplaceAll": "全部替換",
       "textResolvedComments": "已解決的評論",
+      "textRestartApplication": "請重新啟動應用程式以讓變更生效",
       "textRight": "右",
+      "textRightToLeft": "右到左",
       "textSearch": "搜尋",
       "textSearchBy": "搜尋",
       "textSearchIn": "搜尋",
@@ -683,12 +688,7 @@
       "txtSemicolon": "分號",
       "txtSpace": "空間",
       "txtTab": "標籤",
-      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
-      "textDirection": "Direction",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRightToLeft": "Right To Left"
+      "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？"
     }
   }
 }

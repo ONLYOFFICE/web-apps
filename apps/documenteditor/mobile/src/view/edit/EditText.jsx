@@ -213,9 +213,7 @@ const PageBullets = observer( props => {
                             storeTextSettings.resetBullets(bullet.subtype);
                             props.onBullet(bullet.subtype);
                         }}>
-                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'>
-                        
-                        </div>
+                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'></div>
                     </ListItem>
                 ))}
             </List>
@@ -243,25 +241,18 @@ const PageNumbers = observer( props => {
     
     return (
         <View className='numbers dataview'>
-            {numberArrays.map((numbers, index) => (
-                <List className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
-                    {numbers.map((number) => (
-                        <ListItem key={'number-' + number.type} data-type={number.type} className={(number.type === typeNumbers) && 
+            <List className="row" style={{listStyle: 'none'}}>
+            {numberArrays.map( number => (
+                        <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) && 
                             (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
                             onClick={() => {
-                                storeTextSettings.resetNumbers(number.type);
-                                props.onNumber(number.type);
+                                storeTextSettings.resetNumbers(number.subtype);
+                                props.onNumber(number.subtype);
                             }}>
-                            {number.thumb.length < 1 ?
-                                <Icon className="thumb" style={{position: 'relative'}}>
-                                    <label>{t('Edit.textNone')}</label>
-                                </Icon> :
-                                <Icon className="thumb" icon={`icon-numbers-${number.type}`} />
-                            }
+                            <div id={`id-numbers-${number.subtype}`} className='item-number'></div>
                         </ListItem>
                     ))}
-                </List>
-            ))}
+            </List>
         </View>
     );
 });
@@ -509,6 +500,11 @@ const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
+    const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject;
+    const shapePr = shapeObject && shapeObject.get_ShapeProperties();
+    const inSmartArt = shapePr && shapePr.asc_getFromSmartArt();
+    const inSmartArtInternal = shapePr && shapePr.asc_getFromSmartArtInternal();
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
@@ -598,25 +594,33 @@ const EditText = props => {
                         </a>
                     </Row>
                 </ListItem>
-                <ListItem className='buttons'>
-                    <Row>
-                        <a className='button item-link' onClick={() => {props.onParagraphMove(true)}}>
-                            <Icon slot="media" icon="icon-de-indent"></Icon>
-                        </a>
-                        <a className='button item-link' onClick={() => {props.onParagraphMove(false)}}>
-                            <Icon slot="media" icon="icon-in-indent"></Icon>
-                        </a>
-                    </Row>
-                </ListItem>
-                <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
-                    onBullet: props.onBullet,
-                    onNumber: props.onNumber,
-                    onMultiLevelList: props.onMultiLevelList,
-                    getIconsBulletsAndNumbers: props.getIconsBulletsAndNumbers,
-                }}>
-                    <div className="preview">{previewList}</div>
-                    {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
-                </ListItem>
+                {!inSmartArtInternal &&
+                    <ListItem className='buttons'>
+                        <Row>
+                            <a className='button item-link' onClick={() => {
+                                props.onParagraphMove(true)
+                            }}>
+                                <Icon slot="media" icon="icon-de-indent"></Icon>
+                            </a>
+                            <a className='button item-link' onClick={() => {
+                                props.onParagraphMove(false)
+                            }}>
+                                <Icon slot="media" icon="icon-in-indent"></Icon>
+                            </a>
+                        </Row>
+                    </ListItem>
+                }
+                {!inSmartArt && !inSmartArtInternal &&
+                    <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
+                        onBullet: props.onBullet,
+                        onNumber: props.onNumber,
+                        onMultiLevelList: props.onMultiLevelList,
+                        getIconsBulletsAndNumbers: props.getIconsBulletsAndNumbers,
+                    }}>
+                        <div className="preview">{previewList}</div>
+                        {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
+                    </ListItem>
+                }
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{
                     onLineSpacing: props.onLineSpacing
                 }}>

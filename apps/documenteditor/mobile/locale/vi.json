@@ -670,12 +670,16 @@
     "textDirection": "Direction",
     "textLeftToRight": "Left To Right",
     "textRightToLeft": "Right To Left",
-    "textRestartApplication": "Please restart the application for the changes to take effect"
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this page"
+    "stayButtonText": "Stay on this page",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

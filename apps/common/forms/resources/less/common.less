@@ -5,6 +5,7 @@
 @import "../../../../common/main/resources/less/colors-table.less";
 @import "../../../../common/main/resources/less/colors-table-classic.less";
 @import "../../../../common/main/resources/less/colors-table-dark.less";
+@import "../../../../common/main/resources/less/colors-table-dark-contrast.less";
 
 // Core variables and mixins
 //@import "../../../../../vendor/bootstrap/less/variables.less";
@@ -226,7 +227,7 @@
     background: data-uri('../../../../common/main/resources/img/header/dark-logo_s.svg') no-repeat;
 }
 
-.theme-dark {
+.theme-type-dark {
     .brand-logo {
         background: data-uri('../../../../common/main/resources/img/header/header-logo_s.svg') no-repeat;
     }
@@ -432,7 +433,7 @@
 @icon-width: 20px;
 @icon-height: 20px;
 
-.theme-dark {
+.theme-type-dark {
     @neg-value: -@icon-height;
     --icon-normal-top: @neg-value;
 }
@@ -546,15 +547,15 @@
     }
     &.search-close {
         background-position: -@icon-width*18 0;
-    }
-    &.search {
-        background-position: -@icon-width*24 0;
+        background-position: -@icon-width*18 @icon-normal-top;
     }
     &.search-arrow-up {
         background-position: -@icon-width*27 0;
+        background-position: -@icon-width*27 @icon-normal-top;
     }
     &.search-arrow-down {
         background-position: -@icon-width*28 0;
+        background-position: -@icon-width*28 @icon-normal-top;
     }
 }
 

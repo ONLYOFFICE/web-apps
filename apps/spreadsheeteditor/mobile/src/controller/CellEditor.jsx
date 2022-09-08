@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import CellEditorView from '../view/CellEditor';
 import { f7 } from 'framework7-react';
@@ -39,7 +38,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
         setFunctionshDisabled(is_image || is_mode_2 || coauth_disable);
     }
 
-    const onFormulaCompleteMenu = funcArr => {
+    const onFormulaCompleteMenu = async funcArr => {
         const api = Common.EditorApi.get();
         const storeFunctions = props.storeFunctions;
         const functions = storeFunctions.functions;
@@ -93,14 +92,15 @@ const CellEditor = inject("storeFunctions")(observer(props => {
 
                 return {name, type, descr, caption, args};
             });
-    
-            setHintArr(hintArr);
-            setFuncArr(funcArr);
 
-            f7.popover.open('#idx-functions-list', '#idx-list-target');
+            await setFuncArr(funcArr);
+            await setHintArr(hintArr);
+
+            await f7.popover.open('#idx-functions-list', '#idx-list-target');
         } else {
-            f7.popover.close('#idx-functions-list');
-            setFuncArr('');
+            await f7.popover.close('#idx-functions-list');
+            await setFuncArr('');
+            await setHintArr('');
         }
     }
 

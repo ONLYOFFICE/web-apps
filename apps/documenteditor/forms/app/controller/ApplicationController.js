@@ -482,6 +482,7 @@ define([
                 docInfo = new Asc.asc_CDocInfo();
                 docInfo.put_Id(data.doc.key);
                 docInfo.put_Url(data.doc.url);
+                docInfo.put_DirectUrl(data.doc.directUrl);
                 docInfo.put_Title(data.doc.title);
                 docInfo.put_Format(data.doc.fileType);
                 docInfo.put_VKey(data.doc.vkey);
@@ -1942,9 +1943,13 @@ define([
 
             Common.NotificationCenter.on({
                 'uitheme:changed' : function (name) {
-                    var theme = Common.UI.Themes.get(name);
-                    if ( theme )
-                        native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                    if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                        native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
+                    } else {
+                        const theme = Common.UI.Themes.get(name);
+                        if ( theme )
+                            native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                    }
                 },
             });
 
@@ -1977,4 +1982,6 @@ define([
         }
     };
     DE.Controllers.Desktop = new Desktop();
+    Common.Controllers = Common.Controllers || {};
+    Common.Controllers.Desktop = DE.Controllers.Desktop;
 });

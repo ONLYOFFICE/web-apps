@@ -430,7 +430,7 @@ define([
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
                                 '<td style="padding-bottom: 16px;">',
-                                    '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-302 + 38*(this.special ? 0 : 1)) + 'px;">',
+                                    '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-304 + 38*(this.special ? 0 : 1)) + 'px;">',
                                         '<div style="width: 100%;">',
                                             '<div id="id-preview">',
                                                 '<div>',
@@ -476,7 +476,7 @@ define([
                             '</tr>',
                             '<tr>',
                                 '<td>',
-                                    '<div id="symbol-table-special-list" class="no-borders" style="width:100%; height: '+ (this.options.height-156 + 38*(this.special ? 0 : 1)) + 'px;"></div>',
+                                    '<div id="symbol-table-special-list" class="no-borders" style="width:100%; height: '+ (this.options.height-157 + 38*(this.special ? 0 : 1)) + 'px;"></div>',
                                 '</td>',
                             '</tr>',
                         '</table>',
@@ -1104,7 +1104,7 @@ define([
         },
 
         getMaxHeight: function(){
-            return this.symbolTablePanel.innerHeight();
+            return this.symbolTablePanel.innerHeight()-2;
         },
 
         getRowsCount: function() {
@@ -1436,8 +1436,8 @@ define([
                 this.curSize = {resize: false, width: size[0], height: size[1]};
             } else if (this.curSize.resize) {
                 this._preventUpdateScroll = false;
-                this.curSize.height = size[1] - 302 + 38*(this.special ? 0 : 1);
-                var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
+                this.curSize.height = size[1] - 304 + 38*(this.special ? 0 : 1);
+                var rows = Math.max(1, (((this.curSize.height-2)/CELL_HEIGHT) >> 0)),
                     height = rows*CELL_HEIGHT;
 
                 this.symbolTablePanel.css({'height': this.curSize.height + 'px'});
@@ -1447,7 +1447,7 @@ define([
 
                 this.updateView(undefined, undefined, undefined, true);
 
-                this.specialList.cmpEl.height(size[1] - 156 + 38*(this.special ? 0 : 1));
+                this.specialList.cmpEl.height(size[1] - 157 + 38*(this.special ? 0 : 1));
 
                 !this.special && (size[1] += 38);
                 var valJson = JSON.stringify(size);
@@ -1465,16 +1465,16 @@ define([
                     this.curSize.resize = true;
 
                 this.curSize.width = size[0];
-                this.curSize.height = size[1] - 302 + 38*(this.special ? 0 : 1);
+                this.curSize.height = size[1] - 304 + 38*(this.special ? 0 : 1);
 
-                var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
+                var rows = Math.max(1, (((this.curSize.height-2)/CELL_HEIGHT) >> 0)),
                     height = rows*CELL_HEIGHT;
 
                 this.symbolTablePanel.css({'height': this.curSize.height + 'px'});
                 this.previewPanel.css({'height': height  + 'px'});
                 this.previewScrolled.css({'height': height + 'px'});
 
-                this.specialList.cmpEl.height(size[1] - 156 + 38*(this.special ? 0 : 1));
+                this.specialList.cmpEl.height(size[1] - 157 + 38*(this.special ? 0 : 1));
 
                 this.updateView(undefined, undefined, undefined, true);
             }

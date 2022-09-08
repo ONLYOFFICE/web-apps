@@ -45,7 +45,7 @@ define([
     DE.Views.NotesRemoveDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 214,
-            height: 138,
+            height: 139,
             header: true,
             style: 'min-width: 214px;',
             cls: 'modal-dlg',

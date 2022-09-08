@@ -119,9 +119,9 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         if (api) {
             if ('superscript' === type) {
-                api.put_TextPrBaseline(value ? 1 : 0);
+                api.put_TextPrBaseline(value ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
             } else {
-                api.put_TextPrBaseline(value ? 2 : 0);
+                api.put_TextPrBaseline(value ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
             }
         }
     }

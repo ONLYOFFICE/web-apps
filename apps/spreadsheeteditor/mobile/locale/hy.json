@@ -63,9 +63,9 @@
     "notcriticalErrorTitle": "Զգուշացում",
     "textCopyCutPasteActions": "Պատճենելու, կտրելու և փակցնելու գործողություններ",
     "textDoNotShowAgain": "Այլևս ցույց չտալ",
-    "warnMergeLostData": "Գործողությունը կարող է ոչնչացնել ընտրված վանդակների տվյալները։<br>Շարունակե՞լ։",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "Լավ",
+    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
+    "warnMergeLostData": "Գործողությունը կարող է ոչնչացնել ընտրված վանդակների տվյալները։<br>Շարունակե՞լ։"
   },
   "Controller": {
     "Main": {

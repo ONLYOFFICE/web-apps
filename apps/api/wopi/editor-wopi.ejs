@@ -312,7 +312,7 @@ div {
 				"events": {
                     "onAppReady": onAppReady,
                     "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
-                    'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
+                    'onRequestEditRights': fileInfo.EditModePostMessage || (fileInfo.HostEditUrl && !fileInfo.UserCanNotWriteRelative) ? onRequestEditRights : undefined,
                     "onError": onError,
                     "onRequestClose": fileInfo.ClosePostMessage || fileInfo.CloseUrl ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,

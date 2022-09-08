@@ -737,6 +737,25 @@ define([
                     ]}
                 );
 
+                me.btnCut = new Common.UI.Button({
+                    id: 'id-toolbar-btn-cut',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-cut',
+                    lock: [_set.coAuth, _set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintTitle: 'X'
+                });
+
+                me.btnSelectAll = new Common.UI.Button({
+                    id: 'id-toolbar-btn-select-all',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon select-all',
+                    lock: [_set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+
                 me.cmbFontSize = new Common.UI.ComboBox({
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
@@ -1317,13 +1336,16 @@ define([
                             menu.menuAlignEl = cmp.cmpEl;
 
                             menu.menuAlign = 'tl-tl';
-                            var dataviewEl = $(menu.menuRoot.find('.dataview').get(0));
-                            var menuWidth = + columnCount * (itemWidth + itemMargin) + parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(dataviewEl.css('padding-left')) + parseFloat(dataviewEl.css('padding-right'));
-                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - menuWidth - 1;
+                            var dataviewEl = $(menu.menuRoot.find('.dataview').get(0)),
+                                paddings = parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(dataviewEl.css('padding-left')) + parseFloat(dataviewEl.css('padding-right')),
+                                menuWidth = + columnCount * (itemWidth + itemMargin) + paddings,
+                                buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                            if (menuWidth>Common.Utils.innerWidth())
+                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-paddings)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + paddings;
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
                             menu.setOffset(Math.min(offset, 0));
-
                             menu.cmpEl.css({
-                                'width' : menuWidth,
+                                'width': menuWidth,
                                 'min-height': cmp.cmpEl.height()
                             });
                         }
@@ -2039,7 +2061,7 @@ define([
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
-                    me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
+                    me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
                     me.chPrintGridlines, me.chPrintHeadings, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
@@ -2191,6 +2213,8 @@ define([
             _injectComponent('#slot-btn-redo',           this.btnRedo);
             _injectComponent('#slot-btn-copy',           this.btnCopy);
             _injectComponent('#slot-btn-paste',          this.btnPaste);
+            _injectComponent('#slot-btn-cut',            this.btnCut);
+            _injectComponent('#slot-btn-select-all',     this.btnSelectAll);
             _injectComponent('#slot-btn-incfont',        this.btnIncFontSize);
             _injectComponent('#slot-btn-decfont',        this.btnDecFontSize);
             _injectComponent('#slot-btn-bold',           this.btnBold);
@@ -2282,6 +2306,8 @@ define([
             _updateHint(this.btnSave, this.btnSaveTip);
             _updateHint(this.btnCopy, this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
             _updateHint(this.btnPaste, this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+            _updateHint(this.btnCut, this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
+            _updateHint(this.btnSelectAll, this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
             _updateHint(this.btnUndo, this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
             _updateHint(this.btnRedo, this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
             _updateHint(this.btnIncFontSize, this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
@@ -2341,8 +2367,8 @@ define([
             _updateHint(this.btnCondFormat, this.tipCondFormat);
             _updateHint(this.btnVisibleArea, this.tipVisibleArea);
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
-            _updateHint(this.btnHorizontalAlign, this.tipHAligh);
-            _updateHint(this.btnVerticalAlign, this.tipVAligh);
+            _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
+            _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -3287,8 +3313,10 @@ define([
         tipVisibleArea: 'Visible area',
         textDone: 'Done',
         tipTextFormatting: 'More text formatting tools',
-        tipHAligh: 'Horizontal Align',
-        tipVAligh: 'Vertical Align',
+        tipHAlighOle: 'Horizontal Align',
+        tipVAlighOle: 'Vertical Align',
+        tipSelectAll: 'Select all',
+        tipCut: 'Cut',
         textCustom: 'Custom',
         textGoodBadAndNeutral: 'Good, Bad, and Neutral',
         textDataAndModel: 'Data and Model',

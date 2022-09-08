@@ -55,7 +55,7 @@ define([
         options: {
             type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
             width: 300,
-            height: 422,
+            height: 424,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -67,7 +67,7 @@ define([
 
             _.extend(this.options, {
                 title: this.txtTitle,
-                height: (this.type==2) ? 376 : 422,
+                height: (this.type==2) ? 376 : 424,
                 width: (this.type==2) ? 430 : 300
         }, options || {});
 
@@ -202,22 +202,29 @@ define([
                     '</ul>',
                 '</div>'
             ]);
+            var items = [
+                { displayValue: this.txtNone,       value: Asc.c_oAscNumberingFormat.None },
+                { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
+                { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
+                { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
+                { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
+                { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
+            ];
+            if (Common.Locale.getDefaultLanguage() === 'ru') {
+                items = items.concat([
+                    { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower },
+                    { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper }
+                ]);
+            }
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
-                menuStyle   : 'min-width: 100%;max-height: 183px;',
+                menuStyle   : 'min-width: 100%;max-height: 220px;',
                 style       : this.type==2 ? "width: 107px;" : "width: 129px;",
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 takeFocusOnClose: true,
-                data        : [
-                    { displayValue: this.txtNone,       value: Asc.c_oAscNumberingFormat.None },
-                    { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
-                    { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
-                    { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
-                    { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
-                    { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
-                ],
+                data        : items,
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
@@ -514,6 +521,7 @@ define([
                 this.levels[this.level] = this.props.get_Lvl(this.level);
             this.fillLevelProps(this.levels[this.level]);
             this._changedProps = this.levels[this.level];
+            this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
         },
 
         fillLevelProps: function(levelProps) {

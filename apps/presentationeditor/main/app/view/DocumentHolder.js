@@ -819,6 +819,8 @@ define([
                     menuViewCopySeparator.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     me.menuViewAddComment.setVisible(!value.isChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     me.menuViewAddComment.setDisabled(value.locked);
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuViewCopy.setDisabled(!cancopy);
                 },
                 items: [
                     me.menuViewCopy,
@@ -1898,7 +1900,9 @@ define([
                     /** coauthoring end **/
 
                     me.menuParagraphAdvanced.setDisabled(disabled);
-                    me.menuParaCut.setDisabled(disabled);
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuParaCopy.setDisabled(!cancopy);
+                    me.menuParaCut.setDisabled(disabled || !cancopy);
                     me.menuParaPaste.setDisabled(disabled);
 
                     // spellCheck
@@ -2011,7 +2015,10 @@ define([
 
                     me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
                     me.menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
-                    me.menuTableCut.setDisabled(value.tableProps.locked || disabled);
+
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuTableCopy.setDisabled(!cancopy);
+                    me.menuTableCut.setDisabled(value.tableProps.locked || disabled || !cancopy);
                     me.menuTablePaste.setDisabled(value.tableProps.locked || disabled);
 
                     // hyperlink properties
@@ -2179,7 +2186,9 @@ define([
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(disabled);
 
-                    me.menuImgCut.setDisabled(disabled);
+                    var cancopy = me.api && me.api.can_CopyCut();
+                    me.menuImgCopy.setDisabled(!cancopy);
+                    me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
                     me.menuAddToLayoutImg.setDisabled(disabled);
@@ -2276,7 +2285,7 @@ define([
         hyperlinkText           : 'Hyperlink',
         editHyperlinkText       : 'Edit Hyperlink',
         removeHyperlinkText     : 'Remove Hyperlink',
-        txtPressLink            : 'Press CTRL and click link',
+        txtPressLink            : 'Press {0} and click link',
         selectText              : 'Select',
         insertRowText           : 'Insert Row',
         insertColumnText        : 'Insert Column',

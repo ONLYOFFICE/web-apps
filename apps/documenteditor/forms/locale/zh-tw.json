@@ -32,9 +32,15 @@
   "Common.UI.Calendar.textShortTuesday": "Tu",
   "Common.UI.Calendar.textShortWednesday": "We",
   "Common.UI.Calendar.textYears": "年",
+  "Common.UI.SearchBar.textFind": "尋找",
+  "Common.UI.SearchBar.tipCloseSearch": "關閉搜索",
+  "Common.UI.SearchBar.tipNextResult": "下一個結果",
+  "Common.UI.SearchBar.tipPreviousResult": "上一個結果",
   "Common.UI.Themes.txtThemeClassicLight": "傳統亮色",
+  "Common.UI.Themes.txtThemeContrastDark": "暗色對比",
   "Common.UI.Themes.txtThemeDark": "暗",
   "Common.UI.Themes.txtThemeLight": "光",
+  "Common.UI.Themes.txtThemeSystem": "和系統一致",
   "Common.UI.Window.cancelButtonText": "取消",
   "Common.UI.Window.closeButtonText": "關閉",
   "Common.UI.Window.noButtonText": "沒有",
@@ -166,6 +172,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "打開文件所在位置",
   "DE.Views.ApplicationView.txtFullScreen": "全螢幕",
   "DE.Views.ApplicationView.txtPrint": "打印",
+  "DE.Views.ApplicationView.txtSearch": "搜索",
   "DE.Views.ApplicationView.txtShare": "分享",
   "DE.Views.ApplicationView.txtTheme": "介面主題"
 }

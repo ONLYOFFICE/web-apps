@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Ketinggian",
   "common.view.modals.txtShare": "Kongsi Pautan",
   "common.view.modals.txtWidth": "Lebar",
+  "common.view.SearchBar.textFind": "Cari",
   "DE.ApplicationController.convertationErrorText": "Penukaran telah gagal.",
   "DE.ApplicationController.convertationTimeoutText": "Melebihi masa tamat penukaran.",
   "DE.ApplicationController.criticalErrorTitle": "Ralat",
@@ -25,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Sambungan terlalu perlahan, beberapa komponen tidak dapat dimuatkan. Sila muat semula halaman.",
   "DE.ApplicationController.textAnonymous": "Tanpa Nama",
   "DE.ApplicationController.textClear": "Kosongkan Semua Medan",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "Faham",
   "DE.ApplicationController.textGuest": "Tetamu",
   "DE.ApplicationController.textLoadingDocument": "Dokumen dimuatkan",
@@ -35,7 +37,7 @@
   "DE.ApplicationController.textSubmited": "<b>Borang telah berjaya dihantar</b><br>Klik untuk menutup petua",
   "DE.ApplicationController.txtClose": "Tutup",
   "DE.ApplicationController.txtEmpty": "(Kosong)",
-  "DE.ApplicationController.txtPressLink": "Tekan Ctrl dan klik pautan",
+  "DE.ApplicationController.txtPressLink": "Tekan %1 dan klik pautan",
   "DE.ApplicationController.unknownErrorText": "Ralat tidak diketahui.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Pelayar anda tidak disokong.",
   "DE.ApplicationController.waitText": "Sila, tunggu…",
@@ -46,5 +48,6 @@
   "DE.ApplicationView.txtFileLocation": "Buka lokasi fail",
   "DE.ApplicationView.txtFullScreen": "Skrin penuh",
   "DE.ApplicationView.txtPrint": "Cetak",
+  "DE.ApplicationView.txtSearch": "Carian",
   "DE.ApplicationView.txtShare": "Kongsi"
 }

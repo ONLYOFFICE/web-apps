@@ -93,14 +93,14 @@ const PageApplicationSettings = props => {
                     </ListItem>
                     <ListItem title={t('View.Settings.textDarkTheme')}>
                         <Toggle checked={isThemeDark}
-                            onToggleChange={toggle => {Themes.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
+                            onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
                         </Toggle>
                     </ListItem>
                 </List>
 
-                <List mediaList>
-                    <ListItem title={t("View.Settings.textDirection")} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
-                </List>
+                {/*<List mediaList>*/}
+                {/*    <ListItem title={t("View.Settings.textDirection")} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
+                {/*</List>*/}
             {/* } */}
             {/* {_isShowMacros && */}
                 <List>

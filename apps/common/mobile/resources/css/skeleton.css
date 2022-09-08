@@ -92,6 +92,10 @@ body.theme-type-dark {
     animation: flickerAnimation 2s infinite ease-in-out;
 }
 
+.framework7-initializing .page-content {
+    display: none;
+}
+
 @keyframes flickerAnimation {
     0%   { opacity:0.1; }
     50%  { opacity:1; }

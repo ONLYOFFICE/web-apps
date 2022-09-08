@@ -51,6 +51,7 @@
 
             &.active, &:active {
                 .caret {
+                    border-color: @icon-normal-ie;
                     border-color: @icon-normal;
                 }
             }
@@ -68,6 +69,7 @@
     }
 
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
 
         .dataview.inner {
@@ -419,6 +421,7 @@
 
     .item, .menu-picker-container .dataview .group-items-container .item {
         padding: 0px;
+        margin: 2px;
         margin: @combo-dataview-item-margins;
         .box-shadow(none);
 

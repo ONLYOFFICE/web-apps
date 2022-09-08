@@ -248,6 +248,7 @@ define([
                 this.lockedControls.push(this.chRulers);
 
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
+                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
@@ -271,6 +272,14 @@ define([
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
                 return this.$el;
+            },
+
+            onAppReady: function () {
+                this.btnNavigation.updateHint(this.tipHeadings);
+                this.btnFitToPage.updateHint(this.tipFitToPage);
+                this.btnFitToWidth.updateHint(this.tipFitToWidth);
+                this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
+                this.btnDarkDocument.updateHint(this.tipDarkDocument);
             },
 
             show: function () {
@@ -313,7 +322,12 @@ define([
             textStatusBar: 'Status Bar',
             textAlwaysShowToolbar: 'Always show toolbar',
             textRulers: 'Rulers',
-            textDarkDocument: 'Dark document'
+            textDarkDocument: 'Dark document',
+            tipHeadings: 'Headings',
+            tipFitToPage: 'Fit to page',
+            tipFitToWidth: 'Fit to width',
+            tipInterfaceTheme: 'Interface theme',
+            tipDarkDocument: 'Dark document'
         }
     }()), DE.Views.ViewTab || {}));
 });

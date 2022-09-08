@@ -282,8 +282,8 @@ define([
             if ( me.appConfig.isEditDiagram ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
-                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
-                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
                 toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
@@ -299,8 +299,8 @@ define([
             if ( me.appConfig.isEditMailMerge ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
-                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
-                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
                 toolbar.btnSearch.on('toggle',                              _.bind(this.onSearch, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
@@ -310,8 +310,8 @@ define([
             if ( me.appConfig.isEditOle ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
-                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
-                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
                 toolbar.btnSearch.on('toggle',                              _.bind(this.onSearch, this));
                 toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
@@ -361,8 +361,10 @@ define([
                 toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
                 toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
-                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
-                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+                toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+                toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
+                toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
+                toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
                 toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
                 toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecreaseFontSize, this));
                 toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
@@ -559,10 +561,10 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Redo');
         },
 
-        onCopyPaste: function(copy, e) {
+        onCopyPaste: function(type, e) {
             var me = this;
             if (me.api) {
-                var res = (copy) ? me.api.asc_Copy() : me.api.asc_Paste();
+                var res = (type === 'cut') ? me.api.asc_Cut() : ((type === 'copy') ? me.api.asc_Copy() : me.api.asc_Paste());
                 if (!res) {
                     var value = Common.localStorage.getItem("sse-hide-copywarning");
                     if (!(value && parseInt(value) == 1)) {
@@ -577,6 +579,14 @@ define([
                     Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+        },
+
+        onSelectAll: function(e) {
+            if (this.api)
+                this.api.asc_EditSelectAll();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Select All');
         },
 
         onIncreaseFontSize: function(e) {
@@ -2134,8 +2144,28 @@ define([
 //            }
         },
 
-        onTableTplMenuOpen: function(cmp) {
+        onTableTplMenuOpen: function(menu) {
             this.onApiInitTableTemplates(this.api.asc_getTablePictures(this.api.asc_getCellInfo().asc_getFormatTableInfo()));
+
+            if (menu && this.toolbar.mnuTableTemplatePicker) {
+                var picker = this.toolbar.mnuTableTemplatePicker,
+                    columnCount = 7;
+
+                if (picker.cmpEl) {
+                    var itemEl = $(picker.cmpEl.find('.dataview.inner .item-template').get(0)).parent(),
+                        itemMargin = 8,
+                        itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) : 60;
+
+                    var menuWidth = columnCount * (itemMargin + itemWidth) + 11, // for scroller
+                        menuMargins = parseFloat(picker.cmpEl.css('margin-left')) + parseFloat(picker.cmpEl.css('margin-right'));
+                    if (menuWidth + menuMargins>Common.Utils.innerWidth())
+                        menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-menuMargins-11)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 11;
+                    picker.cmpEl.css({
+                        'width': menuWidth
+                    });
+                    menu.alignPosition();
+                }
+            }
 
             var scroller = this.toolbar.mnuTableTemplatePicker.scroller;
             if (scroller) {
@@ -4372,6 +4402,7 @@ define([
                         me.toolbar.btnPaste.$el.detach().appendTo($box);
                         me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                         me.toolbar.btnCopy.$el.removeClass('split');
+                        me.toolbar.processPanelVisible(null, true, true);
                     }
 
                     var tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};

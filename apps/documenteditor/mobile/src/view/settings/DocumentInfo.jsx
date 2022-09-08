@@ -8,7 +8,6 @@ const PageDocumentInfo = (props) => {
     const _t = t("Settings", { returnObjects: true });
     const storeInfo = props.storeDocumentInfo;
     const fileType = storeInfo.dataDoc.fileType;
-
     const dataApp = props.getAppProps();
     
     const {

@@ -14,78 +14,6 @@ const contentStyle = {
     flexGrow: 1
 };
 
-const FunctionInfo = props => {
-    const { t } = useTranslation();
-    const _t = t('View.Add', {returnObjects: true});
-    const functionObj = props.functionObj;
-    const functionInfo = props.functionInfo;
-
-    useEffect(() => {
-        const functionsList = document.querySelector('#functions-list');
-        const height = functionsList.offsetHeight + 'px';
-
-        functionsList.closest('.view').style.height = '200px';
-
-        return () => {
-            functionsList.closest('.view').style.height = height;
-        }
-    }, []);
-
-    return (
-        <Page className='page-function-info'>
-            <Navbar title={functionInfo.caption} backLink={_t.textBack} backLinkUrl='/functions-list/'>
-                <NavRight>
-                    <Link text={t('View.Add.textInsert')} onClick={() => props.insertFormula(functionObj.name, functionObj.type)}></Link>
-                </NavRight>
-            </Navbar>
-            <div className='function-info'>
-                <h3>{functionInfo.caption && functionInfo.args ? `${functionInfo.caption} ${functionInfo.args}` : functionInfo.name}</h3>
-                <p>{functionInfo.descr}</p>
-            </div>
-        </Page>
-    )
-}
-
-const FunctionsList = props => {
-    const isPhone = Device.isPhone;
-    const functions = props.functions;
-    const funcArr = props.funcArr;
-    const hintArr = props.hintArr;
-
-    useEffect(() => {
-        const functionsList = document.querySelector('#functions-list');
-        const height = functionsList.offsetHeight + 'px';
-
-        functionsList.closest('.view').style.height = height;
-    }, [funcArr]);
-
-    return (
-        <div id="functions-list" className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
-            <List>
-                {funcArr && funcArr.length && funcArr.map((elem, index) => {
-                    return (
-                        <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
-                            {(functions[elem.name] || hintArr[index]?.descr) &&
-                                <div slot='after'
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        let functionInfo = functions[elem.name] || hintArr[index];
-
-                                        if(functionInfo) {    
-                                            f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
-                                        }
-                                    }}>
-                                    <Icon icon='icon-info'/>
-                                </div>
-                            }
-                        </ListItem>
-                    )
-                })}
-            </List>
-        </div>
-    )
-}
-
 const CellEditorView = props => {
     const [expanded, setExpanded] = useState(false);
     const isPhone = Device.isPhone;
@@ -132,9 +60,9 @@ const CellEditorView = props => {
                         <View style={{height: '200px'}} routes={routes}>
                             <Page pageContent={false}>
                                 <Navbar className="navbar-hidden" />
-                                <FunctionsList 
+                                <FunctionsList
                                     functions={functions}
-                                    funcArr={funcArr} 
+                                    funcArr={funcArr}
                                     hintArr={hintArr}
                                     insertFormula={props.insertFormula}
                                 />
@@ -146,6 +74,80 @@ const CellEditorView = props => {
         </>
     );
 };
+
+const FunctionsList = props => {
+    const isPhone = Device.isPhone;
+    const functions = props.functions;
+    const funcArr = props.funcArr;
+    const hintArr = props.hintArr;
+    const functionsList = document.querySelector('#functions-list');
+
+    useEffect(() => {
+        if(functionsList) {
+            const height = functionsList.offsetHeight + 'px';
+            functionsList.closest('.view').style.height = height;
+        }
+    }, [funcArr]);
+
+    return (
+        <div id="functions-list" className={isPhone ? 'functions-list functions-list__mobile' : 'functions-list'}>
+            <List>
+                {funcArr && funcArr.length && funcArr.map((elem, index) => {
+                    return (
+                        <ListItem key={index} title={elem.name} className="no-indicator" onClick={() => props.insertFormula(elem.name, elem.type)}>
+                            {(functions[elem.name] || hintArr[index]?.descr) &&
+                                <div slot='after'
+                                     onClick={(e) => {
+                                         e.stopPropagation();
+                                         let functionInfo = functions[elem.name] || hintArr[index];
+
+                                         if(functionInfo) {
+                                             f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
+                                         }
+                                     }}>
+                                    <Icon icon='icon-info'/>
+                                </div>
+                            }
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </div>
+    )
+}
+
+const FunctionInfo = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Add', {returnObjects: true});
+    const functionObj = props.functionObj;
+    const functionInfo = props.functionInfo;
+    const functionsList = document.querySelector('#functions-list');
+
+    useEffect(() => {
+        if(functionsList) {
+            const height = functionsList.offsetHeight + 'px';
+            functionsList.closest('.view').style.height = '200px';
+
+            return () => {
+                functionsList.closest('.view').style.height = height;
+            }
+        }
+    }, [functionsList]);
+
+    return (
+        <Page className='page-function-info'>
+            <Navbar title={functionInfo.caption} backLink={_t.textBack} backLinkUrl='/functions-list/'>
+                <NavRight>
+                    <Link text={t('View.Add.textInsert')} onClick={() => props.insertFormula(functionObj.name, functionObj.type)}></Link>
+                </NavRight>
+            </Navbar>
+            <div className='function-info'>
+                <h3>{functionInfo.caption && functionInfo.args ? `${functionInfo.caption} ${functionInfo.args}` : functionInfo.name}</h3>
+                <p>{functionInfo.descr}</p>
+            </div>
+        </Page>
+    )
+}
 
 const routes = [
     {
