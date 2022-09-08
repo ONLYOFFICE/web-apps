@@ -297,6 +297,10 @@ define([
                     config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.saveErrorTextDesktop : this.saveErrorText;
                     break;
 
+                case Asc.c_oAscError.ID.TextFormWrongFormat:
+                    config.msg = this.errorTextFormWrongFormat;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     break;
@@ -1902,7 +1906,8 @@ define([
         textSaveAs: 'Save as PDF',
         textSaveAsDesktop: 'Save as...',
         warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-        titleLicenseExp: 'License expired'
+        titleLicenseExp: 'License expired',
+        errorTextFormWrongFormat: 'The value entered does not match the format of the field.'
 
     }, DE.Controllers.ApplicationController));
 
