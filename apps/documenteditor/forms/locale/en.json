@@ -108,6 +108,7 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "DE.Controllers.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print it until the connection is restored and page is reloaded.",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "The value entered does not match the format of the field.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Image from File",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Image from Storage",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Image from URL",

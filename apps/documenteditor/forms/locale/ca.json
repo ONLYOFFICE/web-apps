@@ -106,6 +106,7 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "La connexió a internet s'ha restaurat i la versió del fitxer s'ha canviat. <br>Abans de continuar treballant, heu de descarregar el fitxer o copiar-ne el contingut per assegurar-vos que no es perdi res i, després, tornar a carregar aquesta pàgina.",
   "DE.Controllers.ApplicationController.errorUserDrop": "No es pot accedir al fitxer.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "S'ha perdut la connexió. Encara podeu visualitzar el document, <br>però no el podreu baixar ni imprimir fins que no es restableixi la connexió i es torni a carregar la pàgina.",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "El valor introduït no es correspon amb el format del camp",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Imatge del fitxer",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Imatge de l'emmagatzematge",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Imatge d'URL",
