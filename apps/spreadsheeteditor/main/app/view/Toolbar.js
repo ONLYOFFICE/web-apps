@@ -1284,7 +1284,7 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 100,
                     itemHeight      : 20,
-                    style: 'min-width:158px;',
+                    style: 'min-width:158px; max-width:663px;',
                     groups: new Common.UI.DataViewGroupStore([
                         {id: 'menu-style-group-custom',     caption: this.textCustom },
                         {id: 'menu-style-group-color',      caption: this.textGoodBadAndNeutral },
@@ -1302,8 +1302,7 @@ define([
                     delayRenderTips: true,
                     beforeOpenHandler: function(e) {
                         var cmp = this,
-                            menu = cmp.openButton.menu,
-                            minMenuColumn = 6;
+                            menu = cmp.openButton.menu;
 
                         if (menu.cmpEl) {
                             var itemEl = $(menu.menuRoot.find('.dataview .item').get(0));
@@ -1314,10 +1313,7 @@ define([
                                 (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                 parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
 
-                            var minCount        = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
-                                columnCount     = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth) + 0.5));
-
-                            columnCount = columnCount < minCount ? minCount : columnCount;
+                            var columnCount = 6;
                             menu.menuAlignEl = cmp.cmpEl;
 
                             menu.menuAlign = 'tl-tl';
