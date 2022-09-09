@@ -550,7 +550,7 @@ define([
                     if (item.value === 'all') {
                         this.api.asc_AcceptAllChanges();
                     } else {
-                        this.api.asc_AcceptChangesBySelection();
+                        this.api.asc_AcceptChangesBySelection(true); // accept and move to the next change
                     }
                 } else {
                     this.api.asc_AcceptChanges(menu);
@@ -565,7 +565,7 @@ define([
                     if (item.value === 'all') {
                         this.api.asc_RejectAllChanges();
                     } else {
-                        this.api.asc_RejectChangesBySelection();
+                        this.api.asc_RejectChangesBySelection(true); // reject and move to the next change
                     }
                 } else {
                     this.api.asc_RejectChanges(menu);
