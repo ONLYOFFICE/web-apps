@@ -283,7 +283,7 @@ define([
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
-                            columnCount = 4;
+                            columnCount = 7;
 
                         if (menu.cmpEl) {
                             var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
