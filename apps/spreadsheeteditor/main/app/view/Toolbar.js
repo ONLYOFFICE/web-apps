@@ -1313,7 +1313,7 @@ define([
                         {id: 'menu-style-group-number',     caption: this.textNumberFormat },
                         {id: 'menu-style-group-no-name',    caption: this.textNoName }
                     ]),
-                    menuMaxHeight   : 350,
+                    menuMaxHeight   : 380,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
                     dataHintDirection: 'bottom',
