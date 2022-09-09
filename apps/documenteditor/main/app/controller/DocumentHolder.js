@@ -1772,9 +1772,9 @@ define([
         onAcceptRejectChange: function(item, e) {
             if (this.api) {
                 if (item.value == 'accept')
-                    this.api.asc_AcceptChanges();
+                    this.api.asc_AcceptChangesBySelection();
                 else if (item.value == 'reject')
-                    this.api.asc_RejectChanges();
+                    this.api.asc_RejectChangesBySelection();
             }
             this.editComplete();
         },
