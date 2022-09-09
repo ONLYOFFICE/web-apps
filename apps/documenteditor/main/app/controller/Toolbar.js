@@ -3343,7 +3343,6 @@ define([
                     } else {
                         menu.store.add(arr);
                     }
-                    menu.onResetItems();
                     menu.on('item:click', function(picker, item, record, e) {
                         if (record) {
                             me.api.asc_createSmartArt(record.get('value'));
