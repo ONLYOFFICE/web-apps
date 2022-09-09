@@ -1336,9 +1336,9 @@ define([
                             menu.menuAlignEl = cmp.cmpEl;
 
                             menu.menuAlign = 'tl-tl';
-                            var dataviewEl = $(menu.menuRoot.find('.dataview').get(0)),
-                                paddings = parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(dataviewEl.css('padding-left')) + parseFloat(dataviewEl.css('padding-right')),
-                                menuWidth = + columnCount * (itemWidth + itemMargin) + paddings,
+                            var menuPickerEl = $(menu.menuRoot.find('.menu-picker-container').get(0)),
+                                paddings = 15 + parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(menuPickerEl.css('margin-left')) + parseFloat(menuPickerEl.css('margin-right')),
+                                menuWidth = Math.ceil(+ columnCount * (itemWidth + itemMargin) + paddings),
                                 buttonOffsetLeft = cmp.openButton.$el.offset().left;
                             if (menuWidth>Common.Utils.innerWidth())
                                 menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-paddings)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + paddings;
