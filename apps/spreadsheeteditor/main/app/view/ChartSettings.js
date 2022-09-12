@@ -893,7 +893,7 @@ define([
             this.btnUp = new Common.UI.Button({
                 parentEl: $('#chart-btn-y-up', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-y-clockwise',
                 hint: this.textUp,
                 dataHint: '1',
                 dataHintDirection: 'top'
@@ -906,7 +906,7 @@ define([
             this.btnDown= new Common.UI.Button({
                 parentEl: $('#chart-btn-y-down', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-y-counterclockwise',
                 hint: this.textDown,
                 dataHint: '1',
                 dataHintDirection: 'top'
@@ -935,7 +935,7 @@ define([
             this.btnNarrow = new Common.UI.Button({
                 parentEl: $('#chart-btn-narrow', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-up',
                 hint: this.textNarrow,
                 dataHint: '1',
                 dataHintDirection: 'top'
@@ -948,7 +948,7 @@ define([
             this.btnWiden= new Common.UI.Button({
                 parentEl: $('#chart-btn-widen', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-down',
                 hint: this.textWiden,
                 dataHint: '1',
                 dataHintDirection: 'top'
