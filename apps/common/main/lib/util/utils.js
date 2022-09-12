@@ -1092,3 +1092,12 @@ Common.Utils.getKeyByValue = function(obj, value) {
         }
     }
 };
+
+Common.UI.isRTL = function () {
+    if ( window.isrtl == undefined ) {
+        window.isrtl = Common.localStorage.itemExists('ui-rtl') ?
+                            Common.localStorage.getBool("ui-rtl") : Common.Locale.isCurrentLanguageRtl();
+    }
+
+    return window.isrtl;
+};
