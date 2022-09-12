@@ -142,7 +142,7 @@ define([
 
         onInputSearchChange: function (text) {
             var me = this;
-            if (this._state.searchText !== text) {
+            if ((text && this._state.searchText !== text) || (!text && this._state.newSearchText)) {
                 this._state.newSearchText = text;
                 this._lastInputChange = (new Date());
                 if (this.searchTimer === undefined) {
