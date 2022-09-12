@@ -117,7 +117,11 @@
                         if ((new Date()) - _lastInputChange < 400) return;
 
                         _state.searchText = _state.newSearchText;
-                        (_state.newSearchText !== '') && onQuerySearch();
+                        if (_state.newSearchText !== '') {
+                            onQuerySearch();
+                        } else {
+                            api.asc_endFindText();
+                        }
                         clearInterval(_searchTimer);
                         _searchTimer = undefined;
                     }, 10);
