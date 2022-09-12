@@ -107,7 +107,7 @@
         };
 
         var onInputSearchChange = function (text) {
-            if (_state.searchText !== text) {
+            if ((text && _state.searchText !== text) || (!text && _state.newSearchText)) {
                 _state.newSearchText = text;
                 _lastInputChange = (new Date());
                 if (_searchTimer === undefined) {
