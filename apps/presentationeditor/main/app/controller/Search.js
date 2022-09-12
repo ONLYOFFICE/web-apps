@@ -151,6 +151,8 @@ define([
 
                         me._state.searchText = me._state.newSearchText;
                         if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
+                            me.api.asc_endFindText();
+                            me.hideResults();
                             me.view.updateResultsNumber('no-results');
                             me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
