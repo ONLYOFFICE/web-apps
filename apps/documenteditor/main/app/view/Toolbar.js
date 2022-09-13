@@ -783,7 +783,7 @@ define([
                     this.btnInsertSmartArt = new Common.UI.Button({
                         id: 'tlbtn-insertsmartart',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon',
+                        iconCls: 'toolbar__icon smart-art',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain,  _set.contentLock,  _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart],
                         caption: me.capBtnInsSmartArt,
@@ -2225,6 +2225,7 @@ define([
                     me.btnInsertSmartArt.menu.addItem({
                         caption: item.caption,
                         value: item.id,
+                        iconCls: 'menu__icon ' + item.icon,
                         menu: new Common.UI.Menu({
                             items: [
                                 {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: 400px; height: 500px; margin-left: 5px;"></div>')}

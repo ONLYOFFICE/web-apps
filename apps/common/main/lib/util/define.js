@@ -1501,14 +1501,14 @@ define(function(){ 'use strict';
 
             getSmartArtGroupData: function(headername) {
                 return [
-                    {id: 'menu-smart-art-group-list', caption: this.textList},
-                    {id: 'menu-smart-art-group-process', caption: this.textProcess},
-                    {id: 'menu-smart-art-group-cycle', caption: this.textCycle},
-                    {id: 'menu-smart-art-group-hierarchy', caption: this.textHierarchy},
-                    {id: 'menu-smart-art-group-relationship', caption: this.textRelationship},
-                    {id: 'menu-smart-art-group-matrix', caption: this.textMatrix},
-                    {id: 'menu-smart-art-group-pyramid', caption: this.textPyramid},
-                    {id: 'menu-smart-art-group-picture', caption: this.textPicture},
+                    {id: 'menu-smart-art-group-list', caption: this.textList, icon: 'smart-list'},
+                    {id: 'menu-smart-art-group-process', caption: this.textProcess, icon: 'smart-process'},
+                    {id: 'menu-smart-art-group-cycle', caption: this.textCycle, icon: 'smart-cycle'},
+                    {id: 'menu-smart-art-group-hierarchy', caption: this.textHierarchy, icon: 'smart-hierarchy'},
+                    {id: 'menu-smart-art-group-relationship', caption: this.textRelationship, icon: 'smart-relationship'},
+                    {id: 'menu-smart-art-group-matrix', caption: this.textMatrix, icon: 'smart-matrix'},
+                    {id: 'menu-smart-art-group-pyramid', caption: this.textPyramid, icon: 'smart-pyramid'},
+                    {id: 'menu-smart-art-group-picture', caption: this.textPicture, icon: 'btn-menu-image'},
                 ];
             },
 
