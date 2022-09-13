@@ -1,15 +1,14 @@
 {{#spritesheet}}
 .btn {
     .options__icon.options__icon-huge {
-        background-position-x: -40px;
+        background-position-x: 0;
         background-position-x: var(--button-huge-normal-icon-offset-x,0);
     }
 
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .options__icon.options__icon-huge {
-                @btn-active-icon-offset: -40px;
-                background-position-x: @btn-active-icon-offset;
+                background-position-x: 0;
                 background-position-x: var(--button-huge-active-icon-offset-x,0);
             }
         }
