@@ -197,7 +197,12 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         const arr = [];
 
-        arrayElements.forEach( item => arr.push(item.id));
+        arrayElements.forEach( item => {
+            let data = item.drawdata;
+            data['divId'] = item.id;
+            arr.push(data);
+        });
+
         if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);
     }
 

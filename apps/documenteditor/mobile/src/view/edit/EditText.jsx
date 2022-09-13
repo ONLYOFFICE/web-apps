@@ -189,18 +189,18 @@ const PageBullets = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
     const bulletArrays = [
-        { type: 0, subtype: -1 },
-        { type: 0, subtype: 1 },
-        { type: 0, subtype: 2 },
-        { type: 0, subtype: 3 },
-        { type: 0, subtype: 4 },
-        { type: 0, subtype: 5 },
-        { type: 0, subtype: 6 },
-        { type: 0, subtype: 7 }
+        {id: 'id-markers-0', type: 0, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'} },
+        {id: 'id-markers-1', type: 0, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'} },
+        {id: 'id-markers-2', type: 0, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.char, char: 'o', specialFont: 'Courier New'} },
+        {id: 'id-markers-3', type: 0, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'} },
+        {id: 'id-markers-4', type: 0, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'} },
+        {id: 'id-markers-5', type: 0, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'} },
+        {id: 'id-markers-6', type: 0, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'} },
+        {id: 'id-markers-7', type: 0, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'} }
     ];
 
     useEffect(() => {
-        props.getIconsBulletsAndNumbers($$('.item-marker'), 0);
+        props.getIconsBulletsAndNumbers(bulletArrays, 0);
     }, []);
     
     return(
@@ -213,7 +213,7 @@ const PageBullets = observer( props => {
                             storeTextSettings.resetBullets(bullet.subtype);
                             props.onBullet(bullet.subtype);
                         }}>
-                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'></div>
+                        <div id={bullet.id} className='item-marker'></div>
                     </ListItem>
                 ))}
             </List>
@@ -225,18 +225,18 @@ const PageNumbers = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
     const numberArrays = [
-        { type: 1, subtype: -1},
-        { type: 1, subtype: 4 },
-        { type: 1, subtype: 5 },
-        { type: 1, subtype: 6 },
-        { type: 1, subtype: 1 },
-        { type: 1, subtype: 2 },
-        { type: 1, subtype: 3 },
-        { type: 1, subtype: 7 }
+        {id: 'id-numbers-0', type: 1, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'}},
+        {id: 'id-numbers-4', type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}},
+        {id: 'id-numbers-5', type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}},
+        {id: 'id-numbers-6', type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}},
+        {id: 'id-numbers-1', type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}},
+        {id: 'id-numbers-2', type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}},
+        {id: 'id-numbers-3', type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}},
+        {id: 'id-numbers-7', type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}}
     ];
 
     useEffect(() => {
-        props.getIconsBulletsAndNumbers($$('.item-number'), 1);
+        props.getIconsBulletsAndNumbers(numberArrays, 1);
     }, []);
     
     return (
@@ -249,7 +249,7 @@ const PageNumbers = observer( props => {
                                 storeTextSettings.resetNumbers(number.subtype);
                                 props.onNumber(number.subtype);
                             }}>
-                            <div id={`id-numbers-${number.subtype}`} className='item-number'></div>
+                            <div id={number.id} className='item-number'></div>
                         </ListItem>
                     ))}
             </List>
@@ -261,14 +261,14 @@ const PageMultiLevel = observer( props => {
     const storeTextSettings = props.storeTextSettings;
     const typeMultiLevel = storeTextSettings.typeMultiLevel;
     const arrayMultiLevel = [
-        { type: 2, subtype: -1 },
-        { type: 2, subtype: 1 },
-        { type: 2, subtype: 2 },
-        { type: 2, subtype: 3 },
+        { id: 'id-multilevels-0', type: 2, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'} },
+        { id: 'id-multilevels-1', type: 2, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.multiLevel, numberingType: Asc.c_oAscMultiLevelNumbering.MultiLevel1} },
+        { id: 'id-multilevels-2', type: 2, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.multiLevel, numberingType: Asc.c_oAscMultiLevelNumbering.MultiLevel2} },
+        { id: 'id-multilevels-3', type: 2, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.multiLevel, numberingType: Asc.c_oAscMultiLevelNumbering.MultiLevel3} },
     ];
 
     useEffect(() => {
-        props.getIconsBulletsAndNumbers($$('.item-multilevellist'), 2);
+        props.getIconsBulletsAndNumbers(arrayMultiLevel, 2);
     }, []);
 
     return(
@@ -280,7 +280,7 @@ const PageMultiLevel = observer( props => {
                         data-type={item.subtype} 
                         className={item.subtype === typeMultiLevel && storeTextSettings.listType === -1  ? 'active' : ''}
                         onClick={() => props.onMultiLevelList(item.subtype)}>
-                            <div id={`id-multilevellists-${item.subtype}`} className='item-multilevellist'>
+                            <div id={item.id} className='item-multilevellist'>
 
                             </div>
                         </ListItem>
