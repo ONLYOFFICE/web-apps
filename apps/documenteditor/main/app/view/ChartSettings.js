@@ -364,7 +364,7 @@ define([
                 this.spnX.setValue(this.spnX.getNumberValue() - 10);
             }, this));
 
-            this.btnRight= new Common.UI.Button({
+            this.btnRight = new Common.UI.Button({
                 parentEl: $('#chart-btn-x-right', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-rotate-90',
@@ -783,92 +783,92 @@ define([
         },
 
         onXRotation: function(field, newValue, oldValue, eOpts){
-            if (this.api){
-                var props = this.api.asc_getChartObject();
-                if (props) {
-                    var oView3D = props.getView3d();
-                    if (oView3D) {
-                        oView3D.asc_setRotX(field.getNumberValue());
-                        props.startEdit();
-                        props.setView3d(oView3D);
-                        props.endEdit();
-                    }
+            if (this._noApply) return;
+
+            if (this.chartProps) {
+                var props = new Asc.asc_CImgProperty();
+                var oView3D = this.chartProps.getView3d();
+                if (oView3D) {
+                    oView3D.asc_setRotX(field.getNumberValue());
+                    this.chartProps.putView3d(oView3D);
+                    props.put_ChartProperties(this.chartProps);
+                    this.api.ImgApply(props);
                 }
             }
         },
 
         onYRotation: function(field, newValue, oldValue, eOpts){
-            if (this.api){
-                var props = this.api.asc_getChartObject();
-                if (props) {
-                    var oView3D = props.getView3d();
-                    if (oView3D) {
-                        oView3D.asc_setRotY(field.getNumberValue());
-                        props.startEdit();
-                        props.setView3d(oView3D);
-                        props.endEdit();
-                    }
+            if (this._noApply) return;
+
+            if (this.chartProps) {
+                var props = new Asc.asc_CImgProperty();
+                var oView3D = this.chartProps.getView3d();
+                if (oView3D) {
+                    oView3D.asc_setRotY(field.getNumberValue());
+                    this.chartProps.putView3d(oView3D);
+                    props.put_ChartProperties(this.chartProps);
+                    this.api.ImgApply(props);
                 }
             }
         },
 
         onPerspective: function(field, newValue, oldValue, eOpts){
-            if (this.api){
-                var props = this.api.asc_getChartObject();
-                if (props) {
-                    var oView3D = props.getView3d();
-                    if (oView3D) {
-                        oView3D.asc_setPerspective(field.getNumberValue());
-                        props.startEdit();
-                        props.setView3d(oView3D);
-                        props.endEdit();
-                    }
+            if (this._noApply) return;
+
+            if (this.chartProps) {
+                var props = new Asc.asc_CImgProperty();
+                var oView3D = this.chartProps.getView3d();
+                if (oView3D) {
+                    oView3D.asc_setPerspective(field.getNumberValue());
+                    this.chartProps.putView3d(oView3D);
+                    props.put_ChartProperties(this.chartProps);
+                    this.api.ImgApply(props);
                 }
             }
         },
 
         on3DDepth: function(field, newValue, oldValue, eOpts){
-            if (this.api){
-                var props = this.api.asc_getChartObject();
-                if (props) {
-                    var oView3D = props.getView3d();
-                    if (oView3D) {
-                        oView3D.asc_setDepth(field.getNumberValue());
-                        props.startEdit();
-                        props.setView3d(oView3D);
-                        props.endEdit();
-                    }
+            if (this._noApply) return;
+
+            if (this.chartProps) {
+                var props = new Asc.asc_CImgProperty();
+                var oView3D = this.chartProps.getView3d();
+                if (oView3D) {
+                    oView3D.asc_setDepth(field.getNumberValue());
+                    this.chartProps.putView3d(oView3D);
+                    props.put_ChartProperties(this.chartProps);
+                    this.api.ImgApply(props);
                 }
             }
         },
 
         on3DHeight: function(field, newValue, oldValue, eOpts){
-            if (this.api){
-                var props = this.api.asc_getChartObject();
-                if (props) {
-                    var oView3D = props.getView3d();
-                    if (oView3D) {
-                        oView3D.asc_setHeight(field.getNumberValue());
-                        props.startEdit();
-                        props.setView3d(oView3D);
-                        props.endEdit();
-                    }
+            if (this._noApply) return;
+
+            if (this.chartProps) {
+                var props = new Asc.asc_CImgProperty();
+                var oView3D = this.chartProps.getView3d();
+                if (oView3D) {
+                    oView3D.asc_setHeight(field.getNumberValue());
+                    this.chartProps.putView3d(oView3D);
+                    props.put_ChartProperties(this.chartProps);
+                    this.api.ImgApply(props);
                 }
             }
         },
 
         onDefRotation: function() {
-            if (this.api){
-                var props = this.api.asc_getChartObject();
-                if (props) {
-                    var oView3D = props.getView3d();
-                    if (oView3D) {
-                        oView3D.asc_setRotX(20);
-                        oView3D.asc_setRotY(15);
-                        props.startEdit();
-                        props.setView3d(oView3D);
-                        props.endEdit();
-                    }
+            if (this._noApply) return;
+
+            if (this.chartProps) {
+                var props = new Asc.asc_CImgProperty();
+                var oView3D = this.chartProps.getView3d();
+                if (oView3D) {
+                    oView3D.asc_setRotX(20);
+                    oView3D.asc_setRotY(15);
+                    this.chartProps.putView3d(oView3D);
+                    props.put_ChartProperties(this.chartProps);
+                    this.api.ImgApply(props);
                 }
             }
         },
