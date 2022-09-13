@@ -1369,7 +1369,9 @@ define([
             var store = picker.store;
             var arr = [];
             store.each(function(item){
-                arr.push(item.get('id'));
+                var data = item.get('drawdata');
+                data['divId'] = item.get('id');
+                arr.push(data);
             });
             if (this.api) {
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
