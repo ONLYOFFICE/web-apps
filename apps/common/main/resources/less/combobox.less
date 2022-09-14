@@ -18,10 +18,27 @@
 
         border-top-right-radius: 2px !important;
         border-bottom-right-radius: 2px !important;
+
+        .rtl & {
+            border-top-left-radius: 2px !important;
+            border-bottom-left-radius: 2px !important;
+        }
+    }
+
+    &.input-group-nr > .btn {
+        .rtl & {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
     }
 
     &.input-group-nr > .form-control {
         padding-right: 7px + 2 * @padding-base-horizontal;
+
+        .rtl & {
+            padding-right: 3px;
+            padding-left: 7px + 2 * @padding-base-horizontal;
+        }
     }
 
     .form-control {
@@ -39,6 +56,12 @@
             line-height: 20px;
             padding-left: 2px;
         }
+
+        .rtl & {
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
+            border-left: 0;
+        }
     }
 
     .btn {
@@ -52,6 +75,16 @@
         position: absolute;
         top: 0;
         right: 0;
+
+        .rtl & {
+            border: @scaled-one-px-value-ie solid;
+            border: @scaled-one-px-value solid;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: 0;
+            right: unset;
+            left: 0;
+        }
     }
 
     .btn-default:not(.disabled),
@@ -61,6 +94,11 @@
         border-color: @border-regular-control-ie;
         border-color: @border-regular-control;
         padding-right: 5px;
+
+        .rtl & {
+            padding-right: 3px;
+            padding-left: 5px;
+        }
     }
 
     .btn-default.disabled {
