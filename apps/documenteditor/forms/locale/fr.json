@@ -102,6 +102,7 @@
   "DE.Controllers.ApplicationController.errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
   "DE.Controllers.ApplicationController.errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",
   "DE.Controllers.ApplicationController.errorSubmit": "Échec de soumission",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "La valeur saisie ne correspond pas au format du champ.",
   "DE.Controllers.ApplicationController.errorToken": "Le jeton de sécurité du document n’était pas formé correctement.<br>Veuillez contacter votre administrateur de Document Server.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "Le jeton de sécurité du document a expiré.<br>Veuillez contactez l'administrateur de Document Server.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",

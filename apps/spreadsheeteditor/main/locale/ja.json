@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "一意",
   "Common.define.conditionalData.textValue": "値が",
   "Common.define.conditionalData.textYesterday": "昨日",
+  "Common.Translation.textMoreButton": "もっと",
   "Common.Translation.warnFileLocked": "文書が他のアプリで編集されています。編集を続けて、コピーとして保存できます。",
   "Common.Translation.warnFileLockedBtnEdit": "コピーを作成する",
   "Common.Translation.warnFileLockedBtnView": "見に開く",

@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Eindeutig",
   "Common.define.conditionalData.textValue": "Wert ist",
   "Common.define.conditionalData.textYesterday": "Gestern",
+  "Common.Translation.textMoreButton": "Mehr",
   "Common.Translation.warnFileLocked": "Die Datei wird in einer anderen App bearbeitet. Sie können die Bearbeitung fortsetzen und die Kopie dieser Datei speichern.",
   "Common.Translation.warnFileLockedBtnEdit": "Kopie erstellen",
   "Common.Translation.warnFileLockedBtnView": "Schreibgeschützt öffnen",
