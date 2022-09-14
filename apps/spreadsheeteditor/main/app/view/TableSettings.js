@@ -524,14 +524,13 @@ define([
                     cls         : 'btn-large-dataview sheet-template-table',
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
-                        style: 'width: 505px;',
                         items: [
-                            { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
+                            { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 0 4px;"></div>') }
                         ]
                     }),
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
                 });
                 this.btnTableTemplate.on('render:after', function(btn) {
                     self.mnuTableTemplatePicker = new Common.UI.DataView({
@@ -540,11 +539,47 @@ define([
                         restoreHeight: 325,
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="44" width="60"></div>'),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-template"><img src="<%= imageUrl %>" height="44" width="60"></div>'),
                         style: 'max-height: 325px;',
                         delayRenderTips: true
                     });
                 });
+
+                this.btnTableTemplate.menu.on('show:before', function(menu) {
+                    if (menu && self.mnuTableTemplatePicker) {
+                        var picker = self.mnuTableTemplatePicker,
+                            columnCount = 7;
+        
+                        if (picker.cmpEl) {
+                            var itemEl = $(picker.cmpEl.find('.dataview.inner .item-template').get(0)).parent(),
+                                itemMargin = 8,
+                                itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) : 60;
+        
+                            var menuWidth = columnCount * (itemMargin + itemWidth) + 11, // for scroller
+                                menuMargins = parseFloat(picker.cmpEl.css('margin-left')) + parseFloat(picker.cmpEl.css('margin-right'));
+                            if (menuWidth + menuMargins>Common.Utils.innerWidth())
+                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-menuMargins-11)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 11;
+                            picker.cmpEl.css({
+                                'width': menuWidth
+                            });
+                            menu.alignPosition();
+                        }
+                    }
+
+                    var scroller = self.mnuTableTemplatePicker.scroller;
+                    if (scroller) {
+                        scroller.update({alwaysVisibleY: true});
+                        scroller.scrollTop(0);
+                    }
+        
+                    var val = self.mnuTableTemplatePicker.store.findWhere({name: self._state.tablestylename});
+                    if (val)
+                        self.mnuTableTemplatePicker.selectRecord(val);
+                    else
+                        self.mnuTableTemplatePicker.deselectAll();
+                    
+                });
+
                 this.btnTableTemplate.render($('#table-btn-template'));
                 this.lockedControls.push(this.btnTableTemplate);
                 this.mnuTableTemplatePicker.on('item:click', _.bind(this.onTableTemplateSelect, this, this.btnTableTemplate));
