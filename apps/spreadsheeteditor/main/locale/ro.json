@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Unice",
   "Common.define.conditionalData.textValue": "Valoarea este",
   "Common.define.conditionalData.textYesterday": "Ieri",
+  "Common.Translation.textMoreButton": "Mai multe",
   "Common.Translation.warnFileLocked": "Fișierul este editat într-o altă aplicație. Puteți continua să editați și să-l salvați ca o copie.",
   "Common.Translation.warnFileLockedBtnEdit": "Crează o copie",
   "Common.Translation.warnFileLockedBtnView": "Deschide vizualizarea",

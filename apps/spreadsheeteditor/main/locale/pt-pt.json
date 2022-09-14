@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Único",
   "Common.define.conditionalData.textValue": "Valor é",
   "Common.define.conditionalData.textYesterday": "Ontem",
+  "Common.Translation.textMoreButton": "Mais",
   "Common.Translation.warnFileLocked": "O ficheiro está a ser editado por outra aplicação. Pode continuar a trabalhar mas terá que guardar uma cópia.",
   "Common.Translation.warnFileLockedBtnEdit": "Criar uma cópia",
   "Common.Translation.warnFileLockedBtnView": "Abrir para visualizar",
