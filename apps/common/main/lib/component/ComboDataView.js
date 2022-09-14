@@ -56,6 +56,7 @@ define([
             itemWidth           : 80,
             itemHeight          : 40,
             menuMaxHeight       : 300,
+            autoWidth           : false,
             enableKeyEvents     : false,
             beforeOpenHandler   : null,
             additionalMenuItems  : null,
@@ -87,11 +88,13 @@ define([
             this.menuMaxHeight = this.options.menuMaxHeight;
             this.beforeOpenHandler = this.options.beforeOpenHandler;
             this.showLast    = this.options.showLast;
+            this.wrapWidth   = 0;
             this.rootWidth   = 0;
             this.rootHeight  = 0;
             this.rendered    = false;
             this.needFillComboView = false;
             this.minWidth = this.options.minWidth;
+            this.autoWidth = this.options.autoWidth;
             this.delayRenderTips = this.options.delayRenderTips || false;
             this.itemTemplate   = this.options.itemTemplate || _.template([
                 '<div class="style" id="<%= id %>">',
@@ -101,6 +104,11 @@ define([
                     '<% } %>',
                 '</div>'
             ].join(''));
+
+
+            if(this.autoWidth) {
+                this.style += ' position:absolute; top:50%; bottom:50%; margin: auto 0;';
+            }
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
@@ -223,6 +231,16 @@ define([
 
         checkSize: function() {
             if (this.cmpEl && this.cmpEl.is(':visible')) {
+                if(this.autoWidth) {
+                    this.autoChangeWidth();
+                    // var wrapWidth = this.$el.width();
+                    // if(wrapWidth != this.wrapWidth){
+                    //     this.wrapWidth = wrapWidth;
+                    //     this.autoChangeWidth();
+                    //     console.log(wrapWidth);
+                    // }
+                }
+                
                 var me = this,
                     width  = this.cmpEl.width(),
                     height = this.cmpEl.height();
@@ -265,7 +283,32 @@ define([
             if (!this.isSuspendEvents)
                 this.trigger('resize', this);
         },
+    
+        autoChangeWidth: function() {
+            var self = this;
+            if(self.fieldPicker.dataViewItems[0]){
+                var wrapEl = self.$el;
+                var wrapWidth = parseFloat(wrapEl.css('width')) - parseFloat(wrapEl.css('padding-left'));
 
+                var itemEl = self.fieldPicker.dataViewItems[0].$el;
+                var itemWidth = parseFloat(itemEl.css('width'));
+                var itemBorder = parseFloat(itemEl.css('border-width'));
+
+                var fieldPickerPadding = parseFloat(self.fieldPicker.$el.css('padding-right'));
+                
+                var itemsCount =  Math.floor((wrapWidth - fieldPickerPadding) / itemWidth);
+                if(itemsCount > this.store.length) 
+                    itemsCount = this.store.length;
+
+                var widthCalc = itemsCount * itemWidth - (itemsCount-2) * itemBorder + fieldPickerPadding;
+                var maxWidth = self.cmpEl.css('max-width');
+                if(widthCalc > maxWidth)
+                    widthCalc = maxWidth;
+                    
+                self.cmpEl.css('width', widthCalc);
+            }
+        },
+        
         onBeforeShowMenu: function(e) {
             var me = this;
 

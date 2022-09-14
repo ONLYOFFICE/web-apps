@@ -1303,7 +1303,7 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 100,
                     itemHeight      : 20,
-                    style: 'min-width:158px; max-width:663px;',
+                    style: 'min-width:135px; max-width: 660px;',
                     groups: new Common.UI.DataViewGroupStore([
                         {id: 'menu-style-group-custom',     caption: this.textCustom },
                         {id: 'menu-style-group-color',      caption: this.textGoodBadAndNeutral },
@@ -1319,6 +1319,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset  : '-16, -4',
                     delayRenderTips: true,
+                    autoWidth:      true,
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;

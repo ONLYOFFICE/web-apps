@@ -1483,7 +1483,7 @@ define([
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
-                        style: 'min-width:150px;',
+                        style: 'min-width:139px;',
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1491,6 +1491,7 @@ define([
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
                         delayRenderTips: true,
+                        autoWidth:       true,
                         itemTemplate: _.template([
                             '<div class="style" id="<%= id %>">',
                                 '<div style="background-image: url(<%= imageUrl %>); width: ' + itemWidth + 'px; height: ' + itemHeight + 'px;"></div>',
