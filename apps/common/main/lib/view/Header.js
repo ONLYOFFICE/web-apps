@@ -791,12 +791,9 @@ define([
             },
 
             setDocTitle: function(name){
-                if(name)
-                    $labelDocName.val(name);
-                else
-                    name = $labelDocName.val();
-                var width = this.getTextWidth(name);
+                var width = this.getTextWidth(name || $labelDocName.val());
                 (width>=0) && $labelDocName.width(width);
+                name && (width>=0) && $labelDocName.val(name);
                 if (this._showImgCrypted && width>=0) {
                     this.imgCrypted.toggleClass('hidden', false);
                     this._showImgCrypted = false;
