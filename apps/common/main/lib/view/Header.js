@@ -543,7 +543,7 @@ define([
                     if ( !$labelDocName ) {
                         $labelDocName = $html.find('#rib-doc-name');
                         if ( me.documentCaption ) {
-                            me.setDocTitle(me.documentCaption);
+                            setTimeout(function() { me.setDocTitle(me.documentCaption); }, 50);
                         }
                     } else {
                         $html.find('#rib-doc-name').hide();
@@ -621,7 +621,7 @@ define([
 
                     !!$labelDocName && $labelDocName.hide().off();                  // hide document title if it was created in right box
                     $labelDocName = $html.find('#title-doc-name');
-                    me.setDocTitle( me.documentCaption );
+                    setTimeout(function() { me.setDocTitle(me.documentCaption); }, 50);
 
                     me.options.wopi && $labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
