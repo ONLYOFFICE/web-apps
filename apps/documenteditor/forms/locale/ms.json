@@ -105,7 +105,7 @@
   "DE.Controllers.ApplicationController.errorToken": "Dokumen token keselamatan kini tidak dibentuk.<br>Sila hubungi pentadbir Pelayan Dokumen.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "Dokumen token keselamatan telah tamat tempoh.<br>Sila hubungi pentadbir Pelayan Dokumen.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "Versi fail telah berubah. Halaman akan dimuatkan semula.",
-  "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan internet telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
+  "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
   "DE.Controllers.ApplicationController.errorUserDrop": "Fail tidak boleh diakses sekarang.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Sambungan telah hilang. Anda masih boleh melihat dokumen,<br>tetapi tidak dapat muat turun atau cetaknya sehingga sambungan dipulihkan dan halaman dimuat semua.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Imej daripada Fail",
