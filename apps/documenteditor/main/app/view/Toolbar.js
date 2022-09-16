@@ -2247,6 +2247,21 @@ define([
                             delayRenderTips: true,
                             scrollAlwaysVisible: true
                         });
+                        item.menuPicker.on('item:click', function(picker, item, record, e) {
+                            if (record) {
+                                me.fireEvent('insert:smartart', [record.get('value')]);
+                            }
+                            me.btnInsertSmartArt.toggle(false, true);
+                            if (me.btnInsertText.pressed) {
+                                me.btnInsertText.toggle(false, true);
+                            }
+                            if (me.btnInsertShape.pressed) {
+                                me.btnInsertShape.toggle(false, true);
+                            }
+                            if (e.type !== 'click')
+                                me.btnInsertSmartArt.menu.hide();
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        });
                     });
                     me.fireEvent('generate:smartart');
                     menu.off('show:before', onShowBeforeSmartArt);

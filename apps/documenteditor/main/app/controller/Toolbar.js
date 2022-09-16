@@ -120,6 +120,7 @@ define([
                     'add:chart'         : this.onSelectChart,
                     'insert:textart'    : this.onInsertTextart,
                     'generate:smartart' : this.generateSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -3343,23 +3344,14 @@ define([
                     } else {
                         menu.store.add(arr);
                     }
-                    menu.on('item:click', function(picker, item, record, e) {
-                        if (record) {
-                            me.api.asc_createSmartArt(record.get('value'));
-                        }
-                        me.toolbar.btnInsertSmartArt.toggle(false, true);
-                        if (me.toolbar.btnInsertText.pressed) {
-                            me.toolbar.btnInsertText.toggle(false, true);
-                        }
-                        if (me.toolbar.btnInsertShape.pressed) {
-                            me.toolbar.btnInsertShape.toggle(false, true);
-                        }
-                        if (e.type !== 'click')
-                            me.toolbar.btnInsertSmartArt.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    });
                 });
             }, this));
+        },
+
+        onInsertSmartArt: function (value) {
+            if (this.api) {
+                this.api.asc_createSmartArt(value);
+            }
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
