@@ -214,6 +214,10 @@
 
     .dropdown-menu.menu-absolute {
         position: fixed;
+
+        .rtl & {
+            right: unset;
+        }
     }
 
     .dropdown-menu.show-top {
@@ -225,6 +229,57 @@
         &.disabled {
             .form-control, .btn-default {
                 opacity: 1;
+            }
+        }
+    }
+
+    &.combobox-icons {
+        .form-control {
+            padding:2px 0 2px 3px;
+            display: block;
+            div {
+                display: inline-block;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        li a {
+            padding: 5px;
+            img {
+                width:16px;
+                height:16px;
+                margin-right: 5px;
+               .rtl & {
+                   margin-right: 0;
+                   margin-left: 5px;
+               }
+            }
+        }
+    }
+
+    &.combobox-color {
+        .form-control {
+            display: block;
+            padding: 2px 14px 2px 3px;
+
+            div {
+                display: inline-block;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+
+            .rtl & {
+                padding: 2px 3px 2px 14px;
+            }
+        }
+        li a {
+            padding: 5px;
+
+            div {
+                height: 15px;
             }
         }
     }
