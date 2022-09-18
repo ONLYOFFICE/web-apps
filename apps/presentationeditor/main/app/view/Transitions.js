@@ -142,7 +142,7 @@ define([
                     cls: 'combo-transitions',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
-                    style: 'min-width:110px;',
+                    style: 'min-width:108px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
@@ -155,6 +155,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
                     delayRenderTips: true,
+                    autoWidth: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
