@@ -89,7 +89,7 @@ define([
                     '</div>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
-                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 324px;max-width: 324px;min-width: 105px;" data-group-width="324px">' +
+                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 100%; min-width: 105px;" data-group-width="100%">' +
                 '</div>' +
             '</section>';
 
@@ -274,11 +274,14 @@ define([
 
                 this.pivotStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-pivot-template',
+                    style           : 'min-wdith: 91px; max-width: 505px;',
                     enableKeyEvents : true,
                     itemWidth       : 61,
                     itemHeight      : 49,
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
+                    autoWidth       : true,
+
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
