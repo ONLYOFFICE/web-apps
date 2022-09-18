@@ -216,10 +216,12 @@ define([
                 me.fieldPicker.el.addEventListener('contextmenu', _.bind(me.onPickerComboContextMenu, me), false);
                 me.menuPicker.el.addEventListener('contextmenu', _.bind(me.onPickerComboContextMenu, me), false);
 
+                Common.NotificationCenter.on('more:toggle', _.bind(this.onMoreToggle, this));
+
                 me.onResize();
 
                 me.rendered = true;
-
+                
                 me.trigger('render:after', me);
             }
             if (this.disabled) {
@@ -229,16 +231,20 @@ define([
             return this;
         },
 
+        onMoreToggle: function(btn, state) {
+            if(state) {
+                this.checkSize();
+            }
+        },
+
         checkSize: function() {
             if (this.cmpEl && this.cmpEl.is(':visible')) {
-                if(this.autoWidth) {
-                    this.autoChangeWidth();
-                    // var wrapWidth = this.$el.width();
-                    // if(wrapWidth != this.wrapWidth){
-                    //     this.wrapWidth = wrapWidth;
-                    //     this.autoChangeWidth();
-                    //     console.log(wrapWidth);
-                    // }
+                if(this.autoWidth && this.fieldPicker.store.length > 0) {
+                    var wrapWidth = this.$el.width();
+                    if(wrapWidth != this.wrapWidth){
+                        this.wrapWidth = wrapWidth;
+                        this.autoChangeWidth();
+                    }
                 }
                 
                 var me = this,
@@ -292,16 +298,20 @@ define([
 
                 var itemEl = self.fieldPicker.dataViewItems[0].$el;
                 var itemWidth = parseFloat(itemEl.css('width'));
-                var itemBorder = parseFloat(itemEl.css('border-width'));
+                var itemMargins = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
 
-                var fieldPickerPadding = parseFloat(self.fieldPicker.$el.css('padding-right'));
-                
-                var itemsCount =  Math.floor((wrapWidth - fieldPickerPadding) / itemWidth);
+                var fieldPickerEl = self.fieldPicker.$el;
+                var fieldPickerPadding = parseFloat(fieldPickerEl.css('padding-right'));
+                var fieldPickerBorder = parseFloat(fieldPickerEl.css('border-width'));
+                var dataviewPaddings = parseFloat(self.fieldPicker.$el.find('.dataview').css('padding-left')) + parseFloat(self.fieldPicker.$el.find('.dataview').css('padding-right'));
+
+                var itemsCount =  Math.floor((wrapWidth - fieldPickerPadding - dataviewPaddings - fieldPickerBorder) / (itemWidth + itemMargins));
                 if(itemsCount > this.store.length) 
                     itemsCount = this.store.length;
 
-                var widthCalc = itemsCount * itemWidth - (itemsCount-2) * itemBorder + fieldPickerPadding;
-                var maxWidth = self.cmpEl.css('max-width');
+                var widthCalc = Math.ceil((itemsCount * (itemWidth + itemMargins) + fieldPickerPadding + dataviewPaddings + 2 * fieldPickerBorder) * 10) / 10;
+                
+                var maxWidth = parseFloat(self.cmpEl.css('max-width'));
                 if(widthCalc > maxWidth)
                     widthCalc = maxWidth;
                     
