@@ -14,6 +14,11 @@
     li {
         a {
             white-space: normal;
+            padding: 2px 0 2px 10px;
+
+            .rtl & {
+                padding: 2px 10px 2px 0;
+            }
         }
 
         span {
@@ -28,6 +33,11 @@
             height:20px;
             background-color: transparent;
             image-rendering: pixelated;
+            float: left;
+
+            .rtl & {
+                float: right;
+            }
         }
     }
 

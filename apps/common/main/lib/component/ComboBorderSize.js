@@ -244,10 +244,10 @@ define([
                 '</button>',
                 '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding: 2px 0 2px 10px;">',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                             '<span style="margin-top: 0;"></span>',
                             '<% if (item.offsety!==undefined) { %>',
-                                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" align="left" style="background-position: 0 -<%= item.offsety %>px;">',
+                                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="background-position: 0 -<%= item.offsety %>px;">',
                             '<% } %>',
                         '</a></li>',
                     '<% }); %>',
@@ -300,9 +300,9 @@ define([
 
     Common.UI.ComboBoxColor = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
-            '<div class="input-group combobox combo-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-            '<div class="form-control" style="padding:2px 14px 2px 3px; <%= style %> display: block;">',
-                '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;"></div>',
+            '<div class="input-group combobox combo-color combobox-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+            '<div class="form-control" style="<%= style %>">',
+                '<div></div>',
             '</div>',
             '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                 '<span class="caret"></span>',
@@ -313,7 +313,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                 '<% } else { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
+                    '<a tabindex="-1" type="menuitem"><div style="<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
                     '</li>',
                 '<% } %>',
             '<% }); %>',
@@ -380,7 +380,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                     '<% } else { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
+                    '<a tabindex="-1" type="menuitem""><div style="<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
                     '</li>',
                     '<% } %>',
                     '<% }); %>'
@@ -407,9 +407,9 @@ define([
 
     Common.UI.ComboBoxIcons= Common.UI.ComboBox.extend(_.extend({
         template: _.template([
-            '<div class="input-group combobox combo-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="padding:2px 0 2px 3px; <%= style %> display: block;">',
-                    '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;"></div>',
+            '<div class="input-group combobox combobox-icons combo-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="<%= style %>">',
+                    '<div></div>',
                 '</div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
@@ -420,9 +420,9 @@ define([
                             '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% } else { %>',
                             '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                                '<a tabindex="-1" type="menuitem" style="padding: 5px;">',
+                                '<a tabindex="-1" type="menuitem">',
                                     '<% _.each(item.data.iconSet, function(icon) { %>',
-                                    '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>" style="width:16px;height:16px;margin-right: 5px;">',
+                                    '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>">',
                                     '<% }) %>',
                                 '</a>',
                             '</li>',
@@ -454,7 +454,7 @@ define([
             if (record.get('value')!=-1) {
                 var str = '';
                 _.each(record.get('data').iconSet, function(icon) {
-                    str += '<img src="' + record.get('data').icons.at(icon-1).get("icon") + '" style="width:16px;height:16px;margin-right: 5px;">';
+                    str += '<img src="' + record.get('data').icons.at(icon-1).get("icon") + '">';
                 });
                 formcontrol[0].innerHTML = str;
                 formcontrol.css({'margin-top': '0'});
@@ -495,7 +495,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>">',
                         '<a tabindex="-1" type="menuitem" style="padding: 5px;">',
                             '<% _.each(item.data.iconSet, function(icon) { %>',
-                                '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>" style="width:16px;height:16px;margin-right: 5px;">',
+                                '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>">',
                             '<% }) %>',
                         '</a>',
                     '</li>',

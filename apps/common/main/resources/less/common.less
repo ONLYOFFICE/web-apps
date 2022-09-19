@@ -247,6 +247,11 @@ label {
         color: @text-normal-ie;
         color: @text-normal;
     }
+
+    .rtl & {
+        left: unset;
+        right: 0;
+    }
 }
 
 textarea {
@@ -311,5 +316,13 @@ a {
 body {
     &.pixel-ratio__1_75 {
         image-rendering: crisp-edges; // FF only
+    }
+}
+
+.rtl .ps-scrollbar-y-rail {
+    right: unset !important;
+    left: 1px !important;
+    .ps-scrollbar-y {
+        left: 0 !important;
     }
 }
