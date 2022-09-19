@@ -107,7 +107,7 @@ define([
 
 
             if(this.autoWidth) {
-                this.style += ' position:absolute; top:50%; bottom:50%; margin: auto 0;';
+                this.style += ' position:absolute; top:50%; bottom:50%; margin: auto 0; padding-right: 12px;';
             }
 
             this.fieldPicker = new Common.UI.DataView({
@@ -239,11 +239,15 @@ define([
 
         checkSize: function() {
             if (this.cmpEl && this.cmpEl.is(':visible')) {
-                if(this.autoWidth && this.fieldPicker.store.length > 0) {
+                if(this.autoWidth && this.menuPicker.store.length > 0) {
                     var wrapWidth = this.$el.width();
-                    if(wrapWidth != this.wrapWidth){
+                    if(wrapWidth != this.wrapWidth || this.needFillComboView){
                         this.wrapWidth = wrapWidth;
                         this.autoChangeWidth();
+
+                        var picker = this.menuPicker;
+                        var record = picker.getSelectedRec();
+                        this.fillComboView(record || picker.store.at(0), !!record, true);                   
                     }
                 }
                 
@@ -291,31 +295,33 @@ define([
         },
     
         autoChangeWidth: function() {
-            var self = this;
-            if(self.fieldPicker.dataViewItems[0]){
-                var wrapEl = self.$el;
+            if(this.menuPicker.dataViewItems[0]){
+                var wrapEl = this.$el;
                 var wrapWidth = parseFloat(wrapEl.css('width')) - parseFloat(wrapEl.css('padding-left'));
 
-                var itemEl = self.fieldPicker.dataViewItems[0].$el;
-                var itemWidth = parseFloat(itemEl.css('width'));
+                var itemEl = this.menuPicker.dataViewItems[0].$el;
+                var itemWidth = this.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-left')) + 2 * parseFloat(itemEl.css('border-width'));
                 var itemMargins = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
 
-                var fieldPickerEl = self.fieldPicker.$el;
+                var fieldPickerEl = this.fieldPicker.$el;
                 var fieldPickerPadding = parseFloat(fieldPickerEl.css('padding-right'));
                 var fieldPickerBorder = parseFloat(fieldPickerEl.css('border-width'));
-                var dataviewPaddings = parseFloat(self.fieldPicker.$el.find('.dataview').css('padding-left')) + parseFloat(self.fieldPicker.$el.find('.dataview').css('padding-right'));
+                var dataviewPaddings = parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-left')) + parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-right'));
 
-                var itemsCount =  Math.floor((wrapWidth - fieldPickerPadding - dataviewPaddings - fieldPickerBorder) / (itemWidth + itemMargins));
+                var cmbDataViewEl = this.cmpEl;
+                var cmbDataViewPaddings = parseFloat(cmbDataViewEl.css('padding-left')) + parseFloat(cmbDataViewEl.css('padding-right'));
+
+                var itemsCount =  Math.floor((wrapWidth - fieldPickerPadding - dataviewPaddings - 2 * fieldPickerBorder - cmbDataViewPaddings) / (itemWidth + itemMargins));
                 if(itemsCount > this.store.length) 
                     itemsCount = this.store.length;
 
-                var widthCalc = Math.ceil((itemsCount * (itemWidth + itemMargins) + fieldPickerPadding + dataviewPaddings + 2 * fieldPickerBorder) * 10) / 10;
+                var widthCalc = Math.ceil((itemsCount * (itemWidth + itemMargins) + fieldPickerPadding + dataviewPaddings + 2 * fieldPickerBorder + cmbDataViewPaddings) * 10) / 10;
                 
-                var maxWidth = parseFloat(self.cmpEl.css('max-width'));
+                var maxWidth = parseFloat(cmbDataViewEl.css('max-width'));
                 if(widthCalc > maxWidth)
                     widthCalc = maxWidth;
                     
-                self.cmpEl.css('width', widthCalc);
+                cmbDataViewEl.css('width', widthCalc);
             }
         },
         
