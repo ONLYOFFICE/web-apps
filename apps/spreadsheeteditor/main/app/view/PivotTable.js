@@ -274,14 +274,13 @@ define([
 
                 this.pivotStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-pivot-template',
-                    style           : 'min-wdith: 91px; max-width: 505px;',
+                    style           : 'min-width: 103px; max-width: 517px;',
                     enableKeyEvents : true,
                     itemWidth       : 61,
                     itemHeight      : 49,
                     menuMaxHeight   : 300,
                     groups          : new Common.UI.DataViewGroupStore(),
                     autoWidth       : true,
-
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     beforeOpenHandler: function(e) {
                         var cmp = this,

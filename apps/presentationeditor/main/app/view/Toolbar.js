@@ -1058,7 +1058,7 @@ define([
                         itemWidth: 88,
                         enableKeyEvents: true,
                         itemHeight: 40,
-                        style: 'min-width:123px;',
+                        style: 'min-width:135px;',
                         lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                         dataHint: '1',
                         dataHintDirection: 'bottom',

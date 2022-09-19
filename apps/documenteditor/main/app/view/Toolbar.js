@@ -1483,7 +1483,7 @@ define([
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
-                        style: 'min-width:139px;',
+                        style: 'min-width:151px;',
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',

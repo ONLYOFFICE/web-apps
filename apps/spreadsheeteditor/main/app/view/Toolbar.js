@@ -1303,7 +1303,7 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 100,
                     itemHeight      : 20,
-                    style: 'min-width:135px; max-width: 660px;',
+                    style: 'min-width:147px; max-width: 672px;',
                     groups: new Common.UI.DataViewGroupStore([
                         {id: 'menu-style-group-custom',     caption: this.textCustom },
                         {id: 'menu-style-group-color',      caption: this.textGoodBadAndNeutral },
