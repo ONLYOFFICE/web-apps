@@ -351,10 +351,11 @@ define([
         getCaptionWithBreaks: function (caption) {
             var words = caption.split(' '),
                 newCaption = null,
-                maxWidth = 85 - 4;
+                maxWidth = 160 - 4;//85 - 4;
             if (words.length > 1) {
                 maxWidth = !!this.menu || this.split === true ? maxWidth - 10 : maxWidth;
                 if (words.length < 3) {
+                    words[0] = getShortText(words[0], !!this.menu ? maxWidth + 10 : maxWidth);
                     words[1] = getShortText(words[1], maxWidth);
                     newCaption = words[0] + '<br>' + words[1];
                 } else {
