@@ -214,7 +214,14 @@ class MainController extends Component {
 
                 this.applyMode(storeAppOptions);
 
-                this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                const storeDocumentInfo = this.props.storeDocumentInfo;
+                const dataDoc = storeDocumentInfo.dataDoc;
+                const isExtRestriction = dataDoc.fileType !== 'oform';
+
+                if(isExtRestriction) {
+                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                }
+
                 this.api.asc_LoadDocument();
                 this.api.Resize();
             };
