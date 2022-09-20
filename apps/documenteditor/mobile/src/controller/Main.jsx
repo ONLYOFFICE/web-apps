@@ -220,6 +220,8 @@ class MainController extends Component {
 
                 if(isExtRestriction) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                } else {
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms)
                 }
 
                 this.api.asc_LoadDocument();
