@@ -359,15 +359,19 @@ define([
                     words[1] = getShortText(words[1], maxWidth);
                     newCaption = words[0] + '<br>' + words[1];
                 } else {
+                    var otherWords = '';
                     if (getWidthOfCaption(words[0] + ' ' + words[1]) < maxWidth) { // first and second words in first line
-                        words[2] = getShortText(words[2], maxWidth);
-                        newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
-                    } else if (getWidthOfCaption(words[1] + ' ' + words[2]) < maxWidth) { // second and third words in second line
-                        words[2] = getShortText(words[2], maxWidth);
-                        newCaption = words[0] + '<br>' + words[1] + ' ' + words[2];
-                    } else {
-                        words[1] = getShortText(words[1] + ' ' + words[2], maxWidth);
-                        newCaption = words[0] + '<br>' + words[1];
+                        for (var i = 2; i < words.length; i++) {
+                            otherWords += words[i] + ' ';
+                        }
+                        otherWords = getShortText(otherWords.trim(), maxWidth);
+                        newCaption = words[0] + ' ' + words[1] + '<br>' + otherWords;
+                    } else { // only first word is in first line
+                        for (var j = 1; j < words.length; j++) {
+                            otherWords += words[j] + ' ';
+                        }
+                        otherWords = getShortText(otherWords.trim(), maxWidth);
+                        newCaption = words[0] + '<br>' + otherWords;
                     }
                 }
             } else {
