@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Unique",
   "Common.define.conditionalData.textValue": "Value is",
   "Common.define.conditionalData.textYesterday": "Yesterday",
+  "Common.Translation.textMoreButton": "More",
   "Common.Translation.warnFileLocked": "The file is being edited in another app. You can continue editing and save it as a copy.",
   "Common.Translation.warnFileLockedBtnEdit": "Create a copy",
   "Common.Translation.warnFileLockedBtnView": "Open for viewing",

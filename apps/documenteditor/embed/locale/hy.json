@@ -19,7 +19,7 @@
   "DE.ApplicationController.errorLoadingFont": "Տառատեսակները բեռնված չեն:<br>Խնդրում ենք կապվել ձեր փաստաթղթերի սերվերի ադմինիստրատորի հետ:",
   "DE.ApplicationController.errorSubmit": "Չհաջողվեց հաստատել",
   "DE.ApplicationController.errorTokenExpire": "Փաստաթղթի անվտանգության կտրոնի ժամկետն անցել է։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
-  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Համացանցային կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք նիշքը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք ֆայլը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
   "DE.ApplicationController.errorUserDrop": "Այս պահին ֆայլն անհասանելի է։",
   "DE.ApplicationController.notcriticalErrorTitle": "Զգուշացում",
   "DE.ApplicationController.openErrorText": "Ֆայլը բացելիս սխալ է տեղի ունեցել:",
