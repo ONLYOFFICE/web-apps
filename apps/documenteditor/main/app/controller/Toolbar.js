@@ -3319,8 +3319,8 @@ define([
             })).show();
         },
 
-        generateSmartArt: function () {
-            this.api.asc_generateSmartArtPreviews();
+        generateSmartArt: function (groupName) {
+            this.api.asc_generateSmartArtPreviews(groupName);
         },
 
         onApiBeginSmartArtPreview: function () {
@@ -3331,7 +3331,7 @@ define([
         onApiAddSmartArtPreview: function (previews) {
             previews.forEach(_.bind(function (preview) {
                 var me = this;
-                var items = _.where(this.smartArtItems, {type: Asc.c_oAscSmartArtTypes[preview.asc_getName()]});
+                var items = _.where(this.smartArtItems, {type: preview.asc_getName()});
                 items.forEach(function (item) {
                     var menu = _.findWhere(me.smartArtGroups, {value: item.group}).menuPicker,
                         arr = [{

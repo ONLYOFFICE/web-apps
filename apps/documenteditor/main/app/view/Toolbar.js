@@ -2225,6 +2225,7 @@ define([
                     me.btnInsertSmartArt.menu.addItem({
                         caption: item.caption,
                         value: item.id,
+                        groupName: item.groupName,
                         iconCls: 'menu__icon ' + item.icon,
                         menu: new Common.UI.Menu({
                             items: [
@@ -2235,6 +2236,10 @@ define([
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                        item.$el.one('mouseenter', function () {
+                            me.fireEvent('generate:smartart', [item.options.groupName]);
+                            item.$el.mouseenter();
+                        });
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.value),
                             parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
@@ -2263,7 +2268,6 @@ define([
                             Common.NotificationCenter.trigger('edit:complete', me);
                         });
                     });
-                    me.fireEvent('generate:smartart');
                     menu.off('show:before', onShowBeforeSmartArt);
                 };
                 this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
