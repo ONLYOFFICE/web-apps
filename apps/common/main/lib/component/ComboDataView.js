@@ -93,8 +93,8 @@ define([
             this.rootHeight  = 0;
             this.rendered    = false;
             this.needFillComboView = false;
-            this.minWidth = this.options.minWidth;
-            this.autoWidth = this.options.autoWidth;
+            this.minWidth    = this.options.minWidth;
+            this.autoWidth   = this.initAutoWidth = (Common.Utils.isIE10 || Common.Utils.isIE11) ? false : this.options.autoWidth;
             this.delayRenderTips = this.options.delayRenderTips || false;
             this.itemTemplate   = this.options.itemTemplate || _.template([
                 '<div class="style" id="<%= id %>">',
@@ -104,11 +104,6 @@ define([
                     '<% } %>',
                 '</div>'
             ].join(''));
-
-
-            if(this.autoWidth) {
-                this.style += ' position:absolute; top:50%; bottom:50%; margin: auto 0; padding-right: 12px;';
-            }
 
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
@@ -297,10 +292,10 @@ define([
         autoChangeWidth: function() {
             if(this.menuPicker.dataViewItems[0]){
                 var wrapEl = this.$el;
-                var wrapWidth = parseFloat(wrapEl.css('width')) - parseFloat(wrapEl.css('padding-left'));
+                var wrapWidth = wrapEl.width();
 
                 var itemEl = this.menuPicker.dataViewItems[0].$el;
-                var itemWidth = this.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-left')) + 2 * parseFloat(itemEl.css('border-width'));
+                var itemWidth = this.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) + 2 * parseFloat(itemEl.css('border-width'));
                 var itemMargins = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
 
                 var fieldPickerEl = this.fieldPicker.$el;
@@ -322,6 +317,14 @@ define([
                     widthCalc = maxWidth;
                     
                 cmbDataViewEl.css('width', widthCalc);
+
+                if(this.initAutoWidth) {
+                    this.initAutoWidth = false;
+                    cmbDataViewEl.css('position', 'absolute');
+                    cmbDataViewEl.css('top', '50%');
+                    cmbDataViewEl.css('bottom', '50%');
+                    cmbDataViewEl.css('margin', 'auto 0');
+                }
             }
         },
         
