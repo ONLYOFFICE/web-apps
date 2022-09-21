@@ -3203,13 +3203,24 @@ define([
                     me.toolbar.processPanelVisible(null, true, true);
                 }
 
-                if ( config.isDesktopApp ) {
-                    if ( config.canProtect ) {
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T', layoutname: 'toolbar-protect'};
-                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                // if ( config.isDesktopApp ) {
+                //     if ( config.canProtect ) {
+                //         tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T', layoutname: 'toolbar-protect'};
+                //         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                //
+                //         if ($panel) me.toolbar.addTab(tab, $panel, 6);
+                //     }
+                // }
 
-                        if ($panel) me.toolbar.addTab(tab, $panel, 6);
-                    }
+                tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                if ($panel) {
+                    config.canProtect && $panel.append($('<div class="separator long"></div>'));
+                    var doctab = me.getApplication().getController('DocProtection');
+                    $panel.append(doctab.createToolbarPanel());
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                    Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
                 }
 
                 var links = me.getApplication().getController('Links');
