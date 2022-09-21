@@ -55,7 +55,7 @@ define([
         options: {
             type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
             width: 300,
-            height: 424,
+            height: 460,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -68,7 +68,7 @@ define([
             _.extend(this.options, {
                 title: this.txtTitle,
                 height: (this.type==2) ? 376 : 424,
-                width: (this.type==2) ? 430 : 300
+                width: (this.type==2) ? 460 : 300
         }, options || {});
 
             this.template = [
@@ -91,6 +91,16 @@ define([
                             '<td style="padding-left: 5px;">',
                                 '<label class="input-label">' + this.txtColor + '</label>',
                                 '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2" style="padding-right: 5px;">',
+                                '<label class="input-label">' + this.txtNumFormatString + '</label>',
+                                '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td colspan="2" style="padding-left: 5px;">',
+                                '<label class="input-label">' + this.txtInclcudeLevel + '</label>',
+                                '<div id="id-dlg-numbering-format-lvl" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -345,6 +355,25 @@ define([
             });
             this.levelsList.on('item:select', _.bind(this.onSelectLevel, this));
 
+            this.txtNumFormat = new Common.UI.InputField({
+                el          : $window.find('#id-dlg-numbering-format-str'),
+                allowBlank  : true,
+                value       : ''
+            });
+            var $formatInput = this.txtNumFormat.$el.find('input');
+            // $captionInput.on('mouseup', _.bind(this.checkStartPosition, this, 'mouse'));
+            // $captionInput.on('keydown', _.bind(this.checkStartPosition, this, 'key'));
+
+            this.cmbLevel = new Common.UI.ComboBox({
+                el          : $window.find('#id-dlg-numbering-format-lvl'),
+                menuStyle   : 'min-width: 100%;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [],
+                takeFocusOnClose: true
+            });
+            this.cmbLevel.on('selected', _.bind(this.onIncludeLevelSelected, this));
+
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.afterRender();
@@ -570,6 +599,73 @@ define([
                 } else
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
             }
+            if (this.type===1) {
+
+            } else if (this.type===2) {
+                this.txtNumFormat.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                this.cmbLevel.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                this.cmbLevel.setDisabled(this.level===0);
+                var arr = [];
+                var me = this;
+                for (var lvl=0; lvl<this.level; lvl++) {
+                    var lvlprops = this.props.get_Lvl(lvl),
+                        lvltext = lvlprops.get_Format();
+                    if (this.props.get_Lvl(lvl).get_Format() !== Asc.c_oAscNumberingFormat.None)
+                        arr.push({ displayValue: me.textLevel + ' ' + (lvl+1),  value: this.props.get_Lvl(lvl).get_Format() });
+                }
+                this.cmbLevel.setData(arr);
+                this.cmbLevel.setValue('');
+            }
+        },
+
+        makeFormatStr: function() {
+            if (this._changedProps) {
+                var text = this._changedProps.get_Text();
+                var arr = [];
+                'перед'.split('').forEach(function (el) {
+                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
+                    arr.push(t);
+                });
+                arr.push(new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, 0));
+                'после'.split('').forEach(function (el) {
+                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
+                    arr.push(t);
+                });
+
+                //     if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                //     this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
+            }
+        },
+
+        onIncludeLevelSelected: function (combo, record) {
+            var $txt, end, start;
+            var $txt = this.txtNumFormat.$el.find('input'),
+                start = $txt[0].selectionStart,
+                end = $txt[0].selectionEnd,
+                newVal = AscCommon.IntToNumberFormat(1, record.value);
+            $txt.val($txt.val().substring(0, start) + newVal + $txt.val().substring(end));
+            this.selectionStart = this.selectionEnd = start + newVal.length;
+
+            var text = this._changedProps.get_Text();
+
+            if (this._changedProps) {
+                var arr = [];
+                'перед'.split('').forEach(function (el) {
+                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
+                    arr.push(t);
+                });
+                arr.push(new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, 0));
+                'после'.split('').forEach(function (el) {
+                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
+                    arr.push(t);
+                });
+
+            //     if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+            //     this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
+            }
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
         },
 
         txtTitle: 'List Settings',
@@ -588,6 +684,8 @@ define([
         textLevel: 'Level',
         txtNone: 'None',
         txtNewBullet: 'New bullet',
-        txtSymbol: 'Symbol'
+        txtSymbol: 'Symbol',
+        txtNumFormatString: 'Number format',
+        txtInclcudeLevel: 'Include level number from'
     }, DE.Views.ListSettingsDialog || {}))
 });
