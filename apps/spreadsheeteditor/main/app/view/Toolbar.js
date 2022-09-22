@@ -532,6 +532,20 @@ define([
                         dataHintDirection: 'bottom'
                     });
 
+                    me.btnCellStyle = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-cstyle',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-menu-table',
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock, _set.editVisibleArea],
+                        menu        : new Common.UI.Menu({
+                            items: [
+                                { template: _.template('<div id="id-toolbar-menu-cell-styles" style="width: 645px; height: 306px; margin: 0px 4px;"></div>') }
+                            ]
+                        }),
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+
                     me.btnTextFormatting = new Common.UI.Button({
                         id          : 'id-toolbar-btn-formatting',
                         cls         : 'btn-toolbar no-caret',
@@ -1304,15 +1318,7 @@ define([
                     itemWidth       : 100,
                     itemHeight      : 20,
                     style: 'min-width:135px; max-width: 660px;',
-                    groups: new Common.UI.DataViewGroupStore([
-                        {id: 'menu-style-group-custom',     caption: this.textCustom },
-                        {id: 'menu-style-group-color',      caption: this.textGoodBadAndNeutral },
-                        {id: 'menu-style-group-model',      caption: this.textDataAndModel },
-                        {id: 'menu-style-group-title',      caption: this.textTitlesAndHeadings },
-                        {id: 'menu-style-group-themed',     caption: this.textThemedCallStyles }, 
-                        {id: 'menu-style-group-number',     caption: this.textNumberFormat },
-                        {id: 'menu-style-group-no-name',    caption: this.textNoName }
-                    ]),
+                    groups: new Common.UI.DataViewGroupStore(),
                     menuMaxHeight   : 380,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
@@ -2059,7 +2065,7 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
+                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.listStyles, me.btnPrint,
@@ -2250,6 +2256,7 @@ define([
             _injectComponent('#slot-btn-setfilter',      this.btnSetAutofilter);
             _injectComponent('#slot-btn-clear-filter',   this.btnClearAutofilter);
             _injectComponent('#slot-btn-table-tpl',      this.btnTableTemplate);
+            _injectComponent('#slot-btn-cell-style',     this.btnCellStyle);
             _injectComponent('#slot-btn-format',         this.cmbNumberFormat);
             _injectComponent('#slot-btn-percents',       this.btnPercentStyle);
             _injectComponent('#slot-btn-currency',       this.btnCurrencyStyle);
@@ -2348,6 +2355,7 @@ define([
             _updateHint(this.btnClearAutofilter, this.txtClearFilter);
             _updateHint(this.btnSearch, this.txtSearch);
             _updateHint(this.btnTableTemplate, this.txtTableTemplate);
+            _updateHint(this.btnCellStyle, this.txtCellStyle);
             _updateHint(this.btnPercentStyle, this.tipDigStylePercent);
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
@@ -3171,6 +3179,7 @@ define([
         txtSortZA:          'Sort Z to A',
         txtFilter:          'Filter',
         txtTableTemplate:   'Format As Table Template',
+        txtCellStyle:       'Cell Style',
         textHorizontal:     'Horizontal Text',
         textCounterCw:      'Angle Counterclockwise',
         textClockwise:      'Angle Clockwise',
@@ -3317,13 +3326,6 @@ define([
         tipHAlighOle: 'Horizontal Align',
         tipVAlighOle: 'Vertical Align',
         tipSelectAll: 'Select all',
-        tipCut: 'Cut',
-        textCustom: 'Custom',
-        textGoodBadAndNeutral: 'Good, Bad, and Neutral',
-        textDataAndModel: 'Data and Model',
-        textTitlesAndHeadings: 'Titles and Headings',
-        textThemedCallStyles: 'Themed Call Styles',
-        textNumberFormat: 'Number Format',
-        textNoName: 'No name'
+        tipCut: 'Cut'
     }, SSE.Views.Toolbar || {}));
 });

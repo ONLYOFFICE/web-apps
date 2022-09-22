@@ -335,6 +335,7 @@ define([
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
+                toolbar.btnCellStyle.menu.on('show:after',                  _.bind(this.onCellStyleMenuOpen, this));
                 toolbar.btnVisibleArea.menu.on('item:click',              _.bind(this.onVisibleAreaMenu, this));
                 toolbar.btnVisibleAreaClose.on('click',                   _.bind(this.onVisibleAreaClose, this));
                 toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
@@ -2251,11 +2252,77 @@ define([
             }
         },
 
+
+        onCellStyleMenuOpen: function(menu) {
+            if (menu && this.toolbar.mnuCellStylePicker) {
+                var picker = this.toolbar.mnuCellStylePicker,
+                    columnCount = 6;
+
+                if (picker.cmpEl) {
+                    var itemEl = $(picker.cmpEl.find('.dataview.inner .item').get(0)),
+                        itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right')),
+                        itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) : 106;
+
+                    var menuWidth = columnCount * (itemMargin + itemWidth) + 15, // for scroller
+                        menuMargins = parseFloat(picker.cmpEl.css('margin-left')) + parseFloat(picker.cmpEl.css('margin-right'));
+                    if (menuWidth + menuMargins>Common.Utils.innerWidth())
+                        menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-menuMargins-11)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 11;
+                    picker.cmpEl.css({
+                        'width': menuWidth
+                    });
+                    menu.alignPosition();
+                }
+            }
+
+            var scroller = this.toolbar.mnuCellStylePicker.scroller;
+            if (scroller) {
+                scroller.update({alwaysVisibleY: true});
+                scroller.scrollTop(0);
+            }
+
+            var val = this.toolbar.mnuCellStylePicker.store.findWhere({name: this._state.prstyle});
+            if (val)
+                this.toolbar.mnuCellStylePicker.selectRecord(val);
+            else
+                this.toolbar.mnuCellStylePicker.deselectAll();
+        },
+
         onApiInitEditorStyles: function(styles){
             window.styles_loaded = false;
 
+            if(this.toolbar.mode.isEditOle) {
+                var me = this;
+                function createPicker(element, menu) {
+                    var picker = new Common.UI.DataView({
+                        el: element,
+                        parentMenu  : menu,
+                        restoreHeight: 380,
+                        groups: new Common.UI.DataViewGroupStore(),
+                        store : new Common.UI.DataViewStore(),
+                        style: 'max-height: 380px;',
+                        itemTemplate: _.template('<div class="style"><img src="<%= imageUrl %>" id="<%= id %>" style="width:100px;height:20px;"></div>'),
+                        delayRenderTips: true
+                    });
+    
+                    picker.on('item:click', function(picker, item, record) {
+                        me.onListStyleSelect(picker, record);
+                    });
+    
+                    if (picker.scroller) {
+                        picker.scroller.update({alwaysVisibleY: true});
+                    }
+    
+                    return picker;
+                }
+    
+                if (_.isUndefined(this.toolbar.mnuCellStylePicker)) {
+                    this.toolbar.mnuCellStylePicker = createPicker($('#id-toolbar-menu-cell-styles'), this.toolbar.btnCellStyle.menu);
+                }
+            }
+
             var self = this,
-                listStyles = self.toolbar.listStyles;
+                listStyles = this.toolbar.mode.isEditOle ? self.toolbar.mnuCellStylePicker: self.toolbar.listStyles,
+                menuPicker = this.toolbar.mode.isEditOle ? listStyles: listStyles.menuPicker;
 
             if (!listStyles) {
                 self.styles = styles;
@@ -2263,8 +2330,17 @@ define([
             }
 
             var mainController = this.getApplication().getController('Main');
-            var count = listStyles.menuPicker.store.length;
-            var rec = listStyles.menuPicker.getSelectedRec();
+            var count = menuPicker.store.length;
+            var rec = menuPicker.getSelectedRec();
+            var groupStore = [
+                {id: 'menu-style-group-custom',     caption: this.txtGroupCell_Custom},
+                {id: 'menu-style-group-color',      caption: this.txtGroupCell_GoodBadAndNeutral},
+                {id: 'menu-style-group-model',      caption: this.txtGroupCell_DataAndModel},
+                {id: 'menu-style-group-title',      caption: this.txtGroupCell_TitlesAndHeadings},
+                {id: 'menu-style-group-themed',     caption: this.txtGroupCell_ThemedCallStyles}, 
+                {id: 'menu-style-group-number',     caption: this.txtGroupCell_NumberFormat},
+                {id: 'menu-style-group-no-name',    caption: this.txtGroupCell_NoName}
+            ];
             var groups = [];
             for (var i = 0; i < 4; i++) { groups.push('menu-style-group-color'); }
             for (var i = 0; i < 8; i++) { groups.push('menu-style-group-model'); }
@@ -2273,7 +2349,7 @@ define([
             for (var i = 0; i < 5; i++) { groups.push('menu-style-group-number'); }
             
             if (count>0 && count==styles.length) {
-                var data = listStyles.menuPicker.dataViewItems;
+                var data = menuPicker.dataViewItems;
                 data && _.each(styles, function(style, index){
                     var img = style.asc_getImage();
                     data[index].model.set('imageUrl', img, {silent: true});
@@ -2315,24 +2391,18 @@ define([
                 });
 
                 if(countCustomStyles == 0){
-                    listStyles.groups.models.forEach(function(style) {
-                        if(style.id === 'menu-style-group-custom'){
-                            listStyles.groups.remove(style);
-                        }
-                    });
+                    groupStore = groupStore.filter(function(item) { return item.id != 'menu-style-group-custom'; });
                 }
                 if(hasNoNameGroup === false){
-                    listStyles.groups.models.forEach(function(style) {
-                        if(style.id === 'menu-style-group-no-name'){
-                            listStyles.groups.remove(style);
-                        }
-                    });
+                    groupStore = groupStore.filter(function(item) { return item.id != 'menu-style-group-no-name'; });
                 }
-                listStyles.menuPicker.store.reset(arr);
+                
+                menuPicker.groups.reset(groupStore);
+                menuPicker.store.reset(arr);
             }
-            if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
-                rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
-                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true, true);
+            if (!this.toolbar.mode.isEditOle && menuPicker.store.length > 0 && listStyles.rendered) {
+                rec = rec ? menuPicker.store.findWhere({name: rec.get('name')}) : null;
+                listStyles.fillComboView(rec ? rec : menuPicker.store.at(0), true, true);
             }
             window.styles_loaded = true;
         },
@@ -3541,6 +3611,19 @@ define([
                 } else {
                     toolbar.mnuTableTemplatePicker.deselectAll();
                     this._state.tablestylename = null;
+                }
+            }
+
+            val = info.asc_getStyleName();
+            if (this._state.prstyle != val && this.toolbar.mnuCellStylePicker) {
+
+                val = this.toolbar.mnuCellStylePicker.store.findWhere({name: val});
+                if (val) {
+                    this.toolbar.mnuCellStylePicker.selectRecord(val);
+                    this._state.prstyle = val.get('name');
+                } else {
+                    this.toolbar.mnuCellStylePicker.deselectAll();
+                    this._state.prstyle = null;
                 }
             }
 
@@ -5177,6 +5260,13 @@ define([
         txtGroupTable_Light: 'Light',
         txtGroupTable_Medium: 'Medium',
         txtGroupTable_Dark: 'Dark',
+        txtGroupCell_Custom: 'Custom',
+        txtGroupCell_GoodBadAndNeutral: 'Good, Bad, and Neutral',
+        txtGroupCell_DataAndModel: 'Data and Model',
+        txtGroupCell_TitlesAndHeadings: 'Titles and Headings',
+        txtGroupCell_ThemedCallStyles: 'Themed Call Styles',
+        txtGroupCell_NumberFormat: 'Number Format',
+        txtGroupCell_NoName: 'No name',
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
         txtDeleteCells: 'Delete Cells',

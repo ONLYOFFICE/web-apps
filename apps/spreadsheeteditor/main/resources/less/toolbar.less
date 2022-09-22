@@ -168,8 +168,8 @@
     }
 }
 
-.combo-cell-styles {
 
+.combo-cell-styles, #id-toolbar-btn-cstyle {
     .dropdown-menu {
         padding: 5px 0px !important;
     }
@@ -188,6 +188,8 @@
         padding-right: 1px;
     }
     .grouped-data .group-items-container .item {
+        padding: @scaled-two-px-value;
+        border: @scaled-one-px-value solid @border-regular-control;
         margin: 0px calc(-1 * @scaled-one-px-value) calc(-1 * @scaled-one-px-value) 0px;
         box-shadow: none;
         &:hover {
