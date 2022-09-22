@@ -351,7 +351,12 @@ define([
         getCaptionWithBreaks: function (caption) {
             var words = caption.split(' '),
                 newCaption = null,
-                maxWidth = 160 - 4;//85 - 4;
+                maxWidth = 160 - 4, //85 - 4
+                containAnd = words.indexOf('&');
+            if (containAnd > -1) { // add & to previous word
+                words[containAnd - 1] += ' &';
+                words.splice(containAnd, 1);
+            }
             if (words.length > 1) {
                 maxWidth = !!this.menu || this.split === true ? maxWidth - 10 : maxWidth;
                 if (words.length < 3) {
@@ -364,8 +369,13 @@ define([
                         for (var i = 2; i < words.length; i++) {
                             otherWords += words[i] + ' ';
                         }
-                        otherWords = getShortText(otherWords.trim(), maxWidth);
-                        newCaption = words[0] + ' ' + words[1] + '<br>' + otherWords;
+                        if (getWidthOfCaption(otherWords + (!!this.menu ? 10 : 0))*2 < getWidthOfCaption(words[0] + ' ' + words[1])) {
+                            otherWords = getShortText((words[1] + ' ' + otherWords).trim(), maxWidth);
+                            newCaption = words[0] + '<br>' + otherWords;
+                        } else {
+                            otherWords = getShortText(otherWords.trim(), maxWidth);
+                            newCaption = words[0] + ' ' + words[1] + '<br>' + otherWords;
+                        }
                     } else { // only first word is in first line
                         for (var j = 1; j < words.length; j++) {
                             otherWords += words[j] + ' ';
