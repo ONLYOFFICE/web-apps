@@ -396,7 +396,7 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     reviewMode: false,
-                    fillFormwMode: false,
+                    fillFormMode: false,
                     allowMerge: false,
                     allowSignature: true,
                     allowProtect: true,
@@ -411,7 +411,8 @@ define([
                     viewport: false,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false
+                    plugins: false,
+                    protect: false
                 }, 'signature');
             }
         },

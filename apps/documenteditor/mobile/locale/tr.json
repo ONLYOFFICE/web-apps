@@ -6,7 +6,8 @@
     "textEmail": "E-posta",
     "textPoweredBy": "Tarafından",
     "textTel": "Telefon",
-    "textVersion": "Sürüm"
+    "textVersion": "Sürüm",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Dikkat",
@@ -57,7 +58,10 @@
     "textStartAt": "Başlangıç",
     "textTable": "Tablo",
     "textTableSize": "Tablo Boyutu",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textTableContents": "Table of Contents",
+    "textWithBlueLinks": "With Blue Links",
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "textDoNotShowAgain": "Tekrar gösterme",
     "textNumberingValue": "Numaralandırma değeri",
     "textOk": "Tamam",
-    "textRows": "Satırlar"
+    "textRows": "Satırlar",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Dikkat",
@@ -276,7 +283,6 @@
     "textPageBreakBefore": "Sayfa Sonu Öncesi",
     "textPageNumbering": "Sayfa Numaralandırma",
     "textParagraph": "Paragraf",
-    "textParagraphStyles": "Paragraf stilleri",
     "textPictureFromLibrary": "Kütüphaneden Resim",
     "textPictureFromURL": "URL'den resim",
     "textPt": "pt",
@@ -314,21 +320,50 @@
     "textTotalRow": "Toplam Satır",
     "textType": "Tip",
     "textWrap": "Metni Kaydır",
+    "textAmountOfLevels": "Amount of Levels",
+    "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
     "textEmpty": "Empty",
+    "textEnterTitleNewStyle": "Enter title of a new style",
     "textFebruary": "February",
+    "textFormal": "Formal",
     "textFr": "Fr",
     "textJanuary": "January",
     "textJuly": "July",
     "textJune": "June",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
     "textMarch": "March",
     "textMay": "May",
     "textMo": "Mo",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
     "textNovember": "November",
     "textOctober": "October",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
     "textSa": "Sa",
+    "textSameCreatedNewStyle": "Same as created new style",
     "textSeptember": "September",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
+    "textStyles": "Styles",
     "textSu": "Su",
+    "textTableOfCont": "TOC",
     "textTh": "Th",
+    "textTitle": "Title",
     "textTu": "Tu",
     "textWe": "We"
   },
@@ -370,7 +405,10 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -503,7 +541,8 @@
     "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
     "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",
@@ -614,20 +653,33 @@
     "txtScheme7": "Net Değer",
     "txtScheme8": "Yayılma",
     "txtScheme9": "Döküm",
+    "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
+    "textEmptyHeading": "Empty Heading",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textFastWV": "Fast Web View",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
+    "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
+    "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left",
     "textYes": "Yes",
     "txtScheme14": "Oriel",
-    "txtScheme19": "Trek",
-    "textPdfProducer": "PDF Producer"
+    "txtScheme19": "Trek"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
-    "stayButtonText": "Bu Sayfada Kal"
+    "stayButtonText": "Bu Sayfada Kal",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

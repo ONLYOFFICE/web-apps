@@ -1,0 +1,40 @@
+{
+  "author": {
+    "name": "程序猿小卡",
+    "email": "chyingp@gmail.com",
+    "url": "https://github.com/chyingp"
+  },
+  "name": "grunt-inline",
+  "description": "Inlines img, script and link tags into the same file.",
+  "version": "0.3.7",
+  "keywords": [
+    "gruntplugin",
+    "inline",
+    "js",
+    "css"
+  ],
+  "main": "inline",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chyingp/grunt-inline.git"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-nodeunit": "^4.0.0",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-htmlmin": "^3.1.0",
+    "grunt": "^1.4.0"
+  },
+  "dependencies": {
+    "uglify-js": "^3.15.1",
+    "datauri": "^4.1.0",
+    "clean-css": "^5.2.4"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "_id": "grunt-inline@0.1.0",
+  "_from": "grunt-inline@~0.1.0"
+}

@@ -39,8 +39,46 @@
     height: 125px;
     cursor: pointer;
 
-    svg&:hover {
-        opacity:0.85;
+    .svg-format- {
+        &pptx {
+            background: ~"url('@{common-image-const-path}/doc-formats/pptx.svg') no-repeat center";
+        }
+        &pdf {
+            background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
+        }
+        &odp {
+            background: ~"url('@{common-image-const-path}/doc-formats/odp.svg') no-repeat center";
+        }
+        &potx {
+            background: ~"url('@{common-image-const-path}/doc-formats/potx.svg') no-repeat center";
+        }
+        &pdfa {
+            background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
+        }
+        &otp {
+            background: ~"url('@{common-image-const-path}/doc-formats/otp.svg') no-repeat center";
+        }
+        &ppsx {
+            background: ~"url('@{common-image-const-path}/doc-formats/ppsx.svg') no-repeat center";
+        }
+        &png {
+            background: ~"url('@{common-image-const-path}/doc-formats/png.svg') no-repeat center";
+        }
+        &jpg {
+            background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
+        }
+        &pptm {
+            background: ~"url('@{common-image-const-path}/doc-formats/pptm.svg') no-repeat center";
+        }
+    }
+
+    div {
+        display: block;
+        height: 100%;
+        width: 100%;
+        &:hover {
+            opacity: 0.85;
+        }
     }
 }
 
@@ -49,6 +87,19 @@
     width: 96px;
     height: 96px;
     cursor: pointer;
+
+    .svg-format-blank {
+        background: ~"url(@{common-image-const-path}/doc-formats/blank.svg) no-repeat center" ;
+    }
+    .svg-file-template{
+        background: ~"url(@{app-image-const-path}/file-template.svg) no-repeat center" ;
+    }
+
+    div {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
 }
 
 #file-menu-panel {
@@ -161,18 +212,31 @@
 
         #panel-settings {
             table {
-                width: 100%;
+                width: auto !important;
 
                 tr {
                     td {
-                        padding: 5px 10px;
+                        padding: 6px 10px;
+                        width: auto !important;
+                        &.group-name  label {
+                            font-size: 14px;
+                            .font-weight-bold();
+                        }
 
+                        &.subgroup-name label{
+                            font-size: 11px;
+                            .font-weight-bold();
+                        }
+
+                        .comment-text{
+                            opacity: 0.45;
+                        }
                         &.left {
                             text-align: right;
                             width: 30%;
 
                             label {
-                                font-weight: bold;
+                                .font-weight-bold();
                                 font-size: 12px;
                             }
                         }
@@ -185,6 +249,9 @@
                     &.divider {
                         height: 10px;
                     }
+                    &.divider-group {
+                        height: 12px;
+                    }
                 }
             }
         }
@@ -195,7 +262,7 @@
                 font-size: 10pt;
                 color: @text-normal-ie;
                 color: @text-normal;
-                font-weight: bold;
+                .font-weight-bold();
                 padding: 0 0 10px 10px;
                 white-space: nowrap;
             }
@@ -291,9 +358,12 @@
                     width: 25px;
                     height: 25px;
                     margin-top: 1px;
-                    svg {
+                    div {
                         width: 100%;
                         height: 100%;
+                        .svg-file-recent {
+                            background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
+                        }
                     }
                 }
 
@@ -378,7 +448,7 @@
                             width: 30%;
 
                             label {
-                                font-weight: bold;
+                                .font-weight-bold();
                             }
                         }
 
@@ -399,7 +469,6 @@
             }
 
             .userLink {
-                .background-ximage('@{common-image-path}/@{common-controls}', '@{common-image-path}/@{common-controls2x}', 100px);
                 background-position: -81px -234px;
                 background-repeat: no-repeat;
                 padding: 0 0 0 17px;
@@ -440,7 +509,7 @@
             padding: 30px 30px;
 
             .header {
-                font-weight: bold;
+                .font-weight-bold();
                 margin: 30px 0 10px;
             }
 

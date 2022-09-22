@@ -3,6 +3,7 @@
     "textAbout": "Περί",
     "textAddress": "Διεύθυνση",
     "textBack": "Πίσω",
+    "textEditor": "Συντάκτης Παρουσίασης",
     "textEmail": "Email",
     "textPoweredBy": "Υποστηρίζεται Από",
     "textTel": "Τηλ",
@@ -58,7 +59,9 @@
     "textColumns": "Στήλες",
     "textCopyCutPasteActions": "Ενέργειες Αντιγραφής, Αποκοπής και Επικόλλησης",
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
-    "textRows": "Γραμμές"
+    "textRows": "Γραμμές",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Απομνημόνευση επιλογής",
       "textReplaceSkipped": "Η αντικατάσταση έγινε. {0} εμφανίσεις προσπεράστηκαν.",
       "textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
+      "textRequestMacros": "Μια μακροεντολή κάνει ένα αίτημα σε διεύθυνση URL. Θέλετε να επιτρέψετε το αίτημα στο %1;",
       "textYes": "Ναι",
       "titleLicenseExp": "Η άδεια έληξε",
       "titleServerVersion": "Ο συντάκτης ενημερώθηκε",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Τυπικό (4:3)",
       "mniSlideWide": "Ευρεία οθόνη (16:9)",
+      "notcriticalErrorTitle": "Προειδοποίηση",
       "textAbout": "Περί",
       "textAddress": "διεύθυνση: ",
       "textApplication": "Εφαρμογή",
@@ -419,6 +424,7 @@
       "textEmail": "email: ",
       "textEnableAll": "Ενεργοποίηση Όλων",
       "textEnableAllMacrosWithoutNotification": "Ενεργοποίηση όλων των μακροεντολών χωρίς ειδοποίηση",
+      "textFeedback": "Ανατροφοδότηση & Υποστήριξη",
       "textFind": "Εύρεση",
       "textFindAndReplace": "Εύρεση και Αντικατάσταση",
       "textFindAndReplaceAll": "Εύρεση και Αντικατάσταση Όλων",
@@ -431,6 +437,7 @@
       "textLocation": "Τοποθεσία",
       "textMacrosSettings": "Ρυθμίσεις Mακροεντολών",
       "textNoTextFound": "Δεν βρέθηκε το κείμενο",
+      "textOk": "Εντάξει",
       "textOwner": "Κάτοχος",
       "textPoint": "Σημείο",
       "textPoweredBy": "Υποστηρίζεται Από",
@@ -440,6 +447,8 @@
       "textPrint": "Εκτύπωση",
       "textReplace": "Αντικατάσταση",
       "textReplaceAll": "Αντικατάσταση Όλων",
+      "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
+      "textRTL": "ΑΠΔ",
       "textSearch": "Αναζήτηση",
       "textSettings": "Ρυθμίσεις",
       "textShowNotification": "Εμφάνιση Ειδοποίησης",

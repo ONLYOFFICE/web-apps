@@ -503,7 +503,7 @@
 @icon-height: 20px;
 .svg-icon {
     background: data-uri('../../../../common/embed/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: @icon-width*19 @icon-height*2;
+    background-size: @icon-width*29 @icon-height*2;
 
     &.download {
         background-position: -@icon-width 0;
@@ -556,6 +556,18 @@
     }
     &.more-vertical {
         background-position: -@icon-width*14 0;
+    }
+    &.search-close {
+        background-position: -@icon-width*18 0;
+    }
+    &.search {
+        background-position: -@icon-width*24 0;
+    }
+    &.search-arrow-up {
+        background-position: -@icon-width*27 0;
+    }
+    &.search-arrow-down {
+        background-position: -@icon-width*28 0;
     }
 }
 
@@ -783,6 +795,75 @@
     .tooltip-inner {
         .toolbar & {
             font-weight: normal;
+        }
+    }
+}
+
+#id-search {
+    button.active {
+        background-color: @btnActiveColor !important;
+        background-position: -@icon-width*19 -@icon-height;
+    }
+}
+
+.search-window {
+    width: 301px;
+    height: 54px;
+    z-index: 50;
+    position: fixed;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    border: solid 1px #CBCBCB;
+
+    .body {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        background-color: #FFFFFF;
+        display: flex;
+        padding: 16px;
+
+        input {
+            width: 192px;
+            height: 22px;
+            border-radius: 2px;
+            box-shadow: none;
+            border: solid 1px #CFCFCF;
+            padding: 1px 3px;
+            color: #444444;
+            font-size: 11px;
+
+            &::placeholder {
+                color: #CFCFCF;
+            }
+
+            &:focus {
+                border-color: #848484;
+                outline: 0;
+            }
+        }
+
+        .tools {
+            display: flex;
+
+            button {
+                border: none;
+                margin-left: 7px;
+                cursor: pointer;
+                width: 20px;
+                height: 20px;
+                opacity: 0.8;
+
+                &:hover:not(:disabled) {
+                    background-color: #d8dadc;
+                }
+
+                &:disabled {
+                    opacity: 0.4;
+                    cursor: default;
+                }
+            }
         }
     }
 }

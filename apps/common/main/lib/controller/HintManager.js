@@ -44,6 +44,7 @@
  *      <button ... data-hint="1" data-hint-direction="right" data-hint-offset="big" data-hint-title="B">...</button>
  *      <label ... data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" data-hint-title="L">...</label>
  *
+ *
  *  Example usage with components:
  *
  *      new Common.UI.Button({
@@ -117,7 +118,11 @@ Common.UI.HintManager = new(function() {
         _inputTimer,
         _isDocReady = false,
         _isEditDiagram = false,
-        _usedTitles = [];
+        _usedTitles = [],
+        _appPrefix,
+        _staticHints = { // for desktop buttons
+            "btnhome": 'K'
+        };
 
     var _api;
 
@@ -133,7 +138,7 @@ Common.UI.HintManager = new(function() {
             return;
         }
         if (_isEditDiagram) {
-            _currentSection = [$(window.parent.document).find('.advanced-settings-dlg')[0], window.document];
+            _currentSection = [$(window.parent.document).find('.advanced-settings-dlg:visible')[0], window.document];
         } else if ($('#file-menu-panel').is(':visible')) {
             _currentSection = $('#file-menu-panel');
         } else {
@@ -170,6 +175,8 @@ Common.UI.HintManager = new(function() {
         } else {
             _hintVisible = false;
         }
+
+        Common.NotificationCenter.trigger('hints:show', _hintVisible, _currentLevel);
     };
 
     var _hideHints = function() {
@@ -178,6 +185,8 @@ Common.UI.HintManager = new(function() {
             item.remove()
         });
         clearInterval(_inputTimer);
+
+        Common.NotificationCenter.trigger('hints:show', false);
     };
 
     var _nextLevel = function(level) {
@@ -216,6 +225,15 @@ Common.UI.HintManager = new(function() {
             }
         }
         return arr;
+    };
+
+    var _getLetterInUILanguage = function (letter) {
+        var l = letter;
+        if (_arrAlphabet.indexOf(l) === -1) {
+            var ind = _arrEnAlphabet.indexOf(l);
+            l = _arrAlphabet[ind];
+        }
+        return l;
     };
 
     var _isItemDisabled = function (item) {
@@ -263,21 +281,25 @@ Common.UI.HintManager = new(function() {
             });
             return;
         }
-        var _arrLetters = [];
+        var _arrLetters = [],
+            _usedLetters = [];
+        if (_currentLevel === 0) {
+            for (var key in _staticHints) {
+                var t = _staticHints[key].toLowerCase();
+                _usedTitles.push(t);
+                _usedLetters.push(_arrAlphabet.indexOf(t));
+            }
+        }
         if (visibleItems.length > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
                 var t = $(item).data('hint-title').toLowerCase();
-                if (_arrAlphabet.indexOf(t) === -1) {
-                    var ind = _arrEnAlphabet.indexOf(t);
-                    t = _arrAlphabet[ind];
-                }
+                t = _getLetterInUILanguage(t);
                 _usedTitles.push(t);
             });
-            _arrLetters = _getLetters(visibleItems.length);
+            _arrLetters = _getLetters(visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0));
         } else {
             _arrLetters = _arrAlphabet.slice();
         }
-        var usedLetters = [];
         if (arrItemsWithTitle.length > 0) {
             visibleItems.forEach(function (item) {
                 var el = $(item);
@@ -285,9 +307,9 @@ Common.UI.HintManager = new(function() {
                 if (title) {
                     var ind = _arrEnAlphabet.indexOf(title.toLowerCase());
                     if (ind === -1) { // we have already changed
-                        usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
+                        _usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
                     } else {
-                        usedLetters.push(ind);
+                        _usedLetters.push(ind);
                         if (_lang !== 'en') {
                             el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
                         }
@@ -298,7 +320,7 @@ Common.UI.HintManager = new(function() {
         var index = 0;
         visibleItems.forEach(function (item) {
             var el = $(item);
-            while (usedLetters.indexOf(index) !== -1) {
+            while (_usedLetters.indexOf(index) !== -1) {
                 index++;
             }
             var title = el.attr('data-hint-title');
@@ -326,7 +348,7 @@ Common.UI.HintManager = new(function() {
             if (!_isItemDisabled(item)) {
                 var leftBorder = 0,
                     rightBorder = docW;
-                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || item.closest('.group').find('.toolbar-group-mask').length > 0)
+                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0)
                     || ($('#about-menu-panel').is(':visible') && item.closest('.hint-section').prop('id') === 'right-menu')) { // don't show right menu hints when about is visible
                     return;
                 }
@@ -436,6 +458,10 @@ Common.UI.HintManager = new(function() {
 
     var _init = function(api) {
         _api = api;
+
+        var filter = Common.localStorage.getKeysFilter();
+        _appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
                 var lang = mode.lang ? mode.lang.toLowerCase() : 'en';
@@ -537,7 +563,7 @@ Common.UI.HintManager = new(function() {
                             } else {
                                 _isComplete = false;
                                 _hideHints();
-                                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0 || curr.closest('.group').find('.toolbar-group-mask').length > 0)) {
+                                if (!_isEditDiagram && $(_currentSection).prop('id') === 'toolbar' && ($(_currentSection).find('.toolbar-mask').length > 0)) {
                                     _resetToDefault();
                                     return;
                                 }
@@ -559,7 +585,7 @@ Common.UI.HintManager = new(function() {
                                 if (curr.prop('id') === 'btn-goback' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
                                     curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
                                     curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about' ||
-                                    curr.prop('id') === 'left-btn-support') {
+                                    curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search') {
                                     _resetToDefault();
                                     return;
                                 }
@@ -594,7 +620,9 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (!e.shiftKey && e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0);
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
+                !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
+                !(window.PE && $('#pe-preview').is(':visible')));
             if (e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
@@ -609,7 +637,16 @@ Common.UI.HintManager = new(function() {
                 _arrAlphabet = langsJson[lang];
                 return _arrAlphabet;
             };
-            return !_setAlphabet(lng) ? (!_setAlphabet(lng.split(/[\-_]/)[0]) ? _setAlphabet('en') : true) : true;
+            var loaded = !_setAlphabet(lng) ? (!_setAlphabet(lng.split(/[\-_]/)[0]) ? _setAlphabet('en') : true) : true;
+            if (loaded && _lang !== 'en') {
+                for (var key in _staticHints) {
+                    var hint = _getLetterInUILanguage(_staticHints[key].toLowerCase());
+                    if (hint) {
+                        _staticHints[key] = hint.toUpperCase();
+                    }
+                }
+            }
+            return loaded;
         });
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/qwertyletters.json', function (langsJson) {
             _arrQwerty = langsJson[_lang];
@@ -638,7 +675,9 @@ Common.UI.HintManager = new(function() {
             $('.hint-div').remove();
         }
         if ($('iframe').length > 0) {
-            $('iframe').contents().find('.hint-div').remove();
+            try {
+                $('iframe').contents().find('.hint-div').remove();
+            } catch (e) {}
         }
     };
 
@@ -647,7 +686,11 @@ Common.UI.HintManager = new(function() {
     };
 
     var _setMode = function (mode) {
-        _isEditDiagram = mode.isEditDiagram;
+        _isEditDiagram = mode.isEditDiagram || mode.isEditMailMerge || mode.isEditOle;
+    };
+
+    var _getStaticHint = function (key) {
+        return _staticHints[key];
     };
 
     return {
@@ -655,6 +698,7 @@ Common.UI.HintManager = new(function() {
         setMode: _setMode,
         clearHints: _clearHints,
         needCloseFileMenu: _needCloseFileMenu,
-        isHintVisible: _isHintVisible
+        isHintVisible: _isHintVisible,
+        getStaticHint: _getStaticHint
     }
 })();

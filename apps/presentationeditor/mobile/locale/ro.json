@@ -3,6 +3,7 @@
     "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
+    "textEditor": "Editor de prezentări",
     "textEmail": "Email",
     "textPoweredBy": "Dezvoltat de",
     "textTel": "Tel",
@@ -58,7 +59,9 @@
     "textColumns": "Coloane",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
-    "textRows": "Rânduri"
+    "textOk": "OK",
+    "textRows": "Rânduri",
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Reține opțiunea mea",
       "textReplaceSkipped": "A avut loc o înlocuire. {0} apariții ignorate.",
       "textReplaceSuccess": "Căutarea a fost finalizată. Înlocuiri: {0}",
+      "textRequestMacros": "O macrocomandă trimite o solicitare URL. Doriți să permiteți ca solicitarea să fie trimisă către %1?",
       "textYes": "Da",
       "titleLicenseExp": "Licența a expirat",
       "titleServerVersion": "Editorul a fost actualizat",
@@ -151,7 +155,7 @@
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
     "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
-    "errorUpdateVersionOnDisconnect": "Conexiunea la Internet s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
+    "errorUpdateVersionOnDisconnect": "Conexiunea s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
     "errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
     "errorUsersExceed": "Limita de utilizatori stipulată de planul tarifar a fost depășită",
     "errorViewerDisconnect": "Conexiunea a fost pierdută. Încă mai puteți vizualiza documentul,<br>dar nu și să-l descărcați până când conexiunea se restabilește și pagina se reîmprospătează.",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Ecran lat (16:9)",
+      "notcriticalErrorTitle": "Avertisment",
       "textAbout": "Informații",
       "textAddress": "adresă:",
       "textApplication": "Aplicația",
@@ -419,6 +424,7 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Se activează toate",
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile cu notificare  ",
+      "textFeedback": "Feedback și asistența",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
       "textFindAndReplaceAll": "Găsire și înlocuire totală",
@@ -431,6 +437,7 @@
       "textLocation": "Locația",
       "textMacrosSettings": "Setări macrocomandă",
       "textNoTextFound": "Textul nu a fost găsit",
+      "textOk": "OK",
       "textOwner": "Proprietar",
       "textPoint": "Punct",
       "textPoweredBy": "Dezvoltat de",
@@ -440,6 +447,8 @@
       "textPrint": "Imprimare",
       "textReplace": "Înlocuire",
       "textReplaceAll": "Înlocuire peste tot",
+      "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
+      "textRTL": "Dreapta spre stânga (RTL)",
       "textSearch": "Căutare",
       "textSettings": "Setări",
       "textShowNotification": "Afișare notificări",

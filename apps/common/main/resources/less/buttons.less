@@ -1,4 +1,4 @@
-@x-huge-btn-height: 46px;
+@x-huge-btn-height: 52px;
 @x-huge-btn-icon-size: 28px;
 
 .btn {
@@ -70,6 +70,9 @@
 
         transition: transform 0.2s ease;
         transform: rotate(-135deg) translate(1px,1px);
+        &.compact-caret {
+            display: none;
+        }
     }
 
     //&:active,
@@ -229,14 +232,24 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 0 2px;
+            padding: 1px 3px;
             display: flex;
-            align-items: center;
+            //align-items: center;
+            align-items: start;
+            height: 24px;
 
             .caption {
-                max-width: 107px;
+                max-width: 85px;
+                max-height: 24px;
                 text-overflow: ellipsis;
-                overflow: hidden;
+
+                white-space: pre;
+                line-height: 11px;
+                padding: 0 2px;
+
+                .caret {
+                    margin: 0 1px 0 4px;
+                }
             }
         }
 
@@ -267,9 +280,10 @@
 
         &.dropdown-toggle {
             .caption {
-                max-width: 100px;
+                //max-width: 100px;
             }
         }
+
     }
 
     .inner-box-icon {
@@ -295,7 +309,7 @@
 
     .inner-box-caption {
         margin: 0;
-        height: 18px;
+        height: 20px;
     }
 
     div.inner-box-icon {
@@ -462,8 +476,9 @@
     display: block;
     position: relative;
     .border-radius(0);
+    .font-weight-bold();
     background-color: transparent;
-    font-weight: bold;
+
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
@@ -688,6 +703,7 @@
     &:active:not(.disabled),
     &.active:not(.disabled) {
         .caret {
+            border-color: @icon-normal-ie;
             border-color: @icon-normal;
         }
     }
@@ -907,7 +923,7 @@
         background-repeat: no-repeat;
     }
 
-    &.dropdown-toggle:first-child .inner-box-caret {
+    &:not(.btn-toolbar).dropdown-toggle:first-child .inner-box-caret {
       padding: 0 1px 0 2px;
     }
 
@@ -1006,6 +1022,7 @@
     &.active:not(.disabled) {
         .caret {
             background-position: @arrow-small-offset-x @arrow-small-offset-y;
+            border-color: @icon-normal-ie;
             border-color: @icon-normal;
         }
     }
@@ -1032,7 +1049,7 @@
 // ------------------------
 
 .dlg-btn {
-    font-weight: bold;
+    .font-weight-bold();
     width: 86px;
     color: @text-normal-ie;
     color: @text-normal;

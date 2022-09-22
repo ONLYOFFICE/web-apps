@@ -60,10 +60,8 @@ define([
 
             events: function() {
                 return {
-                    'click #status-btn-tabfirst': _.bind(this.onBtnTabScroll, this, 'first'),
                     'click #status-btn-tabback': _.bind(this.onBtnTabScroll, this, 'backward'),
-                    'click #status-btn-tabnext': _.bind(this.onBtnTabScroll, this, 'forward'),
-                    'click #status-btn-tablast': _.bind(this.onBtnTabScroll, this, 'last')
+                    'click #status-btn-tabnext': _.bind(this.onBtnTabScroll, this, 'forward')
                 };
             },
 
@@ -100,13 +98,6 @@ define([
                     hintAnchor: 'top-right'
                 });
 
-                this.btnScrollFirst = new Common.UI.Button({
-                    el: $('#status-btn-tabfirst',this.el),
-                    hint: this.tipFirst,
-                    disabled: true,
-                    hintAnchor: 'top'
-                });
-
                 this.btnScrollBack = new Common.UI.Button({
                     el: $('#status-btn-tabback',this.el),
                     hint: this.tipPrev,
@@ -117,13 +108,6 @@ define([
                 this.btnScrollNext = new Common.UI.Button({
                     el: $('#status-btn-tabnext',this.el),
                     hint: this.tipNext,
-                    disabled: true,
-                    hintAnchor: 'top'
-                });
-
-                this.btnScrollLast = new Common.UI.Button({
-                    el: $('#status-btn-tablast',this.el),
-                    hint: this.tipLast,
                     disabled: true,
                     hintAnchor: 'top'
                 });
@@ -335,8 +319,12 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 240px;"></div>') },
-                        { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 164px;display: inline-block;"></div>') },
+                        {caption: '--'},
+                        {
+                            id: "id-tab-menu-new-color",
+                            template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + me.textNewColor + '</a>')
+                        }
                     ]
                 });
 
@@ -373,11 +361,15 @@ define([
                 }).on('render:after', function(btn) {
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
+                            outerMenu: {menu: menuColorItems, index: 0, focusOnShow: true},
                             transparent: true
                         });
-
+                        menuColorItems.setInnerMenu([{menu: me.mnuTabColor, index: 0}]);
                         me.mnuTabColor.on('select', function(picker, color) {
                             me.fireEvent('sheet:setcolor', [color]);
+                            setTimeout(function(){
+                                me.tabMenu.hide();
+                            }, 1);
                         });
                     });
 
@@ -516,8 +508,16 @@ define([
                 this.mode = _.extend({}, this.mode, mode);
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
-                $('#status-addtabs-box')[this.mode.isEdit ? 'show' : 'hide']();
+                $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+                if (this.mode.isEditOle) { // change hints order
+                    this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollBack.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.btnScrollNext.$el.find('button').addBack().filter('button').attr('data-hint', '1');
+                    this.cntSheetList.$el.find('button').attr('data-hint', '1');
+                    this.cntSheetList.$el.find('button').removeAttr('data-hint-title'); // 'v' hint is used for paste
+                    this.cntZoom.$el.find('.dropdown-toggle').attr('data-hint', '1');
+                }
                 this.updateTabbarBorders();
             },
 
@@ -610,7 +610,7 @@ define([
                     if (this.mode.isEdit) {
                         this.tabbar.addDataHint(_.findIndex(items, function (item) {
                             return item.sheetindex === sindex;
-                        }));
+                        }), this.mode.isEditOle ? '1' : '0');
                     }
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
@@ -699,7 +699,7 @@ define([
                 }
 
                 if (this.mode.isEdit) {
-                    this.tabbar.addDataHint(index);
+                    this.tabbar.addDataHint(index, this.mode.isEditOle ? '1' : '0');
                 }
 
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
@@ -710,7 +710,7 @@ define([
 
             onTabMenu: function (o, index, tab, select) {
                 var me = this;
-                if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                if (this.mode.isEdit  && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
                     !this.mode.isDisconnected ) {
@@ -745,6 +745,7 @@ define([
                         this.tabMenu.items[7].setDisabled(select.length>1);
                         this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
 
+                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle);
                         this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
@@ -806,13 +807,11 @@ define([
             },
 
             onTabInvisible: function(obj, opts) {
-                if (this.btnScrollFirst.isDisabled() !== (!opts.first)) {
-                    this.btnScrollFirst.setDisabled(!opts.first);
+                if (this.btnScrollBack.isDisabled() !== (!opts.first)) {
                     this.btnScrollBack.setDisabled(!opts.first);
                 }
                 if (this.btnScrollNext.isDisabled() !== (!opts.last)) {
                     this.btnScrollNext.setDisabled(!opts.last);
-                    this.btnScrollLast.setDisabled(!opts.last);
                 }
                 this.hasTabInvisible = opts.first || opts.last;
             },
@@ -839,8 +838,8 @@ define([
                     if (this.boxAction.is(':visible')) {
                         var tabsWidth = this.tabbar.getWidth();
                         var actionWidth = this.actionWidth || 140;
-                        if (Common.Utils.innerWidth() - right - 175 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
-                            var left = tabsWidth + 175;
+                        if (Common.Utils.innerWidth() - right - 129 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
+                            var left = tabsWidth + 129;
                             this.boxAction.css({'right': right + 'px', 'left': left + 'px', 'width': 'auto'});
                             this.boxAction.find('.separator').css('border-left-color', 'transparent');
                         } else {
@@ -890,11 +889,12 @@ define([
                 }
             },
 
-            changeViewMode: function (edit) {
+            changeViewMode: function (mode) {
+                var edit = mode.isEdit;
                 if (edit) {
-                    this.tabBarBox.css('left',  '175px');
+                    this.tabBarBox.css('left', '129px');
                 } else {
-                    this.tabBarBox.css('left',  '');
+                    this.tabBarBox.css('left', '');
                 }
 
                 this.tabbar.options.draggable = edit;
@@ -968,7 +968,7 @@ define([
                     //this.boxAction.show();
                 }
                 this.updateTabbarBorders();
-                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
+                (this.tabbar.getCount()>0) && this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
             },
 
             updateNumberOfSheet: function (active, count) {
@@ -1023,8 +1023,6 @@ define([
             tipZoomIn           : 'Zoom In',
             tipZoomOut          : 'Zoom Out',
             tipZoomFactor       : 'Magnification',
-            tipFirst            : 'First Sheet',
-            tipLast             : 'Last Sheet',
             tipPrev             : 'Previous Sheet',
             tipNext             : 'Next Sheet',
             tipAddTab           : 'Add Worksheet',

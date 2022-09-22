@@ -93,6 +93,16 @@
             "themes": {
                 "src": "../apps/common/main/resources/themes/themes.json",
                 "dest": "../deploy/web-apps/apps/common/main/resources/themes/themes.json"
+            },
+            "help": {
+                "expand": true,
+                "cwd": "../apps/common/main/resources/help/",
+                "src": [
+                    "**/*.{png,jpg,gif,html,css}",
+                    "!*_/**",
+                    "!**/src/**"
+                ],
+                "dest": "../deploy/web-apps/apps/common/main/resources/help/"
             }
         },
         "imagemin": {
@@ -113,7 +123,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img",
-                    "src": "**/*_s.svg",
+                    "src": "**/*.svg",
                     "dest": "../deploy/web-apps/apps/common/main/resources/img"
                 }
             ]
@@ -189,28 +199,6 @@
             "script": {
                 "src": "../vendor/xregexp/xregexp-all-min.js",
                 "dest": "../deploy/web-apps/vendor/xregexp/xregexp-all-min.js"
-            }
-        }
-    },
-    "jszip": {
-        "clean": [
-            "../deploy/web-apps/vendor/jszip"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jszip/jszip.min.js",
-                "dest": "../deploy/web-apps/vendor/jszip/jszip.min.js"
-            }
-        }
-    },
-    "jsziputils": {
-        "clean": [
-            "../deploy/web-apps/vendor/jszip-utils"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/jszip-utils/jszip-utils.min.js",
-                "dest": "../deploy/web-apps/vendor/jszip-utils/jszip-utils.min.js"
             }
         }
     },
@@ -293,8 +281,6 @@
             "deploy-bootstrap",
             "deploy-iscroll",
             "deploy-fetch",
-            "deploy-jszip",
-            "deploy-jsziputils",
             "deploy-es6-promise",
             "deploy-common-embed"
         ]

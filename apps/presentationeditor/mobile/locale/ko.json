@@ -6,7 +6,8 @@
     "textEmail": "이메일",
     "textPoweredBy": "기술 지원",
     "textTel": "전화 번호",
-    "textVersion": "버전"
+    "textVersion": "버전",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "열",
     "textCopyCutPasteActions": "복사, 잘라내기 및 붙여 넣기",
     "textDoNotShowAgain": "다시 표시하지 않음",
-    "textRows": "행"
+    "textRows": "행",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -126,7 +129,8 @@
       "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다."
+      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -472,7 +476,12 @@
       "txtScheme6": "광장",
       "txtScheme7": "같음",
       "txtScheme8": "플로우",
-      "txtScheme9": "발견"
+      "txtScheme9": "발견",
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

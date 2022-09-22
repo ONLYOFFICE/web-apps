@@ -6,7 +6,8 @@
     "textEmail": "ອີເມລ",
     "textPoweredBy": "ສ້າງໂດຍ",
     "textTel": "ໂທ",
-    "textVersion": "ລຸ້ນ"
+    "textVersion": "ລຸ້ນ",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "ເຕືອນ",
@@ -57,7 +58,10 @@
     "textStartAt": "ເລີ່ມຈາກ",
     "textTable": "ຕາຕະລາງ",
     "textTableSize": "ຂະໜາດຕາຕະລາງ",
-    "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\""
+    "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithBlueLinks": "With Blue Links",
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
     "textNumberingValue": "ມູນຄ່າ ໝາຍ ເລກ",
     "textOk": "ຕົກລົງ",
-    "textRows": "ແຖວ"
+    "textRows": "ແຖວ",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "ເຕືອນ",
@@ -287,7 +294,6 @@
     "textPageBreakBefore": "ແຍກໜ້າເອກະສານກ່ອນໜ້າ",
     "textPageNumbering": "ເລກໜ້າ",
     "textParagraph": "ວັກ",
-    "textParagraphStyles": "ຮຸບແບບວັກ",
     "textPictureFromLibrary": "ຮູບພາບຈາກຫ້ອງສະໝຸດ",
     "textPictureFromURL": "ຮູບພາບຈາກ URL",
     "textPt": "pt",
@@ -330,7 +336,36 @@
     "textTu": "ວັນອັງຄານ",
     "textType": "ພິມ",
     "textWe": "ພວກເຮົາ",
-    "textWrap": "ຫໍ່"
+    "textWrap": "ຫໍ່",
+    "textAmountOfLevels": "Amount of Levels",
+    "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
+    "textEnterTitleNewStyle": "Enter title of a new style",
+    "textFormal": "Formal",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
+    "textSameCreatedNewStyle": "Same as created new style",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
+    "textStyles": "Styles",
+    "textTableOfCont": "TOC",
+    "textTitle": "Title"
   },
   "Error": {
     "convertationTimeoutText": "ໝົດເວລາການປ່ຽນແປງ.",
@@ -370,7 +405,10 @@
     "unknownErrorText": "ມີຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິດຜາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
-    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB."
+    "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",
@@ -503,7 +541,8 @@
     "warnLicenseUsersExceeded": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບຜູ້ແກ້ໄຂ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ທີມບໍລິຫານເພື່ອຂໍ້ມູນເພີ່ມເຕີ່ມ",
     "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
     "warnNoLicenseUsers": "ຈໍານວນການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່ ທີມຂາຍ %1 ສຳລັບຂໍ້ກຳນົດການຍົກລະດັບສິດ",
-    "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້."
+    "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "ເອກະສານທີ່ໄດ້ຮັບການປົກປ້ອງ",
@@ -622,12 +661,25 @@
     "txtScheme7": "ຄວາມເທົ່າທຽມກັນ",
     "txtScheme8": "ຂະບວນການ",
     "txtScheme9": "ໂຮງຫລໍ່",
-    "textPdfProducer": "PDF Producer"
+    "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
+    "textEmptyHeading": "Empty Heading",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
+    "textNavigation": "Navigation",
+    "textPdfProducer": "PDF Producer",
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
     "dlgLeaveTitleText": "ທ່ານໄດ້ອອກຈາກໜ້າຄໍາຮ້ອງສະຫມັກ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
-    "stayButtonText": "ຢູ່ໃນໜ້ານີ້"
+    "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

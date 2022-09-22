@@ -3,6 +3,7 @@
     "textAbout": "In riguardo a",
     "textAddress": "Indirizzo",
     "textBack": "Indietro",
+    "textEditor": "Presentation Editor",
     "textEmail": "Email",
     "textPoweredBy": "Sviluppato da",
     "textTel": "Tel.",
@@ -58,7 +59,9 @@
     "textColumns": "Colonne",
     "textCopyCutPasteActions": "Funzioni di Copiare, Tagliare e Incollare",
     "textDoNotShowAgain": "Non mostrare di nuovo",
-    "textRows": "Righe"
+    "textOk": "Ok",
+    "textRows": "Righe",
+    "txtWarnUrl": "Fare clic su questo collegamento può danneggiare il tuo dispositivo e i tuoi dati.<br>Sei sicuro che vuoi continuare?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Ricordare la mia scelta",
       "textReplaceSkipped": "La sostituzione è stata effettuata. {0} casi sono stati saltati.",
       "textReplaceSuccess": "La ricerca è stata effettuata. Casi sostituiti: {0}",
+      "textRequestMacros": "Una macro effettua una richiesta all'URL. Vuoi consentire la richiesta al %1?",
       "textYes": "Sì",
       "titleLicenseExp": "La licenza è scaduta",
       "titleServerVersion": "L'editor è stato aggiornato",
@@ -151,7 +155,7 @@
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
     "errorStockChart": "Ordine delle righe incorretto. Per creare un grafico azionario, inserisci i dati sul foglio nel seguente ordine:<br> prezzo di apertura, prezzo massimo, prezzo minimo, prezzo di chiusura.",
-    "errorUpdateVersionOnDisconnect": "La connessione a Internet è stata ripristinata e la versione del file è stata cambiata.<br>Prima di poter continuare a lavorare, scarica il file o copia il suo contenuto per assicurarti che non vada perso nulla, e poi ricarica questa pagina.",
+    "errorUpdateVersionOnDisconnect": "La connessione a Internet è stata ripristinata e la versione del file è stata cambiata.<br>Prima di poter continuare a lavorare, scarica il file o copiane il contenuto per assicurarti che nulla vada perso, quindi ricarica questa pagina.",
     "errorUserDrop": "Impossibile accedere al file in questo momento.",
     "errorUsersExceed": "È stato superato il numero di utenti consentito dal piano tariffario",
     "errorViewerDisconnect": "La connessione è stata persa. È ancora possibile visualizzare il documento, <br> ma non sarà possibile scaricarlo o stamparlo fino a quando la connessione non sarà ripristinata e la pagina sarà ricaricata.",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Schermo panoramico (16:9)",
+      "notcriticalErrorTitle": "Avviso",
       "textAbout": "In riguardo a",
       "textAddress": "indirizzo: ",
       "textApplication": "Applicazione",
@@ -419,6 +424,7 @@
       "textEmail": "email: ",
       "textEnableAll": "Attivare tutto",
       "textEnableAllMacrosWithoutNotification": "Attivare tutte le macro senza notifica",
+      "textFeedback": "Feedback & Supporto",
       "textFind": "Trovare",
       "textFindAndReplace": "Trovare e sostituire",
       "textFindAndReplaceAll": "Trovare e sostituire tutto",
@@ -431,6 +437,7 @@
       "textLocation": "Posizione",
       "textMacrosSettings": "Impostazioni macro",
       "textNoTextFound": "Testo non trovato",
+      "textOk": "OK",
       "textOwner": "Proprietario",
       "textPoint": "Punto",
       "textPoweredBy": "Sviluppato da",
@@ -440,6 +447,8 @@
       "textPrint": "Stampare",
       "textReplace": "Sostituire",
       "textReplaceAll": "Sostituire tutto",
+      "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
+      "textRTL": "Da destra a sinistra",
       "textSearch": "Cercare",
       "textSettings": "Impostazioni",
       "textShowNotification": "Mostrare notifica",

@@ -233,6 +233,12 @@ class SearchView extends Component {
             replaceQuery: value
         });
     }
+    
+    onSearchKeyBoard(event) {
+        if(event.keyCode === 13) {
+            this.props.onSearchQuery(this.searchParams());
+        }
+    }
 
     render() {
         const usereplace = searchOptions.usereplace;
@@ -259,6 +265,7 @@ class SearchView extends Component {
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
                             <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
+                                onKeyDown={e => this.onSearchKeyBoard(e)}
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />

@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Hauteur",
   "common.view.modals.txtShare": "Partager un lien",
   "common.view.modals.txtWidth": "Largeur",
+  "common.view.SearchBar.textFind": "Rechercher",
   "PE.ApplicationController.convertationErrorText": "Échec de la conversion.",
   "PE.ApplicationController.convertationTimeoutText": "Délai d'attente de la conversion dépassé ",
   "PE.ApplicationController.criticalErrorTitle": "Erreur",
@@ -16,7 +17,7 @@
   "PE.ApplicationController.errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
   "PE.ApplicationController.errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
   "PE.ApplicationController.errorTokenExpire": "Le jeton de sécurité du document a expiré.<br>Veuillez contactez l'administrateur de Document Server.",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "La connexion internet a été rétablie, la version du fichier est modifiée.<br>Avant de continuer, téléchargez le fichier ou copiez le contenu pour vous assurer que tous les changements ont été enregistrés, et rechargez la page.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "La connexion a été rétablie et la version du fichier a été modifiée.<br>Avant de pouvoir continuer à travailler, vous devez télécharger le fichier ou copier son contenu pour vous assurer que rien n'est perdu, puis recharger cette page.",
   "PE.ApplicationController.errorUserDrop": "Impossible d'accéder au fichier.",
   "PE.ApplicationController.notcriticalErrorTitle": "Avertissement",
   "PE.ApplicationController.openErrorText": "Une erreur s’est produite lors de l’ouverture du fichier.",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Ouvrir l'emplacement du fichier",
   "PE.ApplicationView.txtFullScreen": "Plein écran",
   "PE.ApplicationView.txtPrint": "Imprimer",
+  "PE.ApplicationView.txtSearch": "Recherche",
   "PE.ApplicationView.txtShare": "Partager"
 }

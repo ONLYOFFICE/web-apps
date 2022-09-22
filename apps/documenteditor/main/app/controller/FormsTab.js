@@ -57,9 +57,7 @@ define([
         initialize: function () {
         },
         onLaunch: function () {
-            this._state = {
-                prcontrolsdisable:undefined
-            };
+            this._state = {};
         },
 
         setApi: function (api) {
@@ -142,20 +140,16 @@ define([
             var in_control = this.api.asc_IsContentControl();
             var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
                 lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()===Asc.c_oAscSdtLevelType.Inline && !control_props.get_ComplexFormPr()) : false;
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
-            var need_disable = (paragraph_locked || header_locked || control_plain || content_locked);
-            if (this._state.prcontrolsdisable !== need_disable) {
-                this.view.btnTextField.setDisabled(need_disable);
-                this.view.btnComboBox.setDisabled(need_disable);
-                this.view.btnDropDown.setDisabled(need_disable);
-                this.view.btnCheckBox.setDisabled(need_disable);
-                this.view.btnRadioBox.setDisabled(need_disable);
-                this.view.btnImageField.setDisabled(need_disable);
-                this.view.btnTextField.setDisabled(need_disable);
-                this._state.prcontrolsdisable = need_disable;
-            }
+            var arr = [ this.view.btnTextField, this.view.btnComboBox, this.view.btnDropDown, this.view.btnCheckBox,
+                        this.view.btnRadioBox, this.view.btnImageField, this.view.btnEmailField, this.view.btnPhoneField, this.view.btnComplexField ];
+            Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked,   {array: arr});
+            Common.Utils.lockControls(Common.enumLock.headerLock,    header_locked,      {array: arr});
+            Common.Utils.lockControls(Common.enumLock.controlPlain,  control_plain,      {array: arr});
+            Common.Utils.lockControls(Common.enumLock.contentLock,   content_locked,     {array: arr});
+            Common.Utils.lockControls(Common.enumLock.complexForm,   in_control && !!control_props && !!control_props.get_ComplexFormPr(),     {array: [this.view.btnComplexField, this.view.btnImageField]});
         },
 
         onChangeSpecialFormsGlobalSettings: function() {
@@ -173,7 +167,7 @@ define([
             }
         },
 
-        onControlsSelect: function(type) {
+        onControlsSelect: function(type, options) {
             if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl && this.toolbar.mode.canFeatureForms)) return;
 
             var oPr,
@@ -188,8 +182,21 @@ define([
             } else if (type == 'combobox' || type == 'dropdown')
                 this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
             else if (type == 'text') {
+                var props = new AscCommon.CContentControlPr();
                 oPr = new AscCommon.CSdtTextFormPr();
-                this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+                if (options) {
+                    if (options.reg)
+                        oPr.put_RegExpFormat(options.reg);
+                    else if (options.mask)
+                        oPr.put_MaskFormat(options.mask);
+                    if (options.placeholder)
+                        props.put_PlaceholderText(options.placeholder);
+                }
+                props.put_TextFormPr(oPr);
+                props.put_FormPr(oFormPr);
+                this.api.asc_AddContentControlTextForm(props);
+            } else if (type == 'complex') {
+                this.api.asc_AddComplexForm();
             }
 
             var me = this;
@@ -302,7 +309,7 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: false,
                     reviewMode: false,
-                    fillFormwMode: true,
+                    fillFormMode: true,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
@@ -317,10 +324,11 @@ define([
                     viewport: false,
                     documentHolder: true,
                     toolbar: true,
-                    plugins: false
+                    plugins: true,
+                    protect: true
                 }, 'forms');
-                if (this.view)
-                    this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
+                // if (this.view)
+                //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
             }
         },
 

@@ -133,17 +133,7 @@ define([
                 arr = [];
             storePlugins.each(function(item){
                 var plugin = new Asc.CPlugin();
-                plugin.deserialize(item.attributes);
-
-                var variations = item.get('variations'),
-                    variationsArr = [];
-                variations.forEach(function(itemVar){
-                    var variation = new Asc.CPluginVariation();
-                    variation.deserialize(itemVar.attributes);
-                    variationsArr.push(variation);
-                });
-
-                plugin.set_Variations(variationsArr);
+                plugin.deserialize(item.get('original'));
                 item.set('pluginObj', plugin);
                 arr.push(plugin);
             });
@@ -185,6 +175,7 @@ define([
                     buttons: isCustomWindow ? undefined : newBtns,
                     toolcallback: _.bind(this.onToolClose, this),
                     help: !!help,
+                    loader: plugin.get_Loader(),
                     modal: isModal!==undefined ? isModal : true
                 });
                 me.pluginDlg.on({
@@ -332,7 +323,8 @@ define([
                             visible: pluginVisible,
                             groupName: (item.group) ? item.group.name : '',
                             groupRank: (item.group) ? item.group.rank : 0,
-                            minVersion: item.minVersion
+                            minVersion: item.minVersion,
+                            original: item
                         }));
                     }
                 });

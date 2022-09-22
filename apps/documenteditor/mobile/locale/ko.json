@@ -6,7 +6,8 @@
     "textEmail": "이메일",
     "textPoweredBy": "기술 지원",
     "textTel": "전화 번호",
-    "textVersion": "버전"
+    "textVersion": "버전",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "경고",
@@ -57,7 +58,10 @@
     "textStartAt": "시작",
     "textTable": "표",
     "textTableSize": "표 크기",
-    "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다."
+    "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
+    "textTableContents": "Table of Contents",
+    "textWithBlueLinks": "With Blue Links",
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "textDoNotShowAgain": "다시 표시하지 않음",
     "textNumberingValue": "번호",
     "textOk": "확인",
-    "textRows": "행"
+    "textRows": "행",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "경고",
@@ -287,7 +294,6 @@
     "textPageBreakBefore": "현재 단락 앞에서 페이지 나누기",
     "textPageNumbering": "페이지 넘버링",
     "textParagraph": "단락",
-    "textParagraphStyles": "단락 스타일",
     "textPictureFromLibrary": "그림 라이브러리에서",
     "textPictureFromURL": "URL에서 그림",
     "textPt": "pt",
@@ -330,7 +336,36 @@
     "textTu": "화",
     "textType": "유형",
     "textWe": "수요일",
-    "textWrap": "줄 바꾸기"
+    "textWrap": "줄 바꾸기",
+    "textAmountOfLevels": "Amount of Levels",
+    "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
+    "textEnterTitleNewStyle": "Enter title of a new style",
+    "textFormal": "Formal",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
+    "textSameCreatedNewStyle": "Same as created new style",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
+    "textStyles": "Styles",
+    "textTableOfCont": "TOC",
+    "textTitle": "Title"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",
@@ -370,7 +405,10 @@
     "unknownErrorText": "알 수 없는 오류.",
     "uploadImageExtMessage": "알 수없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
-    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다."
+    "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",
@@ -503,7 +541,8 @@
     "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
     "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
     "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-    "warnProcessRightsChange": "파일을 편집 할 권한이 없습니다."
+    "warnProcessRightsChange": "파일을 편집 할 권한이 없습니다.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "보호 된 파일",
@@ -622,12 +661,25 @@
     "txtScheme7": "같음",
     "txtScheme8": "플로우",
     "txtScheme9": "발견",
-    "textPdfProducer": "PDF Producer"
+    "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
+    "textEmptyHeading": "Empty Heading",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
+    "textNavigation": "Navigation",
+    "textPdfProducer": "PDF Producer",
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "저장하지 않은 변경 사항이 있습니다. 자동 저장이 완료될 때까지 기다리려면 \"이 페이지에 머물기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 변경 사항이 삭제됩니다.",
     "dlgLeaveTitleText": "응용 프로그램을 종료합니다",
     "leaveButtonText": "이 페이지에서 나가기",
-    "stayButtonText": "이 페이지에 보관"
+    "stayButtonText": "이 페이지에 보관",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

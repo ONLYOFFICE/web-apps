@@ -8,7 +8,8 @@ export class storeDocumentInfo {
       dataDoc: observable,
       switchIsLoaded: action,
       changeCount: action,
-      setDataDoc: action
+      setDataDoc: action,
+      changeTitle: action
     });
   }
 
@@ -44,5 +45,9 @@ export class storeDocumentInfo {
 
   setDataDoc(obj) {
     this.dataDoc = obj;
+  }
+
+  changeTitle(title) {
+    this.dataDoc.title = title;
   }
 }

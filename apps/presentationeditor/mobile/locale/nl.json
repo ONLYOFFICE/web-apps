@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Aangedreven door",
     "textTel": "Tel.",
-    "textVersion": "Versie"
+    "textVersion": "Versie",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Kolommen",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "textRows": "Rijen"
+    "textRows": "Rijen",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -126,7 +129,8 @@
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -472,7 +476,12 @@
       "txtScheme6": "Concours",
       "txtScheme7": "Vermogen",
       "txtScheme8": "Stroom",
-      "txtScheme9": "Gieterij"
+      "txtScheme9": "Gieterij",
+      "notcriticalErrorTitle": "Warning",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

@@ -31,8 +31,6 @@
                         "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
                         "xregexp": "empty:",
                         "sockjs": "empty:",
-                        "jszip": "empty:",
-                        "jszip-utils": "empty:",
                         "coapisettings": "empty:",
                         "allfonts": "empty:",
                         "sdk": "empty:",
@@ -85,9 +83,7 @@
                                 "coapisettings",
                                 "allfonts",
                                 "xregexp",
-                                "sockjs",
-                                "jszip",
-                                "jszip-utils"
+                                "sockjs"
                             ]
                         },
                         "gateway": {
@@ -111,7 +107,7 @@
             },
             "vars": {
                 "app-image-const-path": "'../img'",
-                "common-image-const-path": "'../img'",
+                "common-image-const-path": "'../../../../common/main/resources/img'",
                 "app-image-path": "'../../../../../deploy/web-apps/apps/spreadsheeteditor/main/resources/img'",
                 "common-image-path": "'../../../../../deploy/web-apps/apps/spreadsheeteditor/main/resources/img'"
             }
@@ -178,7 +174,8 @@
                     "cwd": "../apps/spreadsheeteditor/main/resources/help/",
                     "src": [
                         "**",
-                        "!*_/**"
+                        "!*_/**",
+                        "!**/src/**"
                     ],
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
@@ -197,12 +194,6 @@
         },
         "svgicons": {
             "common": [
-                {
-                    "expand": true,
-                    "cwd": "../apps/common/main/resources/img",
-                    "src": "**/*.svg",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img"
-                },
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/main/resources/img",
@@ -256,8 +247,10 @@
         "copy": {
             "assets": [
                 {
-                    "src": "../apps/spreadsheeteditor/mobile/css/app.css",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/css/app.css"
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/css",
+                    "src": "*.css",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/css"
                 },
                 {
                     "expand": true,
@@ -352,6 +345,8 @@
                 "../apps/common/embed/lib/view/LoadMask.js",
                 "../apps/common/embed/lib/view/modals.js",
                 "../apps/common/embed/lib/controller/modals.js",
+                "../apps/common/embed/lib/view/SearchBar.js",
+                "../apps/spreadsheeteditor/embed/js/SearchBar.js",
                 "../apps/spreadsheeteditor/embed/js/ApplicationView.js",
                 "../apps/spreadsheeteditor/embed/js/ApplicationController.js",
                 "../apps/spreadsheeteditor/embed/js/application.js"

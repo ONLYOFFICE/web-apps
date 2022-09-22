@@ -121,7 +121,7 @@ define([
 
                 var me = this,
                     $host = me.toolbar.$el,
-                    _set = SSE.enumLock;
+                    _set = Common.enumLock;
 
                 this.btnDataFromText = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-data-from-text'),

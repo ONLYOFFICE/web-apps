@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Высота",
   "common.view.modals.txtShare": "Поделиться ссылкой",
   "common.view.modals.txtWidth": "Ширина",
+  "common.view.SearchBar.textFind": "Поиск",
   "PE.ApplicationController.convertationErrorText": "Конвертация не удалась.",
   "PE.ApplicationController.convertationTimeoutText": "Превышено время ожидания конвертации.",
   "PE.ApplicationController.criticalErrorTitle": "Ошибка",
@@ -16,7 +17,7 @@
   "PE.ApplicationController.errorForceSave": "При сохранении файла произошла ошибка. Используйте опцию 'Скачать как', чтобы сохранить файл на жестком диске компьютера или повторите попытку позже.",
   "PE.ApplicationController.errorLoadingFont": "Шрифты не загружены.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "PE.ApplicationController.errorTokenExpire": "Истек срок действия токена безопасности документа.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Подключение к Интернету было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Соединение было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
   "PE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "PE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "PE.ApplicationController.openErrorText": "При открытии файла произошла ошибка.",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "PE.ApplicationView.txtFullScreen": "Во весь экран",
   "PE.ApplicationView.txtPrint": "Печать",
+  "PE.ApplicationView.txtSearch": "Поиск",
   "PE.ApplicationView.txtShare": "Поделиться"
 }

@@ -6,7 +6,8 @@
     "textEmail": "이메일",
     "textPoweredBy": "기술 지원",
     "textTel": "전화 번호",
-    "textVersion": "버전"
+    "textVersion": "버전",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "경고",
     "textCopyCutPasteActions": "작업 복사, 잘라 내기 및 붙여 넣기",
     "textDoNotShowAgain": "다시 표시하지 않음",
-    "warnMergeLostData": "왼쪽 위 셀의 데이터 만 병합 된 셀에 남아 있습니다. <br> 계속 하시겠습니까?"
+    "warnMergeLostData": "왼쪽 위 셀의 데이터 만 병합 된 셀에 남아 있습니다. <br> 계속 하시겠습니까?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -160,7 +163,8 @@
       "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
       "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
       "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다."
+      "warnProcessRightsChange": "파일을 수정할 수 있는 권한이 없습니다.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -299,7 +303,8 @@
     "textSheet": "시트",
     "textSheetName": "시트 이름",
     "textUnhide": "숨기기 해제",
-    "textWarnDeleteSheet": "워크시트에 데이터가 포함될 수 있습니다. 진행 하시겠습니까?"
+    "textWarnDeleteSheet": "워크시트에 데이터가 포함될 수 있습니다. 진행 하시겠습니까?",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "이 문서에 저장되지 않은 변경 사항이 있습니다. 자동 저장을 활성화하려면 \"이 페이지에서 나가기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 편집 내용이 삭제됩니다.",
@@ -398,7 +403,6 @@
       "textBottomBorder": "아래쪽 테두리",
       "textBringToForeground": "앞으로 가져오기",
       "textCell": "셀",
-      "textCellStyles": "셀 스타일",
       "textCenter": "가운데",
       "textChart": "차트",
       "textChartTitle": "차트 제목",
@@ -547,7 +551,8 @@
       "textYen": "엔",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSortHigh2Low": "가장 높은 것부터 가장 낮은 것부터 정렬",
-      "txtSortLow2High": "오름차순 정렬"
+      "txtSortLow2High": "오름차순 정렬",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",
@@ -678,7 +683,12 @@
       "txtSemicolon": "세미콜론",
       "txtSpace": "공간",
       "txtTab": "탭",
-      "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?"
+      "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

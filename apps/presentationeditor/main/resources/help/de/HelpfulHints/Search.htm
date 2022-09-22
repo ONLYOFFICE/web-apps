@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="The description of the search and replace function in Presentation Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -14,13 +15,13 @@
             <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
         </div>
 		<h1>Suchen und Ersetzen</h1>
-			<p>Um im <a target="_blank" href="https://www.onlyoffice.com/de/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Präsentationseditor</b></a> nach Zeichen, Wörtern oder Phrasen suchen <b>zu suchen</b>, klicken Sie auf das Symbol <img alt="Suche" src="../images/searchicon.png" /> in der linken Seitenlaste oder nutzen Sie die Tastenkombination <em>STRG+F</em>.</p>
+			<p>Um im <a target="_blank" href="https://www.onlyoffice.com/de/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Präsentationseditor</b></a> nach Zeichen, Wörtern oder Phrasen suchen <b>zu suchen</b>, klicken Sie auf das Symbol <span class="icon icon-searchicon"></span> in der linken Seitenlaste oder nutzen Sie die Tastenkombination <em>STRG+F</em>.</p>
 			<p>Die Dialogbox <b>Suchen und Ersetzen</b> wird geöffnet:</p><img alt="Dialogbox Suchen und Ersetzen" src="../images/search_window.png" /><ol>
 			<li>Geben Sie Ihre Suchanfrage in das entsprechende Eingabefeld ein.</li>
-                <li>Legen Sie Ihre Suchparameter fest, klicken Sie dazu auf das <img alt="Suchoptionen" src="../images/search_options.png" /> Symbol und markieren Sie die gewünschten Optionen:<ul>
+                <li>Legen Sie Ihre Suchparameter fest, klicken Sie dazu auf das <div class = "icon icon-search_options"></div> Symbol und markieren Sie die gewünschten Optionen:<ul>
                         <li><b>Groß-/Kleinschreibung beachten</b> - ist diese Funktion aktiviert, werden nur Ergebnisse mit derselben Schreibweise wie in Ihrer Suchanfrage gefiltert (lautet Ihre Anfrage z. B. 'Editor' und diese Option ist markiert, werden Wörter wie 'editor' oder 'EDITOR' usw. nicht gesucht). Um die Option auszuschalten, deaktivieren Sie das Kontrollkästchen.</li><!--<li><b>Highlight results</b> - is used to highlight all found occurrences at once. To disable this option and remove the highlight click the option once again.</li>--></ul>
                 </li>
-			<li>Navigieren Sie durch Ihre Suchergebnisse über die <b>Pfeiltasten</b>. Die Suche wird entweder in Richtung Anfang der Präsentation (klicken Sie auf <img alt="Linkspfeil" src="../images/searchupbutton.png" />) oder in Richtung Ende der Präsentation (klicken Sie auf <img alt="Rechtspfeil" src="../images/searchdownbutton.png" />) durchgeführt. <!--<p class="note"><b>Note</b>: when the <b>Highlight results</b> option is enabled, use these buttons to navigate through the highlighted results.</p>--></li>
+			<li>Navigieren Sie durch Ihre Suchergebnisse über die <b>Pfeiltasten</b>. Die Suche wird entweder in Richtung Anfang der Präsentation (klicken Sie auf <div class = "icon icon-searchupbutton"></div>) oder in Richtung Ende der Präsentation (klicken Sie auf <div class = "icon icon-searchdownbutton"></div>) durchgeführt. <!--<p class="note"><b>Note</b>: when the <b>Highlight results</b> option is enabled, use these buttons to navigate through the highlighted results.</p>--></li>
 			</ol>
 			<p>Die erste Folie in der gewählten Richtung, die den Suchbegriff enthält, wird in der Folienliste hervorgehoben und im Arbeitsbereich angezeigt. Wenn diese Folie nicht das gewünschte Ergebnisse enthält, klicken Sie erneut auf den Pfeil, um die nächste Folie mit dem gewünschten Suchbegriff zu finden.</p>
             <p>Um ein oder mehrere der gefundenen Ergebnisse zu <b>ersetzen</b>, klicken Sie auf den Link <b>Ersetzen</b> unter dem Eingabefeld oder nutzen Sie die Tastenkombination <em>STRG+H</em>. Die Dialogbox <b>Suchen und Ersetzen</b> öffnet sich:</p>

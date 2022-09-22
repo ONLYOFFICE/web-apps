@@ -3,6 +3,7 @@
     "textAbout": "O aplikaci",
     "textAddress": "Adresa",
     "textBack": "Zpět",
+    "textEditor": "Editor prezentací",
     "textEmail": "Email",
     "textPoweredBy": "Poháněno",
     "textTel": "Telefon",
@@ -58,7 +59,9 @@
     "textColumns": "Sloupce",
     "textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
     "textDoNotShowAgain": "Nezobrazovat znovu",
-    "textRows": "Řádky"
+    "textOk": "OK",
+    "textRows": "Řádky",
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Zapamatovat moji volbu",
       "textReplaceSkipped": "Nahrazení bylo provedeno. {0} výskytů bylo přeskočeno.",
       "textReplaceSuccess": "Hledání bylo dokončeno. Nahrazeno výskytů: {0}",
+      "textRequestMacros": "Makro vytváří požadavek na URL. Chcete povolit požadavek k přístupu na %1?",
       "textYes": "Ano",
       "titleLicenseExp": "Platnost licence vypršela",
       "titleServerVersion": "Editor byl aktualizován",
@@ -147,7 +151,7 @@
     "errorKeyEncrypt": "Neznámý popisovač klíče",
     "errorKeyExpire": "Platnost popisovače klíče skončila",
     "errorLoadingFont": "Styly nejsou načteny.<br>Prosím kontaktujte Vašeho administrátora dokumentových serverů.",
-    "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
+    "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtěte stránku znovu.",
     "errorSessionIdle": "Poslední úprava dokumentu proběhla před dlouhou dobou. Prosím obnovte stránku.",
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
     "errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
       "mniSlideWide": "Širokoúhlý (16:9)",
+      "notcriticalErrorTitle": "Varování",
       "textAbout": "O aplikaci",
       "textAddress": "adresa:",
       "textApplication": "Aplikace",
@@ -419,6 +424,7 @@
       "textEmail": "email:",
       "textEnableAll": "Zapnout vše",
       "textEnableAllMacrosWithoutNotification": "Povolit všechna makra bez notifikací",
+      "textFeedback": "Zpětná vazba a technická podpora",
       "textFind": "Najít",
       "textFindAndReplace": "Najít a nahradit",
       "textFindAndReplaceAll": "Najít a nahradit vše",
@@ -431,6 +437,7 @@
       "textLocation": "Umístění",
       "textMacrosSettings": "Nastavení maker",
       "textNoTextFound": "Text nebyl nalezen",
+      "textOk": "OK",
       "textOwner": "Vlastník",
       "textPoint": "Bod",
       "textPoweredBy": "Poháněno",
@@ -440,6 +447,8 @@
       "textPrint": "Tisk",
       "textReplace": "Nahradit",
       "textReplaceAll": "Nahradit vše",
+      "textRestartApplication": "Pro provedení změn restartujete aplikaci",
+      "textRTL": "RTL",
       "textSearch": "Hledat",
       "textSettings": "Nastavení",
       "textShowNotification": "Zobrazit notifikace",

@@ -63,7 +63,7 @@ define([
                     'render:before' : function (toolbar) {
                         var appOptions = me.getApplication().getController('Main').appOptions;
 
-                        if ( !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
+                        if ( !appOptions.isEditMailMerge && !appOptions.isEditDiagram && !appOptions.isEditOle ) {
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
                             me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
 
@@ -162,6 +162,8 @@ define([
                 this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
                 this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
+                this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
+                this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
 
                 this.loadPlugins();
             }
@@ -204,17 +206,7 @@ define([
                 arr = [];
             storePlugins.each(function(item){
                 var plugin = new Asc.CPlugin();
-                plugin.deserialize(item.attributes);
-
-                var variations = item.get('variations'),
-                    variationsArr = [];
-                variations.forEach(function(itemVar){
-                    var variation = new Asc.CPluginVariation();
-                    variation.deserialize(itemVar.attributes);
-                    variationsArr.push(variation);
-                });
-
-                plugin.set_Variations(variationsArr);
+                plugin.deserialize(item.get('original'));
                 item.set('pluginObj', plugin);
                 arr.push(plugin);
             });
@@ -252,6 +244,10 @@ define([
                         $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
                         _group = $('<div class="group"></div>');
                         rank_plugins = 0;
+                    } else {
+                        _group.appendTo(me.$toolbarPanelPlugins);
+                        $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
+                        _group = $('<div class="group" style="padding-left: 0;"></div>');
                     }
 
                     var btn = me.panelPlugins.createPluginButton(model);
@@ -387,6 +383,7 @@ define([
                         buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this),
                         help: !!help,
+                        loader: plugin.get_Loader(),
                         modal: isModal!==undefined ? isModal : true
                     });
                     me.pluginDlg.on({
@@ -405,6 +402,9 @@ define([
                         },
                         'help': function(){
                             help && window.open(help, '_blank');
+                        },
+                        'header:click': function(type){
+                            me.api.asc_pluginButtonClick(type);
                         }
                     });
 
@@ -462,6 +462,14 @@ define([
         onPluginsInit: function(pluginsdata) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
             this.parsePlugins(pluginsdata)
+        },
+
+        onPluginShowButton: function(id) {
+            this.pluginDlg && this.pluginDlg.showButton(id);
+        },
+
+        onPluginHideButton: function(id) {
+            this.pluginDlg && this.pluginDlg.hideButton(id);
         },
 
         runAutoStartPlugins: function() {
@@ -562,7 +570,8 @@ define([
                             visible: pluginVisible,
                             groupName: (item.group) ? item.group.name : '',
                             groupRank: (item.group) ? item.group.rank : 0,
-                            minVersion: item.minVersion
+                            minVersion: item.minVersion,
+                            original: item
                         }));
                     }
                 });

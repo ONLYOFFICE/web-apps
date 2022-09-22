@@ -123,8 +123,8 @@ define([
             if (!this.toolbar.editMode || !this.view) return;
 
             // special disable conditions
-            Common.Utils.lockControls(SSE.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [this.view.btnTextToColumns]});
-            Common.Utils.lockControls(SSE.enumLock.multiselect, info.asc_getMultiselect(), {array: [this.view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [this.view.btnTextToColumns]});
+            Common.Utils.lockControls(Common.enumLock.multiselect, info.asc_getMultiselect(), {array: [this.view.btnTextToColumns]});
         },
 
         onUngroup: function(type) {
@@ -431,16 +431,16 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
+                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
             }
         },
 
         onChangeProtectWorkbook: function() {
-            Common.Utils.lockControls(SSE.enumLock.wbLock, this.api.asc_isProtectedWorkbook(), {array: [this.view.btnDataFromText]});
+            Common.Utils.lockControls(Common.enumLock.wbLock, this.api.asc_isProtectedWorkbook(), {array: [this.view.btnDataFromText]});
         },
 
         onApiSheetChanged: function() {
-            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
+            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge || this.toolbar.mode.isEditOle) return;
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
@@ -451,7 +451,7 @@ define([
                 var wbprotect = this.getApplication().getController('WBProtection');
                 props = wbprotect ? wbprotect.getWSProps() : null;
             }
-            props && props.wsProps && Common.Utils.lockControls(SSE.enumLock['Sort'], props.wsProps['Sort'], {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort)});
+            props && props.wsProps && Common.Utils.lockControls(Common.enumLock['Sort'], props.wsProps['Sort'], {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort)});
         },
 
         onDocumentReady: function() {

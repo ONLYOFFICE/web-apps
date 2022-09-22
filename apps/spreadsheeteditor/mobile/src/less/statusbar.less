@@ -8,6 +8,7 @@
     background-color: @background-tertiary;
     display: flex;
 
+    transition: top 400ms;
     .box-tab {
         display: flex;
     }
@@ -28,6 +29,9 @@
         &.active {
             background-color: @background-secondary;
             font-weight: 600;
+            a {
+                box-shadow: 0px 2px 0 #49795d inset;
+            }
         }
 
         .hairline(right, @background-menu-divider);

@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
     SSE.Views.ChartSettingsDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 322,
+            contentWidth: 327,
             height: 535,
             toggleGroup: 'chart-settings-dlg-group',
             storageName: 'sse-chart-settings-adv-category'
@@ -259,6 +259,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.cmbVertGrid = [];
             this.chVertHide = [];
             this.btnVFormat = [];
+            this.chVLogScale = [];
+            this.spnBase = [];
 
             this._arrVertTitle = [
                 {value: Asc.c_oAscChartVertAxisLabelShowSettings.none, displayValue: me.textNone},
@@ -516,6 +518,30 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.btnVFormat[i] = new Common.UI.Button({
                     el: $('#chart-dlg-btn-v-format-' + i)
                 }).on('click', _.bind(me.openFormat, me, i));
+
+                me.chVLogScale[i] = new Common.UI.CheckBox({
+                    el: $('#chart-dlg-check-v-logscale-' + i),
+                    labelText: me.textLogScale
+                }).on('change', _.bind(function (checkbox, state) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putLogScale(state == 'checked');
+                        (state == 'checked') && me.currentAxisProps[i].putLogBase(me.spnBase[i].getNumberValue());
+                    }
+                    me.spnBase[i].setDisabled((state !== 'checked'));
+                }, me));
+
+                me.spnBase[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-base-' + i),
+                    maxValue: 1000,
+                    minValue: 2,
+                    step: 1,
+                    defaultUnit: "",
+                    value: 10
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putLogBase(field.getNumberValue());
+                    }
+                }, me));
             };
             addControlsV(0);
             addControlsV(1);
@@ -1023,10 +1049,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.chSeriesName, this.chCategoryName, this.chValue, this.txtSeparator, // 1 tab
                 this.cmbVertTitle[0], this.cmbVertGrid[0],
                 this.chVertHide[0], this.cmbMinType[0], this.spnMinValue[0], this.cmbMaxType[0], this.spnMaxValue[0], this.cmbVCrossType[0], this.spnVAxisCrosses[0],
-                this.chVReverse[0], this.cmbUnits[0] , this.cmbVMajorType[0], this.cmbVMinorType[0], this.cmbVLabelPos[0], // 2 tab
+                this.cmbUnits[0] , this.chVReverse[0], this.chVLogScale[0], this.spnBase[0], this.cmbVMajorType[0], this.cmbVMinorType[0], this.cmbVLabelPos[0], // 2 tab
                 this.cmbVertTitle[1], this.cmbVertGrid[1],
                 this.chVertHide[1], this.cmbMinType[1] , this.spnMinValue[1], this.cmbMaxType[1], this.spnMaxValue[1], this.cmbVCrossType[1], this.spnVAxisCrosses[1],
-                this.chVReverse[1], this.cmbUnits[1] , this.cmbVMajorType[1], this.cmbVMinorType[1], this.cmbVLabelPos[1], // 3 tab
+                this.cmbUnits[1] , this.chVReverse[1], this.chVLogScale[1], this.spnBase[1], this.cmbVMajorType[1], this.cmbVMinorType[1], this.cmbVLabelPos[1], // 3 tab
                 this.chHorHide[0], this.cmbHorTitle[0], this.cmbHorGrid[0],
                 this.cmbHCrossType[0] , this.spnHAxisCrosses[0], this.cmbAxisPos[0], this.chHReverse[0], this.cmbHMajorType[0], this.cmbHMinorType[0], this.spnMarksInterval[0],
                 this.cmbHLabelPos[0] , this.spnLabelDist[0], this.cmbLabelInterval[0], this.spnLabelInterval[0], // 4 tab
@@ -1265,6 +1291,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.cmbVMajorType[index].setValue(props.getMajorTickMark());
             this.cmbVMinorType[index].setValue(props.getMinorTickMark());
             this.cmbVLabelPos[index].setValue(props.getTickLabelsPos());
+            value = props.getLogScale();
+            this.chVLogScale[index].setValue(!!value, true);
+            this.spnBase[index].setDisabled(!value);
+            value && this.spnBase[index].setValue(props.getLogBase(), true);
 
             this.currentAxisProps[index] = props;
         },
@@ -1878,7 +1908,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textHorAxisSec: 'Secondary Horizontal Axis',
         textAxisTitle: 'Title',
         textHideAxis: 'Hide axis',
-        textFormat: 'Label format'
+        textFormat: 'Label format',
+        textBase: 'Base',
+        textLogScale: 'Logarithmic Scale'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });

@@ -102,7 +102,7 @@ define([
         onApiCountPages: function (count) {
             if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
-                this.lockToolbar(PE.enumLock.noSlides, this._state.no_slides);
+                this.lockToolbar(Common.enumLock.noSlides, this._state.no_slides);
             }
         },
 
@@ -259,7 +259,7 @@ define([
 
         setLocked: function() {
             if (this._state.lockedtransition != undefined)
-                this.lockToolbar(PE.enumLock.transitLock, this._state.lockedtransition);
+                this.lockToolbar(Common.enumLock.transitLock, this._state.lockedtransition);
         },
 
         setSettings: function () {

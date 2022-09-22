@@ -84,13 +84,6 @@ define([
                 mode: mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
-            if (!Common.UI.Themes.available()) {
-                this.view.btnInterfaceTheme.$el.closest('.group').remove();
-                this.view.cmpEl.find('.separator-theme').remove();
-            }
-            if (mode.canBrandingExt && mode.customization && mode.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                this.view.chStatusbar.$el.remove();
-            }
             this.addListeners({
                 'ViewTab': {
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
@@ -118,11 +111,6 @@ define([
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
                     }, this)
-                },
-                'Common.Views.Header': {
-                    'toolbar:freezeshadow': _.bind(function (isChecked) {
-                        this.view.btnFreezePanes.menu.items[4].setChecked(isChecked, true);
-                    }, this)
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
@@ -130,6 +118,10 @@ define([
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
         },
 
         getView: function(name) {
@@ -144,7 +136,7 @@ define([
         onSelectionChanged: function(info) {
             if (!this.toolbar.editMode || !this.view) return;
 
-            Common.Utils.lockControls(SSE.enumLock.sheetView, this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(this.api.asc_getActiveWorksheetIndex()),
+            Common.Utils.lockControls(Common.enumLock.sheetView, this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(this.api.asc_getActiveWorksheetIndex()),
                                       {array: [this.view.btnCloseView]});
         },
 
@@ -158,12 +150,13 @@ define([
         onFreezeShadow: function (checked) {
             this.api.asc_setFrozenPaneBorderType(checked ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
             Common.localStorage.setBool('sse-freeze-shadow', checked);
-            this.view.fireEvent('freeze:shadow', [checked]);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         applyZoom: function (value) {
-            var val = Math.max(25, Math.min(500, value));
+            var val = Math.max(10, Math.min(500, value));
+            if (this._state.zoomValue === val)
+                this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
             this.api.asc_setZoom(val/100);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -195,10 +188,9 @@ define([
         onViewSettings: function(type, value){
             if (this.api) {
                 switch (type) {
-                    case 0: this.getApplication().getController('Viewport').header.fireEvent('formulabar:hide', [ value!=='checked']); break;
-                    case 1: this.api.asc_setDisplayHeadings(value=='checked'); break;
-                    case 2: this.api.asc_setDisplayGridlines( value=='checked'); break;
-                    case 3: this.api.asc_setShowZeros( value=='checked'); break;
+                    case 1: this.api.asc_setDisplayHeadings(value); break;
+                    case 2: this.api.asc_setDisplayGridlines(value); break;
+                    case 3: this.api.asc_setShowZeros(value); break;
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -255,12 +247,12 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros]});
+                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros]});
             }
         },
 
         onApiSheetChanged: function() {
-            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
+            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge || this.toolbar.mode.isEditOle) return;
 
             var params  = this.api.asc_getSheetViewSettings();
             this.view.chHeadings.setValue(!!params.asc_getShowRowColHeaders(), true);

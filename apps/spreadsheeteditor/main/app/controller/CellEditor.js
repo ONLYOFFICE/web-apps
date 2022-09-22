@@ -68,11 +68,11 @@ define([
                 'Viewport': {
                     'layout:resizedrag': _.bind(this.onLayoutResize, this)
                 },
-                'Common.Views.Header': {
-                    'formulabar:hide': function (state) {
-                        this.editor.setVisible(!state);
-                        Common.localStorage.setBool('sse-hidden-formula', state);
-                        Common.NotificationCenter.trigger('layout:changed', 'celleditor', state?'hidden':'showed');
+                'ViewTab': {
+                    'viewtab:formula': function (type, state) {
+                        this.editor.setVisible(state);
+                        Common.localStorage.setBool('sse-hidden-formula', !state);
+                        Common.NotificationCenter.trigger('layout:changed', 'celleditor', !state?'hidden':'showed');
                     }.bind(this)
                 }
             });
@@ -97,7 +97,7 @@ define([
             this.mode = mode;
 
             this.editor.$btnfunc[this.mode.isEdit?'removeClass':'addClass']('disabled');
-            this.editor.btnNamedRanges.setVisible(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge);
+            this.editor.btnNamedRanges.setVisible(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
 
             if ( this.mode.isEdit ) {
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onApiSelectionChanged, this));
@@ -156,7 +156,7 @@ define([
             if (this.viewmode) return; // signed file
 
             var seltype = info.asc_getSelectionType(),
-                coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;
+                coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;
 
             var is_chart_text   = seltype == Asc.c_oAscSelectionType.RangeChartText,
                 is_chart        = seltype == Asc.c_oAscSelectionType.RangeChart,
@@ -326,14 +326,14 @@ define([
 
         SetDisabled: function(disabled) {
             this.editor.$btnfunc[!disabled && this.mode.isEdit ?'removeClass':'addClass']('disabled');
-            this.editor.btnNamedRanges.setVisible(!disabled && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge);
+            this.editor.btnNamedRanges.setVisible(!disabled && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
         },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
             this.editor.$btnfunc[!mode && this.mode.isEdit?'removeClass':'addClass']('disabled');
-            this.editor.cellNameDisabled(mode && !(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge));
+            this.editor.cellNameDisabled(mode && !(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
         }
     });
 });

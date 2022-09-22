@@ -40,7 +40,8 @@ Common.Locale = new(function() {
     var loadcallback,
         apply = false,
         defLang = '{{DEFAULT_LANG}}',
-        currentLang = defLang;
+        currentLang = defLang,
+        _4letterLangs = ['pt-pt', 'zh-tw'];
 
     var _applyLocalization = function(callback) {
         try {
@@ -87,6 +88,10 @@ Common.Locale = new(function() {
         return currentLang;
     };
 
+    var _getDefaultLanguage = function() {
+        return defLang;
+    };
+
     var _getLoadedLanguage = function() {
         return loadedLang;
     };
@@ -100,11 +105,16 @@ Common.Locale = new(function() {
 
     var _requireLang = function (l) {
         typeof l != 'string' && (l = null);
-        var lang = (l || _getUrlParameterByName('lang') || defLang).split(/[\-_]/)[0];
+        var lang = (l || _getUrlParameterByName('lang') || defLang);
+        var idx4Letters = _4letterLangs.indexOf(lang.replace('_', '-').toLowerCase()); // try to load 4 letters language
+        lang = (idx4Letters<0) ? lang.split(/[\-_]/)[0] : _4letterLangs[idx4Letters];
         currentLang = lang;
         fetch('locale/' + lang + '.json')
             .then(function(response) {
                 if (!response.ok) {
+                    if (idx4Letters>=0) { // try to load 2-letters language
+                        throw new Error('4letters error');
+                    }
                     currentLang = defLang;
                     if (lang != defLang)
                         /* load default lang if fetch failed */
@@ -128,6 +138,12 @@ Common.Locale = new(function() {
                 l10n = json || {};
                 apply && _applyLocalization();
             }).catch(function(e) {
+                if ( /4letters/.test(e) ) {
+                    return setTimeout(function(){
+                        _requireLang(lang.split(/[\-_]/)[0]);
+                    }, 0);
+                }
+
                 if ( !/loaded/.test(e) && currentLang != defLang && defLang && defLang.length < 3 ) {
                     return setTimeout(function(){
                         _requireLang(defLang)
@@ -158,7 +174,8 @@ Common.Locale = new(function() {
     return {
         apply: _applyLocalization,
         get: _get,
-        getCurrentLanguage: _getCurrentLanguage
+        getCurrentLanguage: _getCurrentLanguage,
+        getDefaultLanguage: _getDefaultLanguage
     };
     
 })();

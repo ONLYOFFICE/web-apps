@@ -181,7 +181,18 @@ define([
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
 
             this.btnEditObject.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_startEditCurrentOleObject();
+                if (this.api) {
+                    var oleobj = this.api.asc_canEditTableOleObject(true);
+                    if (oleobj) {
+                        var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                        if (oleEditor) {
+                            oleEditor.setEditMode(true);
+                            oleEditor.show();
+                            oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                        }
+                    } else
+                        this.api.asc_startEditCurrentOleObject();
+                }
                 this.fireEvent('editcomplete', this);
             }, this));
             this.btnFitMargins.on('click', _.bind(this.setFitMargins, this));
@@ -389,12 +400,10 @@ define([
                 var fromgroup = props.get_FromGroup() || this._locked;
                 var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                     isPictureControl = !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) && !control_props.get_FormPr() || this._locked;
-                if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup || this._state.isPictureControl!==isPictureControl) {
-                    this.cmbWrapType.setDisabled(!value || fromgroup || isPictureControl);
-                    this._state.CanBeFlow=value;
-                    this._state.FromGroup=fromgroup;
-                    this._state.isPictureControl=isPictureControl;
-                }
+                this.cmbWrapType.setDisabled(!value || fromgroup || isPictureControl);
+                this._state.CanBeFlow=value;
+                this._state.FromGroup=fromgroup;
+                this._state.isPictureControl=isPictureControl;
 
                 value = props.get_Width();
                 if ( Math.abs(this._state.Width-value)>0.001 ) {
@@ -415,16 +424,16 @@ define([
                 if (this._state.isOleObject!==value) {
                     this.btnSelectImage.setVisible(!value);
                     this.btnEditObject.setVisible(value);
-                    this.btnRotate270.setDisabled(value);
-                    this.btnRotate90.setDisabled(value);
-                    this.btnFlipV.setDisabled(value);
-                    this.btnFlipH.setDisabled(value);
                     this._state.isOleObject=value;
                 }
+                this.btnRotate270.setDisabled(value || this._locked);
+                this.btnRotate90.setDisabled(value || this._locked);
+                this.btnFlipV.setDisabled(value || this._locked);
+                this.btnFlipH.setDisabled(value || this._locked);
 
                 if (this._state.isOleObject) {
                     var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
-                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined || this._locked);
+                    this.btnEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin===null || plugin ===undefined) || this._locked);
                 } else {
                     this.btnSelectImage.setDisabled(pluginGuid===null || this._locked);
                 }

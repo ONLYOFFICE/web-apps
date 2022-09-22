@@ -119,7 +119,7 @@ define([
                 });
 
                 this.columnsList.store.reset(arr);
-                this.columnsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                this.columnsList.scroller.update({minScrollbarLength  : this.columnsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 

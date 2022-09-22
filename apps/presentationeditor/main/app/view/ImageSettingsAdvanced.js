@@ -74,6 +74,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this._nRatio = 1;
             this._isDefaultSize = false;
             this._originalProps = this.options.imageProps;
+            this.slideSize = this.options.slideSize;
         },
 
         render: function() {
@@ -178,6 +179,32 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             });
             this.spinners.push(this.spnY);
 
+            this.cmbFromX = new Common.UI.ComboBox({
+                el: $('#image-advanced-combo-from-x'),
+                cls: 'input-group-nr',
+                style: "width: 125px;",
+                menuStyle: 'min-width: 125px;',
+                data: [
+                    { value: 'left', displayValue: this.textTopLeftCorner },
+                    { value: 'center', displayValue: this.textCenter }
+                ],
+                editable: false,
+                takeFocusOnClose: true
+            });
+
+            this.cmbFromY = new Common.UI.ComboBox({
+                el: $('#image-advanced-combo-from-y'),
+                cls: 'input-group-nr',
+                style: "width: 125px;",
+                menuStyle: 'min-width: 125px;',
+                data: [
+                    { value: 'left', displayValue: this.textTopLeftCorner },
+                    { value: 'center', displayValue: this.textCenter }
+                ],
+                editable: false,
+                takeFocusOnClose: true
+            });
+
             // Rotation
             this.spnAngle = new Common.UI.MetricSpinner({
                 el: $('#image-advanced-spin-angle'),
@@ -223,7 +250,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
         getFocusedComponents: function() {
             return [
-                this.spnWidth, this.spnHeight, this.btnOriginalSize, this.spnX, this.spnY,// 0 tab
+                this.spnWidth, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 0 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
             ];
@@ -271,6 +298,9 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 if (props.get_Height()>0)
                     this._nRatio = props.get_Width()/props.get_Height();
 
+                this.cmbFromX.setValue('left');
+                this.cmbFromY.setValue('left');
+
                 if (props.get_Position()) {
                     var Position = {X: props.get_Position().get_X(), Y: props.get_Position().get_Y()};
                     this.spnX.setValue((Position.X !== null && Position.X !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.X) : '', true);
@@ -306,10 +336,20 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             properties.put_ResetCrop(this._isDefaultSize);
 
             var Position = new Asc.CPosition();
-            if (this.spnX.getValue() !== '')
-                Position.put_X(Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue()));
-            if (this.spnY.getValue() !== '')
-                Position.put_Y(Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue()));
+            if (this.spnX.getValue() !== '') {
+                var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
+                if (this.cmbFromX.getValue() === 'center') {
+                    x = (this.slideSize.width/36000)/2 + x;
+                }
+                Position.put_X(x);
+            }
+            if (this.spnY.getValue() !== '') {
+                var y = Common.Utils.Metric.fnRecalcToMM(this.spnY.getNumberValue());
+                if (this.cmbFromY.getValue() === 'center') {
+                    y = (this.slideSize.height/36000)/2 + y;
+                }
+                Position.put_Y(y);
+            }
             properties.put_Position(Position);
 
             if (this.isAltTitleChanged)
@@ -360,7 +400,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         textAngle: 'Angle',
         textFlipped: 'Flipped',
         textHorizontally: 'Horizontally',
-        textVertically: 'Vertically'
+        textVertically: 'Vertically',
+        textHorizontal: 'Horizontal',
+        textVertical: 'Vertical',
+        textFrom: 'From',
+        textTopLeftCorner: 'Top Left Corner',
+        textCenter: 'Center'
 
     }, PE.Views.ImageSettingsAdvanced || {}));
 });

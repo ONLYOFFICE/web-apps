@@ -52,6 +52,7 @@ define([
         var $scrollL;
         var optsFold = {timeout: 2000};
         var config = {};
+        var btnsMore = [];
 
         var onScrollTabs = function(opts, e) {
             var sv = $boxTabs.scrollLeft();
@@ -119,6 +120,7 @@ define([
                 Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
                     this.setVisible(action, visible);
                 }, this));
+                Common.NotificationCenter.on('tab:resize', _.bind(this.onResizeTabs, this));
             },
 
             afterRender: function() {
@@ -126,7 +128,9 @@ define([
 
                 $boxTabs = me.$('.tabs > ul');
                 me.$tabs = $boxTabs.find('> li');
-                me.$panels = me.$('.box-panels > .panel');
+                me.$boxpanels = me.$('.box-panels');
+                me.$panels = me.$boxpanels.find('> .panel');
+
                 optsFold.$bar = me.$('.toolbar');
                 var $scrollR = me.$('.tabs .scroll.right');
                 $scrollL = me.$('.tabs .scroll.left');
@@ -226,7 +230,7 @@ define([
                 // optsFold.timer = setTimeout(this.collapse, optsFold.timeout);
             },
 
-            onResize: function(e) {
+            onResizeTabs: function(e) {
                 if ( this.hasTabInvisible() ) {
                     if ( !$boxTabs.parent().hasClass('short') )
                         $boxTabs.parent().addClass('short');
@@ -234,7 +238,11 @@ define([
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
                 }
+            },
 
+            onResize: function(e) {
+                this.onResizeTabs();
+                this.hideMoreBtns();
                 this.processPanelVisible();
             },
 
@@ -261,7 +269,7 @@ define([
                             me._timerSetTab = false;
                         }, 500);
                         me.setTab(tab);
-                        me.processPanelVisible(null, true);
+                        // me.processPanelVisible(null, true);
                         if ( !me.isFolded ) {
                             if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
                             me.dblclick_timer = setTimeout(function () {
@@ -286,11 +294,14 @@ define([
                 if ( tab ) {
                     me.$tabs.removeClass('active');
                     me.$panels.removeClass('active');
+                    me.hideMoreBtns();
 
                     var panel = this.$panels.filter('[data-tab=' + tab + ']');
                     if ( panel.length ) {
                         this.lastPanel = tab;
                         panel.addClass('active');
+                        me.setMoreButton(tab, panel);
+                        me.processPanelVisible(null, true, true);
                     }
 
                     if ( panel.length ) {
@@ -375,7 +386,7 @@ define([
              * hide button's caption to decrease panel width
              * ##adopt-panel-width
             **/
-            processPanelVisible: function(panel, now) {
+            processPanelVisible: function(panel, now, force) {
                 var me = this;
                 if ( me._timer_id ) clearTimeout(me._timer_id);
 
@@ -387,6 +398,7 @@ define([
                             _rightedge = data.rightedge,
                             _btns = data.buttons,
                             _flex = data.flex;
+                        var more_section = $active.find('.more-box');
 
                         if ( !_rightedge ) {
                             _rightedge = $active.get(0).getBoundingClientRect().right;
@@ -407,44 +419,53 @@ define([
                             data.flex = _flex;
                         }
 
-                        if ( _rightedge > _maxright) {
-                            if (_flex.length>0) {
-                                for (var i=0; i<_flex.length; i++) {
-                                    var item = _flex[i].el;
-                                    if (item.outerWidth() > parseInt(item.css('min-width')))
-                                        return;
-                                    else
-                                        item.css('width', item.css('min-width'));
-                                }
-                            }
-                            for (var i=_btns.length-1; i>=0; i--) {
-                                var btn = _btns[i];
-                                if ( !btn.hasClass('compactwidth') ) {
-                                    btn.addClass('compactwidth');
-                                    _rightedge = $active.get(0).getBoundingClientRect().right;
-                                    if (_rightedge <= _maxright)
-                                        break;
-                                }
-                            }
-                            data.rightedge = _rightedge;
-                        } else {
-                            for (var i=0; i<_btns.length; i++) {
-                                var btn = _btns[i];
-                                if ( btn.hasClass('compactwidth') ) {
-                                    btn.removeClass('compactwidth');
-                                    _rightedge = $active.get(0).getBoundingClientRect().right;
-                                    if ( _rightedge > _maxright) {
-                                        btn.addClass('compactwidth');
+                        if ( (_rightedge > _maxright)) {
+                            if (!more_section.is(':visible') ) {
+                                if (_flex.length>0) {
+                                    for (var i=0; i<_flex.length; i++) {
+                                        var item = _flex[i].el;
                                         _rightedge = $active.get(0).getBoundingClientRect().right;
-                                        break;
+                                        if (item.outerWidth() > parseInt(item.css('min-width'))) {
+                                            data.rightedge = _rightedge;
+                                            return;
+                                        } else
+                                            item.css('width', item.css('min-width'));
                                     }
                                 }
+                                for (var i=_btns.length-1; i>=0; i--) {
+                                    var btn = _btns[i];
+                                    if ( !btn.hasClass('compactwidth') && !btn.hasClass('slot-btn-more')) {
+                                        btn.addClass('compactwidth');
+                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        if (_rightedge <= _maxright)
+                                            break;
+                                    }
+                                }
+                                data.rightedge = _rightedge;
                             }
-                            data.rightedge = _rightedge;
-                            if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
-                                for (var i=0; i<_flex.length; i++) {
-                                    var item = _flex[i];
-                                    item.el.css('width', item.width);
+                            me.resizeToolbar(force);
+                        } else {
+                            more_section.is(':visible') && me.resizeToolbar(force);
+                            if (!more_section.is(':visible')) {
+                                for (var i=0; i<_btns.length; i++) {
+                                    var btn = _btns[i];
+                                    if ( btn.hasClass('compactwidth') ) {
+                                        btn.removeClass('compactwidth');
+                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        if ( _rightedge > _maxright) {
+                                            btn.addClass('compactwidth');
+                                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                                            break;
+                                        }
+                                    }
+                                }
+                                data.rightedge = _rightedge;
+                                if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
+                                    for (var i=0; i<_flex.length; i++) {
+                                        var item = _flex[i];
+                                        item.el.css('width', item.width);
+                                        data.rightedge = $active.get(0).getBoundingClientRect().right;
+                                    }
                                 }
                             }
                         }
@@ -476,6 +497,303 @@ define([
                 if ( tab && this.$tabs ) {
                     this.$tabs.find('> a[data-tab=' + tab + ']').parent().css('display', visible ? '' : 'none');
                     this.onResize();
+                }
+            },
+
+            setMoreButton: function(tab, panel) {
+                var me = this;
+                if (!btnsMore[tab]) {
+                    var top = panel.position().top;
+                    var box = $('<div class="more-box" style="position: absolute;right: 0; top:'+ top +'px; padding-left: 12px;padding-right: 6px;display: none;">' +
+                        '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
+                        '<div class="group" style=""><span class="btn-slot text x-huge slot-btn-more"></span></div>' +
+                        '</div>');
+                    panel.append(box);
+                    btnsMore[tab] = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top dropdown-manual',
+                        caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
+                        iconCls: 'toolbar__icon btn-more',
+                        enableToggle: true
+                    });
+                    btnsMore[tab].render(box.find('.slot-btn-more'));
+                    btnsMore[tab].on('toggle', function(btn, state, e) {
+                        (state) ? me.onMoreShow(btn, e) : me.onMoreHide(btn, e);
+                        Common.NotificationCenter.trigger('more:toggle', btn, state);
+                    });
+                    var moreContainer = $('<div class="dropdown-menu more-container" data-tab="' + tab + '"><div style="display: inline;"></div></div>');
+                    optsFold.$bar.append(moreContainer);
+                    btnsMore[tab].panel = moreContainer.find('div');
+                }
+                this.$moreBar = btnsMore[tab].panel;
+            },
+
+            resizeToolbar: function(reset) {
+                var $active = this.$panels.filter('.active'),
+                    more_section = $active.find('.more-box'),
+                    more_section_width = parseInt(more_section.css('width')) || 0,
+                    box_controls_width = $active.parents('.box-controls').width(),
+                    _maxright = box_controls_width,
+                    _rightedge = $active.get(0).getBoundingClientRect().right,
+                    delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
+                    hideAllMenus = false;
+                this._prevBoxWidth = _maxright;
+                more_section.is(':visible') && (_maxright -= more_section_width);
+
+                if (this.$moreBar && this.$moreBar.parent().is(':visible')) {
+                    this.$moreBar.parent().css('max-width', Common.Utils.innerWidth());
+                }
+
+                if ( (reset || delta<0) && (_rightedge > _maxright)) { // from toolbar to more section
+                    if (!more_section.is(':visible') ) {
+                        more_section.css('display', "");
+                        _maxright -= parseInt(more_section.css('width'));
+                    }
+                    var last_separator = null,
+                        last_group = null,
+                        prevchild = this.$moreBar.children().filter("[data-hidden-tb-item!=true]");
+                    if (prevchild.length>0) {
+                        prevchild = $(prevchild[0]);
+                        if (prevchild.hasClass('separator'))
+                            last_separator = prevchild;
+                        if (prevchild.hasClass('group') && prevchild.attr('group-state') == 'open')
+                            last_group = prevchild;
+                    }
+                    var items = $active.find('> div:not(.more-box)');
+                    var need_break = false;
+                    for (var i=items.length-1; i>=0; i--) {
+                        var item = $(items[i]);
+                        if (!item.is(':visible') && !item.attr('hidden-on-resize')) { // move invisible items as is and set special attr
+                            item.attr('data-hidden-tb-item', true);
+                            this.$moreBar.prepend(item);
+                            hideAllMenus = true;
+                        } else if (item.hasClass('group')) {
+                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            if (_rightedge <= _maxright) // stop moving items
+                                break;
+
+                            var offset = item.offset(),
+                                item_width = item.outerWidth(),
+                                children = item.children();
+                            if (!item.attr('inner-width') && item.attr('group-state') !== 'open') {
+                                item.attr('inner-width', item_width);
+                                for (var j=children.length-1; j>=0; j--) {
+                                    var child = $(children[j]);
+                                    child.attr('inner-width', child.outerWidth());
+                                }
+                            }
+                            if ((offset.left > _maxright || children.length==1) && item.attr('group-state') != 'open') {
+                                // move group
+                                this.$moreBar.prepend(item);
+                                if (last_separator) {
+                                    last_separator.css('display', '');
+                                    last_separator.removeAttr('hidden-on-resize');
+                                }
+                                hideAllMenus = true;
+                            } else if ( offset.left+item_width > _maxright ) {
+                                // move buttons from group
+                                for (var j=children.length-1; j>=0; j--) {
+                                    var child = $(children[j]);
+                                    if (child.hasClass('elset')) {
+                                        this.$moreBar.prepend(item);
+                                        if (last_separator) {
+                                            last_separator.css('display', '');
+                                            last_separator.removeAttr('hidden-on-resize');
+                                        }
+                                        hideAllMenus = true;
+                                        break;
+                                    } else {
+                                        var child_offset = child.offset(),
+                                            child_width = child.outerWidth();
+                                        if (child_offset.left+child_width>_maxright) {
+                                            if (!last_group) {
+                                                last_group = $('<div></div>');
+                                                last_group.addClass(items[i].className);
+                                                var attrs = items[i].attributes;
+                                                for (var k = 0; k < attrs.length; k++) {
+                                                    last_group.attr(attrs[k].name, attrs[k].value);
+                                                }
+                                                this.$moreBar.prepend(last_group);
+                                                if (last_separator) {
+                                                    last_separator.css('display', '');
+                                                    last_separator.removeAttr('hidden-on-resize');
+                                                }
+                                            }
+                                            last_group.prepend(child);
+                                            hideAllMenus = true;
+                                        } else {
+                                            need_break = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (item.children().length<1) { // all buttons are moved
+                                    item.remove();
+                                    last_group && last_group.removeAttr('group-state').attr('inner-width', item.attr('inner-width'));
+                                    last_group = null;
+                                } else {
+                                    last_group && last_group.attr('group-state', 'open') && item.attr('group-state', 'open');
+                                }
+                                if (need_break)
+                                    break;
+                            } else {
+                                break;
+                            }
+                            last_separator = null;
+                        } else if (item.hasClass('separator')) {
+                            this.$moreBar.prepend(item);
+                            item.css('display', 'none');
+                            item.attr('hidden-on-resize', true);
+                            last_separator = item;
+                            hideAllMenus = true;
+                        }
+                    }
+                } else if ((reset || delta>0) && more_section.is(':visible')) {
+                    var last_separator = null,
+                        last_group = null,
+                        prevchild = $active.find('> div:not(.more-box)');
+                    var last_width = 0;
+                    if (prevchild.length>0) {
+                        prevchild = $(prevchild[prevchild.length-1]);
+                        if (prevchild.hasClass('separator')) {
+                            last_separator = prevchild;
+                            last_width = parseInt(last_separator.css('margin-left')) + parseInt(last_separator.css('margin-right')) + 1;
+                        }
+                        if (prevchild.hasClass('group') && prevchild.attr('group-state') == 'open')
+                            last_group = prevchild;
+                    }
+
+                    var items = this.$moreBar.children();
+                    if (items.length>0) {
+                        // from more panel to toolbar
+                        for (var i=0; i<items.length; i++) {
+                            var item = $(items[i]);
+                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            if (!item.is(':visible') && item.attr('data-hidden-tb-item')) { // move invisible items as is
+                                item.removeAttr('data-hidden-tb-item');
+                                more_section.before(item);
+                                if (this.$moreBar.children().filter('.group').length == 0) {
+                                    this.hideMoreBtns();
+                                    more_section.css('display', "none");
+                                }
+                            } else if (item.hasClass('group')) {
+                                var islast = false;
+                                if (this.$moreBar.children().filter('.group').length == 1) {
+                                    _maxright = box_controls_width; // try to move last group
+                                    islast = true;
+                                }
+
+                                var item_width = parseInt(item.attr('inner-width') || 0);
+                                if (_rightedge + last_width + item_width < _maxright && item.attr('group-state') != 'open') {
+                                    // move group
+                                    more_section.before(item);
+                                    if (last_separator) {
+                                        last_separator.css('display', '');
+                                        last_separator.removeAttr('hidden-on-resize');
+                                    }
+                                    if (this.$moreBar.children().filter('.group').length == 0) {
+                                        this.hideMoreBtns();
+                                        more_section.css('display', "none");
+                                    }
+                                    hideAllMenus = true;
+                                } else if ( _rightedge + last_width < _maxright) {
+                                    // move buttons from group
+                                    var children = item.children();
+                                    _maxright = box_controls_width - more_section_width;
+                                    for (var j=0; j<children.length; j++) {
+                                        if (islast && j==children.length-1)
+                                             _maxright = box_controls_width; // try to move last item from last group
+                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        var child = $(children[j]);
+                                        if (child.hasClass('elset')) { // don't add group - no enough space
+                                            need_break = true;
+                                            break;
+                                        } else {
+                                            var child_width = parseInt(child.attr('inner-width') || 0) + (!last_group ? parseInt(item.css('padding-left')) : 0); // if new group is started add left-padding
+                                            if (_rightedge+last_width+child_width < _maxright) {
+                                                if (!last_group) {
+                                                    last_group = $('<div></div>');
+                                                    last_group.addClass(items[i].className);
+                                                    var attrs = items[i].attributes;
+                                                    for (var k = 0; k < attrs.length; k++) {
+                                                        last_group.attr(attrs[k].name, attrs[k].value);
+                                                    }
+                                                    if (last_group.hasClass('flex')) { // need to update flex groups list
+                                                        $active.data().flex = null;
+                                                    }
+                                                    more_section.before(last_group);
+                                                    if (last_separator) {
+                                                        last_separator.css('display', '');
+                                                        last_separator.removeAttr('hidden-on-resize');
+                                                    }
+                                                }
+                                                last_group.append(child);
+                                                hideAllMenus = true;
+                                            } else {
+                                                need_break = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (item.children().length<1) { // all buttons are moved
+                                        item.remove();
+                                        last_group && last_group.removeAttr('group-state').attr('inner-width', item.attr('inner-width'));
+                                        last_group = null;
+                                        if (this.$moreBar.children().filter('.group').length == 0) {
+                                            this.hideMoreBtns();
+                                            more_section.css('display', "none");
+                                        }
+                                    } else {
+                                        last_group && last_group.attr('group-state', 'open') && item.attr('group-state', 'open');
+                                    }
+                                    if (need_break)
+                                        break;
+                                } else {
+                                    break;
+                                }
+                                last_separator = null; last_width = 0;
+                            } else if (item.hasClass('separator')) {
+                                more_section.before(item);
+                                item.css('display', 'none');
+                                item.attr('hidden-on-resize', true);
+                                last_separator = item;
+                                last_width = parseInt(last_separator.css('margin-left')) + parseInt(last_separator.css('margin-right')) + 1;
+                                hideAllMenus = true;
+                            }
+                        }
+                    } else {
+                        this.hideMoreBtns();
+                        more_section.css('display', "none");
+                    }
+                }
+                hideAllMenus && Common.UI.Menu.Manager.hideAll();
+            },
+
+            onMoreHide: function(btn, e) {
+                var moreContainer = btn.panel.parent();
+                if (btn.pressed) {
+                    btn.toggle(false, true);
+                }
+                if (moreContainer.is(':visible')) {
+                    moreContainer.hide();
+                    Common.NotificationCenter.trigger('edit:complete', this.toolbar, btn);
+                }
+            },
+
+            onMoreShow: function(btn, e) {
+                var moreContainer = btn.panel.parent(),
+                    parentxy = moreContainer.parent().offset(),
+                    target = btn.$el,
+                    showxy = target.offset(),
+                    right = Common.Utils.innerWidth() - (showxy.left - parentxy.left + target.width()),
+                    top = showxy.top - parentxy.top + target.height() + 10;
+
+                moreContainer.css({right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'});
+                moreContainer.show();
+            },
+
+            hideMoreBtns: function() {
+                for (var btn in btnsMore) {
+                    btnsMore[btn] && btnsMore[btn].toggle(false);
                 }
             }
         };

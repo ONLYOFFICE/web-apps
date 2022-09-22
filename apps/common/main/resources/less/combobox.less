@@ -70,6 +70,8 @@
 
         &:hover, &:focus {
             background-color: transparent;
+            border-right-color: @border-regular-control-ie;
+            border-right-color: @border-regular-control;
         }
     }
 
@@ -107,6 +109,7 @@
         .btn {
             &:active {
                 .caret {
+                    border-color: @icon-normal-ie;
                     border-color: @icon-normal;
                 }
             }
@@ -144,7 +147,7 @@
             -webkit-filter: @img-border-type-filter;
             filter: @img-border-type-filter;
         }
-        canvas {
+        .font-item canvas {
             -webkit-filter: @img-border-type-filter;
             filter: @img-border-type-filter;
         }
@@ -154,7 +157,7 @@
                 -webkit-filter: @img-border-type-filter-selected;
                 filter: @img-border-type-filter-selected;
             }
-            canvas {
+            .font-item canvas {
                 -webkit-filter: @img-border-type-filter-selected;
                 filter: @img-border-type-filter-selected;
             }

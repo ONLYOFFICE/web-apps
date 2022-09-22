@@ -114,10 +114,8 @@ define([
                 this.chartProps = props.get_ChartProperties();
 
                 var value = props.get_SeveralCharts() || this._locked;
-                if (this._state.SeveralCharts!==value) {
-                    this.btnEditData.setDisabled(value);
-                    this._state.SeveralCharts=value;
-                }
+                this.btnEditData.setDisabled(value);
+                this._state.SeveralCharts=value;
 
                 value = props.get_SeveralChartTypes();
                 if (this._state.SeveralCharts && value) {
@@ -513,6 +511,7 @@ define([
                             (new PE.Views.ChartSettingsAdvanced(
                                 {
                                     chartProps: elValue,
+                                    slideSize: PE.getController('Toolbar').currentPageSize,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {

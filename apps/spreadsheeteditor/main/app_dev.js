@@ -54,8 +54,6 @@ require.config({
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
-        jszip           : '../vendor/jszip/jszip.min',
-        jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
@@ -121,11 +119,11 @@ require([
     'analytics',
     'gateway',
     'locale',
-    'jszip',
-    'jsziputils',
 	'sockjs',
 	'underscore'
 ], function (Backbone, Bootstrap, Core) {
+    if (Backbone.History && Backbone.History.started)
+        return;
     Backbone.history.start();
 
     /**
@@ -149,12 +147,14 @@ require([
             'PivotTable',
             'DataTab',
             'ViewTab',
+            'Search',
             'WBProtection',
             'Common.Controllers.Fonts',
             'Common.Controllers.History',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
+            ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
         ]
@@ -162,6 +162,9 @@ require([
 
     Common.Locale.apply(function(){
         require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/controller/Themes',
+            'common/main/lib/controller/Desktop',
             'spreadsheeteditor/main/app/controller/Viewport',
             'spreadsheeteditor/main/app/controller/DocumentHolder',
             'spreadsheeteditor/main/app/controller/CellEditor',
@@ -175,6 +178,7 @@ require([
             'spreadsheeteditor/main/app/controller/PivotTable',
             'spreadsheeteditor/main/app/controller/DataTab',
             'spreadsheeteditor/main/app/controller/ViewTab',
+            'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
             'spreadsheeteditor/main/app/view/FileMenuPanels',
             'spreadsheeteditor/main/app/view/ParagraphSettings',
@@ -187,16 +191,14 @@ require([
             'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
             'spreadsheeteditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
-            'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Fonts',
             'common/main/lib/controller/History',
             'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
             'common/main/lib/controller/Plugins'
+            ,'common/main/lib/controller/ExternalOleEditor'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
-            ,'common/main/lib/controller/Themes'
-            ,'common/main/lib/controller/Desktop'
         ], function() {
             window.compareVersions = true;
             app.start();

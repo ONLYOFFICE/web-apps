@@ -794,6 +794,9 @@ define(function(){ 'use strict';
             textTurns: 'Turns',
             textShapes: 'Shapes',
             textLoops: 'Loops',
+            textPathCurve: 'Curve',
+            textPathLine: 'Line',
+            textPathScribble: 'Scribble',
 
             getEffectGroupData: function () {
                 return [
@@ -849,8 +852,8 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',       value: AscFormat.MOTION_ARC_DOWN,                   iconCls: 'animation-motion-paths-arcs',             displayValue: this.textArcs,        familyEffect: 'patharcs'},
                     {group: 'menu-effect-group-path',       value: AscFormat.MOTION_TURN_DOWN,                  iconCls: 'animation-motion-paths-turns',            displayValue: this.textTurns,       familyEffect: 'pathturns'},
                     {group: 'menu-effect-group-path',       value: AscFormat.MOTION_CIRCLE,                     iconCls: 'animation-motion-paths-shapes',           displayValue: this.textShapes,      familyEffect: 'pathshapes'},
-                    {group: 'menu-effect-group-path',       value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'animation-motion-paths-loops',            displayValue: this.textLoops,       familyEffect: 'pathloops'}//,
-                    //{group: 'menu-effect-group-path',     value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'animation-motion-paths-custom-path',      displayValue: this.textCustomPath}
+                    {group: 'menu-effect-group-path',       value: AscFormat.MOTION_HORIZONTAL_FIGURE_8_FOUR,   iconCls: 'animation-motion-paths-loops',            displayValue: this.textLoops,       familyEffect: 'pathloops'},
+                    {group: 'menu-effect-group-path',       value: AscFormat.MOTION_CUSTOM_PATH,                iconCls: 'animation-motion-paths-custom-path',      displayValue: this.textCustomPath}
                 ];
             },
 
@@ -1038,7 +1041,8 @@ define(function(){ 'use strict';
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_PEANUT,                     displayValue: this.textPeanut},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_POINTY_STAR,                displayValue: this.textPointStar},
                     {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_SWOOSH,                     displayValue: this.textSwoosh},
-                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_VERTICAL_FIGURE_8,          displayValue: this.textVerticalFigure,      familyEffect: 'pathloops'}
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_VERTICAL_FIGURE_8,          displayValue: this.textVerticalFigure,      familyEffect: 'pathloops'},
+                    {group: 'menu-effect-group-path',       level: 'menu-effect-level-special',         value: AscFormat.MOTION_CUSTOM_PATH,                displayValue: this.textCustomPath,  notsupported: true}
 
                 ];
             },
@@ -1277,11 +1281,21 @@ define(function(){ 'use strict';
                                return undefined;
                         }
                         break;
+                    case  'menu-effect-group-path':
+                        switch (type) {
+                            case AscFormat.MOTION_CUSTOM_PATH:
+                                return [
+                                    {value: AscFormat.MOTION_CUSTOM_PATH_CURVE,        caption: this.textPathCurve, isCustom: true},
+                                    {value: AscFormat.MOTION_CUSTOM_PATH_LINE,         caption: this.textPathLine, isCustom: true},
+                                    {value: AscFormat.MOTION_CUSTOM_PATH_SCRIBBLE,     caption: this.textPathScribble, isCustom: true}
+                                ];
+                        }
+                        break;
                     default:
                         return undefined;
                 }
             },
-            getSimilarEffectsArray: function (group, familyEffect) {
+            getSimilarEffectsArray: function (familyEffect) {
                 switch (familyEffect){
                     case 'shape':
                         return [

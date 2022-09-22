@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Hauteur",
   "common.view.modals.txtShare": "Partager un lien",
   "common.view.modals.txtWidth": "Largeur",
+  "common.view.SearchBar.textFind": "Rechercher",
   "SSE.ApplicationController.convertationErrorText": "Échec de la conversion.",
   "SSE.ApplicationController.convertationTimeoutText": "Délai d'attente de la conversion dépassé ",
   "SSE.ApplicationController.criticalErrorTitle": "Erreur",
@@ -16,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
   "SSE.ApplicationController.errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
   "SSE.ApplicationController.errorTokenExpire": "Le jeton de sécurité du document a expiré.<br>Veuillez contactez l'administrateur de Document Server.",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "La connexion internet a été rétablie, la version du fichier est modifiée.<br>Avant de continuer, téléchargez le fichier ou copiez le contenu pour vous assurer que tous les changements ont été enregistrés, et rechargez la page.",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "La connexion a été rétablie et la version du fichier a été modifiée.<br>Avant de pouvoir continuer à travailler, vous devez télécharger le fichier ou copier son contenu pour vous assurer que rien n'est perdu, puis recharger cette page.",
   "SSE.ApplicationController.errorUserDrop": "Impossible d'accéder au fichier.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Avertissement",
   "SSE.ApplicationController.openErrorText": "Une erreur s’est produite lors de l’ouverture du fichier.",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Ouvrir l'emplacement du fichier",
   "SSE.ApplicationView.txtFullScreen": "Plein écran",
   "SSE.ApplicationView.txtPrint": "Imprimer",
+  "SSE.ApplicationView.txtSearch": "Recherche",
   "SSE.ApplicationView.txtShare": "Partager"
 }

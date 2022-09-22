@@ -60,10 +60,12 @@ define([
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
 
-        var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
+        var nativevars;
 
         if ( !!native ) {
             native.features = native.features || {};
+            nativevars = window.RendererProcessVariable;
+
             window.on_native_message = function (cmd, param) {
                 if (/^style:change/.test(cmd)) {
                     var obj = JSON.parse(param);
@@ -137,6 +139,10 @@ define([
                         if (!!_mr[1]) $('#app-title').show();
                         else if (!!_mr[2]) $('#app-title').hide();
                     }
+                } else
+                if (/althints:show/.test(cmd)) {
+                    if ( /false|hide/.test(param) )
+                        Common.NotificationCenter.trigger('hints:clear');
                 }
             };
 
@@ -187,11 +193,36 @@ define([
             }
         };
 
+        var _onHintsShow = function (visible, level) {
+            let info = {
+                visible: visible && !(level > 0),
+            };
+
+            if ( !!titlebuttons ) {
+                info.hints = {};
+                !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
+            }
+
+            native.execCommand('althints:show', JSON.stringify(info));
+        }
+
+        var _onKeyDown = function (e) {
+            if ( Common.UI.HintManager.isHintVisible() ) {
+                native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
+                console.log('hint keydown', e.keyCode);
+            }
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
 
                 if ( config.isDesktopApp ) {
+                    let is_win_xp = nativevars && nativevars.os === 'winxp';
+
                     Common.UI.Themes.setAvailable(!is_win_xp);
                     Common.NotificationCenter.on('app:ready', function (opts) {
                         _.extend(config, opts);
@@ -256,12 +287,17 @@ define([
 
                     Common.NotificationCenter.on({
                         'modal:show': _onModalDialog.bind(this, 'open'),
-                        'modal:close': _onModalDialog.bind(this, 'close')
-                        , 'uitheme:changed' : function (name) {
-                            var theme = Common.UI.Themes.get(name);
-                            if ( theme )
-                                native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
-                        }
+                        'modal:close': _onModalDialog.bind(this, 'close'),
+                        'uitheme:changed' : function (name) {
+                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                                native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
+                            } else {
+                                var theme = Common.UI.Themes.get(name);
+                                if ( theme )
+                                    native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                            }
+                        },
+                        'hints:show': _onHintsShow.bind(this),
                     });
 
                     webapp.addListeners({
@@ -278,6 +314,8 @@ define([
                             },
                         },
                     }, {id: 'desktop'});
+
+                    $(document).on('keydown', _onKeyDown.bind(this));
                 }
             },
             process: function (opts) {
@@ -313,6 +351,25 @@ define([
                 // return webapp.getController('Main').api.asc_isOffline();
                 return webapp.getController('Main').appOptions.isOffline;
             },
+            isFeatureAvailable: function (feature) {
+                return !!native && !!native[feature];
+            },
+            call: function (name) {
+                if ( native[name] ) {
+                    let args = [].slice.call(arguments, 1);
+                    // return native[name](...args);
+                    return native[name].apply(this, args);
+                }
+            },
+            helpUrl: function () {
+                if ( !!nativevars && nativevars.helpUrl ) {
+                    var webapp = window.SSE ? 'spreadsheeteditor' :
+                                    window.PE ? 'presentationeditor' : 'documenteditor';
+                    return nativevars.helpUrl + '/' + webapp + '/main/resources/help';
+                }
+
+                return undefined;
+            }
         };
     };
 

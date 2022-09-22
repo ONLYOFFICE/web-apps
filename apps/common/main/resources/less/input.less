@@ -129,7 +129,8 @@ textarea.form-control:focus {
         top: @scaled-one-px-value-ie;
         top: @scaled-one-px-value;
 
-        > .btn-toolbar {
+        .btn-group > .btn-toolbar,
+        & > .btn-toolbar {
             height: 20px;
             height: calc(22px - @scaled-one-px-value * 2);
         }

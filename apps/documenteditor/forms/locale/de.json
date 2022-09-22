@@ -32,9 +32,15 @@
   "Common.UI.Calendar.textShortTuesday": "Di",
   "Common.UI.Calendar.textShortWednesday": "Mi",
   "Common.UI.Calendar.textYears": "Jahre",
+  "Common.UI.SearchBar.textFind": "Finden",
+  "Common.UI.SearchBar.tipCloseSearch": "Suche schließen",
+  "Common.UI.SearchBar.tipNextResult": "Nächstes Ergebnis",
+  "Common.UI.SearchBar.tipPreviousResult": "Vorheriges Ergebnis",
   "Common.UI.Themes.txtThemeClassicLight": "Klassisch Hell",
+  "Common.UI.Themes.txtThemeContrastDark": "Dunkler Kontrast",
   "Common.UI.Themes.txtThemeDark": "Dunkelmodus",
   "Common.UI.Themes.txtThemeLight": "Hell",
+  "Common.UI.Themes.txtThemeSystem": "Wie im System",
   "Common.UI.Window.cancelButtonText": "Abbrechen",
   "Common.UI.Window.closeButtonText": "Schließen",
   "Common.UI.Window.noButtonText": "Nein",
@@ -166,6 +172,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Dateispeicherort öffnen",
   "DE.Views.ApplicationView.txtFullScreen": "Vollbild-Modus",
   "DE.Views.ApplicationView.txtPrint": "Drucken",
+  "DE.Views.ApplicationView.txtSearch": "Suche",
   "DE.Views.ApplicationView.txtShare": "Freigeben",
   "DE.Views.ApplicationView.txtTheme": "Thema der Benutzeroberfläche"
 }

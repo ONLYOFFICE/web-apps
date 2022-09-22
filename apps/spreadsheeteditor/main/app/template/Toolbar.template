@@ -25,13 +25,21 @@
                     <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-cut"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                </div>
+            </div>
             <div class="separator long"></div>
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home">
                 <div class="group small">
                     <div class="elset font-attr-top">
-                        <span class="btn-slot" id="slot-field-fontname"></span>
+                        <span class="btn-slot" id="slot-field-fontname" style="width: 127px;"></span>
                         <span class="btn-slot" id="slot-field-fontsize"></span>
                         <span class="btn-slot" id="slot-btn-incfont"></span>
                         <span class="btn-slot" id="slot-btn-decfont"></span>
@@ -116,7 +124,8 @@
                         <span class="btn-slot split" id="slot-btn-table-tpl"></span>
                     </div>
                 </div>
-                <div class="group small" id="slot-field-styles" style="width: 100%; min-width: 168px;"></div>
+                <div class="separator long invisible"></div>
+                <div class="group small flex field-styles" id="slot-field-styles" style="min-width: 168px;width: 100%;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -244,62 +253,6 @@
                         <!--<span class="btn-slot" id="slot-btn-hide-details" style="width:auto;"></span>-->
                     <!--</div>-->
                 <!--</div>-->
-            </section>
-            <section class="panel" data-tab="view">
-                <div class="group sheet-views">
-                    <span class="btn-slot text x-huge" id="slot-btn-sheet-view"></span>
-                </div>
-                <div class="group sheet-views small">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-createview"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-closeview"></span>
-                    </div>
-                </div>
-                <div class="separator long sheet-views"></div>
-                <div class="group small">
-                    <div class="elset" style="display: flex;">
-                        <span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>
-                    </div>
-                    <div class="elset" style="text-align: center;">
-                        <span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>
-                    </div>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>
-                </div>
-                <div class="separator long separator-theme"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-freeze"></span>
-                </div>
-                <div class="separator long"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-formula"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-heading"></span>
-                    </div>
-                </div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-gridlines"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-zeros"></span>
-                    </div>
-                </div>
-                <div class="separator long"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-toolbar"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
-                    </div>
-                </div>
             </section>
         </section>
     </section>

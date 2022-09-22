@@ -98,14 +98,14 @@ module.exports = {
             }
           }),
           'css-loader',
-            {
-                loader: 'postcss-loader',
-                options: {
-                    config: {
-                        path: path.resolve(__dirname, '..'),
-                    }
-                },
-            },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                    path: path.resolve(__dirname, '..'),
+                }
+            }
+          },
         ],
       },
       {
@@ -117,27 +117,32 @@ module.exports = {
               publicPath: '../'
             }
           }),
-            'css-loader?url=false',
-            {
-                loader: 'postcss-loader',
-                options: {
-                    config: {
-                        path: path.resolve(__dirname, '..'),
-                    }
-                },
-            },
-            {
-              loader: "less-loader",
+          {
+              loader: 'css-loader',
               options: {
-                lessOptions: {
-                  javascriptEnabled: true,
-                  globalVars: {
-                      "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
-                      "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
-                  }
+                  url: false,
+              },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                    path: path.resolve(__dirname, '..'),
+                }
+            }
+          },
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+                globalVars: {
+                    "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
+                    "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
                 }
               }
-            },
+            }
+          },
         ],
       },
       {
@@ -165,9 +170,10 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env),
       'process.env.TARGET': JSON.stringify(target),
-      __PRODUCT_VERSION__: JSON.stringify(process.env.PRODUCT_VERSION ? process.env.PRODUCT_VERSION : '6.2.0d'),
+      __PRODUCT_VERSION__: JSON.stringify(process.env.PRODUCT_VERSION ? `${process.env.PRODUCT_VERSION}.${process.env.BUILD_NUMBER}` : '6.2.0.123d'),
       __PUBLISHER_ADDRESS__: JSON.stringify(process.env.PUBLISHER_ADDRESS || '20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'),
       __SUPPORT_EMAIL__: JSON.stringify(process.env.SUPPORT_EMAIL || 'support@onlyoffice.com'),
+      __SUPPORT_URL__: JSON.stringify(process.env.SUPPORT_URL || 'https://support.onlyoffice.com'),
       __PUBLISHER_PHONE__: JSON.stringify(process.env.PUBLISHER_PHONE || '+371 633-99867'),
       __PUBLISHER_URL__: JSON.stringify(process.env.PUBLISHER_URL || 'https://www.onlyoffice.com'),
       __PUBLISHER_NAME__: JSON.stringify(process.env.PUBLISHER_NAME || 'Ascensio System SIA'),
@@ -197,6 +203,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
     }),
+    // new WebpackRTLPlugin({
+    //   filename: 'css/[name].rtl.css',
+    //   diffOnly: true
+    // }),
     new HtmlWebpackPlugin({
       filename: `../../../apps/${editor}/mobile/index.html`,
       template: `../../apps/${editor}/mobile/src/index_dev.html`,
@@ -221,6 +231,14 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
+        {
+            from: resolvePath('node_modules/framework7/framework7-bundle.css'),
+            to: `../../${editor}/mobile/css/framework7.css`,
+        },
+        {
+            from: resolvePath('node_modules/framework7/framework7-bundle-rtl.css'),
+            to: `../../${editor}/mobile/css/framework7-rtl.css`,
+        },
         {
           noErrorOnMissing: true,
           from: resolvePath('src/static'),

@@ -12,6 +12,7 @@ import {SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins} from '.
 import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSettings.jsx';
 // import SpreadsheetAbout from './SpreadsheetAbout.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
+import { Direction } from '../../../../../spreadsheeteditor/mobile/src/view/settings/ApplicationSettings';
 
 const routes = [
     {
@@ -61,6 +62,10 @@ const routes = [
     {
         path: '/about/',
         component: About
+    },
+    {
+        path: '/direction/',
+        component: Direction
     }
 ];
 
@@ -117,6 +122,15 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
 
         closeModal();
         window.open(url, "_blank");
+    };
+
+    const showFeedback = () => {
+        let config = props.storeAppOptions.config;
+
+        closeModal();
+        if(config && !!config.feedback && !!config.feedback.url) {
+            window.open(config.feedback.url, "_blank");
+        } else window.open(__SUPPORT_URL__, "_blank");
     };
 
     const appOptions = props.storeAppOptions;
@@ -192,11 +206,14 @@ const SettingsList = inject("storeAppOptions")(observer(props => {
                     <ListItem title={_t.textSpreadsheetInfo} link="#" onClick={onoptionclick.bind(this, "/spreadsheet-info/")}>
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textHelp} link="#" onClick={showHelp}>
+                    <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                     <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
                         <Icon slot="media" icon="icon-about"></Icon>
+                    </ListItem>
+                    <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={showFeedback}>
+                            <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
                 </List>
             </Page>

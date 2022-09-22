@@ -1,5 +1,4 @@
 .ios {
-
     // Stepper 
     .content-block.stepper-block {
         margin: 20px 0;
@@ -31,6 +30,62 @@
                 font-size: 17px;
                 font-weight: var(--f7-list-item-after-line-height);
             }
+        }
+    }
+
+    .navigation-sheet {
+        border-radius: 10px 10px 0px 0px;
+        &__title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: @background-primary;
+            padding-bottom: 10px;
+            p {
+                font-style: normal;
+                font-weight: 600;
+                font-size: 17px;
+                line-height: 22px;
+                text-align: center;
+                color: @text-normal;
+                margin: 0;
+            }
+        }
+    }
+
+    // Reader mode
+    .back-reader-mode {
+        margin-left: 10px;
+    }
+
+    // Snackbar
+    .snackbar {
+        max-width: 195px;
+        max-height: 48px;
+        position: absolute;
+        bottom: 24px;
+        left: calc(50% - 195px / 2);
+        background: rgba(0, 0, 0, .9);
+        border-radius: 4px;
+        z-index: 1000000;
+        &__content {
+            padding: 15px 16.5px;
+        }
+        &__text {
+            margin: 0;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 18px;
+            letter-spacing: -0.078px;
+            color: @fill-white;
+            text-align: center;
+        }
+    }
+
+    @media(max-width: 450px) {
+        .snackbar {
+            bottom: 50px;
         }
     }
 }

@@ -68,11 +68,14 @@ define([
         initialize: function(options) {
             _.extend(this, options);
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
+
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
         },
 
         render: function(el) {
             el = el || this.el;
-            $(el).html(this.template({scope: this})).width( (parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
+            $(el).html(this.template({scope: this})).width( (parseInt(Common.localStorage.getItem(this.appPrefix + 'mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
 
             this.viewHistoryList = new Common.UI.DataView({
                 el: $('#history-list'),
@@ -110,7 +113,7 @@ define([
                         for(var i=1; i<revisions.length; i++)
                             revisions[i].set('isVisible', isExpanded);
                     }
-                    this.scroller.update({minScrollbarLength: 40});
+                    this.scroller.update({minScrollbarLength: this.minScrollbarLength});
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
                 me.btnExpand.cmpEl.text(me.storeHistory.hasCollapsed() ? me.textShowAll : me.textHideAll);

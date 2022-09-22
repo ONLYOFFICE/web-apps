@@ -18,7 +18,7 @@
     background-color: rgb(0,0,0);
     z-index: @zindex-modal - 1;
 
-    .theme-dark & {
+    .theme-type-dark & {
         opacity: 0.6;
     }
 }
@@ -46,8 +46,8 @@
         &:before, &:after {
             content: ' ';
             position: absolute;
-            left: 7px;
-            left: calc(7px / @pixel-ratio-factor);
+            left: 8px;
+            left: calc(8px / @pixel-ratio-factor);
             top: @scaled-one-px-value-ie;
             top: @scaled-one-px-value;
             height: 14px;
@@ -101,6 +101,7 @@
         text-align: center;
         font-size: 12px;
         font-weight: 700;
+        letter-spacing: 0.01em;
         vertical-align: bottom;
         line-height: 26px;
 
@@ -115,6 +116,12 @@
             position: absolute;
             right: 0;
             padding-right: 6px;
+
+            &.left {
+                left: 0;
+                right: auto;
+                padding-left: 6px;
+            }
         }
 
         .tool.help {
@@ -122,7 +129,7 @@
             margin-right:0;
             line-height: 14px;
             font-size: 14px;
-            font-weight: bold;
+            .font-weight-bold();
             color: @text-normal-ie;
             color: @text-normal;
             opacity: 0.7;
@@ -319,7 +326,7 @@
         .input-row {
             height: @input-height-base;
 
-            label:not(.checkbox-indeterminate)  {
+            & > label:not(.checkbox-indeterminate)  {
                 line-height: @input-height-base;
             }
 

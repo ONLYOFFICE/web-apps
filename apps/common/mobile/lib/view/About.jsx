@@ -12,6 +12,7 @@ const PageAbout = props => {
     const customer = licInfo ? licInfo.customer : null;
     const nameCustomer = customer ? customer.name : null;
     const mailCustomer = customer ? customer.mail : null;
+    const phoneCustomer = customer ? customer.phone : null;
     const addressCustomer = customer ? customer.address : null;
     const urlCustomer = customer ? customer.www : null;
     const infoCustomer = customer ? customer.info : null;
@@ -27,7 +28,7 @@ const PageAbout = props => {
         sse: 'SPREADSHEET EDITOR'
     };
 
-    const nameEditor = editors[editorType];
+    const nameEditor = (_t.textEditor || editors[editorType]).toUpperCase();
 
     return (
         <Page className="about">
@@ -61,6 +62,13 @@ const PageAbout = props => {
                                 <Link id="settings-about-email" external={true} href={"mailto:"+mailCustomer}>{mailCustomer}</Link>
                             </p>
                         ) : null}
+                        {phoneCustomer && phoneCustomer.length ? (
+                            <p>
+                                <label>{_t.textTel}:</label>
+                                <Link id="settings-about-tel" external={true} href={"tel:"+phoneCustomer}>{phoneCustomer}</Link>
+                            </p>
+                        ) : null}
+
                         {urlCustomer && urlCustomer.length ? (
                             <p>
                                 <Link id="settings-about-url" className="external" target="_blank" 
@@ -120,7 +128,7 @@ const PageAbout = props => {
 };
 
 const About = inject("storeAppOptions")(observer(PageAbout));
-About.appVersion = () => (__PRODUCT_VERSION__);
+About.appVersion = () => (__PRODUCT_VERSION__).match(/\d+.\d+.\d+/)[0];     // skip build number
 About.compareVersions = () => /d$/.test(__PRODUCT_VERSION__);
 About.developVersion = () => /(?:d|debug)$/.test(__PRODUCT_VERSION__);
 

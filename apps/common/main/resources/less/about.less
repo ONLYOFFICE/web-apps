@@ -7,7 +7,7 @@
             //content: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/about/logo.png')), ~"url('@{common-image-const-path}/about/logo.png')");
             content: ~"url('@{common-image-const-path}/about/logo_s.svg')";
 
-            .theme-dark & {
+            .theme-type-dark & {
                 content: ~"url('@{common-image-const-path}/about/logo-white_s.svg')";
             }
 
@@ -22,7 +22,7 @@
         letter-spacing: 1px;
         color: @text-normal-ie;
         color: @text-normal;
-        font-weight: bold;
+        .font-weight-bold();
         white-space: nowrap;
     }
 
@@ -34,6 +34,7 @@
 
     .asc-about-companyname {
         font: bold 15px Tahoma;
+        letter-spacing: 0.01em;
         color: @text-normal-ie;
         color: @text-normal;
     }
@@ -54,7 +55,7 @@
         }
 
         &.asc-about-lic {
-            font-weight: bold;
+            .font-weight-bold();
         }
 
     }

@@ -493,7 +493,7 @@ define([
         },
         updateScrolls: function () {
             if (this.commentsView && this.commentsView.scroller) {
-                this.commentsView.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+                this.commentsView.scroller.update({minScrollbarLength: this.commentsView.minScrollbarLength, alwaysVisibleY: true});
             }
         },
 

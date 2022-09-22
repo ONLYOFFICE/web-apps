@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Розроблено",
     "textTel": "Телефон",
-    "textVersion": "Версія"
+    "textVersion": "Версія",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Увага",
@@ -57,7 +58,10 @@
     "textStartAt": "Почати з",
     "textTable": "Таблиця",
     "textTableSize": "Розмір таблиці",
-    "txtNotUrl": "Це поле має бути URL-адресою у форматі \"http://www.example.com\""
+    "txtNotUrl": "Це поле має бути URL-адресою у форматі \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithBlueLinks": "With Blue Links",
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "textDoNotShowAgain": "Більше не показувати",
     "textNumberingValue": "Початкове значення",
     "textOk": "Ок",
-    "textRows": "Рядки"
+    "textRows": "Рядки",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Увага",
@@ -287,7 +294,6 @@
     "textPageBreakBefore": "З нової сторінки",
     "textPageNumbering": "Нумерація сторінок",
     "textParagraph": "Абзац",
-    "textParagraphStyles": "Стилі абзацу",
     "textPictureFromLibrary": "Зображення з бібліотеки",
     "textPictureFromURL": "Зображення з URL",
     "textPt": "Пт",
@@ -330,7 +336,36 @@
     "textTu": "Вт",
     "textType": "Тип",
     "textWe": "Ср",
-    "textWrap": "Стиль обтікання"
+    "textWrap": "Стиль обтікання",
+    "textAmountOfLevels": "Amount of Levels",
+    "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
+    "textEnterTitleNewStyle": "Enter title of a new style",
+    "textFormal": "Formal",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
+    "textSameCreatedNewStyle": "Same as created new style",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
+    "textStyles": "Styles",
+    "textTableOfCont": "TOC",
+    "textTitle": "Title"
   },
   "Error": {
     "convertationTimeoutText": "Перевищено час очікування конверсії.",
@@ -370,7 +405,10 @@
     "unknownErrorText": "Невідома помилка.",
     "uploadImageExtMessage": "Невідомий формат зображення.",
     "uploadImageFileCountMessage": "Жодного зображення не завантажено.",
-    "uploadImageSizeMessage": "Занадто велике зображення. Максимальний розмір – 25 MB."
+    "uploadImageSizeMessage": "Занадто велике зображення. Максимальний розмір – 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Завантаження даних...",
@@ -503,7 +541,8 @@
     "warnLicenseUsersExceeded": "Ви досягли ліміту на кількість користувачів редакторів %1.<br>Зв'яжіться з адміністратором, щоб дізнатися більше.",
     "warnNoLicense": "Ви досягли ліміту на одночасне підключення до редакторів %1. Цей документ буде відкрито для перегляду. Напишіть у відділ продажу %1, щоб обговорити індивідуальні умови оновлення.",
     "warnNoLicenseUsers": "Ви досягли ліміту на одночасне підключення до редакторів %1.<br>Напишіть у відділ продаж %1, для обговорення індивідуальних умов ліцензування.",
-    "warnProcessRightsChange": "У вас немає прав на редагування цього файлу."
+    "warnProcessRightsChange": "У вас немає прав на редагування цього файлу.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Захищений файл",
@@ -616,18 +655,31 @@
     "txtScheme7": "Власний",
     "txtScheme8": "Потік",
     "txtScheme9": "Ливарна",
+    "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
+    "textEmptyHeading": "Empty Heading",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textFastWV": "Fast Web View",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
+    "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
+    "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
-    "textYes": "Yes",
-    "textPdfProducer": "PDF Producer"
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "У документі є незбережені зміни. Натисніть 'Залишитись на сторінці', щоб дочекатися автозбереження. Натисніть 'Піти зі сторінки', щоб скинути всі незбережені зміни.",
     "dlgLeaveTitleText": "Ви виходите з програми",
     "leaveButtonText": "Залишити цю сторінку",
-    "stayButtonText": "Залишитися на сторінці"
+    "stayButtonText": "Залишитися на сторінці",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

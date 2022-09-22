@@ -851,11 +851,9 @@ define([
 
                 value = props.get_CanBeFlow() && !this._locked;
                 var fromgroup = props.get_FromGroup() || this._locked;
-                if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup) {
-                    this.cmbWrapType.setDisabled(!value || fromgroup);
-                    this._state.CanBeFlow=value;
-                    this._state.FromGroup=fromgroup;
-                }
+                this.cmbWrapType.setDisabled(!value || fromgroup);
+                this._state.CanBeFlow=value;
+                this._state.FromGroup=fromgroup;
 
                 // background colors
                 var rec = null;

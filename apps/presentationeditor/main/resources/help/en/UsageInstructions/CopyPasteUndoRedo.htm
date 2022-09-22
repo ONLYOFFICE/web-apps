@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Perform the basic operations with the presentation: copy, paste, undo, redo" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -18,8 +19,8 @@
             <p>To cut, copy and paste the selected objects (slides, text passages, autoshapes) in the <a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Presentation Editor</b></a> or undo/redo your actions, use the corresponding options from the right-click menu, keyboard shortcuts or icons available on any tab of the top toolbar:</p>
             <ul>
                 <li><b>Cut</b> – select an object and use the <b>Cut</b> option from the right-click menu to delete the selection and send it to the computer clipboard memory. <span class="onlineDocumentFeatures">The cut data can be later inserted to another place in the same presentation.</span></li>
-                <li><b>Copy</b> – select an object and use the <b>Copy</b> option from the right-click menu or the <b>Copy</b> <img alt="Copy icon" src="../images/copy.png" /> icon on the top toolbar to copy the selection to the computer clipboard memory. <span class="onlineDocumentFeatures">The copied object can be later inserted to another place in the same presentation.</span></li>
-                <li><b>Paste</b> – find the place in your presentation where you need to paste the previously copied object and use the <b>Paste</b> option from the right-click menu or the <b>Paste</b> <img alt="Paste icon" src="../images/paste.png" /> icon on the top toolbar. The object will be inserted to the current cursor position. <span class="onlineDocumentFeatures">The object can be previously copied from the same presentation.</span></li>
+                <li><b>Copy</b> – select an object and use the <b>Copy</b> option from the right-click menu or the <b>Copy</b> <div class = "icon icon-copy"></div> icon on the top toolbar to copy the selection to the computer clipboard memory. <span class="onlineDocumentFeatures">The copied object can be later inserted to another place in the same presentation.</span></li>
+                <li><b>Paste</b> – find the place in your presentation where you need to paste the previously copied object and use the <b>Paste</b> option from the right-click menu or the <b>Paste</b> <div class = "icon icon-paste"></div> icon on the top toolbar. The object will be inserted to the current cursor position. <span class="onlineDocumentFeatures">The object can be previously copied from the same presentation.</span></li>
             </ul>
             <p><span class="onlineDocumentFeatures">In the <em>online version</em>, the following key combinations are only used to copy or paste data from/into another presentation or some other program,</span> <span class="desktopDocumentFeatures">in the <em>desktop version</em>, both the corresponding buttons/menu options and key combinations can be used for any copy/paste operations:</span></p>
             <ul>
@@ -29,7 +30,7 @@
             </ul>
             <h3>Use the Paste Special feature</h3>
             <p class="note"><b>Note</b>: For collaborative editing, the <b>Pase Special</b> feature is available in the <b>Strict</b> co-editing mode only.</p>
-            <p>Once the copied data is pasted, the <b>Paste Special</b> <img alt="Paste Special" src="../images/pastespecialbutton.png" /> button appears next to the inserted text passage/object. Click this button to select the necessary paste option. </p>
+            <p>Once the copied data is pasted, the <b>Paste Special</b> <span class="icon icon-pastespecialbutton"></span> button appears next to the inserted text passage/object. Click this button to select the necessary paste option. </p>
             <p>When pasting text passages, the following options are available:</p>
             <ul>
                 <li><em>Use destination theme</em> - allows applying the formatting specified by the theme of the current presentation. This option is used by default.</li>
@@ -47,9 +48,9 @@
             <h3>Use the Undo/Redo operations</h3>
             <p>To undo/redo your actions, use the corresponding icons on the left side of the editor header or keyboard shortcuts:</p>
             <ul>
-                <li><b>Undo</b> – use the <b>Undo</b> <img alt="Undo icon" src="../images/undo.png" /> icon to undo the last operation you performed.</li>
+                <li><b>Undo</b> – use the <b>Undo</b> <div class = "icon icon-undo"></div> icon to undo the last operation you performed.</li>
                 <li>
-                    <b>Redo</b> – use the <b>Redo</b> <img alt="Redo icon" src="../images/redo.png" /> icon to redo the last undone operation.
+                    <b>Redo</b> – use the <b>Redo</b> <div class = "icon icon-redo"></div> icon to redo the last undone operation.
                     <p>You can also use the <b>Ctrl+Z</b> key combination for undoing or <b>Ctrl+Y</b> for redoing.</p>
                 </li>
             </ul>

@@ -5,6 +5,7 @@
 @import "../../../../common/main/resources/less/colors-table.less";
 @import "../../../../common/main/resources/less/colors-table-classic.less";
 @import "../../../../common/main/resources/less/colors-table-dark.less";
+@import "../../../../common/main/resources/less/colors-table-dark-contrast.less";
 
 // Core variables and mixins
 //@import "../../../../../vendor/bootstrap/less/variables.less";
@@ -81,6 +82,7 @@
 @import "../../../../common/main/resources/less/checkbox.less";
 @import "../../../../common/main/resources/less/opendialog.less";
 @import "../../../../common/main/resources/less/advanced-settings-window.less";
+@import "../../../../common/main/resources/less/searchdialog.less";
 
 @toolbarBorderColor:            @border-toolbar-ie;
 @toolbarBorderColor:            @border-toolbar;
@@ -225,7 +227,7 @@
     background: data-uri('../../../../common/main/resources/img/header/dark-logo_s.svg') no-repeat;
 }
 
-.theme-dark {
+.theme-type-dark {
     .brand-logo {
         background: data-uri('../../../../common/main/resources/img/header/header-logo_s.svg') no-repeat;
     }
@@ -431,7 +433,7 @@
 @icon-width: 20px;
 @icon-height: 20px;
 
-.theme-dark {
+.theme-type-dark {
     @neg-value: -@icon-height;
     --icon-normal-top: @neg-value;
 }
@@ -439,7 +441,7 @@
 
 .svg-icon {
     background: data-uri('../../../../common/forms/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: @icon-width*24 @icon-height*2;
+    background-size: @icon-width*29 @icon-height*2;
 
     &.download {
         background-position: -@icon-width 0;
@@ -530,6 +532,30 @@
     &.redo {
         background-position: -@icon-width*23 0;
         background-position: -@icon-width*23 @icon-normal-top;
+    }
+    &.search {
+        background-position: -@icon-width*24 0;
+        background-position: -@icon-width*24 @icon-normal-top;
+    }
+    &.btn-sheet-view {
+        background-position: -@icon-width*25 0;
+        background-position: -@icon-width*25 @icon-normal-top;
+    }
+    &.hide-password {
+        background-position: -@icon-width*26 0;
+        background-position: -@icon-width*26 @icon-normal-top;
+    }
+    &.search-close {
+        background-position: -@icon-width*18 0;
+        background-position: -@icon-width*18 @icon-normal-top;
+    }
+    &.search-arrow-up {
+        background-position: -@icon-width*27 0;
+        background-position: -@icon-width*27 @icon-normal-top;
+    }
+    &.search-arrow-down {
+        background-position: -@icon-width*28 0;
+        background-position: -@icon-width*28 @icon-normal-top;
     }
 }
 
@@ -671,17 +697,6 @@
     .fontsize(@font-size-large);
 }
 
-.input-field-btn {
-    .select-button {
-        display: none;
-    }
-
-    .input-error {
-        &:before {
-            right: 3px;
-        }
-    }
-    input {
-        padding-right: 0;
-    }
+.search-bar {
+    z-index: 50;
 }

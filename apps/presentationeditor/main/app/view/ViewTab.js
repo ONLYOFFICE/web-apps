@@ -46,6 +46,47 @@ define([
     'use strict';
 
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
+        var template =
+            '<section class="panel" data-tab="view">' +
+                '<div class="group small">' +
+                    '<div class="elset" style="display: flex;">' +
+                        '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
+                    '</div>' +
+                    '<div class="elset" style="text-align: center;">' +
+                        '<span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-btn-fts" style="font-size: 11px;text-align: center;"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>' +
+                '</div>' +
+                '<div class="separator long separator-theme"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-notes"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-rulers"></span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="separator long separator-rulers"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-toolbar"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-statusbar"></span>' +
+                    '</div>' +
+                '</div>' +
+            '</section>';
         return {
             options: {},
 
@@ -77,15 +118,13 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
 
                 this.lockedControls = [];
 
-                var me = this,
-                    $host = me.toolbar.$el;
+                var me = this;
 
                 this.cmbZoom = new Common.UI.ComboBox({
-                    el: $host.find('#slot-field-zoom'),
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     editable: true,
@@ -109,10 +148,7 @@ define([
                 this.cmbZoom.setValue(100);
                 this.lockedControls.push(this.cmbZoom);
 
-                $host.find('#slot-lbl-zoom').text(this.textZoom);
-
                 this.btnFitToSlide = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-fts'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtoslide',
                     caption: this.textFitToSlide,
@@ -126,7 +162,6 @@ define([
                 this.lockedControls.push(this.btnFitToSlide);
 
                 this.btnFitToWidth = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-ftw'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
                     caption: this.textFitToWidth,
@@ -140,7 +175,6 @@ define([
                 this.lockedControls.push(this.btnFitToWidth);
 
                 this.btnInterfaceTheme = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-interface-theme'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon day',
                     caption: this.textInterfaceTheme,
@@ -153,7 +187,6 @@ define([
                 this.lockedControls.push(this.btnInterfaceTheme);
 
                 this.chStatusbar = new Common.UI.CheckBox({
-                    el: $host.findById('#slot-chk-statusbar'),
                     labelText: this.textStatusBar,
                     value: !Common.localStorage.getBool("pe-hidden-status"),
                     lock: [_set.disableOnStart],
@@ -164,7 +197,6 @@ define([
                 this.lockedControls.push(this.chStatusbar);
 
                 this.chToolbar = new Common.UI.CheckBox({
-                    el: $host.findById('#slot-chk-toolbar'),
                     labelText: this.textAlwaysShowToolbar,
                     value: !options.compactToolbar,
                     lock: [_set.disableOnStart],
@@ -175,7 +207,6 @@ define([
                 this.lockedControls.push(this.chToolbar);
 
                 this.chRulers = new Common.UI.CheckBox({
-                    el: $host.findById('#slot-chk-rulers'),
                     labelText: this.textRulers,
                     value: !Common.Utils.InternalSettings.get("pe-hidden-rulers"),
                     lock: [_set.disableOnStart],
@@ -186,7 +217,6 @@ define([
                 this.lockedControls.push(this.chRulers);
 
                 this.chNotes = new Common.UI.CheckBox({
-                    el: $host.findById('#slot-chk-notes'),
                     labelText: this.textNotes,
                     value: !Common.localStorage.getBool('pe-hidden-notes', this.appConfig.customization && this.appConfig.customization.hideNotes===true),
                     lock: [_set.disableOnStart],
@@ -196,11 +226,35 @@ define([
                 });
                 this.lockedControls.push(this.chNotes);
 
-                this.cmpEl = $host;
+                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
+                if ( el ) el.html( this.getPanel() );
+
                 return this;
+            },
+
+            getPanel: function () {
+                this.$el = $(_.template(template)( {} ));
+                var $host = this.$el;
+
+                this.cmbZoom.render($host.find('#slot-field-zoom'));
+                $host.find('#slot-lbl-zoom').text(this.textZoom);
+                this.btnFitToSlide.render($host.find('#slot-btn-fts'));
+                this.btnFitToWidth.render($host.find('#slot-btn-ftw'));
+                this.btnInterfaceTheme.render($host.find('#slot-btn-interface-theme'));
+                this.chStatusbar.render($host.find('#slot-chk-statusbar'));
+                this.chToolbar.render($host.find('#slot-chk-toolbar'));
+                this.chRulers.render($host.find('#slot-chk-rulers'));
+                this.chNotes.render($host.find('#slot-chk-notes'));
+                return this.$el;
+            },
+
+            onAppReady: function () {
+                this.btnFitToSlide.updateHint(this.tipFitToSlide);
+                this.btnFitToWidth.updateHint(this.tipFitToWidth);
+                this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
             },
 
             show: function () {
@@ -237,7 +291,10 @@ define([
             textStatusBar: 'Status Bar',
             textAlwaysShowToolbar: 'Always show toolbar',
             textRulers: 'Rulers',
-            textNotes: 'Notes'
+            textNotes: 'Notes',
+            tipFitToSlide: 'Fit to slide',
+            tipFitToWidth: 'Fit to width',
+            tipInterfaceTheme: 'Interface theme'
         }
     }()), PE.Views.ViewTab || {}));
 });

@@ -61,7 +61,10 @@ define([
 ], function (Backbone, template, template_view) {
     'use strict';
 
-    PE.enumLock = {
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    var enumLock = {
         paragraphLock:  'para-lock',
         shapeLock:      'shape-lock',
         slideLock:      'slide-lock',
@@ -96,8 +99,14 @@ define([
         noAnimationPreview: 'no-animation-preview',
         noAnimationRepeat: 'no-animation-repeat',
         noAnimationDuration: 'no-animation-duration',
-        timingLock: 'timing-lock'
+        timingLock: 'timing-lock',
+        copyLock:   'can-copy'
     };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
 
@@ -145,9 +154,8 @@ define([
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
                                 {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'},
-                                {caption: me.textTabAnimation, action: 'animate', extcls: 'canedit', dataHintTitle: 'A'},
-                                undefined, undefined,
-                                {caption: me.textTabView, action: 'view', extcls: 'canedit', layoutname: 'toolbar-view', dataHintTitle: 'W'}
+                                {caption: me.textTabAnimation, action: 'animate', extcls: 'canedit', dataHintTitle: 'A'}
+                                // undefined, undefined, undefined,
                             ]
                         }
                     );
@@ -158,7 +166,7 @@ define([
                     /**
                      * UI Components
                      */
-                    var _set = PE.enumLock;
+                    var _set = Common.enumLock;
 
                     me.btnChangeSlide = new Common.UI.Button({
                         id: 'id-toolbar-button-change-slide',
@@ -249,7 +257,7 @@ define([
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copy',
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.copyLock],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'C'
@@ -266,6 +274,27 @@ define([
                         dataHintTitle: 'V'
                     });
                     me.paragraphControls.push(me.btnPaste);
+
+                    me.btnCut = new Common.UI.Button({
+                        id: 'id-toolbar-btn-cut',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-cut',
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.shapeLock, _set.slideLock, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.copyLock],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'X'
+                    });
+                    me.paragraphControls.push(me.btnCut);
+
+                    me.btnSelectAll = new Common.UI.Button({
+                        id: 'id-toolbar-btn-select-all',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon select-all',
+                        lock: [_set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom'
+                    });
+                    me.slideOnlyControls.push(me.btnSelectAll);
 
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls: 'input-group-nr',
@@ -407,7 +436,7 @@ define([
                         menu: new Common.UI.Menu({
                             style: 'min-width: 100px;',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
                                 {caption: '--'},
                                 me.mnuHighlightTransparent = new Common.UI.MenuItem({
                                     caption: me.strMenuNoFill,
@@ -712,7 +741,8 @@ define([
                             cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                                {caption: me.mniCustomTable, value: 'custom'}
+                                {caption: me.mniCustomTable, value: 'custom'},
+                                {caption: me.mniInsertSSE, value: 'sse'}
                             ]
                         }),
                         dataHint: '1',
@@ -826,7 +856,9 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsSlideNum);
 
-                    if (window["AscDesktopEditor"] && window["AscDesktopEditor"]["IsSupportMedia"] && window["AscDesktopEditor"]["IsSupportMedia"]()) {
+                    if (Common.Controllers.Desktop.isActive() &&
+                            Common.Controllers.Desktop.isFeatureAvailable("IsSupportMedia") && Common.Controllers.Desktop.call("IsSupportMedia"))
+                    {
                         me.btnInsAudio = new Common.UI.Button({
                             id: 'tlbtn-insaudio',
                             cls: 'btn-toolbar x-huge icon-top',
@@ -1026,6 +1058,7 @@ define([
                         itemWidth: 88,
                         enableKeyEvents: true,
                         itemHeight: 40,
+                        style: 'min-width:130px;',
                         lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1056,11 +1089,17 @@ define([
                                 menu.menuAlignEl = cmp.cmpEl;
 
                                 menu.menuAlign = 'tl-tl';
-                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
+                                var menuWidth = columnCount * (itemMargin + itemWidth),
+                                    buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                                // if (menuWidth>buttonOffsetLeft)
+                                //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                                if (menuWidth>Common.Utils.innerWidth())
+                                    menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
                                 menu.setOffset(Math.min(offset, 0));
 
                                 menu.cmpEl.css({
-                                    'width': columnCount * (itemWidth + itemMargin),
+                                    'width': menuWidth,
                                     'min-height': cmp.cmpEl.height()
                                 });
                             }
@@ -1076,20 +1115,20 @@ define([
 
                     this.cmbInsertShape = new Common.UI.ComboDataViewShape({
                         cls: 'combo-styles shapes',
-                        style: 'min-width: 140px;',
                         itemWidth: 20,
                         itemHeight: 20,
                         menuMaxHeight: 652,
                         menuWidth: 362,
+                        style: 'width: 140px;',
                         enableKeyEvents: true,
-                        lock: [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
+                        lock: [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '-16, 0'
                     });
 
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
-                        this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
+                        this.btnCopy, this.btnPaste, this.btnCut, this.btnSelectAll,this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
                         this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
@@ -1104,7 +1143,7 @@ define([
                             if (_.isFunction(cmp.setDisabled))
                                 cmp.setDisabled(true);
                         });
-                    this.lockToolbar(PE.enumLock.disableOnStart, true, {array: me.slideOnlyControls.concat(me.shapeControls)});
+                    this.lockToolbar(Common.enumLock.disableOnStart, true, {array: me.slideOnlyControls.concat(me.shapeControls)});
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
                 } else {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
@@ -1195,6 +1234,8 @@ define([
                 _injectComponent('#slot-btn-redo', this.btnRedo);
                 _injectComponent('#slot-btn-copy', this.btnCopy);
                 _injectComponent('#slot-btn-paste', this.btnPaste);
+                _injectComponent('#slot-btn-cut', this.btnCut);
+                _injectComponent('#slot-btn-select-all', this.btnSelectAll);
                 _injectComponent('#slot-btn-bold', this.btnBold);
                 _injectComponent('#slot-btn-italic', this.btnItalic);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
@@ -1239,16 +1280,16 @@ define([
                 }
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
                 this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, false, true, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, false, true, '1', 'bottom', 'small');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
-                    [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
+                    [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
 
                 var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
-                this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
+                this.lockToolbar(Common.enumLock.disableOnStart, true, {array: created});
 
                 Array.prototype.push.apply(this.slideOnlyControls, created);
                 Array.prototype.push.apply(this.lockControls, created);
@@ -1327,6 +1368,8 @@ define([
                 this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
                 this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
                 this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+                this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
+                this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -1450,6 +1493,17 @@ define([
 
                 // set dataviews
 
+                this._markersArr = [
+                    {type: Asc.asc_PreviewBulletType.text, text: 'None'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'},
+                    {type: Asc.asc_PreviewBulletType.char, char: 'o',                                specialFont: 'Courier New'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'},
+                    {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x2013), specialFont: 'Arial'}
+                ];
                 var _conf = this.mnuMarkersPicker.conf;
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
@@ -1459,15 +1513,15 @@ define([
                     allowScrollbar: false,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1}, skipRenderOnChange: true, tip: this.tipNone},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, skipRenderOnChange: true, tip: this.tipMarkersStar},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, skipRenderOnChange: true, tip: this.tipMarkersDash}
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1},drawdata: this._markersArr[0], skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, drawdata: this._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, drawdata: this._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, drawdata: this._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, drawdata: this._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, drawdata: this._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, drawdata: this._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, drawdata: this._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, drawdata: this._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
                 });
@@ -1483,14 +1537,14 @@ define([
                     allowScrollbar: false,
                     delayRenderTips: true,
                     store: new Common.UI.DataViewStore([
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, skipRenderOnChange: true, tip: this.tipNone},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, skipRenderOnChange: true, tip: this.tipNumRoman},
-                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1},drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'}, skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}, skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}, skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}, skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRoman},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}, skipRenderOnChange: true, tip: this.tipNumRomanSmall}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -1527,15 +1581,19 @@ define([
                 if (this.btnHighlightColor.cmpEl) {
                     this.btnHighlightColor.currentColor = 'FFFF00';
                     this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
-                    this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
+                    this.mnuHighlightColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-highlight'),
                         colors: [
                             'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
                             '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
-                        ]
+                        ],
+                        value: 'FFFF00',
+                        dynamiccolors: 0,
+                        columns: 4,
+                        outerMenu: {menu: this.btnHighlightColor.menu, index: 0, focusOnShow: true}
                     });
-                    this.mnuHighlightColorPicker.select('FFFF00');
                     this.btnHighlightColor.setPicker(this.mnuHighlightColorPicker);
+                    this.btnHighlightColor.menu.setInnerMenu([{menu: this.mnuHighlightColorPicker, index: 0}]);
                 }
             },
 
@@ -1556,14 +1614,14 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.lockToolbar(PE.enumLock.lostConnect, true);
-                    this.lockToolbar( PE.enumLock.lostConnect, true, {array:[this.btnUndo,this.btnRedo,this.btnSave]} );
+                    this.lockToolbar(Common.enumLock.lostConnect, true);
+                    this.lockToolbar( Common.enumLock.lostConnect, true, {array:[this.btnUndo,this.btnRedo,this.btnSave]} );
                     if ( this.synchTooltip )
                         this.synchTooltip.hide();
                     if (!mode.enableDownload)
-                        this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                        this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
                 } else
-                    this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+                    this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
 
                 this.mode = mode;
             },
@@ -2004,7 +2062,10 @@ define([
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
             tipNone: 'None',
-            textTabView: 'View'
+            textTabView: 'View',
+            mniInsertSSE: 'Insert Spreadsheet',
+            tipSelectAll: 'Select all',
+            tipCut: 'Cut'
         }
     }()), PE.Views.Toolbar || {}));
 });

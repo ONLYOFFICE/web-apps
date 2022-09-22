@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Use Mail Merge to create a lot of personalized letters and send them to recipients" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -23,7 +24,7 @@
                         <li>Eine für den Seriendruck verwendete Datenquelle muss eine <b>.xlsx</b>-Tabelle sein, die in Ihrem Portal gespeichert ist. Öffnen Sie eine vorhandene Tabelle oder erstellen Sie eine neue Tabelle und stellen Sie sicher, dass sie die folgenden Anforderungen erfüllt.
                         <li>Die Tabelle sollte eine Kopfzeile mit den Spaltentiteln haben, da die Werte in der ersten Zelle jeder Spalte Briefvorlagenfelder bezeichnen (d. h. Variablen, die Sie in den Text einfügen können). Jede Spalte sollte eine Reihe von tatsächlichen Werten für eine Variable enthalten. Jede Zeile in der Tabelle sollte einem separaten Datensatz entsprechen (d. h. einer Reihe von Werten, die einem bestimmten Empfänger gehören). Während des Zusammenführungsprozesses wird für jeden Datensatz eine Kopie des Hauptdokuments erstellt und jedes in den Haupttext eingefügte Zusammenführungsfeld wird durch einen tatsächlichen Wert aus der entsprechenden Spalte ersetzt. Wenn Sie Ergebnisse per E-Mail senden möchten, muss die Tabelle auch eine Spalte mit den E-Mail-Adressen der Empfänger enthalten.</li>
                         <li>
-                            Öffnen Sie ein vorhandenes Textdokument oder erstellen Sie ein neues Dokument. Es muss den Haupttext enthalten, der für jede Version des zusammengeführten Dokuments gleich ist. Klicken Sie auf das Symbol <b>Serienbrief</b> <img alt="Serienbrief-Symbol" src="../images/mailmergeicon.png" /> auf der Registerkarte <b>Startseite</b> der oberen Symbolleiste und wählen Sie den Speicherort der Datenquelle: <b>Aus Datei</b>, <b>Aus URL</b> oder <b>Aus dem Speicher</b>.
+                            Öffnen Sie ein vorhandenes Textdokument oder erstellen Sie ein neues Dokument. Es muss den Haupttext enthalten, der für jede Version des zusammengeführten Dokuments gleich ist. Klicken Sie auf das Symbol <b>Serienbrief</b> <div class = "icon icon-mailmergeicon"></div> auf der Registerkarte <b>Startseite</b> der oberen Symbolleiste und wählen Sie den Speicherort der Datenquelle: <b>Aus Datei</b>, <b>Aus URL</b> oder <b>Aus dem Speicher</b>.
                         </li>
                         <li>
                             Wählen Sie die erforderliche Datei aus oder fügen Sie eine URL ein und klicken Sie auf <b>OK</b>.
@@ -42,15 +43,15 @@
                 </li>
                 <li>
                     Hier können Sie bei Bedarf neue Informationen hinzufügen bzw. vorhandene Daten bearbeiten oder löschen. Um das Arbeiten mit Daten zu vereinfachen, können Sie die Symbole oben im Fenster verwenden:<ul>
-                        <li><img alt="Kopieren" src="../images/copy.png" /> und <img alt="Einfügen" src="../images/paste.png" /> - zum Kopieren und Einfügen der kopierten Daten.</li>
-                        <li><img alt="Rückgängig machen" src="../images/undo1.png" /> und <img alt="Wiederholen" src="../images/redo1.png" /> - um Aktionen rückgängig zu machen und zu wiederholen.</li>
-                        <li><img alt="Aufsteigend sortieren" src="../images/sortatoz.png" /> und <img alt="Absteigend sortieren" src="../images/sortztoa.png" /> - um Ihre Daten in einem Zellenbereich in aufsteigender oder absteigender Reihenfolge zu sortieren.</li>
-                        <li><img alt="Filter" src="../images/sortandfilter.png" /> - um den Filter für den zuvor ausgewählten Zellenbereich zu aktivieren oder den aktuellen Filter zu entfernen.</li>
+                        <li><div class = "icon icon-copy"></div> und <div class = "icon icon-paste"></div> - zum Kopieren und Einfügen der kopierten Daten.</li>
+                        <li><div class = "icon icon-undo1"></div> und <div class = "icon icon-redo1"></div> - um Aktionen rückgängig zu machen und zu wiederholen.</li>
+                        <li><div class = "icon icon-sortatoz"></div> und <div class = "icon icon-sortztoa"></div> - um Ihre Daten in einem Zellenbereich in aufsteigender oder absteigender Reihenfolge zu sortieren.</li>
+                        <li><div class = "icon icon-sortandfilter"></div> - um den Filter für den zuvor ausgewählten Zellenbereich zu aktivieren oder den aktuellen Filter zu entfernen.</li>
                         <li>
-                            <img alt="Filter löschen" src="../images/clearfilter.png" /> - um alle angewendeten Filterparameter zu löschen.<p class="note"><b>Hinweis</b>: Weitere Informationen zur Verwendung des Filters finden Sie im Abschnitt <b>Sortieren und Filtern von Daten</b> im Hilfemenü des <b>Tabelleneditors</b>.</p>
+                            <div class = "icon icon-clearfilter"></div> - um alle angewendeten Filterparameter zu löschen.<p class="note"><b>Hinweis</b>: Weitere Informationen zur Verwendung des Filters finden Sie im Abschnitt <b>Sortieren und Filtern von Daten</b> im Hilfemenü des <b>Tabelleneditors</b>.</p>
                         </li>
                         <li>
-                            <img alt="Suche" src="../images/searchicon.png" /> - um nach einem bestimmten Wert zu suchen und ihn gegebenenfalls durch einen anderen zu ersetzen.<p class="note"><b>Hinweis</b>: Weitere Informationen zur Verwendung des Werkzeugs <b>Suchen und Ersetzen</b> finden Sie im Abschnitt <b>Suchen und Ersetzen von Funktionen</b> im Hilfemenü des <b>Tabelleneditors</b>.</p>
+                            <div class = "icon icon-searchicon"></div> - um nach einem bestimmten Wert zu suchen und ihn gegebenenfalls durch einen anderen zu ersetzen.<p class="note"><b>Hinweis</b>: Weitere Informationen zur Verwendung des Werkzeugs <b>Suchen und Ersetzen</b> finden Sie im Abschnitt <b>Suchen und Ersetzen von Funktionen</b> im Hilfemenü des <b>Tabelleneditors</b>.</p>
                         </li>
                     </ul>
                 </li>

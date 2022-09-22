@@ -48,7 +48,7 @@ define([
     Common.Views.InsertTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 230,
-            height: 156,
+            height: 157,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             split: false,

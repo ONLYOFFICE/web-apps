@@ -159,7 +159,8 @@ const AddOther = props => {
 
     let isShape = storeFocusObjects.settings.indexOf('shape') > -1,
         isText = storeFocusObjects.settings.indexOf('text') > -1,
-        isChart = storeFocusObjects.settings.indexOf('chart') > -1;
+        isChart = storeFocusObjects.settings.indexOf('chart') > -1,
+        isHeader = storeFocusObjects.settings.indexOf('header') > -1;
 
     let disabledAddLink = false,
         disabledAddBreak = false,
@@ -209,6 +210,11 @@ const AddOther = props => {
                     <Icon slot="media" icon="icon-sectionbreak"></Icon>
                 </ListItem>
             }
+            {!isHeader && 
+                <ListItem title={_t.textTableContents} link="/add-table-contents/">
+                    <Icon slot="media" icon="icon-table-contents"></Icon>
+                </ListItem>
+            } 
             {(isShape || isChart) || (isText && disabledAddFootnote) ? null :
                 <ListItem key='footnote' title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
                     getFootnoteProps: props.getFootnoteProps,

@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon, f7 } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
 
@@ -93,10 +93,14 @@ const PageApplicationSettings = props => {
                     </ListItem>
                     <ListItem title={t('View.Settings.textDarkTheme')}>
                         <Toggle checked={isThemeDark}
-                            onToggleChange={toggle => {Themes.switchDarkTheme(!toggle), setIsThemeDark(!toggle)}}>
+                            onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
                         </Toggle>
                     </ListItem>
                 </List>
+
+                {/*<List mediaList>*/}
+                {/*    <ListItem title={t("View.Settings.textDirection")} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
+                {/*</List>*/}
             {/* } */}
             {/* {_isShowMacros && */}
                 <List>
@@ -108,6 +112,38 @@ const PageApplicationSettings = props => {
         </Page>
     );
 };
+
+const PageDirection = props => {
+    const { t } = useTranslation();
+    const _t = t("View.Settings", { returnObjects: true });
+    const store = props.storeApplicationSettings;
+    const directionMode = store.directionMode;
+
+    const changeDirection = value => {
+        store.changeDirectionMode(value);
+        props.changeDirection(value);
+
+        f7.dialog.create({
+            title: _t.notcriticalErrorTitle,
+            text: t('View.Settings.textRestartApplication'),
+            buttons: [
+                {
+                    text: _t.textOk
+                }
+            ]
+        }).open();
+    };
+
+    return (
+        <Page>
+            <Navbar title={t('View.Settings.textDirection')} backLink={_t.textBack} />
+            <List mediaList>
+                <ListItem radio name="direction" title={t('View.Settings.textLeftToRight')} checked={directionMode === 'ltr'} onChange={() => changeDirection('ltr')}></ListItem>
+                <ListItem radio name="direction" title={t('View.Settings.textRightToLeft')} checked={directionMode === 'rtl'} onChange={() => changeDirection('rtl')}></ListItem>
+            </List>
+        </Page>
+    );
+}
 
 const PageRegionalSettings = props => {
     const { t } = useTranslation();
@@ -194,10 +230,12 @@ const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions"
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const RegionalSettings = inject("storeApplicationSettings")(observer(PageRegionalSettings));
 const FormulaLanguage = inject("storeApplicationSettings")(observer(PageFormulaLanguage));
+const Direction = inject("storeApplicationSettings")(observer(PageDirection));
 
 export {
     ApplicationSettings, 
     MacrosSettings,
     RegionalSettings,
-    FormulaLanguage
+    FormulaLanguage,
+    Direction
 };

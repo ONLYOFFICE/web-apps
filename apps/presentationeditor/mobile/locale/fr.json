@@ -3,6 +3,7 @@
     "textAbout": "À propos",
     "textAddress": "Adresse",
     "textBack": "Retour",
+    "textEditor": "Éditeur de Présentation",
     "textEmail": "E-mail",
     "textPoweredBy": "Réalisation",
     "textTel": "Tél.",
@@ -58,7 +59,9 @@
     "textColumns": "Colonnes",
     "textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
     "textDoNotShowAgain": "Ne plus afficher",
-    "textRows": "Lignes"
+    "textOk": "OK",
+    "textRows": "Lignes",
+    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Se souvenir de mon choix",
       "textReplaceSkipped": "Le remplacement a été effectué. {0} occurrences ont été sautées.",
       "textReplaceSuccess": "La recherche a été effectuée. Occurrences remplacées : {0}",
+      "textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
       "textYes": "Oui",
       "titleLicenseExp": "Licence expirée",
       "titleServerVersion": "L'éditeur est mis à jour",
@@ -245,7 +249,7 @@
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
-      "textActualSize": "Taille réelle",
+      "textActualSize": "Taille actuelle",
       "textAddCustomColor": "Ajouter une couleur personnalisée",
       "textAdditional": "Additionnel",
       "textAdditionalFormatting": "Mise en forme supplémentaire",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Écran large (16:9)",
+      "notcriticalErrorTitle": "Attention",
       "textAbout": "À propos",
       "textAddress": "Adresse :",
       "textApplication": "Application",
@@ -419,6 +424,7 @@
       "textEmail": "émail: ",
       "textEnableAll": "Activer tout",
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
+      "textFeedback": "Commentaires & assistance",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
       "textFindAndReplaceAll": "Rechercher et remplacer tout",
@@ -431,6 +437,7 @@
       "textLocation": "Emplacement",
       "textMacrosSettings": "Réglages macros",
       "textNoTextFound": "Le texte est introuvable",
+      "textOk": "OK",
       "textOwner": "Propriétaire",
       "textPoint": "Point",
       "textPoweredBy": "Réalisation",
@@ -440,6 +447,8 @@
       "textPrint": "Imprimer",
       "textReplace": "Remplacer",
       "textReplaceAll": "Remplacer tout",
+      "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
+      "textRTL": "De droite à gauche",
       "textSearch": "Rechercher",
       "textSettings": "Paramètres",
       "textShowNotification": "Montrer la notification",

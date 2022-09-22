@@ -531,8 +531,13 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
-                                    { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 169px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
-                                    { template: _.template('<a id="format-rules-borders-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
+                                    { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 164px; display: inline-block;"></div>'), stopPropagation: true },
+                                    {caption: '--'},
+                                    {
+                                        id: "format-rules-borders-menu-new-bordercolor",
+                                        template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + this.textNewColor + '</a>'),
+                                        stopPropagation: true
+                                    }
                                 ]
                             })
                         })
@@ -542,8 +547,10 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.btnBorders.menu.on('item:click', _.bind(this.onBordersMenu, this));
             this.btnBorders.on('click', _.bind(this.onBorders, this));
             this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
-                el: $('#format-rules-borders-menu-bordercolor')
+                el: $('#format-rules-borders-menu-bordercolor'),
+                outerMenu: {menu: this.mnuBorderColor.menu, index: 0, focusOnShow: true}
             });
+            this.mnuBorderColor.menu.setInnerMenu([{menu: this.mnuBorderColorPicker, index: 0}]);
             this.mnuBorderColorPicker.on('select', _.bind(this.onBordersColor, this));
             $('#format-rules-borders-menu-new-bordercolor').on('click', _.bind(function() {
                 me.mnuBorderColorPicker.addNewColor();
@@ -2054,6 +2061,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
                 }
                 if (!msg && res) {
+                    var mainController = SSE.getController('Main');
                     switch (res) {
                         case Asc.c_oAscError.ID.NotValidPercentile:
                             msg = this.textNotValidPercentile;
@@ -2072,6 +2080,42 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             break;
                         case Asc.c_oAscError.ID.IconDataRangesOverlap:
                             msg = this.textIconsOverlap;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
+                            msg = mainController.errorWrongBracketsCount;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongOperator:
+                            msg = mainController.errorWrongOperator;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
+                            msg = mainController.errorCountArgExceed;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongCountArgument:
+                            msg = mainController.errorCountArg;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongFunctionName:
+                            msg = mainController.errorFormulaName;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlAnotherParsingError:
+                            msg = mainController.errorFormulaParsing;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
+                            msg = mainController.errorArgsRange;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlOperandExpected:
+                            msg = mainController.errorOperandExpected;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlWrongReferences:
+                            msg = mainController.errorFrmlWrongReferences;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlMaxTextLength:
+                            msg = mainController.errorFrmlMaxTextLength;
+                            break;
+                        case Asc.c_oAscError.ID.FrmlMaxReference:
+                            msg = mainController.errorFrmlMaxReference;
+                            break;
+                        case  Asc.c_oAscError.ID.FrmlMaxLength:
+                            msg = mainController.errorFrmlMaxLength;
                             break;
                         default:
                             msg = this.textInvalid;

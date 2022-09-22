@@ -64,9 +64,6 @@ define([
                         Common.NotificationCenter.trigger('edit:complete', this.statusbar);
                     }.bind(this)
                 },
-                'Common.Views.Header': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
-                },
                 'ViewTab': {
                     'statusbar:hide': _.bind(me.onChangeCompactView, me)
                 }

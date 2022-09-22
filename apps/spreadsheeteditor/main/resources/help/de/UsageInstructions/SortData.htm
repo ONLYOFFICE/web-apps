@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Sort your data in ascending or descending order in a spreadsheet" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -23,7 +24,7 @@
 			<p>Daten sortieren:</p>
 			<ol>
 				<li>Wählen Sie den Zellenbereich aus, den Sie sortieren möchten (Sie können eine einzelne Zelle in einem Bereich auswählen, um den gesamten Bereich zu sortieren.</li>
-				<li>Klicken Sie auf das Symbol <b>Von A bis Z sortieren</b> <img alt="Von A bis Z sortieren" src="../images/sortatoz.png" /> in der Registerkarte <b>Start</b> auf der oberen Symbolleiste, um Ihre Daten in aufsteigender Reihenfolge zu sortieren, <br />ODER<br /> klicken Sie auf das Symbol <b>Von Z bis A sortieren</b> <img alt="Von Z bis A sortieren" src="../images/sortztoa.png" /> in der Registerkarte <b>Start</b> auf der oberen Symbolleiste, um Ihre Daten in absteigender Reihenfolge zu sortieren.</li>
+				<li>Klicken Sie auf das Symbol <b>Von A bis Z sortieren</b> <div class = "icon icon-sortatoz"></div> in der Registerkarte <b>Start</b> auf der oberen Symbolleiste, um Ihre Daten in aufsteigender Reihenfolge zu sortieren, <br />ODER<br /> klicken Sie auf das Symbol <b>Von Z bis A sortieren</b> <div class = "icon icon-sortztoa"></div> in der Registerkarte <b>Start</b> auf der oberen Symbolleiste, um Ihre Daten in absteigender Reihenfolge zu sortieren.</li>
 			</ol>
             <p class="note"><b>Hinweis</b>: Wenn Sie eine einzelne Spalte / Zeile innerhalb eines Zellenbereichs oder eines Teils der Spalte / Zeile auswählen, werden Sie gefragt, ob Sie die Auswahl um benachbarte Zellen erweitern oder nur die ausgewählten Daten sortieren möchten.</p>
 			<p>Sie können Ihre Daten auch mit Hilfe der Optionen im <b>Kontextmenü</b> sortieren. Klicken Sie mit der rechten Maustaste auf den ausgewählten Zellenbereich, wählen Sie im Menü die Option <b>Sortieren</b> und dann im Untermenü auf die gewünschte Option <b>Aufsteigend</b> oder <b>Absteigend</b>.</p>
@@ -41,12 +42,13 @@
 			<h3 id="filter">Daten filtern</h3>
 			<p>Um nur Zeilen anzuzeigen die bestimmten Kriterien entsprechen, nutzen Sie die Option <b>Filter</b>.</p><b>Filter aktivieren:</b><ol>
                 <li>Wählen Sie den Zellenbereich aus, der die Daten enthält, die Sie filtern möchten (Sie können eine einzelne Zelle in einem Zellbereich auswählen, um den gesamten Zellbereich zu filter).</li>
-                <li>Klicken Sie in der oberen Symbolleiste in der Registerkarte <b>Start</b> auf das Symbol <b>Filter</b> <img alt="Filter" src="../images/sortandfilter.png" />.<p>Ein nach unten gerichteter Pfeil <img alt="Filterpfeil" src="../images/dropdownarrow.png" /> wird in der ersten Zelle jeder Spalte des gewählten Zellenbereichs angezeigt. So können Sie erkennen, dass der Filter aktiviert ist.</p>
+                <li>Klicken Sie in der oberen Symbolleiste in der Registerkarte <b>Start</b> auf das Symbol <b>Filter</b> <div class = "icon icon-sortandfilter"></div>.
+                <p>Ein nach unten gerichteter Pfeil <span class="icon icon-dropdownarrow"></span> wird in der ersten Zelle jeder Spalte des gewählten Zellenbereichs angezeigt. So können Sie erkennen, dass der Filter aktiviert ist.</p>
                 </li>
             </ol>
             <p><b>Einen Filter anwenden:</b></p>
             <ol>
-                <li>Klicken Sie auf den Filterpfeil <img alt="Filterpfeil" src="../images/dropdownarrow.png" />. Die Liste mit den <b>Filter</b>-Optionen wird angezeigt:<p><img alt="Filter" src="../images/filterwindow.png" /></p>
+                <li>Klicken Sie auf den Filterpfeil <div class = "icon icon-dropdownarrow"></div>. Die Liste mit den <b>Filter</b>-Optionen wird angezeigt:<p><img alt="Filter" src="../images/filterwindow.png" /></p>
                 </li>
                 <li>
                 <p>Passen Sie die Filterparameter an. Folgende Optionen stehen Ihnen zur Verfügung: Anzuzeigende Daten auswählen; Daten nach bestimmten Kriterien filtern oder Daten nach Farben filtern.</p>
@@ -84,12 +86,12 @@
                             <p><img alt="Daten nach Farbe filtern" src="../images/filterbycolor.png" /></p>
                         </li>
                     </ul>
-                    <p>Die Schaltfläche <b>Filter</b> <img alt="Filter" src="../images/filterbutton.png" /> wird in der ersten Zelle jeder Spalte des gewählten Zellenbereichs angezeigt. Das bedeutet, dass der Filter aktiviert ist. Die Anzahl der gefilterten Datensätze wird in der Statusleiste angezeigt (z. B. <em>25 von 80 gefilterten Datensätzen</em>).</p>
+                    <p>Die Schaltfläche <b>Filter</b> <span class="icon icon-filterbutton"></span> wird in der ersten Zelle jeder Spalte des gewählten Zellenbereichs angezeigt. Das bedeutet, dass der Filter aktiviert ist. Die Anzahl der gefilterten Datensätze wird in der Statusleiste angezeigt (z. B. <em>25 von 80 gefilterten Datensätzen</em>).</p>
                     <p class="note"><b>Hinweis</b>: Wenn der Filter angewendet wird, können die ausgefilterten Zeilen beim automatischen Ausfüllen, Formatieren und Löschen der sichtbaren Inhalte nicht geändert werden. Solche Aktionen betreffen nur die sichtbaren Zeilen, die Zeilen, die vom Filter ausgeblendet werden, bleiben unverändert. Beim Kopieren und Einfügen der gefilterten Daten können nur sichtbare Zeilen kopiert und eingefügt werden. Dies entspricht jedoch nicht manuell ausgeblendeten Zeilen, die von allen ähnlichen Aktionen betroffen sind.</p>
                 </li>
 			</ol>
             <h3>Gefilterte Daten sortieren</h3>
-            <p>Sie können die <b>Sortierreihenfolge</b> der Daten festlegen, für die Sie den Filter aktiviert oder angewendet haben. Klicken Sie auf den Pfeil <img alt="Filterpfeil" src="../images/dropdownarrow.png" /> oder auf das Smbol <b>Filter</b> <img alt="Filter" src="../images/filterbutton.png" /> und wählen Sie eine der Optionen in der Liste der für <b>Filter</b> zur Verfügung stehenden Optionen aus:</p>
+            <p>Sie können die <b>Sortierreihenfolge</b> der Daten festlegen, für die Sie den Filter aktiviert oder angewendet haben. Klicken Sie auf den Pfeil <span class="icon icon-dropdownarrow"></span> oder auf das Smbol <b>Filter</b> <span class="icon icon-filterbutton"></span> und wählen Sie eine der Optionen in der Liste der für <b>Filter</b> zur Verfügung stehenden Optionen aus:</p>
                 <ul>
                     <li><b>Von niedrig zu hoch</b> - Daten in aufsteigender Reihenfolge sortieren, wobei der niedrigste Wert oben in der Spalte angezeigt wird.</li>
                     <li><b>Von hoch zu niedrig</b> - Daten in absteigender Reihenfolge sortieren, wobei der höchste Wert oben in der Spalte angezeigt wird.</li>
@@ -99,8 +101,8 @@
                 <p>Die letzten beiden Optionen können verwendet werden, wenn der zu sortierende Zellenbereich Zellen enthält, die Sie formatiert haben und deren Hintergrund oder Schriftfarbe geändert wurde (manuell oder mithilfe vordefinierter Stile).</p>
             <p>Die Sortierrichtung wird durch die Pfeilrichtung des jeweiligen Filters angezeigt.</p>
             <ul>
-                <li>Wenn die Daten in aufsteigender Reihenfolge sortiert sind, sieht der Filterpfeil in der ersten Zelle der Spalte aus wie folgt: <img alt="Filterpfeil" src="../images/lowesttohighest.png" /> und das Symbol <b>Filter</b> ändert sich folgendermaßen: <img alt="Filter" src="../images/lowesttohighest1.png" />.</li>
-                <li>Wenn die Daten in absteigender Reihenfolge sortiert sind, sieht der Filterpfeil in der ersten Zelle der Spalte aus wie folgt: <img alt="Filterpfeil" src="../images/highesttolowest.png" /> und das Symbol <b>Filter</b> ändert sich folgendermaßen: <img alt="Filter" src="../images/highesttolowest1.png" />.</li>
+                <li>Wenn die Daten in aufsteigender Reihenfolge sortiert sind, sieht der Filterpfeil in der ersten Zelle der Spalte aus wie folgt: <div class = "icon icon-lowesttohighest"></div> und das Symbol <b>Filter</b> ändert sich folgendermaßen: <div class = "icon icon-lowesttohighest1"></div>.</li>
+                <li>Wenn die Daten in absteigender Reihenfolge sortiert sind, sieht der Filterpfeil in der ersten Zelle der Spalte aus wie folgt: <div class = "icon icon-highesttolowest"></div> und das Symbol <b>Filter</b> ändert sich folgendermaßen: <div class = "icon icon-highesttolowest1"></div>.</li>
             </ul>
             <p>Sie können die Daten auch über das Kontextmenü nach Farbe sortieren:</p>
             <ol>
@@ -123,7 +125,7 @@
 			<p>Um die Arbeit mit Daten zu erleichtern, ermöglicht der <b>Tabelleneditor</b> eine Tabellenvorlage auf einen ausgewählten Zellenbereich unter automatischer Filteraktivierung anzuwenden. Gehen Sie dazu vor wie folgt:</p>
 			<ol>
 				<li>Wählen sie einen Zellenbereich, den Sie formatieren möchten.</li>
-				<li>Klicken Sie auf das Symbol <b>Wie Tabellenvorlage formatieren</b> <img alt="Wie Tabellenvorlage formatieren" src="../images/tabletemplate.png" /> in der Registerkarte <b>Start</b> auf der oberen Symbolleiste.</li>
+				<li>Klicken Sie auf das Symbol <b>Wie Tabellenvorlage formatieren</b> <div class = "icon icon-tabletemplate"></div> in der Registerkarte <b>Start</b> auf der oberen Symbolleiste.</li>
 				<li>Wählen Sie die gewünschte Vorlage in der Gallerie aus.</li>
 				<li>Überprüfen Sie den Zellenbereich, der als Tabelle formatiert werden soll im geöffneten Fenster.</li>
 				<li>Aktivieren Sie das Kontrollkästchen <b>Titel</b>, wenn Sie möchten, dass die Tabellenüberschriften in den ausgewählten Zellbereich aufgenommen werden, ansonsten wird die Kopfzeile oben hinzugefügt, während der ausgewählte Zellbereich um eine Zeile nach unten verschoben wird.</li>
@@ -131,27 +133,27 @@
 			</ol>
 			<p>Die Vorlage wird auf den ausgewählten Zellenbereich angewendet und Sie können die Tabellenüberschriften bearbeiten und den Filter anwenden, um mit Ihren Daten zu arbeiten.</p>
             <p class="note"><b>Hinweis</b>: wenn Sie eine neu formatierte Tabelle erstellen, wird der Tabelle automatisch ein <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">Standardname</a> zugewiesen (<em>Tabelle1</em>, <em>Tabelle2</em> usw.). Sie können den Namen ändern und für weitere Bearbeitungen verwenden.</p> 
-            <p>Wenn Sie einen neuen Wert in eine Zelle unter der letzten Zeile der Tabelle eingeben (wenn die Tabelle nicht über eine Zeile mit den Gesamtergebnissen verfügt) oder in einer Zelle rechts von der letzten Tabellenspalte, wird die formatierte Tabelle automatisch um eine neue Zeile oder Spalte erweitert. Wenn Sie die Tabelle nicht erweitern möchten, klicken Sie auf die angezeigte Schaltfläche <img alt="Einfügen mit Sonderoptionen" src="../images/pastespecialbutton.png" /> und wählen Sie die Option <b>Automatische Erweiterung</b> rückgängig machen. Wenn Sie diese Aktion rückgängig gemacht haben, ist im Menü die Option <b>Automatische Erweiterung wiederholen</b> verfügbar.</p>
+            <p>Wenn Sie einen neuen Wert in eine Zelle unter der letzten Zeile der Tabelle eingeben (wenn die Tabelle nicht über eine Zeile mit den Gesamtergebnissen verfügt) oder in einer Zelle rechts von der letzten Tabellenspalte, wird die formatierte Tabelle automatisch um eine neue Zeile oder Spalte erweitert. Wenn Sie die Tabelle nicht erweitern möchten, klicken Sie auf die angezeigte Schaltfläche <span class="icon icon-pastespecialbutton"></span> und wählen Sie die Option <b>Automatische Erweiterung</b> rückgängig machen. Wenn Sie diese Aktion rückgängig gemacht haben, ist im Menü die Option <b>Automatische Erweiterung wiederholen</b> verfügbar.</p>
             <p><img alt="Automatische Erweiterung rückgängig machen" src="../images/undoautoexpansion.png" /></p>
-            <p>Einige der <b>Tabelleneinstellungen</b> können über die Registerkarte Einstellungen in der rechten Seitenleiste geändert werden, die geöffnet wird, wenn Sie mindestens eine Zelle in der Tabelle mit der Maus auswählen und auf das Symbol <b>Tabelleneinstellungen</b> <img alt="Tabelleneinstellungen" src="../images/table_settings_icon.png" /> rechts klicken.</p>
+            <p>Einige der <b>Tabelleneinstellungen</b> können über die Registerkarte Einstellungen in der rechten Seitenleiste geändert werden, die geöffnet wird, wenn Sie mindestens eine Zelle in der Tabelle mit der Maus auswählen und auf das Symbol <b>Tabelleneinstellungen</b> <span class="icon icon-table_settings_icon"></span> rechts klicken.</p>
             <p><img alt="Registerkarte Tabelleneinstellungen" src="../images/tablesettingstab.png" /></p>
             <p>In den Abschnitten <b>Zeilen</b> und <b>Spalten</b>, haben Sie die Möglichkeit, bestimmte Zeilen/Spalten hervorzuheben, eine bestimmte Formatierung anzuwenden oder die Zeilen/Spalten in den verschiedenen Hintergrundfarben einzufärben, um sie klar zu unterscheiden. Folgende Optionen stehen zur Verfügung:</p>
             <ul>
                 <li><b>Kopfzeile</b> - Kopfzeile wird angezeigt.</li>
                 <li><b>Gesamt</b> - am Ende der Tabelle wird eine Zeile mit den <b>Ergebnissen</b> hinzugefügt.</li>
                 <li><b>Gebänderte Zeilen</b> - gerade und ungerade Zeilen werden unterschiedlich formatiert.</li>
-                <li><b>Schaltfläche Filtern</b> - die Filterpfeile <img alt="Filterpfeil" src="../images/dropdownarrow.png" /> werden in den Zellen der Kopfzeile angezeigt. Diese Option ist nur verfügbar, wenn die Option <b>Kopfzeile</b> ausgewählt ist.</li>
+                <li><b>Schaltfläche Filtern</b> - die Filterpfeile <div class = "icon icon-dropdownarrow"></div> werden in den Zellen der Kopfzeile angezeigt. Diese Option ist nur verfügbar, wenn die Option <b>Kopfzeile</b> ausgewählt ist.</li>
                 <li><b>Erste Spalte</b> - die erste Spalte der Tabelle wird durch eine bestimmte Formatierung hervorgehoben.</li>
                 <li><b>Letzte Spalte</b> - die letzte Spalte der Tabelle wird durch eine bestimmte Formatierung hervorgehoben.</li>
                 <li><b>Gebänderte Spalten</b> - gerade und ungerade Spalten werden unterschiedlich formatiert.</li>
             </ul>
             <p>Im Abschnitt <b>Aus Vorlage wählen</b> können Sie einen vordefinierten Tabellenstil auswählen. Jede Vorlage kombiniert bestimmte Formatierungsparameter, wie Hintergrundfarbe, Rahmenstil, Zellen-/Spaltenformat usw. Abhängig von den in den Abschnitten <b>Zeilen</b> oder <b>Spalten</b> ausgewählten Optionen, werden die Vorlagen unterschiedlich dargestellt. Wenn Sie zum Beispiel die Option <b>Kopfzeile</b> im Abschnitt <b>Zeilen</b> und die Option <b>Gebänderte Spalten</b> im Abschnitt <b>Spalten</b> aktiviert haben, enthält die angezeigte Vorlagenliste nur Vorlagen mit Kopfzeile und gebänderten Spalten:</p>
-            <p><img alt="Vorlagenliste" src="../images/templateslist.png" /></p>
+            <p><span class = "big big-templateslist"></span></p>
             <p>Wenn Sie den aktuellen Tabellenstil (Hintergrundfarbe, Rahmen usw.) löschen möchten, ohne die Tabelle selbst zu entfernen, wenden Sie die Vorlage <b>Keine</b> aus der Vorlagenliste an:</p>
-            <p><img alt="Keine Vorlagen" src="../images/nonetemplate.png" /></p>
+            <p><span class = "big big-nonetemplate"></span></p>
             <p>Im Abschnitt <b>Größe anpassen</b> können Sie den Zellenbereich ändern, auf den die Tabellenformatierung angewendet wird. Klicken Sie auf die Schaltfläche <b>Daten auswählen</b> - ein neues Fenster wird geöffnet. Ändern Sie die Verknüpfung zum Zellbereich im Eingabefeld oder wählen Sie den gewünschten Zellbereich auf dem Arbeitsblatt mit der Maus aus und klicken Sie anschließend auf <b>OK</b>.</p>
             <p><img alt="Tabellengröße ändern" src="../images/resizetable.png" /></p>
-            <p>Im Abschnitt <b>Zeilen &amp; Spalten</b> <img alt="Zeilen &amp; Spalten" src="../images/rowsandcolumns.png" /> können Sie folgende Vorgänge durchzuführen:</p>
+            <p>Im Abschnitt <b>Zeilen &amp; Spalten</b> <span class="icon icon-rowsandcolumns"></span> können Sie folgende Vorgänge durchzuführen:</p>
             <ul>
                 <li><b>Wählen</b> Sie eine Zeile, Spalte, alle Spalten ohne die Kopfzeile oder die gesamte Tabelle einschließlich der Kopfzeile aus.</li>
                 <li><b>Einfügen</b> - eine neue Zeile unter oder über der ausgewählten Zeile bzw. eine neue Spalte links oder rechts von der ausgewählten Spalte einfügen.</li>
@@ -165,29 +167,29 @@
             <h3>Filter erneut anwenden:</h3>
             <p>Wenn die gefilterten Daten geändert wurden, können Sie den Filter aktualisieren, um ein aktuelles Ergebnis anzuzeigen:</p>
             <ol>
-                <li>Klicken Sie auf die Schaltfläche <b>Filter</b> <img alt="Filter" src="../images/filterbutton.png" /> in der ersten Zelle der Spalte mit den gefilterten Daten.</li>
+                <li>Klicken Sie auf die Schaltfläche <b>Filter</b> <div class = "icon icon-filterbutton"></div> in der ersten Zelle der Spalte mit den gefilterten Daten.</li>
                 <li>Wählen Sie die Option <b>Filter erneut anwenden</b> in der geöffneten Liste mit den <b>Filteroptionen</b> aus.</li>
             </ol>
             <p>Sie können auch mit der rechten Maustaste auf eine Zelle innerhalb der Spalte klicken, die die gefilterten Daten enthält, und im Kontextmenü die Option <b>Filter erneut anwenden</b> auswählen.</p>
             <h3>Filter leeren</h3>
 			<p>Angewendete Filter leeren:</p>
             <ol>
-                <li>Klicken Sie auf die Schaltfläche <b>Filter</b> <img alt="Filter" src="../images/filterbutton.png" /> in der ersten Zelle der Spalte mit den gefilterten Daten.</li>
+                <li>Klicken Sie auf die Schaltfläche <b>Filter</b> <div class = "icon icon-filterbutton"></div> in der ersten Zelle der Spalte mit den gefilterten Daten.</li>
                 <li>Wählen Sie die Option <b>Filter leeren</b> in der geöffneten Liste mit den <b>Filteroptionen</b> aus.</li>
             </ol>
             <p>Alternativ gehen Sie vor wie folgt:</p>
 				<ol>
 					<li>Wählen Sie den Zellenbereich mit den gefilterten Daten aus.</li>
-					<li>Klicken Sie in der oberen Symbolleiste in der Registerkarte <b>Start</b> auf das Symbol <b>Filter leeren</b> <img alt="Filter leeren" src="../images/clearfilter.png" />.</li>
+					<li>Klicken Sie in der oberen Symbolleiste in der Registerkarte <b>Start</b> auf das Symbol <b>Filter leeren</b> <div class = "icon icon-clearfilter"></div>.</li>
 				</ol>
-            <p>Der Filter bleibt aktiviert, aber alle angewendeten Filterparameter werden entfernt und die Schaltflächen <b>Filter</b> <img alt="Filter" src="../images/filterbutton.png" /> in den ersten Zellen der Spalten werden in die Filterpfeile <img alt="Filterpfeil" src="../images/dropdownarrow.png" /> geändert.</p>
+            <p>Der Filter bleibt aktiviert, aber alle angewendeten Filterparameter werden entfernt und die Schaltflächen <b>Filter</b> <span class="icon icon-filterbutton"></span> in den ersten Zellen der Spalten werden in die Filterpfeile <span class="icon icon-dropdownarrow"></span> geändert.</p>
             <h3>Filter entfernen</h3>
             <p>Einen Filter entfernen:</p>
             <ol>
                 <li>Wählen Sie den Zellenbereich mit den gefilterten Daten aus.</li>
-                <li>Klicken Sie in der oberen Symbolleiste in der Registerkarte <b>Start</b> auf das Symbol <b>Filter</b> <img alt="Filter" src="../images/sortandfilter.png" />.</li>
+                <li>Klicken Sie in der oberen Symbolleiste in der Registerkarte <b>Start</b> auf das Symbol <b>Filter</b> <div class = "icon icon-sortandfilter"></div>.</li>
             </ol>
-            <p>Der Filter werde deaktiviert und die Filterpfeile <img alt="Filterpfeil" src="../images/dropdownarrow.png" /> verschwinden aus den ersten Zellen der Spalten.</p>
+            <p>Der Filter werde deaktiviert und die Filterpfeile <span class="icon icon-dropdownarrow"></span> verschwinden aus den ersten Zellen der Spalten.</p>
 		</div>
 	</body>
 </html>

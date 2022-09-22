@@ -66,12 +66,12 @@ define([
             spriteCols     = 1,
             applicationPixelRatio = Common.Utils.applicationPixelRatio();
 
-        if (typeof window['AscDesktopEditor'] === 'object') {
-            thumbs[0].path     = window['AscDesktopEditor'].getFontsSprite('');
-            thumbs[1].path     = window['AscDesktopEditor'].getFontsSprite('@1.25x');
-            thumbs[2].path     = window['AscDesktopEditor'].getFontsSprite('@1.5x');
-            thumbs[3].path     = window['AscDesktopEditor'].getFontsSprite('@1.75x');
-            thumbs[4].path     = window['AscDesktopEditor'].getFontsSprite('@2x');
+        if ( Common.Controllers.Desktop.isActive() ) {
+            thumbs[0].path     = Common.Controllers.Desktop.call('getFontsSprite');
+            thumbs[1].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.25x');
+            thumbs[2].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.5x');
+            thumbs[3].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.75x');
+            thumbs[4].path     = Common.Controllers.Desktop.call('getFontsSprite', '@2x');
         }
 
         var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);
@@ -89,7 +89,7 @@ define([
         thumbCanvas.width   = thumbs[thumbIdx].width;
 
         function CThumbnailLoader() {
-            this.supportBinaryFormat = (window['AscDesktopEditor'] && !window['AscDesktopEditor']['isSupportBinaryFontsSprite']) ? false : true;
+            this.supportBinaryFormat = !(Common.Controllers.Desktop.isActive() && !Common.Controllers.Desktop.isFeatureAvailable('isSupportBinaryFontsSprite'));
             // наш формат - альфамаска с сжатием типа rle для полностью прозрачных пикселов
 
             this.image = null;
@@ -98,7 +98,7 @@ define([
             this.width = 0;
             this.height = 0;
             this.heightOne = 0;
-            this.count = 0;            
+            this.count = 0;
             this.offsets = null;
 
             this.load = function(url, callback) {
@@ -134,7 +134,6 @@ define([
             };
 
             this.openBinary = function(arrayBuffer) {
-                
                 //var t1 = performance.now();
 
                 var binaryAlpha = this.binaryFormat;

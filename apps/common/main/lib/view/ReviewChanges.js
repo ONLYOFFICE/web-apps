@@ -54,6 +54,26 @@ define([
 ], function () {
     'use strict';
 
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    var enumLock = {
+        noSpellcheckLangs: 'no-spellcheck-langs',
+        isReviewOnly:   'review-only',
+        reviewChangelock: 'review-change-lock',
+        hasCoeditingUsers: 'has-coediting-users',
+        previewReviewMode: 'preview-review-mode', // display mode on Collaboration tab
+        viewFormMode:   'view-form-mode', // view form mode on Forms tab
+        viewMode:       'view-mode', // view mode on disconnect, version history etc (used for locking buttons not in toolbar)
+        hideComments:   'hide-comments', // no live comments and left panel is closed
+        cantShare: 'cant-share'
+    };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
+
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="review-changes-panel" class="panel" data-tab="review">' +
@@ -229,44 +249,52 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 this.appConfig = options.mode;
+                this.lockedControls = [];
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
-
+                var _set = Common.enumLock;
                 if ( this.appConfig.canReview ) {
                     this.btnAccept = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtAccept,
                         split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-save',
+                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnAccept);
 
                     this.btnReject = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtReject,
                         split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-deny',
+                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnReject);
 
-                    if (this.appConfig.canFeatureComparison)
+                    if (this.appConfig.canFeatureComparison) {
                         this.btnCompare = new Common.UI.Button({
-                            cls         : 'btn-toolbar  x-huge icon-top',
-                            caption     : this.txtCompare,
-                            split       : true,
+                            cls: 'btn-toolbar  x-huge icon-top',
+                            caption: this.txtCompare,
+                            split: true,
                             iconCls: 'toolbar__icon btn-compare',
+                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'small'
                         });
-
+                        this.lockedControls.push(this.btnCompare);
+                    }
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-review',
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect],
                         caption: this.txtTurnon,
                         split: !this.appConfig.isReviewOnly,
                         enableToggle: true,
@@ -275,25 +303,30 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.btnsTurnReview = [this.btnTurnOn];
+                    this.lockedControls.push(this.btnTurnOn);
                 }
                 if (this.appConfig.canViewReview) {
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-prev',
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect],
                         caption: this.txtPrev,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnPrev);
 
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-next',
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect],
                         caption: this.txtNext,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnNext);
 
                     if (!this.appConfig.isRestrictedEdit && !(this.appConfig.customization && this.appConfig.customization.review && this.appConfig.customization.review.hideReviewDisplay)) {// hide Display mode option for fillForms and commenting mode
                         var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
@@ -303,6 +336,7 @@ define([
                         this.btnReviewView = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconCls: 'toolbar__icon btn-ic-reviewview',
+                            lock: [_set.viewFormMode, _set.lostConnect],
                             caption: this.txtView,
                             menu: new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
@@ -349,6 +383,7 @@ define([
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'small'
                         });
+                        this.lockedControls.push(this.btnReviewView);
                     }
                 }
 
@@ -356,23 +391,27 @@ define([
                     this.btnSharing = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-sharing',
+                        lock: [_set.viewFormMode, _set.cantShare, _set.lostConnect],
                         caption: this.txtSharing,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnSharing);
                 }
 
                 if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring && this.appConfig.canChangeCoAuthoring) {
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-coedit',
+                        lock: [_set.viewFormMode, _set.lostConnect],
                         caption: this.txtCoAuthMode,
                         menu: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnCoAuthMode);
                 }
 
                 this.btnsSpelling = [];
@@ -382,23 +421,27 @@ define([
                     this.btnHistory = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-history',
+                        lock: [_set.lostConnect],
                         caption: this.txtHistory,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnHistory);
                 }
 
                 if (this.appConfig.canCoAuthoring && this.appConfig.canChat) {
                     this.btnChat = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-chat',
+                        lock: [_set.lostConnect],
                         caption: this.txtChat,
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnChat);
                 }
 
                 if ( this.appConfig.canCoAuthoring && this.appConfig.canComments ) {
@@ -407,19 +450,23 @@ define([
                         caption: this.txtCommentRemove,
                         split: true,
                         iconCls: 'toolbar__icon btn-rem-comment',
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnCommentRemove);
                     this.btnCommentResolve = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentResolve,
                         split: true,
                         iconCls: 'toolbar__icon btn-resolve-all',
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+                    this.lockedControls.push(this.btnCommentResolve);
                 }
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -524,8 +571,7 @@ define([
                             me.btnCompare.updateHint(me.tipCompare);
                         }
 
-                        config.isReviewOnly && me.btnAccept.setDisabled(true);
-                        config.isReviewOnly && me.btnReject.setDisabled(true);
+                        Common.Utils.lockControls(Common.enumLock.isReviewOnly, config.isReviewOnly, {array: [me.btnAccept, me.btnReject]});
                     }
                     if (me.appConfig.canViewReview) {
                         me.btnPrev.updateHint(me.hintPrev);
@@ -685,6 +731,7 @@ define([
                     var button = new Common.UI.Button({
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-ic-review',
+                        lock: [Common.enumLock.viewMode, Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.lostConnect],
                         hintAnchor  : 'top',
                         hint        : this.tipReview,
                         split       : !this.appConfig.isReviewOnly,
@@ -724,13 +771,14 @@ define([
                     });
 
                     this.btnsTurnReview.push(button);
-
+                    this.lockedControls.push(button);
                     return button;
                 } else
                 if ( type == 'spelling' ) {
                     button = new Common.UI.Button({
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-ic-docspell',
+                        lock: [Common.enumLock.viewMode,  Common.enumLock.viewFormMode, Common.enumLock.previewReviewMode],
                         hintAnchor  : 'top',
                         hint: this.tipSetSpelling,
                         enableToggle: true,
@@ -740,23 +788,28 @@ define([
                         visible:  Common.UI.FeaturesManager.canChange('spellcheck')
                     });
                     this.btnsSpelling.push(button);
-
+                    this.lockedControls.push(button);
                     return button;
                 } else if (type == 'doclang' && parent == 'statusbar' ) {
                     button = new Common.UI.Button({
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-ic-doclang',
+                        lock: [Common.enumLock.viewMode, Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.noSpellcheckLangs, Common.enumLock.lostConnect],
                         hintAnchor  : 'top',
                         hint: this.tipSetDocLang,
-                        disabled: true,
                         dataHint: '0',
                         dataHintDirection: 'top',
                         dataHintOffset: 'small'
                     });
                     this.btnsDocLang.push(button);
-
+                    this.lockedControls.push(button);
+                    Common.Utils.lockControls(Common.enumLock.noSpellcheckLangs, true, {array: [button]});
                     return button;
                 }
+            },
+
+            getButtons: function() {
+                return this.lockedControls;
             },
 
             getUserName: function (username) {
@@ -814,34 +867,8 @@ define([
                 }
             },
 
-            SetDisabled: function (state, langs, protectProps) {
-                this.btnsSpelling && this.btnsSpelling.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(state);
-                    }
-                }, this);
-                this.btnsDocLang && this.btnsDocLang.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(state || langs && langs.length<1);
-                    }
-                }, this);
-                this.btnsTurnReview && this.btnsTurnReview.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(state);
-                    }
-                }, this);
-                // this.btnChat && this.btnChat.setDisabled(state);
-
-                this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment") || protectProps && protectProps.comments);
-                this.btnCommentResolve && this.btnCommentResolve.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment") || protectProps && protectProps.comments);
-            },
-
             onLostEditRights: function() {
                 this._readonlyRights = true;
-                if (!this.rendered)
-                    return;
-
-                 this.btnSharing && this.btnSharing.setDisabled(true);
             },
 
             txtAccept: 'Accept',

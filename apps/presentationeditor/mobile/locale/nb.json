@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Columns",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "textRows": "Rows"
+    "textRows": "Rows",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -126,7 +129,8 @@
       "warnProcessRightsChange": "You don't have permission to edit the file.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textNoTextFound": "Text not found"
+      "textNoTextFound": "Text not found",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -473,7 +477,12 @@
       "txtScheme7": "Equity",
       "txtScheme8": "Flow",
       "txtScheme9": "Foundry",
-      "textDarkTheme": "Dark Theme"
+      "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRTL": "RTL",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "notcriticalErrorTitle": "Warning"
     }
   }
 }

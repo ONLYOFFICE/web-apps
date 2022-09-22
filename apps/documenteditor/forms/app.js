@@ -47,8 +47,6 @@ require.config({
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         sockjs          : '../vendor/sockjs/sockjs.min',
-        jszip           : '../vendor/jszip/jszip.min',
-        jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',
@@ -102,9 +100,7 @@ require.config({
                 'underscore',
                 'allfonts',
                 'xregexp',
-                'sockjs',
-                'jszip',
-                'jsziputils'
+                'sockjs'
             ]
         },
         gateway: {
@@ -130,6 +126,8 @@ require([
     'gateway',
     'locale'
 ], function (Backbone, Bootstrap, Core) {
+    if (Backbone.History && Backbone.History.started)
+        return;
     Backbone.history.start();
 
     /**
@@ -140,7 +138,8 @@ require([
         autoCreate: false,
         controllers : [
             'ApplicationController',
-            'Plugins'
+            'Plugins',
+            'SearchBar'
         ]
     });
 
@@ -149,11 +148,13 @@ require([
             require([
                 'documenteditor/forms/app/controller/ApplicationController',
                 'documenteditor/forms/app/controller/Plugins',
+                'documenteditor/forms/app/controller/SearchBar',
                 'documenteditor/forms/app/view/ApplicationView',
                 'common/main/lib/util/utils',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Themes',
                 'common/main/lib/view/PluginDlg',
+                'common/main/lib/view/SearchBar',
                 'common/forms/lib/view/modals'
             ], function() {
                 app.start();

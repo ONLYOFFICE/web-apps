@@ -65,9 +65,9 @@ define([
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><div><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                            '</div></div></td>',
                             '<% } %>',
                         '<% }) %>',
                     '</tr>',
@@ -136,9 +136,9 @@ define([
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><div><div class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                            '</div></div></td>',
                             '<% } %>',
                         '<% }) %>',
                     '</tr>',
@@ -182,201 +182,155 @@ define([
         }
     });
 
-    SSE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
+    SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings',
         menu: undefined,
 
         template: _.template([
-            '<div style="width:100%; height:100%; position: relative;">',
-                '<div id="id-settings-menu" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
-                '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
-                    '<div id="panel-settings-general" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel active"></div>',
-                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
-                '</div>',
-            '</div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-        },
-
-        render: function(node) {
-            var $markup = $(this.template({scope: this}));
-
-            this.generalSettings = new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu: this.menu});
-            this.generalSettings.options = {alias:'MainSettingsGeneral'};
-            this.generalSettings.render($markup.findById('#panel-settings-general'));
-
-            this.spellcheckSettings = new SSE.Views.FileMenuPanels.MainSpellCheckSettings({menu: this.menu});
-            this.spellcheckSettings.render($markup.findById('#panel-settings-spellcheck'));
-
-            this.viewSettingsPicker = new Common.UI.DataView({
-                el: $markup.findById('#id-settings-menu'),
-                store: new Common.UI.DataViewStore([
-                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', contentTarget: 'panel-settings-general', selected: true},
-                    {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell', contentTarget: 'panel-settings-spellcheck'}
-                ]),
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="settings-item-wrap">',
-                        '<div class="settings-icon <%= iconCls %>" style="display: inline-block;" >',
-                        '</div><%= name %>',
-                    '</div>'
-                ].join('')),
-                itemDataHint: '2',
-                itemDataHintDirection: 'left',
-                itemDataHintOffset: [-2, 20]
-            });
-            this.viewSettingsPicker.on('item:select', _.bind(function(dataview, itemview, record) {
-                var panel = record.get('panel');
-                $('#id-settings-content > div').removeClass('active');
-                panel.$el.addClass('active');
-                panel.show();
-            }, this));
-
-            this.$el = $(node).html($markup);
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            var item = this.viewSettingsPicker.getSelectedRec();
-            item && item.get('panel').show();
-        },
-
-        setMode: function(mode) {
-            this.mode = mode;
-            this.generalSettings && this.generalSettings.setMode(this.mode);
-            this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
-            if (!this.mode.isEdit) {
-                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
-                if (this.spellcheckSettings && this.spellcheckSettings.$el && this.spellcheckSettings.$el.hasClass('active'))
-                    this.viewSettingsPicker.selectByIndex(0);
-            }
-        },
-
-        setApi: function(api) {
-            this.generalSettings && this.generalSettings.setApi(api);
-            this.spellcheckSettings && this.spellcheckSettings.setApi(api);
-        },
-
-        SetDisabled: function(disabled) {
-            if ( disabled ) {
-                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
-                this.viewSettingsPicker.selectByIndex(0, true);
-            } else {
-                if ( this.mode.isEdit ) {
-                    $(this.viewSettingsPicker.dataViewItems[1].el).show();
-                }
-            }
-        },
-
-        txtGeneral: 'General',
-        txtPageSettings: 'Page Settings',
-        txtSpellChecking: 'Spell checking'
-    }, SSE.Views.FileMenuPanels.Settings || {}));
-
-    SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
-        el: '#panel-settings-general',
-        menu: undefined,
-
-        template: _.template([
-        '<div>',
         '<div class="flex-settings">',
-            '<table class="main" style="margin: 30px 0 0;"><tbody>',
-                /** coauthoring begin **/
-                '<tr class="comments">',
-                    '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
-                    '<td class="right"><div id="fms-chb-live-comment"></div></td>',
-                '</tr>','<tr class="divider comments"></tr>',
-                '<tr class="comments">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-resolved-comment"></div></td>',
-                '</tr>','<tr class="divider comments"></tr>',
+            '<table class="main" style="margin: 10px 14px auto;"><tbody>',
+                '<tr class="editsave">',
+                    '<td class="group-name top" colspan="2"><label><%= scope.txtEditingSaving %></label></td>',
+                '</tr>',
                 '<tr class="autosave">',
-                    '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-autosave"></span></td>',
-                '</tr>','<tr class="divider autosave"></tr>',
+                    '<td colspan = "2"><span id="fms-chb-autosave"></span></td>',
+                '</tr>',
                 '<tr class="forcesave">',
-                    '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-forcesave"></span></td>',
-                '</tr>','<tr class="divider forcesave"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.textRefStyle %></label></td>',
-                    '<td class="right"><div id="fms-chb-r1c1-style"></div></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr class="coauth changes">',
-                    '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
-                    '<td class="right">',
-                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
-                        '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
-                '</tr>','<tr class="divider coauth changes"></tr>',
-                /** coauthoring end **/
-                '<tr class="themes">',
-                    '<td class="left"><label><%= scope.strTheme %></label></td>',
-                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.strZoom %></label></td>',
-                    '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.strFontRender %></label></td>',
-                    '<td class="right"><span id="fms-cmb-font-render"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
-                '<tr>',
-                    '<td class="left"><label><%= scope.strUnit %></label></td>',
-                    '<td class="right"><span id="fms-cmb-unit"></span></td>',
-                '</tr>','<tr class="divider"></tr>',
+                    '<td colspan="2"><span id="fms-chb-forcesave"></span></td>',
+                '</tr>',
                 '<tr class="edit">',
-                    '<td class="left"><label><%= scope.strFuncLocale %></label></td>',
-                    '<td class="right">',
+                    '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
+                '</tr>',
+                '<tr class ="editsave divider-group"></tr>',
+                '<tr class="collaboration" >',
+                    '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
+                '</tr>',
+                '<tr class="coauth changes">',
+                    '<td class="subgroup-name" colspan="2"><label><%= scope.strCoAuthMode %></label></td>',
+                '</tr>',
+                '<tr class="coauth changes">',
+                    '<td colspan="2"><div style="display: flex;">',
+                        '<div id="fms-rb-coauth-mode-fast"></div>',
+                        '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
+                        '<label class="comment-text"><%= scope.txtFastTip %></label></span>',
+                    '</div></td>',
+                '</tr>',
+                '<tr class="coauth changes">',
+                    '<td colspan="2"><div style="display: flex; ">',
+                        '<div id="fms-rb-coauth-mode-strict"></div>',
+                        '<span style ="display: flex; flex-direction: column;"><label><%= scope.strStrict %></label>',
+                        '<label class="comment-text"><%= scope.txtStrictTip %></label></span>',
+                    '</div></td>',
+                '</div></tr>',
+                '<tr class ="divider coauth changes"></tr>',
+                '<tr class="live-viewer">',
+                    '<td colspan="2"><div id="fms-chb-live-viewer"></div></td>',
+                '</tr>',
+                '<tr class="divider live-viewer"></tr>',
+                '<tr class="comments">',
+                    '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
+                '</tr>',
+                '<tr class="comments">',
+                    '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
+                '</tr>',
+                '<tr class ="collaboration divider-group"></tr>',
+                '<tr >',
+                    '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
+                '</tr>',
+                '<tr>',
+                    //'<td class="left"><label><%= scope.textRefStyle %></label></td>',
+                    '<td colspan="2"><div id="fms-chb-r1c1-style"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
+                '</tr>',
+                '<tr class="themes">',
+                    '<td><label><%= scope.strTheme %></label></td>',
+                    '<td><span id="fms-cmb-theme"></span></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strUnit %></label></td>',
+                    '<td><span id="fms-cmb-unit"></span></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strZoom %></label></td>',
+                    '<td><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.strFontRender %></label></td>',
+                    '<td><span id="fms-cmb-font-render"></span></td>',
+                '</tr>',
+                '<tr class="macros">',
+                    '<td><label><%= scope.strMacrosSettings %></label></td>',
+                    '<td>',
+                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                    '</td>',
+                '</tr>',
+                '<tr class ="divider-group"></tr>',
+                '<tr>',
+                    '<td class="group-name" colspan="2"><label><%= scope.strRegSettings %></label></td>',
+                '</tr>',
+                '<tr class="">',
+                    '<td><label><%= scope.strFuncLocale %></label></td>',
+                    '<td>',
                         '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-func-locale" style="vertical-align: middle;"><%= scope.strFuncLocaleEx %></label></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit">',
-                    '<td class="left"><label><%= scope.strRegSettings %></label></td>',
-                    '<td class="right">',
+                '</tr>',
+                '<tr>',
+                    '<td><label><%= scope.txtRegion %></label></td>',
+                    '<td>',
                         '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-separator-settings"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label class = "label-separator"><%= scope.strDecimalSeparator %></label></td>',
+                    '<td><div id="fms-decimal-separator"></div></td>',
+                '</tr>',
+                '<tr>',
+                    '<td><label class = "label-separator"><%= scope.strThousandsSeparator %></label></td>',
+                    '<td><div id="fms-thousands-separator"></div></td>',
+                '</tr>',
+                '<tr class ="divider-group"></tr>',
                 '<tr class="edit">',
-                    '<td class="left"><label><%= scope.strSeparator %></label></td>',
-                    '<td class="right"><div id="fms-chb-separator-settings"></div></td>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtProofing %></label></td>',
+                '</tr>',
+                '<tr class="spellcheck">',
+                    '<td><label><%= scope.strDictionaryLanguage %></label></td>',
+                    '<td><span id="fms-cmb-dictionary-language"></span></td>',
+                '</tr>',
+                '<tr class="spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-uppercase-words"></span></td>',
+                '</tr>',
+                '<tr class="spellcheck">',
+                    '<td colspan="2"><span id="fms-chb-ignore-numbers-words"></span></td>',
+                '</tr>',
+                '<tr  class="edit">',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
+                '</tr>',
+                '<tr class ="edit divider-group"></tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtCalculating %></label></td>',
                 '</tr>',
                 '<tr class="edit">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-decimal-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
+                    '<td colspan="2"><span id="fms-chb-date-1904"></span></td>',
                 '</tr>',
-                '<tr class="edit">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-thousands-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
-                '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit">',
-                    '<td class="left"><label><%= scope.strPaste %></label></td>',
-                    '<td class="right"><div id="fms-chb-paste-settings"></div></td>',
-                '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="macros">',
-                    '<td class="left"><label><%= scope.strMacrosSettings %></label></td>',
-                    '<td class="right">',
-                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
-                        '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
-                '</tr>','<tr class="divider macros"></tr>',
-                '<tr class="fms-btn-apply">',
-                    '<td class="left"></td>',
-                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                '<tr class ="edit divider-group"></tr>',
+                 '<tr class="fms-btn-apply">',
+                    '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table class="main" style="margin: 10px 0;"><tbody>',
+            '<table class="main" style="margin: 10px 18px; width: 100%"><tbody>',
                 '<tr>',
-                    '<td class="left"></td>',
-                    '<td class="right"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                    '<td></td>',
                 '</tr>',
             '</tbody></table>',
-        '</div>',
         '</div>'
         ].join('')),
 
@@ -390,11 +344,11 @@ define([
             var me = this;
             var $markup = $(this.template({scope: this}));
 
-            /** coauthoring begin **/
+
             this.chLiveComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-live-comment'),
-                labelText: this.strLiveComment,
-                dataHint: '3',
+                labelText: this.strShowComments,
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
@@ -403,47 +357,64 @@ define([
 
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-resolved-comment'),
-                labelText: this.strResolvedComment,
-                dataHint: '3',
+                labelText: this.strShowResolvedComments,
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
 
             this.chR1C1Style = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-r1c1-style'),
-                labelText: this.strR1C1,
-                dataHint: '3',
+                labelText: this.strReferenceStyle,
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
 
-            this.cmbCoAuthMode = new Common.UI.ComboBox({
-                el          : $markup.findById('#fms-cmb-coauth-mode'),
-                style       : 'width: 160px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 1, displayValue: this.strFast, descValue: this.strCoAuthModeDescFast},
-                    { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
-                ],
-                dataHint    : '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            }).on('selected', function(combo, record) {
-                if (record.value == 1 && (me.chAutosave.getValue()!=='checked'))
-                    me.chAutosave.setValue(1);
-                me.lblCoAuthMode.text(record.descValue);
+            this.chUseAltKey = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-use-alt-key'),
+                labelText: Common.Utils.isMac ? this.txtUseOptionKey : this.txtUseAltKey,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
-            this.lblCoAuthMode = $markup.findById('#fms-lbl-coauth-mode');
+            this.rbCoAuthModeFast = new Common.UI.RadioBox({
+                el          : $markup.findById('#fms-rb-coauth-mode-fast'),
+                name        : 'coauth-mode',
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('change', function () {
+                me.chAutosave.setValue(1);
+            });
+            this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
+
+            this.rbCoAuthModeStrict = new Common.UI.RadioBox({
+                el          : $markup.findById('#fms-rb-coauth-mode-strict'),
+                name        : 'coauth-mode',
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
             /** coauthoring end **/
+
+            this.chLiveViewer = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-live-viewer'),
+                labelText: this.strShowOthersChanges,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
-                menuStyle   : 'max-height: 157px;',
+                menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
@@ -460,7 +431,7 @@ define([
                     { value: 400, displayValue: "400%" },
                     { value: 500, displayValue: "500%" }
                 ],
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -475,7 +446,9 @@ define([
                 el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
+                menuStyle   : 'min-width:100%;',
                 itemsTemplate: itemsTemplate,
                 data        : [
                     { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
@@ -483,7 +456,7 @@ define([
                     { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative },
                     { value: 'custom', displayValue: this.txtCacheMode }
                 ],
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -491,22 +464,20 @@ define([
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
-                labelText: this.strAutosave,
-                dataHint    : '3',
+                labelText: this.textAutoSave,
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', function(field, newValue, oldValue, eOpts){
-                if (field.getValue()!=='checked' && me.cmbCoAuthMode.getValue()) {
-                    me.cmbCoAuthMode.setValue(0);
-                    me.lblCoAuthMode.text(me.strCoAuthModeDescStrict);
+                if (field.getValue()!=='checked' && me.rbCoAuthModeFast.getValue()) {
+                    me.rbCoAuthModeStrict.setValue(true);
                 }
             });
-            this.lblAutosave = $markup.findById('#fms-lbl-autosave');
 
             this.chForcesave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-forcesave'),
-                labelText: this.strForcesave,
-                dataHint: '3',
+                labelText: this.textForceSave,
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -515,13 +486,15 @@ define([
                 el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
+                menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
                     { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
                     { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
                 ],
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -540,12 +513,13 @@ define([
 
             this.cmbFuncLocale = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-func-locale'),
-                style       : 'width: 160px;',
-                menuStyle: 'max-height: 185px;',
+                style       : 'width: 200px;',
+                menuStyle   : 'min-width:100%; max-height: 185px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 data        : formula_arr,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
@@ -563,14 +537,15 @@ define([
 
             this.cmbRegSettings = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-reg-settings'),
-                style       : 'width: 160px;',
-                menuStyle: 'max-height: 185px;',
+                style       : 'width: 200px;',
+                menuStyle   : 'min-width:100%; max-height: 185px;',
+                menuCls     : 'menu-aligned',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big">',
+                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
                     '<span class="icon input-icon lang-flag"></span>',
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                             '<span class="caret" />',
@@ -599,7 +574,7 @@ define([
             this.chSeparator = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-separator-settings'),
                 labelText: this.strUseSeparatorsBasedOnRegionalSettings,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -634,7 +609,7 @@ define([
                 el: $markup.findById('#fms-decimal-separator'),
                 style: 'width: 35px;',
                 validateOnBlur: false,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -645,7 +620,7 @@ define([
                 el: $markup.findById('#fms-thousands-separator'),
                 style: 'width: 35px;',
                 validateOnBlur: false,
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -657,24 +632,29 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 menuCls     : 'menu-aligned',
+                menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
                     { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
                     { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
                 ],
-                dataHint    : '3',
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                        '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<% }); %>'
+                ].join('')),
+
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
-            }).on('selected', function(combo, record) {
-                me.lblMacrosDesc.text(record.descValue);
             });
-            this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
 
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
                 labelText: this.strPasteButton,
-                dataHint: '3',
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -683,11 +663,54 @@ define([
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
+                menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
-                dataHint    : '3',
+                dataHint    : '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+                el:  $markup.findById('#fms-cmb-dictionary-language'),
+                cls: 'input-group-nr',
+                style: 'width: 200px;',
+                editable: false,
+                menuCls     : 'menu-aligned',
+                menuStyle: 'min-width: 100%; max-height: 209px;',
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chDateSystem = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-date-1904'),
+                labelText: this.strDateFormat1904,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.btnAutoCorrect = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-auto-correct')
+            });
+            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
@@ -745,22 +768,25 @@ define([
         setMode: function(mode) {
             this.mode = mode;
 
-            var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
 
+            $('tr.editsave', this.el)[mode.isEdit || mode.canForcesave ? 'show' : 'hide']();
+            $('tr.collaboration', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.edit', this.el)[mode.isEdit ? 'show' : 'hide']();
             $('tr.autosave', this.el)[mode.isEdit && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
-                this.chAutosave.setCaption(this.strAutoRecover);
-                this.lblAutosave.text(this.textAutoRecover);
+                this.chAutosave.setCaption(this.textAutoRecover);
             }
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
+            $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
 
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
+            $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -772,6 +798,7 @@ define([
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("sse-settings-use-alt-key"));
 
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
@@ -779,10 +806,10 @@ define([
             this.chR1C1Style.setValue(Common.Utils.InternalSettings.get("sse-settings-r1c1"));
 
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
-            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
-            this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
-            this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
+            this.rbCoAuthModeFast.setValue(fast_coauth);
+            this.rbCoAuthModeStrict.setValue(!fast_coauth);
             /** coauthoring end **/
+            this.chLiveViewer.setValue(Common.Utils.InternalSettings.get("sse-settings-coauthmode"));
 
             value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
@@ -848,7 +875,6 @@ define([
 
             item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("sse-macros-mode")});
             this.cmbMacros.setValue(item ? item.get('value') : 0);
-            this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
 
@@ -862,24 +888,67 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
+
+                var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                    allLangs = arrLang[0],
+                    langs = arrLang[1],
+                    change = arrLang[2];
+                var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
+                    value;
+                if (sessionValue)
+                    value = parseInt(sessionValue);
+                else
+                    value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+                if (langs && langs.length > 0) {
+                    if (this.cmbDictionaryLanguage.store.length === 0 || change) {
+                        this.cmbDictionaryLanguage.setData(langs);
+                    }
+                    var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
+                    if (!item && allLangs[value]) {
+                        value = allLangs[value][0].split(/[\-\_]/)[0];
+                        item = this.cmbDictionaryLanguage.store.find(function (model) {
+                            return model.get('shortName').indexOf(value) == 0;
+                        });
+                    }
+                    this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
+                    value = this.cmbDictionaryLanguage.getValue();
+                    if (value !== parseInt(sessionValue)) {
+                        Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                    }
+                } else {
+                    this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                    this.cmbDictionaryLanguage.setDisabled(true);
+                }
+
+                this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
+                this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
+                this.chDateSystem.setValue(this.api.asc_getDate1904());
+            }
         },
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+            Common.localStorage.setItem("sse-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("sse-settings-use-alt-key", Common.localStorage.getBool("sse-settings-use-alt-key"));
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && this.mode.canChangeCoAuthoring)
-                Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
+                Common.localStorage.setItem("sse-settings-coauthmode", this.rbCoAuthModeFast.getValue()? 1 : 0);
+            else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                Common.localStorage.setItem("sse-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
+            }
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("sse-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
-            if (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("sse-settings-coauthmode"))
+            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("sse-settings-coauthmode")))
                 Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("sse-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
@@ -916,6 +985,30 @@ define([
                 if (this._oldUnits !== this.cmbUnit.getValue())
                     Common.NotificationCenter.trigger('settings:unitschanged', this);
             }
+
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
+
+                var value = this.chIgnoreUppercase.isChecked();
+                Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);
+                value = this.chIgnoreNumbers.isChecked();
+                Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
+
+                if (!this.cmbDictionaryLanguage.isDisabled()) {
+                    value = this.cmbDictionaryLanguage.getValue();
+                    Common.localStorage.setItem("sse-spellcheck-locale", value);
+                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                }
+
+                Common.localStorage.save();
+                if (this.menu) {
+                    this.menu.fireEvent('spellcheck:apply', [this.menu]);
+                }
+            }
+
+            if (this.mode.isEdit)
+                this.api.asc_setDate1904(this.chDateSystem.isChecked());
         },
 
         updateRegionalExample: function(landId) {
@@ -953,12 +1046,26 @@ define([
             this._fontRender = combo.getValue();
         },
 
-        strLiveComment: 'Turn on option',
+        autoCorrect: function() {
+            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
+            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
+                api: this.api
+            });
+            this.dlgAutoCorrect.show();
+        },
+
+        SetDisabled: function(disabled) {
+            if ( disabled ) {
+                this.$el.hide();
+            } else {
+                if ( this.mode.isEdit ) {
+                    this.$el.show();
+                }
+            }
+        },
+
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
-        /** coauthoring begin **/
-        txtLiveComment: 'Live Commenting',
-        /** coauthoring end **/
         txtWin: 'as Windows',
         txtMac: 'as OS X',
         txtNative: 'Native',
@@ -966,7 +1073,6 @@ define([
         strUnit: 'Unit of Measurement',
         txtCm: 'Centimeter',
         txtPt: 'Point',
-        strAutosave: 'Turn on autosave',
         textAutoSave: 'Autosave',
         txtEn: 'English',
         txtDe: 'Deutsch',
@@ -987,19 +1093,12 @@ define([
         strRegSettings: 'Regional Settings',
         strRegSettingsEx: 'Example: ',
         strCoAuthMode: 'Co-editing mode',
-        strCoAuthModeDescFast: 'Other users will see your changes at once',
-        strCoAuthModeDescStrict: 'You will need to accept changes before you can see them',
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        strAutoRecover: 'Turn on autorecover',
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments',
         textRefStyle: 'Reference Style',
-        strR1C1: 'Turn on R1C1 style',
-        strSeparator: 'Separator',
         strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
         strDecimalSeparator: 'Decimal separator',
         strThousandsSeparator: 'Thousands separator',
@@ -1011,7 +1110,6 @@ define([
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
-        strPaste: 'Cut, copy and paste',
         strTheme: 'Theme',
         txtThemeLight: 'Light',
         txtThemeDark: 'Dark',
@@ -1052,193 +1150,30 @@ define([
         txtExamplePt: 'SOMA; MÍNIMO; MÁXIMO; CONTAR',
         txtExamplePtbr: 'SOMA; MÍNIMO; MÁXIMO; CONT.NÚM',
         txtExampleSv: 'SUMMA; MIN; MAX; ANTAL',
-        txtExampleTr: 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY'
+        txtExampleTr: 'TOPLA; MİN; MAK; BAĞ_DEĞ_SAY',
+        txtEditingSaving: 'Editing and saving',
+        txtCollaboration: 'Collaboration',
+        strShowComments: 'Show comments in sheet',
+        strShowResolvedComments: 'Show resolved comments',
+        txtWorkspace: 'Workspace',
+        strReferenceStyle: 'R1C1 reference style',
+        txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtRegion: 'Region',
+        txtProofing: 'Proofing',
+        strDictionaryLanguage: 'Dictionary language',
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
+        txtAutoCorrect: 'AutoCorrect options...',
+        txtFastTip: 'Real-time co-editing. All changes are saved automatically',
+        txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
+        strShowOthersChanges: 'Show changes from other users',
+        txtCalculating: 'Calculating',
+        strDateFormat1904: 'Use 1904 date system'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
-    SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
-        el: '#panel-settings-spellcheck',
-        menu: undefined,
-
-        template: _.template([
-            '<table class="main" style="margin: 30px 0;"><tbody>',
-            '<tr class="spellcheck">',
-                '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
-                '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language"></span></td>',
-            '</tr>',
-            '<tr class="spellcheck">',
-                '<td class="left" style="padding-bottom: 8px;"></td>',
-                '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words"></span></td>',
-            '</tr>',
-            '<tr class="spellcheck">',
-                '<td class="left"></td>',
-                '<td class="right"><span id="fms-chb-ignore-numbers-words"></span></td>',
-            '</tr>','<tr class="divider spellcheck"></tr>',
-            '<tr>',
-                '<td class="left"><label><%= scope.txtProofing %></label></td>',
-                '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAutoCorrect %></button></div></td>',
-            '</tr>','<tr class="divider"></tr>',
-            '<tr>',
-                '<td class="left"></td>',
-                '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
-            '</tr>',
-            '</tbody></table>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-        },
-
-        render: function(node) {
-            var me = this;
-            var $markup = $(this.template({scope: this}));
-
-            this.chIgnoreUppercase = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
-                labelText: this.strIgnoreWordsInUPPERCASE,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.chIgnoreNumbers = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-ignore-numbers-words'),
-                labelText: this.strIgnoreWordsWithNumbers,
-                dataHint: '3',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
-            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
-                el:  $markup.findById('#fms-cmb-dictionary-language'),
-                cls: 'input-group-nr',
-                style: 'width: 267px;',
-                editable: false,
-                menuStyle: 'min-width: 267px; max-height: 209px;',
-                dataHint: '3',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-
-            this.btnAutoCorrect = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-auto-correct')
-            });
-            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
-
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fms-spellcheck-btn-apply')
-            });
-
-            this.btnApply.on('click', _.bind(this.applySettings, this));
-
-            this.$el = $(node).html($markup);
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-
-            this.updateSettings();
-            this.scroller && this.scroller.update();
-        },
-
-        setMode: function(mode) {
-            this.mode = mode;
-            $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
-        },
-
-        setApi: function(api) {
-            this.api = api;
-        },
-
-        updateSettings: function() {
-            if (!Common.UI.FeaturesManager.canChange('spellcheck')) return;
-
-            var arrLang = SSE.getController('Spellcheck').loadLanguages(),
-                allLangs = arrLang[0],
-                langs = arrLang[1],
-                change = arrLang[2];
-            var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
-                value;
-            if (sessionValue)
-                value = parseInt(sessionValue);
-            else
-                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
-            if (langs && langs.length > 0) {
-                if (this.cmbDictionaryLanguage.store.length === 0 || change) {
-                    this.cmbDictionaryLanguage.setData(langs);
-                }
-                var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
-                if (!item && allLangs[value]) {
-                    value = allLangs[value][0].split(/[\-\_]/)[0];
-                    item = this.cmbDictionaryLanguage.store.find(function(model){
-                        return model.get('shortName').indexOf(value)==0;
-                    });
-                }
-                this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
-                value = this.cmbDictionaryLanguage.getValue();
-                if (value !== parseInt(sessionValue)) {
-                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
-                }
-            } else {
-                this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
-                this.cmbDictionaryLanguage.setDisabled(true);
-            }
-
-            this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
-            this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
-        },
-
-        applySettings: function() {
-            if (!Common.UI.FeaturesManager.canChange('spellcheck')) return;
-
-            var value = this.chIgnoreUppercase.isChecked();
-            Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
-            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);
-            value = this.chIgnoreNumbers.isChecked();
-            Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
-            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
-
-            if (!this.cmbDictionaryLanguage.isDisabled()) {
-                value = this.cmbDictionaryLanguage.getValue();
-                Common.localStorage.setItem("sse-spellcheck-locale", value);
-                Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
-            }
-
-            Common.localStorage.save();
-            if (this.menu) {
-                this.menu.fireEvent('spellcheck:apply', [this.menu]);
-            }
-        },
-
-        autoCorrect: function() {
-            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
-            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
-                api: this.api
-            });
-            this.dlgAutoCorrect.show();
-        },
-
-        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
-        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
-        strDictionaryLanguage: 'Dictionary language',
-        okButtonText: 'Apply',
-        txtProofing: 'Proofing',
-        txtAutoCorrect: 'AutoCorrect options...'
-    }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
-
-    SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
+SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         el: '#panel-recentfiles',
         menu: undefined,
 
@@ -1262,9 +1197,9 @@ define([
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
                         '<div class="recent-icon">',
-                            '<svg>',
-                                '<use xlink:href="#svg-file-recent"></use>',
-                            '</svg>',
+                            '<div>',
+                                '<div class="svg-file-recent"></div>',
+                            '</div>',
                         '</div>',
                         '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
                         '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
@@ -1313,7 +1248,7 @@ define([
                 '<% if (blank) { %> ',
                 '<div class="blank-document">',
                     '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="10, 1">',
-                        '<svg class="btn-blank-format"><use xlink:href="#svg-format-blank"></use></svg>',
+                        '<div class="btn-blank-format"><div class="svg-format-blank"></div></div>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
                 '</div>',
@@ -1324,7 +1259,7 @@ define([
                         '<% if (!_.isEmpty(item.image)) {%> ',
                             ' style="background-image: url(<%= item.image %>);">',
                         ' <%} else {' +
-                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
+                            'print(\"><div class=\'btn-blank-format\'><div class=\'svg-file-template\'></div></div>\")' +
                         ' } %>',
                     '</div>',
                     '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
@@ -1530,7 +1465,7 @@ define([
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1655,8 +1590,15 @@ define([
             this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
-                if (value)
-                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                if (value) {
+                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                    try {
+                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    } catch (e) {
+                        lang = 'en';
+                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    }
+                }
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -1681,8 +1623,15 @@ define([
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
-                if (value)
-                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                if (value) {
+                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                    try {
+                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    } catch (e) {
+                        lang = 'en';
+                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    }
+                }
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1813,7 +1762,7 @@ define([
                 '<table>',
                     '<% _.each(users, function(item) { %>',
                     '<tr>',
-                        '<td><span class="userLink <% if (item.isLink) { %>sharedLink<% } %>"></span><span><%= Common.Utils.String.htmlEncode(item.user) %></span></td>',
+                        '<td><span class="userLink img-commonctrl <% if (item.isLink) { %>sharedLink<% } %>"></span><span><%= Common.Utils.String.htmlEncode(item.user) %></span></td>',
                         '<td><%= Common.Utils.String.htmlEncode(item.permissions) %></td>',
                     '</tr>',
                     '<% }); %>',
@@ -2034,8 +1983,19 @@ define([
                             store.url = 'resources/help/{{DEFAULT_LANG}}/Contents.json';
                             store.fetch(config);
                         } else {
-                            me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
-                            store.reset(me.en_data);
+                            if ( Common.Controllers.Desktop.isActive() ) {
+                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() )
+                                    me.iFrame.src = '../../common/main/resources/help/download.html';
+                                else {
+                                    store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
+                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + store.contentLang + '/';
+                                    store.url = me.urlPref + 'Contents.json';
+                                    store.fetch(config);
+                                }
+                            } else {
+                                me.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
+                                store.reset(me.en_data);
+                            }
                         }
                     },
                     success: function () {

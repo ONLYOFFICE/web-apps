@@ -75,7 +75,9 @@ define([
                     'links:caption': this.onCaptionClick,
                     'links:crossref': this.onCrossRefClick,
                     'links:tof': this.onTableFigures,
-                    'links:tof-update': this.onTableFiguresUpdate
+                    'links:tof-update': this.onTableFiguresUpdate,
+                    'links:addtext': this.onAddText,
+                    'links:addtext-open': this.onAddTextOpen
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -87,7 +89,6 @@ define([
         },
         onLaunch: function () {
             this._state = {
-                prcontrolsdisable:undefined,
                 in_object: undefined
             };
             Common.Gateway.on('setactionlink', function (url) {
@@ -139,7 +140,9 @@ define([
                 in_header = false,
                 in_equation = false,
                 in_image = false,
+                in_image_inline = false,
                 in_table = false,
+                in_para = false,
                 frame_pr = null,
                 object_type;
 
@@ -150,11 +153,13 @@ define([
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
                     frame_pr = pr;
+                    in_para = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
                     in_image = true;
+                    in_image_inline = (pr.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline);
                     object_type = type;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
@@ -164,7 +169,6 @@ define([
                     object_type = type;
                 }
             }
-            this._state.prcontrolsdisable = paragraph_locked || header_locked;
             this._state.in_object = object_type;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
@@ -176,28 +180,34 @@ define([
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
                 plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
 
+            this.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.view.btnsNotes.concat(this.view.btnsHyperlink).concat([this.view.btnBookmarks, this.view.btnTableFiguresUpdate, this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.inHeader,      in_header,          {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnBookmarks, this.view.btnTableFigures,
+                                                                                            this.view.btnTableFiguresUpdate, this.view.btnCaption])});
+            this.lockToolbar(Common.enumLock.controlPlain,  control_plain,      {array: this.view.btnsNotes.concat([this.view.btnBookmarks, this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate,
+                                                                                            this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.view.btnsNotes.concat(this.view.btnsContents).concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate,
+                                                                                            this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.headerLock,    header_locked,      {array: this.view.btnsHyperlink.concat([this.view.btnBookmarks, this.view.btnCrossRef])});
+            this.lockToolbar(Common.enumLock.inEquation,    in_equation,        {array: this.view.btnsNotes});
+            this.lockToolbar(Common.enumLock.inImage,       in_image,           {array: this.view.btnsNotes});
+            this.lockToolbar(Common.enumLock.richDelLock,   rich_del_lock,      {array: this.view.btnsContents.concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate])});
+            this.lockToolbar(Common.enumLock.plainDelLock,  plain_del_lock,     {array: this.view.btnsContents.concat([this.view.btnTableFigures, this.view.btnTableFiguresUpdate])});
+            this.lockToolbar(Common.enumLock.contentLock,   content_locked,     {array: [this.view.btnCrossRef]});
+            this.lockToolbar(Common.enumLock.cantUpdateTOF, !this.api.asc_CanUpdateTablesOfFigures(),   {array: [this.view.btnTableFiguresUpdate]});
+            this.lockToolbar(Common.enumLock.inFootnote, this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote(),   {array: [this.view.btnAddText]});
+            this.lockToolbar(Common.enumLock.inHeader, in_header,   {array: [this.view.btnAddText]});
+            this.lockToolbar(Common.enumLock.cantAddTextTOF, in_image && !in_image_inline && !in_para,   {array: [this.view.btnAddText]});
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
-            this.view.btnsNotes.setDisabled(need_disable);
+            this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(this.view.btnCrossRef.isDisabled());
+        },
 
-            need_disable = paragraph_locked || header_locked || in_header || control_plain;
-            this.view.btnBookmarks.setDisabled(need_disable);
-
-            need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
-            this.view.btnsContents.setDisabled(need_disable);
-            this.view.btnTableFigures.setDisabled(need_disable);
-            this.view.btnTableFiguresUpdate.setDisabled(need_disable || paragraph_locked || !this.api.asc_CanUpdateTablesOfFigures());
-
-            need_disable = in_header;
-            this.view.btnCaption.setDisabled(need_disable);
-
-            need_disable = paragraph_locked || header_locked || control_plain || rich_edit_lock || plain_edit_lock || content_locked;
-            this.view.btnCrossRef.setDisabled(need_disable);
-            this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(need_disable);
+        lockToolbar: function (causes, lock, opts) {
+            Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
         },
 
         onApiCanAddHyperlink: function(value) {
-            this.toolbar.editMode && this.view.btnsHyperlink.setDisabled(!value || this._state.prcontrolsdisable);
+            this.toolbar.editMode && this.lockToolbar(Common.enumLock.hyperlinkLock, !value, {array: this.view.btnsHyperlink});
         },
 
         onHyperlinkClick: function(btn) {
@@ -303,16 +313,25 @@ define([
 
         onTableContentsUpdate: function(type, currentTOC){
             var props = this.api.asc_GetTableOfContentsPr(currentTOC);
-            if (props) {
-                if (currentTOC && props)
-                    currentTOC = props.get_InternalClass();
-                this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
-            }
+            if (currentTOC && props)
+                currentTOC = props.get_InternalClass();
+            this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onTableContentsOpen: function(menu) {
             this.api.asc_getButtonsTOC(menu.items[0].options.previewId, menu.items[1].options.previewId);
+        },
+
+        onAddTextOpen: function(menu) {
+            var props = this.api.asc_GetTableOfContentsPr(),
+                end = props ? props.get_OutlineEnd() : 3;
+            (end<0) && (end = 9);
+            this.view.fillAddTextMenu(menu, end, this.api.asc_GetCurrentLevelTOC());
+        },
+
+        onAddText: function(value) {
+            this.api.asc_AddParagraphToTOC(value);
         },
 
         onNotesClick: function(type) {
@@ -435,7 +454,8 @@ define([
         onShowTOCActions: function(obj, x, y) {
             var action = obj.button,
                 menu = (action==AscCommon.CCButtonType.Toc) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
-                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                documentHolder  = this.getApplication().getController('DocumentHolder'),
+                documentHolderView  = documentHolder.getView(),
                 menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
                 me = this;
 
@@ -460,7 +480,7 @@ define([
 
             menuContainer.css({left: x, top : y});
             menuContainer.attr('data-value', 'prevent-canvas-click');
-            documentHolderView._preventClick = true;
+            documentHolder._preventClick = true;
             menu.show();
 
             menu.alignPosition();

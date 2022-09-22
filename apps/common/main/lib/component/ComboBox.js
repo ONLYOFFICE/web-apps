@@ -358,6 +358,9 @@ define([
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
                 if (this.options.takeFocusOnClose) {
                     var me = this;
+                    (me._input && me._input.length>0 && !me.editable) && (me._input[0].selectionStart===me._input[0].selectionEnd) && setTimeout(function() {
+                        me._input[0].selectionStart = me._input[0].selectionEnd = 0;
+                    },1);
                     setTimeout(function(){me.focus();}, 1);
                 }
             },

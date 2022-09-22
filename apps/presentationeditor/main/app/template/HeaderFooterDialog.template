@@ -5,7 +5,7 @@
     <tr><td class="padding-large">
         <table id="hf-dlg-tbl-datetime" cols="2" style="margin-left: 22px;">
             <tr>
-                <td colspan="2" style="padding-bottom: 4px;">
+                <td colspan="2" class="padding-very-small">
                     <div id="hf-dlg-radio-update"></div>
                 </td>
             </tr>
@@ -20,7 +20,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="padding-bottom: 4px;">
+                <td colspan="2" class="padding-very-small">
                     <div id="hf-dlg-radio-fixed"></div>
                 </td>
             </tr>

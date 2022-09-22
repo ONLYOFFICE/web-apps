@@ -3,6 +3,7 @@
     "textAbout": "Information",
     "textAddress": "Adresse",
     "textBack": "Zurück",
+    "textEditor": "Editor der Präsentationen",
     "textEmail": "E-Mail",
     "textPoweredBy": "Unterstützt von",
     "textTel": "Tel.",
@@ -58,7 +59,9 @@
     "textColumns": "Spalten",
     "textCopyCutPasteActions": "Kopieren, Ausschneiden und Einfügen",
     "textDoNotShowAgain": "Nicht mehr anzeigen",
-    "textRows": "Zeilen"
+    "textOk": "OK",
+    "textRows": "Zeilen",
+    "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
     "Main": {
@@ -67,7 +70,7 @@
       "closeButtonText": "Datei schließen",
       "criticalErrorTitle": "Fehler",
       "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an Administratoren.",
-      "errorOpensource": "In der kostenlosen Community-Version können Sie Dokumente nur öffnen. Für Bearbeitung in mobilen Web-Editoren ist die kommerzielle Lizenz erforderlich.",
+      "errorOpensource": "Mit der kostenlosen Community-Version können Sie Dokumente nur schreibgeschützt öffnen. Für den Zugriff auf mobilen Web-Editoren ist eine kommerzielle Lizenz erforderlich.",
       "errorProcessSaveResult": "Speichern ist fehlgeschlagen.",
       "errorServerVersion": "Version des Editors wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
       "errorUpdateVersion": "Die Dateiversion wurde geändert. Die Seite wird neu geladen.",
@@ -113,6 +116,7 @@
       "textRemember": "Auswahl speichern",
       "textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
       "textReplaceSuccess": "Der Suchvorgang wurde durchgeführt. Vorkommen wurden ersetzt:{0}",
+      "textRequestMacros": "Ein Makro stellt eine Anfrage an die URL. Möchten Sie die Anfrage an die %1 zulassen?",
       "textYes": "Ja",
       "titleLicenseExp": "Lizenz ist abgelaufen",
       "titleServerVersion": "Editor wurde aktualisiert",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Breitbildschirm (16:9)",
+      "notcriticalErrorTitle": "Achtung",
       "textAbout": "Information",
       "textAddress": "Adresse:",
       "textApplication": "App",
@@ -419,6 +424,7 @@
       "textEmail": "E-Mail: ",
       "textEnableAll": "Alle aktivieren",
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
+      "textFeedback": "Feedback und Support",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
       "textFindAndReplaceAll": "Alle suchen und ersetzen",
@@ -431,6 +437,7 @@
       "textLocation": "Standort",
       "textMacrosSettings": "Einstellungen von Makros",
       "textNoTextFound": "Der Text wurde nicht gefunden",
+      "textOk": "OK",
       "textOwner": "Besitzer",
       "textPoint": "Punkt",
       "textPoweredBy": "Unterstützt von",
@@ -440,6 +447,8 @@
       "textPrint": "Drucken",
       "textReplace": "Ersetzen",
       "textReplaceAll": "Alle ersetzen",
+      "textRestartApplication": "Bitte starten Sie die Anwendung neu, damit die Änderungen wirksam werden",
+      "textRTL": "RTL",
       "textSearch": "Suche",
       "textSettings": "Einstellungen",
       "textShowNotification": "Benachrichtigung anzeigen",

@@ -6,7 +6,8 @@
     "textEmail": "ອີເມລ",
     "textPoweredBy": "ສ້າງໂດຍ",
     "textTel": "ໂທ",
-    "textVersion": "ລຸ້ນ"
+    "textVersion": "ລຸ້ນ",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "notcriticalErrorTitle": "ເຕືອນ",
     "textCopyCutPasteActions": "ປະຕິບັດການ ສໍາເນົາ, ຕັດ ແລະ ວາງ",
     "textDoNotShowAgain": "ບໍ່ສະແດງອີກ",
-    "warnMergeLostData": "ສະເພາະຂໍ້ມູນຈາກເຊວດ້ານຊ້າຍເທິງທີ່ຈະຢູ່ໃນເຊວຮ່ວມ. <br>ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?"
+    "warnMergeLostData": "ສະເພາະຂໍ້ມູນຈາກເຊວດ້ານຊ້າຍເທິງທີ່ຈະຢູ່ໃນເຊວຮ່ວມ. <br>ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -160,7 +163,8 @@
       "warnLicenseUsersExceeded": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບຜູ້ແກ້ໄຂ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່  ທີມບໍລິຫານເພື່ອຂໍ້ມູນເພີ່ມເຕີ່ມ",
       "warnNoLicense": "ທ່ານໄດ້ຖືກຈຳກັດສິດພຽງເທົ່ານີ້ສຳຫລັບການເຊື່່ອມພ້ອມກັນກັບເຄື່ອງມືແກ້ໄຂ %1 ແລ້ວເອກະສານນີ້ຈະເປີດໃຫ້ເບີ່ງເທົ່ານັ້ນ ຕິດຕໍ່ທີມຂາຍ %1 ສຳຫລັບເງື່ອນໄຂການອັບເກດສ່ວນບຸກຄົນ",
       "warnNoLicenseUsers": "ຈໍານວນ ການເຊື່ອມຕໍ່ພ້ອມກັນກັບບັນນາທິການ ແມ່ນເກີນກໍານົດ % 1. ຕິດຕໍ່  ທີມຂາຍ% 1 ສຳ ລັບຂໍ້ ກຳນົດການຍົກລະດັບສິດ",
-      "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້."
+      "warnProcessRightsChange": "ທ່ານບໍ່ມີສິດໃນການແກ້ໄຂໄຟລ໌ນີ້.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -299,7 +303,8 @@
     "textSheet": "ແຜ່ນງານ",
     "textSheetName": "ຊື່ແຜ່ນເຈ້ຍ",
     "textUnhide": "ເປີດເຜີຍ",
-    "textWarnDeleteSheet": "ແຜ່ນວຽກອາດມີຂໍ້ມູນ. ດໍາເນີນການດໍາເນີນງານບໍ?"
+    "textWarnDeleteSheet": "ແຜ່ນວຽກອາດມີຂໍ້ມູນ. ດໍາເນີນການດໍາເນີນງານບໍ?",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້ໃນເອກະສານນີ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
@@ -398,7 +403,6 @@
       "textBottomBorder": "ເສັ້ນຂອບດ້ານລູ່ມ",
       "textBringToForeground": "ເອົາໄປໄວ້ທາງໜ້າ",
       "textCell": "ແຊວ",
-      "textCellStyles": "ລັກສະນະ ແຊວ",
       "textCenter": "ທາງກາງ",
       "textChart": "ແຜນຮູບວາດ",
       "textChartTitle": "ໃສ່ຊື່ແຜນຮູບວາດ",
@@ -547,7 +551,8 @@
       "textYen": "ເງິນເຢັນ",
       "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
       "txtSortHigh2Low": "ລຽງລຳດັບຈາກສູງສຸດໄປຫາຕ່ຳສຸດ",
-      "txtSortLow2High": "ລຽງລຳດັບແຕ່ຕ່ຳສຸດໄປຫາສູງສຸດ"
+      "txtSortLow2High": "ລຽງລຳດັບແຕ່ຕ່ຳສຸດໄປຫາສູງສຸດ",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "ເລືອກຕົວເລືອກຂອງ CSV",
@@ -678,7 +683,12 @@
       "txtSemicolon": "ຈ້ຳຈຸດ",
       "txtSpace": "ຍະຫວ່າງ",
       "txtTab": "ແທບ",
-      "warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?"
+      "warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

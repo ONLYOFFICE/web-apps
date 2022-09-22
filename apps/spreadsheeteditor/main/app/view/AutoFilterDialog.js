@@ -979,7 +979,7 @@ define([
             this.template   =   options.template || [
                 '<div class="box" style="height: 100%; display: flex; justify-content: space-between;">',
                     '<div class="content-panel" style="width: 100%; border-right: 1px solid #cbcbcb; display: flex; flex-direction: column; justify-content: space-between;">',
-                        '<div class="" style="display: flex; flex-direction: column; justify-content: flex-start; height: calc(100% - 40px);">',
+                        '<div class="" style="display: flex; flex-direction: column; justify-content: flex-start; height: calc(100% - 37px);">',
                             '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;"></div>',
                             '<div class="border-values" style="overflow: hidden; flex-grow: 1;">',
                                 '<div id="id-dlg-filter-values" class="combo-values" style=""></div>',
@@ -1355,8 +1355,7 @@ define([
             }, 100, this);
 
             if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                this.$window.find('.combo-values').css({'height': Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1] - 103 + 'px'});
-                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
@@ -1684,7 +1683,7 @@ define([
                 this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
 
                 // listView.isSuspendEvents = false;
-                listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                listView.scroller.update({minScrollbarLength  : listView.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
@@ -1943,7 +1942,7 @@ define([
                 this.checkCellTrigerBlock = undefined;
             }
             this.btnOk.setDisabled(this.cells.length<1);
-            this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             this.cellsList.cmpEl.toggleClass('scroll-padding', this.cellsList.scroller.isVisible());
         },
 
@@ -2026,8 +2025,7 @@ define([
                 this.curSize = {resize: false, height: this.getSize()[1]};
             else if (this.curSize.resize) {
                 var size = this.getSize();
-                this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
-                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
@@ -2038,9 +2036,8 @@ define([
             if (size[1] !== this.curSize.height) {
                 if (!this.curSize.resize) {
                     this.curSize.resize = true;
-                    this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: false, suppressScrollX: true});
+                    this.cellsList.scroller.update({minScrollbarLength  : this.cellsList.minScrollbarLength, alwaysVisibleY: false, suppressScrollX: true});
                 }
-                this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
                 this.curSize.height = size[1];
             }
             size[0] -= this.menuPanelWidth;

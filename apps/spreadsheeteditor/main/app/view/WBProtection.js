@@ -53,6 +53,7 @@ define([
                 '<span id="slot-btn-protect-sheet" class="btn-slot text x-huge" style="margin-right: 2px;"></span>' +
                 '<span id="slot-btn-allow-ranges" class="btn-slot text x-huge"></span>' +
             '</div>' +
+            '<div class="separator long invisible"></div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-locked-cell"></span>' +
@@ -61,6 +62,7 @@ define([
                     '<span class="btn-slot text" id="slot-chk-hidden-formula"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="separator long invisible"></div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-locked-shape"></span>' +
@@ -107,7 +109,7 @@ define([
 
                 this.appConfig = options.mode;
 
-                var _set = SSE.enumLock;
+                var _set = Common.enumLock;
                 this.lockedControls = [];
                 this._state = {disabled: false};
 

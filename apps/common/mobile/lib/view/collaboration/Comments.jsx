@@ -636,7 +636,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
     const displayMode = storeReview.displayMode;
-
+    const isViewer = storeAppOptions.isViewer;
     const viewMode = !storeAppOptions.canComments;
     const comments = storeComments.groupCollectionFilter || storeComments.collectionComments;
     const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
@@ -677,8 +677,8 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     </div>
                                     {isEdit && !viewMode &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
-                                            {(displayMode === 'markup' && !wsProps?.Objects) &&
+                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && !isViewer) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
+                                            {(displayMode === 'markup' && !wsProps?.Objects && !isViewer) &&
                                                 <div className='comment-menu'
                                                     onClick={() => {setComment(comment); openActionComment(true);}}>
                                                     <Icon icon='icon-menu-comment'/>
@@ -708,7 +708,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {isEdit && !viewMode && reply.editable &&
+                                                                    {isEdit && !viewMode && reply.editable && !isViewer &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                  onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
@@ -747,7 +747,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
     const displayMode = storeReview.displayMode;
-
+    const isViewer = storeAppOptions.isViewer;
     const viewMode = !storeAppOptions.canComments;
     const isEdit = storeAppOptions.isEdit || storeAppOptions.isRestrictedEdit;
     const comments = storeComments.showComments;
@@ -786,8 +786,8 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     return (
         <Fragment>
             <Toolbar position='bottom'>
-                {isEdit && !viewMode && 
-                    <Link className={`btn-add-reply${wsProps?.Objects ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
+                {isEdit && !viewMode &&
+                    <Link className={`btn-add-reply${wsProps?.Objects || isViewer ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
                 }
                 <div className='comment-navigation row'>
                     <Link href='#' onClick={onViewPrevComment}><Icon slot='media' icon='icon-prev'/></Link>
@@ -808,8 +808,8 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                 </div>
                                 {isEdit && !viewMode &&
                                 <div className='right'>
-                                    {(comment.editable && displayMode === 'markup' && !wsProps?.Objects) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
-                                    {(displayMode === 'markup' && !wsProps?.Objects) &&
+                                    {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && !isViewer) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
+                                    {(displayMode === 'markup' && !wsProps?.Objects && !isViewer) &&
                                         <div className='comment-menu'
                                             onClick={() => {openActionComment(true);}}>
                                             <Icon icon='icon-menu-comment'/>
@@ -822,43 +822,43 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                 {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
                                 <div className='comment-text'><pre>{pickLink(comment.comment)}</pre></div>
                                 {comment.replies.length > 0 &&
-                                <ul className='reply-list'>
-                                    {comment.replies.map((reply, indexReply) => {
-                                        return (
-                                            <li key={`reply-${indexReply}`}
-                                                className='reply-item'
-                                            >
-                                                <div className='item-content'>
-                                                    <div className='item-inner'>
-                                                        <div className='item-title'>
-                                                            <div slot='header' className='reply-header'>
-                                                                <div className='left'>
-                                                                    {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
-                                                                    <div>
-                                                                        <div className='user-name'>{reply.parsedName}</div>
-                                                                        <div className='reply-date'>{reply.date}</div>
+                                    <ul className='reply-list'>
+                                        {comment.replies.map((reply, indexReply) => {
+                                            return (
+                                                <li key={`reply-${indexReply}`}
+                                                    className='reply-item'
+                                                >
+                                                    <div className='item-content'>
+                                                        <div className='item-inner'>
+                                                            <div className='item-title'>
+                                                                <div slot='header' className='reply-header'>
+                                                                    <div className='left'>
+                                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                        <div>
+                                                                            <div className='user-name'>{reply.parsedName}</div>
+                                                                            <div className='reply-date'>{reply.date}</div>
+                                                                        </div>
                                                                     </div>
+                                                                    {isEdit && !viewMode && reply.editable && !isViewer &&
+                                                                        <div className='right'>
+                                                                            <div className='reply-menu'
+                                                                                onClick={() => {setReply(reply); openActionReply(true);}}
+                                                                            >
+                                                                                <Icon icon='icon-menu-comment'/>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
                                                                 </div>
-                                                                {isEdit && !viewMode && reply.editable &&
-                                                                <div className='right'>
-                                                                    <div className='reply-menu'
-                                                                        onClick={() => {setReply(reply); openActionReply(true);}}
-                                                                    >
-                                                                        <Icon icon='icon-menu-comment'/>
-                                                                    </div>
+                                                                <div slot='footer'>
+                                                                    <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
                                                                 </div>
-                                                                }
-                                                            </div>
-                                                            <div slot='footer'>
-                                                                <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
                                 }
                             </div>
                         </ListItem>

@@ -1,4 +1,57 @@
-<div id="id-adv-chart-alttext" class="settings-panel active">
+<div  id="id-adv-chart-placement" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="3">
+            <tr>
+                <td colspan="4" width="88px" class="padding-small">
+                    <label class="header"><%= scope.textSize %></label>
+                </td>
+            </tr>
+            <tr>
+                <td width="93px" class="padding-large">
+                    <label class="input-label"><%= scope.textWidth %></label>
+                    <div id="chart-advanced-spin-width"></div>
+                </td>
+                <td width="28px" style="vertical-align: bottom;" class="padding-large">
+                    <div id="chart-advanced-button-ratio"></div>
+                </td>
+                <td width="93px" class="padding-large">
+                    <label class="input-label"><%= scope.textHeight %></label>
+                    <div id="chart-advanced-spin-height"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td colspan="4" width="88px" class="padding-small">
+                    <label class="header"><%= scope.textPosition %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="121px">
+                    <label class="input-label"><%= scope.textHorizontal %></label>
+                    <div id="chart-advanced-spin-x"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="chart-advanced-combo-from-x"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textVertical %></label>
+                    <div id="chart-advanced-spin-y"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="chart-advanced-combo-from-y"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-chart-alttext" class="settings-panel">
     <div class="inner-content">
         <table cols="1" width="100%">
             <tr>

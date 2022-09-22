@@ -6,7 +6,8 @@
     "textEmail": "E-poçt",
     "textPoweredBy": "ilə enerji ilə təmin olunur",
     "textTel": "Telefon",
-    "textVersion": "Versiya"
+    "textVersion": "Versiya",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Sütunlar",
     "textCopyCutPasteActions": "Kopyalama, Kəsmə və Yapışdırma Əməliyyatları",
     "textDoNotShowAgain": "Bir daha göstərmə",
-    "textRows": "Sətirlər"
+    "textRows": "Sətirlər",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -126,7 +129,8 @@
       "warnProcessRightsChange": "Faylı redaktə etmək icazəniz yoxdur.",
       "textNoTextFound": "Text not found",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -472,7 +476,12 @@
       "txtScheme7": "Bərabər",
       "txtScheme8": "Axın",
       "txtScheme9": "Emalatxana",
-      "textDarkTheme": "Dark Theme"
+      "notcriticalErrorTitle": "Warning",
+      "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL"
     }
   }
 }

@@ -204,9 +204,9 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         
         if ('superscript' === type) {
-            api.put_TextPrBaseline(value ? 1 : 0);
+            api.put_TextPrBaseline(value ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
         } else {
-            api.put_TextPrBaseline(value ? 2 : 0);
+            api.put_TextPrBaseline(value ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
         }   
     }
 
@@ -233,6 +233,18 @@ class EditTextController extends Component {
     onNumber(type) {
         const api = Common.EditorApi.get();
         api.put_ListType(1, parseInt(type));
+    }
+
+    getIconsBulletsAndNumbers(arrayElements, type) {
+        const api = Common.EditorApi.get();
+        const arr = [];
+
+        arrayElements.forEach( item => {
+            let data = item.drawdata;
+            data['divId'] = item.id;
+            arr.push(data);
+        });
+        if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);
     }
 
     onLineSpacing(value) {
@@ -263,6 +275,7 @@ class EditTextController extends Component {
                 changeLetterSpacing={this.changeLetterSpacing}
                 onBullet={this.onBullet}
                 onNumber={this.onNumber}
+                getIconsBulletsAndNumbers={this.getIconsBulletsAndNumbers}
                 onLineSpacing={this.onLineSpacing}
             />
         )

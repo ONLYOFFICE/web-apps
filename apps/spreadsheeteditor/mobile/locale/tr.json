@@ -6,7 +6,8 @@
     "textEmail": "E-posta",
     "textPoweredBy": "Tarafından",
     "textTel": "Telefon",
-    "textVersion": "Sürüm"
+    "textVersion": "Sürüm",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,12 +63,15 @@
     "notcriticalErrorTitle": "Uyarı",
     "textCopyCutPasteActions": "Kes, Kopyala ve Yapıştır Aksiyonları",
     "textDoNotShowAgain": "Tekrar gösterme",
-    "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?"
+    "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Hata",
       "errorAccessDeny": "Haklarınız olmayan bir işlemi gerçekleştirmeye çalışıyorsunuz.<br>Lütfen yöneticinizle iletişime geçin.",
+      "errorOpensource": "Ücretsiz Topluluk sürümünü kullanarak belgeleri yalnızca görüntüleme için açabilirsiniz. Mobil web editörlerine erişmek için ticari bir lisans gereklidir.",
       "errorProcessSaveResult": "Kaydetme başarısız.",
       "errorServerVersion": "Editör versiyonu güncellendi. Sayfa yenilenerek değişiklikler uygulanacaktır.",
       "errorUpdateVersion": "Dosya versiyonu değiştirildi. Sayfa yenilenecektir.",
@@ -160,7 +164,7 @@
       "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -299,7 +303,8 @@
     "textWarnDeleteSheet": "Çalışma sayfasında veri olabilir. İşleme devam edilsin mi?",
     "textHidden": "Hidden",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
@@ -398,7 +403,6 @@
       "textBottomBorder": "Alt Sınır",
       "textBringToForeground": "Ön Plana Getir",
       "textCell": "Hücre",
-      "textCellStyles": "Hücre Tipleri",
       "textCenter": "Orta",
       "textChart": "Grafik",
       "textChartTitle": "Grafik başlığı",
@@ -547,7 +551,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
       "txtSortHigh2Low": "Büyükten Küçüğe Sırala",
-      "txtSortLow2High": "Küçükten Büyüğe Sırala"
+      "txtSortLow2High": "Küçükten Büyüğe Sırala",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "CSV Seçenekleri Belirle",
@@ -678,7 +683,12 @@
       "txtSemicolon": "Noktalı virgül",
       "txtSpace": "Boşluk",
       "txtTab": "Sekme",
-      "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?"
+      "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

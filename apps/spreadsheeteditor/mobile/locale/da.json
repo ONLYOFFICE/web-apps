@@ -5,6 +5,7 @@
     "textBack": "Tilbage",
     "textEmail": "E-mail",
     "textPoweredBy": "Drevet af",
+    "textEditor": "Spreadsheet Editor",
     "textTel": "Tel",
     "textVersion": "Version"
   },
@@ -62,7 +63,9 @@
     "menuUnmerge": "Unmerge",
     "menuUnwrap": "Unwrap",
     "menuViewComment": "View Comment",
-    "notcriticalErrorTitle": "Warning"
+    "notcriticalErrorTitle": "Warning",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -156,6 +159,7 @@
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "titleUpdateVersion": "Version changed",
       "warnLicenseExceeded": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
@@ -298,6 +302,7 @@
     "textRenameSheet": "Rename Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Sheet Name",
+    "textTabColor": "Tab Color",
     "textUnhide": "Unhide",
     "textWarnDeleteSheet": "The worksheet maybe has data. Proceed operation?"
   },
@@ -396,7 +401,6 @@
       "textBottomBorder": "Bundkant",
       "textBringToForeground": "Før til forgrunden",
       "textCell": "Celle",
-      "textCellStyles": "Cellestilarter",
       "textCenter": "Center",
       "textChart": "Diagram",
       "textChartTitle": "Diagram titel",
@@ -500,6 +504,7 @@
       "textYen": "Yen",
       "notcriticalErrorTitle": "Warning",
       "textAutomatic": "Automatic",
+      "textCellStyle": "Cell Style",
       "textDefault": "Selected range",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textErrorMsg": "You must choose at least one value",
@@ -647,11 +652,16 @@
       "advDRMEnterPassword": "Your password, please:",
       "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
       "textNoTextFound": "Text not found",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
       "textResolvedComments": "Resolved Comments",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
+      "textRightToLeft": "Right To Left",
       "textSearch": "Search",
       "textSearchBy": "Search",
       "textSearchIn": "Search In",

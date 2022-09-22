@@ -96,7 +96,7 @@ define([
 
             if (me.btnParameters) {
                 me.btnParameters.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('animation:parameters', [item.value, item.toggleGroup]);
+                    me.fireEvent('animation:parameters', [item.value, item.options.isCustom ? 'custompath' : item.toggleGroup]);
                 });
             }
 
@@ -187,7 +187,7 @@ define([
                 this.toolbar = options.toolbar;
                 this.appConfig = options.mode;
                 this.$el = this.toolbar.toolbar.$el.find('#animation-panel');
-                var _set = PE.enumLock;
+                var _set = Common.enumLock;
                 this.lockedControls = [];
                 this._arrEffectName = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectData());
                 _.forEach(this._arrEffectName,function (elm){
@@ -203,6 +203,7 @@ define([
                     cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
+                    style: 'min-width:210px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
@@ -571,25 +572,32 @@ define([
                 }
                 if (arrEffectOptions){
                     if (this.btnParameters.menu.items.length == 0) {
-                        arrEffectOptions.forEach(function (opt, index) {
-                            opt.checkable = true;
-                            opt.toggleGroup = 'animateeffects';
-                            this.btnParameters.menu.addItem(opt);
-                            (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index]);
-                        }, this);
+                        if (effectGroup==='menu-effect-group-path' && effectId===AscFormat.MOTION_CUSTOM_PATH) {
+                            arrEffectOptions.forEach(function (opt, index) {
+                                this.btnParameters.menu.addItem(opt);
+                                (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index]);
+                            }, this);
+                        } else {
+                            arrEffectOptions.forEach(function (opt, index) {
+                                opt.checkable = true;
+                                opt.toggleGroup = 'animateeffects';
+                                this.btnParameters.menu.addItem(opt);
+                                (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index]);
+                            }, this);
+                        }
                         (effect && effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
                     } else {
                         this.btnParameters.menu.clearAll();
                         this.btnParameters.menu.items.forEach(function (opt) {
-                            if(opt.toggleGroup == 'animateeffects' && (opt.value == option || option===undefined && !!opt.options.defvalue))
+                            if((opt.toggleGroup == 'animateeffects' || effectGroup==='menu-effect-group-path' && effectId===AscFormat.MOTION_CUSTOM_PATH) && (opt.value == option || option===undefined && !!opt.options.defvalue))
                                 selectedElement = opt;
                         },this);
                     }
-                    selectedElement && selectedElement.setChecked(true);
+                    !(effectGroup==='menu-effect-group-path' && effectId===AscFormat.MOTION_CUSTOM_PATH) && selectedElement && selectedElement.setChecked(true);
                 }
                 if (effect && effect.familyEffect){
                     if (this._familyEffect != effect.familyEffect) {
-                        var effectsArray = Common.define.effectData.getSimilarEffectsArray(effectGroup, effect.familyEffect);
+                        var effectsArray = Common.define.effectData.getSimilarEffectsArray(effect.familyEffect);
                         effectsArray.forEach(function (opt) {
                             opt.checkable = true;
                             opt.toggleGroup = 'animatesimilareffects'

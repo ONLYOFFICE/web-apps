@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,7 +63,9 @@
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
     "warnMergeLostData": "The operation can destroy data in the selected cells. Continue?",
-    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it."
+    "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -160,7 +163,8 @@
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textNoTextFound": "Text not found",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required."
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -301,7 +305,8 @@
     "textMoveForward": "Move forward",
     "textHidden": "Hidden",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
@@ -549,7 +554,9 @@
       "txtSortHigh2Low": "Sort Highest to Lowest",
       "txtSortLow2High": "Sort Lowest to Highest",
       "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "del_textCellStyles": "Cell Styles",
+      "textCellStyle": "Cell Style"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",
@@ -680,7 +687,12 @@
       "txtOk": "Ok",
       "txtSemicolon": "Semicolon",
       "textExample": "Example",
-      "textDarkTheme": "Dark Theme"
+      "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRightToLeft": "Right To Left",
+      "textDirection": "Direction",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

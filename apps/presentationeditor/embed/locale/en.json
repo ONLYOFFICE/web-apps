@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Height",
   "common.view.modals.txtShare": "Share Link",
   "common.view.modals.txtWidth": "Width",
+  "common.view.SearchBar.textFind": "Find",
   "PE.ApplicationController.convertationErrorText": "Conversion failed.",
   "PE.ApplicationController.convertationTimeoutText": "Conversion timeout exceeded.",
   "PE.ApplicationController.criticalErrorTitle": "Error",
@@ -16,7 +17,7 @@
   "PE.ApplicationController.errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
   "PE.ApplicationController.errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
   "PE.ApplicationController.errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "PE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
   "PE.ApplicationController.notcriticalErrorTitle": "Warning",
   "PE.ApplicationController.openErrorText": "An error has occurred while opening the file.",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Open file location",
   "PE.ApplicationView.txtFullScreen": "Full Screen",
   "PE.ApplicationView.txtPrint": "Print",
+  "PE.ApplicationView.txtSearch": "Search",
   "PE.ApplicationView.txtShare": "Share"
 }

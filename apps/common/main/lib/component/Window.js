@@ -241,7 +241,7 @@ define([
 
         function _autoSize() {
             if (this.initConfig.height == 'auto') {
-                var height = parseInt(this.$window.find('> .body').css('height'));
+                var height = Math.ceil(parseFloat(this.$window.find('> .body').css('height')));
                 this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
                 this.$window.height(height);
             }
@@ -490,7 +490,8 @@ define([
                 if (options.width=='auto') {
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
-                    window.setSize(text.position().left + text.width() + parseInt(text_cnt.css('padding-right')),
+                    var span_el = check.find('span');
+                     window.setSize(Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right')),
                         parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
                     text.css('white-space', 'normal');

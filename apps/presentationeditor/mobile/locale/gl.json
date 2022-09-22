@@ -3,6 +3,7 @@
     "textAbout": "Sobre",
     "textAddress": "Enderezo",
     "textBack": "Volver",
+    "textEditor": "Editor de presentacións",
     "textEmail": "Correo electrónico",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel",
@@ -58,7 +59,9 @@
     "textColumns": "Columnas",
     "textCopyCutPasteActions": "Accións de copiar, cortar e pegar",
     "textDoNotShowAgain": "Non amosar de novo",
-    "textRows": "Filas"
+    "textRows": "Filas",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Lembrar a miña escolla",
       "textReplaceSkipped": "A substitución foi realizada. {0} ocorrencias foron ignoradas.",
       "textReplaceSuccess": "A busca foi realizada. Ocorrencias substituídas: {0}",
+      "textRequestMacros": "Unha macro fai unha petición á URL. Quere permitirlla a %1?",
       "textYes": "Si",
       "titleLicenseExp": "A licenza expirou",
       "titleServerVersion": "Editor actualizado",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
       "mniSlideWide": "Pantalla panoràmica (16:9)",
+      "notcriticalErrorTitle": "Aviso",
       "textAbout": "Sobre",
       "textAddress": "enderezo:",
       "textApplication": "Aplicativo",
@@ -419,6 +424,7 @@
       "textEmail": "correo electrónico:",
       "textEnableAll": "Activar todo",
       "textEnableAllMacrosWithoutNotification": "Activar todo as macros sen notificación",
+      "textFeedback": "Comentarios e soporte",
       "textFind": "Atopar",
       "textFindAndReplace": "Atopar e reemprazar",
       "textFindAndReplaceAll": "Atopar e reemprazar todo",
@@ -431,6 +437,7 @@
       "textLocation": "Ubicación",
       "textMacrosSettings": "Configuración das macros",
       "textNoTextFound": "Texto non atopado",
+      "textOk": "Aceptar",
       "textOwner": "Propietario",
       "textPoint": "Punto",
       "textPoweredBy": "Desenvolvido por",
@@ -440,6 +447,8 @@
       "textPrint": "Imprimir",
       "textReplace": "Substituír",
       "textReplaceAll": "Substituír todo",
+      "textRestartApplication": "Reinicie o aplicativo para que os cambios teñan efecto",
+      "textRTL": "De dereita a esquerda",
       "textSearch": "Buscar",
       "textSettings": "Configuración",
       "textShowNotification": "Amosar notificación",

@@ -6,7 +6,8 @@
     "textEmail": "E-poçt",
     "textPoweredBy": "ilə enerji ilə təmin olunur",
     "textTel": "Telefon",
-    "textVersion": "Versiya"
+    "textVersion": "Versiya",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Xəbərdarlıq",
@@ -57,7 +58,10 @@
     "textTable": "Cədvəl",
     "textTableSize": "Cədvəl Ölçüsü",
     "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textTableContents": "Table of Contents",
+    "textWithBlueLinks": "With Blue Links",
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "textDoNotShowAgain": "Bir daha göstərmə",
     "textNumberingValue": "Nömrələmə Qiyməti",
     "textOk": "OK",
-    "textRows": "Sətirlər"
+    "textRows": "Sətirlər",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Xəbərdarlıq",
@@ -236,7 +243,7 @@
     "textEmptyImgUrl": "Təsvir URL-ni göstərməlisiniz.",
     "textFill": "Doldurun",
     "textFirstColumn": "Birinci Sütun",
-    "textFirstLine": "BirinciSətir",
+    "textFirstLine": "Birinci Sətir",
     "textFlow": "Axın",
     "textFontColor": "Şriftin rəngi",
     "textFontColors": "Şriftin Rəngləri",
@@ -271,7 +278,6 @@
     "textPageBreakBefore": "Yeni Səhifədən",
     "textPageNumbering": "Səhifənin Nömrələnməsi",
     "textParagraph": "Paraqraf",
-    "textParagraphStyles": "Paraqraf Üslubları",
     "textPictureFromLibrary": "Kitabxanadan şəkil",
     "textPictureFromURL": "URL-dən şəkil",
     "textPt": "pt",
@@ -309,26 +315,55 @@
     "textTotalRow": "Yekun Sətir",
     "textType": "Növ",
     "textWrap": "Keçirin",
+    "textAmountOfLevels": "Amount of Levels",
     "textApril": "April",
     "textAugust": "August",
+    "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
     "textDecember": "December",
     "textDesign": "Design",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
     "textEmpty": "Empty",
+    "textEnterTitleNewStyle": "Enter title of a new style",
     "textFebruary": "February",
+    "textFormal": "Formal",
     "textFr": "Fr",
     "textJanuary": "January",
     "textJuly": "July",
     "textJune": "June",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
     "textMarch": "March",
     "textMay": "May",
     "textMo": "Mo",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
     "textNovember": "November",
     "textOctober": "October",
     "textOk": "Ok",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
     "textSa": "Sa",
+    "textSameCreatedNewStyle": "Same as created new style",
     "textSeptember": "September",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
+    "textStyles": "Styles",
     "textSu": "Su",
+    "textTableOfCont": "TOC",
     "textTh": "Th",
+    "textTitle": "Title",
     "textTu": "Tu",
     "textWe": "We"
   },
@@ -370,7 +405,10 @@
     "unknownErrorText": "Naməlum xəta.",
     "uploadImageExtMessage": "Naməlum təsvir formatı.",
     "uploadImageFileCountMessage": "Heç bir təsvir yüklənməyib.",
-    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır."
+    "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Məlumat yüklənir...",
@@ -503,7 +541,8 @@
     "warnProcessRightsChange": "Bu faylı redaktə etmək icazəniz yoxdur.",
     "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Qorunan Fayl",
@@ -616,18 +655,31 @@
     "txtScheme7": "Bərabər",
     "txtScheme8": "Axın",
     "txtScheme9": "Emalatxana",
+    "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
+    "textEmptyHeading": "Empty Heading",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textFastWV": "Fast Web View",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
+    "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
+    "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
-    "textYes": "Yes",
-    "textPdfProducer": "PDF Producer"
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",
     "dlgLeaveTitleText": "Proqramdan çıxdınız",
     "leaveButtonText": "Bu Səhifədən çıxın",
-    "stayButtonText": "Bu səhifədə qalın"
+    "stayButtonText": "Bu səhifədə qalın",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

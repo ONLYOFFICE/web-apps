@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Aangedreven door",
     "textTel": "Tel.",
-    "textVersion": "Versie"
+    "textVersion": "Versie",
+    "textEditor": "Spreadsheet Editor"
   },
   "Common": {
     "Collaboration": {
@@ -62,12 +63,15 @@
     "notcriticalErrorTitle": "Waarschuwing",
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
-    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?"
+    "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
       "criticalErrorTitle": "Fout",
       "errorAccessDeny": "U probeert een actie uit te voeren waar u geen rechten voor heeft. <br>Neem contact op met uw beheerder.",
+      "errorOpensource": "Met de gratis Community versie kunt u documenten openen om ze alleen te bekijken. Voor toegang tot mobiele webeditors is een commerciële licentie vereist.",
       "errorProcessSaveResult": "Opslaan mislukt.",
       "errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
       "errorUpdateVersion": "De bestandsversie is gewijzigd. De pagina wordt opnieuw geladen.",
@@ -155,12 +159,12 @@
       "warnNoLicense": "U hebt de limiet bereikt voor gelijktijdige verbindingen met %1 gelijktijdige gebruikers. Dit document wordt alleen geopend om te bekijken. Neem contact op met %1 verkoopteam voor persoonlijke upgradevoorwaarden.",
       "warnNoLicenseUsers": "U heeft de gebruikerslimiet voor %1 gelijktijdige gebruikers bereikt. Neem contact op met de verkoopafdeling voor persoonlijke upgradevoorwaarden.",
       "warnProcessRightsChange": "Je hebt geen toestemming om het bestand te bewerken.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
       "textNoChoices": "There are no choices for filling the cell.<br>Only text values from the column can be selected for replacement.",
       "textNoTextFound": "Text not found",
       "textOk": "Ok",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -299,7 +303,8 @@
     "textHidden": "Hidden",
     "textMove": "Move",
     "textMoveBefore": "Move before sheet",
-    "textMoveToEnd": "(Move to end)"
+    "textMoveToEnd": "(Move to end)",
+    "textTabColor": "Tab Color"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U hebt niet-opgeslagen wijzigingen in dit document. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
@@ -352,7 +357,7 @@
       "textShape": "Vorm",
       "textSheet": "Blad",
       "textSortAndFilter": "Sorteren en filteren",
-      "txtExpand": "Uitvouwen en sorteren",
+      "txtExpand": "Uitbreiden en sorteren",
       "txtExpandSort": "De gegevens naast de selectie worden niet gesorteerd. Wilt u de selectie uitbreiden en aangrenzende gegevens opnemen of wilt u doorgaan met sorteren van alleen de cellen die op dit moment zijn geselecteerd?",
       "txtLockSort": "Er is data gevonden naast uw huidige selectie, maar u heeft niet genoeg rechten om deze cellen aan te passen.\nWilt u doorgaan met de huidige selectie?",
       "txtNo": "Nee",
@@ -397,7 +402,6 @@
       "textBottomBorder": "Onderrand",
       "textBringToForeground": "Naar voorgrond brengen",
       "textCell": "Cel",
-      "textCellStyles": "Celstijlen",
       "textCenter": "Midden",
       "textChart": "Grafiek",
       "textChartTitle": "Grafiektitel",
@@ -547,6 +551,7 @@
       "txtSortHigh2Low": "Sorteren van hoogste naar laagste",
       "txtSortLow2High": "Sorteren van laagste naar hoogste",
       "textAutomatic": "Automatic",
+      "textCellStyle": "Cell Style",
       "textOk": "Ok"
     },
     "Settings": {
@@ -678,7 +683,12 @@
       "txtSemicolon": "Puntkomma",
       "txtSpace": "Spatie",
       "txtTab": "Tab",
-      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?"
+      "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
+      "textDirection": "Direction",
+      "textFeedback": "Feedback & Support",
+      "textLeftToRight": "Left To Right",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRightToLeft": "Right To Left"
     }
   }
 }

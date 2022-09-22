@@ -9,7 +9,7 @@
 
     <!-- splash -->
     <style type="text/css">
-        .theme-dark {
+        .theme-dark, .theme-type-dark {
             --toolbar-header-presentation: #2a2a2a;
             --background-toolbar: #404040;
             --border-toolbar: #2a2a2a;
@@ -75,6 +75,15 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        .loadmask > .brendpanel .circle {
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            margin: 0 10px;
+            background: rgba(255,255,255,.2);
+        }
+
         .loadmask > .sktoolbar {
             background: #f7f7f7;
             background: var(--background-toolbar, #f7f7f7);
@@ -112,7 +121,7 @@
         }
 
         .loadmask > .sktoolbar li.big {
-            width: 55px;
+            width: 50px;
             height: 46px;
             margin-top: -46px;
         }
@@ -122,7 +131,7 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 758px;
+            left: 800px;
             width: inherit;
             height: 44px;
         }
@@ -275,11 +284,11 @@
     <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
-            <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li/><li class="space" style="width: 76px;"/><li class="split" /><li class="space"/><li style="width: 176px;"/><li class="space"/><li style="width: 115px;"/><li class="space" style="width: 183px;"/><li style="width: 95px;"/><li class="fat"/></ul>
-            <ul><li/><li class="space"/><li class="big" style="width: 70px;"/><li class="split" /><li class="space"/><li style="width: 176px;"/><li class="space"/><li style="width: 115px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li style="width: 95px;"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 216px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 168px;"/><li class="space"/><li style="width: 65px;"/><li class="fat"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 216px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 65px;"/></ul>
         </div>
         <div class="placeholder" style="display: none;">
             <div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div>
@@ -307,6 +316,16 @@
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
         }
 
+        if (compact) {
+            document.querySelectorAll('.not-compact').forEach(function(item){
+                item.remove();
+            });
+            document.querySelectorAll('.compact').forEach(function(item){
+                item.style.display = 'inline-block';
+            });
+            document.querySelector('.fat').style.left = '868px';
+        }
+
         visible && (document.querySelector('.brendpanel').style.display = 'block');
         !(view || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
         document.querySelector('.placeholder').style.display = 'block';
@@ -316,29 +335,16 @@
         } else {
             var elem = document.querySelector('.loading-logo img');
             if (elem) {
-                (logo || logoDark) && elem.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
                 elem.style.opacity = 1;
             }
         }
     </script>
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
-    <img class="inline-svg" src="../../common/main/resources/img/header/buttons.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pptx.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/ppsx.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/potx.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pdf.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pdfa.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/odp.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/otp.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pptm.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/png.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/jpg.svg">
-    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/blank.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/header/icons.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/shapetypes.svg">
     <img class="inline-svg" src="../../common/main/resources/img/toolbar/charttypes.svg">
-    <img class="inline-svg" src="resources/img/recent-file.svg">
-    <img class="inline-svg" src="resources/img/file-template.svg">
     <script>
         var svgpoints = document.querySelectorAll('img.inline-svg');
         SVGInjector(svgpoints);

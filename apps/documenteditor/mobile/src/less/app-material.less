@@ -86,4 +86,61 @@
             }
         }
     }
+
+    .navigation-sheet {
+        border-radius: 4px 4px 0px 0px;
+        &__title {
+            display: flex;
+            align-items: center;
+            background: @background-primary;
+            padding-bottom: 15px;
+            padding-left: 16px;
+            p {
+                font-style: normal;
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 23px;
+                color: @text-normal;
+                margin: 0;
+            }
+        }
+    }
+
+    // Snackbar
+    .snackbar {
+        position: absolute;
+        width: 344px;
+        max-height: 48px;
+        left: calc(50% - 344px / 2);
+        bottom: 16px;
+        background: #333333;
+        border-radius: 4px;
+        z-index: 1000000;
+        &__content {
+            padding: 14px 16px;
+        }
+        &__text {
+            margin: 0;
+            color: @fill-white;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.25px;
+            text-align: center;
+        }
+    }
+
+    @media(max-width: 450px) {
+        .snackbar {
+            width: auto;
+            max-width: 100%;
+            left: 16px;
+            right: 16px;
+            bottom: 8px;
+            &__text {
+                text-align: left;
+            }
+        }
+    }
 }

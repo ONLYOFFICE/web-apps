@@ -1,0 +1,63 @@
+<div id="search-box" class="layout-ct vbox search-panel">
+    <div id="search-header">
+        <label id="search-adv-title"></label>
+        <div id="search-btn-close"></div>
+    </div>
+    <div id="search-adv-settings">
+        <table cols="1">
+            <tbody>
+                <tr>
+                    <td class="padding-small"><div id="search-adv-text"></div></td>
+                </tr>
+                <tr class="edit-setting">
+                    <td class="padding-large"><div id="search-adv-replace-text"></div></td>
+                </tr>
+                <tr>
+                    <td class="padding-large">
+                        <label id="search-adv-results-number" style="display: inline-block;">
+                            <%= scope.textSearchResults %>
+                        </label>
+                        <div class="search-nav-btns">
+                            <div id="search-adv-back"></div>
+                            <div id="search-adv-next"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="edit-setting">
+                    <td class="padding-large">
+                       <button type="button" class="btn btn-text-default" id="search-adv-replace" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplace %></button>
+                       <button type="button" class="btn btn-text-default" id="search-adv-replace-all" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textReplaceAll %></button>
+                    </td>
+                </tr>
+                <tr class="search-options-block">
+                    <td class="padding-large">
+                        <div id="open-search-options" data-hint="1" data-hint-direction="left" data-hint-offset="0, -15">
+                            <div class="search-options-caret img-commonctrl"></div>
+                            <div class="search-options-txt"><%= scope.textSearchOptions %></div>
+                        </div>
+                        <div id="search-options">
+                            <label class="input-label"><%= scope.textWithin %></label>
+                            <div id="search-adv-cmb-within"></div>
+                            <div id="search-adv-select-range"></div>
+                            <label class="input-label"><%= scope.textSearch %></label>
+                            <div id="search-adv-cmb-search"></div>
+                            <label class="input-label"><%= scope.textLookIn %></label>
+                            <div id="search-adv-cmb-look-in"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="padding-small"><div id="search-adv-case-sensitive"></div></td>
+                </tr>
+                <!---<tr>
+                    <td class="padding-small"><div id="search-adv-use-regexp"></div></td>
+                </tr>-->
+                <tr>
+                    <td class="padding-large"><div id="search-adv-match-word"></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="search-results" class="ps-container oo">
+    </div>
+</div>

@@ -50,11 +50,18 @@ define([
     'common/main/lib/view/SymbolTableDialog'
 ], function () { 'use strict';
 
+    var _BulletTypes = {};
+    _BulletTypes.none = -1;
+    _BulletTypes.symbol = 0;
+    _BulletTypes.image = 2;
+    _BulletTypes.newSymbol = 1;
+    _BulletTypes.newImage = -2;
+
     Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
-            width: 280,
-            height: 255,
+            width: 285,
+            height: 261,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -80,9 +87,18 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtType + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
-                                    '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 100px;"></div>',
-                                    '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 100px;"></div>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                    '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 105px;"></div>',
+                                    '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 105px;"></div>',
+                                '</td>',
+                                '<td style="padding-bottom: 8px;"></td>',
+                            '</tr>',
+                            '<tr class="image">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                    '<label class="text">' + this.txtImport + '</label>',
+                                '</td>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                    '<div id="id-dlg-list-image" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
@@ -90,7 +106,7 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtSize + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-size"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
@@ -101,16 +117,16 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text" style="white-space: nowrap;">' + this.txtStart + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-start"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
-                            '<tr>',
+                            '<tr class="color">',
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtColor + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-color"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
@@ -123,6 +139,8 @@ define([
             this.props = options.props;
             this.options.tpl = _.template(this.template)(this.options);
             this.color = '000000';
+            this.storage = !!options.storage;
+            this.api = options.api;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -179,7 +197,9 @@ define([
                 [
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<%= item.displayValue %><% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span><% } %>',
+                    '<%= item.displayValue %>',
+                    '<% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span>',
+                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" style="width:12px; height: 12px; margin-left: 4px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -195,28 +215,36 @@ define([
             this.cmbBulletFormat = new Common.UI.ComboBoxCustom({
                 el          : $('#id-dlg-list-bullet-format'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
-                style       : "width: 100px;",
+                style       : "width: 105px;",
                 editable    : false,
                 takeFocusOnClose: true,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 data        : [
-                    { displayValue: this.txtNone,       value: -1 },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "•", font: 'Arial' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "o", font: 'Courier New' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "§", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "v", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "Ø", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "ü", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "w", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "–", font: 'Arial' },
-                    { displayValue: this.txtNewBullet, value: 1 }
+                    { displayValue: this.txtNone,          value: _BulletTypes.none },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "•", font: 'Arial' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "o", font: 'Courier New' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "§", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "v", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "Ø", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "ü", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "w", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: "–", font: 'Arial' },
+                    { displayValue: this.txtNewBullet,     value: _BulletTypes.newSymbol },
+                    { displayValue: this.txtNewImage,      value: _BulletTypes.newImage }
                 ],
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
-                        if (record.get('value')==0)
+                        if (record.get('value')===_BulletTypes.symbol)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                        else if (record.get('value')===_BulletTypes.image) {
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" style="width:12px; height: 12px; margin-left: 2px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
+                            var bullet = new Asc.asc_CBullet();
+                            bullet.asc_fillBulletImage(me.imageProps.id);
+                            bullet.drawSquareImage('id-dlg-list-bullet-combo-preview');
+                        } else if (record.get('value')===_BulletTypes.newImage)
+                            formcontrol[0].innerHTML = me.txtImage;
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else
@@ -227,7 +255,9 @@ define([
             this.cmbBulletFormat.selectRecord(rec);
             this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
             this.cmbBulletFormat.on('selected', _.bind(function (combo, record) {
-                if (record.value === 1) {
+                this.imageControls.toggleClass('hidden', !(record.value === _BulletTypes.image || record.value === _BulletTypes.newImage));
+                this.colorControls.toggleClass('hidden', record.value === _BulletTypes.image || record.value === _BulletTypes.newImage);
+                if (record.value === _BulletTypes.newSymbol) {
                     var me = this,
                         props = me.bulletProps,
                         handler = function(dlg, result, settings) {
@@ -242,10 +272,17 @@ define([
                                 }
                             }
                             var store = combo.store;
-                            if (!store.findWhere({value: 0, symbol: props.symbol, font: props.font}))
-                                store.add({ displayValue: me.txtSymbol + ': ', value: 0, symbol: props.symbol, font: props.font }, {at: store.length-1});
+                            if (!store.findWhere({value: _BulletTypes.symbol, symbol: props.symbol, font: props.font})) {
+                                var idx = store.indexOf(store.findWhere({value: _BulletTypes.image}));
+                                if (idx<0)
+                                    idx = store.indexOf(store.findWhere({value: _BulletTypes.newSymbol}));
+                                store.add({ displayValue: me.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: props.symbol, font: props.font }, {at: idx});
+                            }
+                            if (me.imageProps)
+                                me.imageProps.redraw = true;
+
                             combo.setData(store.models);
-                            combo.selectRecord(combo.store.findWhere({value: 0, symbol: props.symbol, font: props.font}));
+                            combo.selectRecord(combo.store.findWhere({value: _BulletTypes.symbol, symbol: props.symbol, font: props.font}));
                         },
                         win = new Common.Views.SymbolTableDialog({
                             api: me.options.api,
@@ -258,7 +295,11 @@ define([
                         });
                     win.show();
                     win.on('symbol:dblclick', handler);
-                } else if (record.value == -1) {
+                } else if (record.value == _BulletTypes.newImage) { // new image
+                } else if (record.value == _BulletTypes.image) { // image
+                    if (this._changedProps)
+                        this._changedProps.asc_fillBulletImage(this.imageProps.id);
+                } else if (record.value == _BulletTypes.none) {
                     if (this._changedProps)
                         this._changedProps.asc_putListType(0, record.value);
                 } else {
@@ -271,12 +312,14 @@ define([
                         this._changedProps.asc_putSymbol(this.bulletProps.symbol);
                     }
                 }
+                this.btnOk.setDisabled(record.value === _BulletTypes.newImage);
             }, this));
+            this.cmbBulletFormat.on('show:after', _.bind(this.onBulletFormatOpen, this));
 
             this.spnSize = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-size'),
                 step        : 1,
-                width       : 100,
+                width       : 105,
                 value       : 100,
                 defaultUnit : '',
                 maxValue    : 400,
@@ -302,7 +345,7 @@ define([
             this.spnStart = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-start'),
                 step        : 1,
-                width       : 100,
+                width       : 105,
                 value       : 1,
                 defaultUnit : '',
                 maxValue    : 32767,
@@ -314,7 +357,32 @@ define([
                 }
             });
 
-            me.numberingControls = $window.find('.numbering');
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $('#id-dlg-list-image'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelect,
+                style: 'width: 100%;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 105px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                })
+            });
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            this.btnSelectImage.menu.items[2].setVisible(this.storage);
+
+            this.btnOk = new Common.UI.Button({
+                el: $window.find('.primary')
+            });
+
+            me.numberingControls = $window.find('tr.numbering');
+            me.imageControls = $window.find('tr.image');
+            me.colorControls = $window.find('tr.color');
 
             var el = $window.find('table tr:first() td:first()');
             el.width(Math.max($window.find('.numbering .text').width(), el.width()));
@@ -323,12 +391,52 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbNumFormat, this.cmbBulletFormat, this.spnSize, this.spnStart, this.btnColor];
+            return [this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor];
         },
 
         afterRender: function() {
             this.updateThemeColors();
             this._setDefaults(this.props);
+
+            var me = this;
+            var onApiImageLoaded = function(bullet) {
+                me.imageProps = {id: bullet.asc_getImageId(), redraw: true};
+                if (me._changedProps)
+                    me._changedProps.asc_fillBulletImage(me.imageProps.id);
+                // add or update record for image to btnBulletFormat and select it
+                var store = me.cmbBulletFormat.store;
+                if (!store.findWhere({value: _BulletTypes.image})) {
+                    var idx = store.indexOf(store.findWhere({value: _BulletTypes.newSymbol}));
+                    store.add({ displayValue: me.txtImage + ':', value: _BulletTypes.image }, {at: idx});
+                }
+                me.cmbBulletFormat.setData(store.models);
+                me.cmbBulletFormat.selectRecord(me.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
+                me.btnOk.setDisabled(false);
+            };
+            this.api.asc_registerCallback('asc_onBulletImageLoaded', onApiImageLoaded);
+
+            var insertImageFromStorage = function(data) {
+                if (data && data._urls && data.c=='bullet') {
+                    (new Asc.asc_CBullet()).asc_putImageUrl(data._urls[0], data.token);
+                }
+            };
+            Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
+
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onBulletImageLoaded', onApiImageLoaded);
+                Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
+            });
+        },
+
+        onBulletFormatOpen: function(combo) {
+            var store = combo.store,
+                rec = store.findWhere({value: _BulletTypes.image});
+            if (rec && this.imageProps.redraw) {
+                var bullet = new Asc.asc_CBullet();
+                bullet.asc_fillBulletImage(this.imageProps.id);
+                bullet.drawSquareImage('id-dlg-list-bullet-image-preview');
+                this.imageProps.redraw = false;
+            }
         },
 
         updateThemeColors: function() {
@@ -347,9 +455,14 @@ define([
         },
 
         ShowHideElem: function(value) {
+            var isImage = value==0 && (this.cmbBulletFormat.getValue()===_BulletTypes.image || this.cmbBulletFormat.getValue()===_BulletTypes.newImage ||
+                                      (this.cmbBulletFormat.getValue()===undefined || this.cmbBulletFormat.getValue()==='') && this.originalType === AscFormat.BULLET_TYPE_BULLET_BLIP);
             this.numberingControls.toggleClass('hidden', value==0);
+            this.imageControls.toggleClass('hidden', !isImage);
+            this.colorControls.toggleClass('hidden', isImage);
             this.cmbNumFormat.setVisible(value==1);
             this.cmbBulletFormat.setVisible(value==0);
+            this.btnOk.setDisabled(isImage && (this.cmbBulletFormat.getValue()===_BulletTypes.newImage));
             var me = this;
             _.delay(function(){
                 if (value)
@@ -362,18 +475,28 @@ define([
         _handleInput: function(state) {
             if (this.options.handler)
             {
+                if (state == 'ok' && this.btnOk.isDisabled()) {
+                    return;
+                }
                 var type = this.btnBullet.pressed ? 0 : 1;
                 if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
                     this._changedProps = new Asc.asc_CBullet();
-                    this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
                     this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                    if (type==0 && this.cmbBulletFormat.getValue()===_BulletTypes.image && this.imageProps) {//image
+                        this._changedProps.asc_fillBulletImage(this.imageProps.id);
+                    } else {
+                        this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
+                    }
                 }
 
                 if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE ||
-                    this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR && type==1 || this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM && type==0) { // changed list type
+                    (this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR || this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) && type==1 ||
+                    this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM && type==0) { // changed list type
                     if (type==0) {//markers
-                        if (this.cmbBulletFormat.getValue()==-1) {
+                        if (this.cmbBulletFormat.getValue()==_BulletTypes.none) {
                             this._changedProps.asc_putListType(0, -1);
+                        } else if (this.cmbBulletFormat.getValue()==_BulletTypes.image) {
+
                         } else {
                             this._changedProps.asc_putFont(this.bulletProps.font);
                             this._changedProps.asc_putSymbol(this.bulletProps.symbol);
@@ -432,16 +555,28 @@ define([
 
                     if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
                         this.cmbNumFormat.setValue(-1);
-                        this.cmbBulletFormat.setValue(-1);
+                        this.cmbBulletFormat.setValue(_BulletTypes.none);
                         type = this.type;
                     } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR) {
                         var symbol = bullet.asc_getSymbol();
                         if (symbol) {
                             this.bulletProps = {symbol: symbol, font: bullet.asc_getFont()};
-                            if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
-                                this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
+                            if (!this.cmbBulletFormat.store.findWhere({value: _BulletTypes.symbol, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
+                                this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-2});
                             this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
-                            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: _BulletTypes.symbol, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                        } else
+                            this.cmbBulletFormat.setValue('');
+                        this._changedProps = bullet;
+                        type = 0;
+                    } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_BLIP) {
+                        var id = bullet.asc_getImageId();
+                        if (id) {
+                            this.imageProps = {id: id, redraw: true};
+                            if (!this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}))
+                                this.cmbBulletFormat.store.add({ displayValue: this.txtImage + ':', value: _BulletTypes.image}, {at: this.cmbBulletFormat.store.length-2});
+                            this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
+                            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: _BulletTypes.image}));
                         } else
                             this.cmbBulletFormat.setValue('');
                         this._changedProps = bullet;
@@ -458,7 +593,7 @@ define([
                     }
                 } else {// different bullet types
                     this.cmbNumFormat.setValue(-1);
-                    this.cmbBulletFormat.setValue(-1);
+                    this.cmbBulletFormat.setValue(_BulletTypes.none);
                     this._changedProps = new Asc.asc_CBullet();
                     type = this.type;
                 }
@@ -466,6 +601,26 @@ define([
 
             (type == 1) ? this.btnNumbering.toggle(true) : this.btnBullet.toggle(true);
             this.ShowHideElem(type);
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                (new Asc.asc_CBullet()).asc_putImageUrl(checkUrl);
+                            }
+                        }
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'bullet');
+            } else {
+                (new Asc.asc_CBullet()).asc_showFileDialog();
+            }
         },
 
         txtTitle: 'List Settings',
@@ -478,6 +633,13 @@ define([
         txtType: 'Type',
         txtNone: 'None',
         txtNewBullet: 'New bullet',
-        txtSymbol: 'Symbol'
+        txtSymbol: 'Symbol',
+        txtNewImage: 'New image',
+        txtImage: 'Image',
+        txtImport: 'Import',
+        textSelect: 'Select From',
+        textFromUrl: 'From URL',
+        textFromFile: 'From File',
+        textFromStorage: 'From Storage'
     }, Common.Views.ListSettingsDialog || {}))
 });

@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Высота",
   "common.view.modals.txtShare": "Поделиться ссылкой",
   "common.view.modals.txtWidth": "Ширина",
+  "common.view.SearchBar.textFind": "Поиск",
   "SSE.ApplicationController.convertationErrorText": "Конвертация не удалась.",
   "SSE.ApplicationController.convertationTimeoutText": "Превышено время ожидания конвертации.",
   "SSE.ApplicationController.criticalErrorTitle": "Ошибка",
@@ -16,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "При сохранении файла произошла ошибка. Используйте опцию 'Скачать как', чтобы сохранить файл на жестком диске компьютера или повторите попытку позже.",
   "SSE.ApplicationController.errorLoadingFont": "Шрифты не загружены.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "SSE.ApplicationController.errorTokenExpire": "Истек срок действия токена безопасности документа.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Подключение к Интернету было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Соединение было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
   "SSE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "SSE.ApplicationController.openErrorText": "При открытии файла произошла ошибка.",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Открыть расположение файла",
   "SSE.ApplicationView.txtFullScreen": "Во весь экран",
   "SSE.ApplicationView.txtPrint": "Печать",
+  "SSE.ApplicationView.txtSearch": "Поиск",
   "SSE.ApplicationView.txtShare": "Поделиться"
 }

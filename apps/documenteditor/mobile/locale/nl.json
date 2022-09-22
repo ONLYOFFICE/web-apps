@@ -6,7 +6,8 @@
     "textEmail": "E-mail",
     "textPoweredBy": "Aangedreven door",
     "textTel": "Tel.",
-    "textVersion": "Versie"
+    "textVersion": "Versie",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Waarschuwing",
@@ -57,7 +58,10 @@
     "textTable": "Tabel",
     "textTableSize": "Tabelgrootte",
     "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textTableContents": "Table of Contents",
+    "textWithBlueLinks": "With Blue Links",
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "textDoNotShowAgain": "Niet meer laten zien.",
     "textNumberingValue": "Nummeringswaarde",
     "textOk": "OK",
-    "textRows": "Rijen"
+    "textRows": "Rijen",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Waarschuwing",
@@ -271,7 +278,6 @@
     "textPageBreakBefore": "Pagina-einde vóór",
     "textPageNumbering": "Paginanummering",
     "textParagraph": "Alinea",
-    "textParagraphStyles": "Alineastijlen",
     "textPictureFromLibrary": "Afbeelding uit bibliotheek",
     "textPictureFromURL": "Afbeelding van URL",
     "textPt": "pt",
@@ -309,26 +315,55 @@
     "textTotalRow": "Totaalrij",
     "textType": "Type",
     "textWrap": "Wikkel",
+    "textAmountOfLevels": "Amount of Levels",
     "textApril": "April",
     "textAugust": "August",
+    "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
     "textDecember": "December",
     "textDesign": "Design",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
     "textEmpty": "Empty",
+    "textEnterTitleNewStyle": "Enter title of a new style",
     "textFebruary": "February",
+    "textFormal": "Formal",
     "textFr": "Fr",
     "textJanuary": "January",
     "textJuly": "July",
     "textJune": "June",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
     "textMarch": "March",
     "textMay": "May",
     "textMo": "Mo",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
     "textNovember": "November",
     "textOctober": "October",
     "textOk": "Ok",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
     "textSa": "Sa",
+    "textSameCreatedNewStyle": "Same as created new style",
     "textSeptember": "September",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
+    "textStyles": "Styles",
     "textSu": "Su",
+    "textTableOfCont": "TOC",
     "textTh": "Th",
+    "textTitle": "Title",
     "textTu": "Tu",
     "textWe": "We"
   },
@@ -370,7 +405,10 @@
     "unknownErrorText": "Onbekende fout.",
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
-    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB."
+    "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -503,7 +541,8 @@
     "warnProcessRightsChange": "Je hebt geen toestemming om dit bestand te bewerken.",
     "textNoTextFound": "Text not found",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+    "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Beveiligd bestand",
@@ -616,18 +655,31 @@
     "txtScheme7": "Vermogen",
     "txtScheme8": "Stroom",
     "txtScheme9": "Gieterij",
+    "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
+    "textEmptyHeading": "Empty Heading",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textFastWV": "Fast Web View",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
+    "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
+    "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
-    "textYes": "Yes",
-    "textPdfProducer": "PDF Producer"
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
     "dlgLeaveTitleText": "U verlaat de toepassing",
     "leaveButtonText": "Pagina verlaten",
-    "stayButtonText": "Op deze pagina blijven"
+    "stayButtonText": "Op deze pagina blijven",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

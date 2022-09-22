@@ -3,6 +3,7 @@
     "textAbout": "About",
     "textAddress": "Address",
     "textBack": "Back",
+    "textEditor": "Presentation Editor",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
@@ -58,7 +59,9 @@
     "textColumns": "Columns",
     "textCopyCutPasteActions": "Copy, Cut and Paste Actions",
     "textDoNotShowAgain": "Don't show again",
-    "textRows": "Rows"
+    "textOk": "Ok",
+    "textRows": "Rows",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -113,6 +116,7 @@
       "textRemember": "Remember my choice",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
       "textYes": "Yes",
       "titleLicenseExp": "License expired",
       "titleServerVersion": "Editor updated",
@@ -151,7 +155,7 @@
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
     "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
-    "errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, download the file or copy its content to make sure nothing is lost, and then reload this page.",
+    "errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, download the file or copy its content to make sure nothing is lost, and then reload this page.",
     "errorUserDrop": "The file cannot be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
@@ -397,6 +401,7 @@
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Widescreen (16:9)",
+      "notcriticalErrorTitle": "Warning",
       "textAbout": "About",
       "textAddress": "address:",
       "textApplication": "Application",
@@ -419,6 +424,7 @@
       "textEmail": "email:",
       "textEnableAll": "Enable All",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
+      "textFeedback": "Feedback & Support",
       "textFind": "Find",
       "textFindAndReplace": "Find and Replace",
       "textFindAndReplaceAll": "Find and Replace All",
@@ -431,6 +437,7 @@
       "textLocation": "Location",
       "textMacrosSettings": "Macros Settings",
       "textNoTextFound": "Text not found",
+      "textOk": "Ok",
       "textOwner": "Owner",
       "textPoint": "Point",
       "textPoweredBy": "Powered By",
@@ -440,6 +447,8 @@
       "textPrint": "Print",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL",
       "textSearch": "Search",
       "textSettings": "Settings",
       "textShowNotification": "Show Notification",

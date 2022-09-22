@@ -100,8 +100,58 @@
   height: 125px;
   cursor: pointer;
 
-  svg&:hover {
-    opacity:0.85;
+  .svg-format- {
+    &docx {
+      background: ~"url('@{common-image-const-path}/doc-formats/docx.svg') no-repeat center";
+    }
+    &pdf {
+      background: ~"url('@{common-image-const-path}/doc-formats/pdf.svg') no-repeat center";
+    }
+    &odt {
+      background: ~"url('@{common-image-const-path}/doc-formats/odt.svg') no-repeat center";
+    }
+    &txt {
+      background: ~"url('@{common-image-const-path}/doc-formats/txt.svg') no-repeat center";
+    }
+    &dotx {
+      background: ~"url('@{common-image-const-path}/doc-formats/dotx.svg') no-repeat center";
+    }
+    &pdfa {
+      background: ~"url('@{common-image-const-path}/doc-formats/pdfa.svg') no-repeat center";
+    }
+    &ott {
+      background: ~"url('@{common-image-const-path}/doc-formats/ott.svg') no-repeat center";
+    }
+    &rtf {
+      background: ~"url('@{common-image-const-path}/doc-formats/rtf.svg') no-repeat center";
+    }
+    &docm {
+      background: ~"url('@{common-image-const-path}/doc-formats/docm.svg') no-repeat center";
+    }
+    &docxf {
+      background: ~"url('@{common-image-const-path}/doc-formats/docxf.svg') no-repeat center";
+    }
+    &oform {
+      background: ~"url('@{common-image-const-path}/doc-formats/oform.svg') no-repeat center";
+    }
+    &html {
+      background: ~"url('@{common-image-const-path}/doc-formats/html.svg') no-repeat center";
+    }
+    &fb2 {
+      background: ~"url('@{common-image-const-path}/doc-formats/fb2.svg') no-repeat center";
+    }
+    &epub {
+      background: ~"url('@{common-image-const-path}/doc-formats/epub.svg') no-repeat center";
+    }
+  }
+
+  div {
+    display: block;
+    height: 100%;
+    width: 100%;
+    &:hover {
+      opacity: 0.85;
+    }
   }
 }
 
@@ -110,6 +160,21 @@
   width: 96px;
   height: 96px;
   cursor: pointer;
+
+  .svg-format-blank {
+    background: ~"url(@{app-image-const-path}/blank.svg) no-repeat center" ;
+  }
+  .svg-file-template{
+    background: ~"url(@{app-image-const-path}/file-template.svg) no-repeat center" ;
+  }
+
+  div {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+
 }
 
 #panel-settings,
@@ -123,29 +188,46 @@
 
 #panel-settings {
   table {
-    width: 100%;
-
+    width: auto !important;
     tr {
       td {
-        padding: 5px 10px;
-
-        &.left {
-          text-align: right;
-          width: 30%;
-
-          label {
-            font-weight: bold;
-            font-size: 12px;
-          }
+        padding: 6px 10px;
+        &.group-name label {
+          font-size: 14px;
+          .font-weight-bold();
         }
 
-        &.right {
-          width: 70%;
+        &.subgroup-name label{
+          font-size: 11px;
+          .font-weight-bold();
         }
+
+        .comment-text{
+          opacity: 0.45;
+        }
+      }
+
+      &.left {
+         text-align: right;
+         width: 30%;
+         label {
+           .font-weight-bold();
+           font-size: 12px;
+         }
+      }
+
+      &.right {
+        width: 70%;
       }
 
       &.divider {
         height: 10px;
+      }
+      &.divider-group {
+        height: 12px;
+      }
+      &.divider-subgroup{
+        height: 4px;
       }
     }
   }
@@ -157,7 +239,7 @@
     font-size: 10pt;
     color: @text-normal-ie;
     color: @text-normal;
-    font-weight: bold;
+    .font-weight-bold();
     padding: 0 0 10px 10px;
     white-space: nowrap;
   }
@@ -252,12 +334,16 @@
 
     .recent-icon {
       float: left;
+      display: inline-block;
       width: 25px;
       height: 25px;
       margin-top: 1px;
-      svg {
+      div {
         width: 100%;
         height: 100%;
+        .svg-file-recent {
+          background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
+        }
       }
     }
 
@@ -344,7 +430,7 @@
           width: 30%;
 
           label {
-            font-weight: bold;
+            .font-weight-bold();
           }
         }
 
@@ -428,7 +514,7 @@ label {
 }
 
 .header {
-  font-weight: bold;
+  .font-weight-bold();
   margin: 30px 0 10px;
 }
 

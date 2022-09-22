@@ -81,3 +81,193 @@
         }
     }
 }
+
+.search-bar {
+    z-index: 950;
+    .box {
+        padding: 15px;
+        display: flex;
+        input[type=text] {
+            width: 192px;
+        }
+        .tools {
+            display: flex;
+            align-items: center;
+            div {
+                margin-left: 5px;
+                &:first-of-type {
+                    margin-left: 7px;
+                }
+            }
+        }
+    }
+}
+
+.search-panel {
+    display: table;
+    position: relative;
+    border-collapse: collapse;
+    line-height: 15px;
+
+    > div {
+        display: table-row;
+    }
+
+    #search-header {
+        position: absolute;
+        height: 45px;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 12px;
+        overflow: hidden;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
+
+        label {
+            font-size: 12px;
+            .font-weight-bold();
+            margin-top: 2px;
+        }
+
+        #search-btn-close {
+            float: right;
+        }
+    }
+
+    #search-adv-settings {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 45px;
+        padding: 10px 15px 0 15px;
+
+        table {
+            width: 100%;
+        }
+
+        .padding-small {
+            padding-bottom: 8px;
+        }
+
+        .padding-large {
+            padding-bottom: 14px;
+        }
+
+        #search-adv-results-number {
+            padding-top: 2px;
+            width: calc(100% - 48px);
+            color: @text-secondary-ie;
+            color: @text-secondary;
+
+            .search-again {
+                color: @text-secondary;
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+
+        .search-nav-btns {
+            display: inline-block;
+            float: right;
+            div {
+                display: inline-block;
+            }
+            #search-adv-back {
+                margin-right: 4px;
+            }
+        }
+
+        .btn-text-default {
+            display: inline-block;
+            width: auto;
+        }
+
+        #search-adv-replace {
+            min-width: 62px;
+        }
+
+        #search-adv-replace-all {
+            min-width: 78px;
+        }
+    }
+
+    .search-options-block {
+        display: none;
+    }
+
+    #open-search-options {
+        cursor: pointer;
+        margin-left: 15px;
+
+        .search-options-txt {
+            display: inline-block;
+            padding: 5px 0;
+        }
+
+        .search-options-caret {
+            width: 24px;
+            height: 24px;
+            background-position: 3px -270px;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+    }
+
+    #search-options {
+
+        label {
+            margin-top: 6px;
+            &:not(:first-of-type) {
+                margin-top: 8px;
+            }
+        }
+    }
+
+    .no-expand {
+        #search-options {
+            display: none;
+        }
+        .search-options-caret {
+            transform: rotate(270deg);
+        }
+    }
+
+    #search-results {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-top: @scaled-one-px-value solid @border-toolbar;
+        padding: 12px 0;
+        overflow: hidden;
+
+        .item {
+            padding: 6px 15px;
+            word-break: break-all;
+            cursor: pointer;
+
+            &:hover {
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
+            &.selected {
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
+                color: @text-normal-pressed-ie;
+                color: @text-normal-pressed;
+            }
+
+            b {
+                font-style: italic;
+            }
+        }
+    }
+
+}

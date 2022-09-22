@@ -148,7 +148,18 @@ define([
 
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnEditObject.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_startEditCurrentOleObject();
+                if (this.api) {
+                    var oleobj = this.api.asc_canEditTableOleObject(true);
+                    if (oleobj) {
+                        var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                        if (oleEditor) {
+                            oleEditor.setEditMode(true);
+                            oleEditor.show();
+                            oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                        }
+                    } else
+                        this.api.asc_startEditCurrentOleObject();
+                }
                 this.fireEvent('editcomplete', this);
             }, this));
 
@@ -339,16 +350,16 @@ define([
                 if (this._state.isOleObject!==value) {
                     this.btnSelectImage.setVisible(!value);
                     this.btnEditObject.setVisible(value);
-                    this.btnRotate270.setDisabled(value);
-                    this.btnRotate90.setDisabled(value);
-                    this.btnFlipV.setDisabled(value);
-                    this.btnFlipH.setDisabled(value);
                     this._state.isOleObject=value;
                 }
+                this.btnRotate270.setDisabled(value || this._locked);
+                this.btnRotate90.setDisabled(value || this._locked);
+                this.btnFlipV.setDisabled(value || this._locked);
+                this.btnFlipH.setDisabled(value || this._locked);
 
                 if (this._state.isOleObject) {
                     var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
-                    this.btnEditObject.setDisabled(plugin===null || plugin ===undefined || this._locked);
+                    this.btnEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin===null || plugin ===undefined) || this._locked);
                 } else {
                     this.btnSelectImage.setDisabled(pluginGuid===null || this._locked);
                 }
@@ -436,6 +447,7 @@ define([
                                 {
                                     imageProps: elValue,
                                     sizeOriginal: imgsizeOriginal,
+                                    slideSize: PE.getController('Toolbar').currentPageSize,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {

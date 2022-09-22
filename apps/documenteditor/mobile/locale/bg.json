@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
-    "textVersion": "Version"
+    "textVersion": "Version",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Warning",
@@ -57,7 +58,10 @@
     "textTable": "Table",
     "textTableSize": "Table Size",
     "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textTableContents": "Table of Contents",
+    "textWithPageNumbers": "With Page Numbers",
+    "textWithBlueLinks": "With Blue Links"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "menuJoinList": "Join to previous list",
     "textOk": "OK",
     "textCancel": "Cancel",
-    "textNumberingValue": "Numbering Value"
+    "textNumberingValue": "Numbering Value",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
@@ -330,7 +337,36 @@
     "textNovember": "November",
     "textDecember": "December",
     "textEmpty": "Empty",
-    "textOk": "Ok"
+    "textOk": "Ok",
+    "textTableOfCont": "TOC",
+    "textPageNumbers": "Page Numbers",
+    "textSimple": "Simple",
+    "textRightAlign": "Right Align",
+    "textLeader": "Leader",
+    "textStructure": "Structure",
+    "textRefresh": "Refresh",
+    "textLevels": "Levels",
+    "textRemoveTableContent": "Remove table of content",
+    "textCurrent": "Current",
+    "textOnline": "Online",
+    "textClassic": "Classic",
+    "textDistinctive": "Distinctive",
+    "textCentered": "Centered",
+    "textFormal": "Formal",
+    "textStandard": "Standard",
+    "textModern": "Modern",
+    "textCancel": "Cancel",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textStyles": "Styles",
+    "textAmountOfLevels": "Amount of Levels",
+    "textCreateTextStyle": "Create new text style",
+    "textDone": "Done",
+    "textTitle": "Title",
+    "textEnterTitleNewStyle": "Enter title of a new style",
+    "textNextParagraphStyle": "Next paragraph style",
+    "textSameCreatedNewStyle": "Same as created new style",
+    "textParagraphStyle": "Paragraph Style"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -370,7 +406,10 @@
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
     "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -503,7 +542,8 @@
     "warnProcessRightsChange": "You don't have permission to edit this file.",
     "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
     "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-    "textNoTextFound": "Text not found"
+    "textNoTextFound": "Text not found",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -616,18 +656,31 @@
     "textSpaces": "Spaces",
     "textSymbols": "Symbols",
     "textWords": "Words",
+    "textFeedback": "Feedback & Support",
+    "textNavigation": "Navigation",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appeas in the table of cotents.",
+    "textBeginningDocument": "Beginning of document",
+    "textEmptyHeading": "Empty Heading",
     "textPageSize": "Page Size",
     "textPdfVer": "PDF Version",
     "textPdfTagged": "Tagged PDF",
     "textFastWV": "Fast Web View",
     "textYes": "Yes",
     "textNo": "No",
-    "textPdfProducer": "PDF Producer"
+    "textPdfProducer": "PDF Producer",
+    "textDirection": "Direction",
+    "textLeftToRight": "Left To Right",
+    "textRightToLeft": "Right To Left",
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this page"
+    "stayButtonText": "Stay on this page",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

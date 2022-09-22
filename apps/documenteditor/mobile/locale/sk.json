@@ -6,7 +6,8 @@
     "textEmail": "Email",
     "textPoweredBy": "Poháňaný ",
     "textTel": "Tel",
-    "textVersion": "Verzia"
+    "textVersion": "Verzia",
+    "textEditor": "Document Editor"
   },
   "Add": {
     "notcriticalErrorTitle": "Upozornenie",
@@ -57,7 +58,10 @@
     "textStartAt": "Začať na",
     "textTable": "Tabuľka",
     "textTableSize": "Veľkosť tabuľky",
-    "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\""
+    "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
+    "textTableContents": "Table of Contents",
+    "textWithBlueLinks": "With Blue Links",
+    "textWithPageNumbers": "With Page Numbers"
   },
   "Common": {
     "Collaboration": {
@@ -193,7 +197,10 @@
     "textDoNotShowAgain": "Nezobrazovať znova",
     "textNumberingValue": "Hodnota číslovania",
     "textOk": "OK",
-    "textRows": "Riadky"
+    "textRows": "Riadky",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Upozornenie",
@@ -287,7 +294,6 @@
     "textPageBreakBefore": "Zlom strany pred",
     "textPageNumbering": "Číslovanie strany",
     "textParagraph": "Odsek",
-    "textParagraphStyles": "Štýly odsekov",
     "textPictureFromLibrary": "Obrázok z Knižnice",
     "textPictureFromURL": "Obrázok z URL adresy",
     "textPt": "pt",
@@ -330,7 +336,36 @@
     "textTu": "ut",
     "textType": "Typ",
     "textWe": "st",
-    "textWrap": "Zabaliť"
+    "textWrap": "Zabaliť",
+    "textAmountOfLevels": "Amount of Levels",
+    "textCancel": "Cancel",
+    "textCentered": "Centered",
+    "textClassic": "Classic",
+    "textCreateTextStyle": "Create new text style",
+    "textCurrent": "Current",
+    "textDistinctive": "Distinctive",
+    "textDone": "Done",
+    "textEnterTitleNewStyle": "Enter title of a new style",
+    "textFormal": "Formal",
+    "textLeader": "Leader",
+    "textLevels": "Levels",
+    "textModern": "Modern",
+    "textNextParagraphStyle": "Next paragraph style",
+    "textOnline": "Online",
+    "textPageNumbers": "Page Numbers",
+    "textParagraphStyle": "Paragraph Style",
+    "textRefresh": "Refresh",
+    "textRefreshEntireTable": "Refresh entire table",
+    "textRefreshPageNumbersOnly": "Refresh page numbers only",
+    "textRemoveTableContent": "Remove table of contents",
+    "textRightAlign": "Right Align",
+    "textSameCreatedNewStyle": "Same as created new style",
+    "textSimple": "Simple",
+    "textStandard": "Standard",
+    "textStructure": "Structure",
+    "textStyles": "Styles",
+    "textTableOfCont": "TOC",
+    "textTitle": "Title"
   },
   "Error": {
     "convertationTimeoutText": "Prekročený čas konverzie.",
@@ -370,7 +405,10 @@
     "unknownErrorText": "Neznáma chyba.",
     "uploadImageExtMessage": "Neznámy formát obrázka.",
     "uploadImageFileCountMessage": "Neboli načítané žiadne obrázky.",
-    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB."
+    "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB.",
+    "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Načítavanie dát...",
@@ -503,7 +541,8 @@
     "warnLicenseUsersExceeded": "Dosiahli ste limit %1 editora v režime spolupráce na úpravách. Ohľadne podrobnosti sa obráťte na svojho správcu. ",
     "warnNoLicense": "Dosiahli ste limit pre simultánne pripojenia k %1 editorom. Tento dokument sa otvorí iba na prezeranie. Kontaktujte predajný tím %1 pre osobné podmienky inovácie.",
     "warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
-    "warnProcessRightsChange": "Nemáte povolenie na úpravu tohto súboru."
+    "warnProcessRightsChange": "Nemáte povolenie na úpravu tohto súboru.",
+    "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
   },
   "Settings": {
     "advDRMOptions": "Chránený súbor",
@@ -616,18 +655,31 @@
     "txtScheme7": "Spravodlivosť",
     "txtScheme8": "Tok",
     "txtScheme9": "Zlieváreň",
+    "textBeginningDocument": "Beginning of document",
+    "textDirection": "Direction",
+    "textEmptyHeading": "Empty Heading",
+    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textFastWV": "Fast Web View",
+    "textFeedback": "Feedback & Support",
+    "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
+    "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
+    "textPdfProducer": "PDF Producer",
     "textPdfTagged": "Tagged PDF",
     "textPdfVer": "PDF Version",
-    "textYes": "Yes",
-    "textPdfProducer": "PDF Producer"
+    "textRestartApplication": "Please restart the application for the changes to take effect",
+    "textRightToLeft": "Right To Left",
+    "textYes": "Yes"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",
     "dlgLeaveTitleText": "Opúšťate aplikáciu",
     "leaveButtonText": "Opustiť túto stránku",
-    "stayButtonText": "Zostať na tejto stránke"
+    "stayButtonText": "Zostať na tejto stránke",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

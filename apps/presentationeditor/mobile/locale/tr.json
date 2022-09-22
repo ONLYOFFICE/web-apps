@@ -6,7 +6,8 @@
     "textEmail": "E-posta",
     "textPoweredBy": "Tarafından",
     "textTel": "Telefon",
-    "textVersion": "Sürüm"
+    "textVersion": "Sürüm",
+    "textEditor": "Presentation Editor"
   },
   "Common": {
     "Collaboration": {
@@ -58,7 +59,9 @@
     "textColumns": "Sütunlar",
     "textCopyCutPasteActions": "Eylemleri Kopyala,Kes ve Yapıştır",
     "textDoNotShowAgain": "Tekrar gösterme",
-    "textRows": "Satırlar"
+    "textRows": "Satırlar",
+    "textOk": "Ok",
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Controller": {
     "Main": {
@@ -126,7 +129,8 @@
       "warnProcessRightsChange": "Dosyayı düzenleme izniniz yok.",
       "textNoTextFound": "Text not found",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
-      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}"
+      "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
     }
   },
   "Error": {
@@ -469,7 +473,12 @@
       "txtScheme7": "Net Değer",
       "txtScheme8": "Yayılma",
       "txtScheme9": "Döküm",
+      "notcriticalErrorTitle": "Warning",
       "textDarkTheme": "Dark Theme",
+      "textFeedback": "Feedback & Support",
+      "textOk": "Ok",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRTL": "RTL",
       "txtScheme14": "Oriel",
       "txtScheme17": "Solstice",
       "txtScheme19": "Trek"

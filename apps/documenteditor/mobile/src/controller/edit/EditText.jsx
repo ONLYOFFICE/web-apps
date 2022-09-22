@@ -119,9 +119,9 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         if (api) {
             if ('superscript' === type) {
-                api.put_TextPrBaseline(value ? 1 : 0);
+                api.put_TextPrBaseline(value ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
             } else {
-                api.put_TextPrBaseline(value ? 2 : 0);
+                api.put_TextPrBaseline(value ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
             }
         }
     }
@@ -193,6 +193,14 @@ class EditTextController extends Component {
         if (api) api.put_ListType(2, parseInt(type));
     }
 
+    getIconsBulletsAndNumbers(arrayElements, type) {
+        const api = Common.EditorApi.get();
+        const arr = [];
+
+        arrayElements.forEach( item => arr.push(item.id));
+        if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);
+    }
+
     onLineSpacing(value) {
         const api = Common.EditorApi.get();
         if (api) {
@@ -221,6 +229,7 @@ class EditTextController extends Component {
                 onParagraphMove={this.onParagraphMove}
                 onBullet={this.onBullet}
                 onNumber={this.onNumber}
+                getIconsBulletsAndNumbers={this.getIconsBulletsAndNumbers}
                 onMultiLevelList={this.onMultiLevelList}
                 onLineSpacing={this.onLineSpacing}
             />

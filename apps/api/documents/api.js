@@ -115,6 +115,7 @@
                         address: 'New-York, 125f-25',
                         mail: 'support@gmail.com',
                         www: 'www.superpuper.com',
+                        phone: '1234567890',
                         info: 'Some info',
                         logo: '',
                         logoDark: '', // logo for dark theme
@@ -219,8 +220,9 @@
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                 },
                  coEditing: {
-                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true
-                     change: true, // can change co-authoring mode
+                     mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
+                     // for viewer: 'strict' is default, offline viewer; 'fast' - live viewer, show changes from other users
+                     change: true, // can change co-authoring mode. true - default for editor, false - default for viewer
                  },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -913,7 +915,7 @@
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge')
+            } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge' || config.editorConfig.mode === 'editole')
                 index = "/index_internal.html";
 
         }
@@ -947,7 +949,7 @@
             }
         }
 
-        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge'))
+        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge' || config.editorConfig.mode == 'editole'))
             params += "&internal=true";
 
         if (config.frameEditorId)
@@ -972,25 +974,6 @@
         return params;
     }
 
-    function getFrameTitle(config) {
-        var title = 'Powerful online editor for text documents, spreadsheets, and presentations';
-        var appMap = {
-            'text': 'text documents',
-            'spreadsheet': 'spreadsheets',
-            'presentation': 'presentations',
-            'word': 'text documents',
-            'cell': 'spreadsheets',
-            'slide': 'presentations'
-        };
-
-        if (typeof config.documentType === 'string') {
-            var app = appMap[config.documentType.toLowerCase()];
-            if (app)
-                title = 'Powerful online editor for ' + app;
-        }
-        return title;
-    }
-
     function createIframe(config) {
         var iframe = document.createElement("iframe");
 
@@ -1000,12 +983,12 @@
         iframe.align = "top";
         iframe.frameBorder = 0;
         iframe.name = "frameEditor";
-        iframe.title = getFrameTitle(config);
+        config.title && (typeof config.title === 'string') && (iframe.title = config.title);
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture");
-        
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write;");
+
 		if (config.type == "mobile")
 		{
 			iframe.style.position = "fixed";

@@ -25,6 +25,14 @@
                     <span class="btn-slot" id="slot-btn-redo"></span>
                 </div>
             </div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-cut"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                </div>
+            </div>
             <div class="separator long"></div>
         </section>
         <section class="box-panels">
@@ -101,7 +109,8 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
-                <div class="group flex small" id="slot-field-styles" style="width: 100%; min-width: 145px;" data-group-width="100%"></div>
+                <div class="separator long invisible"></div>
+                <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 140px;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -119,6 +128,7 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group small" id="slot-combo-insertshape"></div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -143,7 +153,7 @@
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit">
-                <div class="group flex small" id="transit-field-effects" style="width: 900px; max-width: 900px; min-width: 140px;" data-group-width="900px"></div>
+                <div class="group flex small" id="transit-field-effects" style="width: 900px; max-width: 900px; min-width: 120px;" data-group-width="900px"></div>
 
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="transit-button-parameters"></span>
@@ -178,48 +188,8 @@
                     </div>
                 </div>
             </section>
-            <section class="panel" data-tab="view">
-                <div class="group small">
-                    <div class="elset" style="display: flex;">
-                        <span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>
-                    </div>
-                    <div class="elset" style="text-align: center;">
-                        <span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>
-                    </div>
-                </div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-fts" style="font-size: 11px;text-align: center;"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>
-                    </div>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>
-                </div>
-                <div class="separator long separator-theme"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-notes"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-rulers"></span>
-                    </div>
-                </div>
-                <div class="separator long"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-toolbar"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-chk-statusbar"></span>
-                    </div>
-                </div>
-            </section>
             <section id="animation-panel" class="panel" data-tab="animate">
-                <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 140px;" data-group-width="700px"></div>
+                <div class="group flex small" id="animation-field-effects" style="width: 700px; max-width: 700px; min-width: 220px;" data-group-width="700px"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
                 </div>
@@ -229,7 +199,7 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
-                     <span class="btn-slot text" id="animation-button-preview"></span>
+                    <span class="btn-slot text" id="animation-button-preview"></span>
                     <!--<div class="elset">
                         <span class="btn-slot text " id="animation-button-pane"></span>
                     </div>-->
@@ -244,6 +214,7 @@
                         <div class="btn-slot text"  id="animation-trigger"></div>
                     </div>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-duration"></span>
@@ -254,13 +225,14 @@
                         <span id="animation-spin-delay" class="btn-slot text spinner" ></span>
                     </div>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group small">
                     <div class="elset font-normal">
                         <span class="btn-slot text" id="animation-repeat"></span>
                         <div id="animation-spin-repeat" style="width: 96px; " class="btn-slot" ></div>
                     </div>
                     <div class="elset font-normal">
-                         <span class="btn-slot text" id="animation-checkbox-rewind"></span>
+                        <span class="btn-slot text" id="animation-checkbox-rewind"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>

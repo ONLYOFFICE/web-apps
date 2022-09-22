@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="The description of the search and replace functions in Spreadsheet Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
@@ -14,11 +15,11 @@
             <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
         </div>
 		<h1>Such- und Ersatzfunktion</h1>
-			<p>Um in der aktuellen <a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabelleneditor</b></a> nach Zeichen, Wörtern oder Phrasen suchen wollen, klicken Sie auf das Symbol <img alt="Suche" src="../images/searchicon.png" /> in der linken Seitenlaste oder nutzen Sie die Tastenkombination <em>STRG+F</em>.</p>
-            <p>Wenn Sie nur auf dem aktuellen Blatt nach Werten innerhalb eines bestimmten Bereichs suchen / diese ersetzen möchten, wählen Sie den erforderlichen Zellbereich aus und klicken Sie dann auf das Symbol <img alt="Suche" src="../images/searchicon.png" />.</p>
+			<p>Um in der aktuellen <a href="https://www.onlyoffice.com/de/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Tabelleneditor</b></a> nach Zeichen, Wörtern oder Phrasen suchen wollen, klicken Sie auf das Symbol <span class="icon icon-searchicon"></span> in der linken Seitenlaste oder nutzen Sie die Tastenkombination <em>STRG+F</em>.</p>
+            <p>Wenn Sie nur auf dem aktuellen Blatt nach Werten innerhalb eines bestimmten Bereichs suchen / diese ersetzen möchten, wählen Sie den erforderlichen Zellbereich aus und klicken Sie dann auf das Symbol <span class="icon icon-searchicon"></span>.</p>
 			<p>Die Dialogbox <b>Suchen und Ersetzen</b> wird geöffnet:</p><img alt="Dialogbox Suchen und Ersetzen" src="../images/search_window.png" /><ol>
 			<li>Geben Sie Ihre Suchanfrage in das entsprechende Eingabefeld ein.</li>
-			<li>Legen Sie die Suchoptionen fest, klicken Sie dazu auf das <img alt="Suchoptionen" src="../images/advanced_settings_icon.png" /> Symbol und markieren Sie die gewünschten Optionen:<ul>
+			<li>Legen Sie die Suchoptionen fest, klicken Sie dazu auf das <div class = "icon icon-advanced_settings_icon"></div> Symbol und markieren Sie die gewünschten Optionen:<ul>
 				<li><b>Groß-/Kleinschreibung beachten</b> - ist diese Funktion aktiviert, werden nur Ergebnisse mit derselben Schreibweise wie in Ihrer Suchanfrage gefiltert (lautet Ihre Anfrage z. B. 'Editor' und diese Option ist markiert, werden Wörter wie 'editor' oder 'EDITOR' usw. nicht gesucht).</li>
                 <li><b>Nur gesamter Zelleninhalt</b> - ist diese Funktion aktiviert, werden nur Zellen gesucht, die außer den in Ihrer Anfrage angegebenen Zeichen keine weiteren Zeichen enthalten (lautet Ihre Anfrage z. B. '56' und diese Option ist aktiviert, werden Zellen die Daten wie '0,56' oder '156' usw. enthalten nicht gefunden).</li>
                 <li><b>Ergebnisse markieren</b> - alle gefundenen Vorkommen auf einmal markiert. Um diese Option auszuschalten und die Markierung zu entfernen, deaktivieren Sie das Kontrollkästchen.</li>
@@ -27,7 +28,7 @@
 				<li><b>Suchen in</b> - legen Sie fest ob Sie den <b>Wert</b> der Zellen durchsuchen wollen oder die zugrundeliegenden <b>Formeln</b>.</li>
 			</ul>
 			</li>
-			<li>Navigieren Sie durch Ihre Suchergebnisse über die Pfeiltasten. Die Suche wird entweder in Richtung Tabellenanfang (klicken Sie auf <img alt="Aufwärts suchen" src="../images/searchupbutton.png" />) oder in Richtung Tabellenende (klicken Sie auf <img alt="Abwärts suchen" src="../images/searchdownbutton.png" />) durchgeführt.</li>
+			<li>Navigieren Sie durch Ihre Suchergebnisse über die Pfeiltasten. Die Suche wird entweder in Richtung Tabellenanfang (klicken Sie auf <div class = "icon icon-searchupbutton"></div>) oder in Richtung Tabellenende (klicken Sie auf <div class = "icon icon-searchdownbutton"></div>) durchgeführt.</li>
 			</ol>
 			<p>Das erste Ergebnis der Suchanfrage in der ausgewählten Richtung, wird markiert. Falls es sich dabei nicht um das gewünschte Wort handelt, klicken Sie erneute auf den Pfeil, um das nächste Vorkommen der eingegebenen Zeichen zu finden.</p> 
 			<p>Um ein oder mehrere der gefundenen Ergebnisse zu <b>ersetzen</b>, klicken Sie auf den Link <b>Ersetzen</b> unter dem Eingabefeld oder nutzen Sie die Tastenkombination <em>STRG+H</em>. Die Dialogbox <b>Suchen und Ersetzen</b> öffnet sich:</p><img alt="Dialogbox Suchen und Ersetzen" src="../images/search_replace_window.png" /><ol>

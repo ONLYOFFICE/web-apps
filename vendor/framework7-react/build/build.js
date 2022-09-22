@@ -1,35 +1,42 @@
 const webpack = require('webpack');
-const ora = require('ora');
 const rm = require('rimraf');
-const chalk = require('chalk');
 const config = require('./webpack.config.js');
 
 const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';
 
-const spinner = ora(env === 'production' ? 'building for production...' : 'building development version...');
-spinner.start();
+Promise.all([
+    import('ora'),
+    import('chalk')
+]).then( ([oramodule, chalkmodule]) => {
+    const { default: ora } = oramodule,
+        { default: chalk } = chalkmodule;
 
-rm('./www/', (removeErr) => {
-  if (removeErr) throw removeErr;
+    const spinner = ora(env === 'production' ? 'building for production...' : 'building development version...').start();
 
-  webpack(config, (err, stats) => {
-    if (err) throw err;
-    spinner.stop();
+    rm('./www/', (removeErr) => {
+      if (removeErr) throw removeErr;
 
-    process.stdout.write(`${stats.toString({
-      colors: true,
-      modules: false,
-      children: false, // If you are using ts-loader, setting this to true will make TypeScript errors show up during build.
-      chunks: false,
-      chunkModules: false,
-    })}\n\n`);
+      webpack(config, (err, stats) => {
+        if (err) throw err;
+        spinner.stop();
 
-    if (stats.hasErrors()) {
-      console.log(chalk.red('Build failed with errors.\n'));
-      process.exit(1);
-    }
+        process.stdout.write(`${stats.toString({
+          colors: true,
+          modules: false,
+          children: false, // If you are using ts-loader, setting this to true will make TypeScript errors show up during build.
+          chunks: false,
+          chunkModules: false,
+        })}\n\n`);
 
-    console.log(chalk.cyan('Build complete.\n'));
-  });
+        if (stats.hasErrors()) {
+          console.log(chalk.red('Build failed with errors.\n'));
+          process.exit(1);
+        }
+
+        console.log(chalk.cyan('Build complete.\n'));
+      });
+    });
+} ).catch(error => {
+    console.log('error in promise', error)
 });
