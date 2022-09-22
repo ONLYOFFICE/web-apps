@@ -378,6 +378,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            Common.Utils.isIE && this.chUseAltKey.$el.parent().parent().hide();
 
             this.rbCoAuthModeFast = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-fast'),

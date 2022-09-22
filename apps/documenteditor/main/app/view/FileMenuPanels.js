@@ -410,6 +410,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            Common.Utils.isIE && this.chUseAltKey.$el.parent().parent().hide();
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({

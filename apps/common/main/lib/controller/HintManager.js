@@ -457,6 +457,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _init = function(api) {
+        if (Common.Utils.isIE)
+            return;
         _api = api;
 
         var filter = Common.localStorage.getKeysFilter();
@@ -661,6 +663,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _clearHints = function (isComplete) {
+        if (Common.Utils.isIE)
+            return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {
             _resetToDefault();
