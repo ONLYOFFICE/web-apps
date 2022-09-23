@@ -535,7 +535,7 @@ define([
                     me.btnCellStyle = new Common.UI.Button({
                         id          : 'id-toolbar-btn-cstyle',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-menu-table',
+                        iconCls     : 'toolbar__icon btn-menu-cell',
                         lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock, _set.editVisibleArea],
                         menu        : new Common.UI.Menu({
                             items: [
