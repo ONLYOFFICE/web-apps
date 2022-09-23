@@ -132,6 +132,7 @@ define([
                                 // props.asc_setLockPwd(value);
                                 // me.api.asc_setProtectedDocument(props);
 
+                                Common.Utils.InternalSettings.set('protect-test-type', props);
                                 me.view.btnProtectDoc.toggle(true, true); // test
                                 me.onChangeProtectDocument(); // test
                             }
@@ -217,7 +218,7 @@ define([
                     type;
 
                 if (docProtected) {
-                    type = Asc.c_oAscProtection.View;
+                    type = Common.Utils.InternalSettings.get('protect-test-type');
                 }
                 /////////////
                 this._state.docProtection = {docLock: docProtected, lockMode: type};

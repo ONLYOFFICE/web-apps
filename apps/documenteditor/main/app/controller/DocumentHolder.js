@@ -828,7 +828,8 @@ define([
         onDialogAddHyperlink: function() {
             var me = this;
             var win, props, text;
-            if (me.api && me.mode.isEdit && !me._isDisabled && !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()){
+            var lockMode = me.documentHolder.docProtection ? me.documentHolder.docProtection.lockMode : undefined;
+            if (me.api && me.mode.isEdit && !(me._isDisabled || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments || lockMode===Asc.c_oAscProtection.Forms) && !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()){
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
