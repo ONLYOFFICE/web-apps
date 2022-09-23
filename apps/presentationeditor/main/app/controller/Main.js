@@ -1566,6 +1566,10 @@ define([
                         config.msg = this.errorLoadingFont;
                         break;
 
+                    case Asc.c_oAscError.ID.DirectUrl:
+                        config.msg = this.errorDirectUrl;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
