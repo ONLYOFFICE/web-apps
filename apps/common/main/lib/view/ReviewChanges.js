@@ -259,7 +259,7 @@ define([
                         caption: this.txtAccept,
                         split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-save',
-                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms],
+                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -271,7 +271,7 @@ define([
                         caption: this.txtReject,
                         split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-deny',
-                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms],
+                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -284,7 +284,7 @@ define([
                             caption: this.txtCompare,
                             split: true,
                             iconCls: 'toolbar__icon btn-compare',
-                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms],
+                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'small'
@@ -294,7 +294,7 @@ define([
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-review',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.txtTurnon,
                         split: !this.appConfig.isReviewOnly,
                         enableToggle: true,
@@ -309,7 +309,7 @@ define([
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-prev',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.txtPrev,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -320,7 +320,7 @@ define([
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-next',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.txtNext,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -336,7 +336,7 @@ define([
                         this.btnReviewView = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconCls: 'toolbar__icon btn-ic-reviewview',
-                            lock: [_set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms],
+                            lock: [_set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
                             caption: this.txtView,
                             menu: new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
@@ -731,7 +731,7 @@ define([
                     var button = new Common.UI.Button({
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-ic-review',
-                        lock: [Common.enumLock.viewMode, Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.docLockView, Common.enumLock.docLockForms],
+                        lock: [Common.enumLock.viewMode, Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.docLockComments],
                         hintAnchor  : 'top',
                         hint        : this.tipReview,
                         split       : !this.appConfig.isReviewOnly,
@@ -778,7 +778,7 @@ define([
                     button = new Common.UI.Button({
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-ic-docspell',
-                        lock: [Common.enumLock.viewMode,  Common.enumLock.viewFormMode, Common.enumLock.previewReviewMode, Common.enumLock.docLockView, Common.enumLock.docLockForms],
+                        lock: [Common.enumLock.viewMode,  Common.enumLock.viewFormMode, Common.enumLock.previewReviewMode, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.docLockComments],
                         hintAnchor  : 'top',
                         hint: this.tipSetSpelling,
                         enableToggle: true,
@@ -794,7 +794,7 @@ define([
                     button = new Common.UI.Button({
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-ic-doclang',
-                        lock: [Common.enumLock.viewMode, Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.noSpellcheckLangs, Common.enumLock.lostConnect, Common.enumLock.docLockView, Common.enumLock.docLockForms],
+                        lock: [Common.enumLock.viewMode, Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.noSpellcheckLangs, Common.enumLock.lostConnect, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.docLockComments],
                         hintAnchor  : 'top',
                         hint: this.tipSetDocLang,
                         dataHint: '0',
