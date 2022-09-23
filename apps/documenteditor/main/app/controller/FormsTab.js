@@ -76,6 +76,7 @@ define([
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
             }
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             return this;
         },
 
@@ -429,6 +430,21 @@ define([
         onActiveTab: function(tab) {
             if (tab !== 'forms') {
                 this.tipSaveForm && this.tipSaveForm.close();
+            }
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                var arr = this.view.getButtons();
+                Common.Utils.lockControls(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View)),   {array: arr};
+                Common.Utils.lockControls(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms),   {array: arr});
+                Common.Utils.lockControls(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review),   {array: arr});
+                Common.Utils.lockControls(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments),   {array: arr});
             }
         }
 

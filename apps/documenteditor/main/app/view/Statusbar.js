@@ -176,7 +176,8 @@ define([
                 _.extend(this, options);
                 this.pages = new DE.Models.Pages({current:1, count:1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
-                this.state = {};
+                this._state = {};
+                this._isDisabled = false;
 
                 var me = this;
                 this.$layout = $(this.template({
@@ -399,8 +400,18 @@ define([
             },
 
             SetDisabled: function(disable) {
-                this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1);
-                this.btnTurnReview && this.btnTurnReview.setDisabled(disable);
+                this._isDisabled = disable;
+                var lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
+                lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms || lockMode===Asc.c_oAscProtection.Comments);
+                this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1 || lockMode);
+                this.btnTurnReview && this.btnTurnReview.setDisabled(disable || lockMode);
+            },
+
+            onChangeProtectDocument: function(props) {
+                if (props) {
+                    this._state.docProtection = props;
+                    this.SetDisabled(this._isDisabled);
+                }
             },
 
             onApiCoAuthoringDisconnect: function() {

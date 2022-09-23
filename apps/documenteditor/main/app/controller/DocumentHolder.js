@@ -226,7 +226,7 @@ define([
                     this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                     this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
                 }
-
+                Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
                 this.documentHolder.setApi(this.api);
             }
 
@@ -585,7 +585,9 @@ define([
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var obj = (me.mode.isEdit && !me._isDisabled) ? me.fillMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps(me.api.getSelectedElements());
+                var lockMode = this.documentHolder.docProtection ? this.documentHolder.docProtection.lockMode : undefined;
+                var obj = (me.mode.isEdit && !(me._isDisabled || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments || lockMode===Asc.c_oAscProtection.Forms)) ?
+                            me.fillMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps(me.api.getSelectedElements());
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -612,7 +614,9 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible() && currentMenu !== me.documentHolder.hdrMenu){
-                var obj = (me.mode.isEdit && !me._isDisabled) ? me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
+                var lockMode = me.documentHolder.docProtection ? me.documentHolder.docProtection.lockMode : undefined;
+                var obj = (me.mode.isEdit && !(me._isDisabled || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments || lockMode===Asc.c_oAscProtection.Forms)) ?
+                            me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);
@@ -1180,7 +1184,8 @@ define([
         },
 
         onDoubleClickOnChart: function(chart) {
-            if (this.mode.isEdit && !this._isDisabled) {
+            var lockMode = this.documentHolder.docProtection ? this.documentHolder.docProtection.lockMode : undefined;
+            if (this.mode.isEdit && !(this._isDisabled || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments || lockMode===Asc.c_oAscProtection.Forms)) {
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
                 if (diagramEditor && chart) {
                     diagramEditor.setEditMode(true);
@@ -1191,7 +1196,8 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
-            if (this.mode.isEdit && !this._isDisabled) {
+            var lockMode = this.documentHolder.docProtection ? this.documentHolder.docProtection.lockMode : undefined;
+            if (this.mode.isEdit && !(this._isDisabled || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments || lockMode===Asc.c_oAscProtection.Forms)) {
                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && chart) {
                     oleEditor.setEditMode(true);
@@ -1895,7 +1901,8 @@ define([
                     this.api.asc_ViewCertificate(datavalue); //certificate id
                     break;
                 case 2:
-                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled, datavalue);//guid, can edit settings for requested signature
+                    var lockMode = this.documentHolder.docProtection ? this.documentHolder.docProtection.lockMode : undefined;
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments || lockMode===Asc.c_oAscProtection.Forms, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
                     var me = this;
@@ -2310,6 +2317,16 @@ define([
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this.documentHolder && (this.documentHolder.docProtection = props);
+            }
         }
     });
 });

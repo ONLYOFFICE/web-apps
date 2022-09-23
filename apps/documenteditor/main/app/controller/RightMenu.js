@@ -54,7 +54,7 @@ define([
         initialize: function() {
             this.editMode = true;
             this._initSettings = true;
-
+            this._state = {};
             this.addListeners({
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
@@ -89,6 +89,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
         },
@@ -156,7 +157,10 @@ define([
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false,
-                isSmartArtInternal = false;
+                isSmartArtInternal = false,
+                lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
+            lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms || lockMode===Asc.c_oAscProtection.Comments);
+
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_lock = false;
             for (i=0; i<SelectedObjects.length; i++)
@@ -185,7 +189,7 @@ define([
                         if (value.get_ShapeProperties().asc_getTextArtProperties()) {
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
-                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked;
+                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked || lockMode;
                         }
                     }
                     control_lock = control_lock || value.get_Locked();
@@ -197,11 +201,11 @@ define([
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
-                this._settings[settingsType].locked = value.get_Locked() || content_locked;
+                this._settings[settingsType].locked = value.get_Locked() || content_locked || lockMode;
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
-                    this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked();
+                    this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || lockMode;
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
-                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked() || lockMode;
             }
 
             if (control_props && control_props.get_FormPr() && this.rightmenu.formSettings) {
@@ -210,7 +214,7 @@ define([
                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
                     settingsType = Common.Utils.documentSettingsType.Form;
                     this._settings[settingsType].props = control_props;
-                    this._settings[settingsType].locked = control_lock;
+                    this._settings[settingsType].locked = control_lock || lockMode;
                     this._settings[settingsType].hidden = 0;
                     if (control_props.get_FormPr().get_Fixed())
                         this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 1;
@@ -466,6 +470,19 @@ define([
                 case Asc.c_oAscTypeSelectElement.Header:
                     return Common.Utils.documentSettingsType.Header;
             }
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+            }
+            var selectedElements = this.api.getSelectedElements();
+            if (selectedElements.length > 0)
+                this.onFocusObject(selectedElements);
         }
     });
 });

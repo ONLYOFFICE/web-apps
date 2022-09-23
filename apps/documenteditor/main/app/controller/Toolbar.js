@@ -430,6 +430,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
             }
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -3263,7 +3264,7 @@ define([
                 this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                     Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
-                                    Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode ],
+                                    Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView ],
                                  undefined, undefined, undefined, '1', 'bottom');
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
@@ -3329,6 +3330,20 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
             })).show();
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.toolbar.lockToolbar(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View));
+                this.toolbar.lockToolbar(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms));
+                this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review));
+                this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments));
+            }
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

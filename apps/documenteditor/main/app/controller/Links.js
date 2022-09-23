@@ -108,6 +108,7 @@ define([
                 this.api.asc_registerCallback('asc_onAscReplaceCurrentTOF',_.bind(this.onAscReplaceCurrentTOF, this));
                 this.api.asc_registerCallback('asc_onAscTOFUpdate',_.bind(this.onAscTOFUpdate, this));
             }
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             return this;
         },
 
@@ -570,6 +571,20 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
             })).show();
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.lockToolbar(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View));
+                this.lockToolbar(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms));
+                this.lockToolbar(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review));
+                this.lockToolbar(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments));
+            }
         }
 
     }, DE.Controllers.Links || {}));

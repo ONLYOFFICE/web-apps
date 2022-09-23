@@ -152,6 +152,7 @@ define([
                         signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         signProps = (signGuid) ? me.api.asc_getSignatureSetup(signGuid) : null,
                         isInSign = !!signProps && me._canProtect,
+                        lockMode = me.docProtection ? me.docProtection.lockMode : undefined,
                         control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false,
                         canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock,
@@ -169,7 +170,7 @@ define([
                     }
 
                     me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo() || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms);
                     me.menuViewCopySeparator.setVisible(isInSign);
 
                     var isRequested = (signProps) ? signProps.asc_getRequested() : false;
@@ -187,15 +188,15 @@ define([
                     }
 
                     me.menuViewAddComment.setVisible(canComment);
-                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms);
 
                     var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuViewCopy.setDisabled(!cancopy);
                     me.menuViewCut.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewCut.setDisabled(disabled || !cancopy);
+                    me.menuViewCut.setDisabled(disabled || !cancopy || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments);
                     me.menuViewPaste.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewPaste.setDisabled(disabled);
+                    me.menuViewPaste.setDisabled(disabled || lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Comments);
                     me.menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormMode);
                     me.menuViewPrint.setDisabled(!cancopy);
 

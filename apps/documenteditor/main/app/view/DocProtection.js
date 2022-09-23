@@ -79,7 +79,7 @@ define([
                     iconCls: 'toolbar__icon protect-workbook',
                     enableToggle: true,
                     caption: this.txtProtectDoc,
-                    lock        : [_set.lostConnect, _set.coAuth],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

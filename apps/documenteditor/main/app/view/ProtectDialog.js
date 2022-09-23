@@ -43,12 +43,6 @@ define([
 ], function () {
     'use strict';
 
-    Asc.c_oAscProtection = {
-        View: 1,
-        Forms: 2,
-        Review: 3,
-        Comments: 4
-    };
     DE.Views.ProtectDialog = Common.UI.Window.extend(_.extend({
 
         initialize : function (options) {

@@ -111,6 +111,7 @@ define([
             Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
             Common.NotificationCenter.on('protect:wslock', _.bind(this.onChangeProtectSheet, this));
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
 
             this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
             this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
@@ -890,6 +891,7 @@ define([
                 });
             }
             me.onChangeProtectSheet();
+            me.onChangeProtectDocument();
             if (me.view) {
                 me.lockToolbar(Common.enumLock.hideComments, !Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true), {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
                 me.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
@@ -1009,6 +1011,20 @@ define([
 
             if (!this.view) return;
             this.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [this.view.btnCommentRemove, this.view.btnCommentResolve]});
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.lockToolbar(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View));
+                this.lockToolbar(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms));
+                this.lockToolbar(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review));
+                this.lockToolbar(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments));
+            }
         },
 
         textInserted: '<b>Inserted:</b>',
