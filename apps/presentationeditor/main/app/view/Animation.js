@@ -219,7 +219,6 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0',
                     delayRenderTips: true,
-                    autoWidth: true,
                     beforeOpenHandler: function (e) {
                         var cmp = this,
                             menu = cmp.openButton.menu;
