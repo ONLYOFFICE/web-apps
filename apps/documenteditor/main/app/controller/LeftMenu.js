@@ -113,12 +113,13 @@ define([
                 if ( !this.leftMenu.panelHistory.isVisible() )
                     this.clickMenuFileItem(null, 'history');
             }, this));
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
 
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
-
+            this._state = {viewmode: false};
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -581,8 +582,16 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            if (this.viewmode === mode) return;
-            this.viewmode = mode;
+            this._state.viewmode = mode;
+            this.updatePreviewMode();
+        },
+
+        updatePreviewMode: function() {
+            var lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
+            lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms);
+            var viewmode = this._state.viewmode || lockMode;
+            if (this.viewmode === viewmode) return;
+            this.viewmode = viewmode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
         },
@@ -885,6 +894,17 @@ define([
 
         isCommentsVisible: function() {
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.updatePreviewMode();
+            }
         },
 
         textNoTextFound         : 'Text not found',

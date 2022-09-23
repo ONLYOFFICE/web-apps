@@ -102,7 +102,7 @@ define([
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
             this.viewmode = false;
 
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: []};
+            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: [], viewmode: false};
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
@@ -180,11 +180,20 @@ define([
         },
 
         setPreviewMode: function(mode) { //disable accept/reject in popover
-            if (this.viewmode === mode) return;
-            this.viewmode = mode;
-            if (mode)
+            this._state.viewmode = mode;
+            this.updatePreviewMode();
+        },
+
+        updatePreviewMode: function() {
+            var lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
+            lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms || lockMode===Asc.c_oAscProtection.Comments);
+            var viewmode = this._state.viewmode || lockMode;
+
+            if (this.viewmode === viewmode) return;
+            this.viewmode = viewmode;
+            if (viewmode)
                 this.prevcanReview = this.appConfig.canReview;
-            this.appConfig.canReview = (mode) ? false : this.prevcanReview;
+            this.appConfig.canReview = (viewmode) ? false : this.prevcanReview;
             var me = this;
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 model.set('hint', !me.appConfig.canReview);
@@ -1024,6 +1033,7 @@ define([
                 this.lockToolbar(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms));
                 this.lockToolbar(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review));
                 this.lockToolbar(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments));
+                this.updatePreviewMode();
             }
         },
 
