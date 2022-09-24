@@ -108,6 +108,7 @@
                     <span class="btn-slot split" id="slot-btn-borders"></span>
                     <span class="btn-slot split" id="slot-btn-fillparag"></span>
                     <span class="btn-slot split" id="slot-btn-table-tpl"></span>
+                    <span class="btn-slot split" id="slot-btn-cell-style"></span>
                 </div>
             </div>
             <div class="separator short"></div>

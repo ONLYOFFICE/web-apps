@@ -89,7 +89,7 @@ define([
                     '</div>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
-                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 324px;max-width: 324px;min-width: 105px;" data-group-width="324px">' +
+                '<div class="group flex small" id="slot-field-pivot-styles" style="width: 100%; min-width: 105px;" data-group-width="100%">' +
                 '</div>' +
             '</section>';
 
@@ -274,15 +274,18 @@ define([
 
                 this.pivotStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-pivot-template',
+                    style           : 'min-width: 103px; max-width: 517px;',
                     enableKeyEvents : true,
                     itemWidth       : 61,
                     itemHeight      : 49,
                     menuMaxHeight   : 300,
+                    groups          : new Common.UI.DataViewGroupStore(),
+                    autoWidth       : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set['FormatCells'], _set['PivotTables']],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
                             menu = cmp.openButton.menu,
-                            columnCount = 4;
+                            columnCount = 7;
 
                         if (menu.cmpEl) {
                             var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
@@ -445,7 +448,14 @@ define([
             tipSubtotals: 'Show or hide subtotals',
             txtSelect: 'Select',
             tipSelect: 'Select entire pivot table',
-            txtPivotTable: 'Pivot Table'
+            txtPivotTable: 'Pivot Table',
+            txtTable_PivotStyleMedium: 'Pivot Table Style Medium',
+            txtTable_PivotStyleDark: 'Pivot Table Style Dark',
+            txtTable_PivotStyleLight: 'Pivot Table Style Light',
+            txtGroupPivot_Custom: 'Custom',
+            txtGroupPivot_Light: 'Light',
+            txtGroupPivot_Medium: 'Medium',
+            txtGroupPivot_Dark: 'Dark'
         }
     }()), SSE.Views.PivotTable || {}));
 });

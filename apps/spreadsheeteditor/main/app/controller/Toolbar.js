@@ -335,6 +335,7 @@ define([
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
+                toolbar.btnCellStyle.menu.on('show:after',                  _.bind(this.onCellStyleMenuOpen, this));
                 toolbar.btnVisibleArea.menu.on('item:click',              _.bind(this.onVisibleAreaMenu, this));
                 toolbar.btnVisibleAreaClose.on('click',                   _.bind(this.onVisibleAreaClose, this));
                 toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
@@ -2112,6 +2113,7 @@ define([
                     el: element,
                     parentMenu  : menu,
                     restoreHeight: 300,
+                    groups: new Common.UI.DataViewGroupStore(),
                     style: 'max-height: 300px;',
                     store: me.getCollection('TableTemplates'),
                     itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:60px;height:44px;"></div>'),
@@ -2188,37 +2190,139 @@ define([
         onApiInitTableTemplates: function(images) {
             var me = this;
             var store = this.getCollection('TableTemplates');
+            this.fillTableTemplates();
+
             if (store) {
                 var templates = [];
+                var groups = [
+                    {id: 'menu-table-group-custom',    caption: me.txtGroupTable_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: me.txtGroupTable_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: me.txtGroupTable_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: me.txtGroupTable_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                 templates: []},
+                ];
                 _.each(images, function(item) {
                     var tip = item.asc_getDisplayName();
+                    var groupItem = '';
+                    
                     if (item.asc_getType()==0) {
                         var arr = tip.split(' '),
                             last = arr.pop();
+                           
+                        if(tip == 'None'){
+                            groupItem = 'menu-table-group-light';
+                        }
+                        else {
+                            if(arr.length > 0){
+                                groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                            }
+                            if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                                groupItem = 'menu-table-group-no-name';
+                            }
+                        }
                         arr = 'txtTable_' + arr.join('');
                         tip = me[arr] ? me[arr] + ' ' + last : tip;
                     }
-                    templates.push({
+                    else {
+                        groupItem = 'menu-table-group-custom'
+                    }
+                    groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                         name        : item.asc_getName(),
                         caption     : item.asc_getDisplayName(),
                         type        : item.asc_getType(),
                         imageUrl    : item.asc_getImage(),
+                        group       : groupItem,  
                         allowSelected : true,
                         selected    : false,
                         tip         : tip
                     });
                 });
 
+                groups = groups.filter(function(item, index){
+                    return item.templates.length > 0
+                });
+                
+                groups.forEach(function(item){
+                    templates = templates.concat(item.templates);
+                    delete item.templates;
+                });
+
+                me.toolbar.mnuTableTemplatePicker.groups.reset(groups);
                 store.reset(templates);
             }
-            this.fillTableTemplates();
+        },
+
+
+        onCellStyleMenuOpen: function(menu) {
+            if (menu && this.toolbar.mnuCellStylePicker) {
+                var picker = this.toolbar.mnuCellStylePicker,
+                    columnCount = 6;
+
+                if (picker.cmpEl) {
+                    var itemEl = $(picker.cmpEl.find('.dataview.inner .item').get(0)),
+                        itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right')),
+                        itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) : 106;
+
+                    var menuWidth = columnCount * (itemMargin + itemWidth) + 15, // for scroller
+                        menuMargins = parseFloat(picker.cmpEl.css('margin-left')) + parseFloat(picker.cmpEl.css('margin-right'));
+                    if (menuWidth + menuMargins>Common.Utils.innerWidth())
+                        menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-menuMargins-11)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 11;
+                    picker.cmpEl.css({
+                        'width': menuWidth
+                    });
+                    menu.alignPosition();
+                }
+            }
+
+            var scroller = this.toolbar.mnuCellStylePicker.scroller;
+            if (scroller) {
+                scroller.update({alwaysVisibleY: true});
+                scroller.scrollTop(0);
+            }
+
+            var val = this.toolbar.mnuCellStylePicker.store.findWhere({name: this._state.prstyle});
+            if (val)
+                this.toolbar.mnuCellStylePicker.selectRecord(val);
+            else
+                this.toolbar.mnuCellStylePicker.deselectAll();
         },
 
         onApiInitEditorStyles: function(styles){
             window.styles_loaded = false;
 
+            if(this.toolbar.mode.isEditOle) {
+                var me = this;
+                function createPicker(element, menu) {
+                    var picker = new Common.UI.DataView({
+                        el: element,
+                        parentMenu  : menu,
+                        restoreHeight: 380,
+                        groups: new Common.UI.DataViewGroupStore(),
+                        store : new Common.UI.DataViewStore(),
+                        style: 'max-height: 380px;',
+                        itemTemplate: _.template('<div class="style"><img src="<%= imageUrl %>" id="<%= id %>" style="width:100px;height:20px;"></div>'),
+                        delayRenderTips: true
+                    });
+    
+                    picker.on('item:click', function(picker, item, record) {
+                        me.onListStyleSelect(picker, record);
+                    });
+    
+                    if (picker.scroller) {
+                        picker.scroller.update({alwaysVisibleY: true});
+                    }
+    
+                    return picker;
+                }
+    
+                if (_.isUndefined(this.toolbar.mnuCellStylePicker)) {
+                    this.toolbar.mnuCellStylePicker = createPicker($('#id-toolbar-menu-cell-styles'), this.toolbar.btnCellStyle.menu);
+                }
+            }
+
             var self = this,
-                listStyles = self.toolbar.listStyles;
+                listStyles = this.toolbar.mode.isEditOle ? self.toolbar.mnuCellStylePicker: self.toolbar.listStyles,
+                menuPicker = this.toolbar.mode.isEditOle ? listStyles: listStyles.menuPicker;
 
             if (!listStyles) {
                 self.styles = styles;
@@ -2226,10 +2330,26 @@ define([
             }
 
             var mainController = this.getApplication().getController('Main');
-            var count = listStyles.menuPicker.store.length;
-            var rec = listStyles.menuPicker.getSelectedRec();
+            var count = menuPicker.store.length;
+            var rec = menuPicker.getSelectedRec();
+            var groupStore = [
+                {id: 'menu-style-group-custom',     caption: this.txtGroupCell_Custom},
+                {id: 'menu-style-group-color',      caption: this.txtGroupCell_GoodBadAndNeutral},
+                {id: 'menu-style-group-model',      caption: this.txtGroupCell_DataAndModel},
+                {id: 'menu-style-group-title',      caption: this.txtGroupCell_TitlesAndHeadings},
+                {id: 'menu-style-group-themed',     caption: this.txtGroupCell_ThemedCallStyles}, 
+                {id: 'menu-style-group-number',     caption: this.txtGroupCell_NumberFormat},
+                {id: 'menu-style-group-no-name',    caption: this.txtGroupCell_NoName}
+            ];
+            var groups = [];
+            for (var i = 0; i < 4; i++) { groups.push('menu-style-group-color'); }
+            for (var i = 0; i < 8; i++) { groups.push('menu-style-group-model'); }
+            for (var i = 0; i < 6; i++) { groups.push('menu-style-group-title'); }
+            for (var i = 0; i < 24; i++) { groups.push('menu-style-group-themed'); }
+            for (var i = 0; i < 5; i++) { groups.push('menu-style-group-number'); }
+            
             if (count>0 && count==styles.length) {
-                var data = listStyles.menuPicker.dataViewItems;
+                var data = menuPicker.dataViewItems;
                 data && _.each(styles, function(style, index){
                     var img = style.asc_getImage();
                     data[index].model.set('imageUrl', img, {silent: true});
@@ -2241,19 +2361,48 @@ define([
                 });
             } else {
                 var arr = [];
-                _.each(styles, function(style){
+                var countCustomStyles = 0;
+                var hasNoNameGroup = false;
+                _.each(styles, function(style, index){
+                    var styleGroup;
+                    if(style.asc_getType() == 0) {
+                        if(index - countCustomStyles < groups.length){
+                            styleGroup = groups[index - countCustomStyles];
+                        }
+                        else {
+                            styleGroup = 'menu-style-group-no-name';
+                            hasNoNameGroup = true;
+                        }
+                    }
+                    else {
+                        styleGroup = 'menu-style-group-custom';
+                    }
+                    
                     arr.push({
                         imageUrl: style.asc_getImage(),
                         name    : style.asc_getName(),
+                        group   : styleGroup,
                         tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                         uid     : Common.UI.getId()
                     });
+                    if(style.asc_getType() == 1){
+                        countCustomStyles += 1;
+                    }
                 });
-                listStyles.menuPicker.store.reset(arr);
+
+                if(countCustomStyles == 0){
+                    groupStore = groupStore.filter(function(item) { return item.id != 'menu-style-group-custom'; });
+                }
+                if(hasNoNameGroup === false){
+                    groupStore = groupStore.filter(function(item) { return item.id != 'menu-style-group-no-name'; });
+                }
+                
+                menuPicker.groups.reset(groupStore);
+                menuPicker.store.reset(arr);
             }
-            if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
-                rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
-                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true, true);
+            if (!this.toolbar.mode.isEditOle && menuPicker.store.length > 0 && listStyles.rendered) {
+                rec = rec ? menuPicker.store.findWhere({name: rec.get('name')}) : null;
+                listStyles.fillComboView(rec ? rec : menuPicker.store.at(0), true, true);
             }
             window.styles_loaded = true;
         },
@@ -3462,6 +3611,19 @@ define([
                 } else {
                     toolbar.mnuTableTemplatePicker.deselectAll();
                     this._state.tablestylename = null;
+                }
+            }
+
+            val = info.asc_getStyleName();
+            if (this._state.prstyle != val && this.toolbar.mnuCellStylePicker) {
+
+                val = this.toolbar.mnuCellStylePicker.store.findWhere({name: val});
+                if (val) {
+                    this.toolbar.mnuCellStylePicker.selectRecord(val);
+                    this._state.prstyle = val.get('name');
+                } else {
+                    this.toolbar.mnuCellStylePicker.deselectAll();
+                    this._state.prstyle = null;
                 }
             }
 
@@ -5094,6 +5256,17 @@ define([
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
         txtTable_TableStyleLight: 'Table Style Light',
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Light: 'Light',
+        txtGroupTable_Medium: 'Medium',
+        txtGroupTable_Dark: 'Dark',
+        txtGroupCell_Custom: 'Custom',
+        txtGroupCell_GoodBadAndNeutral: 'Good, Bad, and Neutral',
+        txtGroupCell_DataAndModel: 'Data and Model',
+        txtGroupCell_TitlesAndHeadings: 'Titles and Headings',
+        txtGroupCell_ThemedCallStyles: 'Themed Call Styles',
+        txtGroupCell_NumberFormat: 'Number Format',
+        txtGroupCell_NoName: 'No name',
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
         txtDeleteCells: 'Delete Cells',
