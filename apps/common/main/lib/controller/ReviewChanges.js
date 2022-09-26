@@ -167,13 +167,15 @@ define([
         SetDisabled: function(state, reviewMode, fillFormMode) {
             if (this.dlgChanges)
                 this.dlgChanges.close();
-            if (reviewMode)
+            if (reviewMode) {
                 this.lockToolbar(Common.enumLock.previewReviewMode, state);
-            else if (fillFormMode)
+                this.dlgChanges && Common.Utils.lockControls(Common.enumLock.previewReviewMode, state, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+            } else if (fillFormMode) {
                 this.lockToolbar(Common.enumLock.viewFormMode, state);
-            else
+                this.dlgChanges && Common.Utils.lockControls(Common.enumLock.viewFormMode, state, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+            } else {
                 this.lockToolbar(Common.enumLock.viewMode, state);
-
+            }
             this.setPreviewMode(state);
         },
 
@@ -218,17 +220,14 @@ define([
         onApiShowChange: function (sdkchange, isShow) {
             var btnlock = true,
                 changes;
-            if (this.appConfig.canReview && !this.appConfig.isReviewOnly) {
+            if (this.appConfig.canReview && !(this.appConfig.isReviewOnly || Common.Utils.Store.get('docProtection', {}).isReviewOnly)) {
                 if (sdkchange && sdkchange.length>0) {
                     changes = this.readSDKChange(sdkchange);
                     btnlock = this.isSelectedChangesLocked(changes, isShow);
                 }
                 if (this._state.lock !== btnlock) {
                     Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.view.btnAccept, this.view.btnReject]});
-                    if (this.dlgChanges) {
-                        this.dlgChanges.btnAccept.setDisabled(btnlock);
-                        this.dlgChanges.btnReject.setDisabled(btnlock);
-                    }
+                    this.dlgChanges && Common.Utils.lockControls(Common.enumLock.reviewChangelock, btnlock, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                     this._state.lock = btnlock;
                     Common.Utils.InternalSettings.set(this.view.appPrefix + "accept-reject-lock", btnlock);
                 }
@@ -496,6 +495,7 @@ define([
                 }
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
                     user = me.userCollection.findOriginalUser(item.get_UserId()),
+                    isProtectedReview = !!Common.Utils.Store.get('docProtection', {}).isReviewOnly,
                     change = new Common.Models.ReviewChange({
                         uid         : Common.UI.getId(),
                         userid      : item.get_UserId(),
@@ -511,7 +511,7 @@ define([
                         scope       : me.view,
                         hint        : !me.appConfig.canReview,
                         goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
-                        editable    : me.appConfig.isReviewOnly && (item.get_UserId() == me.currentUserId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()))
+                        editable    : (me.appConfig.isReviewOnly || isProtectedReview) && (item.get_UserId() == me.currentUserId) || !(me.appConfig.isReviewOnly || isProtectedReview) && (!me.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()))
                     });
 
                 arr.push(change);
@@ -600,7 +600,7 @@ define([
         },
 
         onTurnPreview: function(state, global, fromApi) {
-            if ( this.appConfig.isReviewOnly ) {
+            if ( this.appConfig.isReviewOnly) {
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
@@ -614,7 +614,7 @@ define([
         },
 
         onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) {
-            if ( this.appConfig.isReviewOnly ) {
+            if ( this.appConfig.isReviewOnly || Common.Utils.Store.get('docProtection', {}).isReviewOnly) {
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
@@ -983,7 +983,8 @@ define([
         },
 
         onCoAuthoringDisconnect: function() {
-            this.lockToolbar(Common.enumLock.lostConnect, true)
+            this.lockToolbar(Common.enumLock.lostConnect, true);
+            this.dlgChanges && Common.Utils.lockControls(Common.enumLock.lostConnect, true, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
         },
 
         onUpdateUsers: function() {
@@ -1034,6 +1035,22 @@ define([
                 this.lockToolbar(Common.enumLock.docLockForms, docProtection.isFormsOnly);
                 this.lockToolbar(Common.enumLock.docLockReview, docProtection.isReviewOnly);
                 this.lockToolbar(Common.enumLock.docLockComments, docProtection.isCommentsOnly);
+                if (this.dlgChanges) {
+                    Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                    Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                    Common.Utils.lockControls(Common.enumLock.docLockReview, docProtection.isReviewOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                    Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                }
+                if (this.appConfig.canReview) {
+                    if (docProtection.isReviewOnly) {
+                        this.onTurnPreview(true);
+                        this.onApiShowChange();
+                    } else if (this._state.prevReviewProtected) {
+                        this.onTurnPreview(false);
+                        this.onApiShowChange();
+                    }
+                    this._state.prevReviewProtected = docProtection.isReviewOnly;
+                }
                 this.updatePreviewMode();
             }
         },
