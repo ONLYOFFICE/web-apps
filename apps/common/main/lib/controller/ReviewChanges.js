@@ -102,7 +102,9 @@ define([
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
             this.viewmode = false;
 
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: [], viewmode: false};
+            this._state = { posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: [],
+                            disableEditing: false // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+                          };
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
@@ -180,14 +182,13 @@ define([
         },
 
         setPreviewMode: function(mode) { //disable accept/reject in popover
-            this._state.viewmode = mode;
+            this._state.disableEditing = mode;
             this.updatePreviewMode();
         },
 
         updatePreviewMode: function() {
-            var lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
-            lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms || lockMode===Asc.c_oAscProtection.Comments);
-            var viewmode = this._state.viewmode || lockMode;
+            var docProtection = Common.Utils.Store.get('docProtection', {});
+            var viewmode = this._state.disableEditing || !!docProtection.isReadOnly || !!docProtection.isFormsOnly || !!docProtection.isCommentsOnly;
 
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
@@ -1022,17 +1023,17 @@ define([
             this.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [this.view.btnCommentRemove, this.view.btnCommentResolve]});
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
+        onChangeProtectDocument: function() {
+            var docProtection = Common.Utils.Store.get('docProtection');
+            if (!docProtection) {
+                var cntrl = this.getApplication().getController('DocProtection');
+                docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (props) {
-                this._state.docProtection = props;
-                this.lockToolbar(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View));
-                this.lockToolbar(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms));
-                this.lockToolbar(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review));
-                this.lockToolbar(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments));
+            if (docProtection) {
+                this.lockToolbar(Common.enumLock.docLockView, docProtection.isReadOnly);
+                this.lockToolbar(Common.enumLock.docLockForms, docProtection.isFormsOnly);
+                this.lockToolbar(Common.enumLock.docLockReview, docProtection.isReviewOnly);
+                this.lockToolbar(Common.enumLock.docLockComments, docProtection.isCommentsOnly);
                 this.updatePreviewMode();
             }
         },

@@ -269,7 +269,6 @@ define([
                 this.paragraphControls.push(this.btnTableFiguresUpdate);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
-                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {

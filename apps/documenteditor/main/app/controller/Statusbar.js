@@ -122,7 +122,6 @@ define([
                     me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
                 }
             });
-            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
         },
 
@@ -356,14 +355,6 @@ define([
             if (this.api) {
                 this.api.asc_setViewerTargetType(type);
             }
-        },
-
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
-            }
-            props && this.statusbar.onChangeProtectDocument(props);
         },
 
         zoomText        : 'Zoom {0}%',

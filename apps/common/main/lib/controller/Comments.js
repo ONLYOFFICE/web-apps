@@ -144,12 +144,15 @@ define([
                     }
                 }, this, area);
             }.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
         onLaunch: function () {
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
-            this._state = {viewmode: false};
+            this._state = {
+                disableEditing: false // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+            };
 
             this.collection                     =   this.getApplication().getCollection('Common.Collections.Comments');
             this.setComparator();
@@ -1647,14 +1650,13 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            this._state.viewmode = mode;
+            this._state.disableEditing = mode;
             this.updatePreviewMode();
         },
 
         updatePreviewMode: function() {
-            var lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
-            lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms);
-            var viewmode = this._state.viewmode || lockMode;
+            var docProtection = Common.Utils.Store.get('docProtection', {});
+            var viewmode = this._state.disableEditing || !!docProtection.isReadOnly || !!docProtection.isFormsOnly;
 
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
@@ -1732,15 +1734,23 @@ define([
             this.updateComments(true);
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                me.onChangeProtectDocument();
+            });
+        },
+
+        onChangeProtectDocument: function() {
+            var docProtection = Common.Utils.Store.get('docProtection');
+            if (!docProtection) {
+                var cntrl = this.getApplication().getController('DocProtection');
+                docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (props) {
-                this._state.docProtection = props;
+            if (docProtection)
                 this.updatePreviewMode();
-            }
         }
 
     }, Common.Controllers.Comments || {}));

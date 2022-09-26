@@ -160,6 +160,8 @@ define([
             me.zoomMenu.on('item:click', function(menu, item) {
                 me.fireEvent('zoom:value', [item.value]);
             });
+
+            me.onChangeProtectDocument();
         }
 
         DE.Views.Statusbar = Backbone.View.extend(_.extend({
@@ -334,6 +336,7 @@ define([
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',      _.bind(this.onApiCoAuthoringDisconnect, this));
+                    Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
                 }
 
                 return this;
@@ -401,17 +404,20 @@ define([
 
             SetDisabled: function(disable) {
                 this._isDisabled = disable;
-                var lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
-                lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms || lockMode===Asc.c_oAscProtection.Comments);
-                this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1 || lockMode);
-                this.btnTurnReview && this.btnTurnReview.setDisabled(disable || lockMode);
+                var docProtection = Common.Utils.Store.get('docProtection', {}),
+                    isProtected = !!docProtection.isReadOnly || !!docProtection.isFormsOnly || !!docProtection.isCommentsOnly
+                this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1 || isProtected);
+                this.btnTurnReview && this.btnTurnReview.setDisabled(disable || isProtected);
             },
 
-            onChangeProtectDocument: function(props) {
-                if (props) {
-                    this._state.docProtection = props;
-                    this.SetDisabled(this._isDisabled);
+            onChangeProtectDocument: function() {
+                var docProtection = Common.Utils.Store.get('docProtection');
+                if (!docProtection) {
+                    var cntrl = DE.getController('DocProtection');
+                    docProtection = cntrl ? cntrl.getDocProps() : null;
                 }
+                if (docProtection)
+                    this.SetDisabled(this._isDisabled);
             },
 
             onApiCoAuthoringDisconnect: function() {

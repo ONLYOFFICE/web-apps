@@ -158,8 +158,8 @@ define([
 
             var isChart = false,
                 isSmartArtInternal = false,
-                lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
-            lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms || lockMode===Asc.c_oAscProtection.Comments);
+                docProtection = Common.Utils.Store.get('docProtection', {}),
+                isProtected = !!docProtection.isReadOnly || !!docProtection.isFormsOnly || !!docProtection.isCommentsOnly;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_lock = false;
@@ -189,7 +189,7 @@ define([
                         if (value.get_ShapeProperties().asc_getTextArtProperties()) {
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
-                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked || lockMode;
+                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked || isProtected;
                         }
                     }
                     control_lock = control_lock || value.get_Locked();
@@ -201,11 +201,11 @@ define([
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
-                this._settings[settingsType].locked = value.get_Locked() || content_locked || lockMode;
+                this._settings[settingsType].locked = value.get_Locked() || content_locked || isProtected;
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
-                    this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || lockMode;
+                    this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || isProtected;
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
-                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked() || lockMode;
+                    this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked() || isProtected;
             }
 
             if (control_props && control_props.get_FormPr() && this.rightmenu.formSettings) {
@@ -214,7 +214,7 @@ define([
                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
                     settingsType = Common.Utils.documentSettingsType.Form;
                     this._settings[settingsType].props = control_props;
-                    this._settings[settingsType].locked = control_lock || lockMode;
+                    this._settings[settingsType].locked = control_lock || isProtected;
                     this._settings[settingsType].hidden = 0;
                     if (control_props.get_FormPr().get_Fixed())
                         this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 1;
@@ -358,7 +358,6 @@ define([
                 }
                 this.api.asc_registerCallback('asc_onError',             _.bind(this.onError, this));
             }
-
             if (this.editMode && this.api) {
                 // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
@@ -366,6 +365,7 @@ define([
                     this.onFocusObject(selectedElements);
                 }
             }
+            this.onChangeProtectDocument();
         },
 
         onDoubleClickOnObject: function(obj) {
@@ -472,17 +472,17 @@ define([
             }
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
+        onChangeProtectDocument: function() {
+            var docProtection = Common.Utils.Store.get('docProtection');
+            if (!docProtection) {
+                var cntrl = this.getApplication().getController('DocProtection');
+                docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (props) {
-                this._state.docProtection = props;
+            if (docProtection && this.api) {
+                var selectedElements = this.api.getSelectedElements();
+                if (selectedElements.length > 0)
+                    this.onFocusObject(selectedElements);
             }
-            var selectedElements = this.api.getSelectedElements();
-            if (selectedElements.length > 0)
-                this.onFocusObject(selectedElements);
         }
     });
 });

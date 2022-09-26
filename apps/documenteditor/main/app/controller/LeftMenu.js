@@ -119,7 +119,7 @@ define([
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
-            this._state = {viewmode: false};
+            this._state = {disableEditing: false};
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -216,7 +216,7 @@ define([
             }
 
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
-
+            this.onChangeProtectDocument();
             Common.util.Shortcuts.resumeEvents();
             return this;
         },
@@ -582,14 +582,13 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            this._state.viewmode = mode;
+            this._state.disableEditing = mode;
             this.updatePreviewMode();
         },
 
         updatePreviewMode: function() {
-            var lockMode = this._state.docProtection ? this._state.docProtection.lockMode : undefined;
-            lockMode = (lockMode===Asc.c_oAscProtection.View || lockMode===Asc.c_oAscProtection.Forms);
-            var viewmode = this._state.viewmode || lockMode;
+            var docProtection = Common.Utils.Store.get('docProtection', {});
+            var viewmode = this._state.disableEditing || !!docProtection.isReadOnly || !!docProtection.isFormsOnly;
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
 
@@ -896,15 +895,14 @@ define([
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
+        onChangeProtectDocument: function() {
+            var docProtection = Common.Utils.Store.get('docProtection');
+            if (!docProtection) {
+                var cntrl = this.getApplication().getController('DocProtection');
+                docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (props) {
-                this._state.docProtection = props;
+            if (docProtection)
                 this.updatePreviewMode();
-            }
         },
 
         textNoTextFound         : 'Text not found',

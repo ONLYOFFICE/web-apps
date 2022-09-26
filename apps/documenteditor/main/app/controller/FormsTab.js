@@ -378,6 +378,7 @@ define([
                     me.view.btnHighlight.currentColor = clr;
                 }
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showCreateFormTip(); // show tip only when create form in docxf
+                me.onChangeProtectDocument();
             });
         },
 
@@ -433,18 +434,18 @@ define([
             }
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
+        onChangeProtectDocument: function() {
+            var docProtection = Common.Utils.Store.get('docProtection');
+            if (!docProtection) {
+                var cntrl = this.getApplication().getController('DocProtection');
+                docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (props) {
-                this._state.docProtection = props;
+            if (docProtection) {
                 var arr = this.view.getButtons();
-                Common.Utils.lockControls(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View)),   {array: arr};
-                Common.Utils.lockControls(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms),   {array: arr});
-                Common.Utils.lockControls(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review),   {array: arr});
-                Common.Utils.lockControls(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments),   {array: arr});
+                Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly,   {array: arr});
+                Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly,   {array: arr});
+                Common.Utils.lockControls(Common.enumLock.docLockReview, docProtection.isReviewOnly,   {array: arr});
+                Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly,   {array: arr});
             }
         }
 

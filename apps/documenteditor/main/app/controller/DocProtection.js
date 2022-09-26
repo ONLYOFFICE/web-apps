@@ -190,6 +190,7 @@ define([
                 resolve();
             })).then(function () {
                 // me.view.btnProtectDoc.toggle(me.api.asc_isProtectedDocument(), true);
+                // me.onChangeProtectDocument();
             });
         },
 
@@ -197,14 +198,14 @@ define([
             // var isProtected = this.api.asc_isProtectedDocument();
             var isProtected = this.view.btnProtectDoc.isActive(); // test
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
-            var props = this.getDocProps(true);
-            Common.NotificationCenter.trigger('protect:doclock', props);
+            this.getDocProps(true);
+            Common.NotificationCenter.trigger('protect:doclock');
         },
 
         getDocProps: function(update) {
             if (!this.appConfig || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit) return;
 
-            if (update || !this._state.docProtection) {
+            if (update || !Common.Utils.Store.get('docProtection')) {
                 // var docProtected = !!this.api.asc_isProtectedDocument(),
                 //     type;
                 //
@@ -221,10 +222,14 @@ define([
                     type = Common.Utils.InternalSettings.get('protect-test-type');
                 }
                 /////////////
-                this._state.docProtection = {docLock: docProtected, lockMode: type};
+                Common.Utils.Store.set('docProtection', {
+                    isReadOnly: type===Asc.c_oAscProtection.View,
+                    isCommentsOnly: type===Asc.c_oAscProtection.Comments,
+                    isReviewOnly: type===Asc.c_oAscProtection.Review,
+                    isFormsOnly: type===Asc.c_oAscProtection.Forms
+                });
             }
-
-            return this._state.docProtection;
+            return Common.Utils.Store.get('docProtection');
         }
 
     }, DE.Controllers.DocProtection || {}));

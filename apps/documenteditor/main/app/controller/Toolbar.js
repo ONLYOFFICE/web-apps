@@ -3162,6 +3162,7 @@ define([
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
+            this.onChangeProtectDocument();
         },
 
         onAppShowed: function (config) {
@@ -3332,17 +3333,17 @@ define([
             })).show();
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
+        onChangeProtectDocument: function() {
+            var docProtection = Common.Utils.Store.get('docProtection');
+            if (!docProtection) {
+                var cntrl = this.getApplication().getController('DocProtection');
+                docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (props) {
-                this._state.docProtection = props;
-                this.toolbar.lockToolbar(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View));
-                this.toolbar.lockToolbar(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms));
-                this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review));
-                this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments));
+            if (docProtection) {
+                this.toolbar.lockToolbar(Common.enumLock.docLockView, docProtection.isReadOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockForms, docProtection.isFormsOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockReview, docProtection.isReviewOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockComments, docProtection.isCommentsOnly);
             }
         },
 

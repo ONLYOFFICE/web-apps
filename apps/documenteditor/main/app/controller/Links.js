@@ -94,6 +94,7 @@ define([
             Common.Gateway.on('setactionlink', function (url) {
                 console.log('url with actions: ' + url);
             }.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         setApi: function (api) {
@@ -573,18 +574,28 @@ define([
             })).show();
         },
 
-        onChangeProtectDocument: function(props) {
-            if (!props) {
-                var docprotect = this.getApplication().getController('DocProtection');
-                props = docprotect ? docprotect.getDocProps() : null;
+        onChangeProtectDocument: function() {
+            var docProtection = Common.Utils.Store.get('docProtection');
+            if (!docProtection) {
+                var cntrl = this.getApplication().getController('DocProtection');
+                docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (props) {
-                this._state.docProtection = props;
-                this.lockToolbar(Common.enumLock.docLockView, props.docLock && (props.lockMode===Asc.c_oAscProtection.View));
-                this.lockToolbar(Common.enumLock.docLockForms, props.docLock && (props.lockMode===Asc.c_oAscProtection.Forms));
-                this.lockToolbar(Common.enumLock.docLockReview, props.docLock && (props.lockMode===Asc.c_oAscProtection.Review));
-                this.lockToolbar(Common.enumLock.docLockComments, props.docLock && (props.lockMode===Asc.c_oAscProtection.Comments));
+            if (docProtection) {
+                this.lockToolbar(Common.enumLock.docLockView, docProtection.isReadOnly);
+                this.lockToolbar(Common.enumLock.docLockForms, docProtection.isFormsOnly);
+                this.lockToolbar(Common.enumLock.docLockReview, docProtection.isReviewOnly);
+                this.lockToolbar(Common.enumLock.docLockComments, docProtection.isCommentsOnly);
             }
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                me.view && me.view.onAppReady(config);
+                me.onChangeProtectDocument();
+            });
         }
 
     }, DE.Controllers.Links || {}));
