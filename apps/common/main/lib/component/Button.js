@@ -351,22 +351,37 @@ define([
         getCaptionWithBreaks: function (caption) {
             var words = caption.split(' '),
                 newCaption = null,
-                maxWidth = 85 - 4;
+                maxWidth = 160 - 4, //85 - 4
+                containAnd = words.indexOf('&');
+            if (containAnd > -1) { // add & to previous word
+                words[containAnd - 1] += ' &';
+                words.splice(containAnd, 1);
+            }
             if (words.length > 1) {
                 maxWidth = !!this.menu || this.split === true ? maxWidth - 10 : maxWidth;
                 if (words.length < 3) {
+                    words[0] = getShortText(words[0], !!this.menu ? maxWidth + 10 : maxWidth);
                     words[1] = getShortText(words[1], maxWidth);
                     newCaption = words[0] + '<br>' + words[1];
                 } else {
+                    var otherWords = '';
                     if (getWidthOfCaption(words[0] + ' ' + words[1]) < maxWidth) { // first and second words in first line
-                        words[2] = getShortText(words[2], maxWidth);
-                        newCaption = words[0] + ' ' + words[1] + '<br>' + words[2];
-                    } else if (getWidthOfCaption(words[1] + ' ' + words[2]) < maxWidth) { // second and third words in second line
-                        words[2] = getShortText(words[2], maxWidth);
-                        newCaption = words[0] + '<br>' + words[1] + ' ' + words[2];
-                    } else {
-                        words[1] = getShortText(words[1] + ' ' + words[2], maxWidth);
-                        newCaption = words[0] + '<br>' + words[1];
+                        for (var i = 2; i < words.length; i++) {
+                            otherWords += words[i] + ' ';
+                        }
+                        if (getWidthOfCaption(otherWords + (!!this.menu ? 10 : 0))*2 < getWidthOfCaption(words[0] + ' ' + words[1])) {
+                            otherWords = getShortText((words[1] + ' ' + otherWords).trim(), maxWidth);
+                            newCaption = words[0] + '<br>' + otherWords;
+                        } else {
+                            otherWords = getShortText(otherWords.trim(), maxWidth);
+                            newCaption = words[0] + ' ' + words[1] + '<br>' + otherWords;
+                        }
+                    } else { // only first word is in first line
+                        for (var j = 1; j < words.length; j++) {
+                            otherWords += words[j] + ' ';
+                        }
+                        otherWords = getShortText(otherWords.trim(), maxWidth);
+                        newCaption = words[0] + '<br>' + otherWords;
                     }
                 }
             } else {
