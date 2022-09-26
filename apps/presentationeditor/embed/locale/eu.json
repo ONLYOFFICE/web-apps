@@ -17,7 +17,7 @@
   "PE.ApplicationController.errorForceSave": "Errore bat gertatu da dokumentua gordetzean.<br>Erabili 'Deskargatu honela' aukera fitxategia zure ordenagailuko disko gogorrean gordetzeko edo saiatu berriro geroago.",
   "PE.ApplicationController.errorLoadingFont": "Letra-tipoak ez dira kargatu.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
   "PE.ApplicationController.errorTokenExpire": "Dokumentuaren segurtasun-tokena iraungi da.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Interneteko konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
   "PE.ApplicationController.errorUserDrop": "Ezin da fitxategia atzitu une honetan.",
   "PE.ApplicationController.notcriticalErrorTitle": "Abisua",
   "PE.ApplicationController.openErrorText": "Errore bat gertatu da fitxategia irekitzean.",

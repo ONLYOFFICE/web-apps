@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Unikátne",
   "Common.define.conditionalData.textValue": "Hodnota je",
   "Common.define.conditionalData.textYesterday": "Včera",
+  "Common.Translation.textMoreButton": "Viac",
   "Common.Translation.warnFileLocked": "Súbor je upravovaný v inej aplikácií. Môžete pokračovať v úpravách a uložiť ho ako kópiu.",
   "Common.Translation.warnFileLockedBtnEdit": "Vytvoriť kópiu",
   "Common.Translation.warnFileLockedBtnView": "Otvoriť pre náhľad",

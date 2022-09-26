@@ -145,7 +145,7 @@ define([
 
         onInputSearchChange: function (text) {
             var me = this;
-            if (this._state.searchText !== text) {
+            if ((text && this._state.searchText !== text) || (!text && this._state.newSearchText)) {
                 this._state.newSearchText = text;
                 this._lastInputChange = (new Date());
                 if (this.searchTimer === undefined) {
@@ -154,6 +154,8 @@ define([
 
                         me._state.searchText = me._state.newSearchText;
                         if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
+                            me.api.asc_endFindText();
+                            me.hideResults();
                             me.view.updateResultsNumber('no-results');
                             me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);

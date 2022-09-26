@@ -13,7 +13,7 @@ const PagePresentationInfo = (props) => {
     return (
         <Page>
             <Navbar title={_t.textPresentationInfo} backLink={_t.textBack} />
-            {dataDoc.title ? (
+            {dataDoc?.title ? (
                 <Fragment>
                     <BlockTitle>{_t.textPresentationTitle}</BlockTitle>
                     <List>
@@ -21,7 +21,7 @@ const PagePresentationInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataDoc.info.author || dataDoc.info.owner ? (
+            {dataDoc?.info?.author || dataDoc?.info?.owner ? (
                 <Fragment>
                     <BlockTitle>{_t.textOwner}</BlockTitle>
                     <List>
@@ -29,7 +29,7 @@ const PagePresentationInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataDoc.info.folder ? (
+            {dataDoc?.info?.folder ? (
                 <Fragment>  
                     <BlockTitle>{_t.textLocation}</BlockTitle>
                     <List>
@@ -37,7 +37,7 @@ const PagePresentationInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataDoc.info.uploaded || dataDoc.info.created ? (  
+            {dataDoc?.info?.uploaded || dataDoc?.info?.created ? (
                 <Fragment>
                     <BlockTitle>{_t.textUploaded}</BlockTitle>
                     <List>

@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Enestående",
   "Common.define.conditionalData.textValue": "Værdi er",
   "Common.define.conditionalData.textYesterday": "I går",
+  "Common.Translation.textMoreButton": "Mere",
   "Common.Translation.warnFileLocked": "Dokumentet er i brug af en anden applikation. Du kan fortsætte med at redigere og gemme en kopi.",
   "Common.Translation.warnFileLockedBtnEdit": "Opret en kopi",
   "Common.Translation.warnFileLockedBtnView": "Åben for visning",

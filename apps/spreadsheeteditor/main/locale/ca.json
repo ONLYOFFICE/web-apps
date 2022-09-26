@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Únic",
   "Common.define.conditionalData.textValue": "El valor és",
   "Common.define.conditionalData.textYesterday": "Ahir",
+  "Common.Translation.textMoreButton": "Més",
   "Common.Translation.warnFileLocked": "El document és obert en una altra aplicació. Pots continuar editant i guardar-lo com a còpia.",
   "Common.Translation.warnFileLockedBtnEdit": "Crea una còpia",
   "Common.Translation.warnFileLockedBtnView": "Obre per a la seva visualització",

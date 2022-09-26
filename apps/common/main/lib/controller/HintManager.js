@@ -675,7 +675,9 @@ Common.UI.HintManager = new(function() {
             $('.hint-div').remove();
         }
         if ($('iframe').length > 0) {
-            $('iframe').contents().find('.hint-div').remove();
+            try {
+                $('iframe').contents().find('.hint-div').remove();
+            } catch (e) {}
         }
     };
 
