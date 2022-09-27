@@ -198,14 +198,13 @@ define([
             // var isProtected = this.api.asc_isProtectedDocument();
             var isProtected = this.view ? this.view.btnProtectDoc.isActive() : false; // test
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
-            this.getDocProps(true);
-            Common.NotificationCenter.trigger('protect:doclock');
+            Common.NotificationCenter.trigger('protect:doclock', this.getDocProps(true));
         },
 
         getDocProps: function(update) {
             if (!this.appConfig || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit) return;
 
-            if (update || !Common.Utils.Store.get('docProtection')) {
+            if (update || !this._state.docProtection) {
                 // var docProtected = !!this.api.asc_isProtectedDocument(),
                 //     type;
                 //
@@ -215,10 +214,10 @@ define([
                 // }
 
                 // test //////
-                // if (Common.Utils.InternalSettings.get('protect-test-type')===undefined) {
-                //     this.view && this.view.btnProtectDoc.toggle(true, true);
-                //     Common.Utils.InternalSettings.set('protect-test-type', Asc.c_oAscProtection.Comments);
-                // }
+                if (Common.Utils.InternalSettings.get('protect-test-type')===undefined) {
+                    this.view && this.view.btnProtectDoc.toggle(true, true);
+                    Common.Utils.InternalSettings.set('protect-test-type', Asc.c_oAscProtection.Forms);
+                }
                 var docProtected = this.view ? this.view.btnProtectDoc.isActive() : true,
                     type;
 
@@ -226,14 +225,14 @@ define([
                     type = Common.Utils.InternalSettings.get('protect-test-type');
                 }
                 /////////////
-                Common.Utils.Store.set('docProtection', {
+                this._state.docProtection = {
                     isReadOnly: type===Asc.c_oAscProtection.View,
                     isCommentsOnly: type===Asc.c_oAscProtection.Comments,
                     isReviewOnly: type===Asc.c_oAscProtection.Review,
                     isFormsOnly: type===Asc.c_oAscProtection.Forms
-                });
+                };
             }
-            return Common.Utils.Store.get('docProtection');
+            return this._state.docProtection;
         }
 
     }, DE.Controllers.DocProtection || {}));

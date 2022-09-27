@@ -187,6 +187,7 @@ define([
                     me.onDocumentHolderResize();
                 }
             });
+            Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
         },
 
         setApi: function(o) {
@@ -424,6 +425,8 @@ define([
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
             view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+
+            me.onChangeProtectDocument();
         },
 
         getView: function (name) {
@@ -584,7 +587,7 @@ define([
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var docProtection = Common.Utils.Store.get('docProtection', {});
+                var docProtection = me.documentHolder._docProtection;
                 var obj = (me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) ?
                             me.fillMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps(me.api.getSelectedElements());
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
@@ -613,7 +616,7 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible() && currentMenu !== me.documentHolder.hdrMenu){
-                var docProtection = Common.Utils.Store.get('docProtection', {});
+                var docProtection = me.documentHolder._docProtection;
                 var obj = (me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) ?
                             me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                 if (obj) {
@@ -827,7 +830,7 @@ define([
         onDialogAddHyperlink: function() {
             var me = this;
             var win, props, text;
-            var docProtection = Common.Utils.Store.get('docProtection', {});
+            var docProtection = me.documentHolder._docProtection;
             if (me.api && me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly) && !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()){
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
@@ -1184,7 +1187,7 @@ define([
         },
 
         onDoubleClickOnChart: function(chart) {
-            var docProtection = Common.Utils.Store.get('docProtection', {});
+            var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
                 if (diagramEditor && chart) {
@@ -1196,7 +1199,7 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
-            var docProtection = Common.Utils.Store.get('docProtection', {});
+            var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && chart) {
@@ -1901,8 +1904,8 @@ define([
                     this.api.asc_ViewCertificate(datavalue); //certificate id
                     break;
                 case 2:
-                    var docProtection = Common.Utils.Store.get('docProtection', {});
-                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled || !!docProtection.isReadOnly || !!docProtection.isFormsOnly || !!docProtection.isCommentsOnly, datavalue);//guid, can edit settings for requested signature
+                    var docProtection = this.documentHolder._docProtection;
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly, datavalue);//guid, can edit settings for requested signature
                     break;
                 case 3:
                     var me = this;
@@ -2312,6 +2315,16 @@ define([
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
                 else if (item.options.type=='mode')
                     this.api.asc_ConvertMathDisplayMode(item.checked);
+            }
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props && this.documentHolder) {
+                this.documentHolder._docProtection = props;
             }
         },
 

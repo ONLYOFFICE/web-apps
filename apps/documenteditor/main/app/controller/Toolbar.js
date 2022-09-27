@@ -3333,17 +3333,17 @@ define([
             })).show();
         },
 
-        onChangeProtectDocument: function() {
-            var docProtection = Common.Utils.Store.get('docProtection');
-            if (!docProtection) {
-                var cntrl = this.getApplication().getController('DocProtection');
-                docProtection = cntrl ? cntrl.getDocProps() : null;
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (docProtection) {
-                this.toolbar.lockToolbar(Common.enumLock.docLockView, docProtection.isReadOnly);
-                this.toolbar.lockToolbar(Common.enumLock.docLockForms, docProtection.isFormsOnly);
-                this.toolbar.lockToolbar(Common.enumLock.docLockReview, docProtection.isReviewOnly);
-                this.toolbar.lockToolbar(Common.enumLock.docLockComments, docProtection.isCommentsOnly);
+            if (props) {
+                this._state.docProtection = props;
+                this.toolbar.lockToolbar(Common.enumLock.docLockView, props.isReadOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
             }
         },
 

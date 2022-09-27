@@ -54,7 +54,14 @@ define([
         initialize: function() {
             this.editMode = true;
             this._initSettings = true;
-            this._state = {};
+            this._state = {
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
+            };
             this.addListeners({
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
@@ -158,8 +165,7 @@ define([
 
             var isChart = false,
                 isSmartArtInternal = false,
-                docProtection = Common.Utils.Store.get('docProtection', {}),
-                isProtected = !!docProtection.isReadOnly || !!docProtection.isFormsOnly || !!docProtection.isCommentsOnly;
+                isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_lock = false;
@@ -472,16 +478,18 @@ define([
             }
         },
 
-        onChangeProtectDocument: function() {
-            var docProtection = Common.Utils.Store.get('docProtection');
-            if (!docProtection) {
-                var cntrl = this.getApplication().getController('DocProtection');
-                docProtection = cntrl ? cntrl.getDocProps() : null;
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (docProtection && this.api) {
-                var selectedElements = this.api.getSelectedElements();
-                if (selectedElements.length > 0)
-                    this.onFocusObject(selectedElements);
+            if (props) {
+                this._state.docProtection = props;
+                if (this.api) {
+                    var selectedElements = this.api.getSelectedElements();
+                    if (selectedElements.length > 0)
+                        this.onFocusObject(selectedElements);
+                }
             }
         }
     });

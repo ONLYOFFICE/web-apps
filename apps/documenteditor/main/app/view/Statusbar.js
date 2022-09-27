@@ -178,7 +178,14 @@ define([
                 _.extend(this, options);
                 this.pages = new DE.Models.Pages({current:1, count:1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
-                this._state = {};
+                this._state = {
+                    docProtection: {
+                        isReadOnly: false,
+                        isReviewOnly: false,
+                        isFormsOnly: false,
+                        isCommentsOnly: false
+                    }
+                };
                 this._isDisabled = false;
 
                 var me = this;
@@ -371,7 +378,8 @@ define([
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {
-                    this.btnLanguage.setDisabled(!!this.mode.isDisconnected);
+                    var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
+                    this.btnLanguage.setDisabled(this._isDisabled || !!this.mode.isDisconnected || isProtected);
                 }
             },
 
@@ -404,20 +412,20 @@ define([
 
             SetDisabled: function(disable) {
                 this._isDisabled = disable;
-                var docProtection = Common.Utils.Store.get('docProtection', {}),
-                    isProtected = !!docProtection.isReadOnly || !!docProtection.isFormsOnly || !!docProtection.isCommentsOnly
+                var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
                 this.btnLanguage.setDisabled(disable || this.langMenu.items.length<1 || isProtected);
                 this.btnTurnReview && this.btnTurnReview.setDisabled(disable || isProtected);
             },
 
-            onChangeProtectDocument: function() {
-                var docProtection = Common.Utils.Store.get('docProtection');
-                if (!docProtection) {
-                    var cntrl = DE.getController('DocProtection');
-                    docProtection = cntrl ? cntrl.getDocProps() : null;
+            onChangeProtectDocument: function(props) {
+                if (!props) {
+                    var docprotect = DE.getController('DocProtection');
+                    props = docprotect ? docprotect.getDocProps() : null;
                 }
-                if (docProtection)
+                if (props) {
+                    this._state.docProtection = props;
                     this.SetDisabled(this._isDisabled);
+                }
             },
 
             onApiCoAuthoringDisconnect: function() {

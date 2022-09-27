@@ -119,7 +119,15 @@ define([
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
-            this._state = {disableEditing: false};
+            this._state = {
+                disableEditing: false,
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
+            };
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -587,8 +595,7 @@ define([
         },
 
         updatePreviewMode: function() {
-            var docProtection = Common.Utils.Store.get('docProtection', {});
-            var viewmode = this._state.disableEditing || !!docProtection.isReadOnly || !!docProtection.isFormsOnly;
+            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly;
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
 
@@ -895,14 +902,15 @@ define([
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
         },
 
-        onChangeProtectDocument: function() {
-            var docProtection = Common.Utils.Store.get('docProtection');
-            if (!docProtection) {
-                var cntrl = this.getApplication().getController('DocProtection');
-                docProtection = cntrl ? cntrl.getDocProps() : null;
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (docProtection)
+            if (props) {
+                this._state.docProtection = props;
                 this.updatePreviewMode();
+            }
         },
 
         textNoTextFound         : 'Text not found',

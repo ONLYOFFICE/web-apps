@@ -434,18 +434,20 @@ define([
             }
         },
 
-        onChangeProtectDocument: function() {
-            var docProtection = Common.Utils.Store.get('docProtection');
-            if (!docProtection) {
-                var cntrl = this.getApplication().getController('DocProtection');
-                docProtection = cntrl ? cntrl.getDocProps() : null;
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (docProtection && this.view) {
-                var arr = this.view.getButtons();
-                Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly,   {array: arr});
-                Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly,   {array: arr});
-                Common.Utils.lockControls(Common.enumLock.docLockReview, docProtection.isReviewOnly,   {array: arr});
-                Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly,   {array: arr});
+            if (props) {
+                this._state.docProtection = props;
+                if (this.view) {
+                    var arr = this.view.getButtons();
+                    Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly,   {array: arr});
+                    Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly,   {array: arr});
+                    Common.Utils.lockControls(Common.enumLock.docLockReview, props.isReviewOnly,   {array: arr});
+                    Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly,   {array: arr});
+                }
             }
         }
 

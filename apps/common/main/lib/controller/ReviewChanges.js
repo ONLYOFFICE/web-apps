@@ -82,7 +82,8 @@ define([
                     'reviewchange:view':        _.bind(this.onReviewViewClick, this),
                     'reviewchange:compare':     _.bind(this.onCompareClick, this),
                     'lang:document':            _.bind(this.onDocLanguage, this),
-                    'collaboration:coauthmode': _.bind(this.onCoAuthMode, this)
+                    'collaboration:coauthmode': _.bind(this.onCoAuthMode, this),
+                    'protect:update':           _.bind(this.onChangeProtectDocument, this)
                 },
                 'Common.Views.ReviewChangesDialog': {
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
@@ -103,7 +104,13 @@ define([
             this.viewmode = false;
 
             this._state = { posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: [],
-                            disableEditing: false // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+                            disableEditing: false, // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+                            docProtection: {
+                                isReadOnly: false,
+                                isReviewOnly: false,
+                                isFormsOnly: false,
+                                isCommentsOnly: false
+                            }
                           };
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
@@ -113,7 +120,6 @@ define([
             Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
             Common.NotificationCenter.on('protect:wslock', _.bind(this.onChangeProtectSheet, this));
-            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
 
             this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
             this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
@@ -189,8 +195,7 @@ define([
         },
 
         updatePreviewMode: function() {
-            var docProtection = Common.Utils.Store.get('docProtection', {});
-            var viewmode = this._state.disableEditing || !!docProtection.isReadOnly || !!docProtection.isFormsOnly || !!docProtection.isCommentsOnly;
+            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
 
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
@@ -220,7 +225,7 @@ define([
         onApiShowChange: function (sdkchange, isShow) {
             var btnlock = true,
                 changes;
-            if (this.appConfig.canReview && !(this.appConfig.isReviewOnly || Common.Utils.Store.get('docProtection', {}).isReviewOnly)) {
+            if (this.appConfig.canReview && !(this.appConfig.isReviewOnly || this._state.docProtection.isReviewOnly)) {
                 if (sdkchange && sdkchange.length>0) {
                     changes = this.readSDKChange(sdkchange);
                     btnlock = this.isSelectedChangesLocked(changes, isShow);
@@ -495,7 +500,7 @@ define([
                 }
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
                     user = me.userCollection.findOriginalUser(item.get_UserId()),
-                    isProtectedReview = !!Common.Utils.Store.get('docProtection', {}).isReviewOnly,
+                    isProtectedReview = me._state.docProtection.isReviewOnly,
                     change = new Common.Models.ReviewChange({
                         uid         : Common.UI.getId(),
                         userid      : item.get_UserId(),
@@ -510,6 +515,7 @@ define([
                         changedata  : item,
                         scope       : me.view,
                         hint        : !me.appConfig.canReview,
+                        docProtection: me._state.docProtection,
                         goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
                         editable    : (me.appConfig.isReviewOnly || isProtectedReview) && (item.get_UserId() == me.currentUserId) || !(me.appConfig.isReviewOnly || isProtectedReview) && (!me.appConfig.canUseReviewPermissions || AscCommon.UserInfoParser.canEditReview(item.get_UserName()))
                     });
@@ -614,7 +620,7 @@ define([
         },
 
         onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) {
-            if ( this.appConfig.isReviewOnly || Common.Utils.Store.get('docProtection', {}).isReviewOnly) {
+            if ( this.appConfig.isReviewOnly || this._state.docProtection.isReviewOnly) {
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
@@ -873,7 +879,8 @@ define([
                         (!me.appConfig.customization.review || me.appConfig.customization.review.showReviewChanges===undefined) && me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
                             popoverChanges  : me.popoverChanges,
-                            mode            : me.appConfig
+                            mode            : me.appConfig,
+                            docProtection   : me._state.docProtection
                         }));
                         var sdk = $('#editor_sdk'),
                             offset = sdk.offset();
@@ -900,7 +907,6 @@ define([
                     });
                 }
                 me.onChangeProtectSheet();
-                me.onChangeProtectDocument();
                 if (me.view) {
                     me.lockToolbar(Common.enumLock.hideComments, !Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true), {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
                     me.lockToolbar(Common.enumLock['Objects'], !!me._state.wsProps['Objects'], {array: [me.view.btnCommentRemove, me.view.btnCommentResolve]});
@@ -1026,32 +1032,32 @@ define([
             this.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], {array: [this.view.btnCommentRemove, this.view.btnCommentResolve]});
         },
 
-        onChangeProtectDocument: function() {
-            var docProtection = Common.Utils.Store.get('docProtection');
-            if (!docProtection) {
-                var cntrl = this.getApplication().getController('DocProtection');
-                docProtection = cntrl ? cntrl.getDocProps() : null;
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (docProtection) {
-                this.lockToolbar(Common.enumLock.docLockView, docProtection.isReadOnly);
-                this.lockToolbar(Common.enumLock.docLockForms, docProtection.isFormsOnly);
-                this.lockToolbar(Common.enumLock.docLockReview, docProtection.isReviewOnly);
-                this.lockToolbar(Common.enumLock.docLockComments, docProtection.isCommentsOnly);
+            if (props) {
+                this._state.docProtection = props;
+                this.lockToolbar(Common.enumLock.docLockView, props.isReadOnly);
+                this.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
+                this.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
+                this.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
                 if (this.dlgChanges) {
-                    Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
-                    Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
-                    Common.Utils.lockControls(Common.enumLock.docLockReview, docProtection.isReviewOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
-                    Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                    Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                    Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                    Common.Utils.lockControls(Common.enumLock.docLockReview, props.isReviewOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
+                    Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: [this.dlgChanges.btnAccept, this.dlgChanges.btnReject]});
                 }
                 if (this.appConfig.canReview) {
-                    if (docProtection.isReviewOnly) {
+                    if (props.isReviewOnly) {
                         this.onTurnPreview(true);
                         this.onApiShowChange();
                     } else if (this._state.prevReviewProtected) {
                         this.onTurnPreview(false);
                         this.onApiShowChange();
                     }
-                    this._state.prevReviewProtected = docProtection.isReviewOnly;
+                    this._state.prevReviewProtected = props.isReviewOnly;
                 }
                 this.updatePreviewMode();
             }

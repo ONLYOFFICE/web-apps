@@ -574,17 +574,17 @@ define([
             })).show();
         },
 
-        onChangeProtectDocument: function() {
-            var docProtection = Common.Utils.Store.get('docProtection');
-            if (!docProtection) {
-                var cntrl = this.getApplication().getController('DocProtection');
-                docProtection = cntrl ? cntrl.getDocProps() : null;
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (docProtection) {
-                this.lockToolbar(Common.enumLock.docLockView, docProtection.isReadOnly);
-                this.lockToolbar(Common.enumLock.docLockForms, docProtection.isFormsOnly);
-                this.lockToolbar(Common.enumLock.docLockReview, docProtection.isReviewOnly);
-                this.lockToolbar(Common.enumLock.docLockComments, docProtection.isCommentsOnly);
+            if (props) {
+                this._state.docProtection = props;
+                this.lockToolbar(Common.enumLock.docLockView, props.isReadOnly);
+                this.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
+                this.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
+                this.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
             }
         },
 

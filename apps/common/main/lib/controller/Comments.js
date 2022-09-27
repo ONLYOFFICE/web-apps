@@ -145,13 +145,18 @@ define([
                 }, this, area);
             }.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
         onLaunch: function () {
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
             this._state = {
-                disableEditing: false // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+                disableEditing: false, // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
             };
 
             this.collection                     =   this.getApplication().getCollection('Common.Collections.Comments');
@@ -1655,8 +1660,8 @@ define([
         },
 
         updatePreviewMode: function() {
-            var docProtection = Common.Utils.Store.get('docProtection', {});
-            var viewmode = this._state.disableEditing || !!docProtection.isReadOnly || !!docProtection.isFormsOnly;
+            var docProtection = this._state.docProtection;
+            var viewmode = this._state.disableEditing || docProtection.isReadOnly || docProtection.isFormsOnly;
 
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
@@ -1740,17 +1745,19 @@ define([
                 accept();
             })).then(function(){
                 me.onChangeProtectDocument();
+                Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             });
         },
 
-        onChangeProtectDocument: function() {
-            var docProtection = Common.Utils.Store.get('docProtection');
-            if (!docProtection) {
-                var cntrl = this.getApplication().getController('DocProtection');
-                docProtection = cntrl ? cntrl.getDocProps() : null;
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
             }
-            if (docProtection)
+            if (props) {
+                this._state.docProtection = props;
                 this.updatePreviewMode();
+            }
         }
 
     }, Common.Controllers.Comments || {}));

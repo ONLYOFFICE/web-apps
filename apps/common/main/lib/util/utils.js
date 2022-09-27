@@ -1096,19 +1096,3 @@ Common.Utils.getKeyByValue = function(obj, value) {
         }
     }
 };
-
-Common.Utils.Store = new(function() {
-    var settings = {};
-
-    var _get = function(name, defValue) {
-            return (settings[name]!==undefined) ? settings[name] : defValue;
-        },
-        _set = function(name, value) {
-            settings[name] = value;
-        };
-
-    return {
-        get: _get,
-        set: _set
-    }
-});

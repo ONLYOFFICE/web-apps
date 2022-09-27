@@ -238,6 +238,10 @@ define([
                     me.fireEvent('comment:resolveComments', [item.value]);
                 });
             }
+            Common.NotificationCenter.on('protect:doclock', function (e) {
+                me.fireEvent('protect:update');
+            });
+            me.fireEvent('protect:update');
         }
 
         return {
@@ -691,7 +695,6 @@ define([
                         me.$el.find(separator_last).hide();
 
                     Common.NotificationCenter.trigger('tab:visible', 'review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
-
                     setEvents.call(me);
                 });
             },
@@ -971,6 +974,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.popoverChanges = this.options.popoverChanges;
             this.mode = this.options.mode;
+            this.docProtection = this.options.docProtection;
 
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -1002,7 +1006,7 @@ define([
                 cls         : 'btn-toolbar',
                 caption     : this.txtAccept,
                 split       : true,
-                disabled    : this.mode.isReviewOnly || Common.Utils.Store.get('docProtection', {}).isReviewOnly || !!Common.Utils.InternalSettings.get(this.appPrefix + "accept-reject-lock"),
+                disabled    : this.mode.isReviewOnly || this.docProtection.isReviewOnly || !!Common.Utils.InternalSettings.get(this.appPrefix + "accept-reject-lock"),
                 lock        : [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
                 menu        : this.mode.canUseReviewPermissions ? false : new Common.UI.Menu({
                     items: [
@@ -1040,11 +1044,10 @@ define([
             this.btnReject.render(this.$window.find('#id-review-button-reject'));
             var arr = [this.btnAccept, this.btnReject];
             Common.Utils.lockControls(Common.enumLock.isReviewOnly, this.mode.isReviewOnly, {array: arr});
-            var docProtection = Common.Utils.Store.get('docProtection', {});
-            Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly, {array: arr});
-            Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly, {array: arr});
-            Common.Utils.lockControls(Common.enumLock.docLockReview, docProtection.isReviewOnly, {array: arr});
-            Common.Utils.lockControls(Common.enumLock.docLockComments, docProtection.isCommentsOnly, {array: arr});
+            Common.Utils.lockControls(Common.enumLock.docLockView, this.docProtection.isReadOnly, {array: arr});
+            Common.Utils.lockControls(Common.enumLock.docLockForms, this.docProtection.isFormsOnly, {array: arr});
+            Common.Utils.lockControls(Common.enumLock.docLockReview, this.docProtection.isReviewOnly, {array: arr});
+            Common.Utils.lockControls(Common.enumLock.docLockComments, this.docProtection.isCommentsOnly, {array: arr});
             Common.Utils.lockControls(Common.enumLock.reviewChangelock, !!Common.Utils.InternalSettings.get(this.appPrefix + "accept-reject-lock"), {array: arr});
 
             var me = this;
