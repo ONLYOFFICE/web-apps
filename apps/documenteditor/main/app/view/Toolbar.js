@@ -2220,12 +2220,12 @@ define([
                     items: []
                 }));
 
-                var smartArtGroups = Common.define.smartArt.getSmartArtGroupData();
-                smartArtGroups.forEach(function (item, index) {
+                var smartArtData = Common.define.smartArt.getSmartArtData();
+                smartArtData.forEach(function (item, index) {
                     me.btnInsertSmartArt.menu.addItem({
                         caption: item.caption,
-                        value: item.id,
-                        groupName: item.groupName,
+                        value: item.sectionId,
+                        itemId: item.id,
                         iconCls: 'menu__icon ' + item.icon,
                         menu: new Common.UI.Menu({
                             items: [
@@ -2237,11 +2237,11 @@ define([
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
                         item.$el.one('mouseenter', function () {
-                            me.fireEvent('generate:smartart', [item.options.groupName]);
+                            me.fireEvent('generate:smartart', [item.value]);
                             item.$el.mouseenter();
                         });
                         item.menuPicker = new Common.UI.DataView({
-                            el: $('#' + item.value),
+                            el: $('#' + item.options.itemId),
                             parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
                             itemTemplate: _.template([
                                 '<div>',

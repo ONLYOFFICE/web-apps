@@ -3325,26 +3325,28 @@ define([
 
         onApiBeginSmartArtPreview: function () {
             this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
-            this.smartArtItems = Common.define.smartArt.getSmartArtData();
+            this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
         onApiAddSmartArtPreview: function (previews) {
             previews.forEach(_.bind(function (preview) {
-                var me = this;
-                var items = _.where(this.smartArtItems, {type: preview.asc_getName()});
-                items.forEach(function (item) {
-                    var menu = _.findWhere(me.smartArtGroups, {value: item.group}).menuPicker,
-                        arr = [{
-                                tip: item.tip,
-                                value: item.type,
-                                imageUrl: preview.asc_getImage()
-                            }];
+                var image = preview.asc_getImage(),
+                    sectionId = preview.asc_getSectionId(),
+                    section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
+                    item = _.findWhere(section.items, {type: image.asc_getName()}),
+                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}).menuPicker;
+                if (item) {
+                    var arr = [{
+                        tip: item.tip,
+                        value: item.type,
+                        imageUrl: image.asc_getImage()
+                    }];
                     if (menu.store.length < 1) {
                         menu.store.reset(arr);
                     } else {
                         menu.store.add(arr);
                     }
-                });
+                }
             }, this));
         },
 
