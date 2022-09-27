@@ -205,7 +205,7 @@ define([
         },
 
         lockToolbar: function (causes, lock, opts) {
-            Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
+            this.view && Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -593,8 +593,10 @@ define([
             (new Promise(function (accept, reject) {
                 accept();
             })).then(function(){
-                me.view && me.view.onAppReady(config);
-                me.onChangeProtectDocument();
+                if (me.view) {
+                    me.view.onAppReady(config);
+                    me.onChangeProtectDocument();
+                }
             });
         }
 

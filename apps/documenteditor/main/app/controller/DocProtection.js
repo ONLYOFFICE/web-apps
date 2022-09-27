@@ -191,13 +191,12 @@ define([
                 resolve();
             })).then(function () {
                 // me.view.btnProtectDoc.toggle(me.api.asc_isProtectedDocument(), true);
-                // me.onChangeProtectDocument();
             });
         },
 
         onChangeProtectDocument: function() {
             // var isProtected = this.api.asc_isProtectedDocument();
-            var isProtected = this.view.btnProtectDoc.isActive(); // test
+            var isProtected = this.view ? this.view.btnProtectDoc.isActive() : false; // test
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
             this.getDocProps(true);
             Common.NotificationCenter.trigger('protect:doclock');
@@ -216,7 +215,11 @@ define([
                 // }
 
                 // test //////
-                var docProtected = this.view.btnProtectDoc.isActive(),
+                // if (Common.Utils.InternalSettings.get('protect-test-type')===undefined) {
+                //     this.view && this.view.btnProtectDoc.toggle(true, true);
+                //     Common.Utils.InternalSettings.set('protect-test-type', Asc.c_oAscProtection.Comments);
+                // }
+                var docProtected = this.view ? this.view.btnProtectDoc.isActive() : true,
                     type;
 
                 if (docProtected) {

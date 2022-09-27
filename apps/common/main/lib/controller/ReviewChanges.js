@@ -180,7 +180,7 @@ define([
         },
 
         lockToolbar: function (causes, lock, opts) {
-            Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
+            this.view && Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
         },
 
         setPreviewMode: function(mode) { //disable accept/reject in popover

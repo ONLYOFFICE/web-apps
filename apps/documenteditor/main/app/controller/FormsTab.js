@@ -440,7 +440,7 @@ define([
                 var cntrl = this.getApplication().getController('DocProtection');
                 docProtection = cntrl ? cntrl.getDocProps() : null;
             }
-            if (docProtection) {
+            if (docProtection && this.view) {
                 var arr = this.view.getButtons();
                 Common.Utils.lockControls(Common.enumLock.docLockView, docProtection.isReadOnly,   {array: arr});
                 Common.Utils.lockControls(Common.enumLock.docLockForms, docProtection.isFormsOnly,   {array: arr});

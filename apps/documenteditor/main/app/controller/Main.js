@@ -1694,7 +1694,9 @@ define([
                 var toolbarController   = application.getController('Toolbar');
                 toolbarController   && toolbarController.setApi(me.api);
 
-                if (this.appOptions.isEdit) {
+                if (this.appOptions.isRestrictedEdit)
+                    application.getController('DocProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                else if (this.appOptions.isEdit) {
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
                     fontsControllers    && fontsControllers.setApi(me.api);
