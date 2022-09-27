@@ -468,8 +468,6 @@ define([
                     });
                     this.lockedControls.push(this.btnCommentResolve);
                 }
-
-                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
