@@ -61,10 +61,7 @@ define([
             }, options);
 
             this.handler        = options.handler;
-            this.txtDescription = options.txtDescription || '';
             this.props = options.props;
-            this.isEdit = options.isEdit;
-            this.api = options.api;
 
             this.template = options.template || [
                 '<div class="box">',
@@ -194,12 +191,9 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                var type = props.asc_getType();
-                switch (type) {
-                    case Asc.c_oAscProtection.Forms:     this.rbForms.setValue(true, true); break;
-                    case Asc.c_oAscProtection.Review:    this.rbReview.setValue(true, true); break;
-                    case Asc.c_oAscProtection.Comments:  this.rbComments.setValue(true, true); break;
-                }
+                this.rbReview.setDisabled(!props.canReview);
+                this.rbForms.setDisabled(!props.canFillForms);
+                this.rbComments.setDisabled(!props.canComments);
             }
         },
 

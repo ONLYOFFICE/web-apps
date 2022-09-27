@@ -124,6 +124,7 @@ define([
                 var me = this,
                     btn,
                     win = new DE.Views.ProtectDialog({
+                        props: me.appConfig,
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
