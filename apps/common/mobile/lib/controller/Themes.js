@@ -12,6 +12,51 @@ class ThemesController {
                 id: 'theme-light',
                 type: 'light'
             }};
+
+        this.name_colors = [
+            "canvas-background",
+            "canvas-content-background",
+            "canvas-page-border",
+
+            "canvas-ruler-background",
+            "canvas-ruler-border",
+            "canvas-ruler-margins-background",
+            "canvas-ruler-mark",
+            "canvas-ruler-handle-border",
+            "canvas-ruler-handle-border-disabled",
+
+            "canvas-high-contrast",
+            "canvas-high-contrast-disabled",
+
+            "canvas-cell-border",
+            "canvas-cell-title-border",
+            "canvas-cell-title-border-hover",
+            "canvas-cell-title-border-selected",
+            "canvas-cell-title-hover",
+            "canvas-cell-title-selected",
+
+            "canvas-dark-cell-title",
+            "canvas-dark-cell-title-hover",
+            "canvas-dark-cell-title-selected",
+            "canvas-dark-cell-title-border",
+            "canvas-dark-cell-title-border-hover",
+            "canvas-dark-cell-title-border-selected",
+            "canvas-dark-content-background",
+            "canvas-dark-page-border",
+
+            "canvas-scroll-thumb",
+            "canvas-scroll-thumb-hover",
+            "canvas-scroll-thumb-pressed",
+            "canvas-scroll-thumb-border",
+            "canvas-scroll-thumb-border-hover",
+            "canvas-scroll-thumb-border-pressed",
+            "canvas-scroll-arrow",
+            "canvas-scroll-arrow-hover",
+            "canvas-scroll-arrow-pressed",
+            "canvas-scroll-thumb-target",
+            "canvas-scroll-thumb-target-hover",
+            "canvas-scroll-thumb-target-pressed",
+        ];
     }
 
     init() {
@@ -41,6 +86,16 @@ class ThemesController {
         return !!obj ? JSON.parse(obj).type === 'dark' : false;
     }
 
+    get_current_theme_colors(colors) {
+        let out_object = {};
+        const style = getComputedStyle(document.body);
+        colors.forEach((item, index) => {
+            out_object[item] = style.getPropertyValue('--' + item).trim()
+        })
+
+        return out_object;
+    }
+
     switchDarkTheme(dark) {
         const theme = typeof dark == 'object' ? dark : this.themes_map[dark ? 'dark' : 'light'];
         const refresh_only = !!arguments[1];
@@ -53,7 +108,11 @@ class ThemesController {
         $body.addClass(`theme-type-${theme.type}`);
 
         const on_engine_created = api => {
-            api.asc_setSkin(theme.id);
+            let obj = this.get_current_theme_colors(this.name_colors);
+            obj.type = theme.type;
+            obj.name = theme.id;
+
+            api.asc_setSkin(obj);
         };
 
         const api = Common.EditorApi ? Common.EditorApi.get() : undefined;
