@@ -142,6 +142,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseOleEditor', _.bind(this.onOleEditingDisabled, this));
+                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 
@@ -185,7 +186,7 @@ define([
                     iconCls: 'warn',
                     buttons: ['ok'],
                     callback: _.bind(function(btn){
-                        this.setControlsDisabled(false);
+                        this.oleEditorView.setControlsDisabled(false);
                         this.oleEditorView.hide();
                     }, this)
                 });
@@ -234,6 +235,9 @@ define([
                             this.oleEditorView.binding.drag({pageX:x, pageY:y});
                         }
                     } else
+                    if (eventData.type == "frameToGeneralData") {
+                        this.api && this.api.asc_getInformationBetweenFrameAndGeneralEditor(eventData.data);
+                    } else
                         this.oleEditorView.fireEvent('internalmessage', this.oleEditorView, eventData);
                 }
             } ,
@@ -242,6 +246,10 @@ define([
                 if (data.type == 'mouseup' && this.isExternalEditorVisible) {
                     externalEditor && externalEditor.serviceCommand('processmouse', data);
                 }
+            },
+
+            onSendFromGeneralToFrameEditor: function(data) {
+                externalEditor && externalEditor.serviceCommand('generalToFrameData', data);
             },
 
             warningTitle: 'Warning',
