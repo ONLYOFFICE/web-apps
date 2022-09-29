@@ -1205,7 +1205,16 @@ define([
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
             } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                var offsetLeft = 0;
+                var sdkPanelLeft = documentHolder.cmpEl.find('#id_panel_left');
+                if (sdkPanelLeft.length)
+                    offsetLeft += (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
+
+                var sdkPanelThumbs = documentHolder.cmpEl.find('#id_panel_thumbnails');
+                if (sdkPanelThumbs.length)
+                    offsetLeft += (sdkPanelThumbs.css('display') !== 'none') ? sdkPanelThumbs.width() : 0;
+
+                var showPoint = [Math.max(0, coord.asc_getX() + coord.asc_getWidth() + 3 - offsetLeft), coord.asc_getY() + coord.asc_getHeight() + 3];
                 pasteContainer.css({left: showPoint[0], top : showPoint[1]});
                 pasteContainer.show();
                 setTimeout(function() {
