@@ -251,7 +251,6 @@ define([
                                 header.btnHome = (new Common.UI.Button({
                                     cls: 'btn-header',
                                     iconCls: 'toolbar__icon icon--inverse btn-home',
-                                    disabled: true,
                                     visible: false,
                                     hint: 'Show Main window',
                                     dataHint:'0',
