@@ -356,6 +356,7 @@ define([
                     }));
 
                     me.btnGridlines.setMenu( new Common.UI.Menu({
+                        restoreHeight: true,
                         items: [
                             { caption: me.textShowGridlines, value: 'show', checkable: true },
                             { caption: me.textSnapObjects, value: 'snap', checkable: true },
