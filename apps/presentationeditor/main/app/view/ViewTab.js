@@ -79,6 +79,7 @@ define([
                 '</div>' +
                 '<div class="group small">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-guides"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-gridlines"></span>' +
                 '</div>' +
                 '<div class="separator long separator-rulers"></div>' +
                 '<div class="group small">' +
@@ -132,13 +133,31 @@ define([
                         me.fireEvent('guides:add', [item.value]);
                     else if (item.value === 'clear')
                         me.fireEvent('guides:clear');
-                     else if (item.value === 'smart')
+                    else if (item.value === 'smart')
                         me.fireEvent('guides:smart', [item.isChecked()]);
-                     else
-                        me.fireEvent('guides:show', [item.isChecked()]);
+                    else
+                        me.btnGuides.toggle(item.isChecked());
                 }, me));
                 me.btnGuides.menu.on('show:after', _.bind(function(btn, state) {
                     me.fireEvent('guides:aftershow');
+                }, me));
+
+                me.btnGridlines.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('gridlines:show', [state]);
+                }, me));
+                me.btnGridlines.menu.on('item:click', _.bind(function(menu, item) {
+                    if (item.value === 'custom')
+                        me.fireEvent('gridlines:custom');
+                    else if (item.value === 'snap')
+                        me.fireEvent('gridlines:snap', [item.isChecked()]);
+                    else if (item.value === 'show')
+                        me.btnGridlines.toggle(item.isChecked());
+                    else
+                        me.fireEvent('gridlines:spacing', [item.value]);
+
+                }, me));
+                me.btnGridlines.menu.on('show:after', _.bind(function(btn, state) {
+                    me.fireEvent('gridlines:aftershow');
                 }, me));
             },
 
@@ -261,6 +280,7 @@ define([
                     lock: [_set.disableOnStart],
                     enableToggle: true,
                     allowDepress: true,
+                    pressed: Common.localStorage.getBool("pe-settings-showguides", true),
                     split: true,
                     menu: true,
                     dataHint: '1',
@@ -268,6 +288,22 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnGuides);
+
+                this.btnGridlines = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon day',
+                    caption: this.textGridlines,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    pressed: Common.localStorage.getBool("pe-settings-showgrid", true),
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnGridlines);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -292,6 +328,7 @@ define([
                 this.chRulers.render($host.find('#slot-chk-rulers'));
                 this.chNotes.render($host.find('#slot-chk-notes'));
                 this.btnGuides.render($host.find('#slot-btn-guides'));
+                this.btnGridlines.render($host.find('#slot-btn-gridlines'));
                 return this.$el;
             },
 
@@ -304,6 +341,7 @@ define([
                     me.btnFitToWidth.updateHint(me.tipFitToWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
                     me.btnGuides.updateHint(me.tipGuides);
+                    me.btnGridlines.updateHint(me.tipGridlines);
 
                     me.btnGuides.setMenu( new Common.UI.Menu({
                         items: [
@@ -314,6 +352,27 @@ define([
                             { caption: '--'},
                             { caption: me.textSmartGuides, value: 'smart', checkable: true },
                             { caption: me.textClearGuides, value: 'clear' }
+                        ]
+                    }));
+
+                    me.btnGridlines.setMenu( new Common.UI.Menu({
+                        items: [
+                            { caption: me.textShowGridlines, value: 'show', checkable: true },
+                            { caption: me.textSnapObjects, value: 'snap', checkable: true },
+                            { caption: '--'},
+                            { caption: Common.Utils.String.format(me.textManyGrids, 8), value: 0.13, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: Common.Utils.String.format(me.textManyGrids, 6), value: 0.17, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: Common.Utils.String.format(me.textManyGrids, 5), value: 0.2, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: Common.Utils.String.format(me.textFewGrids, 4), value: 0.25, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: Common.Utils.String.format(me.textFewGrids, 3), value: 0.33, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: Common.Utils.String.format(me.textFewGrids, 2), value: 0.5, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: '1 ' + me.textCm, value: 1, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: '2 ' + me.textCm, value: 2, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: '3 ' + me.textCm, value: 3, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: '4 ' + me.textCm, value: 4, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: '5 ' + me.textCm, value: 5, checkable: true, toggleGroup: 'tb-gridlines' },
+                            { caption: '--'},
+                            { caption: me.textCustom, value: 'custom' }
                         ]
                     }));
 
@@ -416,7 +475,16 @@ define([
             textAddVGuides: 'Add vertical guide',
             textAddHGuides: 'Add horizontal guide',
             textSmartGuides: 'Smart Guides',
-            textClearGuides: 'Clear Guides'
+            textClearGuides: 'Clear Guides',
+            textGridlines: 'Gridlines',
+            tipGridlines: 'Show gridlines',
+            textShowGridlines: 'Show Gridlines',
+            textSnapObjects: 'Snap object to grid',
+            textCm: 'cm',
+            textCustom: 'Custom',
+            textManyGrids: '{0} grids per cm',
+            textFewGrids: '{0} grids per cm'
+
         }
     }()), PE.Views.ViewTab || {}));
 });
