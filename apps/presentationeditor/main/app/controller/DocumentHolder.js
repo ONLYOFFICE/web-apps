@@ -422,6 +422,7 @@ define([
             view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
             view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
             view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
+            view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
         },
 
         getView: function (name) {
@@ -2112,6 +2113,17 @@ define([
                 }, 100);
             }
             return false;
+        },
+
+        onGuidesClick: function(menu, item) {
+            if (item.value === 'add-vert' || item.value === 'add-hor')
+                this.documentHolder.fireEvent('guides:add', [item.value]);
+            else if (item.value === 'clear')
+                this.documentHolder.fireEvent('guides:clear');
+            else if (item.value === 'smart')
+                this.documentHolder.fireEvent('guides:smart', [item.isChecked()]);
+            else
+                this.documentHolder.fireEvent('guides:show', [item.isChecked()]);
         },
 
         SetDisabled: function(state) {

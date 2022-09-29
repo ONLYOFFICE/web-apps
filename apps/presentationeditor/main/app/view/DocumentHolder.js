@@ -959,6 +959,22 @@ define([
                 checked: false
             });
 
+            me.mnuGuides = new Common.UI.MenuItem({
+                caption     : me.textGuides,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        { caption: me.textShowGuides, value: 'show', checkable: true },
+                        { caption: '--'},
+                        { caption: me.textAddVGuides, value: 'add-vert' },
+                        { caption: me.textAddHGuides, value: 'add-hor' },
+                        { caption: '--'},
+                        { caption: me.textSmartGuides, value: 'smart', checkable: true },
+                        { caption: me.textClearGuides, value: 'clear' }
+                    ]
+                })
+            });
+
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -977,17 +993,22 @@ define([
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.options.value = null;
-                    me.slideMenu.items[13].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
-                    me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
-                    me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
-                    me.slideMenu.items[16].setVisible(value.fromThumbs===true);
-                    me.slideMenu.items[17].setVisible(value.fromThumbs===true);
-                    
-                    for (var i = 10; i < 13; i++) {
-                        me.slideMenu.items[i].setVisible(value.fromThumbs===true);
-                    }
+
+                    me.slideMenu.items[10].setVisible(!value.fromThumbs); // guides
+                    me.slideMenu.items[11].setVisible(!value.fromThumbs);
+                    me.slideMenu.items[12].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[13].setVisible(value.fromThumbs===true);
 
                     me.mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
+                    me.slideMenu.items[15].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
+                    me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
+                    me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
+                    me.slideMenu.items[18].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[19].setVisible(value.fromThumbs===true);
+
+                    me.mnuGuides.menu.items[6].setDisabled(!me.api.asc_canClearGuides());
+                    me.mnuGuides.menu.items[0].setChecked(me.api.asc_getShowGuides(), true);
+                    me.mnuGuides.menu.items[5].setChecked(me.api.asc_getShowSmartGuides(), true);
 
                     var selectedElements = me.api.getSelectedElements(),
                         locked           = false,
@@ -1029,6 +1050,8 @@ define([
                     me.mnuResetSlide,
                     mnuChangeTheme,
                     me.menuSlideSettings,
+                    {caption: '--'},
+                    me.mnuGuides,
                     {caption: '--'},
                     me.mnuSelectAll,
                     me.mnuPrintSelection,
@@ -2451,7 +2474,14 @@ define([
         textEditPoints: 'Edit Points',
         txtMoveSlidesToEnd: 'Move Slide to End',
         txtMoveSlidesToStart: 'Move Slide to Beginning',
-        advancedChartText   : 'Chart Advanced Settings'
+        advancedChartText   : 'Chart Advanced Settings',
+        textGuides: 'Guides',
+        tipGuides: 'Show guides',
+        textShowGuides: 'Show Guides',
+        textAddVGuides: 'Add vertical guide',
+        textAddHGuides: 'Add horizontal guide',
+        textSmartGuides: 'Smart Guides',
+        textClearGuides: 'Clear Guides'
 
     }, PE.Views.DocumentHolder || {}));
 });

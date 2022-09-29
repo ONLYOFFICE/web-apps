@@ -1613,6 +1613,13 @@
   "PE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "PE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
   "PE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "PE.Views.DocumentHolder.textGuides": "Guides",
+  "PE.Views.DocumentHolder.tipGuides": "Show guides",
+  "PE.Views.DocumentHolder.textShowGuides": "Show Guides",
+  "PE.Views.DocumentHolder.textAddVGuides": "Add vertical guide",
+  "PE.Views.DocumentHolder.textAddHGuides": "Add horizontal guide",
+  "PE.Views.DocumentHolder.textSmartGuides": "Smart Guides",
+  "PE.Views.DocumentHolder.textClearGuides": "Clear Guides",
   "PE.Views.DocumentPreview.goToSlideText": "Go to Slide",
   "PE.Views.DocumentPreview.slideIndexText": "Slide {0} of {1}",
   "PE.Views.DocumentPreview.txtClose": "Close slideshow",
@@ -2409,5 +2416,12 @@
   "PE.Views.ViewTab.textZoom": "Zoom",
   "PE.Views.ViewTab.tipFitToSlide": "Fit to slide",
   "PE.Views.ViewTab.tipFitToWidth": "Fit to width",
-  "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PE.Views.ViewTab.textGuides": "Guides",
+  "PE.Views.ViewTab.tipGuides": "Show guides",
+  "PE.Views.ViewTab.textShowGuides": "Show Guides",
+  "PE.Views.ViewTab.textAddVGuides": "Add vertical guide",
+  "PE.Views.ViewTab.textAddHGuides": "Add horizontal guide",
+  "PE.Views.ViewTab.textSmartGuides": "Smart Guides",
+  "PE.Views.ViewTab.textClearGuides": "Clear Guides"
 }

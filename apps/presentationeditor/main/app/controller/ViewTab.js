@@ -108,6 +108,12 @@ define([
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
                     }, this)
+                },
+                'DocumentHolder': {
+                    'guides:show': _.bind(this.onGuidesShow, this),
+                    'guides:add': _.bind(this.onGuidesAdd, this),
+                    'guides:clear': _.bind(this.onGuidesClear, this),
+                    'guides:smart': _.bind(this.onGuidesSmartShow, this)
                 }
             });
         },
@@ -228,7 +234,7 @@ define([
 
         onGuidesAfterShow: function() {
             if (this.view) {
-                this.view.btnGuides.menu.items[6].setDisabled(this.api.asc_canClearGuides());
+                this.view.btnGuides.menu.items[6].setDisabled(!this.api.asc_canClearGuides());
                 this.view.btnGuides.menu.items[0].setChecked(this.api.asc_getShowGuides(), true);
                 this.view.btnGuides.menu.items[5].setChecked(this.api.asc_getShowSmartGuides(), true);
             }
