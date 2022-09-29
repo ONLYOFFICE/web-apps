@@ -711,7 +711,8 @@ define([
                 Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
+
+            Common.localStorage.setBool("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
 
             Common.localStorage.setItem("pe-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());

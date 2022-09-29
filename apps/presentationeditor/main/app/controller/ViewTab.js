@@ -222,6 +222,7 @@ define([
 
         onGuidesShow: function(state) {
             this.api.asc_setShowGuides(state);
+            Common.localStorage.setBool('pe-settings-showguides', state);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -248,6 +249,8 @@ define([
 
         onGuidesSmartShow: function(state) {
             this.api.asc_setShowSmartGuides(state);
+            Common.localStorage.setBool('pe-settings-showsnaplines', state);
+            Common.Utils.InternalSettings.set("pe-settings-showsnaplines", state);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         }
 

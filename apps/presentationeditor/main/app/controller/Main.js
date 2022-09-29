@@ -861,7 +861,13 @@ define([
                 me.api.asc_setAutoSaveGap(Common.Utils.InternalSettings.get("pe-settings-autosave"));
                 /** coauthoring end **/
 
-                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
+                value = Common.localStorage.getBool("pe-settings-showsnaplines", true);
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
+                me.api.asc_setShowSmartGuides(value);
+
+                value = Common.localStorage.getBool("pe-settings-showguides");
+                Common.Utils.InternalSettings.set("pe-settings-showguides", value);
+                me.api.asc_setShowGuides(value);
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
