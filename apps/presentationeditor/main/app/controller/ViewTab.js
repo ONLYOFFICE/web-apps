@@ -61,7 +61,6 @@ define([
                 zoom_type: undefined,
                 zoom_percent: undefined
             };
-            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
@@ -87,10 +86,18 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
+                    'zoom:selected': _.bind(this.onSelectedZoomValue, this),
+                    'zoom:changedbefore': _.bind(this.onZoomChanged, this),
+                    'zoom:changedafter': _.bind(this.onZoomChanged, this),
                     'zoom:toslide': _.bind(this.onBtnZoomTo, this, 'toslide'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
                     'rulers:change': _.bind(this.onChangeRulers, this),
-                    'notes:change': _.bind(this.onChangeNotes, this)
+                    'notes:change': _.bind(this.onChangeNotes, this),
+                    'guides:show': _.bind(this.onGuidesShow, this),
+                    'guides:aftershow': _.bind(this.onGuidesAfterShow, this),
+                    'guides:add': _.bind(this.onGuidesAdd, this),
+                    'guides:clear': _.bind(this.onGuidesClear, this),
+                    'guides:smart': _.bind(this.onGuidesSmartShow, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -141,70 +148,6 @@ define([
         onNotesShow: function(bIsShow) {
             this.view.chNotes.setValue(bIsShow, true);
             Common.localStorage.setBool('pe-hidden-notes', !bIsShow);
-        },
-
-        onAppReady: function (config) {
-            var me = this;
-            if (me.view) {
-                (new Promise(function (accept, reject) {
-                    accept();
-                })).then(function () {
-                    me.view.setEvents();
-
-                    if (!Common.UI.Themes.available()) {
-                        me.view.btnInterfaceTheme.$el.closest('.group').remove();
-                        me.view.$el.find('.separator-theme').remove();
-                    }
-                    if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                        me.view.chStatusbar.$el.remove();
-
-                        if (!config.isEdit) {
-                            var slotChkNotes = me.view.chNotes.$el,
-                                groupRulers = slotChkNotes.closest('.group'),
-                                groupToolbar = me.view.chToolbar.$el.closest('.group');
-                            groupToolbar.find('.elset')[1].append(slotChkNotes[0]);
-                            groupRulers.remove();
-                            me.view.$el.find('.separator-rulers').remove();
-                        }
-                    } else if (!config.isEdit) {
-                        me.view.chRulers.hide();
-                    }
-
-                    me.view.cmbZoom.on('selected', _.bind(me.onSelectedZoomValue, me))
-                        .on('changed:before',_.bind(me.onZoomChanged, me, true))
-                        .on('changed:after', _.bind(me.onZoomChanged, me, false))
-                        .on('combo:blur',    _.bind(me.onComboBlur, me, false));
-                });
-
-                if (Common.UI.Themes.available()) {
-                    function _fill_themes() {
-                        var btn = this.view.btnInterfaceTheme;
-                        if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
-                        else btn.setMenu(new Common.UI.Menu());
-
-                        var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
-                        for (var t in Common.UI.Themes.map()) {
-                            btn.menu.addItem({
-                                value: t,
-                                caption: Common.UI.Themes.get(t).text,
-                                checked: t === currentTheme,
-                                checkable: true,
-                                toggleGroup: 'interface-theme'
-                            });
-                        }
-                    }
-
-                    Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
-                    _fill_themes.call(me);
-
-                    if (me.view.btnInterfaceTheme.menu.items.length) {
-                        this.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                            var value = item.value;
-                            Common.UI.Themes.setTheme(value);
-                        }, this));
-                    }
-                }
-            }
         },
 
         onBtnZoomTo: function (type, btn) {
@@ -274,6 +217,37 @@ define([
         },
 
         onComboBlur: function() {
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onGuidesShow: function(state) {
+            this.api.asc_setShowGuides(state);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onGuidesAfterShow: function() {
+            if (this.view) {
+                this.view.btnGuides.menu.items[6].setDisabled(this.api.asc_canClearGuides());
+                this.view.btnGuides.menu.items[0].setChecked(this.api.asc_getShowGuides(), true);
+                this.view.btnGuides.menu.items[5].setChecked(this.api.asc_getShowSmartGuides(), true);
+            }
+        },
+
+        onGuidesAdd: function(type) {
+            if (type==='add-vert')
+                this.api.asc_addVerticalGuide();
+            else
+                this.api.asc_addHorizontalGuide();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onGuidesClear: function() {
+            this.api.asc_clearGuides();
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onGuidesSmartShow: function(state) {
+            this.api.asc_setShowSmartGuides(state);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         }
 

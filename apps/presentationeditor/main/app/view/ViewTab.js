@@ -77,6 +77,9 @@ define([
                         '<span class="btn-slot text" id="slot-chk-rulers"></span>' +
                     '</div>' +
                 '</div>' +
+                '<div class="group small">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-guides"></span>' +
+                '</div>' +
                 '<div class="separator long separator-rulers"></div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
@@ -110,8 +113,33 @@ define([
                 me.chNotes && me.chNotes.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('notes:change', [me.chNotes, state === 'checked']);
                 }, me));
-                me.cmbZoom.on('combo:focusin', _.bind(this.onComboOpen, this, false));
-                me.cmbZoom.on('show:after', _.bind(this.onComboOpen, this, true));
+                me.cmbZoom.on('selected', function (combo, record) {
+                    me.fireEvent('zoom:selected', [combo, record]);
+                }).on('changed:before', function (combo, record) {
+                    me.fireEvent('zoom:changedbefore', [true, combo, record]);
+                }).on('changed:after', function (combo, record) {
+                    me.fireEvent('zoom:changedafter', [false, combo, record]);
+                }).on('combo:blur', function () {
+                    me.fireEvent('editcomplete', me);
+                }).on('combo:focusin', _.bind(this.onComboOpen, this, false))
+                    .on('show:after', _.bind(this.onComboOpen, this, true));
+
+                me.btnGuides.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('guides:show', [state]);
+                }, me));
+                me.btnGuides.menu.on('item:click', _.bind(function(menu, item) {
+                    if (item.value === 'add-vert' || item.value === 'add-hor')
+                        me.fireEvent('guides:add', [item.value]);
+                    else if (item.value === 'clear')
+                        me.fireEvent('guides:clear');
+                     else if (item.value === 'smart')
+                        me.fireEvent('guides:smart', [item.isChecked()]);
+                     else
+                        me.fireEvent('guides:show', [item.isChecked()]);
+                }, me));
+                me.btnGuides.menu.on('show:after', _.bind(function(btn, state) {
+                    me.fireEvent('guides:aftershow');
+                }, me));
             },
 
             initialize: function (options) {
@@ -226,6 +254,21 @@ define([
                 });
                 this.lockedControls.push(this.chNotes);
 
+                this.btnGuides = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon day',
+                    caption: this.textGuides,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnGuides);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -248,13 +291,85 @@ define([
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
                 this.chNotes.render($host.find('#slot-chk-notes'));
+                this.btnGuides.render($host.find('#slot-btn-guides'));
                 return this.$el;
             },
 
-            onAppReady: function () {
-                this.btnFitToSlide.updateHint(this.tipFitToSlide);
-                this.btnFitToWidth.updateHint(this.tipFitToWidth);
-                this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
+            onAppReady: function (config) {
+                var me = this;
+                (new Promise(function (accept, reject) {
+                    accept();
+                })).then(function () {
+                    me.btnFitToSlide.updateHint(me.tipFitToSlide);
+                    me.btnFitToWidth.updateHint(me.tipFitToWidth);
+                    me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
+                    me.btnGuides.updateHint(me.tipGuides);
+
+                    me.btnGuides.setMenu( new Common.UI.Menu({
+                        items: [
+                            { caption: me.textShowGuides, value: 'show', checkable: true },
+                            { caption: '--'},
+                            { caption: me.textAddVGuides, value: 'add-vert' },
+                            { caption: me.textAddHGuides, value: 'add-hor' },
+                            { caption: '--'},
+                            { caption: me.textSmartGuides, value: 'smart', checkable: true },
+                            { caption: me.textClearGuides, value: 'clear' }
+                        ]
+                    }));
+
+                    if (!Common.UI.Themes.available()) {
+                        me.btnInterfaceTheme.$el.closest('.group').remove();
+                        me.$el.find('.separator-theme').remove();
+                    }
+                    if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                        me.chStatusbar.$el.remove();
+
+                        if (!config.isEdit) {
+                            var slotChkNotes = me.chNotes.$el,
+                                groupRulers = slotChkNotes.closest('.group'),
+                                groupToolbar = me.chToolbar.$el.closest('.group');
+                            groupToolbar.find('.elset')[1].append(slotChkNotes[0]);
+                            groupRulers.remove();
+                            me.$el.find('.separator-rulers').remove();
+                        }
+                    } else if (!config.isEdit) {
+                        me.chRulers.hide();
+                    }
+                    if (!config.isEdit) {
+                        me.btnGuides.$el.closest('.group').remove();
+                    }
+
+                    if (Common.UI.Themes.available()) {
+                        function _fill_themes() {
+                            var btn = this.btnInterfaceTheme;
+                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                            else btn.setMenu(new Common.UI.Menu());
+
+                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                            for (var t in Common.UI.Themes.map()) {
+                                btn.menu.addItem({
+                                    value: t,
+                                    caption: Common.UI.Themes.get(t).text,
+                                    checked: t === currentTheme,
+                                    checkable: true,
+                                    toggleGroup: 'interface-theme'
+                                });
+                            }
+                        }
+
+                        Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
+                        _fill_themes.call(me);
+
+                        if (me.btnInterfaceTheme.menu.items.length) {
+                            me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                var value = item.value;
+                                Common.UI.Themes.setTheme(value);
+                            }, me));
+                        }
+                    }
+
+                    me.setEvents();
+                });
             },
 
             show: function () {
@@ -294,7 +409,14 @@ define([
             textNotes: 'Notes',
             tipFitToSlide: 'Fit to slide',
             tipFitToWidth: 'Fit to width',
-            tipInterfaceTheme: 'Interface theme'
+            tipInterfaceTheme: 'Interface theme',
+            textGuides: 'Guides',
+            tipGuides: 'Show guides',
+            textShowGuides: 'Show Guides',
+            textAddVGuides: 'Add vertical guide',
+            textAddHGuides: 'Add horizontal guide',
+            textSmartGuides: 'Smart Guides',
+            textClearGuides: 'Clear Guides'
         }
     }()), PE.Views.ViewTab || {}));
 });
