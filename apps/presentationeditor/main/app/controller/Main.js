@@ -852,7 +852,7 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                value = Common.localStorage.getBool("pe-settings-use-alt-key", true);
+                value = Common.localStorage.getBool("pe-settings-use-alt-key", Common.Utils.isMac ? false : true);
                 Common.Utils.InternalSettings.set("pe-settings-use-alt-key", value);
 
                 /** coauthoring begin **/

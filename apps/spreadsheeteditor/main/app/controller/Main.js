@@ -871,7 +871,7 @@ define([
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
                 this.api.asc_setZoom(zf>0 ? zf : 1);
 
-                value = Common.localStorage.getBool("sse-settings-use-alt-key", true);
+                value = Common.localStorage.getBool("sse-settings-use-alt-key", Common.Utils.isMac ? false : true);
                 Common.Utils.InternalSettings.set("sse-settings-use-alt-key", value);
 
                 /** coauthoring begin **/
