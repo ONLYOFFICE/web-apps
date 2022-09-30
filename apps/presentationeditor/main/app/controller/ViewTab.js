@@ -41,7 +41,8 @@
 
 define([
     'core',
-    'presentationeditor/main/app/view/ViewTab'
+    'presentationeditor/main/app/view/ViewTab',
+    'presentationeditor/main/app/view/GridSettings'
 ], function () {
     'use strict';
 
@@ -284,11 +285,11 @@ define([
         onGridlinesCustom: function(state) {
             var win, props,
                 me = this;
-            win = new PE.Views.GridSettingsDialog({
+            win = new PE.Views.GridSettings({
                 handler: function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
-                        me.api.asc_setGridSpacing(props);
+                        me.api.asc_setGridSpacing(props * 360000);
                         Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
                 }
