@@ -263,6 +263,21 @@ define([
                                 header.btnHome.on('click', event => {
                                     native.execCommand('title:button', JSON.stringify({click: "home"}));
                                 });
+
+                                $('#id-box-doc-name').on({
+                                    'dblclick': e => {
+                                        native.execCommand('title:dblclick', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mousedown': e => {
+                                        native.execCommand('title:mousedown', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mousemove': e => {
+                                        native.execCommand('title:mousemove', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mouseup': e => {
+                                        native.execCommand('title:mouseup', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    }
+                                });
                             }
 
                             if (!!header.btnSave) {
