@@ -273,13 +273,11 @@ define([
 
         onGridlinesSnap: function(state) {
             this.api.asc_setSnapToGrid(state);
-            Common.localStorage.setBool('pe-settings-snaptogrid', state);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         onGridlinesSpacing: function(value) {
-            this.api.asc_setGridSpacing(value);
-            Common.localStorage.setItem('pe-settings-gridspacing', value);
+            this.api.asc_setGridSpacing(value * 360000);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -291,7 +289,6 @@ define([
                     if (result == 'ok') {
                         props = dlg.getSettings();
                         me.api.asc_setGridSpacing(props);
-                        Common.localStorage.setItem('pe-settings-gridspacing', props);
                         Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
                 }
@@ -305,11 +302,11 @@ define([
                 this.view.btnGridlines.menu.items[0].setChecked(this.api.asc_getShowGridlines(), true);
                 this.view.btnGridlines.menu.items[1].setChecked(this.api.asc_getSnapToGrid(), true);
 
-                var value = this.api.asc_getGridSpacing(),
+                var value = this.api.asc_getGridSpacing()/360000,
                     items = this.view.btnGridlines.menu.items;
                 for (var i=3; i<14; i++) {
                     var item = items[i];
-                    if (item.value<1 && Math.abs(item.value - value)<0.05)
+                    if (item.value<1 && Math.abs(item.value - value)<0.005)
                         item.setChecked(true);
                     else if (item.value>=1 && Math.abs(item.value - value)<0.001)
                         item.setChecked(true);

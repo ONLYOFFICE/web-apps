@@ -873,14 +873,6 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-showgrid", value);
                 me.api.asc_setShowGridlines(value);
 
-                value = Common.localStorage.getBool("pe-settings-snaptogrid");
-                Common.Utils.InternalSettings.set("pe-settings-snaptogrid", value);
-                me.api.asc_setSnapToGrid(value);
-
-                value = Common.localStorage.getItem("pe-settings-gridspacing");
-                Common.Utils.InternalSettings.set("pe-settings-gridspacing", value);
-                me.api.asc_setGridSpacing(value);
-
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
                     statusbarController         = application.getController('Statusbar'),
