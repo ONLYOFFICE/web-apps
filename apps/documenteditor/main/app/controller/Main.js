@@ -1227,7 +1227,7 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                value = Common.localStorage.getBool("de-settings-use-alt-key", true);
+                value = Common.localStorage.getBool("de-settings-use-alt-key", Common.Utils.isMac ? false : true);
                 Common.Utils.InternalSettings.set("de-settings-use-alt-key", value);
 
                 /** coauthoring begin **/
