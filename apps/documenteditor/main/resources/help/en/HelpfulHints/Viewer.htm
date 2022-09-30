@@ -25,7 +25,7 @@
                 <li>print and download files,</li>
                 <li>use internal and external links,</li>
                 <li>
-                    access advanced settings of the editor and view the following document info using the <b>File</b> tab or the <b>View settings</b> button:
+                    access advanced settings of the editor and view the following document info using the <b>File</b> and the <b>View</b> tab:
                     <ul>
                         <li class="onlineDocumentFeatures"><b>Location</b> (available in the <em>online version</em> only) - the folder in the <b>Documents</b> module where the file is stored. </li>
                         <li class="onlineDocumentFeatures"><b>Owner</b> (available in the <em>online version</em> only) - the name of the user who has created the file.</li>
@@ -53,14 +53,14 @@
             <p><img alt="ONLYOFFICE Document Viewer" src="../images/pdfviewer.png" /></p>
             <ol>
                 <li>
-                    The Top toolbar provides access to <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">File</a> and <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Plugins</a> tabs, and the following icons:
+                    The Top toolbar provides access to <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">File</a>, <a href="../ProgramInterface/ViewTab.htm" onclick="onhyperlinkclick(this)">View</a> and <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Plugins</a> tabs, and the following icons:
                     <p><span class = "icon icon-print"></span> <b>Print</b> allows to print out the file;</p>
                     <p><span class = "icon icon-downloadicon"></span> <b>Download</b> allows to download a file to your computer;</p>
-                    <p><span class = "icon icon-access_rights"></span><b> Manage document access rights</b> (available in the <em>online version</em> only) allows you to manage the users who have access to the file right from the document: invite new users giving them permissions to edit, read, comment, fill forms or review the document, or deny some users access rights to the file.</p>
+                    <p><span class = "icon icon-access_rights"></span><b>Share</b> (available in the <em>online version</em> only) allows you to manage the users who have access to the file right from the document: invite new users giving them permissions to edit, read, comment, fill forms or review the document, or deny some users access rights to the file.</p>
                     <p><span class = "icon icon-gotodocuments"></span> <b>Open file location</b> in the <em>desktop version</em> allows opening the folder, where the file is stored, in the <b>File explorer</b> window. In the <em>online version</em>, it allows opening the folder of the <b>Documents</b> module, where the file is stored, in a new browser tab;</p>
                     <p><span class = "icon icon-favorites_icon"></span> <b>Mark as favorite / Remove from favorites</b> (available in the <em>online version</em> only) click the empty star to add a file to favorites as to make it easy to find, or click the filled star to remove the file from favorites. The added file is just a shortcut so the file itself remains stored in its original location. Deleting a file from favorites does not remove the file from its original location;</p>
-                    <p><span class = "icon icon-viewsettingsicon"></span> <b>View settings</b> allows adjusting the <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">View Settings</a> and access the <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Advanced Settings</a> of the editor;</p>
                     <p><span class = "icon icon-usericon"></span> <b>User</b>  displays the user’s name when you hover the mouse over it.</p>
+                    <p><span class="icon icon-search_icon_header"></span> <b>Search</b> - allows to search the document for a particular word or symbol, etc.</p>
                 </li>
                 <li>The <b>Status bar</b> located at the bottom of the <b>ONLYOFFICE Document Viewer</b> window indicates the page number and displays the background status notifications. It also contains the following tools:
                     <p><span class = "icon icon-selectiontool"></span> <b>Selection</b> tool allows to select text in a file.</p>
@@ -75,16 +75,18 @@
                         <li><div class = "icon icon-searchicon"></div> - allows to use the <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Search and Replace</a> tool,</li>
                         <li class="onlineDocumentFeatures"><div class = "icon icon-chaticon"></div> - (available in the <em>online version</em> only) allows opening the <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">Chat</a> panel,</li>
                         <li>
-                            <div class = "icon icon-navigationicon"></div> - allows to open the <b>Navigation</b> panel that displays the list of all headings with corresponding nesting levels. Click the heading to jump directly to a specific page.
+                            <div class = "icon icon-navigationicon"></div> - allows to open the <b>Headings</b> panel that displays the list of all headings with corresponding nesting levels. Click the heading to jump directly to a specific page.
                             <p><img alt="NavigationPanel" src="../images/navigationpanel_viewer.png" />
-                            <p>Right-click the heading on the list and use one of the available options from the menu:</p>
+                            <p>Click the <b>Settings</b> icon to the right of the <b>Headings</b> panel and use one of the available options from the menu:</p>
                             <ul>
-                                <li><b>Expand all</b> - to expand all levels of headings at the <b>Navigation</b> panel.</li>
-                                <li><b>Collapse all</b> - to collapse all levels of headings, excepting <em>level 1</em>, at the <b>Navigation</b> panel.</li>
+                                <li><b>Expand all</b> - to expand all levels of headings at the <b>Headings</b> panel.</li>
+                                <li><b>Collapse all</b> - to collapse all levels of headings, excepting <em>level 1</em>, at the <b>Headings</b> panel.</li>
                                 <li><b>Expand to level</b> - to expand the heading structure to the selected level. E.g. if you select <em>level 3</em>, then levels 1, 2 and 3 will be expanded, while level 4 and all lower levels will be collapsed.</li>
+                                <li><b>Font size</b> – to customize font size of the <b>Headings</b> panel text by choosing one of the available presets: <em>Small</em>, <em>Medium</em>, and <em>Large</em>.</li>
+                                <li><b>Wrap long headings</b> – to wrap long heading text.</li>
                             </ul>
                             <p>To manually expand or collapse separate heading levels, use the arrows to the left of the headings.</p>
-                            <p>To close the <b>Navigation</b> panel, click the <span class = "icon icon-navigationicon"></span> <b>Navigation</b> icon on the left sidebar once again.</p>
+                            <p>To close the <b>Headings</b> panel, click the <span class = "icon icon-navigationicon"></span> <b>Headings</b> icon on the left sidebar once again.</p>
                         </li>
                         <li>
                             <div class = "icon icon-pagethumbnails"></div> - allows to display page thumbnails for quick navigation. Click <div class = "icon icon-search_options"></div> on the <b>Page Thumbnails</b> panel to access the <b>Thumbnails Settings</b>:
