@@ -2321,14 +2321,14 @@ define([
             }
 
             var self = this,
-                listStyles = this.toolbar.mode.isEditOle ? self.toolbar.mnuCellStylePicker: self.toolbar.listStyles,
-                menuPicker = this.toolbar.mode.isEditOle ? listStyles: listStyles.menuPicker;
+                listStyles = this.toolbar.mode.isEditOle ? self.toolbar.mnuCellStylePicker: self.toolbar.listStyles;
 
             if (!listStyles) {
                 self.styles = styles;
                 return;
             }
-
+        
+            var menuPicker = this.toolbar.mode.isEditOle ? listStyles: listStyles.menuPicker;
             var mainController = this.getApplication().getController('Main');
             var count = menuPicker.store.length;
             var rec = menuPicker.getSelectedRec();
