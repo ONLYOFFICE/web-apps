@@ -1,114 +1,36 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-        <title>Édition collaborative des classeurs</title>
+		<title> Collaborer sur des feuilles de calcul en temps réel</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="Les astuces sur travail collaboratif" />
+		<meta name="description" content="Astuces sur la collaboration" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
-		<div class="mainpart">
-        <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Collaborer sur des feuilles de calcul en temps réel</h1>
+            <p> <a target="_blank" href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" onclick="onhyperlinkclick(this)"><b>Tableur</b></a> permet de gérer le flux de travail continu par l'ensemble de l'équipe : <a href="https://helpcenter.onlyoffice.com/fr/userguides/groups-guides-documents-share-documents.aspx">partager</a> des fichiers et des dossiers, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">communiquer</a> directement depuis l'éditeur, <a href="../HelpfulHints/Commenting.htm" onclick="onhyperlinkclick(this)">laisser des commentaires</a> pour des fragments de la feuille de calcul nécessitant la participation d'une tierce personne, sauvegarder des <a href="../HelpfulHints/VersionHistory.htm" onclick="onhyperlinkclick(this)">versions de la feuille de calcul</a> pour une utilisation ultérieure.</p>
+            <p>Dans le <b>Tableur</b> il y a deux modes de collaborer sur des feuilles de calcul en temps réel : <b>Rapide</b> et <b>Strict</b>.</p>
+            <p>Vous pouvez basculer entre les modes depuis <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Paramètres avancés</a>. Il est également possible de choisir le mode voulu à l'aide de l'icône <span class="icon icon-coeditingmode"></span> <b>Mode de coédition</b> dans l'onglet <b>Collaboration</b> de la barre d'outils supérieure :</p>
+            <p><img alt="Menu Mode de co-édition" src="../../../../../../common/main/resources/help/fr/images/coeditingmodemenu.png" /></p>
+            <p>Le nombre d'utilisateurs qui travaillent sur la feuille de calcul actuelle est spécifié sur le côté droit de l'en-tête de l'éditeur - <span class="icon icon-usersnumber"></span>. Pour afficher les personnes qui travaillent sur le fichier, cliquez sur cette icône pour ouvrir le panneau <b>Chat</b> avec la liste complète affichée.</p>
+            <h3>Mode Rapide</h3>
+            <p>Le mode <b>Rapide</b> est utilisé par défaut et affiche les modifications effectuées par d'autres utilisateurs en temps réel. Lorsque vous co-éditez une feuille de calcul en mode <b>Rapide</b>, la possibilité de <b>Rétablir</b> la dernière opération annulée n'est pas disponible. Ce mode affichera les actions et les noms des co-auteurs tandis qu'ils modifient les données des cellules. Les bordures des cellules s'affichent en différentes couleurs pour mettre en surbrillance des plages de cellules sélectionnées par un autre utilisateur à ce moment.</p>
+            <p>Faites glisser le pointeur de la souris sur la plage sélectionnée pour afficher le nom de l'utilisateur qui fait la sélection.</p>
+            <h3>Mode Strict</h3>
+            <p>Le mode <b>Strict</b> est sélectionné pour masquer les modifications d'autres utilisateurs jusqu'à ce que vous cliquiez sur l'icône <b>Enregistrer</b> <span class="icon icon-saveupdate"></span> pour enregistrer vos propres modifications et accepter les modifications apportées par d'autres utilisateurs.</p>
+            <p>Lorsqu'une feuille de calcul est en cours de modification par plusieurs utilisateurs simultanément dans le mode <b>Strict</b>, les cellules modifiées sont marqués avec des lignes pointillées de couleurs différentes, l'onglet de la feuille de calcul où se situent ces cellules est marqué de rouge. Faites glisser le curseur sur l'une des cellules modifiées, pour afficher le nom de l'utilisateur qui est en train de l'éditer à ce moment.</p>
+            <p><img alt="Co-édition sélection en surbrillance" src="../images/coedit_selector.png" /></p>
+            <p>Lorsque l'un des utilisateurs enregistre ses modifications en cliquant sur l'icône <span class="icon icon-savewhilecoediting"></span>, les autres verront une note dans le coin supérieure gauche indiquant qu'il y a des mises à jour. Pour enregistrer les modifications apportées et récupérer les mises à jour de vos co-auteurs cliquez sur l'icône <span class="icon icon-saveupdate"></span> dans le coin supérieur gauche de la barre supérieure.</p>
+            <h3>Utilisateurs anonymes</h3>
+            <p>Les utilisateurs du portail qui ne sont pas enregistrés et n'ont pas du profil sont les utilisateurs anonymes qui quand même peuvent collaborer sur des documents. Pour affecter le nom à un utilisateur anonyme, ce dernier doit saisir le nom préféré dans le coin supérieur droit de l'écran lorsque l'on accède au document pour la première fois. Activez l'option "Ne plus poser cette question" pour enregistrer ce nom-ci.</p>
+            <p><img alt="Collaboration anonyme" src="../images/anonymous_collab.png" /></p>
         </div>
-        <h1>Édition collaborative des classeurs</h1>
-			<p><a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Spreadsheet Editor</b></a> vous offre la possibilité de travailler sur un document simultanément avec d'autres utilisateurs. Cette fonction inclut:</p>
-			<ul>
-				<li class="onlineDocumentFeatures">accès simultané au classeur édité par plusieurs utilisateurs</li>
-				<li class="onlineDocumentFeatures">indication visuelle des cellules qui sont en train d'être éditées par d'autres utilisateurs</li>
-				<li class="onlineDocumentFeatures">affichage des changements en temps réel ou synchronisation des changements en un seul clic</li>
-				<li class="onlineDocumentFeatures">chat pour partager des idées concernant certaines parties du classeur</li>
-				<li>les commentaires avec la description d'une tâche ou d'un problème à résoudre (il est également possible de travailler avec les commentaires en mode hors ligne, sans se connecter à la <I>version en ligne</I>)</li>
-			</ul>
-            <div class="desktopDocumentFeatures">
-                <h3>Connexion à la version en ligne</h3>
-                <p>Dans <I>l'éditeur de bureau</I>, ouvrez l'option <B>Se connecter au cloud</B> du menu de gauche dans la fenêtre principale du programme. Connectez-vous à votre bureau dans le cloud en spécifiant l'identifiant et le mot de passe de votre compte. <!--В окне ввода логина и пароля также доступна ссылка для регистрации в Облаке.--></p>
-            </div>
-            <div class="onlineDocumentFeatures">
-                <h3>Édition collaborative</h3>
-                <p><B>Spreadsheet Editor</B> permet de sélectionner l'un des deux modes de coédition:</p>
-                <ul>
-                    <li><B>Rapide</B> est utilisé par défaut et affiche les modifications effectuées par d'autres utilisateurs en temps réel.</li>
-                    <li><B>Strict</B> est sélectionné pour masquer les modifications des autres utilisateurs jusqu'à ce que vous cliquiez sur l'icône <B>Enregistrer</B> <div class = "icon icon-saveupdate"></div> pour enregistrer vos propres modifications et accepter les modifications apportées par d'autres utilisateurs.</li>
-                </ul>
-                <p>Le mode peut être sélectionné dans les <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Paramètres avancés</a>. Il est également possible de choisir le mode voulu à l'aide de l'icône <B>Mode de coédition</B> <span class="icon icon-coeditingmode"></span> dans l'onglet <B>Collaboration</B> de la barre d'outils supérieure:</p>
-                <p><img alt="Menu Mode de co-édition" src="../../../../../../common/main/resources/help/fr/images/coeditingmodemenu.png" /></p>
-                <p class="note">
-                    <B>Remarque</B>: lorsque vous co-éditez une feuille de calcul en mode <B>Rapide</B>, les options<B>Annuler/Rétablir</B> la dernière opération ne sont pas disponibles.
-                </p>
-                <p>Lorsqu'un classeur est en cours de modification par plusieurs utilisateurs simultanément dans le mode <B>Strict</B>, les cellules modifiées sont marqués avec des lignes pointillées de couleurs différentes, l'onglet de la feuille de calcul où se situent ces cellules est marqué de rouge. Faites glisser le curseur sur l'une des cellules modifiées, pour afficher le nom de l'utilisateur qui est en train de l'éditer à ce moment. Le mode <B>Rapide</B> affichera les actions et les noms des co-éditeurs tandis qu'ils modifient les données des cellules. Les bordures des cellules s'affichent en différentes couleurs pour mettre en surbrillance des plages de cellules sélectionnées par un autre utilisateur à ce moment. Faites glisser le pointeur de la souris sur la plage sélectionnée pour afficher le nom de l'utilisateur qui fait la sélection.</p>
-                <p><img alt="Co-édition sélection en surbrillance" src="../images/coedit_selector.png" /></p>
-                <p>Le nombre d'utilisateurs qui travaillent sur le classeur actuel est spécifié sur le côté droit de l'en-tête de l'éditeur - <span class="icon icon-usersnumber"></span>. Pour afficher les personnes qui travaillent sur le fichier, cliquez sur cette icône pour ouvrir le panneau <B>Chat</B> avec la liste complète affichée.</p>
-                <p>Quand aucun utilisateur ne consulte ou ne modifie le fichier, l'icône dans l'en-tête de l'éditeur aura cette apparence <span class="icon icon-access_rights"></span> et vous permettra de gérer les utilisateurs qui ont accès à la feuille de calcul: inviter de nouveaux utilisateurs en leur donnant les permissions pour <I>éditer</I>, <I>lire</I> ou <I>commenter</I> les feuilles de calcul ou <I>refuser</I> à certains utilisateurs des droits d'accès au fichier. Cliquez sur cette icône pour gérer l'accès au fichier; cela peut être fait aussi bien lorsqu'il n'y a pas d'autres utilisateurs qui voient ou co-éditent le classeur pour le moment que quand il y a d'autres utilisateurs l'icône ressemble à ceci <span class="icon icon-usersnumber"></span>. Il est également possible de définir des droits d'accès à l'aide de l'icône <B>Partage</B> <span class="icon icon-sharingicon"></span> dans l'onglet <B>Collaboration</B> de la barre d'outils supérieure.</p>
-                <p>Dès que l'un des utilisateurs enregistre ses modifications en cliquant sur l'icône <span class="icon icon-savewhilecoediting"></span> , les autres verront une note dans la barre d'état indiquant qu'il y a des mises à jour. Pour enregistrer les changements effectués et récupérer les mises à jour de vos co-éditeurs cliquez sur l'icône <span class="icon icon-saveupdate"></span> dans le coin supérieur gauche de la barre supérieure.</p>
-                <h3>Utilisateurs anonymes</h3>
-                <p>Les utilisateurs du portail qui ne sont pas enregistrés et n'ont pas de profil sont les utilisateurs anonymes qui quand même peuvent collaborer sur les documents. Pour affecter un nom à un utilisateur anonyme, ce dernier doit saisir le nom préféré dans le coin supérieur droit de l'écran lorsque l'on accède au document pour la première fois. Activez l'option Ne plus poser cette question pour enregistrer ce nom-ci.</p>
-                <p><img alt="Collaboration anonyme" src="../images/anonymous_collab.png" /></p>
-                <h3 id="chat">Chat</h3>
-                <p>Vous pouvez utiliser cet outil pour coordonner en temps réel le processus de co-édition, par exemple, pour décider avec vos collaborateurs de qui fait quoi, quel partie du classeur vous allez éditer maintenant, etc.</p>
-                <p>Les messages de discussion sont stockés pendant une session seulement. Pour discuter du contenu du classeur, il est préférable d'utiliser les commentaires qui sont stockés jusqu'à ce que vous décidiez de les supprimer.</p>
-                <p>Pour accéder au Chat et  laisser un message pour les autres utilisateurs:</p>
-                <ol>
-                    <li>
-                        cliquez sur l'icône <div class = "icon icon-chaticon"></div> dans la barre latérale gauche ou <br /> passez à l'onglet <B>Collaboration</B> de la barre d'outils supérieure et cliquez sur le bouton  <B>Chat</B> <div class = "icon icon-chat_toptoolbar"></div> ,
-                    </li>
-                    <li>saisissez le texte dans le champ correspondant,</li>
-                    <li>cliquez sur le bouton <B>Envoyer</B>.</li>
-                </ol>
-                <p>Tous les messages envoyés par les utilisateurs seront affichés sur le panneau à gauche. S'il y a de nouveaux messages à lire, l'icône chat sera affichée de la manière suivante - <span class="icon icon-chaticon_new"></span>.</p>
-                <p>Pour fermer le panneau avec les messages, cliquez sur l'icône <span class="icon icon-chaticon"></span> encore une fois.</p>
-            </div>
-            <h3 id="comments">Commentaires</h3>
-            <p>Il est possible de travailler avec des commentaires en mode hors ligne, sans se connecter à la <I>version en ligne</I>.</p>
-                <p>Pour laisser un commentaire:</p>
-                <ol>
-                    <li>sélectionnez la cellule où vous pensez qu'il y a une erreur ou un problème,</li>
-                    <li>passez à l'onglet <B>Insertion</B> ou <B>Collaboration</B> de la barre d'outils supérieure et cliquez sur le bouton <B>Commentaire</B> <div class = "icon icon-comment_toptoolbar"></div> ou<br /> utilisez l'icône Commentaires <div class = "icon icon-commentsicon"></div> dans la barre latérale gauche pour ouvrir le panneau <B>Commentaires</B> et cliquez sur le lien <B>Ajouter un commentaire au document</B> ou<br /> cliquez avec le bouton droit sur le passage de texte sélectionné et sélectionnez l'option <B>Ajouter un commentaire</B> dans le menu contextuel,
-                    </li>
-                    <li>saisissez le texte nécessaire,</li>
-                    <li>cliquez sur le bouton <B>Ajouter commentaire/Ajouter</B>.</li>
-                </ol>
-                <p>Le commentaire sera affiché sur le panneau à gauche. Le triangle orange apparaîtra dans le coin supérieur droit de la cellule que vous avez commentée. Si vous devez désactiver cette fonctionnalité, cliquez sur l'onglet <B>Fichier</B> dans la barre d'outils supérieure, sélectionnez l'option <B>Paramètres avancés...</B> et décochez la case <B>Activer l'affichage des commentaires</B>. Dans ce cas, les cellules commentées ne seront marquées que si vous cliquez sur l'icône Commentaires <span class="icon icon-commentsicon"></span> .</p>
-                <p>Si vous utilisez le mode de co-édition <B>Strict</B>, les nouveaux commentaires ajoutés par d'autres utilisateurs ne seront visibles qu'après un clic sur l'icône <span class="icon icon-saveupdate"></span> dans le coin supérieur gauche de la barre supérieure.</p>
-                <p>Pour afficher le commentaire, cliquez sur la cellule. Tout utilisateur peut répondre au commentaire ajouté en posant une question ou en faisant référence au travail qu'il/elle a fait. Pour ce faire, utilisez le lien <B>Ajouter une réponse</B>, saisissez le texte de votre réponse dans le champ de saisie et appuyez sur le bouton <B>Répondre</B>.</p>
-                <p>Vous pouvez gérer les commentaires ajoutés en utilisant les icônes de la bulle de commentaire ou sur le panneau gauche <B>Commentaires</B>:</p>
-                <ul>
-                    <li>trier les commentaires ajoutés en cliquant sur l'icône <div class = "icon icon-sortcommentsicon"></div> : 
-                        <ul>
-                            <li>par date: <B>Plus récent</B> ou <B>Plus ancien</B>.</li>
-                            <li>par auteur: <B>Auteur de A à Z</B> ou <B>Auteur de Z à A</B></li>
-                            <li>
-                                par groupe: <b>Tout</b> ou sélectionnez le groupe approprié dans la liste. Cette option de tri n'est disponible que si vous utilisez une version qui prend en charge cette fonctionnalité.
-                                <p><img alt="Sort comments" src="../images/sortcomments.png" /></p>
-                            </li>                       
-                        </ul>          
-                    </li>
-                    <li>modifier le commentaire actuel en cliquant sur l'icône <div class = "icon icon-editcommenticon"></div> ,</li>
-                    <li>supprimer le commentaire actuel en cliquant sur l'icône <div class = "icon icon-deletecommenticon"></div> ,</li>
-                    <li>fermez la discussion actuelle en cliquant sur l'icône <div class = "icon icon-resolveicon"></div> si la tâche ou le problème décrit dans votre commentaire est résolu, après quoi la discussion ouverte par votre commentaire reçoit le statut résolu. Pour l'ouvrir à nouveau, cliquez sur l'icône <div class = "icon icon-resolvedicon"></div> . Si vous souhaitez masquer les commentaires résolus, cliquez sur l'onglet <B>Fichier</B> dans la barre d'outils supérieure, sélectionnez l'option <B>Paramètres avancés...</B>, décochez la case <B>Activer l'affichage des commentaires résolus</B> puis cliquez sur <B>Appliquer</B>. Dans ce cas, les commentaires résolus ne seront ne seront mis en évidence que si vous cliquez sur l'icône <div class = "icon icon-commentsicon"></div> .</li>
-                    <li>si vous souhaitez gérer plusieurs commentaires à la fois, ouvrez le menu contextuel <B>Résoudre</B> sous l'onglet <B>Collaboration</B>. Sélectionnez l'une des options disponibles: <B>résoudre les commentaires actuels</B>, <B>marquer mes commentaires comme résolus</B> ou <B>marquer tous les commentaires comme résolus</B> dans le classeur.</li>
-                </ul>
-            <h4>Ajouter les mentions</h4>
-            <p class="note"> <B>Remarque</B>: Ce n'est qu'aux commentaires au texte qu'on peut ajouter des mentions.</p>
-            <p>Lorsque vous ajoutez un commentaire sur lequel vous voulez attirer l'attention d'une personne, vous pouvez utiliser la fonction de <B>mentions</B> et envoyer une notification par courrier électronique ou <B>Talk</B>.</p>
-            <p>Ajoutez une mention en tapant le signe @ n'importe où dans votre commentaire, alors la liste de tous les utilisateurs sur votre portail s'affiche. Pour faire la recherche plus rapide, tapez le prénom approprié dans le champ de saisie, la liste propose les suggestions au cours de la frappe. Puis sélectionnez le nom souhaité dans la liste. Si la personne mentionnée n'a pas l'autorisation d'ouvrir ce fichier, la fenêtre <B>Paramètres de partage</B> va apparaître. Par défaut, un document est partagé en <B>Lecture seule</B>. Configurez les paramètres de partage selon vos besoins et cliquez sur <B>OK</B>.</p>
-            <p>La personne mentionnée recevra une notification par courrier électronique la informant que son nom est mentionné dans un commentaire. La personne recevra encore une notification lorsque un fichier commenté est partagé.</p>
-            <p>Pour supprimer les commentaires,</p>
-            <ol>
-                <li>appuyez sur le bouton <div class = "icon icon-removecomment_toptoolbar"></div> <b>Supprimer</b> sous l'onglet <b>Collaboration</b> dans la barre d'outils en haut,</li>
-                <li>
-                    sélectionnez l'option convenable du menu:
-                    <ul>
-                        <li><b>Supprimer les commentaires actuels </b>à supprimer la sélection du moment. Toutes les réponses qui déjà ont été ajoutées seront supprimés aussi.</li>
-                        <li><b>Supprimer mes commentaires</b> à supprimer vos commentaire et laisser les commentaires des autres. Toutes les réponses qui déjà ont été ajoutées à vos commentaires seront supprimés aussi.</li>
-                        <li><b>Supprimer tous les commentaires</b> sert à supprimer tous les commentaires du document.</li>
-                    </ul>
-                </li>
-            </ol>
-                <p>Pour fermer le panneau avec les commentaires, cliquez sur l'icône <span class="icon icon-commentsicon"></span> de la barre latérale de gauche encore une foi.</p>
-            </div>
 	</body>
 </html>
