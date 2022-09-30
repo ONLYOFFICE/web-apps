@@ -2217,6 +2217,7 @@ define([
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
 
                 this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
+                    cls: 'shifted-right',
                     items: []
                 }));
 
@@ -2226,7 +2227,7 @@ define([
                         caption: item.caption,
                         value: item.sectionId,
                         itemId: item.id,
-                        iconCls: 'menu__icon ' + item.icon,
+                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
                                 {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: 400px; height: 500px; margin-left: 5px;"></div>')}

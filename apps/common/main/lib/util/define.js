@@ -1498,7 +1498,7 @@ define(function(){ 'use strict';
             textPictureLineup: 'Picture Lineup',
             textFramedTextPicture: 'Framed Text Picture',
             textBubblePictureList: 'Bubble Picture List',
-            textOffice: 'Office.com',
+            textOther: 'Other',
             textPictureOrganizationChart: 'Picture Organization Chart',
             textChevronAccentProcess: 'Chevron Accent Process',
             textRadialPictureList: 'Radial Picture List',
@@ -1795,12 +1795,11 @@ define(function(){ 'use strict';
                             { type: Asc.c_oAscSmartArtTypes.PictureAccentProcess, tip: this.textPictureAccentProcess}
                         ]
                     },
-                    // Office.com
+                    // Other
                     {
-                        id: 'menu-smart-art-group-office',
+                        id: 'menu-smart-art-group-other',
                         sectionId: Asc.c_oAscSmartArtSectionNames.OfficeCom,
-                        caption: this.textOffice,
-                        icon: '',
+                        caption: this.textOther,
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.PictureOrganizationChart, tip: this.textPictureOrganizationChart},
                             { type: Asc.c_oAscSmartArtTypes.ChevronAccentProcess, tip: this.textChevronAccentProcess},
