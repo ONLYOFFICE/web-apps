@@ -968,6 +968,7 @@ define([
                         { caption: '--'},
                         { caption: me.textAddVGuides, value: 'add-vert' },
                         { caption: me.textAddHGuides, value: 'add-hor' },
+                        { caption: me.textDeleteGuide, value: 'del-guide' },
                         { caption: '--'},
                         { caption: me.textSmartGuides, value: 'smart', checkable: true },
                         { caption: me.textClearGuides, value: 'clear' }
@@ -1038,9 +1039,11 @@ define([
                     me.mnuPreview.setVisible(value.fromThumbs===true);
 
                     if (!value.fromThumbs) {
-                        me.mnuGuides.menu.items[6].setDisabled(!me.api.asc_canClearGuides());
                         me.mnuGuides.menu.items[0].setChecked(me.api.asc_getShowGuides(), true);
-                        me.mnuGuides.menu.items[5].setChecked(me.api.asc_getShowSmartGuides(), true);
+                        me.mnuGuides.menu.items[4].setVisible(!!value.guideId);
+                        me.mnuGuides.menu.items[4].options.guideId = value.guideId;
+                        me.mnuGuides.menu.items[6].setChecked(me.api.asc_getShowSmartGuides(), true);
+                        me.mnuGuides.menu.items[7].setDisabled(!me.api.asc_canClearGuides());
 
                         me.mnuGridlines.menu.items[0].setChecked(me.api.asc_getShowGridlines(), true);
                         me.mnuGridlines.menu.items[1].setChecked(me.api.asc_getSnapToGrid(), true);
@@ -2540,7 +2543,8 @@ define([
         textCustom: 'Custom',
         textManyGrids: '{0} grids per cm',
         textFewGrids: '{0} grids per cm',
-        textRulers: 'Rulers'
+        textRulers: 'Rulers',
+        textDeleteGuide: 'Delete Guide'
 
     }, PE.Views.DocumentHolder || {}));
 });
