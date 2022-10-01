@@ -975,6 +975,35 @@ define([
                 })
             });
 
+            me.mnuGridlines = new Common.UI.MenuItem({
+                caption     : me.textGridlines,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        { caption: me.textShowGridlines, value: 'show', checkable: true },
+                        { caption: me.textSnapObjects, value: 'snap', checkable: true },
+                        { caption: '--'},
+                        { caption: Common.Utils.String.format(me.textManyGrids, 8), value: 0.13, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: Common.Utils.String.format(me.textManyGrids, 6), value: 0.17, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: Common.Utils.String.format(me.textManyGrids, 5), value: 0.2, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: Common.Utils.String.format(me.textFewGrids, 4), value: 0.25, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: Common.Utils.String.format(me.textFewGrids, 3), value: 0.33, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: Common.Utils.String.format(me.textFewGrids, 2), value: 0.5, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: '1 ' + me.textCm, value: 1, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: '2 ' + me.textCm, value: 2, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: '3 ' + me.textCm, value: 3, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: '4 ' + me.textCm, value: 4, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: '5 ' + me.textCm, value: 5, checkable: true, toggleGroup: 'tb-gridlines' },
+                        { caption: '--'},
+                        { caption: me.textCustom, value: 'custom' }
+                    ]
+                })
+            });
+            me.mnuRulers = new Common.UI.MenuItem({
+                caption : me.textRulers,
+                checkable: true
+            });
+
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -982,8 +1011,8 @@ define([
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
                     me.menuSlidePaste.setVisible(value.fromThumbs!==true);
-                    me.slideMenu.items[1].setVisible(value.fromThumbs===true); // New Slide
-                    me.slideMenu.items[2].setVisible(value.isSlideSelect===true); // Duplicate Slide
+                    me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
+                    me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setChecked(value.isSlideHidden===true);
@@ -994,21 +1023,41 @@ define([
                     me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.options.value = null;
 
-                    me.slideMenu.items[10].setVisible(!value.fromThumbs); // guides
-                    me.slideMenu.items[11].setVisible(!value.fromThumbs);
-                    me.slideMenu.items[12].setVisible(value.fromThumbs===true);
-                    me.slideMenu.items[13].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[10].setVisible(!value.fromThumbs); // guides separator
+                    me.mnuGuides.setVisible(!value.fromThumbs);
+                    me.mnuGridlines.setVisible(!value.fromThumbs);
+                    me.mnuRulers.setVisible(!value.fromThumbs);
+                    me.slideMenu.items[14].setVisible(value.fromThumbs===true);
+                    me.mnuSelectAll.setVisible(value.fromThumbs===true);
 
                     me.mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
-                    me.slideMenu.items[15].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
+                    me.slideMenu.items[17].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
                     me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
                     me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
-                    me.slideMenu.items[18].setVisible(value.fromThumbs===true);
-                    me.slideMenu.items[19].setVisible(value.fromThumbs===true);
+                    me.slideMenu.items[20].setVisible(value.fromThumbs===true);
+                    me.mnuPreview.setVisible(value.fromThumbs===true);
 
-                    me.mnuGuides.menu.items[6].setDisabled(!me.api.asc_canClearGuides());
-                    me.mnuGuides.menu.items[0].setChecked(me.api.asc_getShowGuides(), true);
-                    me.mnuGuides.menu.items[5].setChecked(me.api.asc_getShowSmartGuides(), true);
+                    if (!value.fromThumbs) {
+                        me.mnuGuides.menu.items[6].setDisabled(!me.api.asc_canClearGuides());
+                        me.mnuGuides.menu.items[0].setChecked(me.api.asc_getShowGuides(), true);
+                        me.mnuGuides.menu.items[5].setChecked(me.api.asc_getShowSmartGuides(), true);
+
+                        me.mnuGridlines.menu.items[0].setChecked(me.api.asc_getShowGridlines(), true);
+                        me.mnuGridlines.menu.items[1].setChecked(me.api.asc_getSnapToGrid(), true);
+
+                        var spacing = me.api.asc_getGridSpacing()/360000,
+                            items = me.mnuGridlines.menu.items;
+                        for (var i=3; i<14; i++) {
+                            var item = items[i];
+                            if (item.value<1 && Math.abs(item.value - spacing)<0.005)
+                                item.setChecked(true);
+                            else if (item.value>=1 && Math.abs(item.value - spacing)<0.001)
+                                item.setChecked(true);
+                            else
+                                item.setChecked(false);
+                        }
+                        me.mnuRulers.setChecked(!Common.Utils.InternalSettings.get("pe-hidden-rulers"));
+                    }
 
                     var selectedElements = me.api.getSelectedElements(),
                         locked           = false,
@@ -1052,6 +1101,8 @@ define([
                     me.menuSlideSettings,
                     {caption: '--'},
                     me.mnuGuides,
+                    me.mnuGridlines,
+                    me.mnuRulers,
                     {caption: '--'},
                     me.mnuSelectAll,
                     me.mnuPrintSelection,
@@ -2481,7 +2532,15 @@ define([
         textAddVGuides: 'Add vertical guide',
         textAddHGuides: 'Add horizontal guide',
         textSmartGuides: 'Smart Guides',
-        textClearGuides: 'Clear Guides'
+        textClearGuides: 'Clear Guides',
+        textGridlines: 'Gridlines',
+        textShowGridlines: 'Show Gridlines',
+        textSnapObjects: 'Snap object to grid',
+        textCm: 'cm',
+        textCustom: 'Custom',
+        textManyGrids: '{0} grids per cm',
+        textFewGrids: '{0} grids per cm',
+        textRulers: 'Rulers'
 
     }, PE.Views.DocumentHolder || {}));
 });

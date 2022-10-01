@@ -423,6 +423,8 @@ define([
             view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
             view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
             view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
+            view.mnuGridlines.menu.on('item:click', _.bind(me.onGridlinesClick, me));
+            view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
         },
 
         getView: function (name) {
@@ -2124,6 +2126,21 @@ define([
                 this.documentHolder.fireEvent('guides:smart', [item.isChecked()]);
             else
                 this.documentHolder.fireEvent('guides:show', [item.isChecked()]);
+        },
+
+        onGridlinesClick: function(menu, item) {
+            if (item.value === 'custom')
+                this.documentHolder.fireEvent('gridlines:custom');
+            else if (item.value === 'snap')
+                this.documentHolder.fireEvent('gridlines:snap', [item.isChecked()]);
+            else if (item.value === 'show')
+                this.documentHolder.fireEvent('gridlines:show', [item.isChecked()]);
+            else
+                this.documentHolder.fireEvent('gridlines:spacing', [item.value]);
+        },
+
+        onRulersClick: function(item) {
+            this.documentHolder.fireEvent('rulers:change', [item.isChecked()]);
         },
 
         SetDisabled: function(state) {

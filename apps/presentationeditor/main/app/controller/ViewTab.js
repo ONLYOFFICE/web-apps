@@ -119,7 +119,12 @@ define([
                     'guides:show': _.bind(this.onGuidesShow, this),
                     'guides:add': _.bind(this.onGuidesAdd, this),
                     'guides:clear': _.bind(this.onGuidesClear, this),
-                    'guides:smart': _.bind(this.onGuidesSmartShow, this)
+                    'guides:smart': _.bind(this.onGuidesSmartShow, this),
+                    'gridlines:show': _.bind(this.onGridlinesShow, this),
+                    'gridlines:snap': _.bind(this.onGridlinesSnap, this),
+                    'gridlines:spacing': _.bind(this.onGridlinesSpacing, this),
+                    'gridlines:custom': _.bind(this.onGridlinesCustom, this),
+                    'rulers:change': _.bind(this.onChangeRulers, this)
                 }
             });
         },
@@ -172,8 +177,9 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onChangeRulers: function (btn, checked) {
+        onChangeRulers: function (checked) {
             this.api.asc_SetViewRulers(checked);
+            this.view.chRulers.setValue(checked, true);
             Common.localStorage.setBool('pe-hidden-rulers', !checked);
             Common.Utils.InternalSettings.set("pe-hidden-rulers", !checked);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
@@ -234,6 +240,7 @@ define([
 
         onGuidesShow: function(state) {
             this.api.asc_setShowGuides(state);
+            this.view.btnGuides.toggle(state, true);
             Common.localStorage.setBool('pe-settings-showguides', state);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -268,6 +275,7 @@ define([
 
         onGridlinesShow: function(state) {
             this.api.asc_setShowGridlines(state);
+            this.view.btnGridlines.toggle(state, true);
             Common.localStorage.setBool('pe-settings-showgrid', state);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },

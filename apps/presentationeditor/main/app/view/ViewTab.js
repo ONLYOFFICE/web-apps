@@ -109,7 +109,7 @@ define([
                     me.fireEvent('statusbar:hide', [me.chStatusbar, state !== 'checked']);
                 }, me));
                 me.chRulers && me.chRulers.on('change', _.bind(function (checkbox, state) {
-                    me.fireEvent('rulers:change', [me.chRulers, state === 'checked']);
+                    me.fireEvent('rulers:change', [state === 'checked']);
                 }, me));
                 me.chNotes && me.chNotes.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('notes:change', [me.chNotes, state === 'checked']);
@@ -136,7 +136,7 @@ define([
                     else if (item.value === 'smart')
                         me.fireEvent('guides:smart', [item.isChecked()]);
                     else
-                        me.btnGuides.toggle(item.isChecked());
+                        me.fireEvent('guides:show', [item.isChecked()]);
                 }, me));
                 me.btnGuides.menu.on('show:after', _.bind(function(btn, state) {
                     me.fireEvent('guides:aftershow');
@@ -151,7 +151,7 @@ define([
                     else if (item.value === 'snap')
                         me.fireEvent('gridlines:snap', [item.isChecked()]);
                     else if (item.value === 'show')
-                        me.btnGridlines.toggle(item.isChecked());
+                        me.fireEvent('gridlines:show', [item.isChecked()]);
                     else
                         me.fireEvent('gridlines:spacing', [item.value]);
 
