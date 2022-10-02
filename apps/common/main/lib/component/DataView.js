@@ -394,17 +394,47 @@ define([
             if (suspendEvents)
                 this.suspendEvents();
 
-            if (!this.multiSelect) {
+            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl)) {
                 _.each(this.store.where({selected: true}), function(rec){
                     rec.set({selected: false});
                 });
 
                 if (record) {
                     record.set({selected: true});
+                    this.lastSelectedRec = record;
                 }
             } else {
-                if (record)
-                    record.set({selected: !record.get('selected')});
+                if (record) {
+                    if(this.pressedCtrl) {
+                        record.set({selected: !record.get('selected')});
+                        this.lastSelectedRec = record;
+                    }
+                    else if(this.pressedShift){
+                        var me =this;
+                        var inRange=false, rec;
+                        _.each(me.store.models, function(rec){
+                            if(me.lastSelectedRec == rec || record == rec){
+                                inRange = !inRange;
+                                rec.set({selected: true});
+                            }
+                            else {
+                                rec.set({selected: (inRange)});
+                            }
+                        });
+                        /*for( var i =0; i < this.store.length; i++)
+                        {
+                            rec=this.store.models[i];
+                            if(this.lastSelectedRec == rec || record == rec){
+                                inRange = !inRange;
+                                rec.set({selected: true});
+                            }
+                            else {
+                                rec.set({selected: (inRange)});
+                            }
+                        }*/
+
+                    }
+                }
             }
 
             if (suspendEvents)
@@ -590,7 +620,7 @@ define([
                 this.setDisabled(this.disabled);
 
             this.attachKeyEvents();
-            this.lastSelectedRec = null;
+            //this.lastSelectedRec = null;
             this._layoutParams = undefined;
         },
 
@@ -648,7 +678,7 @@ define([
                     }
                 }
             }
-            this.lastSelectedRec = null;
+            //this.lastSelectedRec = null;
 
             var tip = view.$el.data('bs.tooltip');
             if (tip) (tip.tip()).remove();
@@ -666,7 +696,7 @@ define([
             window._event = e;  //  for FireFox only
 
             if (this.showLast) this.selectRecord(record);
-            this.lastSelectedRec = null;
+            //this.lastSelectedRec = null;
 
             if (!this.isSuspendEvents) {
                 this.trigger('item:dblclick', this, view, record, e);
@@ -708,14 +738,14 @@ define([
         onKeyDown: function (e, data) {
             if ( this.disabled ) return;
             if (data===undefined) data = e;
-            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN || data.keyCode==Common.UI.Keys.CTRL ||data.keyCode==Common.UI.Keys.SHIFT) {
                 data.preventDefault();
                 data.stopPropagation();
                 var rec = this.getSelectedRec();
-                if (this.lastSelectedRec===null)
-                    this.lastSelectedRec = rec;
-                if (data.keyCode==Common.UI.Keys.RETURN) {
-                    this.lastSelectedRec = null;
+                /*if (this.lastSelectedRec === null)
+                    this.lastSelectedRec = rec;*/
+                if (data.keyCode == Common.UI.Keys.RETURN) {
+                    //this.lastSelectedRec = null;
                     if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                         rec = this.selectedBeforeHideRec;
                     this.trigger('item:click', this, this, rec, e);
@@ -723,6 +753,14 @@ define([
                     this.trigger('entervalue', this, rec, e);
                     if (this.parentMenu)
                         this.parentMenu.hide();
+                }
+                else if(this.multiSelect) {
+                    if (data.keyCode==Common.UI.Keys.CTRL){
+                        this.pressedCtrl = true;
+                    }
+                    else if(data.keyCode==Common.UI.Keys.SHIFT){
+                        this.pressedShift = true;
+                    }
                 } else {
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
@@ -804,12 +842,20 @@ define([
             }
         },
 
+        onKeyUp: function(e){
+            if(e.keyCode == Common.UI.Keys.SHIFT)
+                this.pressedShift = false;
+            if(e.keyCode == Common.UI.Keys.CTRL)
+                this.pressedCtrl = false;
+        },
+
         attachKeyEvents: function() {
             if (this.enableKeyEvents && this.handleSelect) {
                 var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
                 el.attr('tabindex', this.tabindex.toString());
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
+                el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keyup' : 'keyup', _.bind(this.onKeyUp, this));
             }
         },
 
@@ -817,7 +863,7 @@ define([
             if ( this.lastSelectedRec) {
                 this.selectRecord(this.lastSelectedRec, true);
                 this.scrollToRecord(this.lastSelectedRec);
-                this.lastSelectedRec = null;
+                //this.lastSelectedRec = null;
             } else {
                 this.scrollToRecord(this.getSelectedRec());
             }
