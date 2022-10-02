@@ -334,7 +334,11 @@ define([
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
             toolbar.mnuInsertTable.on('show:after',                _.bind(this.onInsertTableShow, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
-            toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
+            toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this, 'textRect'));
+            toolbar.btnInsertText.menu.on('item:click',                 _.bind(function(btn, e) {
+                this.toolbar.btnInsertText.toggle(true);
+                this.onBtnInsertTextClick(e.value, btn, e);
+            }, this));
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
             toolbar.btnContentControls.menu.on('item:click',            _.bind(this.onControlsSelect, this));
@@ -1648,9 +1652,10 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
-        onBtnInsertTextClick: function(btn, e) {
-            if (this.api)
-                this._addAutoshape(btn.pressed, 'textRect');
+        onBtnInsertTextClick: function(type, btn, e) {
+            if (this.api){
+                this._addAutoshape(this.toolbar.btnInsertText.pressed, type);
+            }
 
             if (this.toolbar.btnInsertShape.pressed)
                 this.toolbar.btnInsertShape.toggle(false, true);
@@ -1658,6 +1663,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertShape);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
+
+        
 
         onInsertShapeHide: function(btn, e) {
             if (this.toolbar.btnInsertShape.pressed && !this._isAddingShape) {

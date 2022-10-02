@@ -3567,6 +3567,8 @@
   "SSE.Views.Toolbar.tipInsertSpark": "Insert sparkline",
   "SSE.Views.Toolbar.tipInsertSymbol": "Insert symbol",
   "SSE.Views.Toolbar.tipInsertTable": "Insert table",
+  "SSE.Views.Toolbar.tipInsertHorizontalText": "Insert horizontal text box",
+  "SSE.Views.Toolbar.tipInsertVerticalText": "Insert vertical text box",
   "SSE.Views.Toolbar.tipInsertText": "Insert text box",
   "SSE.Views.Toolbar.tipInsertTextart": "Insert Text Art",
   "SSE.Views.Toolbar.tipMerge": "Merge and center",

@@ -1229,6 +1229,7 @@ define([
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
+                    split       : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2342,7 +2343,7 @@ define([
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
-            _updateHint(this.btnInsertText, this.tipInsertText);
+            _updateHint(this.btnInsertText, [this.tipInsertHorizontalText ,this.tipInsertText]);
             _updateHint(this.btnInsertTextArt, this.tipInsertTextart);
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             _updateHint(this.btnInsertShape, this.tipInsertShape);
@@ -2579,6 +2580,15 @@ define([
                     menu.off('show:before', onShowBefore);
                 };
                 this.btnInsertSparkline.menu.on('show:before', onShowBefore);
+            }
+
+            if(this.btnInsertText) {
+                this.btnInsertText.setMenu(new Common.UI.Menu({
+                    items: [
+                        {caption: this.tipInsertHorizontalText, value: 'textRect'},
+                        {caption: this.tipInsertVerticalText, value: 'textRectVertical'},
+                    ]
+                }));
             }
 
             if (this.btnInsertTextArt) {
@@ -3143,7 +3153,9 @@ define([
         tipSynchronize:     'The document has been changed by another user. Please click to save your changes and reload the updates.',
         tipIncFont:         'Increment font size',
         tipDecFont:         'Decrement font size',
-        tipInsertText:      'Insert Text',
+        tipInsertHorizontalText: 'Insert horizontal text box',
+        tipInsertVerticalText: 'Insert vertical text box',
+        tipInsertText: 'Insert text box',
         tipInsertTextart:   'Insert Text Art',
         tipInsertShape:     'Insert Autoshape',
         tipDigStylePercent: 'Percent Style',

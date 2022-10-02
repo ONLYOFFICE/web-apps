@@ -2869,6 +2869,8 @@
   "DE.Views.Toolbar.tipInsertShape": "Вставить автофигуру",
   "DE.Views.Toolbar.tipInsertSymbol": "Вставить символ",
   "DE.Views.Toolbar.tipInsertTable": "Вставить таблицу",
+  "DE.Views.Toolbar.tipInsertHorizontalText": "Вставить горизонтальную надпись",
+  "DE.Views.Toolbar.tipInsertVerticalText": "Вставить вертикальную надпись",
   "DE.Views.Toolbar.tipInsertText": "Вставить надпись",
   "DE.Views.Toolbar.tipInsertTextArt": "Вставить объект Text Art",
   "DE.Views.Toolbar.tipLineNumbers": "Показывать номера строк",

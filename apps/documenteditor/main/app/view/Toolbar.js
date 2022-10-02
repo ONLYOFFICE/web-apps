@@ -682,6 +682,7 @@ define([
                             _set.lostConnect, _set.disableOnStart],
                         caption: me.capBtnInsTextbox,
                         enableToggle: true,
+                        split: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -2011,7 +2012,7 @@ define([
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertImage.updateHint(this.tipInsertImage);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
-                this.btnInsertText.updateHint(this.tipInsertText);
+                this.btnInsertText.updateHint([this.tipInsertHorizontalText ,this.tipInsertText]);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsDateTime.updateHint(this.tipDateTime);
@@ -2220,6 +2221,13 @@ define([
                     menu.off('show:before', onShowBeforeTextArt);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
+
+                this.btnInsertText.setMenu(new Common.UI.Menu({
+                    items: [
+                        {caption: this.tipInsertHorizontalText, value: 'textRect'},
+                        {caption: this.tipInsertVerticalText, value: 'textRectVertical'},
+                    ]
+                }));
 
                 // set dataviews
 
@@ -2710,7 +2718,9 @@ define([
             textAutoColor: 'Automatic',
             tipInsertChart: 'Insert Chart',
             tipColorSchemas: 'Change Color Scheme',
-            tipInsertText: 'Insert Text',
+            tipInsertHorizontalText: 'Insert horizontal text box',
+            tipInsertVerticalText: 'Insert vertical text box',
+            tipInsertText: 'Insert text box',
             tipInsertTextArt: 'Insert Text Art',
             mniEditDropCap: 'Drop Cap Settings',
             textNone: 'None',

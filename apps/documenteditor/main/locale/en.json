@@ -2897,6 +2897,8 @@
   "DE.Views.Toolbar.tipInsertShape": "Insert autoshape",
   "DE.Views.Toolbar.tipInsertSymbol": "Insert symbol",
   "DE.Views.Toolbar.tipInsertTable": "Insert table",
+  "DE.Views.Toolbar.tipInsertHorizontalText": "Insert horizontal text box",
+  "DE.Views.Toolbar.tipInsertVerticalText": "Insert vertical text box",
   "DE.Views.Toolbar.tipInsertText": "Insert text box",
   "DE.Views.Toolbar.tipInsertTextArt": "Insert Text Art",
   "DE.Views.Toolbar.tipLineNumbers": "Show line numbers",

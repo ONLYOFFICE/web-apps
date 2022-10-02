@@ -1784,14 +1784,14 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
-        onInsertText: function(status) {
+        onInsertText: function(status, type) {
             if ( status == 'begin' ) {
-                this._addAutoshape(true, 'textRect');
+                this._addAutoshape(true, type);
 
                 if ( !this.toolbar.btnsInsertText.pressed() )
                     this.toolbar.btnsInsertText.toggle(true, true);
             } else
-                this._addAutoshape(false, 'textRect');
+                this._addAutoshape(false, type);
 
             if ( this.toolbar.btnsInsertShape.pressed() )
                 this.toolbar.btnsInsertShape.toggle(false, true);
