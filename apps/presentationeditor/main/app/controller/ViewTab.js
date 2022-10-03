@@ -60,10 +60,12 @@ define([
         onLaunch: function () {
             this._state = {
                 zoom_type: undefined,
-                zoom_percent: undefined
+                zoom_percent: undefined,
+                unitsChanged: true
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('settings:unitschanged', _.bind(this.unitsChanged, this));
         },
 
         setApi: function (api) {
@@ -286,7 +288,9 @@ define([
         },
 
         onGridlinesSpacing: function(value) {
-            this.api.asc_setGridSpacing(value * 360000);
+            value = Common.Utils.Metric.fnRecalcToMM(value,
+         Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm);
+            this.api.asc_setGridSpacing(value * 36000);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -297,7 +301,9 @@ define([
                 handler: function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
-                        me.api.asc_setGridSpacing(props * 360000);
+                        props = Common.Utils.Metric.fnRecalcToMM(props,
+                      Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm);
+                        me.api.asc_setGridSpacing(props * 36000);
                         Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
                 }
@@ -308,12 +314,27 @@ define([
 
         onGridlinesAfterShow: function() {
             if (this.view) {
-                this.view.btnGridlines.menu.items[0].setChecked(this.api.asc_getShowGridlines(), true);
-                this.view.btnGridlines.menu.items[1].setChecked(this.api.asc_getSnapToGrid(), true);
+                var menu = this.view.btnGridlines.menu;
+                if (this._state.unitsChanged) {
+                    for (var i = 3; i < menu.items.length-2; i++) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+                    var arr = (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch) ? this.view._arrGlidlinesInch : this.view._arrGlidlinesCm;
+                    for (var i = 0; i < arr.length; i++) {
+                        var menuItem = new Common.UI.MenuItem(arr[i]);
+                        menu.insertItem(3+i, menuItem);
+                    }
+                    this._state.unitsChanged = false;
+                }
 
-                var value = this.api.asc_getGridSpacing()/360000,
-                    items = this.view.btnGridlines.menu.items;
-                for (var i=3; i<14; i++) {
+                menu.items[0].setChecked(this.api.asc_getShowGridlines(), true);
+                menu.items[1].setChecked(this.api.asc_getSnapToGrid(), true);
+
+                var value = Common.Utils.Metric.fnRecalcFromMM(this.api.asc_getGridSpacing()/36000,
+                    Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm),
+                    items = menu.items;
+                for (var i=3; i<items.length-2; i++) {
                     var item = items[i];
                     if (item.value<1 && Math.abs(item.value - value)<0.005)
                         item.setChecked(true);
@@ -323,6 +344,10 @@ define([
                         item.setChecked(false);
                 }
             }
+        },
+
+        unitsChanged: function(m) {
+            this._state.unitsChanged = true;
         }
 
     }, PE.Controllers.ViewTab || {}));

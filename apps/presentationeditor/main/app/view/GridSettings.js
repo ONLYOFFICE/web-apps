@@ -46,7 +46,7 @@ define([
 
     PE.Views.GridSettings = Common.UI.Window.extend(_.extend({
         options: {
-            width: 315,
+            width: 214,
             header: true,
             style: 'min-width: 315px;',
             cls: 'modal-dlg',
@@ -60,10 +60,12 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 30px;">',
-                    '<label class="input-label">' + this.textSpacing + '</label>',
-                    '<div id="grid-spacing-combo" class="input-group-nr" style="display: inline-block;width:125px;margin-left: 5px;"></div>',
-                    '<div id="grid-spacing-spin" style="display: inline-block;margin-left: 5px;"></div>',
+                '<div class="box" style="height: 55px;">',
+                    '<div class="input-row">',
+                        '<label class="text">' + this.textSpacing + '</label>',
+                    '</div>',
+                    '<div id="grid-spacing-combo" class="input-group-nr" style="display: inline-block;width:86px;"></div>',
+                    '<div id="grid-spacing-spin" style="display: inline-block;margin-left: 10px;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>'
             ].join('');
@@ -77,13 +79,27 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var $window = this.getChild();
-            this.arrSpacing = [
-                { displayValue: Common.Utils.String.format(this.textManyGrids, 8), value: 0, spacing: 0.13 },
-                { displayValue: Common.Utils.String.format(this.textManyGrids, 6), value: 1, spacing: 0.17 },
-                { displayValue: Common.Utils.String.format(this.textManyGrids, 5), value: 2, spacing: 0.2 },
-                { displayValue: Common.Utils.String.format(this.textFewGrids, 4), value: 3, spacing: 0.25 },
-                { displayValue: Common.Utils.String.format(this.textFewGrids, 3), value: 4, spacing: 0.33 },
-                { displayValue: Common.Utils.String.format(this.textFewGrids, 2), value: 5, spacing: 0.5 },
+            this.arrSpacing = (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch) ? [
+                { displayValue: '1/24 \"', value: 0, spacing: 0.04 },
+                { displayValue: '1/16 \"', value: 1, spacing:  0.06 },
+                { displayValue: '1/12 \"', value: 2, spacing:  0.08 },
+                { displayValue: '1/10 \"', value: 3, spacing:  0.1 },
+                { displayValue: '1/8 \"', value: 4, spacing:  0.13 },
+                { displayValue: '1/6 \"', value: 5, spacing:  0.17 },
+                { displayValue: '1/5 \"', value: 6, spacing:  0.2 },
+                { displayValue: '1/4 \"', value: 7, spacing:  0.25 },
+                { displayValue: '1/3 \"', value: 8, spacing:  0.33 },
+                { displayValue: '1/2 \"', value: 9, spacing:  0.5 },
+                { displayValue: '1 \"', value: 10, spacing:  1 },
+                { displayValue: '2 \"', value: 11, spacing:  2 },
+                { displayValue: this.textCustom, value: -1 }
+            ] : [
+                { displayValue: '1/8 ' + this.textCm, value: 0, spacing: 0.13 },
+                { displayValue: '1/6 ' + this.textCm, value: 1, spacing: 0.17 },
+                { displayValue: '1/5 ' + this.textCm, value: 2, spacing: 0.2 },
+                { displayValue: '1/4 ' + this.textCm, value: 3, spacing: 0.25 },
+                { displayValue: '1/3 ' + this.textCm, value: 4, spacing: 0.33 },
+                { displayValue: '1/2 ' + this.textCm, value: 5, spacing: 0.5 },
                 { displayValue: '1 ' + this.textCm, value: 6, spacing: 1 },
                 { displayValue: '2 ' + this.textCm, value: 7, spacing: 2 },
                 { displayValue: '3 ' + this.textCm, value: 8, spacing: 3 },
@@ -95,7 +111,7 @@ define([
                 el: $window.find('#grid-spacing-combo'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 125px;max-height: 185px;',
+                menuStyle: 'min-width: 86px;max-height: 185px;',
                 editable: false,
                 takeFocusOnClose: true,
                 data: this.arrSpacing
@@ -110,11 +126,11 @@ define([
             this.spnSpacing = new Common.UI.MetricSpinner({
                 el: $window.find('#grid-spacing-spin'),
                 step: .01,
-                width: 70,
-                defaultUnit : "cm",
-                value: '1 cm',
-                maxValue: 5.08,
-                minValue: 0.1
+                width: 86,
+                defaultUnit : Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? "\"": "cm",
+                value: Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? "1 \"" : '1 cm',
+                maxValue: Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? 2 : 5.08,
+                minValue: Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? 0.04 : 0.1
             });
             this.spnSpacing.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var value = this.spnSpacing.getNumberValue(),
@@ -158,14 +174,15 @@ define([
         },
 
         setSettings: function (value) {
-            value = value/360000;
+            value = Common.Utils.Metric.fnRecalcFromMM(value/36000,
+            Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm);
             var idx = -1;
             for (var i=0; i<this.arrSpacing.length; i++) {
                 var item = this.arrSpacing[i];
                 if (item.spacing<1 && Math.abs(item.spacing - value)<0.005 || item.spacing>=1 && Math.abs(item.spacing - value)<0.001)
                     idx = i;
             }
-            this.cmbGridSpacing.setValue(idx, true);
+            this.cmbGridSpacing.setValue(idx, -1);
             this.spnSpacing.setValue(value, true);
         },
 
@@ -176,8 +193,6 @@ define([
         textTitle: 'Grid Settings',
         textSpacing: 'Spacing',
         textCm: 'cm',
-        textCustom: 'Custom',
-        textManyGrids: '{0} grids per cm',
-        textFewGrids: '{0} grids per cm'
+        textCustom: 'Custom'
     }, PE.Views.GridSettings || {}))
 });

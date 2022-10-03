@@ -1625,8 +1625,6 @@
   "PE.Views.DocumentHolder.textSnapObjects": "Snap Object to Grid",
   "PE.Views.DocumentHolder.textCm": "cm",
   "PE.Views.DocumentHolder.textCustom": "Custom",
-  "PE.Views.DocumentHolder.textManyGrids": "{0} grids per cm",
-  "PE.Views.DocumentHolder.textFewGrids": "{0} grids per cm",
   "PE.Views.DocumentHolder.textRulers": "Rulers",
   "PE.Views.DocumentHolder.textDeleteGuide": "Delete Guide",
   "PE.Views.DocumentPreview.goToSlideText": "Go to Slide",
@@ -1748,8 +1746,6 @@
   "PE.Views.GridSettings.textSpacing": "Spacing",
   "PE.Views.GridSettings.textCm": "cm",
   "PE.Views.GridSettings.textCustom": "Custom",
-  "PE.Views.GridSettings.textManyGrids": "{0} grids per cm",
-  "PE.Views.GridSettings.textFewGrids": "{0} grids per cm",
   "PE.Views.HeaderFooterDialog.applyAllText": "Apply to all",
   "PE.Views.HeaderFooterDialog.applyText": "Apply",
   "PE.Views.HeaderFooterDialog.diffLanguage": "You can’t use a date format in a different language than the slide master.<br>To change the master, click 'Apply to all' instead of 'Apply'",
@@ -2444,7 +2440,5 @@
   "PE.Views.ViewTab.textShowGridlines": "Show Gridlines",
   "PE.Views.ViewTab.textSnapObjects": "Snap Object to Grid",
   "PE.Views.ViewTab.textCm": "cm",
-  "PE.Views.ViewTab.textCustom": "Custom",
-  "PE.Views.ViewTab.textManyGrids": "{0} grids per cm",
-  "PE.Views.ViewTab.textFewGrids": "{0} grids per cm"
+  "PE.Views.ViewTab.textCustom": "Custom"
 }

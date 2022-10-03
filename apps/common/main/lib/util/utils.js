@@ -411,10 +411,11 @@ var metrics = new(function() {
             return me.defaultMetric;
         },
 
-        fnRecalcToMM: function(value) {
+        fnRecalcToMM: function(value, fromMetric) {
             // value in pt/cm/inch. need to convert to mm
+            var metric = (fromMetric!==undefined) ? fromMetric : me.currentMetric;
             if (value!==null && value!==undefined) {
-                switch (me.currentMetric) {
+                switch (metric) {
                     case me.c_MetricUnits.cm:
                         return value * 10;
                     case me.c_MetricUnits.pt:
@@ -426,9 +427,10 @@ var metrics = new(function() {
             return value;
         },
 
-        fnRecalcFromMM: function(value) {
+        fnRecalcFromMM: function(value, toMetric) {
             // value in mm. need to convert to pt/cm/inch
-            switch (me.currentMetric) {
+            var metric = (toMetric!==undefined) ? toMetric : me.currentMetric;
+            switch (metric) {
                 case me.c_MetricUnits.cm:
                     return parseFloat((value/10.).toFixed(4));
                 case me.c_MetricUnits.pt:
