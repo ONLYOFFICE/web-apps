@@ -2151,7 +2151,7 @@ define([
 
         onTrackGuide: function(dPos, x, y) {
             var tip = this.guideTip;
-            if (dPos === undefined) {
+            if (dPos === undefined || x<0 || y<0) {
                 if (!tip.isHidden && tip.ref) {
                     tip.ref.hide();
                     tip.ref = undefined;
@@ -2183,20 +2183,19 @@ define([
 
                     tip.ref.show([-10000, -10000]);
                     tip.isHidden = false;
-
-                    var showPoint = [x, y];
-                    showPoint[0] += (this._XY[0] + 6);
-                    showPoint[1] += (this._XY[1] - 20 - tip.ttHeight);
-
-                    var tipwidth = tip.ref.getBSTip().$tip.width();
-                    if (showPoint[0] + tipwidth > this._BodyWidth )
-                        showPoint[0] = this._BodyWidth - tipwidth - 20;
-
-                    tip.ref.getBSTip().$tip.css({
-                        top : showPoint[1] + 'px',
-                        left: showPoint[0] + 'px'
-                    });
                 }
+                var showPoint = [x, y];
+                showPoint[0] += (this._XY[0] + 6);
+                showPoint[1] += (this._XY[1] - 20 - tip.ttHeight);
+
+                var tipwidth = tip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this._BodyWidth )
+                    showPoint[0] = this._BodyWidth - tipwidth - 20;
+
+                tip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
             }
         },
 
