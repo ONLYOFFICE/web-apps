@@ -394,26 +394,26 @@ define([
             if (suspendEvents)
                 this.suspendEvents();
 
-            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || ! this.lastSelectedRec) {
+            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || ! this.currentSelectedRec) {
                 _.each(this.store.where({selected: true}), function(rec){
                     rec.set({selected: false});
                 });
 
                 if (record) {
                     record.set({selected: true});
-                    this.lastSelectedRec = record;
+                    this.currentSelectedRec = record;
                 }
             } else {
                 if (record) {
                     if(this.pressedCtrl) {
                         record.set({selected: !record.get('selected')});
-                        this.lastSelectedRec = record;
+                        this.currentSelectedRec = record;
                     }
                     else if(this.pressedShift){
                         var me =this;
                         var inRange=false;
                         _.each(me.store.models, function(rec){
-                            if(me.lastSelectedRec == rec || record == rec){
+                            if(me.currentSelectedRec == rec || record == rec){
                                 inRange = !inRange;
                                 rec.set({selected: true});
                             }
@@ -608,7 +608,7 @@ define([
                 this.setDisabled(this.disabled);
 
             this.attachKeyEvents();
-            //this.lastSelectedRec = null;
+            this.lastSelectedRec = null;
             this._layoutParams = undefined;
         },
 
@@ -666,7 +666,7 @@ define([
                     }
                 }
             }
-            //this.lastSelectedRec = null;
+            this.lastSelectedRec = null;
 
             var tip = view.$el.data('bs.tooltip');
             if (tip) (tip.tip()).remove();
@@ -684,7 +684,7 @@ define([
             window._event = e;  //  for FireFox only
 
             if (this.showLast) this.selectRecord(record);
-            //this.lastSelectedRec = null;
+            this.lastSelectedRec = null;
 
             if (!this.isSuspendEvents) {
                 this.trigger('item:dblclick', this, view, record, e);
@@ -730,10 +730,10 @@ define([
                 data.preventDefault();
                 data.stopPropagation();
                 var rec = this.getSelectedRec();
-                /*if (this.lastSelectedRec === null)
-                    this.lastSelectedRec = rec;*/
+                if (this.lastSelectedRec === null)
+                    this.lastSelectedRec = rec;
                 if (data.keyCode == Common.UI.Keys.RETURN) {
-                    //this.lastSelectedRec = null;
+                    this.lastSelectedRec = null;
                     if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                         rec = this.selectedBeforeHideRec;
                     this.trigger('item:click', this, this, rec, e);
@@ -851,7 +851,7 @@ define([
             if ( this.lastSelectedRec) {
                 this.selectRecord(this.lastSelectedRec, true);
                 this.scrollToRecord(this.lastSelectedRec);
-                //this.lastSelectedRec = null;
+                this.lastSelectedRec = null;
             } else {
                 this.scrollToRecord(this.getSelectedRec());
             }
