@@ -86,6 +86,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
 
             this.watchList = new Common.UI.ListView({
                 el: $('#watch-dialog-list', this.$window),
+                multiSelect: true,
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 itemTemplate: _.template([
