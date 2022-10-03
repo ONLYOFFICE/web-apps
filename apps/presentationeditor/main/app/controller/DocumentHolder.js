@@ -126,6 +126,7 @@ define([
                 onKeyUp: _.bind(me.onKeyUp, me)
             };
 
+            me.guideTip = { ttHeight: 20 };
             // Hotkeys
             // ---------------------
             var keymap = {};
@@ -219,6 +220,7 @@ define([
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholderTable, me));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
+                    me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -2145,6 +2147,57 @@ define([
 
         onRulersClick: function(item) {
             this.documentHolder.fireEvent('rulers:change', [item.isChecked()]);
+        },
+
+        onTrackGuide: function(dPos, x, y) {
+            var tip = this.guideTip;
+            if (dPos === undefined) {
+                if (!tip.isHidden && tip.ref) {
+                    tip.ref.hide();
+                    tip.ref = undefined;
+                    tip.text = '';
+                    tip.isHidden = true;
+                }
+            } else {
+                if (!tip.parentEl) {
+                    tip.parentEl = $('<div id="tip-container-guide" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(tip.parentEl);
+                }
+
+                var str = dPos.toFixed(2);
+                if (tip.ref && tip.ref.isVisible()) {
+                    if (tip.text != str) {
+                        tip.text = str;
+                        tip.ref.setTitle(str);
+                        tip.ref.updateTitle();
+                    }
+                }
+
+                if (!tip.ref || !tip.ref.isVisible()) {
+                    tip.text = str;
+                    tip.ref = new Common.UI.Tooltip({
+                        owner   : tip.parentEl,
+                        html    : true,
+                        title   : str
+                    });
+
+                    tip.ref.show([-10000, -10000]);
+                    tip.isHidden = false;
+
+                    var showPoint = [x, y];
+                    showPoint[0] += (this._XY[0] + 6);
+                    showPoint[1] += (this._XY[1] - 20 - tip.ttHeight);
+
+                    var tipwidth = tip.ref.getBSTip().$tip.width();
+                    if (showPoint[0] + tipwidth > this._BodyWidth )
+                        showPoint[0] = this._BodyWidth - tipwidth - 20;
+
+                    tip.ref.getBSTip().$tip.css({
+                        top : showPoint[1] + 'px',
+                        left: showPoint[0] + 'px'
+                    });
+                }
+            }
         },
 
         SetDisabled: function(state) {
