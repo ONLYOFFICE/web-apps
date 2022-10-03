@@ -394,7 +394,7 @@ define([
             if (suspendEvents)
                 this.suspendEvents();
 
-            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl)) {
+            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || ! this.lastSelectedRec) {
                 _.each(this.store.where({selected: true}), function(rec){
                     rec.set({selected: false});
                 });
@@ -411,7 +411,7 @@ define([
                     }
                     else if(this.pressedShift){
                         var me =this;
-                        var inRange=false, rec;
+                        var inRange=false;
                         _.each(me.store.models, function(rec){
                             if(me.lastSelectedRec == rec || record == rec){
                                 inRange = !inRange;
@@ -421,18 +421,6 @@ define([
                                 rec.set({selected: (inRange)});
                             }
                         });
-                        /*for( var i =0; i < this.store.length; i++)
-                        {
-                            rec=this.store.models[i];
-                            if(this.lastSelectedRec == rec || record == rec){
-                                inRange = !inRange;
-                                rec.set({selected: true});
-                            }
-                            else {
-                                rec.set({selected: (inRange)});
-                            }
-                        }*/
-
                     }
                 }
             }
