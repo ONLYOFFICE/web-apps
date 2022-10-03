@@ -46,13 +46,6 @@ define([
 ], function () {
     'use strict';
 
-    Asc.c_oAscProtection = {
-        View: 1,
-        Forms: 2,
-        Review: 3,
-        Comments: 4
-    };
-
     if (!Common.enumLock)
         Common.enumLock = {};
 
@@ -94,7 +87,7 @@ define([
         setApi: function (api) {
             if (api) {
                 this.api = api;
-                this.api.asc_registerCallback('asc_onChangeProtectDocument',_.bind(this.onChangeProtectDocument, this));
+                this.api.asc_registerCallback('asc_onChangeDocumentProtection',_.bind(this.onChangeProtectDocument, this));
             }
         },
 
@@ -128,14 +121,7 @@ define([
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
-                                // var props = me.api.asc_getProtectedDocument();
-                                // props.asc_setType(props);
-                                // props.asc_setLockPwd(value);
-                                // me.api.asc_setProtectedDocument(props);
-
-                                Common.Utils.InternalSettings.set('protect-test-type', props);
-                                me.view.btnProtectDoc.toggle(true, true); // test
-                                me.onChangeProtectDocument(); // test
+                                me.api.asc_setDocumentProtection(props, value);
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
@@ -148,10 +134,8 @@ define([
             } else {
                 var me = this,
                     btn,
-                    // props = me.api.asc_getProtectedDocument();
-                    props = undefined; // test
-                // if (props.asc_isPassword()) {
-                if (props && props.asc_isPassword()) {
+                    props = me.api.asc_getDocumentProtection();
+                if (props && props[1]) {
                     var win = new Common.Views.OpenDialog({
                         title: me.view.txtWBUnlockTitle,
                         closable: true,
@@ -162,8 +146,7 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    // props.asc_setLockPwd(value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined);
-                                    // me.api.asc_setProtectedDocument(props);
+                                    me.api.asc_setProtectedDocument(Asc.c_oAscEDocProtect.None, value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined);
                                 }
                                 Common.NotificationCenter.trigger('edit:complete');
                             }
@@ -175,10 +158,7 @@ define([
 
                     win.show();
                 } else {
-                    me.view.btnProtectDoc.toggle(false, true); // test
-                    me.onChangeProtectDocument(); // test
-                    // props.asc_setLockPwd();
-                    // me.api.asc_setProtectedDocument(props);
+                    me.api.asc_setProtectedDocument(Asc.c_oAscEDocProtect.None);
                 }
             }
         },
@@ -190,46 +170,33 @@ define([
             (new Promise(function (resolve) {
                 resolve();
             })).then(function () {
-                // me.view.btnProtectDoc.toggle(me.api.asc_isProtectedDocument(), true);
+                var props = me.api.asc_getDocumentProtection(),
+                    isProtected = props && (props[0] === Asc.c_oAscEDocProtect.ReadOnly || props[0] === Asc.c_oAscEDocProtect.Comments ||
+                                            props[0] === Asc.c_oAscEDocProtect.TrackedChanges || props[0] === Asc.c_oAscEDocProtect.Forms);
+
+                me.view.btnProtectDoc.toggle(!!isProtected, true);
             });
         },
 
         onChangeProtectDocument: function() {
-            // var isProtected = this.api.asc_isProtectedDocument();
-            var isProtected = this.view ? this.view.btnProtectDoc.isActive() : false; // test
+            var props = this.getDocProps(true),
+                isProtected = props && (props[0] === Asc.c_oAscEDocProtect.ReadOnly || props[0] === Asc.c_oAscEDocProtect.Comments ||
+                                        props[0] === Asc.c_oAscEDocProtect.TrackedChanges || props[0] === Asc.c_oAscEDocProtect.Forms);
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
-            Common.NotificationCenter.trigger('protect:doclock', this.getDocProps(true));
+            Common.NotificationCenter.trigger('protect:doclock', props);
         },
 
         getDocProps: function(update) {
             if (!this.appConfig || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit) return;
 
             if (update || !this._state.docProtection) {
-                // var docProtected = !!this.api.asc_isProtectedDocument(),
-                //     type;
-                //
-                // if (docProtected) {
-                //     var props = this.api.asc_getProtectedDocument();
-                //     type = props.asc_getType();
-                // }
-
-                // test //////
-                if (Common.Utils.InternalSettings.get('protect-test-type')===undefined) {
-                    this.view && this.view.btnProtectDoc.toggle(true, true);
-                    Common.Utils.InternalSettings.set('protect-test-type', Asc.c_oAscProtection.Forms);
-                }
-                var docProtected = this.view ? this.view.btnProtectDoc.isActive() : true,
-                    type;
-
-                if (docProtected) {
-                    type = Common.Utils.InternalSettings.get('protect-test-type');
-                }
-                /////////////
+                var props = this.api.asc_getDocumentProtection(),
+                    type = props ? props[0] : Asc.c_oAscEDocProtect.None;
                 this._state.docProtection = {
-                    isReadOnly: type===Asc.c_oAscProtection.View,
-                    isCommentsOnly: type===Asc.c_oAscProtection.Comments,
-                    isReviewOnly: type===Asc.c_oAscProtection.Review,
-                    isFormsOnly: type===Asc.c_oAscProtection.Forms
+                    isReadOnly: type===Asc.c_oAscEDocProtect.ReadOnly,
+                    isCommentsOnly: type===Asc.c_oAscEDocProtect.Comments,
+                    isReviewOnly: type===Asc.c_oAscEDocProtect.TrackedChanges,
+                    isFormsOnly: type===Asc.c_oAscEDocProtect.Forms
                 };
             }
             return this._state.docProtection;

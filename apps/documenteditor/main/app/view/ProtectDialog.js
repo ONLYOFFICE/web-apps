@@ -121,7 +121,7 @@ define([
                 el: this.$window.find('#id-protect-radio-view'),
                 labelText: this.textView,
                 name: 'asc-radio-protect-mode',
-                value: Asc.c_oAscProtection.View,
+                value: Asc.c_oAscEDocProtect.ReadOnly,
                 checked: true
             });
 
@@ -129,21 +129,21 @@ define([
                 el: this.$window.find('#id-protect-radio-forms'),
                 labelText: this.textForms,
                 name: 'asc-radio-protect-mode',
-                value: Asc.c_oAscProtection.Forms
+                value: Asc.c_oAscEDocProtect.Forms
             });
 
             this.rbReview = new Common.UI.RadioBox({
                 el: this.$window.find('#id-protect-radio-review'),
                 labelText: this.textReview,
                 name: 'asc-radio-protect-mode',
-                value: Asc.c_oAscProtection.Review
+                value: Asc.c_oAscEDocProtect.TrackedChanges
             });
 
             this.rbComments = new Common.UI.RadioBox({
                 el: this.$window.find('#id-protect-radio-comment'),
                 labelText: this.textComments,
                 name: 'asc-radio-protect-mode',
-                value: Asc.c_oAscProtection.Comments
+                value: Asc.c_oAscEDocProtect.Comments
             });
 
             this.afterRender();
@@ -199,13 +199,13 @@ define([
 
         getSettings: function() {
             if (this.rbView.getValue())
-                return Asc.c_oAscProtection.View;
+                return Asc.c_oAscEDocProtect.ReadOnly;
             if (this.rbForms.getValue())
-                return Asc.c_oAscProtection.Forms;
+                return Asc.c_oAscEDocProtect.Forms;
             if (this.rbReview.getValue())
-                return Asc.c_oAscProtection.Review;
+                return Asc.c_oAscEDocProtect.TrackedChanges;
             if (this.rbComments.getValue())
-                return Asc.c_oAscProtection.Comments;
+                return Asc.c_oAscEDocProtect.Comments;
         },
 
         txtPassword : "Password",
