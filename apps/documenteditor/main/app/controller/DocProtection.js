@@ -146,7 +146,7 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    me.api.asc_setProtectedDocument(Asc.c_oAscEDocProtect.None, value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined);
+                                    me.api.asc_setDocumentProtection(Asc.c_oAscEDocProtect.None, value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined);
                                 }
                                 Common.NotificationCenter.trigger('edit:complete');
                             }
@@ -158,7 +158,7 @@ define([
 
                     win.show();
                 } else {
-                    me.api.asc_setProtectedDocument(Asc.c_oAscEDocProtect.None);
+                    me.api.asc_setDocumentProtection(Asc.c_oAscEDocProtect.None);
                 }
             }
         },
