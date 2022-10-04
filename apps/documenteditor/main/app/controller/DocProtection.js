@@ -180,8 +180,7 @@ define([
 
         onChangeProtectDocument: function() {
             var props = this.getDocProps(true),
-                isProtected = props && (props[0] === Asc.c_oAscEDocProtect.ReadOnly || props[0] === Asc.c_oAscEDocProtect.Comments ||
-                                        props[0] === Asc.c_oAscEDocProtect.TrackedChanges || props[0] === Asc.c_oAscEDocProtect.Forms);
+                isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
 
             // off preview forms
@@ -196,7 +195,7 @@ define([
                 review.view && review.view.turnDisplayMode(value);
             }
 
-            this.applyRestrictions(props[0]);
+            props && this.applyRestrictions(props.type);
             Common.NotificationCenter.trigger('protect:doclock', props);
         },
 
@@ -207,6 +206,7 @@ define([
                 var props = this.api.asc_getDocumentProtection(),
                     type = props ? props[0] : Asc.c_oAscEDocProtect.None;
                 this._state.docProtection = {
+                    type: type,
                     isReadOnly: type===Asc.c_oAscEDocProtect.ReadOnly,
                     isCommentsOnly: type===Asc.c_oAscEDocProtect.Comments,
                     isReviewOnly: type===Asc.c_oAscEDocProtect.TrackedChanges,
