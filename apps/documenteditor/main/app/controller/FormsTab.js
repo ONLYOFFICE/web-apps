@@ -217,6 +217,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        changeViewFormMode: function(state) {
+            if (this.view && (state !== this.view.btnViewForm.isActive())) {
+                this.view.btnViewForm.toggle(state, true);
+                this.onModeClick(state);
+            }
+        },
+
         onClearClick: function() {
             if (this.api) {
                 this.api.asc_ClearAllSpecialForms();

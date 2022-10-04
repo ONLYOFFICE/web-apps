@@ -173,8 +173,8 @@ define([
                 var props = me.api.asc_getDocumentProtection(),
                     isProtected = props && (props[0] === Asc.c_oAscEDocProtect.ReadOnly || props[0] === Asc.c_oAscEDocProtect.Comments ||
                                             props[0] === Asc.c_oAscEDocProtect.TrackedChanges || props[0] === Asc.c_oAscEDocProtect.Forms);
-
                 me.view.btnProtectDoc.toggle(!!isProtected, true);
+                props && me.applyRestrictions(props[0]);
             });
         },
 
@@ -183,6 +183,20 @@ define([
                 isProtected = props && (props[0] === Asc.c_oAscEDocProtect.ReadOnly || props[0] === Asc.c_oAscEDocProtect.Comments ||
                                         props[0] === Asc.c_oAscEDocProtect.TrackedChanges || props[0] === Asc.c_oAscEDocProtect.Forms);
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
+
+            // off preview forms
+            var forms = this.getApplication().getController('FormsTab');
+            forms && forms.changeViewFormMode(false);
+
+            // off preview review changes
+            var review = this.getApplication().getController('Common.Controllers.ReviewChanges');
+            if (review && review.isPreviewChangesMode()) {
+                var value = Common.Utils.InternalSettings.get("de-review-mode-editor") || 'markup';
+                review.turnDisplayMode(value);
+                review.view && review.view.turnDisplayMode(value);
+            }
+
+            this.applyRestrictions(props[0]);
             Common.NotificationCenter.trigger('protect:doclock', props);
         },
 
@@ -200,6 +214,25 @@ define([
                 };
             }
             return this._state.docProtection;
+        },
+
+        applyRestrictions: function(type) {
+            if (type === Asc.c_oAscEDocProtect.ReadOnly) {
+                this.api.asc_setViewMode(true);
+            } else if (type === Asc.c_oAscEDocProtect.Comments) {
+                this.appConfig.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+                this.api.asc_setViewMode(!this.appConfig.canComments || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit);
+            } else if (type === Asc.c_oAscEDocProtect.Forms) {
+                this.appConfig.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                this.api.asc_setViewMode(!this.appConfig.canFillForms || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit);
+            } else { // none or tracked changes
+                this.api.asc_setViewMode(!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit);
+                if (this.appConfig.isRestrictedEdit) {
+                    this.appConfig.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+                    this.appConfig.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                } else
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.None);
+            }
         }
 
     }, DE.Controllers.DocProtection || {}));

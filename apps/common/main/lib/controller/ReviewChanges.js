@@ -651,8 +651,10 @@ define([
             this.turnDisplayMode(item.value);
             if (!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit)
                 Common.localStorage.setItem(this.view.appPrefix + "review-mode", item.value); // for viewer
-            else if (item.value=='markup' || item.value=='simple')
+            else if (item.value=='markup' || item.value=='simple') {
                 Common.localStorage.setItem(this.view.appPrefix + "review-mode-editor", item.value); // for editor save only markup modes
+                Common.Utils.InternalSettings.set(this.view.appPrefix + "review-mode-editor", item.value);
+            }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -871,7 +873,7 @@ define([
                         !val && (val = me.appConfig.customization ? me.appConfig.customization.reviewDisplay : undefined);
                         val = /^(original|final|markup|simple)$/i.test(val) ? val.toLocaleLowerCase() : 'markup';
                     }
-
+                    Common.Utils.InternalSettings.set(me.view.appPrefix + "review-mode-editor", val);
                     me.turnDisplayMode(val); // load display mode for all modes (viewer or editor)
                     me.view.turnDisplayMode(val);
 
