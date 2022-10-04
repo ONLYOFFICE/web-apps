@@ -80,6 +80,12 @@
                 float: left;
                 margin-left: -18px;
                 background-position: @menu-check-offset-x @menu-check-offset-y;
+
+                .rtl & {
+                    float: right;
+                    margin-left: 0;
+                    margin-right: -18px;
+                }
             }
             &.custom-scale:before {
                 margin-top: 3px;
@@ -99,6 +105,11 @@
             margin: -2px 5px 0 -15px;
             background-repeat: no-repeat;
             opacity: @component-normal-icon-opacity;
+
+            .rtl & {
+                float: right;
+                margin: -2px -15px 0 5px;
+            }
         }
 
         .no-checkmark.checked {
@@ -140,9 +151,16 @@
         li {
             & > a {
                 padding-left: 28px;
+                .rtl & {
+                    padding-left: 20px;
+                    padding-right: 28px;
+                }
             }
             .menu-item-icon {
                 margin: -2px 0 0 -24px;
+                .rtl & {
+                    margin: -2px -24px 0 0;
+                }
             }
             .checked:not(.no-checkmark):before  {
                 margin-left: -22px;

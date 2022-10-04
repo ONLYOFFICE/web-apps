@@ -326,3 +326,21 @@ body {
         left: 0 !important;
     }
 }
+
+.menu-margins {
+    .margin-vertical {
+        display: inline-block;
+        margin-right: 20px;
+        min-width: 80px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 20px;
+        }
+    }
+    .margin-horizontal {
+        display: inline-block;
+    }
+    label {
+        display: block;
+    }
+}
