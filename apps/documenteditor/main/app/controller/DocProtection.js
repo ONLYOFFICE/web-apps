@@ -218,15 +218,12 @@ define([
 
         applyRestrictions: function(type) {
             if (type === Asc.c_oAscEDocProtect.ReadOnly) {
-                this.api.asc_setViewMode(true);
+                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
             } else if (type === Asc.c_oAscEDocProtect.Comments) {
-                this.appConfig.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
-                this.api.asc_setViewMode(!this.appConfig.canComments || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit);
+                this.api.asc_setRestriction(this.appConfig.canComments ? Asc.c_oAscRestrictionType.OnlyComments : Asc.c_oAscRestrictionType.View);
             } else if (type === Asc.c_oAscEDocProtect.Forms) {
-                this.appConfig.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
-                this.api.asc_setViewMode(!this.appConfig.canFillForms || !this.appConfig.isEdit && !this.appConfig.isRestrictedEdit);
+                this.api.asc_setRestriction(this.appConfig.canFillForms ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.View);
             } else { // none or tracked changes
-                this.api.asc_setViewMode(!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit);
                 if (this.appConfig.isRestrictedEdit) {
                     this.appConfig.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                     this.appConfig.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
