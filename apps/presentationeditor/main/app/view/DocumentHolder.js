@@ -977,34 +977,6 @@ define([
                     ]
                 })
             });
-
-            me._arrGlidlinesCm = [
-                { caption: '1/8 ' + me.textCm, value: 0.13, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/6 ' + me.textCm, value: 0.17, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/5 ' + me.textCm, value: 0.2, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/4 ' + me.textCm, value: 0.25, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/3 ' + me.textCm, value: 0.33, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/2 ' + me.textCm, value: 0.5, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1 ' + me.textCm, value: 1, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '2 ' + me.textCm, value: 2, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '3 ' + me.textCm, value: 3, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '4 ' + me.textCm, value: 4, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '5 ' + me.textCm, value: 5, checkable: true, toggleGroup: 'mnu-gridlines' }
-            ];
-            me._arrGlidlinesInch = [
-                { caption: '1/24 \"', value: 0.04, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/16 \"', value: 0.06, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/12 \"', value: 0.08, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/10 \"', value: 0.1, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/8 \"', value: 0.13, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/6 \"', value: 0.17, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/5 \"', value: 0.2, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/4 \"', value: 0.25, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/3 \"', value: 0.33, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1/2 \"', value: 0.5, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '1 \"', value: 1, checkable: true, toggleGroup: 'mnu-gridlines' },
-                { caption: '2 \"', value: 2, checkable: true, toggleGroup: 'mnu-gridlines' }
-            ];
             me.mnuGridlines = new Common.UI.MenuItem({
                 caption     : me.textGridlines,
                 menu        : new Common.UI.Menu({
@@ -1066,17 +1038,21 @@ define([
                         me.mnuGridlines.menu.items[0].setChecked(me.api.asc_getShowGridlines(), true);
                         me.mnuGridlines.menu.items[1].setChecked(me.api.asc_getSnapToGrid(), true);
 
-                        var spacing = Common.Utils.Metric.fnRecalcFromMM(me.api.asc_getGridSpacing()/36000,
-                             Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm),
+                        var spacing = Common.Utils.Metric.fnRecalcFromMM(me.api.asc_getGridSpacing()/36000),
                             items = me.mnuGridlines.menu.items;
                         if (me._state.unitsChanged) {
                             for (var i = 3; i < items.length-2; i++) {
                                 me.mnuGridlines.menu.removeItem(items[i]);
                                 i--;
                             }
-                            var arr = (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch) ? me._arrGlidlinesInch : me._arrGlidlinesCm;
+                            var arr = Common.define.gridlineData.getGridlineData(Common.Utils.Metric.getCurrentMetric());
                             for (var i = 0; i < arr.length; i++) {
-                                var menuItem = new Common.UI.MenuItem(arr[i]);
+                                var menuItem = new Common.UI.MenuItem({
+                                    caption: arr[i].caption,
+                                    value: arr[i].value,
+                                    checkable: true,
+                                    toggleGroup: 'mnu-gridlines'
+                                });
                                 me.mnuGridlines.menu.insertItem(3+i, menuItem);
                             }
                             me._state.unitsChanged = false;

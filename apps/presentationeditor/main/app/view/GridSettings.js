@@ -79,34 +79,17 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var $window = this.getChild();
-            this.arrSpacing = (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch) ? [
-                { displayValue: '1/24 \"', value: 0, spacing: 0.04 },
-                { displayValue: '1/16 \"', value: 1, spacing:  0.06 },
-                { displayValue: '1/12 \"', value: 2, spacing:  0.08 },
-                { displayValue: '1/10 \"', value: 3, spacing:  0.1 },
-                { displayValue: '1/8 \"', value: 4, spacing:  0.13 },
-                { displayValue: '1/6 \"', value: 5, spacing:  0.17 },
-                { displayValue: '1/5 \"', value: 6, spacing:  0.2 },
-                { displayValue: '1/4 \"', value: 7, spacing:  0.25 },
-                { displayValue: '1/3 \"', value: 8, spacing:  0.33 },
-                { displayValue: '1/2 \"', value: 9, spacing:  0.5 },
-                { displayValue: '1 \"', value: 10, spacing:  1 },
-                { displayValue: '2 \"', value: 11, spacing:  2 },
-                { displayValue: this.textCustom, value: -1 }
-            ] : [
-                { displayValue: '1/8 ' + this.textCm, value: 0, spacing: 0.13 },
-                { displayValue: '1/6 ' + this.textCm, value: 1, spacing: 0.17 },
-                { displayValue: '1/5 ' + this.textCm, value: 2, spacing: 0.2 },
-                { displayValue: '1/4 ' + this.textCm, value: 3, spacing: 0.25 },
-                { displayValue: '1/3 ' + this.textCm, value: 4, spacing: 0.33 },
-                { displayValue: '1/2 ' + this.textCm, value: 5, spacing: 0.5 },
-                { displayValue: '1 ' + this.textCm, value: 6, spacing: 1 },
-                { displayValue: '2 ' + this.textCm, value: 7, spacing: 2 },
-                { displayValue: '3 ' + this.textCm, value: 8, spacing: 3 },
-                { displayValue: '4 ' + this.textCm, value: 9, spacing: 4 },
-                { displayValue: '5 ' + this.textCm, value: 10, spacing: 5 },
-                { displayValue: this.textCustom, value: -1 }
-            ];
+            var arr = Common.define.gridlineData.getGridlineData(Common.Utils.Metric.getCurrentMetric());
+            this.arrSpacing = [];
+            for (var i = 0; i < arr.length; i++) {
+                this.arrSpacing.push({
+                    displayValue: arr[i].caption,
+                    value: i,
+                    spacing: arr[i].value
+                });
+            }
+            this.arrSpacing.push({ displayValue: this.textCustom, value: -1 });
+
             this.cmbGridSpacing = new Common.UI.ComboBox({
                 el: $window.find('#grid-spacing-combo'),
                 cls: 'input-group-nr',
@@ -123,14 +106,15 @@ define([
                 }
             }, this));
 
+            var metric = Common.Utils.Metric.getCurrentMetric();
             this.spnSpacing = new Common.UI.MetricSpinner({
                 el: $window.find('#grid-spacing-spin'),
-                step: .01,
+                step: metric === Common.Utils.Metric.c_MetricUnits.pt ? 1 : .01,
                 width: 86,
-                defaultUnit : Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? "\"": "cm",
-                value: Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? "1 \"" : '1 cm',
-                maxValue: Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? 2 : 5.08,
-                minValue: Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? 0.04 : 0.1
+                defaultUnit: Common.Utils.Metric.getCurrentMetricName(),
+                value: metric === Common.Utils.Metric.c_MetricUnits.inch ? "1 \"" : (metric === Common.Utils.Metric.c_MetricUnits.pt ? '36 pt' : '1 cm'),
+                maxValue: metric === Common.Utils.Metric.c_MetricUnits.inch ? 2 : (metric === Common.Utils.Metric.c_MetricUnits.pt ? 145 : 5.08),
+                minValue: metric === Common.Utils.Metric.c_MetricUnits.inch ? 0.04 : (metric === Common.Utils.Metric.c_MetricUnits.pt ? 3 : 0.1)
             });
             this.spnSpacing.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var value = this.spnSpacing.getNumberValue(),
@@ -174,8 +158,7 @@ define([
         },
 
         setSettings: function (value) {
-            value = Common.Utils.Metric.fnRecalcFromMM(value/36000,
-            Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm);
+            value = Common.Utils.Metric.fnRecalcFromMM(value/36000);
             var idx = -1;
             for (var i=0; i<this.arrSpacing.length; i++) {
                 var item = this.arrSpacing[i];

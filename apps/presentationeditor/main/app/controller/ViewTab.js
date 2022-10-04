@@ -288,9 +288,7 @@ define([
         },
 
         onGridlinesSpacing: function(value) {
-            value = Common.Utils.Metric.fnRecalcToMM(value,
-         Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm);
-            this.api.asc_setGridSpacing(value * 36000);
+            this.api.asc_setGridSpacing(Common.Utils.Metric.fnRecalcToMM(value) * 36000);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
@@ -301,9 +299,7 @@ define([
                 handler: function(dlg, result) {
                     if (result == 'ok') {
                         props = dlg.getSettings();
-                        props = Common.Utils.Metric.fnRecalcToMM(props,
-                      Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm);
-                        me.api.asc_setGridSpacing(props * 36000);
+                        me.api.asc_setGridSpacing(Common.Utils.Metric.fnRecalcToMM(props) * 36000);
                         Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
                 }
@@ -320,9 +316,14 @@ define([
                         menu.removeItem(menu.items[i]);
                         i--;
                     }
-                    var arr = (Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch) ? this.view._arrGlidlinesInch : this.view._arrGlidlinesCm;
+                    var arr = Common.define.gridlineData.getGridlineData(Common.Utils.Metric.getCurrentMetric());
                     for (var i = 0; i < arr.length; i++) {
-                        var menuItem = new Common.UI.MenuItem(arr[i]);
+                        var menuItem = new Common.UI.MenuItem({
+                            caption: arr[i].caption,
+                            value: arr[i].value,
+                            checkable: true,
+                            toggleGroup: 'tb-gridlines'
+                        });
                         menu.insertItem(3+i, menuItem);
                     }
                     this._state.unitsChanged = false;
@@ -331,8 +332,7 @@ define([
                 menu.items[0].setChecked(this.api.asc_getShowGridlines(), true);
                 menu.items[1].setChecked(this.api.asc_getSnapToGrid(), true);
 
-                var value = Common.Utils.Metric.fnRecalcFromMM(this.api.asc_getGridSpacing()/36000,
-                    Common.Utils.Metric.getCurrentMetric() === Common.Utils.Metric.c_MetricUnits.inch ? Common.Utils.Metric.c_MetricUnits.inch : Common.Utils.Metric.c_MetricUnits.cm),
+                var value = Common.Utils.Metric.fnRecalcFromMM(this.api.asc_getGridSpacing()/36000),
                     items = menu.items;
                 for (var i=3; i<items.length-2; i++) {
                     var item = items[i];
