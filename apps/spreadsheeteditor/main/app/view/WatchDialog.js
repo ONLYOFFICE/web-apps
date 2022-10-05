@@ -191,8 +191,12 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 this.watchList.store.reset(arr);
                 if (this._deletedIndex!==undefined) {
                     var store = this.watchList.store;
+                    var me = this;
                     (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
-                    this.watchList.scrollToRecord(this.watchList.getSelectedRec());
+                    if(this.watchList.options.multiSelect)
+                        _.each(this.watchList.getSelectedRec(),function (rec){me.watchList.scrollToRecord(rec);});
+                    else
+                        this.watchList.scrollToRecord(this.watchList.getSelectedRec());
                     this._fromKeyDown && this.watchList.focus();
                     this._fromKeyDown = false;
                     this._deletedIndex=undefined;
@@ -229,10 +233,18 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         },
 
         onDeleteWatch: function() {
+            var me = this;
             var rec = this.watchList.getSelectedRec();
             if (rec) {
-                this._deletedIndex = this.watchList.store.indexOf(rec);
-                this.api.asc_deleteCellWatches([rec.get('props')]);
+                if(this.watchList.options.multiSelect) {
+                    _.each(rec, function (r) {
+                        me._deletedIndex = me.watchList.store.indexOf(r);
+                        me.api.asc_deleteCellWatches([r.get('props')]);
+                    });
+                } else {
+                    this._deletedIndex = this.watchList.store.indexOf(rec);
+                    this.api.asc_deleteCellWatches([rec.get('props')]);
+                }
             }
         },
 

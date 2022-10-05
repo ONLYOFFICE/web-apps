@@ -394,7 +394,7 @@ define([
             if (suspendEvents)
                 this.suspendEvents();
 
-            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || ! this.currentSelectedRec) {
+            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || ! this.currentSelectedRec || this.currentSelectedRec == record) {
                 _.each(this.store.where({selected: true}), function(rec){
                     rec.set({selected: false});
                 });
@@ -726,10 +726,19 @@ define([
         onKeyDown: function (e, data) {
             if ( this.disabled ) return;
             if (data===undefined) data = e;
-            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN || data.keyCode==Common.UI.Keys.CTRL ||data.keyCode==Common.UI.Keys.SHIFT) {
+
+            if(this.multiSelect) {
+                if (data.keyCode == Common.UI.Keys.CTRL) {
+                    this.pressedCtrl = true;
+                } else if (data.keyCode == Common.UI.Keys.SHIFT) {
+                    this.pressedShift = true;
+                }
+            }
+
+                if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
-                var rec = this.getSelectedRec();
+                var rec = this.currentSelectedRec;
                 if (this.lastSelectedRec === null)
                     this.lastSelectedRec = rec;
                 if (data.keyCode == Common.UI.Keys.RETURN) {
@@ -741,16 +750,8 @@ define([
                     this.trigger('entervalue', this, rec, e);
                     if (this.parentMenu)
                         this.parentMenu.hide();
-                }
-                else if(this.multiSelect) {
-                    if (data.keyCode==Common.UI.Keys.CTRL){
-                        this.pressedCtrl = true;
-                    }
-                    else if(data.keyCode==Common.UI.Keys.SHIFT){
-                        this.pressedShift = true;
-                    }
                 } else {
-                    var idx = _.indexOf(this.store.models, rec);
+                    var idx = _.indexOf(this.store.models, this.lastSelectedRec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
                             var target = $(e.target).closest('.dropdown-submenu.over');
@@ -823,6 +824,7 @@ define([
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
                         this._fromKeyDown = false;
+                        this.lastSelectedRec = rec;
                     }
                 }
             } else {
