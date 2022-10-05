@@ -255,7 +255,10 @@ define([
 
             this.onApiEndAddShape = function() {
                 if (this.toolbar.btnInsertShape.pressed) this.toolbar.btnInsertShape.toggle(false, true);
-                if (this.toolbar.btnInsertText.pressed)  this.toolbar.btnInsertText.toggle(false, true);
+                if (this.toolbar.btnInsertText.pressed) {
+                    this.toolbar.btnInsertText.toggle(false, true);
+                    this.toolbar.btnInsertText.menu.clearAll();
+                }
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
         },
@@ -401,10 +404,7 @@ define([
                 toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
                 toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
-                toolbar.btnInsertText.menu.on('item:click',                 _.bind(function(btn, e) {
-                    this.toolbar.btnInsertText.toggle(true);
-                    this.onBtnInsertTextClick(e.value, btn, e);
-                }, this));
+                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
@@ -1251,7 +1251,34 @@ define([
             }
         },
 
-        onBtnInsertTextClick: function(type, btn, e) {
+        onBtnInsertTextClick: function(btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.textboxType) 
+                item.setChecked(true);
+            });
+            if(!this.toolbar.btnInsertText.pressed) {
+                this.toolbar.btnInsertText.menu.clearAll();
+            } 
+            this.onInsertText(btn.options.textboxType, btn, e);
+        },
+        
+        onMenuInsertTextClick: function(btn, e) {
+            var oldType = this.toolbar.btnInsertText.options.textboxType;
+            var newType = e.value;
+            this.toolbar.btnInsertText.toggle(true);
+
+            if(newType != oldType){
+                this.toolbar.btnInsertText.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
+                this.toolbar.btnInsertText.options.textboxType = newType;
+            }
+            this.onInsertText(newType, btn, e);
+        },
+
+        onInsertText: function(type, btn, e) {
             if (this.api)
                 this._addAutoshape(this.toolbar.btnInsertText.pressed, type);
 

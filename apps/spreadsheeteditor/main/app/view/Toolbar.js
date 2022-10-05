@@ -1225,14 +1225,15 @@ define([
                 me.btnInsertText = new Common.UI.Button({
                     id          : 'tlbtn-inserttext',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-text',
+                    iconCls     : 'toolbar__icon btn-subtotals',
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
                     split       : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small', 
+                    textboxType: 'textRect',
                 });
 
                 me.btnInsertTextArt = new Common.UI.Button({
@@ -2585,8 +2586,24 @@ define([
             if(this.btnInsertText) {
                 this.btnInsertText.setMenu(new Common.UI.Menu({
                     items: [
-                        {caption: this.tipInsertHorizontalText, value: 'textRect'},
-                        {caption: this.tipInsertVerticalText, value: 'textRectVertical'},
+                        {
+                            caption: this.tipInsertHorizontalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            toggleGroup: 'textbox',
+                            value: 'textRect',
+                            iconClsForMainBtn: 'btn-subtotals'
+                        },
+                        {
+                            caption: this.tipInsertVerticalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon text-orient-rup',
+                            toggleGroup: 'textbox',
+                            value: 'textRectVertical',
+                            iconClsForMainBtn: 'btn-pivot-layout'
+                        },
                     ]
                 }));
             }
