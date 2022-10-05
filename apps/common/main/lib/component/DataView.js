@@ -855,7 +855,8 @@ define([
                 this.scrollToRecord(this.lastSelectedRec);
                 this.lastSelectedRec = null;
             } else {
-                this.scrollToRecord(this.getSelectedRec());
+                var selectedRec = this.getSelectedRec();
+                this.scrollToRecord((!this.multiSelect) ? selectedRec : selectedRec[selectedRec.length - 1]);
             }
         },
 
