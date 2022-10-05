@@ -153,6 +153,7 @@ define([
             this.api = options.api;
             this.options.tpl = _.template(this.template)(this.options);
             this.levels = [];
+            this.formatStrings = [];
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -257,6 +258,7 @@ define([
                                     store.add({ displayValue: me.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font }, {at: store.length-1});
                                 combo.setData(store.models);
                                 combo.selectRecord(combo.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font}));
+                                me.makeFormatStr(me._changedProps);
                             } else
                                 combo.setValue(format || '');
                         };
@@ -272,7 +274,7 @@ define([
 
                             this._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             this._changedProps.get_Text()[0].put_Value(this.bulletProps.symbol);
-                        } else if (record.value == Asc.c_oAscNumberingFormat.None || oldformat == Asc.c_oAscNumberingFormat.Bullet) {
+                        } else if (oldformat == Asc.c_oAscNumberingFormat.Bullet) {
                             if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
                             this._changedProps.get_TextPr().put_FontFamily(undefined);
 
@@ -280,6 +282,7 @@ define([
                             this._changedProps.get_Text()[0].put_Type(Asc.c_oAscNumberingLvlTextType.Num);
                             this._changedProps.get_Text()[0].put_Value(this.level);
                         }
+                        this.makeFormatStr(this._changedProps);
                     }
                 }
                 if (this.api) {
@@ -603,65 +606,70 @@ define([
 
             } else if (this.type===2) {
                 this.txtNumFormat.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                this.cmbLevel.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                this.cmbLevel.setDisabled(this.level===0);
                 var arr = [];
                 var me = this;
                 for (var lvl=0; lvl<this.level; lvl++) {
-                    var lvlprops = this.props.get_Lvl(lvl),
-                        lvltext = lvlprops.get_Format();
-                    if (this.props.get_Lvl(lvl).get_Format() !== Asc.c_oAscNumberingFormat.None)
-                        arr.push({ displayValue: me.textLevel + ' ' + (lvl+1),  value: this.props.get_Lvl(lvl).get_Format() });
+                    var frmt = this.props.get_Lvl(lvl).get_Format();
+                    if (frmt !== Asc.c_oAscNumberingFormat.None && frmt !== Asc.c_oAscNumberingFormat.Bullet) {
+                        arr.push({ displayValue: me.textLevel + ' ' + (lvl+1),  value: lvl });
+                    }
                 }
                 this.cmbLevel.setData(arr);
                 this.cmbLevel.setValue('');
+                this.cmbLevel.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet || this.level===0 || arr.length<1);
+                this.makeFormatStr(levelProps);
             }
         },
 
-        makeFormatStr: function() {
-            if (this._changedProps) {
-                var text = this._changedProps.get_Text();
-                var arr = [];
-                'перед'.split('').forEach(function (el) {
-                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
-                    arr.push(t);
-                });
-                arr.push(new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, 0));
-                'после'.split('').forEach(function (el) {
-                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
-                    arr.push(t);
-                });
-
-                //     if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                //     this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
+        makeFormatStr: function(props) {
+            var formatStr = '';
+            this.formatStrings[this.level] = [];
+            if (props) {
+                if (props.get_Format() !== Asc.c_oAscNumberingFormat.Bullet) {
+                    var text = props.get_Text();
+                    var me = this;
+                    var arr = this.formatStrings[this.level];
+                    text.forEach(function (item, index) {
+                        if (item.get_Type() === Asc.c_oAscNumberingLvlTextType.Text) {
+                            formatStr += item.get_Value().toString();
+                        } else if (item.get_Type() === Asc.c_oAscNumberingLvlTextType.Num) {
+                            var num = item.get_Value();
+                            if (me.levels[num] === undefined)
+                                me.levels[num] = me.props.get_Lvl(num);
+                            arr[num] = {start: formatStr.length, index: index};
+                            var lvl = me.levels[num];
+                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), lvl.get_Format());
+                            arr[num].end = formatStr.length;
+                        }
+                    });
+                }
             }
+            this.txtNumFormat.setValue(formatStr);
         },
 
         onIncludeLevelSelected: function (combo, record) {
-            var $txt, end, start;
             var $txt = this.txtNumFormat.$el.find('input'),
-                start = $txt[0].selectionStart,
-                end = $txt[0].selectionEnd,
-                newVal = AscCommon.IntToNumberFormat(1, record.value);
-            $txt.val($txt.val().substring(0, start) + newVal + $txt.val().substring(end));
-            this.selectionStart = this.selectionEnd = start + newVal.length;
-
-            var text = this._changedProps.get_Text();
+                selectionStart = $txt[0].selectionStart;
 
             if (this._changedProps) {
-                var arr = [];
-                'перед'.split('').forEach(function (el) {
-                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
-                    arr.push(t);
-                });
-                arr.push(new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, 0));
-                'после'.split('').forEach(function (el) {
-                    var t = new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, el);
-                    arr.push(t);
-                });
-
-            //     if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-            //     this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
+                var text = this._changedProps.get_Text(),
+                    arr = this.formatStrings[this.level];
+                for (var i=0; i<arr.length; i++) {
+                    if (arr[i]) {
+                        var item = arr[i];
+                        if (i===record.value) {
+                            text.splice(item.index, 1);
+                            if (item.end<selectionStart)
+                                selectionStart -= (item.end - item.start);
+                        } else {
+                            if (item.end<selectionStart)
+                                selectionStart -= (item.end - item.start - 1);
+                        }
+                    }
+                }
+                text.splice(selectionStart, 0, new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, record.value));
+                this._changedProps.put_Text(text);
+                this.makeFormatStr(this._changedProps);
             }
             if (this.api) {
                 this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
