@@ -98,9 +98,13 @@ define([
                                 '<label class="input-label">' + this.txtNumFormatString + '</label>',
                                 '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
                             '</td>',
-                            '<td colspan="2" style="padding-left: 5px;">',
+                            '<td style="padding-left: 5px;padding-right: 5px;">',
                                 '<label class="input-label">' + this.txtInclcudeLevel + '</label>',
                                 '<div id="id-dlg-numbering-format-lvl" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label">' + this.txtStart + '</label>',
+                                '<div id="id-dlg-numbering-spin-start" style="margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -377,6 +381,26 @@ define([
             });
             this.cmbLevel.on('selected', _.bind(this.onIncludeLevelSelected, this));
 
+            this.spnStart = new Common.UI.MetricSpinner({
+                el: $window.find('#id-dlg-numbering-spin-start'),
+                step: 1,
+                width: 45,
+                defaultUnit : "",
+                value: 1,
+                maxValue: 16383,
+                minValue: 1,
+                allowDecimal: false
+            });
+            this.spnStart.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_Start(field.getNumberValue());
+                    this.makeFormatStr(this._changedProps);
+                }
+                if (this.api) {
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+                }
+            }, this));
+
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.afterRender();
@@ -560,6 +584,7 @@ define([
             if (!levelProps) return;
 
             this.cmbAlign.setValue((levelProps.get_Align()!==undefined) ? levelProps.get_Align() : '');
+            this.spnStart.setValue(levelProps.get_Start(), true);
             var format = levelProps.get_Format(),
                 textPr = levelProps.get_TextPr(),
                 text = levelProps.get_Text();
@@ -694,6 +719,7 @@ define([
         txtNewBullet: 'New bullet',
         txtSymbol: 'Symbol',
         txtNumFormatString: 'Number format',
-        txtInclcudeLevel: 'Include level number from'
+        txtInclcudeLevel: 'Include level number',
+        txtStart: 'Start at'
     }, DE.Views.ListSettingsDialog || {}))
 });
