@@ -200,7 +200,10 @@
     "txtEditingMode": "편집 모드 설정 ...",
     "uploadImageTextText": "이미지 업로드 중 ...",
     "uploadImageTitleText": "이미지 업로드 중",
-    "waitText": "잠시만 기다려주세요..."
+    "waitText": "잠시만 기다려주세요...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "이 문서에 저장되지 않은 변경 사항이 있습니다. 자동 저장을 활성화하려면 \"이 페이지에서 나가기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 편집 내용이 삭제됩니다.",

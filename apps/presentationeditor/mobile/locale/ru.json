@@ -200,7 +200,10 @@
     "txtEditingMode": "Установка режима редактирования...",
     "uploadImageTextText": "Загрузка рисунка...",
     "uploadImageTitleText": "Загрузка рисунка",
-    "waitText": "Пожалуйста, подождите..."
+    "waitText": "Пожалуйста, подождите...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",

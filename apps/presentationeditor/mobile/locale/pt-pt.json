@@ -200,7 +200,10 @@
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
-    "waitText": "Aguarde…"
+    "waitText": "Aguarde…",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

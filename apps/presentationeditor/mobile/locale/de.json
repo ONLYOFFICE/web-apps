@@ -200,7 +200,10 @@
     "txtEditingMode": "Bearbeitungsmodul wird festgelegt...",
     "uploadImageTextText": "Das Bild wird hochgeladen...",
     "uploadImageTitleText": "Bild wird hochgeladen",
-    "waitText": "Bitte warten..."
+    "waitText": "Bitte warten...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
