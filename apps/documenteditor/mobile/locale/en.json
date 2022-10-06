@@ -400,7 +400,8 @@
     "textAmountOfLevels": "Amount of Levels",
     "textRecommended": "Recommended",
     "textRequired": "Required",
-    "textChangeShape": "Change Shape"
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
