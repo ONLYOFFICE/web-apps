@@ -102,6 +102,7 @@
   "DE.Controllers.ApplicationController.errorSessionIdle": "El documento no ha sido editado durante bastante tiempo. Por favor, recargue la página.",
   "DE.Controllers.ApplicationController.errorSessionToken": "Se ha interrumpido la conexión con el servidor. Por favor, recargue la página.",
   "DE.Controllers.ApplicationController.errorSubmit": "Error al enviar.",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "El valor introducido no se corresponde con el formato del campo",
   "DE.Controllers.ApplicationController.errorToken": "El token de seguridad de documento tiene un formato incorrecto.<br>Por favor, contacte con el Administrador del Servidor de Documentos.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "El token de seguridad del documento ha expirado.<br>Por favor, póngase en contacto con el administrador del Servidor de Documentos.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",

@@ -393,6 +393,7 @@
     "errorSessionIdle": "该文档已经有一段时间没有编辑了。请刷新该页。",
     "errorSessionToken": "与服务器的链接被打断。请刷新该页。",
     "errorStockChart": "行的顺序有误。要想建立股票图表，请将数据按照如下顺序安放到表格中：<br> 开盘价格，最高价格，最低价格，收盘价格。",
+    "errorTextFormWrongFormat": "输入的值与该字段的格式不一致。",
     "errorUpdateVersionOnDisconnect": "网络连接已恢复，文件版本已变更。<br>在继续工作之前，需要下载文件或复制其内容以避免丢失数据，然后重新加载此页。",
     "errorUserDrop": "当前不能访问该文件。",
     "errorUsersExceed": "超过了定价计划允许的用户数",

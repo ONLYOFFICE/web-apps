@@ -2924,6 +2924,8 @@
   "DE.Views.ViewTab.textStatusBar": "狀態欄",
   "DE.Views.ViewTab.textZoom": "放大",
   "DE.Views.ViewTab.tipDarkDocument": "夜間模式文件",
+  "DE.Views.ViewTab.tipFitToPage": "配合紙張大小",
+  "DE.Views.ViewTab.tipFitToWidth": "配合寬度",
   "DE.Views.ViewTab.tipHeadings": "標題",
   "DE.Views.ViewTab.tipInterfaceTheme": "介面主題",
   "DE.Views.WatermarkSettingsDialog.textAuto": "自動",

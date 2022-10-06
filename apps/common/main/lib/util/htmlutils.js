@@ -88,9 +88,11 @@ if ( !!params.uitheme && checkLocalStorage && !localStorage.getItem("ui-theme-id
 }
 
 var ui_theme_name = checkLocalStorage && localStorage.getItem("ui-theme-id") ? localStorage.getItem("ui-theme-id") : params.uitheme;
+var ui_theme_type;
 if ( !ui_theme_name ) {
     if ( window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
         ui_theme_name = 'theme-dark';
+        ui_theme_type = 'dark';
         checkLocalStorage && localStorage.removeItem("ui-theme");
     }
 }
@@ -100,7 +102,7 @@ if ( !!ui_theme_name ) {
 
 if ( checkLocalStorage ) {
     let current_theme = localStorage.getItem("ui-theme");
-    if ( !!current_theme && /type":\s*"dark/.test(current_theme) ) {
+    if ( !!current_theme && /type":\s*"dark/.test(current_theme) || ui_theme_type == 'dark' ) {
         document.body.classList.add("theme-type-dark");
 
         let content_theme = localStorage.getItem("content-theme");

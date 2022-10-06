@@ -1483,7 +1483,7 @@ define([
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
-                        style: 'min-width:150px;',
+                        style: 'min-width:139px;',
 //                hint        : this.tipParagraphStyle,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1491,6 +1491,7 @@ define([
                         enableKeyEvents: true,
                         additionalMenuItems: [this.listStylesAdditionalMenuItem],
                         delayRenderTips: true,
+                        autoWidth:       true,
                         itemTemplate: _.template([
                             '<div class="style" id="<%= id %>">',
                                 '<div style="background-image: url(<%= imageUrl %>); width: ' + itemWidth + 'px; height: ' + itemHeight + 'px;"></div>',
@@ -2106,7 +2107,7 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 177px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 185px; margin: 0 0 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 362px; margin: 0 0 0 9px;"></div>')},
                             {caption: '--'},
                             this.mnuMultiChangeLevel = new Common.UI.MenuItem({
                                 caption: this.textChangeLevel,
@@ -2287,7 +2288,11 @@ define([
                         {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: -1}, skipRenderOnChange: true, tip: this.textNone},
                         {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 1}, skipRenderOnChange: true, tip: this.tipMultiLevelVarious},
                         {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 2}, skipRenderOnChange: true, tip: this.tipMultiLevelNumbered},
-                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}, skipRenderOnChange: true, tip: this.tipMultiLevelSymbols}
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 3}, skipRenderOnChange: true, tip: this.tipMultiLevelSymbols},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 4}, skipRenderOnChange: true, tip: this.tipMultiLevelArticl},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 5}, skipRenderOnChange: true, tip: this.tipMultiLevelChapter},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 6}, skipRenderOnChange: true, tip: this.tipMultiLevelHeadings},
+                        {id: 'id-multilevels-' + Common.UI.getId(), data: {type: 2, subtype: 7}, skipRenderOnChange: true, tip: this.tipMultiLevelHeadVarious}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
                 });
@@ -2884,7 +2889,11 @@ define([
             tipRusUpperPoints: 'А. Б. В.',
             tipRusUpperParentheses: 'А) Б) В)',
             tipRusLowerPoints: 'а. б. в.',
-            tipRusLowerParentheses: 'а) б) в)'
+            tipRusLowerParentheses: 'а) б) в)',
+            tipMultiLevelArticl: '',
+            tipMultiLevelChapter: '',
+            tipMultiLevelHeadings: '',
+            tipMultiLevelHeadVarious: ''
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -100,6 +100,7 @@
   "DE.Controllers.ApplicationController.errorSessionIdle": "このドキュメントはかなり長い間編集されていませんでした。このページをリロードしてください。",
   "DE.Controllers.ApplicationController.errorSessionToken": "サーバーとの接続が中断されました。このページをリロードしてください。",
   "DE.Controllers.ApplicationController.errorSubmit": "送信に失敗しました。",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "入力された値がフィールドのフォーマットと一致しません。",
   "DE.Controllers.ApplicationController.errorToken": "ドキュメント・セキュリティ・トークンが正しく形成されていません。<br>ドキュメントサーバーの管理者にご連絡ください。",
   "DE.Controllers.ApplicationController.errorTokenExpire": "ドキュメント・セキュリティ・トークンの有効期限が切れています。<br>ドキュメントサーバーの管理者に連絡してください。",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "ファイルが変更されました。ページがリロードされます。",

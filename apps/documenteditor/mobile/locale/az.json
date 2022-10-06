@@ -243,7 +243,7 @@
     "textEmptyImgUrl": "Təsvir URL-ni göstərməlisiniz.",
     "textFill": "Doldurun",
     "textFirstColumn": "Birinci Sütun",
-    "textFirstLine": "BirinciSətir",
+    "textFirstLine": "Birinci Sətir",
     "textFlow": "Axın",
     "textFontColor": "Şriftin rəngi",
     "textFontColors": "Şriftin Rəngləri",
@@ -407,7 +407,8 @@
     "uploadImageFileCountMessage": "Heç bir təsvir yüklənməyib.",
     "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Məlumat yüklənir...",

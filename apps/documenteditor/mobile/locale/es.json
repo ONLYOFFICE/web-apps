@@ -258,7 +258,7 @@
     "textFebruary": "febrero",
     "textFill": "Rellenar",
     "textFirstColumn": "Primera columna",
-    "textFirstLine": "PrimeraLínea",
+    "textFirstLine": "Primera Línea",
     "textFlow": "Flujo",
     "textFontColor": "Color de fuente",
     "textFontColors": "Colores de fuente",
@@ -407,7 +407,8 @@
     "unknownErrorText": "Error desconocido.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",

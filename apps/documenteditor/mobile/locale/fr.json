@@ -393,6 +393,7 @@
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
     "errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",
     "errorStockChart": "Ordre des lignes est incorrect. Pour créer un graphique boursier organisez vos données sur la feuille de calcul dans l'ordre suivant:<br>cours à l'ouverture, cours maximal, cours minimal, cours à la clôture.",
+    "errorTextFormWrongFormat": "La valeur saisie ne correspond pas au format du champ.",
     "errorUpdateVersionOnDisconnect": "La connexion a été rétablie et la version du fichier a été modifiée.<br>Avant de pouvoir continuer à travailler, vous devez télécharger le fichier ou copier son contenu pour vous assurer que rien n'est perdu, puis recharger cette page.",
     "errorUserDrop": "Le fichier ne peut pas être accédé tout de suite.",
     "errorUsersExceed": "Le nombre d'utilisateurs autorisés par le plan tarifaire a été dépassé",
@@ -606,6 +607,7 @@
     "textMargins": "Marges",
     "textMarginsH": "Les marges supérieure et inférieure sont trop élevés pour une hauteur de page donnée",
     "textMarginsW": "Les marges gauche et droite sont trop larges pour une largeur de page donnée",
+    "textMobileView": "Affichage mobile",
     "textNavigation": "Navigation",
     "textNo": "Non",
     "textNoCharacters": "Caractères non imprimables",
@@ -669,8 +671,7 @@
     "txtScheme6": "Rotonde",
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fonderie",
-    "textMobileView": "Mobile View"
+    "txtScheme9": "Fonderie"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
@@ -678,7 +679,7 @@
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
     "textOk": "OK",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedMobileView": "Passé à l'affichage mobile",
+    "textSwitchedStandardView": "Passé à l'affichage standard"
   }
 }

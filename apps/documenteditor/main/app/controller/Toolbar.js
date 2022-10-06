@@ -740,7 +740,8 @@ define([
                         spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                     this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,   {array: this.btnsComment});
-                }
+                } else
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, false, {array: this.btnsComment});
                 this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.btnsComment});
                 this.toolbar.lockToolbar(Common.enumLock.headerLock,    header_locked,      {array: this.btnsComment});
                 this.toolbar.lockToolbar(Common.enumLock.richEditLock,  rich_edit_lock,     {array: this.btnsComment});
@@ -907,7 +908,8 @@ define([
                     this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,
                         {array: this.btnsComment});
-                }
+                } else
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, false, {array: this.btnsComment});
             }
             if (frame_pr) {
                 this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();

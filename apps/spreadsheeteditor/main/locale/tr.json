@@ -100,6 +100,7 @@
   "Common.define.conditionalData.textUnique": "Benzersiz",
   "Common.define.conditionalData.textValue": "Değer şudur",
   "Common.define.conditionalData.textYesterday": "Dün",
+  "Common.Translation.textMoreButton": "Daha fazla",
   "Common.Translation.warnFileLocked": "Dosya başka bir uygulamada düzenleniyor. Düzenlemeye devam edebilir ve kopya olarak kaydedebilirsiniz.",
   "Common.Translation.warnFileLockedBtnEdit": "Kopya oluştur",
   "Common.Translation.warnFileLockedBtnView": "Görüntülemek için aç",

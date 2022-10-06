@@ -410,6 +410,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            Common.Utils.isIE && this.chUseAltKey.$el.parent().parent().hide();
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
@@ -1989,6 +1990,7 @@ define([
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
+            this.urlHelpCenter = '{{HELP_CENTER_WEB_EDITORS}}';
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
@@ -2111,11 +2113,12 @@ define([
                             store.fetch(config);
                         } else {
                             if ( Common.Controllers.Desktop.isActive() ) {
-                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() )
+                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
+                                    me.usedHelpCenter = true;
                                     me.iFrame.src = '../../common/main/resources/help/download.html';
-                                else {
+                                } else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
-                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
+                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + store.contentLang + '/';
                                     store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }

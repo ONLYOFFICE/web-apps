@@ -49,13 +49,16 @@ define([
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
         '<section class="panel" data-tab="forms">' +
-            '<div class="group" style="display: none;">' +
+            '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-field"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-dropdown"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
+            '</div>' +
+            '<div class="separator long forms-buttons" style="display: none;"></div>' +
+            '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-email"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-phone"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-complex"></span>' +
@@ -320,7 +323,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.paragraphControls.push(this.btnPrevForm);
+                !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnPrevForm);
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -332,7 +335,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.paragraphControls.push(this.btnNextForm);
+                !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnNextForm);
 
                 if (this.appConfig.canSubmitForms) {
                     this.btnSubmit = new Common.UI.Button({
@@ -345,7 +348,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.paragraphControls.push(this.btnSubmit);
+                    !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnSubmit);
                 }
                 if (this.appConfig.canDownloadForms) {
                     this.btnSaveForm = new Common.UI.Button({
@@ -358,7 +361,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.paragraphControls.push(this.btnSaveForm);
+                    !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnSaveForm);
                 }
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
@@ -433,9 +436,8 @@ define([
                     this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
                     this.btnComplexField.render($host.find('#slot-btn-form-complex'));
 
-                    var separator_forms = $host.find('.separator.forms');
-                    separator_forms.prev('.group').show();
-                    separator_forms.show().next('.group').show();
+                    $host.find('.forms-buttons').show();
+                    $host.find('.separator.forms').show().next('.group').show();
                     $host.find('.separator.submit').show().next('.group').show();
                 }
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));

@@ -293,6 +293,9 @@ define([
                     }
                 })).show();
                 break;
+            case 'help':
+                close_menu = !!isopts;
+                break;
             default: close_menu = false;
             }
 

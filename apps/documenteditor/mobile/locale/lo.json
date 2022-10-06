@@ -407,7 +407,8 @@
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
     "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",

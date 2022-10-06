@@ -258,7 +258,7 @@
     "textFebruary": "Februari",
     "textFill": "Isi",
     "textFirstColumn": "Lajur Pertama",
-    "textFirstLine": "GarisPertama",
+    "textFirstLine": "Garis Pertama",
     "textFlow": "Aliran",
     "textFontColor": "Warna Fon",
     "textFontColors": "Warna Fon",
@@ -407,7 +407,8 @@
     "unknownErrorText": "Ralat tidak diketahui.",
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
-    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Data dimuatkan…",

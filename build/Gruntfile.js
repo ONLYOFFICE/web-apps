@@ -68,6 +68,9 @@ module.exports = function(grunt) {
                     from: /\{\{HELP_URL\}\}/g,
                     to: _encode(process.env.HELP_URL) || 'https://helpcenter.onlyoffice.com'
                 }, {
+                    from: /\{\{HELP_CENTER_WEB_EDITORS\}\}/g,
+                    to: _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-index.aspx'
+                }, {
                     from: /\{\{DEFAULT_LANG\}\}/g,
                     to: _encode(process.env.DEFAULT_LANG) || 'en'
                 }];

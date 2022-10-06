@@ -407,7 +407,8 @@
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
-    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",

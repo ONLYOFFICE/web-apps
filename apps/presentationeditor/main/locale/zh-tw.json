@@ -2376,5 +2376,6 @@
   "PE.Views.ViewTab.textStatusBar": "狀態欄",
   "PE.Views.ViewTab.textZoom": "放大",
   "PE.Views.ViewTab.tipFitToSlide": "與投影片切合",
+  "PE.Views.ViewTab.tipFitToWidth": "配合寬度",
   "PE.Views.ViewTab.tipInterfaceTheme": "介面主題"
 }

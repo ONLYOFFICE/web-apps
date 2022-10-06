@@ -407,7 +407,8 @@
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
     "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",

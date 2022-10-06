@@ -671,7 +671,7 @@
   "PE.Controllers.Main.errorToken": "Dokumentuaren segurtasun tokena ez dago ondo osatua.<br>Jarri harremanetan zure zerbitzariaren administratzailearekin.",
   "PE.Controllers.Main.errorTokenExpire": "Dokumentuaren segurtasun-tokena iraungi da.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
   "PE.Controllers.Main.errorUpdateVersion": "Fitxategiaren bertsioa aldatu da. Orria berriz kargatuko da.",
-  "PE.Controllers.Main.errorUpdateVersionOnDisconnect": "Interneteko konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
+  "PE.Controllers.Main.errorUpdateVersionOnDisconnect": "Konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
   "PE.Controllers.Main.errorUserDrop": "Ezin da fitxategia atzitu une honetan.",
   "PE.Controllers.Main.errorUsersExceed": "Ordainketa planak onartzen duen erabiltzaile kopurua gainditu da",
   "PE.Controllers.Main.errorViewerDisconnect": "Konexioa galdu da. Dokumentua ikusi dezakezu oraindik,<br>baina ezingo duzu deskargatu edo inprimatu konexioa berrezarri eta orria berriz kargatu arte.",
