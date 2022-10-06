@@ -120,8 +120,7 @@
             }
         }
 
-        //&:not(:where(.style-off-tabs *)) { IE doesn't support "where" pseudo selector
-        :not(.style-off-tabs) > & {
+        &:not(.style-off-tabs *) {
             &.short {
                 li {
                     &:after {
