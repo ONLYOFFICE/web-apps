@@ -127,7 +127,8 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'insert:image'      : this.onInsertImageClick.bind(this),
-                    'insert:text'       : this.onInsertText.bind(this),
+                    'insert:text-btn'   : this.onBtnInsertTextClick.bind(this),
+                    'insert:text-menu'  : this.onMenuInsertTextClick.bind(this),
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'add:slide'         : this.onAddSlide.bind(this),
@@ -226,8 +227,12 @@ define([
                 if ( this.toolbar.btnsInsertShape.pressed() )
                     this.toolbar.btnsInsertShape.toggle(false, true);
 
-                if ( this.toolbar.btnsInsertText.pressed() )
+                if ( this.toolbar.btnsInsertText.pressed() ) {
                     this.toolbar.btnsInsertText.toggle(false, true);
+                    this.toolbar.btnsInsertText.forEach(function(button) {
+                        button.menu.clearAll();
+                    });
+                }
 
                 if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
                     this.toolbar.cmbInsertShape.deactivateRecords();
@@ -1784,14 +1789,39 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
-        onInsertText: function(status, type) {
-            if ( status == 'begin' ) {
-                this._addAutoshape(true, type);
+        onBtnInsertTextClick: function(btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.textboxType) 
+                item.setChecked(true);
+            });
+            if(!btn.pressed) {
+                btn.menu.clearAll();
+            } 
+            this.onInsertText(btn.options.textboxType, btn, e);
+        },
 
-                if ( !this.toolbar.btnsInsertText.pressed() )
-                    this.toolbar.btnsInsertText.toggle(true, true);
-            } else
-                this._addAutoshape(false, type);
+        onMenuInsertTextClick: function(btn, e) {
+            var self = this;
+            var oldType = btn.options.textboxType;
+            var newType = e.value;
+
+            btn.toggle(true);
+            if(newType != oldType){
+                this.toolbar.btnsInsertText.forEach(function(button) {
+                    button.updateHint([e.caption, self.views.Toolbar.prototype.tipInsertText]);
+                    button.changeIcon({
+                        next: e.options.iconClsForMainBtn,
+                        curr: button.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                    });
+                    button.options.textboxType = newType; 
+                });
+            }
+            this.onInsertText(newType, btn, e);
+        },
+
+        onInsertText: function(type, btn, e) {
+            if (this.api) 
+                this._addAutoshape(btn.pressed, type);
 
             if ( this.toolbar.btnsInsertShape.pressed() )
                 this.toolbar.btnsInsertShape.toggle(false, true);

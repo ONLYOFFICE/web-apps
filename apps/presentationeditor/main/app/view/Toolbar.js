@@ -1282,7 +1282,7 @@ define([
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
-                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
+                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-datetime', this.capInsertText,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
@@ -1320,18 +1320,35 @@ define([
 
                 me.btnsInsertText.forEach(function (button) {
                     button.updateHint([me.tipInsertHorizontalText, me.tipInsertText]);
+                    button.options.textboxType = 'textRect';
                     button.setMenu(new Common.UI.Menu({
                         items: [
-                            {caption: me.tipInsertHorizontalText, value: 'textRect'},
-                            {caption: me.tipInsertVerticalText, value: 'textRectVertical'},
+                            {
+                                caption: me.tipInsertHorizontalText,
+                                checkable: true,
+                                checkmark: false,
+                                iconCls     : 'menu__icon text-orient-hor',
+                                toggleGroup: 'textbox',
+                                value: 'textRect',
+                                iconClsForMainBtn: 'btn-datetime'
+                            },
+                            {
+                                caption: me.tipInsertVerticalText,
+                                checkable: true,
+                                checkmark: false,
+                                iconCls     : 'menu__icon text-orient-rup',
+                                toggleGroup: 'textbox',
+                                value: 'textRectVertical',
+                                iconClsForMainBtn: 'btn-pagenum'
+                            },
                         ]
                     }));
                     button.on('click', function (btn, e) {
-                        me.fireEvent('insert:text', [btn.pressed ? 'begin' : 'end', 'textRect']);
+                        me.fireEvent('insert:text-btn', [btn, e]);
                     });
                     button.menu.on('item:click', function(btn, e) {
                         button.toggle(true);
-                        me.fireEvent('insert:text', ['begin', e.value]);
+                        me.fireEvent('insert:text-menu', [button, e]);
                     });
                 });
 

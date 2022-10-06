@@ -677,7 +677,7 @@ define([
                     this.btnInsertText = new Common.UI.Button({
                         id: 'tlbtn-inserttext',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text',
+                        iconCls: 'toolbar__icon btn-review-prev',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.contentLock, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart],
                         caption: me.capBtnInsTextbox,
@@ -685,7 +685,8 @@ define([
                         split: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
+                        dataHintOffset: 'small',
+                        textboxType: 'textRect'
                     });
                     this.paragraphControls.push(this.btnInsertText);
 
@@ -2224,8 +2225,24 @@ define([
 
                 this.btnInsertText.setMenu(new Common.UI.Menu({
                     items: [
-                        {caption: this.tipInsertHorizontalText, value: 'textRect'},
-                        {caption: this.tipInsertVerticalText, value: 'textRectVertical'},
+                        {
+                            caption: this.tipInsertHorizontalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon text-orient-hor',
+                            toggleGroup: 'textbox',
+                            value: 'textRect',
+                            iconClsForMainBtn: 'btn-review-prev'
+                        },
+                        {
+                            caption: this.tipInsertVerticalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon text-orient-rup',
+                            toggleGroup: 'textbox',
+                            value: 'textRectVertical',
+                            iconClsForMainBtn: 'btn-review-next'
+                        },
                     ]
                 }));
 
