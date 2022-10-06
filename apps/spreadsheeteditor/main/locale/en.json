@@ -2062,6 +2062,8 @@
   "SSE.Views.ExternalLinksDlg.textUpdateAll": "Update All",
   "SSE.Views.ExternalLinksDlg.textSource": "Source",
   "SSE.Views.ExternalLinksDlg.closeButtonText": "Close",
+  "SSE.Views.ExternalLinksDlg.textDelete": "Break Links",
+  "SSE.Views.ExternalLinksDlg.textDeleteAll": "Break All Links",
   "SSE.Views.FieldSettingsDialog.strLayout": "Layout",
   "SSE.Views.FieldSettingsDialog.strSubtotals": "Subtotals",
   "SSE.Views.FieldSettingsDialog.textReport": "Report Form",

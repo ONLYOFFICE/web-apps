@@ -51,7 +51,7 @@ define([
 
         options: {
             alias: 'ExternalLinksDlg',
-            contentWidth: 500,
+            contentWidth: 450,
             height: 294,
             buttons: null
         },
@@ -69,8 +69,8 @@ define([
                                         '<td class="padding-large">',
                                             '<div id="external-links-btn-update" style="display: inline-block;margin-right: 5px;"></div>',
                                             '<div id="external-links-btn-delete" style="display: inline-block;margin-right: 5px;"></div>',
-                                            '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-open">', me.textOpen ,'</button>',
-                                            '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-change">', me.textChange ,'</button>',
+                                            // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-open">', me.textOpen ,'</button>',
+                                            // '<button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="external-links-btn-change">', me.textChange ,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
