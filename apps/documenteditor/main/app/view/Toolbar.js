@@ -201,7 +201,7 @@ define([
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        lock: [_set.lostConnect, _set.disableOnStart, _set.docLockView],
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'top',
