@@ -157,7 +157,12 @@ define([
             this.api = options.api;
             this.options.tpl = _.template(this.template)(this.options);
             this.levels = [];
-            this.formatStrings = [];
+            this.formatString = {
+                selectionStart: 0,
+                selectionEnd: 0,
+                text: '',
+                lvlIndexes: []
+            };
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -368,8 +373,9 @@ define([
                 value       : ''
             });
             var $formatInput = this.txtNumFormat.$el.find('input');
-            // $captionInput.on('mouseup', _.bind(this.checkStartPosition, this, 'mouse'));
-            // $captionInput.on('keydown', _.bind(this.checkStartPosition, this, 'key'));
+            $formatInput.on('mouseup', _.bind(this.checkMousePosition, this));
+            // $formatInput.on('keydown', _.bind(this.checkStartPosition, this));
+            $formatInput.on('input', _.bind(this.onFormatInput, this));
 
             this.cmbLevel = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-numbering-format-lvl'),
@@ -648,12 +654,12 @@ define([
 
         makeFormatStr: function(props) {
             var formatStr = '';
-            this.formatStrings[this.level] = [];
+            this.formatString.lvlIndexes[this.level] = [];
             if (props) {
                 if (props.get_Format() !== Asc.c_oAscNumberingFormat.Bullet) {
                     var text = props.get_Text();
                     var me = this;
-                    var arr = this.formatStrings[this.level];
+                    var arr = this.formatString.lvlIndexes[this.level];
                     text.forEach(function (item, index) {
                         if (item.get_Type() === Asc.c_oAscNumberingLvlTextType.Text) {
                             formatStr += item.get_Value().toString();
@@ -669,6 +675,7 @@ define([
                     });
                 }
             }
+            this.formatString.text = formatStr;
             this.txtNumFormat.setValue(formatStr);
         },
 
@@ -678,7 +685,7 @@ define([
 
             if (this._changedProps) {
                 var text = this._changedProps.get_Text(),
-                    arr = this.formatStrings[this.level];
+                    arr = this.formatString.lvlIndexes[this.level];
                 for (var i=0; i<arr.length; i++) {
                     if (arr[i]) {
                         var item = arr[i];
@@ -698,6 +705,52 @@ define([
             }
             if (this.api) {
                 this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
+        },
+
+        posToIndex: function (position) {
+            if (this._changedProps) {
+                var arr = this.formatString.lvlIndexes[this.level];
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i]) {
+                        var item = arr[i];
+                        if (item.end < position)
+                            position -= (item.end - item.start - 1);
+                    }
+                }
+            }
+            return position;
+        },
+
+        checkMousePosition: function(event) {
+            var me = this;
+            setTimeout(function () {
+                // if (event.target.selectionStart < me.positionCaption + 1) {
+                //     event.target.selectionStart = me.positionCaption;
+                // }
+                me.formatString.selectionStart = event.target.selectionStart;
+                me.formatString.selectionEnd = event.target.selectionEnd;
+            }, 0);
+        },
+
+        onFormatInput: function(e) {
+            var newValue = $(e.target).val(),
+                oldStr = this.formatString.text,
+                newStr = newValue.slice(this.formatString.selectionStart, newValue.length - (oldStr.length - this.formatString.selectionEnd)),
+                startIdx = this.posToIndex(this.formatString.selectionStart),
+                endIdx = this.posToIndex(this.formatString.selectionEnd);
+            if (this._changedProps) {
+                var text = this._changedProps.get_Text();
+                var arr = text.slice(0, startIdx);
+                newStr.split('').forEach(function(str){
+                    arr.push(new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Text, str));
+                });
+                arr = arr.concat(text.slice(endIdx, text.length));
+                this._changedProps.put_Text(arr);
+                if (this.api) {
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+                }
+                this.makeFormatStr(this._changedProps);
             }
         },
 
