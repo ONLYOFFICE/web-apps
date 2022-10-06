@@ -1977,6 +1977,10 @@ define([
                         config.msg = this.errorTextFormWrongFormat;
                         break;
 
+                    case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                        config.msg = this.errorPasswordIsNotCorrect;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3259,7 +3263,8 @@ define([
             errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.',
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
             textRememberMacros: 'Remember my choice for all macros',
-            errorTextFormWrongFormat: 'The value entered does not match the format of the field.'
+            errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
+            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.'
         }
     })(), DE.Controllers.Main || {}))
 });
