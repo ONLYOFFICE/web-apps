@@ -62,15 +62,15 @@ const CustomColors = ({ options, customColors, isTypeColors, onColorClick, curCo
     
     return (
         <div className='palette'>
-            {colors?.length && colors.map((color, index) => {
-                return(
+            {colors && colors.length > 0 ? colors.map((color, index) => {
+                return (
                     <a key={`dc-${index}`}
                        className={curColor && curColor === color && index === indexCurColor && !isTypeColors ? 'active' : ''}
                        style={{background: `#${color}`}}
                        onClick={() => {onColorClick(color)}}
                     ></a>
                 )
-            })}
+            }) : null}
             {emptyItems.length > 0 && emptyItems}
         </div>
     )
