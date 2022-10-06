@@ -53,7 +53,8 @@ define([
         docLockView: 'lock-mode-view',
         docLockForms: 'lock-mode-forms',
         docLockReview: 'lock-mode-review',
-        docLockComments: 'lock-mode-comments'
+        docLockComments: 'lock-mode-comments',
+        protectLock: 'protect-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -88,6 +89,7 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onChangeDocumentProtection',_.bind(this.onChangeProtectDocument, this));
+                this.api.asc_registerCallback('asc_onLockDocumentProtection',_.bind(this.onLockDocumentProtection, this));
             }
         },
 
@@ -230,6 +232,10 @@ define([
                 } else
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.None);
             }
+        },
+
+        onLockDocumentProtection: function(state) {
+            this.view && Common.Utils.lockControls(Common.enumLock.protectLock, state, {array: [this.view.btnProtectDoc]});
         }
 
     }, DE.Controllers.DocProtection || {}));
