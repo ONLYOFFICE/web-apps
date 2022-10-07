@@ -102,6 +102,7 @@
   "DE.Controllers.ApplicationController.errorSessionIdle": "Este documento não foi editado durante muito tempo. Tente recarregar a página.",
   "DE.Controllers.ApplicationController.errorSessionToken": "A ligação ao servidor foi interrompida. Tente recarregar a página.",
   "DE.Controllers.ApplicationController.errorSubmit": "Falha ao submeter.",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "O valor introduzido não corresponde ao formato do campo.",
   "DE.Controllers.ApplicationController.errorToken": "O 'token' de segurança do documento não foi formatado corretamente.<br>Entre em contato com o administrador do servidor de documentos.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "O 'token' de segurança do documento expirou.<br>Entre em contacto com o administrador do servidor de documentos.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "A versão do ficheiro foi alterada. A página será recarregada.",

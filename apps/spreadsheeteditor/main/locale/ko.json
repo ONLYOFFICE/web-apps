@@ -393,7 +393,6 @@
   "Common.Views.SignDialog.tipFontName": "폰트명",
   "Common.Views.SignDialog.tipFontSize": "글꼴 크기",
   "Common.Views.SignSettingsDialog.textAllowComment": "서명 대화창에 서명자의 코멘트 추가 허용",
-  "Common.Views.SignSettingsDialog.textInfo": "서명자 정보",
   "Common.Views.SignSettingsDialog.textInfoEmail": "이메일",
   "Common.Views.SignSettingsDialog.textInfoName": "이름",
   "Common.Views.SignSettingsDialog.textInfoTitle": "서명자 타이틀",

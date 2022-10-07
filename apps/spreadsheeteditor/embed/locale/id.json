@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Tinggi",
   "common.view.modals.txtShare": "Bagi tautan",
   "common.view.modals.txtWidth": "Lebar",
+  "common.view.SearchBar.textFind": "Temukan",
   "SSE.ApplicationController.convertationErrorText": "Konversi gagal.",
   "SSE.ApplicationController.convertationTimeoutText": "Waktu konversi habis.",
   "SSE.ApplicationController.criticalErrorTitle": "Kesalahan",
@@ -16,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "Ada kesalahan saat menyimpan file. Silakan gunakan opsi 'Download sebagai' untuk menyimpan file ke komputer Anda dan coba lagi.",
   "SSE.ApplicationController.errorLoadingFont": "Font tidak bisa dimuat.<br>Silakan kontak admin Server Dokumen Anda.",
   "SSE.ApplicationController.errorTokenExpire": "Token keamanan dokumen sudah kadaluwarsa.<br>Silakan hubungi admin Server Dokumen Anda.",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Huhungan internet telah",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu mengunduh file atau salin konten untuk memastikan tidak ada yang hilang, lalu muat ulang halaman ini.",
   "SSE.ApplicationController.errorUserDrop": "File tidak dapat di akses",
   "SSE.ApplicationController.notcriticalErrorTitle": "Peringatan",
   "SSE.ApplicationController.openErrorText": "Eror ketika membuka file.",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Buka Dokumen",
   "SSE.ApplicationView.txtFullScreen": "Layar penuh",
   "SSE.ApplicationView.txtPrint": "Cetak",
+  "SSE.ApplicationView.txtSearch": "Cari",
   "SSE.ApplicationView.txtShare": "Bagikan"
 }

@@ -451,7 +451,6 @@
   "Common.Views.SignDialog.tipFontName": "Nome da fonte",
   "Common.Views.SignDialog.tipFontSize": "Tamanho da fonte",
   "Common.Views.SignSettingsDialog.textAllowComment": "Permitir que o assinante adicione um comentário na caixa de diálogo de assinatura",
-  "Common.Views.SignSettingsDialog.textInfo": "Informações do assinante",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-mail",
   "Common.Views.SignSettingsDialog.textInfoName": "Nome",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Título do assinante",
