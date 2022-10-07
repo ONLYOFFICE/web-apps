@@ -290,6 +290,11 @@ define([
                             this._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             this._changedProps.get_Text()[0].put_Type(Asc.c_oAscNumberingLvlTextType.Num);
                             this._changedProps.get_Text()[0].put_Value(this.level);
+                        } else if (oldformat == Asc.c_oAscNumberingFormat.None) {
+                            if (!this.formatString.lvlIndexes[this.level][this.level]) {
+                                var selectionStart = this.txtNumFormat.$el.find('input')[0].selectionStart;
+                                this._changedProps.get_Text().splice(selectionStart, 0, new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, this.level));
+                            }
                         }
                         this.makeFormatStr(this._changedProps);
                     }
@@ -373,9 +378,17 @@ define([
                 value       : ''
             });
             var $formatInput = this.txtNumFormat.$el.find('input');
-            $formatInput.on('mouseup', _.bind(this.checkMousePosition, this));
             // $formatInput.on('keydown', _.bind(this.checkStartPosition, this));
             $formatInput.on('input', _.bind(this.onFormatInput, this));
+
+            var onMouseUp = function (e) {
+                me.checkMousePosition($formatInput[0]);
+                $(document).off('mouseup',   onMouseUp);
+            };
+            var onMouseDown = function (e) {
+                $(document).on('mouseup',   onMouseUp);
+            };
+            $formatInput.on('mousedown', _.bind(onMouseDown, this));
 
             this.cmbLevel = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-numbering-format-lvl'),
@@ -702,6 +715,7 @@ define([
                 text.splice(selectionStart, 0, new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, record.value));
                 this._changedProps.put_Text(text);
                 this.makeFormatStr(this._changedProps);
+                this.cmbLevel.setValue('');
             }
             if (this.api) {
                 this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
@@ -722,14 +736,36 @@ define([
             return position;
         },
 
-        checkMousePosition: function(event) {
+        isPosInRange: function (position, toEnd) {
+            if (this._changedProps) {
+                var arr = this.formatString.lvlIndexes[this.level];
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i]) {
+                        var item = arr[i];
+                        if (position > item.start && position < item.end)
+                            return toEnd ? item.end : item.start;
+                    }
+                }
+            }
+        },
+
+        checkMousePosition: function(target) {
             var me = this;
             setTimeout(function () {
-                // if (event.target.selectionStart < me.positionCaption + 1) {
-                //     event.target.selectionStart = me.positionCaption;
-                // }
-                me.formatString.selectionStart = event.target.selectionStart;
-                me.formatString.selectionEnd = event.target.selectionEnd;
+                if (target.selectionStart===target.selectionEnd) {
+                    var res = me.isPosInRange(target.selectionStart);
+                    if (res !== undefined)
+                        target.selectionStart = target.selectionEnd = res;
+                } else {
+                    var res = me.isPosInRange(target.selectionStart);
+                    if (res !== undefined)
+                        target.selectionStart = res;
+                    res = me.isPosInRange(target.selectionEnd, true);
+                    if (res !== undefined)
+                        target.selectionEnd = res;
+                }
+                me.formatString.selectionStart = target.selectionStart;
+                me.formatString.selectionEnd = target.selectionEnd;
             }, 0);
         },
 
@@ -751,6 +787,10 @@ define([
                     this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
                 }
                 this.makeFormatStr(this._changedProps);
+                if (!this.formatString.lvlIndexes[this.level][this.level]) {
+                    this._changedProps.put_Format(Asc.c_oAscNumberingFormat.None);
+                    this.cmbFormat.setValue(Asc.c_oAscNumberingFormat.None);
+                }
             }
         },
 
