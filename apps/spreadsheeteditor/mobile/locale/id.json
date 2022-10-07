@@ -32,7 +32,8 @@
       "textReopen": "Buka lagi",
       "textResolve": "Selesaikan",
       "textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
-      "textUsers": "Pengguna"
+      "textUsers": "Pengguna",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Warna",
@@ -64,6 +65,7 @@
     "textCopyCutPasteActions": "Salin, Potong dan Tempel",
     "textDoNotShowAgain": "Jangan tampilkan lagi",
     "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -164,7 +166,9 @@
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,8 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Kata Sandi",
@@ -370,7 +375,9 @@
       "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -503,10 +510,7 @@
       "textPt": "pt",
       "textRange": "Rentang",
       "textRemoveChart": "Hilangkan Grafik",
-      "textRemoveImage": "Hilangkan Gambar",
-      "textRemoveLink": "Hilangkan Link",
       "textRemoveShape": "Hilangkan Bentuk",
-      "textReorder": "Reorder",
       "textReplace": "Ganti",
       "textReplaceImage": "Ganti Gambar",
       "textRequired": "Dibutuhkan",
@@ -552,7 +556,14 @@
       "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
       "txtSortLow2High": "Sortir Terendah ke Tertinggi",
-      "textCellStyle": "Cell Style"
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textCellStyle": "Cell Style",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",

@@ -32,7 +32,8 @@
       "textReopen": "Torna a obrir",
       "textResolve": "Resol",
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
-      "textUsers": "Usuaris"
+      "textUsers": "Usuaris",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Colors personalitzats",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "No ho mostris més",
     "textOk": "D'acord",
     "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Voleu continuar?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb el vostre administrador per a més informació.",
       "warnNoLicense": "Heu arribat al límit de connexions simultànies a %1 editors. Aquest document només s'obrirà en mode lectura. Contacteu amb l'equip de vendes %1 per a les condicions d'una actualització personal.",
       "warnNoLicenseUsers": "Heu arribat al límit d'usuaris per a %1 editors. Contacteu amb l'equip de vendes de %1 per obtenir les condicions de millora personals dels vostres serveis.",
-      "warnProcessRightsChange": "No teniu permís per editar el fitxer."
+      "warnProcessRightsChange": "No teniu permís per editar el fitxer.",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,8 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Contrasenya",
@@ -370,7 +375,9 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordena els objectes seleccionats",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -504,10 +511,7 @@
       "textPt": "pt",
       "textRange": "Interval",
       "textRemoveChart": "Suprimeix el gràfic",
-      "textRemoveImage": "Suprimeix la imatge",
-      "textRemoveLink": "Suprimeix l'enllaç",
       "textRemoveShape": "Suprimeix la forma",
-      "textReorder": "Torna a ordenar",
       "textReplace": "Substitueix",
       "textReplaceImage": "Substitueix la imatge",
       "textRequired": "Necessari",
@@ -552,7 +556,14 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
-      "txtSortLow2High": "Ordena de menor a major"
+      "txtSortLow2High": "Ordena de menor a major",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Trieu les opcions CSV",

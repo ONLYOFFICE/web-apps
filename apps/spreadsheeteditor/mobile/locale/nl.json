@@ -32,7 +32,8 @@
       "textReopen": "Heropenen",
       "textResolve": "Oplossen",
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
-      "textUsers": "Gebruikers"
+      "textUsers": "Gebruikers",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",
@@ -64,6 +65,7 @@
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
     "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -164,7 +166,9 @@
       "textOk": "Ok",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,8 @@
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
     "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Wachtwoord",
@@ -367,8 +372,10 @@
       "txtYes": "Ja",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textDone": "Done",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
+      "textRecommended": "Recommended",
       "textThisRowHint": "Choose only this row of the specified column",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
@@ -501,10 +508,7 @@
       "textPt": "pt",
       "textRange": "Bereik",
       "textRemoveChart": "Grafiek verwijderen",
-      "textRemoveImage": "Afbeelding verwijderen",
-      "textRemoveLink": "Koppeling verwijderen",
       "textRemoveShape": "Vorm verwijderen",
-      "textReorder": "Opnieuw ordenen",
       "textReplace": "Vervangen",
       "textReplaceImage": "Afbeelding vervangen",
       "textRequired": "Vereist",
@@ -550,9 +554,16 @@
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "txtSortHigh2Low": "Sorteren van hoogste naar laagste",
       "txtSortLow2High": "Sorteren van laagste naar hoogste",
+      "textArrange": "Arrange",
       "textAutomatic": "Automatic",
+      "textCancel": "Cancel",
       "textCellStyle": "Cell Style",
-      "textOk": "Ok"
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textOk": "Ok",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "CSV-opties kiezen",
