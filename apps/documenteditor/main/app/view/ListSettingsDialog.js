@@ -341,7 +341,7 @@ define([
             this.cmbSize = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-bullet-size'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
-                style       : this.type==2 ? "width: auto;" : "width: 129px;",
+                style       : this.type==1 ? "width: 129px;" : "width: auto;",
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
