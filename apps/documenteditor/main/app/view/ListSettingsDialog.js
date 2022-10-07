@@ -378,7 +378,8 @@ define([
                 value       : ''
             });
             var $formatInput = this.txtNumFormat.$el.find('input');
-            // $formatInput.on('keydown', _.bind(this.checkStartPosition, this));
+            $formatInput.on('keydown', _.bind(this.onKeyDown, this));
+            $formatInput.on('keyup', _.bind(this.onKeyUp, this));
             $formatInput.on('input', _.bind(this.onFormatInput, this));
 
             var onMouseUp = function (e) {
@@ -389,6 +390,11 @@ define([
                 $(document).on('mouseup',   onMouseUp);
             };
             $formatInput.on('mousedown', _.bind(onMouseDown, this));
+            $formatInput.on('contextmenu', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            });
 
             this.cmbLevel = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-numbering-format-lvl'),
@@ -792,6 +798,48 @@ define([
                     this.cmbFormat.setValue(Asc.c_oAscNumberingFormat.None);
                 }
             }
+            this.formatString.selectionStart = e.target.selectionStart;
+            this.formatString.selectionEnd = e.target.selectionEnd;
+        },
+
+        onKeyDown: function(event) {
+            var me = this,
+                key = event.keyCode,
+                shift = event.shiftKey;
+            if (key === Common.UI.Keys.LEFT) {
+                var res = me.isPosInRange(event.target.selectionStart-1);
+                if (res !== undefined)
+                    setTimeout(function () {
+                        event.target.selectionStart = res;
+                        !shift && (event.target.selectionEnd = res);
+                        me.formatString.selectionStart = event.target.selectionStart;
+                        me.formatString.selectionEnd = event.target.selectionEnd;
+                    }, 0);
+            } else if (key === Common.UI.Keys.RIGHT) {
+                res = me.isPosInRange(event.target.selectionEnd+1, true);
+                if (res !== undefined)
+                    setTimeout(function () {
+                        event.target.selectionEnd = res;
+                        !shift && (event.target.selectionStart = res);
+                        me.formatString.selectionStart = event.target.selectionStart;
+                        me.formatString.selectionEnd = event.target.selectionEnd;
+                    }, 0);
+            } else if (key === Common.UI.Keys.BACKSPACE) {
+                if (event.target.selectionStart === event.target.selectionEnd) {
+                    this.formatString.selectionStart = event.target.selectionStart-1;
+                    this.formatString.selectionEnd = event.target.selectionEnd;
+                }
+            }else if (key === Common.UI.Keys.DELETE) {
+                if (event.target.selectionStart === event.target.selectionEnd) {
+                    this.formatString.selectionStart = event.target.selectionStart;
+                    this.formatString.selectionEnd = event.target.selectionEnd+1;
+                }
+            }
+        },
+
+        onKeyUp: function(event) {
+            this.formatString.selectionStart = event.target.selectionStart;
+            this.formatString.selectionEnd = event.target.selectionEnd;
         },
 
         txtTitle: 'List Settings',
