@@ -123,7 +123,10 @@ define([
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
-                                me.api.asc_setDocumentProtection(props, value);
+                                var protection = new AscCommonWord.CDocProtect();
+                                protection.asc_setEditType(props);
+                                protection.asc_setPassword(value);
+                                me.api.asc_setDocumentProtection(protection);
                             }
                             Common.NotificationCenter.trigger('edit:complete');
                         }
@@ -137,7 +140,7 @@ define([
                 var me = this,
                     btn,
                     props = me.api.asc_getDocumentProtection();
-                if (props && props[1]) {
+                if (props && props.asc_getIsPassword()) {
                     var win = new Common.Views.OpenDialog({
                         title: me.view.txtWBUnlockTitle,
                         closable: true,
@@ -148,7 +151,10 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    me.api.asc_setDocumentProtection(Asc.c_oAscEDocProtect.None, value && value.drmOptions ? value.drmOptions.asc_getPassword() : undefined);
+                                    var protection = new AscCommonWord.CDocProtect();
+                                    protection.asc_setEditType(Asc.c_oAscEDocProtect.None);
+                                    value && value.drmOptions && protection.asc_setPassword(value.drmOptions.asc_getPassword());
+                                    me.api.asc_setDocumentProtection(protection);
                                 }
                                 Common.NotificationCenter.trigger('edit:complete');
                             }
@@ -160,7 +166,9 @@ define([
 
                     win.show();
                 } else {
-                    me.api.asc_setDocumentProtection(Asc.c_oAscEDocProtect.None);
+                    var protection = new AscCommonWord.CDocProtect();
+                    protection.asc_setEditType(Asc.c_oAscEDocProtect.None);
+                    me.api.asc_setDocumentProtection(protection);
                 }
             }
         },
@@ -173,8 +181,9 @@ define([
                 resolve();
             })).then(function () {
                 var props = me.api.asc_getDocumentProtection(),
-                    isProtected = props && (props[0] === Asc.c_oAscEDocProtect.ReadOnly || props[0] === Asc.c_oAscEDocProtect.Comments ||
-                                            props[0] === Asc.c_oAscEDocProtect.TrackedChanges || props[0] === Asc.c_oAscEDocProtect.Forms);
+                    type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None,
+                    isProtected = (type === Asc.c_oAscEDocProtect.ReadOnly || type === Asc.c_oAscEDocProtect.Comments ||
+                                   type === Asc.c_oAscEDocProtect.TrackedChanges || type === Asc.c_oAscEDocProtect.Forms);
                 me.view.btnProtectDoc.toggle(!!isProtected, true);
                 props && me.applyRestrictions(props[0]);
             });
@@ -206,7 +215,7 @@ define([
 
             if (update || !this._state.docProtection) {
                 var props = this.api.asc_getDocumentProtection(),
-                    type = props ? props[0] : Asc.c_oAscEDocProtect.None;
+                    type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None;
                 this._state.docProtection = {
                     type: type,
                     isReadOnly: type===Asc.c_oAscEDocProtect.ReadOnly,
