@@ -442,7 +442,6 @@
   "Common.Views.SignDialog.tipFontName": "Název písma",
   "Common.Views.SignDialog.tipFontSize": "Velikost písma",
   "Common.Views.SignSettingsDialog.textAllowComment": "Umožnit podepisujícímu přidat komentář",
-  "Common.Views.SignSettingsDialog.textInfo": "Informace o podepisujícím",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-mail",
   "Common.Views.SignSettingsDialog.textInfoName": "Název",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Nadpis podepisujícího",

@@ -387,7 +387,6 @@
   "Common.Views.SignDialog.tipFontName": "Şrift Adı",
   "Common.Views.SignDialog.tipFontSize": "Şrift Ölçüsü",
   "Common.Views.SignSettingsDialog.textAllowComment": "İmzalayana imza dialoq qutusuna şərh əlavə etmək icazəsi verin",
-  "Common.Views.SignSettingsDialog.textInfo": "İmzalayan haqqında məlumat",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-poçt",
   "Common.Views.SignSettingsDialog.textInfoName": "Ad",
   "Common.Views.SignSettingsDialog.textInfoTitle": "İmzalayın Vəzifəsi",

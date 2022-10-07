@@ -225,7 +225,6 @@
   "Common.Views.SignDialog.tipFontName": "Име на шрифта",
   "Common.Views.SignDialog.tipFontSize": "Размер на шрифта",
   "Common.Views.SignSettingsDialog.textAllowComment": "Позволете на сигналиста да добавите коментар в диалога за подпис",
-  "Common.Views.SignSettingsDialog.textInfo": "Информация за подписания",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Електронна поща",
   "Common.Views.SignSettingsDialog.textInfoName": "Име",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Заглавие на подписващия",

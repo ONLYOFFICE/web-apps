@@ -451,7 +451,6 @@
   "Common.Views.SignDialog.tipFontName": "字体名称",
   "Common.Views.SignDialog.tipFontSize": "字体大小",
   "Common.Views.SignSettingsDialog.textAllowComment": "允许签名者在签名对话框中添加批注",
-  "Common.Views.SignSettingsDialog.textInfo": "签名者信息",
   "Common.Views.SignSettingsDialog.textInfoEmail": "电子邮件",
   "Common.Views.SignSettingsDialog.textInfoName": "名称",
   "Common.Views.SignSettingsDialog.textInfoTitle": "签名者头衔",

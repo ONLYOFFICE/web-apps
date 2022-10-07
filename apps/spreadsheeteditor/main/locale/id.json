@@ -392,7 +392,6 @@
   "Common.Views.SignDialog.tipFontName": "Nama Font",
   "Common.Views.SignDialog.tipFontSize": "Ukuran Huruf",
   "Common.Views.SignSettingsDialog.textAllowComment": "Izinkan penandatangan untuk menambahkan komentar di dialog tanda tangan",
-  "Common.Views.SignSettingsDialog.textInfo": "Info Penandatangan",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-mail",
   "Common.Views.SignSettingsDialog.textInfoName": "Nama",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Gelar Penandatangan",
