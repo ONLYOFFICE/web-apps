@@ -123,7 +123,7 @@ define([
                         handler: function(result, value, props) {
                             btn = result;
                             if (result == 'ok') {
-                                var protection = new AscCommonWord.CDocProtect();
+                                var protection = me.api.asc_getDocumentProtection() || new AscCommonWord.CDocProtect();
                                 protection.asc_setEditType(props);
                                 protection.asc_setPassword(value);
                                 me.api.asc_setDocumentProtection(protection);
@@ -151,10 +151,9 @@ define([
                             btn = result;
                             if (result == 'ok') {
                                 if (me.api) {
-                                    var protection = new AscCommonWord.CDocProtect();
-                                    protection.asc_setEditType(Asc.c_oAscEDocProtect.None);
-                                    value && value.drmOptions && protection.asc_setPassword(value.drmOptions.asc_getPassword());
-                                    me.api.asc_setDocumentProtection(protection);
+                                    props.asc_setEditType(Asc.c_oAscEDocProtect.None);
+                                    value && value.drmOptions && props.asc_setPassword(value.drmOptions.asc_getPassword());
+                                    me.api.asc_setDocumentProtection(props);
                                 }
                                 Common.NotificationCenter.trigger('edit:complete');
                             }
@@ -166,9 +165,10 @@ define([
 
                     win.show();
                 } else {
-                    var protection = new AscCommonWord.CDocProtect();
-                    protection.asc_setEditType(Asc.c_oAscEDocProtect.None);
-                    me.api.asc_setDocumentProtection(protection);
+                    if (!props)
+                        props = new AscCommonWord.CDocProtect();
+                    props.asc_setEditType(Asc.c_oAscEDocProtect.None);
+                    me.api.asc_setDocumentProtection(props);
                 }
             }
         },
