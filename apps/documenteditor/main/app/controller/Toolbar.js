@@ -1412,11 +1412,25 @@ define([
                 level = me.api.asc_GetCurrentNumberingLvl(),
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
             if (props) {
+                var me = this;
+                if (_.isUndefined(me.fontstore)) {
+                    me.fontstore = new Common.Collections.Fonts();
+                    var fonts = me.toolbar.cmbFontName.store.toJSON();
+                    var arr = [];
+                    _.each(fonts, function(font, index){
+                        if (!font.cloneid) {
+                            arr.push(_.clone(font));
+                        }
+                    });
+                    me.fontstore.add(arr);
+                }
+
                 (new DE.Views.ListSettingsDialog({
                     api: me.api,
                     props: props,
                     level: level,
                     type: type,
+                    fontStore: me.fontstore,
                     interfaceLang: me.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {

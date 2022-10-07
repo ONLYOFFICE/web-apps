@@ -85,12 +85,8 @@ define([
                                 '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td style="padding-left: 5px;padding-right: 5px;">',
-                                '<label class="input-label">' + this.txtSize + '</label>',
-                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td style="padding-left: 5px;">',
-                                '<label class="input-label">' + this.txtColor + '</label>',
-                                '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
@@ -105,6 +101,22 @@ define([
                             '<td style="padding-left: 5px;">',
                                 '<label class="input-label">' + this.txtStart + '</label>',
                                 '<div id="id-dlg-numbering-spin-start" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2" style="padding-right: 5px;">',
+                                '<label class="input-label" style="display: block;">' + this.txtFontName + '</label>',
+                                '<div id="id-dlg-numbering-font-name" style="display: inline-block;width: 200px;height:22px;margin-bottom: 10px;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-numbering-bold" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-numbering-italic" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;padding-right: 5px;">',
+                                '<label class="input-label">' + this.txtSize + '</label>',
+                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label">' + this.txtColor + '</label>',
+                                '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -155,6 +167,8 @@ define([
             this.props = options.props;
             this.level = options.level || 0;
             this.api = options.api;
+            this.fontStore = options.fontStore;
+            this.fontName = 'Arial';
             this.options.tpl = _.template(this.template)(this.options);
             this.levels = [];
             this.formatString = {
@@ -327,6 +341,7 @@ define([
             this.cmbSize = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-bullet-size'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
+                style       : this.type==2 ? "width: auto;" : "width: 129px;",
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -353,8 +368,7 @@ define([
             });
             this.cmbSize.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
-                    if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                    this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
+                    this._changedProps.put_FontSize((record.value>0) ? record.value : undefined);
                 }
                 if (this.api) {
                     this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
@@ -426,6 +440,36 @@ define([
                 }
             }, this));
 
+            this.cmbFonts = new Common.UI.ComboBoxFonts({
+                el          : $window.find('#id-dlg-numbering-font-name'),
+                cls         : 'input-group-nr',
+                style       : 'width: 100%;',
+                menuCls     : 'scrollable-menu',
+                menuStyle   : 'min-width: 100%;max-height: 270px;',
+                store       : new Common.Collections.Fonts(),
+                recent      : 0,
+                hint        : this.tipFontName,
+                takeFocusOnClose: true
+            }).on('selected', _.bind(this.onFontName, this));
+
+            this.btnBold = new Common.UI.Button({
+                parentEl: $window.find('#id-dlg-numbering-bold'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-bold',
+                enableToggle: true,
+                hint: this.textBold
+            });
+            this.btnBold.on('click', _.bind(this.onBoldClick, this));
+
+            this.btnItalic = new Common.UI.Button({
+                parentEl: $window.find('#id-dlg-numbering-italic'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-italic',
+                enableToggle: true,
+                hint: this.textItalic
+            });
+            this.btnItalic.on('click', _.bind(this.onItalicClick, this));
+
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.afterRender();
@@ -446,6 +490,9 @@ define([
         },
 
         afterRender: function() {
+            this.cmbFonts.fillFonts(this.fontStore);
+            this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.fontName}));
+
             this.updateThemeColors();
             this._setDefaults(this.props);
             var me = this;
@@ -468,10 +515,9 @@ define([
                 this.btnColor.setColor(color);
                 this.colors.clearSelection();
                 if (this._changedProps) {
-                    if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
                     var color = new Asc.asc_CColor();
                     color.put_auto(true);
-                    this._changedProps.get_TextPr().put_Color(color);
+                    this._changedProps.put_Color(color);
                 }
                 if (this.api) {
                     this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
@@ -485,8 +531,7 @@ define([
                 this.btnColor.setColor(color);
                 this.colors.clearSelection();
                 if (this._changedProps) {
-                    if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                    this._changedProps.get_TextPr().put_Color(undefined);
+                    this._changedProps.put_Color(undefined);
                 }
                 if (this.api) {
                     this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
@@ -496,8 +541,7 @@ define([
 
         onColorsSelect: function(btn, color) {
             if (this._changedProps) {
-                if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                this._changedProps.get_TextPr().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
+                this._changedProps.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
             }
             this.btnColor.menu.items[0].setChecked(false, true);
             this.btnColor.menu.items[1].setChecked(false, true);
@@ -616,33 +660,43 @@ define([
             if (text && format == Asc.c_oAscNumberingFormat.Bullet) {
                 this.bulletProps.symbol = text[0].get_Value();
             }
-            if (textPr) {
-                this.cmbSize.setValue(textPr.get_FontSize() || -1);
-                this.bulletProps.font = textPr.get_FontFamily();
 
-                var color = textPr.get_Color();
-                this.btnColor.menu.items[0].setChecked(color===undefined, true);
-                this.btnColor.menu.items[1].setChecked(!!color && color.get_auto(), true);
-                if (color && !color.get_auto()) {
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colors.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colors.clearSelection();
-                        color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    } else
-                        this.colors.select(color,true);
-                } else {
-                    this.colors.clearSelection();
-                    color = '000000';
-                }
-                this.btnColor.setColor(color);
+            this.cmbSize.setValue(levelProps.get_FontSize() || -1);
+
+            var font = levelProps.get_FontFamily();
+            if (font) {
+                var rec = this.cmbFonts.store.findWhere({name: font});
+                this.fontName = (rec) ? rec.get('name') : font;
+                this.cmbFonts.setValue(this.fontName);
             }
+            this.bulletProps.font = font;
+
+            this.btnBold.toggle(levelProps.get_Bold() === true, true);
+            this.btnItalic.toggle(levelProps.get_Italic() === true, true);
+
+            var color = levelProps.get_Color();
+            this.btnColor.menu.items[0].setChecked(color===undefined, true);
+            this.btnColor.menu.items[1].setChecked(!!color && color.get_auto(), true);
+            if (color && !color.get_auto()) {
+                if ( typeof(color) == 'object' ) {
+                    var isselected = false;
+                    for (var i=0; i<10; i++) {
+                        if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                            this.colors.select(color,true);
+                            isselected = true;
+                            break;
+                        }
+                    }
+                    if (!isselected) this.colors.clearSelection();
+                    color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                } else
+                    this.colors.select(color,true);
+            } else {
+                this.colors.clearSelection();
+                color = '000000';
+            }
+            this.btnColor.setColor(color);
+
             if (this.type>0) {
                 if (format == Asc.c_oAscNumberingFormat.Bullet) {
                     if (!this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
@@ -656,6 +710,11 @@ define([
 
             } else if (this.type===2) {
                 this.txtNumFormat.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                this.spnStart.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                this.cmbFonts.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                this.btnBold.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                this.btnItalic.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+
                 var arr = [];
                 var me = this;
                 for (var lvl=0; lvl<this.level; lvl++) {
@@ -842,6 +901,33 @@ define([
             this.formatString.selectionEnd = event.target.selectionEnd;
         },
 
+        onFontName: function(combo, record) {
+            if (this._changedProps) {
+                this._changedProps.put_FontFamily(record.name);
+            }
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
+        },
+
+        onBoldClick: function() {
+            if (this._changedProps) {
+                this._changedProps.put_Bold(this.btnBold.isActive());
+            }
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
+        },
+
+        onItalicClick: function() {
+            if (this._changedProps) {
+                this._changedProps.put_Italic(this.btnItalic.isActive());
+            }
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+            }
+        },
+
         txtTitle: 'List Settings',
         txtSize: 'Size',
         txtColor: 'Color',
@@ -861,6 +947,10 @@ define([
         txtSymbol: 'Symbol',
         txtNumFormatString: 'Number format',
         txtInclcudeLevel: 'Include level number',
-        txtStart: 'Start at'
+        txtStart: 'Start at',
+        txtFontName: 'Font',
+        textBold: 'Bold',
+        textItalic: 'Italic'
+
     }, DE.Views.ListSettingsDialog || {}))
 });
