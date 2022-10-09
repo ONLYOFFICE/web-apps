@@ -173,6 +173,14 @@ define([
                 this.search = this.options.search;
                 this.outerMenu      = this.options.outerMenu;
 
+                if (Common.UI.isRTL()) {
+                    if (this.menuAlign === 'tl-tr') {
+                        this.menuAlign = 'tr-tl';
+                    } else if (this.menuAlign === 'tl-bl') {
+                        this.menuAlign = 'tr-br';
+                    }
+                }
+
                 if (this.options.restoreHeight) {
                     this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
                     !this.options.maxHeight && (this.options.maxHeight = this.options.restoreHeight);

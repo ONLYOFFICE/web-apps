@@ -106,6 +106,11 @@
         border-top-color: transparent;
         border-bottom-color: transparent;
 
+        .rtl & {
+            border-left-color: @border-regular-control-ie;
+            border-left-color: @border-regular-control;
+        }
+
         &:hover, &:focus {
             background-color: transparent;
             border-right-color: @border-regular-control-ie;

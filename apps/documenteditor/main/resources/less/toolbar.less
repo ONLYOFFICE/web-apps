@@ -112,6 +112,11 @@
         //max-width: 95px;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        .rtl & {
+            float: right;
+            padding: 5px 20px 5px 5px;
+        }
     }
 
     .zoom {
@@ -119,6 +124,24 @@
         float: right;
         min-width: 40px;
         text-align: center;
+    }
+
+    .next {
+        float: right;
+        margin: 2px 5px 0 0;
+        .rtl & {
+            float: left;
+            margin: 2px 0 0 0 !important;
+        }
+    }
+
+    .prev {
+        float: right;
+        margin-top: 2px;
+        .rtl & {
+            float: left;
+            margin: 2px 0 0 5px;
+        }
     }
 }
 
