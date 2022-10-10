@@ -275,7 +275,7 @@ define([
 
                 this.btnGuides = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon guides',
                     caption: this.textGuides,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
@@ -291,7 +291,7 @@ define([
 
                 this.btnGridlines = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon gridlines',
                     caption: this.textGridlines,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
@@ -344,11 +344,12 @@ define([
                     me.btnGridlines.updateHint(me.tipGridlines);
 
                     me.btnGuides.setMenu( new Common.UI.Menu({
+                        cls: 'shifted-right',
                         items: [
                             { caption: me.textShowGuides, value: 'show', checkable: true },
                             { caption: '--'},
-                            { caption: me.textAddVGuides, value: 'add-vert' },
-                            { caption: me.textAddHGuides, value: 'add-hor' },
+                            { caption: me.textAddVGuides, iconCls: 'menu__icon vertical-guide', value: 'add-vert' },
+                            { caption: me.textAddHGuides, iconCls: 'menu__icon horizontal-guide', value: 'add-hor' },
                             { caption: '--'},
                             { caption: me.textSmartGuides, value: 'smart', checkable: true },
                             { caption: me.textClearGuides, value: 'clear' }

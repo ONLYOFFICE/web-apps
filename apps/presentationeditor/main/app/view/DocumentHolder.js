@@ -968,8 +968,8 @@ define([
                     items: [
                         { caption: me.textShowGuides, value: 'show', checkable: true },
                         { caption: '--'},
-                        { caption: me.textAddVGuides, value: 'add-vert' },
-                        { caption: me.textAddHGuides, value: 'add-hor' },
+                        { caption: me.textAddVGuides, iconCls: 'menu__icon vertical-guide', value: 'add-vert' },
+                        { caption: me.textAddHGuides, iconCls: 'menu__icon horizontal-guide', value: 'add-hor' },
                         { caption: me.textDeleteGuide, value: 'del-guide' },
                         { caption: '--'},
                         { caption: me.textSmartGuides, value: 'smart', checkable: true },
