@@ -25,6 +25,7 @@
   { "src": "UsageInstructions/InsertTables.htm", "name": "Tabellen einfügen und formatieren" },
   {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Unterstützung von SmartArt" },
   {"src": "UsageInstructions/AddingAnimations.htm", "name": "Animationen hinzufügen" },
+  {"src": "UsageInstructions/MotionPath.htm", "name": "Animationspfad erstellen" },
   { "src": "UsageInstructions/InsertSymbols.htm", "name": "Symbole und Sonderzeichen einfügen" },
   { "src": "UsageInstructions/FillObjectsSelectColor.htm", "name": "Objekte ausfüllen und Farben auswählen" },
   { "src": "UsageInstructions/ManipulateObjects.htm", "name": "Objekte formatieren" },
