@@ -76,7 +76,7 @@ define([
 
                 this.btnProtectDoc = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon protect-workbook',
+                    iconCls: 'toolbar__icon restrict-editing',
                     enableToggle: true,
                     caption: this.txtProtectDoc,
                     lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode, _set.protectLock],
