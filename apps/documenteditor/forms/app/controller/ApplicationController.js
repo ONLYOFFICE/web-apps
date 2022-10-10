@@ -365,7 +365,8 @@ define([
 
         onCountPages: function(count) {
             maxPages = count;
-            $('#pages').text(this.textOf + " " + count);
+            if (maxPages !== count)
+                $('#pages').text(this.textOf + " " + count);
         },
 
         onCurrentPage: function(number) {
