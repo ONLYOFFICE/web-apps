@@ -738,7 +738,7 @@ define([
                 if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
-                var rec = this.currentSelectedRec;
+                var rec =(this.multiSelect) ? this.currentSelectedRec : this.getSelectedRec();
                 if (this.lastSelectedRec === null)
                     this.lastSelectedRec = rec;
                 if (data.keyCode == Common.UI.Keys.RETURN) {
@@ -751,7 +751,7 @@ define([
                     if (this.parentMenu)
                         this.parentMenu.hide();
                 } else {
-                    var idx = _.indexOf(this.store.models, this.lastSelectedRec);
+                    var idx = (!this.multiSelect)? _.indexOf(this.store.models, rec):_.indexOf(this.store.models, this.lastSelectedRec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
                             var target = $(e.target).closest('.dropdown-submenu.over');
@@ -824,7 +824,8 @@ define([
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
                         this._fromKeyDown = false;
-                        this.lastSelectedRec = rec;
+                        if(this.multiSelect)
+                            this.lastSelectedRec = rec;
                     }
                 }
             } else {
