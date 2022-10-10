@@ -67,7 +67,7 @@ define([
 
             _.extend(this.options, {
                 title: this.txtTitle,
-                height: (this.type==2) ? 376 : 424,
+                height: (this.type==2) ? 520 : 424,
                 width: (this.type==2) ? 460 : 300
         }, options || {});
 
@@ -76,21 +76,17 @@ define([
                 '<% if (type == 2) { %>',
                     '<table cols="4" style="width: 100%;">',
                         '<tr>',
-                            '<td style="padding-right: 5px;">',
+                            '<td colspan="3" style="padding-right: 5px;">',
                                 '<label class="input-label">' + this.txtType + '</label>',
-                                '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;padding-right: 5px;">',
-                                '<label class="input-label">' + this.txtAlign + '</label>',
-                                '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;padding-right: 5px;">',
+                                '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 120px;margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td style="padding-left: 5px;">',
+                                '<label class="input-label"></label>',
+                                '<div id="id-dlg-numbering-restart" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td colspan="2" style="padding-right: 5px;">',
+                            '<td colspan="2" style="padding-right: 5px;width: 100%;">',
                                 '<label class="input-label">' + this.txtNumFormatString + '</label>',
                                 '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
                             '</td>',
@@ -103,6 +99,28 @@ define([
                                 '<div id="id-dlg-numbering-spin-start" style="margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
+                    '</table>',
+                    '<table cols="4" style="width: 100%;">',
+                        '<tr>',
+                            '<td style="padding-right: 5px;">',
+                                '<label class="input-label">' + this.txtAlign + '</label>',
+                                '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label">' + this.txtAlignAt + '</label>',
+                                '<div id="id-dlg-numbering-align-at" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;padding-right: 5px;">',
+                                '<label class="input-label">' + this.txtIndent + '</label>',
+                                '<div id="id-dlg-numbering-indent" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label">' + this.txtFollow + '</label>',
+                                '<div id="id-dlg-numbering-follow" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                    '</table>',
+                    '<table cols="4" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" style="padding-right: 5px;">',
                                 '<label class="input-label" style="display: block;">' + this.txtFontName + '</label>',
@@ -112,7 +130,7 @@ define([
                             '</td>',
                             '<td style="padding-left: 5px;padding-right: 5px;">',
                                 '<label class="input-label">' + this.txtSize + '</label>',
-                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 115px;margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td style="padding-left: 5px;">',
                                 '<label class="input-label">' + this.txtColor + '</label>',
@@ -177,6 +195,7 @@ define([
                 text: '',
                 lvlIndexes: []
             };
+            this.spinners = [];
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -413,6 +432,7 @@ define([
             this.cmbLevel = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-numbering-format-lvl'),
                 menuStyle   : 'min-width: 100%;',
+                style       : "width: 130px;",
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [],
@@ -423,7 +443,7 @@ define([
             this.spnStart = new Common.UI.MetricSpinner({
                 el: $window.find('#id-dlg-numbering-spin-start'),
                 step: 1,
-                width: 45,
+                width: 85,
                 defaultUnit : "",
                 value: 1,
                 maxValue: 16383,
@@ -470,6 +490,76 @@ define([
             });
             this.btnItalic.on('click', _.bind(this.onItalicClick, this));
 
+            this.spnAlign = new Common.UI.MetricSpinner({
+                el: $window.findById('#id-dlg-numbering-align-at'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: 0
+            });
+            this.spinners.push(this.spnAlign);
+            this.spnAlign.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_NumberPosition(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                }
+                if (this.api) {
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+                }
+            }, this));
+
+            this.spnIndents = new Common.UI.MetricSpinner({
+                el: $window.findById('#id-dlg-numbering-indent'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: 0
+            });
+            this.spinners.push(this.spnIndents);
+            this.spnIndents.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_IndentSize(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                }
+                if (this.api) {
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+                }
+            }, this));
+
+            this.cmbFollow = new Common.UI.ComboBox({
+                el          : $window.find('#id-dlg-numbering-follow'),
+                menuStyle   : 'min-width: 100%;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: Asc.c_oAscNumberingSuff.Tab, displayValue: this.textTab },
+                    { value: Asc.c_oAscNumberingSuff.Space, displayValue: this.textSpace },
+                    { value: Asc.c_oAscNumberingSuff.None, displayValue: this.txtNone }
+                ],
+                takeFocusOnClose: true
+            });
+            this.cmbFollow.on('selected', _.bind(function (combo, record) {
+                if (this._changedProps)
+                    this._changedProps.put_Suff(record.value);
+                if (this.api) {
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+                }
+            }, this));
+
+            this.chRestart = new Common.UI.CheckBox({
+                el: $window.find('#id-dlg-numbering-restart'),
+                labelText: this.txtRestart
+            });
+            this.chRestart.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_Restart(field.getValue()=='checked' ? -1 : 0);
+                }
+            }, this));
+
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.afterRender();
@@ -493,6 +583,7 @@ define([
             this.cmbFonts.fillFonts(this.fontStore);
             this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.fontName}));
 
+            this.updateMetricUnit();
             this.updateThemeColors();
             this._setDefaults(this.props);
             var me = this;
@@ -503,6 +594,16 @@ define([
             this.on('close', function(obj){
                 me.api.asc_unregisterCallback('asc_onPreviewLevelChange', onApiLevelChange);
             });
+        },
+
+        updateMetricUnit: function() {
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+            }
         },
 
         updateThemeColors: function() {
@@ -697,6 +798,11 @@ define([
             }
             this.btnColor.setColor(color);
 
+            this.spnAlign.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()), true);
+            this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);
+            this.cmbFollow.setValue(levelProps.get_Suff());
+            this.chRestart.setValue(levelProps.get_Restart()===-1);
+
             if (this.type>0) {
                 if (format == Asc.c_oAscNumberingFormat.Bullet) {
                     if (!this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
@@ -714,6 +820,7 @@ define([
                 this.cmbFonts.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.btnBold.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.btnItalic.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                this.chRestart.setDisabled(this.level===0);
 
                 var arr = [];
                 var me = this;
@@ -950,7 +1057,13 @@ define([
         txtStart: 'Start at',
         txtFontName: 'Font',
         textBold: 'Bold',
-        textItalic: 'Italic'
+        textItalic: 'Italic',
+        textTab: 'Tab character',
+        textSpace: 'Space',
+        txtAlignAt: 'Align at',
+        txtIndent: 'Text Indent',
+        txtFollow: 'Follow number with',
+        txtRestart: 'Restart list'
 
     }, DE.Views.ListSettingsDialog || {}))
 });
