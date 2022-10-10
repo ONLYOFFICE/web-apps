@@ -751,7 +751,7 @@ define([
                     if (this.parentMenu)
                         this.parentMenu.hide();
                 } else {
-                    if(this.multiSelect && this.pressedCtrl) return;;
+                    this.pressedCtrl=false;
                     var idx = (!this.multiSelect)? _.indexOf(this.store.models, rec):_.indexOf(this.store.models, this.lastSelectedRec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
