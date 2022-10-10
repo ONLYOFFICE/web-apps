@@ -1420,13 +1420,10 @@ define([
                     me.menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
                     /** coauthoring end **/
 
-                    var in_field = me.api.asc_GetCurrentComplexField();
+                    var in_field = me.api.asc_HaveFields(true);
                     me.menuTableRefreshField.setVisible(!!in_field);
                     me.menuTableRefreshField.setDisabled(disabled);
                     menuTableFieldSeparator.setVisible(!!in_field);
-                    if (in_field) {
-                        me.menuTableRefreshField.options.fieldProps = in_field;
-                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -1996,13 +1993,10 @@ define([
                     me.menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
                     /** coauthoring end **/
 
-                    var in_field = me.api.asc_GetCurrentComplexField();
+                    var in_field = me.api.asc_HaveFields(true);
                     me.menuParaRefreshField.setVisible(!!in_field);
                     me.menuParaRefreshField.setDisabled(disabled);
                     menuParaFieldSeparator.setVisible(!!in_field);
-                    if (in_field) {
-                        me.menuParaRefreshField.options.fieldProps = in_field;
-                    }
 
                     var listId = me.api.asc_GetCurrentNumberingId(),
                         in_list = (listId !== null);
