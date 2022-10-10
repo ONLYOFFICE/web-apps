@@ -2250,7 +2250,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtTr": "Turkish",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtUk": "Ukrainian",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtUseAltKey": "Use Alt key to navigate the user interface using the keyboard",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtUseOptionKey": "Use Option key to navigate the user interface using the keyboard",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtUseOptionKey": "Use ⌘F6 to navigate the user interface using the keyboard",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtVi": "Vietnamese",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWarnMacros": "Show Notification",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWarnMacrosDesc": "Disable all macros with a notification",
