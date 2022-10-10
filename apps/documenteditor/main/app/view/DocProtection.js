@@ -72,7 +72,7 @@ define([
 
                 var _set = Common.enumLock;
                 this.lockedControls = [];
-                this._state = {disabled: false};
+                this._state = {disabled: false, currentProtectHint: this.hintProtectDoc };
 
                 this.btnProtectDoc = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -98,7 +98,7 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnProtectDoc.updateHint(me.hintProtectDoc);
+                    me.btnProtectDoc.updateHint(me._state.currentProtectHint, true);
                     setEvents.call(me);
                 });
             },
@@ -121,8 +121,25 @@ define([
                 this.fireEvent('show', this);
             },
 
+            updateProtectionTips: function(type) {
+                var str = this.txtProtectDoc;
+                if (type === Asc.c_oAscEDocProtect.ReadOnly) {
+                    str = this.txtDocProtectedView;
+                } else if (type === Asc.c_oAscEDocProtect.Comments) {
+                    str = this.txtDocProtectedComment;
+                } else if (type === Asc.c_oAscEDocProtect.Forms) {
+                    str = this.txtDocProtectedForms;
+                } else if (type === Asc.c_oAscEDocProtect.TrackedChanges){ // none or tracked changes
+                    str = this.txtDocProtectedTrack;
+                }
+                this.btnProtectDoc.updateHint(str, true);
+                this._state.currentProtectHint = str;
+            },
             txtProtectDoc: 'Protect Document',
-            txtDocUnlockTitle: 'Unprotect Document',
+            txtDocProtectedView: 'Document is protected.<br>You may only view this document.',
+            txtDocProtectedTrack: 'Document is protected.<br>You may edit this document, but all changes will be tracked.',
+            txtDocProtectedComment: 'Document is protected.<br>You may only insert comments to this document.',
+            txtDocProtectedForms: 'Document is protected.<br>You may only fill in forms in this document.',
             hintProtectDoc: 'Protect document',
             txtDocUnlockDescription: 'Enter a password to unprotect document'
         }

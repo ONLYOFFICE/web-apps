@@ -185,7 +185,7 @@ define([
                     isProtected = (type === Asc.c_oAscEDocProtect.ReadOnly || type === Asc.c_oAscEDocProtect.Comments ||
                                    type === Asc.c_oAscEDocProtect.TrackedChanges || type === Asc.c_oAscEDocProtect.Forms);
                 me.view.btnProtectDoc.toggle(!!isProtected, true);
-                props && me.applyRestrictions(props[0]);
+                props && me.applyRestrictions(type);
             });
         },
 
@@ -241,6 +241,7 @@ define([
                 } else
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.None);
             }
+            this.view && this.view.updateProtectionTips(type);
         },
 
         onLockDocumentProtection: function(state) {
