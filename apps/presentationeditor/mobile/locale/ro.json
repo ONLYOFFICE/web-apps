@@ -200,7 +200,10 @@
     "txtEditingMode": "Setare modul de editare...",
     "uploadImageTextText": "Încărcarea imaginii...",
     "uploadImageTitleText": "Încărcare imagine",
-    "waitText": "Vă rugăm să așteptați..."
+    "waitText": "Vă rugăm să așteptați...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

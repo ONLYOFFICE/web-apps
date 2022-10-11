@@ -443,7 +443,10 @@
     "txtEditingMode": "設定編輯模式...",
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上傳圖片中",
-    "waitText": "請耐心等待..."
+    "waitText": "請耐心等待...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "錯誤",

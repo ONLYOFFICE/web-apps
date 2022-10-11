@@ -200,7 +200,10 @@
     "txtEditingMode": "Atur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",
     "uploadImageTitleText": "Mengunggah Gambar",
-    "waitText": "Silahkan menunggu"
+    "waitText": "Silahkan menunggu",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",

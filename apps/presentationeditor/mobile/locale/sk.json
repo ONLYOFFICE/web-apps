@@ -200,7 +200,10 @@
     "txtEditingMode": "Nastaviť režim úprav ...",
     "uploadImageTextText": "Nahrávanie obrázku...",
     "uploadImageTitleText": "Nahrávanie obrázku",
-    "waitText": "Prosím čakajte..."
+    "waitText": "Prosím čakajte...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumente máte neuložené zmeny. Kliknite na „Zostať na tejto stránke“ a počkajte na automatické uloženie. Kliknutím na „Opustiť túto stránku“ zahodíte všetky neuložené zmeny.",

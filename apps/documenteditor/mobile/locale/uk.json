@@ -443,7 +443,10 @@
     "txtEditingMode": "Встановити режим редагування ...",
     "uploadImageTextText": "Завантаження зображення...",
     "uploadImageTitleText": "Завантаження зображення",
-    "waitText": "Будь ласка, зачекайте..."
+    "waitText": "Будь ласка, зачекайте...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "Помилка",

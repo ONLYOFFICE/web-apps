@@ -200,7 +200,10 @@
     "txtEditingMode": "Szerkesztési mód beállítása...",
     "uploadImageTextText": "Kép feltöltése...",
     "uploadImageTitleText": "Kép feltöltése",
-    "waitText": "Kérjük várjon..."
+    "waitText": "Kérjük várjon...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nem mentett módosításai vannak ebben a dokumentumban. Kattintson a „Maradj ezen az oldalon” gombra az automatikus mentés megvárásához. Kattintson a \"Hagyja el ezt az oldalt\" gombra az összes nem mentett módosítás elvetéséhez.",

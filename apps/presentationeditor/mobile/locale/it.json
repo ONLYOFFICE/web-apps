@@ -200,7 +200,10 @@
     "txtEditingMode": "Impostare la modalità di modifica...",
     "uploadImageTextText": "Caricamento dell'immagine...",
     "uploadImageTitleText": "Caricamento dell'immagine",
-    "waitText": "Si prega di attendere"
+    "waitText": "Si prega di attendere",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",

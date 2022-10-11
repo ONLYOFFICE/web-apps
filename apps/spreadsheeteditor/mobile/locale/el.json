@@ -279,7 +279,10 @@
     "txtEditingMode": "Ορισμός λειτουργίας επεξεργασίας...",
     "uploadImageTextText": "Μεταφόρτωση εικόνας...",
     "uploadImageTitleText": "Μεταφόρτωση Εικόνας",
-    "waitText": "Παρακαλούμε, περιμένετε..."
+    "waitText": "Παρακαλούμε, περιμένετε...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Προειδοποίηση",
