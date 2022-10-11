@@ -1225,7 +1225,7 @@ define([
                 me.btnInsertText = new Common.UI.Button({
                     id          : 'tlbtn-inserttext',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-subtotals',
+                    iconCls     : 'toolbar__icon btn-text',
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
@@ -2590,19 +2590,19 @@ define([
                             caption: this.tipInsertHorizontalText,
                             checkable: true,
                             checkmark: false,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text',
                             toggleGroup: 'textbox',
                             value: 'textRect',
-                            iconClsForMainBtn: 'btn-subtotals'
+                            iconClsForMainBtn: 'btn-text'
                         },
                         {
                             caption: this.tipInsertVerticalText,
                             checkable: true,
                             checkmark: false,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-vertical',
                             toggleGroup: 'textbox',
                             value: 'textRectVertical',
-                            iconClsForMainBtn: 'btn-pivot-layout'
+                            iconClsForMainBtn: 'btn-text-vertical'
                         },
                     ]
                 }));

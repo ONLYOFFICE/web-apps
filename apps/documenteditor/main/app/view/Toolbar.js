@@ -677,7 +677,7 @@ define([
                     this.btnInsertText = new Common.UI.Button({
                         id: 'tlbtn-inserttext',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-review-prev',
+                        iconCls: 'toolbar__icon btn-text',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.contentLock, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart],
                         caption: me.capBtnInsTextbox,
@@ -2229,19 +2229,19 @@ define([
                             caption: this.tipInsertHorizontalText,
                             checkable: true,
                             checkmark: false,
-                            iconCls     : 'menu__icon text-orient-hor',
+                            iconCls     : 'menu__icon btn-text',
                             toggleGroup: 'textbox',
                             value: 'textRect',
-                            iconClsForMainBtn: 'btn-review-prev'
+                            iconClsForMainBtn: 'btn-text'
                         },
                         {
                             caption: this.tipInsertVerticalText,
                             checkable: true,
                             checkmark: false,
-                            iconCls     : 'menu__icon text-orient-rup',
+                            iconCls     : 'menu__icon btn-text-vertical',
                             toggleGroup: 'textbox',
                             value: 'textRectVertical',
-                            iconClsForMainBtn: 'btn-review-next'
+                            iconClsForMainBtn: 'btn-text-vertical'
                         },
                     ]
                 }));

@@ -1282,7 +1282,7 @@ define([
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
-                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-datetime', this.capInsertText,
+                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
@@ -1327,19 +1327,19 @@ define([
                                 caption: me.tipInsertHorizontalText,
                                 checkable: true,
                                 checkmark: false,
-                                iconCls     : 'menu__icon text-orient-hor',
+                                iconCls     : 'menu__icon btn-text',
                                 toggleGroup: 'textbox',
                                 value: 'textRect',
-                                iconClsForMainBtn: 'btn-datetime'
+                                iconClsForMainBtn: 'btn-text'
                             },
                             {
                                 caption: me.tipInsertVerticalText,
                                 checkable: true,
                                 checkmark: false,
-                                iconCls     : 'menu__icon text-orient-rup',
+                                iconCls     : 'menu__icon btn-text-vertical',
                                 toggleGroup: 'textbox',
                                 value: 'textRectVertical',
-                                iconClsForMainBtn: 'btn-pagenum'
+                                iconClsForMainBtn: 'btn-text-vertical'
                             },
                         ]
                     }));
