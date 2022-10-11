@@ -32,7 +32,8 @@
       "textReopen": "重開",
       "textResolve": "解決",
       "textTryUndoRedo": "在快速共同編輯模式下，撤消/重做功能被禁用。",
-      "textUsers": "使用者"
+      "textUsers": "使用者",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "沒有填充"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "不再顯示",
     "textOk": "確定",
     "textRows": "行列",
-    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？"
+    "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -169,7 +171,8 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。"
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大大小為25MB。",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "加載數據中...",
@@ -245,7 +248,10 @@
       "textSlideNumber": "幻燈片頁碼",
       "textTable": "表格",
       "textTableSize": "表格大小",
-      "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。"
+      "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -351,11 +357,8 @@
       "textPt": "pt",
       "textPush": "推",
       "textRemoveChart": "刪除圖表",
-      "textRemoveImage": "移除圖片",
-      "textRemoveLink": "刪除連結",
       "textRemoveShape": "去除形狀",
       "textRemoveTable": "刪除表",
-      "textReorder": "重新排序",
       "textReplace": "取代",
       "textReplaceAll": "全部替換",
       "textReplaceImage": "替換圖片",
@@ -396,7 +399,15 @@
       "textZoom": "放大",
       "textZoomIn": "放大",
       "textZoomOut": "縮小",
-      "textZoomRotate": "放大和旋轉"
+      "textZoomRotate": "放大和旋轉",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",

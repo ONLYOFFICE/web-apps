@@ -61,7 +61,10 @@
     "textTableSize": "Μέγεθος Πίνακα",
     "textWithBlueLinks": "Με Μπλε Συνδέσμους",
     "textWithPageNumbers": "Με Αριθμούς Σελίδων",
-    "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»"
+    "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Οι λειτουργίες Αναίρεση/Επανάληψη είναι απενεργοποιημένες στην κατάσταση Γρήγορης συν-επεξεργασίας.",
       "textUnderline": "Υπογράμμιση",
       "textUsers": "Χρήστες",
-      "textWidow": "Έλεγχος μεμονωμένων γραμμών κειμένου"
+      "textWidow": "Έλεγχος μεμονωμένων γραμμών κειμένου",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Χωρίς Γέμισμα"
@@ -200,6 +204,7 @@
     "textRefreshEntireTable": "Ανανέωση ολόκληρου πίνακα",
     "textRefreshPageNumbersOnly": "Ανανέωση αριθμών σελίδων μόνο",
     "textRows": "Γραμμές",
+    "menuEditLink": "Edit Link",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Ανανέωση ολόκληρου πίνακα",
     "textRefreshPageNumbersOnly": "Ανανέωση αριθμών σελίδων μόνο",
     "textRemoveChart": "Αφαίρεση Γραφήματος",
-    "textRemoveImage": "Αφαίρεση Εικόνας",
-    "textRemoveLink": "Αφαίρεση Συνδέσμου",
     "textRemoveShape": "Αφαίρεση Σχήματος",
     "textRemoveTable": "Αφαίρεση Πίνακα",
     "textRemoveTableContent": "Αφαίρεση πίνακα περιεχομένων",
@@ -365,7 +368,15 @@
     "textTu": "Τρι",
     "textType": "Τύπος",
     "textWe": "Τετ",
-    "textWrap": "Αναδίπλωση"
+    "textWrap": "Αναδίπλωση",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
@@ -408,6 +419,7 @@
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
     "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
@@ -678,7 +690,7 @@
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη Σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
-    "textOk": "OK",
+    "textOk": "Εντάξει",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
   }

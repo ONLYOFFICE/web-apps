@@ -201,7 +201,7 @@ const EditParagraph = props => {
         <Fragment>
             <BlockTitle>{t('Edit.textParagraphStyle')}</BlockTitle>
             <List style={{marginBottom: 0}}>
-                <ListItem link="/edit-paragraph-style/" title={!curStyle && curStyleName} routeProps={{
+                <ListItem link="/edit-paragraph-style/" title={!curStyle && t('Edit.textCustomStyle')} routeProps={{
                     onStyleClick: props.onStyleClick,
                     onSaveStyle: props.onSaveStyle,
                     onStyleMenuDelete: props.onStyleMenuDelete

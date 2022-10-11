@@ -393,7 +393,6 @@
   "Common.Views.SignDialog.tipFontName": "Шрифт",
   "Common.Views.SignDialog.tipFontSize": "Розмір шрифту",
   "Common.Views.SignSettingsDialog.textAllowComment": "Дозволити підписанту додавати коментар у вікні підпису",
-  "Common.Views.SignSettingsDialog.textInfo": "Інформація про підписанта",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Адреса електронної пошти",
   "Common.Views.SignSettingsDialog.textInfoName": "Ім'я",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Посада підписанта",

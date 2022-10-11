@@ -198,16 +198,19 @@
     "name": "Insérer des équations",
     "headername": "Équations mathématiques"
   },
-  {
-    "src": "HelpfulHints/CollaborativeEditing.htm",
-    "name": "Édition collaborative des documents",
-    "headername": "Édition collaborative du document"
-  },
+    {
+        "src": "HelpfulHints/CollaborativeEditing.htm",
+        "name": "Édition collaborative des documents",
+        "headername": "Édition collaborative du document"
+    },
+    { "src": "HelpfulHints/Communicating.htm", "name": "Communiquer en temps réel" },
+    { "src": "HelpfulHints/Commenting.htm", "name": "Commenter des documents" },
     {
         "src": "HelpfulHints/Review.htm",
         "name": "Révision du document"
     },
     { "src": "HelpfulHints/Comparison.htm", "name": "Comparer les documents" },
+    { "src": "HelpfulHints/VersionHistory.htm", "name": "Historique des versions" },
     {"src": "UsageInstructions/PhotoEditor.htm", "name": "Modification d'une image", "headername": "Plugins"},
     {"src": "UsageInstructions/YouTube.htm", "name": "Insérer une vidéo" },
     {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
@@ -217,6 +220,12 @@
     {"src": "UsageInstructions/Speech.htm", "name": "Lire un texte à haute voix" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
     {"src": "UsageInstructions/Wordpress.htm", "name": "Télécharger un document sur Wordpress"},
+	{"src": "UsageInstructions/WordCounter.htm", "name": "Compter les mots"},
+	{"src": "UsageInstructions/HTML.htm", "name": "Modifier le code HTML"},
+    { "src": "UsageInstructions/Typograf.htm", "name": "Corriger la typographie" },
+    { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },
+    {"src": "UsageInstructions/Jitsi.htm", "name": "Effectuer des appels audio et vidéo"},
+    {"src": "UsageInstructions/Drawio.htm", "name": "Créer et insérer des diagrammes"},
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Afficher les informations sur le document",

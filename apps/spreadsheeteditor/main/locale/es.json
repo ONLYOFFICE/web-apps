@@ -451,7 +451,6 @@
   "Common.Views.SignDialog.tipFontName": "Nombre del tipo de letra",
   "Common.Views.SignDialog.tipFontSize": "Tamaño de letra",
   "Common.Views.SignSettingsDialog.textAllowComment": "Permitir al firmante agregar comentarios en el diálogo de firma",
-  "Common.Views.SignSettingsDialog.textInfo": "Información de quien firma",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Correo electrónico",
   "Common.Views.SignSettingsDialog.textInfoName": "Nombre",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Título de quien firma",
