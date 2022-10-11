@@ -359,7 +359,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            Common.Utils.isIE && this.chUseAltKey.$el.parent().parent().hide();
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
