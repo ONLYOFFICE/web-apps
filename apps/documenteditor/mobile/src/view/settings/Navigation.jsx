@@ -29,7 +29,7 @@ const NavigationPopover = inject('storeNavigation')(observer(props => {
                         <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
                     </div>
                 :
-                    <List className="navigation-list">
+                    <List className="navigation-list" style={!Device.phone ? { height: '352px', marginTop: 0 } : null}>
                         {arrHeaders.map((header, index) => {
                             return (
                                 <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {

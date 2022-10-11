@@ -17,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "Սխալ է տեղի ունեցել ֆայլը պահելիս:Խնդրում ենք օգտագործել «Ներբեռնել որպես» տարբերակը՝ ֆայլը ձեր համակարգչի կոշտ սկավառակում պահելու համար կամ ավելի ուշ նորից փորձեք:",
   "SSE.ApplicationController.errorLoadingFont": "Տառատեսակները բեռնված չեն:<br>Խնդրում ենք կապվել ձեր փաստաթղթերի սերվերի ադմինիստրատորի հետ:",
   "SSE.ApplicationController.errorTokenExpire": "Փաստաթղթի անվտանգության կտրոնի ժամկետն անցել է։<br>Դիմեք փաստաթղթերի սպասարկիչի ձեր վարիչին։",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Համացանցային կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք նիշքը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք ֆայլը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
   "SSE.ApplicationController.errorUserDrop": "Այս պահին ֆայլն անհասանելի է։",
   "SSE.ApplicationController.notcriticalErrorTitle": "Զգուշացում",
   "SSE.ApplicationController.openErrorText": "Ֆայլը բացելիս սխալ է տեղի ունեցել:",

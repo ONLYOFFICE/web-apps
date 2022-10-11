@@ -457,6 +457,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _init = function(api) {
+        if (Common.Utils.isIE)
+            return;
         _api = api;
 
         var filter = Common.localStorage.getKeysFilter();
@@ -620,10 +622,10 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
                 !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (e.altKey && e.keyCode !== 115) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });
@@ -661,6 +663,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _clearHints = function (isComplete) {
+        if (Common.Utils.isIE)
+            return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {
             _resetToDefault();
@@ -675,7 +679,9 @@ Common.UI.HintManager = new(function() {
             $('.hint-div').remove();
         }
         if ($('iframe').length > 0) {
-            $('iframe').contents().find('.hint-div').remove();
+            try {
+                $('iframe').contents().find('.hint-div').remove();
+            } catch (e) {}
         }
     };
 

@@ -66,6 +66,14 @@ define([
                     var item = _.findWhere(this.items, {el: event.currentTarget});
                     if (item) {
                         var panel = this.panels[item.options.action];
+                        if (item.options.action === 'help') {
+                            if ( panel.usedHelpCenter === true && navigator.onLine ) {
+                                this.fireEvent('item:click', [this, 'external-help', true]);
+                                window.open(panel.urlHelpCenter, '_blank');
+                                return;
+                            }
+                        }
+
                         this.fireEvent('item:click', [this, item.options.action, !!panel]);
 
                         if (panel) {

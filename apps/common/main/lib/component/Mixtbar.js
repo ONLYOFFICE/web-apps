@@ -793,7 +793,7 @@ define([
 
             hideMoreBtns: function() {
                 for (var btn in btnsMore) {
-                    btnsMore[btn] && btnsMore[btn].toggle(false);
+                    btnsMore[btn] && btnsMore[btn].isActive() && btnsMore[btn].toggle(false);
                 }
             }
         };

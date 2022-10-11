@@ -430,7 +430,6 @@
   "Common.Views.SignDialog.tipFontName": "Nazwa czcionki",
   "Common.Views.SignDialog.tipFontSize": "Rozmiar czcionki",
   "Common.Views.SignSettingsDialog.textAllowComment": "Zezwól podpisującemu na dodawanie komentarza w oknie podpisu",
-  "Common.Views.SignSettingsDialog.textInfo": "Szczegóły osoby podpisującej",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-mail",
   "Common.Views.SignSettingsDialog.textInfoName": "Nazwa",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Stanowisko osoby podpisującej",

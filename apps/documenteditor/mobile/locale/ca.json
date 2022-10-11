@@ -61,7 +61,10 @@
     "textTableSize": "Mida de la taula",
     "textWithBlueLinks": "Amb enllaços blaus",
     "textWithPageNumbers": "Amb números de pàgina",
-    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
       "textUnderline": "Subratllat",
       "textUsers": "Usuaris",
-      "textWidow": "Control de finestra"
+      "textWidow": "Control de finestra",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sense emplenament"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "Actualitza la taula sencera",
     "textRefreshPageNumbersOnly": "Actualitza només els números de pàgina",
     "textRows": "Files",
-    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades. <br>Segur que voleu continuar?"
+    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades. <br>Segur que voleu continuar?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertiment",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Actualitza la taula sencera",
     "textRefreshPageNumbersOnly": "Actualitza només els números de pàgina",
     "textRemoveChart": "Suprimeix el gràfic",
-    "textRemoveImage": "Suprimeix la imatge",
-    "textRemoveLink": "Suprimeix l'enllaç",
     "textRemoveShape": "Suprimeix la forma",
     "textRemoveTable": "Suprimeix la taula",
     "textRemoveTableContent": "Suprimeix la taula de continguts",
@@ -365,7 +368,15 @@
     "textTu": "dt.",
     "textType": "Tipus",
     "textWe": "dc.",
-    "textWrap": "Ajustament"
+    "textWrap": "Ajustament",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
@@ -393,6 +404,7 @@
     "errorSessionIdle": "Fa molt de temps que no s'edita el document. Torneu a carregar la pàgina.",
     "errorSessionToken": "S'ha interromput la connexió amb el servidor. Torneu a carregar la pàgina.",
     "errorStockChart": "L'ordre de la fila no és correcte. Per construir un gràfic de valors, poseu les dades al full de càlcul en l'ordre següent: <br>preu d'obertura, preu màxim, preu mínim, preu de tancament.",
+    "errorTextFormWrongFormat": "El valor introduït no es correspon amb el format del camp",
     "errorUpdateVersionOnDisconnect": "S'ha restaurat la connexió a internet i la versió del fitxer ha canviat. <br> Abans de continuar treballant, heu de baixar el fitxer o copiar-ne el contingut per assegurar-vos que no es perdi res i, després, torneu a carregar aquesta pàgina.",
     "errorUserDrop": "Ara mateix no es pot accedir al fitxer.",
     "errorUsersExceed": "S'ha superat el nombre d’usuaris que permet el vostre pla",
@@ -408,7 +420,7 @@
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "S'estan carregant les dades...",

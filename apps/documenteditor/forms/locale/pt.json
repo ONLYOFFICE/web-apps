@@ -102,6 +102,7 @@
   "DE.Controllers.ApplicationController.errorSessionIdle": "O documento ficou sem edição por muito tempo. Por favor atualize a página.",
   "DE.Controllers.ApplicationController.errorSessionToken": "A conexão com o servidor foi interrompida. Por favor atualize a página.",
   "DE.Controllers.ApplicationController.errorSubmit": "Falha no envio.",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "O valor inserido não corresponde ao formato do campo.",
   "DE.Controllers.ApplicationController.errorToken": "O token de segurança do documento não foi formado corretamente. <br> Entre em contato com o administrador do Document Server.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "O token de segurança do documento expirou. <br> Entre em contato com o administrador do Document Server.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",

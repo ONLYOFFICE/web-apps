@@ -142,6 +142,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseMergeEditor', _.bind(this.onMergeEditingDisabled, this));
+                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 
@@ -186,7 +187,7 @@ define([
                     iconCls: 'warn',
                     buttons: ['ok'],
                     callback: _.bind(function(btn){
-                        this.setControlsDisabled(false);
+                        this.mergeEditorView.setControlsDisabled(false);
                         this.mergeEditorView.hide();
                     }, this)
                 });
@@ -243,6 +244,9 @@ define([
                         if (w>0 && h>0)
                             this.mergeEditorView.setInnerSize(w, h);
                     } else
+                    if (eventData.type == "frameToGeneralData") {
+                        this.api && this.api.asc_getInformationBetweenFrameAndGeneralEditor(eventData.data);
+                    } else
                         this.mergeEditorView.fireEvent('internalmessage', this.mergeEditorView, eventData);
                 }
             } ,
@@ -251,6 +255,10 @@ define([
                 if (data.type == 'mouseup' && this.isExternalEditorVisible) {
                     externalEditor && externalEditor.serviceCommand('processmouse', data);
                 }
+            },
+
+            onSendFromGeneralToFrameEditor: function(data) {
+                externalEditor && externalEditor.serviceCommand('generalToFrameData', data);
             },
 
             warningTitle: 'Warning',

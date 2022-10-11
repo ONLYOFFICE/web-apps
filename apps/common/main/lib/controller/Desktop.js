@@ -90,11 +90,8 @@ define([
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
-                    } else
-                    if ( obj.lockthemes != undefined ) {
-                        // TODO: remove after 7.0.2. depricated. used is_win_xp variable instead
-                        // Common.UI.Themes.setAvailable(!obj.lockthemes);
                     }
+
                     if ( obj.singlewindow !== undefined ) {
                         $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;
