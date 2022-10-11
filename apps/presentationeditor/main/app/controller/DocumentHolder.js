@@ -126,6 +126,7 @@ define([
                 onKeyUp: _.bind(me.onKeyUp, me)
             };
 
+            me.guideTip = { ttHeight: 20 };
             // Hotkeys
             // ---------------------
             var keymap = {};
@@ -219,6 +220,7 @@ define([
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholderTable, me));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
+                    me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -422,6 +424,9 @@ define([
             view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
             view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
             view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
+            view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
+            view.mnuGridlines.menu.on('item:click', _.bind(me.onGridlinesClick, me));
+            view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
         },
 
         getView: function (name) {
@@ -440,6 +445,8 @@ define([
                 if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                     showPoint[0] -= 3;
                     showPoint[1] -= 3;
+                } else {
+                    value && (value.guideId = event.get_Guide());
                 }
 
                 if (!menu.rendered) {
@@ -2121,6 +2128,84 @@ define([
                 }, 100);
             }
             return false;
+        },
+
+        onGuidesClick: function(menu, item) {
+            if (item.value == 'del-guide' && item.options.guideId)
+                this.api.asc_deleteGuide(item.options.guideId);
+            else if (item.value === 'add-vert' || item.value === 'add-hor')
+                this.documentHolder.fireEvent('guides:add', [item.value]);
+            else if (item.value === 'clear')
+                this.documentHolder.fireEvent('guides:clear');
+            else if (item.value === 'smart')
+                this.documentHolder.fireEvent('guides:smart', [item.isChecked()]);
+            else
+                this.documentHolder.fireEvent('guides:show', [item.isChecked()]);
+        },
+
+        onGridlinesClick: function(menu, item) {
+            if (item.value === 'custom')
+                this.documentHolder.fireEvent('gridlines:custom');
+            else if (item.value === 'snap')
+                this.documentHolder.fireEvent('gridlines:snap', [item.isChecked()]);
+            else if (item.value === 'show')
+                this.documentHolder.fireEvent('gridlines:show', [item.isChecked()]);
+            else
+                this.documentHolder.fireEvent('gridlines:spacing', [item.value]);
+        },
+
+        onRulersClick: function(item) {
+            this.documentHolder.fireEvent('rulers:change', [item.isChecked()]);
+        },
+
+        onTrackGuide: function(dPos, x, y) {
+            var tip = this.guideTip;
+            if (dPos === undefined || x<0 || y<0) {
+                if (!tip.isHidden && tip.ref) {
+                    tip.ref.hide();
+                    tip.ref = undefined;
+                    tip.text = '';
+                    tip.isHidden = true;
+                }
+            } else {
+                if (!tip.parentEl) {
+                    tip.parentEl = $('<div id="tip-container-guide" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(tip.parentEl);
+                }
+
+                var str = dPos.toFixed(2);
+                if (tip.ref && tip.ref.isVisible()) {
+                    if (tip.text != str) {
+                        tip.text = str;
+                        tip.ref.setTitle(str);
+                        tip.ref.updateTitle();
+                    }
+                }
+
+                if (!tip.ref || !tip.ref.isVisible()) {
+                    tip.text = str;
+                    tip.ref = new Common.UI.Tooltip({
+                        owner   : tip.parentEl,
+                        html    : true,
+                        title   : str
+                    });
+
+                    tip.ref.show([-10000, -10000]);
+                    tip.isHidden = false;
+                }
+                var showPoint = [x, y];
+                showPoint[0] += (this._XY[0] + 6);
+                showPoint[1] += (this._XY[1] - 20 - tip.ttHeight);
+
+                var tipwidth = tip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this._BodyWidth )
+                    showPoint[0] = this._BodyWidth - tipwidth - 20;
+
+                tip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            }
         },
 
         SetDisabled: function(state) {
