@@ -435,7 +435,6 @@
   "Common.Views.SignDialog.tipFontName": "Nome da fonte",
   "Common.Views.SignDialog.tipFontSize": "Tamaño da fonte",
   "Common.Views.SignSettingsDialog.textAllowComment": "Permitir a quen asine engadir comentarios no diálogo de sinatura",
-  "Common.Views.SignSettingsDialog.textInfo": "Información de quen asina",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Correo electrónico",
   "Common.Views.SignSettingsDialog.textInfoName": "Nome",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Título de quen asina",

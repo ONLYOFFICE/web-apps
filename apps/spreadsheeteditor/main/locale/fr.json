@@ -451,7 +451,6 @@
   "Common.Views.SignDialog.tipFontName": "Nom de la police",
   "Common.Views.SignDialog.tipFontSize": "Taille de la police",
   "Common.Views.SignSettingsDialog.textAllowComment": "Autoriser le signataire à ajouter un commentaire dans la boîte de dialogue de la signature",
-  "Common.Views.SignSettingsDialog.textInfo": "Information à propos du signataire",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Adresse de messagerie",
   "Common.Views.SignSettingsDialog.textInfoName": "Nom",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Titre du signataire",

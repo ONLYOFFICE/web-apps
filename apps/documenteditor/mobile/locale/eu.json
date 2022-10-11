@@ -61,7 +61,10 @@
     "textTableSize": "Taularen tamaina",
     "textWithBlueLinks": "Esteka urdinekin",
     "textWithPageNumbers": "Orri-zenbakiekin",
-    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.",
       "textUnderline": "Azpimarra",
       "textUsers": "Erabiltzaileak",
-      "textWidow": "Lerro solteen kontrola"
+      "textWidow": "Lerro solteen kontrola",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Betegarririk ez"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "Freskatu taula osoa",
     "textRefreshPageNumbersOnly": "Freskatu orri-zenbakiak soilik",
     "textRows": "Errenkadak",
-    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?"
+    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Abisua",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Freskatu taula osoa",
     "textRefreshPageNumbersOnly": "Freskatu orri-zenbakiak soilik",
     "textRemoveChart": "Kendu diagrama",
-    "textRemoveImage": "Kendu irudia",
-    "textRemoveLink": "Kendu esteka",
     "textRemoveShape": "Kendu forma",
     "textRemoveTable": "Kendu taula",
     "textRemoveTableContent": "Kendu aurkibidea",
@@ -365,7 +368,15 @@
     "textTu": "ar.",
     "textType": "Mota",
     "textWe": "az.",
-    "textWrap": "Doikuntza"
+    "textWrap": "Doikuntza",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Bihurketaren denbora-muga gainditu da.",
@@ -393,7 +404,8 @@
     "errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Mesedez, kargatu berriro orria.",
     "errorSessionToken": "Zerbitzarira konexioa eten egin da. Mesedez, kargatu berriro orria.",
     "errorStockChart": "Errenkaden ordena okerra. Kotizazio-diagrama bat sortzeko, sartu datuak orrian ordena honetan:<br> irekierako prezioa, gehienezko prezioa, gutxieneko prezioa, itxierako prezioa.",
-    "errorUpdateVersionOnDisconnect": "Interneteko konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
+    "errorTextFormWrongFormat": "Sartutako balioa ez dator bat eremuaren formatuarekin.",
+    "errorUpdateVersionOnDisconnect": "Konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
     "errorUserDrop": "Une honetan ezin da fitxategia eskuratu.",
     "errorUsersExceed": "Ordainketa planak onartzen duen erabiltzaile kopurua gainditu da",
     "errorViewerDisconnect": "Konexioa galdu da. Oraindik dokumentua ikus dezakezu,<br>baina ezingo duzu deskargatu edo inprimatu konexioa berreskuratu eta orria birkargatu arte.",
@@ -408,7 +420,7 @@
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",

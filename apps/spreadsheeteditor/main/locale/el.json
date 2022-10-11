@@ -436,7 +436,6 @@
   "Common.Views.SignDialog.tipFontName": "Όνομα Γραμματοσειράς",
   "Common.Views.SignDialog.tipFontSize": "Μέγεθος Γραμματοσειράς",
   "Common.Views.SignSettingsDialog.textAllowComment": "Να επιτρέπεται στον υπογράφοντα να προσθέτει σχόλιο στο διάλογο υπογραφής",
-  "Common.Views.SignSettingsDialog.textInfo": "Πληροφορίες Υπογράφοντος",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Ηλεκτρονική Διεύθυνση",
   "Common.Views.SignSettingsDialog.textInfoName": "Όνομα",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Τίτλος Υπογράφοντος",

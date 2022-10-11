@@ -102,6 +102,7 @@
   "DE.Controllers.ApplicationController.errorSessionIdle": "Das Dokument wurde lange nicht bearbeitet. Laden Sie die Seite neu.",
   "DE.Controllers.ApplicationController.errorSessionToken": "Die Verbindung zum Server wurde unterbrochen. Laden Sie die Seite neu.",
   "DE.Controllers.ApplicationController.errorSubmit": "Fehler beim Senden.",
+  "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "Der eingegebene Wert stimmt nicht mit dem Format des Feldes überein.",
   "DE.Controllers.ApplicationController.errorToken": "Sicherheitstoken des Dokuments ist nicht korrekt.<br>Wenden Sie sich an Ihren Serveradministrator.",
   "DE.Controllers.ApplicationController.errorTokenExpire": "Sicherheitstoken des Dokuments ist abgelaufen.<br>Wenden Sie sich an Ihren Serveradministrator.",
   "DE.Controllers.ApplicationController.errorUpdateVersion": "Die Dateiversion wurde geändert. Die Seite wird neu geladen.",

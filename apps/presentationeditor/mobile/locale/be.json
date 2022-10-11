@@ -32,7 +32,8 @@
       "textReopen": "Адкрыць зноў",
       "textResolve": "Вырашыць",
       "textTryUndoRedo": "Функцыі скасавання і паўтору дзеянняў выключаныя ў хуткім рэжыме сумеснага рэдагавання.",
-      "textUsers": "Карыстальнікі"
+      "textUsers": "Карыстальнікі",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Без заліўкі"
@@ -58,6 +59,7 @@
     "textColumns": "Слупкі",
     "textCopyCutPasteActions": "Скапіяваць, выразаць, уставіць",
     "textRows": "Радкі",
+    "menuEditLink": "Edit Link",
     "menuSplit": "Split",
     "textDoNotShowAgain": "Don't show again",
     "textOk": "Ok",
@@ -156,6 +158,7 @@
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download' option to save the file backup copy locally.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin.",
@@ -245,7 +248,10 @@
       "textTable": "Табліца",
       "textTableSize": "Памеры табліцы",
       "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
-      "textEmptyImgUrl": "You need to specify the image URL."
+      "textDone": "Done",
+      "textEmptyImgUrl": "You need to specify the image URL.",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Увага",
@@ -348,11 +354,8 @@
       "textPt": "пт",
       "textPush": "Ссоўванне",
       "textRemoveChart": "Выдаліць дыяграму",
-      "textRemoveImage": "Выдаліць выяву",
-      "textRemoveLink": "Выдаліць спасылку",
       "textRemoveShape": "Выдаліць фігуру",
       "textRemoveTable": "Выдаліць табліцу",
-      "textReorder": "Перапарадкаваць",
       "textReplace": "Замяніць",
       "textReplaceAll": "Замяніць усе",
       "textReplaceImage": "Замяніць выяву",
@@ -391,9 +394,17 @@
       "textZoomIn": "Павелічэнне",
       "textZoomOut": "Памяншэнне",
       "textZoomRotate": "Павелічэнне і паварочванне",
+      "textArrange": "Arrange",
       "textBulletsAndNumbers": "Bullets & Numbers",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textInsertImage": "Insert Image",
       "textNoStyles": "No styles for this type of chart.",
+      "textRecommended": "Recommended",
+      "textRequired": "Required",
       "textSelectObjectToEdit": "Select object to edit",
       "textSplit": "Split",
       "textTransitions": "Transitions"

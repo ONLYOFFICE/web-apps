@@ -40,6 +40,8 @@
         .extra {
             background-color: @header-background-color-ie;
             background-color: @header-background-color;
+
+            box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
         }
 
     //&::after {
@@ -62,6 +64,8 @@
         display: flex;
         flex-shrink: 1;
 
+        box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
+
         > ul {
             padding: 4px 0 0;
             margin: 0;
@@ -75,14 +79,19 @@
             display: inline-flex;
             align-items: center;
             height: 100%;
+            position: relative;
             &:hover {
                 background-color: @highlight-header-button-hover-ie;
                 background-color: @highlight-header-button-hover;
+
+                box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
             }
 
             &.active {
                 background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
+
+                box-shadow: inset @minus-px 0px 0 0 @border-toolbar-active-panel-top, inset @scaled-one-px-value @scaled-one-px-value 0 0 @border-toolbar-active-panel-top;
             }
 
 
@@ -111,6 +120,29 @@
             }
         }
 
+        &:not(.style-off-tabs *) {
+            &.short {
+                li {
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        background: @border-toolbar-active-panel-top;
+                        height: @scaled-one-px-value;
+                        bottom: 0;
+                        left: 1px;
+                        right: 1px;
+                        z-index: 2;
+                    }
+
+                    &.active {
+                        &:after {
+                            background: @background-toolbar;
+                        }
+                    }
+                }
+            }
+        }
+
         .scroll {
             line-height: @height-tabs;
             min-width: 20px;
@@ -132,7 +164,7 @@
 
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
-                box-shadow: 5px 0 20px 5px @header-background-color;
+                box-shadow: 18px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(135deg);
@@ -141,7 +173,7 @@
             }
             &.right{
                 box-shadow: -5px 0 20px 5px @header-background-color-ie;
-                box-shadow: -5px 0 20px 5px @header-background-color;
+                box-shadow: -10px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(-45deg);
@@ -403,6 +435,7 @@
 
             li {
                 position: relative;
+
                 &:after {
                     //transition: opacity .1s;
                     //transition: bottom .1s;
@@ -417,6 +450,7 @@
 
                 &.active {
                     background-color: transparent;
+                    box-shadow: none;
                     //> a {
                     //    padding: 0 12px;
                     //}
@@ -428,6 +462,7 @@
 
                 &:hover:not(.active) {
                     background-color: rgba(0, 0, 0, .05);
+                    box-shadow: none;
 
                     .theme-type-dark & {
                         background-color: rgba(255, 255, 255, .05);

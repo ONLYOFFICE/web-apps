@@ -446,7 +446,6 @@
   "Common.Views.SignDialog.tipFontName": "Denumire font",
   "Common.Views.SignDialog.tipFontSize": "Dimensiune font",
   "Common.Views.SignSettingsDialog.textAllowComment": "Se permite semnatarului să adauge comentarii în dialogul Semnare",
-  "Common.Views.SignSettingsDialog.textInfo": "Informații semnatar",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-mail",
   "Common.Views.SignSettingsDialog.textInfoName": "Nume",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Funcția semnatarului",

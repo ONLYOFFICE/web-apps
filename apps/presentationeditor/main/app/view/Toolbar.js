@@ -1283,7 +1283,7 @@ define([
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
                 this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
-                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, false, true, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
@@ -1318,10 +1318,37 @@ define([
                     btn.menu.items[2].setVisible(config.canRequestInsertImage || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
                 });
 
-                me.btnsInsertText.forEach(function (btn) {
-                    btn.updateHint(me.tipInsertText);
-                    btn.on('click', function (btn, e) {
-                        me.fireEvent('insert:text', [btn.pressed ? 'begin' : 'end']);
+                me.btnsInsertText.forEach(function (button) {
+                    button.updateHint([me.tipInsertHorizontalText, me.tipInsertText]);
+                    button.options.textboxType = 'textRect';
+                    button.setMenu(new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: me.tipInsertHorizontalText,
+                                checkable: true,
+                                checkmark: false,
+                                iconCls     : 'menu__icon btn-text',
+                                toggleGroup: 'textbox',
+                                value: 'textRect',
+                                iconClsForMainBtn: 'btn-text'
+                            },
+                            {
+                                caption: me.tipInsertVerticalText,
+                                checkable: true,
+                                checkmark: false,
+                                iconCls     : 'menu__icon btn-text-vertical',
+                                toggleGroup: 'textbox',
+                                value: 'textRectVertical',
+                                iconClsForMainBtn: 'btn-text-vertical'
+                            },
+                        ]
+                    }));
+                    button.on('click', function (btn, e) {
+                        me.fireEvent('insert:text-btn', [btn, e]);
+                    });
+                    button.menu.on('item:click', function(btn, e) {
+                        button.toggle(true);
+                        me.fireEvent('insert:text-menu', [button, e]);
                     });
                 });
 
@@ -1936,6 +1963,8 @@ define([
             mniImageFromUrl: 'Image from url',
             mniCustomTable: 'Insert Custom Table',
             tipInsertHyperlink: 'Add Hyperlink',
+            tipInsertHorizontalText: 'Insert horizontal text box',
+            tipInsertVerticalText: 'Insert vertical text box',
             tipInsertText: 'Insert Text',
             tipInsertTextArt: 'Insert Text Art',
             tipInsertShape: 'Insert Autoshape',
