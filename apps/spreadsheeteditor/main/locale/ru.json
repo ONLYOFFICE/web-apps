@@ -3566,6 +3566,8 @@
   "SSE.Views.Toolbar.tipInsertSpark": "Вставить спарклайн",
   "SSE.Views.Toolbar.tipInsertSymbol": "Вставить символ",
   "SSE.Views.Toolbar.tipInsertTable": "Вставить таблицу",
+  "SSE.Views.Toolbar.tipInsertHorizontalText": "Вставить горизонтальную надпись",
+  "SSE.Views.Toolbar.tipInsertVerticalText": "Вставить вертикальную надпись",
   "SSE.Views.Toolbar.tipInsertText": "Вставить надпись",
   "SSE.Views.Toolbar.tipInsertTextart": "Вставить объект Text Art",
   "SSE.Views.Toolbar.tipMerge": "Объединить и поместить в центре",

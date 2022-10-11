@@ -2299,6 +2299,8 @@
   "PE.Views.Toolbar.tipInsertShape": "Вставить автофигуру",
   "PE.Views.Toolbar.tipInsertSymbol": "Вставить символ",
   "PE.Views.Toolbar.tipInsertTable": "Вставить таблицу",
+  "PE.Views.Toolbar.tipInsertHorizontalText": "Вставить горизонтальную надпись",
+  "PE.Views.Toolbar.tipInsertVerticalText": "Вставить вертикальную надпись",
   "PE.Views.Toolbar.tipInsertText": "Вставить надпись",
   "PE.Views.Toolbar.tipInsertTextArt": "Вставить объект Text Art",
   "PE.Views.Toolbar.tipInsertVideo": "Вставить видео",

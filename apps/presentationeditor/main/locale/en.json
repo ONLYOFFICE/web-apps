@@ -2298,6 +2298,8 @@
   "PE.Views.Toolbar.tipInsertImage": "Insert image",
   "PE.Views.Toolbar.tipInsertShape": "Insert autoshape",
   "PE.Views.Toolbar.tipInsertSymbol": "Insert symbol",
+  "PE.Views.Toolbar.tipInsertHorizontalText": "Insert horizontal text box",
+  "PE.Views.Toolbar.tipInsertVerticalText": "Insert vertical text box",
   "PE.Views.Toolbar.tipInsertTable": "Insert table",
   "PE.Views.Toolbar.tipInsertText": "Insert text box",
   "PE.Views.Toolbar.tipInsertTextArt": "Insert Text Art",
