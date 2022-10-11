@@ -174,6 +174,12 @@ define([
                                 '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
+                        '<tr>',
+                            '<td colspan="2" style="width: 100%;">',
+                                '<label class="input-label">' + this.txtNumFormatString + '</label>',
+                                '<div id="id-dlg-numbering-format-str" style="width: 100%;height:22px;margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
                     '</table>',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
@@ -780,9 +786,7 @@ define([
             if (!levelProps) return;
 
             this.cmbAlign.setValue((levelProps.get_Align()!==undefined) ? levelProps.get_Align() : '');
-            this.spnStart.setValue(levelProps.get_Start(), true);
             var format = levelProps.get_Format(),
-                textPr = levelProps.get_TextPr(),
                 text = levelProps.get_Text();
             if (text && format == Asc.c_oAscNumberingFormat.Bullet) {
                 this.bulletProps.symbol = text[0].get_Value();
@@ -824,11 +828,6 @@ define([
             }
             this.btnColor.setColor(color);
 
-            this.spnAlign.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()), true);
-            this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);
-            this.cmbFollow.setValue(levelProps.get_Suff());
-            this.chRestart.setValue(levelProps.get_Restart()===-1);
-
             if (this.type>0) {
                 if (format == Asc.c_oAscNumberingFormat.Bullet) {
                     if (!this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
@@ -839,13 +838,19 @@ define([
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
             }
             if (this.type===1) {
-
+                this.makeFormatStr(levelProps);
             } else if (this.type===2) {
+                this.spnStart.setValue(levelProps.get_Start(), true);
+                this.spnAlign.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()), true);
+                this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);
+                this.cmbFollow.setValue(levelProps.get_Suff());
+                this.chRestart.setValue(levelProps.get_Restart()===-1);
+
                 this.txtNumFormat.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.spnStart.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                this.cmbFonts.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                this.btnBold.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                this.btnItalic.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                // this.cmbFonts.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                // this.btnBold.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
+                // this.btnItalic.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.chRestart.setDisabled(this.level===0);
 
                 var arr = [];
