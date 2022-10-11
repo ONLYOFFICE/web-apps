@@ -2113,7 +2113,7 @@ define([
                         } else {
                             if ( Common.Controllers.Desktop.isActive() ) {
                                 if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
-                                    me.usedHelpCenter = true;
+                                    me.noHelpContents = true;
                                     me.iFrame.src = '../../common/main/resources/help/download.html';
                                 } else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
