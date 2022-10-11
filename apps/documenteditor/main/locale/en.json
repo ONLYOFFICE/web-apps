@@ -2164,7 +2164,7 @@
   "DE.Views.ListSettingsDialog.txtAlign": "Alignment",
   "DE.Views.ListSettingsDialog.txtBullet": "Bullet",
   "DE.Views.ListSettingsDialog.txtColor": "Color",
-  "DE.Views.ListSettingsDialog.txtFont": "Font and Symbol",
+  "del_DE.Views.ListSettingsDialog.txtFont": "Font and Symbol",
   "DE.Views.ListSettingsDialog.txtLikeText": "Like a text",
   "DE.Views.ListSettingsDialog.txtNewBullet": "New bullet",
   "DE.Views.ListSettingsDialog.txtNone": "None",

@@ -139,13 +139,8 @@ define([
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td style="padding-right: 5px;">',
-                            '<% if (type == 0) { %>',
-                            '<label class="input-label">' + this.txtBullet + '</label>',
-                            '<button type="button" class="btn btn-text-default" id="id-dlg-bullet-font" style="width: 100%;margin-bottom: 10px;">' + this.txtFont + '</button>',
-                            '<% } else { %>',
-                            '<label class="input-label">' + this.txtType + '</label>',
-                            '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
-                            '<% } %>',
+                                '<label class="input-label">' + this.txtType + '</label>',
+                                '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td style="padding-left: 5px;">',
                                 '<label class="input-label">' + this.txtAlign + '</label>',
@@ -155,7 +150,7 @@ define([
                         '<tr>',
                             '<td colspan="2">',
                                 '<label class="input-label" style="display: block;">' + this.txtSize + '</label>',
-                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 120px;display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 129px;display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-bold" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-italic" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-bullet-color" style="display: inline-block;margin-left: 4px;margin-bottom: 10px;vertical-align: middle;"></div>',
@@ -266,11 +261,6 @@ define([
             this.btnColor.menu.items[1].on('toggle', _.bind(this.onAutoColor, this));
             this.colors = this.btnColor.getPicker();
 
-            this.btnEdit = new Common.UI.Button({
-                el: $window.find('#id-dlg-bullet-font')
-            });
-            this.btnEdit.on('click', _.bind(this.onEditBullet, this));
-
             var itemsTemplate =
                 [
                     '<% _.each(items, function(item) { %>',
@@ -288,7 +278,7 @@ define([
                     '</ul>',
                 '</div>'
             ]);
-            var items = [
+            this._arrNumbers = [
                 { displayValue: this.txtNone,       value: Asc.c_oAscNumberingFormat.None },
                 { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
                 { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
@@ -297,11 +287,22 @@ define([
                 { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
             ];
             if (Common.Locale.getDefaultLanguage() === 'ru') {
-                items = items.concat([
+                this._arrNumbers = this._arrNumbers.concat([
                     { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower },
                     { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper }
                 ]);
             }
+            this._arrBullets = [
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "·", font: 'Symbol' },
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "o", font: 'Courier New' },
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "§", font: 'Wingdings' },
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "v", font: 'Wingdings' },
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "Ø", font: 'Wingdings' },
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "ü", font: 'Wingdings' },
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "¨", font: 'Symbol' },
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "–", font: 'Arial' },
+                { displayValue: this.txtNewBullet, value: -1 }
+            ];
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 220px;',
@@ -310,7 +311,7 @@ define([
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 takeFocusOnClose: true,
-                data        : items,
+                data        : this.type==0 ? this._arrBullets : this._arrNumbers,
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
@@ -598,11 +599,11 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.btnEdit, this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnColor, this.levelsList];
+            return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnColor, this.levelsList];
         },
 
         getDefaultFocusableComponent: function () {
-            return this.type > 0 ? this.cmbFormat : this.cmbAlign;
+            return this.cmbFormat;
         },
 
         onAnimateAfter: function() {
@@ -754,17 +755,7 @@ define([
 
                 if (this.type==2) {
                     var store = this.cmbFormat.store;
-                    store.push([
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "·", font: 'Symbol' },
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "o", font: 'Courier New' },
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "§", font: 'Wingdings' },
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "v", font: 'Wingdings' },
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "Ø", font: 'Wingdings' },
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "ü", font: 'Wingdings' },
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "¨", font: 'Symbol' },
-                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "–", font: 'Arial' },
-                            { displayValue: this.txtNewBullet, value: -1 }
-                            ]);
+                    store.push(this._arrBullets);
                     this.cmbFormat.setData(store.models);
                     this.levelsList.selectByIndex(this.level);
                 } else
@@ -829,15 +820,14 @@ define([
             }
             this.btnColor.setColor(color);
 
-            if (this.type>0) {
-                if (format == Asc.c_oAscNumberingFormat.Bullet) {
-                    if (!this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
-                        this.cmbFormat.store.add({ displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbFormat.store.length-1});
-                    this.cmbFormat.setData(this.cmbFormat.store.models);
-                    this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
-                } else
-                    this.cmbFormat.setValue((format!==undefined) ? format : '');
-            }
+            if (format == Asc.c_oAscNumberingFormat.Bullet) {
+                if (!this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
+                    this.cmbFormat.store.add({ displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbFormat.store.length-1});
+                this.cmbFormat.setData(this.cmbFormat.store.models);
+                this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+            } else
+                this.cmbFormat.setValue((format!==undefined) ? format : '');
+
             if (this.type===1) {
                 this.makeFormatStr(levelProps);
             } else if (this.type===2) {
@@ -1071,7 +1061,6 @@ define([
         txtSize: 'Size',
         txtColor: 'Color',
         txtBullet: 'Bullet',
-        txtFont: 'Font and Symbol',
         txtAlign: 'Alignment',
         textLeft: 'Left',
         textCenter: 'Center',
