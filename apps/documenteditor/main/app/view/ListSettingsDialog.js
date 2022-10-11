@@ -216,7 +216,7 @@ define([
             this.level = options.level || 0;
             this.api = options.api;
             this.fontStore = options.fontStore;
-            this.fontName = 'Arial';
+            this.fontName = '';
             this.options.tpl = _.template(this.template)(this.options);
             this.levels = [];
             this.formatString = {
@@ -333,9 +333,9 @@ define([
                                     store.add({ displayValue: me.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font }, {at: store.length-1});
                                 combo.setData(store.models);
                                 combo.selectRecord(combo.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font}));
-                                me.makeFormatStr(me._changedProps);
                             } else
                                 combo.setValue(format || '');
+                            me.fillLevelProps(me.levels[me.level]);
                         };
                         this.addNewBullet(callback);
                     } else {
@@ -362,7 +362,7 @@ define([
                                 this._changedProps.get_Text().splice(selectionStart, 0, new Asc.CAscNumberingLvlText(Asc.c_oAscNumberingLvlTextType.Num, this.level));
                             }
                         }
-                        this.makeFormatStr(this._changedProps);
+                        this.fillLevelProps(this.levels[this.level]);
                     }
                 }
                 if (this.api) {
@@ -799,7 +799,8 @@ define([
                 var rec = this.cmbFonts.store.findWhere({name: font});
                 this.fontName = (rec) ? rec.get('name') : font;
                 this.cmbFonts.setValue(this.fontName);
-            }
+            } else
+                this.cmbFonts.setValue('');
             this.bulletProps.font = font;
 
             this.btnBold.toggle(levelProps.get_Bold() === true, true);
