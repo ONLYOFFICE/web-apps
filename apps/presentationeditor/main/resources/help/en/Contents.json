@@ -25,6 +25,7 @@
     {"src": "UsageInstructions/InsertTables.htm", "name": "Insert and format tables" },
     {"src": "UsageInstructions/SupportSmartArt.htm", "name": "Support of SmartArt" },
     {"src": "UsageInstructions/AddingAnimations.htm", "name": "Adding animations" },
+    {"src": "UsageInstructions/MotionPath.htm", "name": "Creating a motion path animation" },
     {"src": "UsageInstructions/InsertSymbols.htm", "name": "Insert symbols and characters" },
     {"src": "UsageInstructions/FillObjectsSelectColor.htm", "name": "Fill objects and select colors"},
     {"src": "UsageInstructions/ManipulateObjects.htm", "name": "Manipulate objects on a slide"},

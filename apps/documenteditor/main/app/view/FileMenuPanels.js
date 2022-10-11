@@ -410,7 +410,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            Common.Utils.isIE && this.chUseAltKey.$el.parent().parent().hide();
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
@@ -791,7 +791,7 @@ define([
         updateSettings: function() {
             this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
 
-            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-use-alt-key"));
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-show-alt-hints"));
 
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
@@ -875,8 +875,8 @@ define([
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("de-settings-use-alt-key", Common.localStorage.getBool("de-settings-use-alt-key"));
+            Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
 
@@ -1009,7 +1009,7 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
         strShowComments: 'Show comments in text',
         strShowResolvedComments: 'Show resolved comments',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',

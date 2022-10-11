@@ -451,7 +451,6 @@
   "Common.Views.SignDialog.tipFontName": "Տառատեսակի անուն",
   "Common.Views.SignDialog.tipFontSize": "Տառատեսակի չափ",
   "Common.Views.SignSettingsDialog.textAllowComment": "Թույլ տալ ստորագրողին հավելել մեկնաբանություն ստորագրության պատուհանում",
-  "Common.Views.SignSettingsDialog.textInfo": "Ստորագրողի տեղեկություն",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Էլ․ հասցե",
   "Common.Views.SignSettingsDialog.textInfoName": "Անուն",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Ստորագրողի անվանումը",

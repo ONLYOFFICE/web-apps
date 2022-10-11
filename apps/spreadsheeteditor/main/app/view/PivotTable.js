@@ -119,7 +119,11 @@ define([
             });
 
             this.btnRefreshPivot.on('click', function (e) {
-                me.fireEvent('pivottable:refresh');
+                me.fireEvent('pivottable:refresh', ['current']);
+            });
+
+            this.btnRefreshPivot.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('pivottable:refresh', [item.value]);
             });
 
             this.btnSelectPivot.on('click', function (e) {
@@ -254,6 +258,7 @@ define([
                     iconCls: 'toolbar__icon btn-update',
                     caption: this.txtRefresh,
                     disabled    : true,
+                    split       : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -333,7 +338,6 @@ define([
                     me.btnsAddPivot.forEach( function(btn) {
                         btn.updateHint(me.tipCreatePivot);
                     });
-                    me.btnRefreshPivot.updateHint(me.tipRefresh);
                     me.btnSelectPivot.updateHint(me.tipSelect);
                     me.btnPivotLayout.updateHint(me.capLayout);
                     me.btnPivotLayout.setMenu(new Common.UI.Menu({
@@ -373,6 +377,14 @@ define([
                             { caption: me.mniOnColumnsTotals, value: 3 }
                         ]
                     }));
+
+                    me.btnRefreshPivot.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.txtRefresh,       value: 'current'},
+                            { caption: me.txtRefreshAll,    value: 'all'}
+                        ]
+                    }));
+                    me.btnRefreshPivot.updateHint([me.tipRefreshCurrent, me.tipRefresh]);
 
                     setEvents.call(me);
                 });
@@ -443,6 +455,8 @@ define([
             mniBottomSubtotals: 'Show all Subtotals at Bottom of Group',
             mniTopSubtotals: 'Show all Subtotals at Top of Group',
             txtRefresh: 'Refresh',
+            txtRefreshAll: 'Refresh All',
+            tipRefreshCurrent: 'Update the information from data source for the current table',
             tipRefresh: 'Update the information from data source',
             tipGrandTotals: 'Show or hide grand totals',
             tipSubtotals: 'Show or hide subtotals',

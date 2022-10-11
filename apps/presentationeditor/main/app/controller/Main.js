@@ -852,8 +852,8 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                value = Common.localStorage.getBool("pe-settings-use-alt-key", true);
-                Common.Utils.InternalSettings.set("pe-settings-use-alt-key", value);
+                value = Common.localStorage.getBool("pe-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
                 me._state.fastCoauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");

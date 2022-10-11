@@ -59,6 +59,9 @@
     "textTable": "Tabel",
     "textTableSize": "Ukuran Tabel",
     "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
       "textUnderline": "Garis bawah",
       "textUsers": "Pengguna",
-      "textWidow": "Kontrol widow"
+      "textWidow": "Kontrol widow",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Tanpa Isi"
@@ -198,6 +202,7 @@
     "textNumberingValue": "Penomoran Nilai",
     "textOk": "OK",
     "textRows": "Baris",
+    "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
@@ -298,8 +303,6 @@
     "textPictureFromURL": "Gambar dari URL",
     "textPt": "pt",
     "textRemoveChart": "Hilangkan Grafik",
-    "textRemoveImage": "Hilangkan Gambar",
-    "textRemoveLink": "Hilangkan Link",
     "textRemoveShape": "Hilangkan Bentuk",
     "textRemoveTable": "Hilangkan Tabel",
     "textReorder": "Reorder",
@@ -340,9 +343,12 @@
     "textAmountOfLevels": "Amount of Levels",
     "textCancel": "Cancel",
     "textCentered": "Centered",
+    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
     "textDone": "Done",
     "textEnterTitleNewStyle": "Enter title of a new style",
@@ -354,10 +360,12 @@
     "textOnline": "Online",
     "textPageNumbers": "Page Numbers",
     "textParagraphStyle": "Paragraph Style",
+    "textRecommended": "Recommended",
     "textRefresh": "Refresh",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRemoveTableContent": "Remove table of contents",
+    "textRequired": "Required",
     "textRightAlign": "Right Align",
     "textSameCreatedNewStyle": "Same as created new style",
     "textSimple": "Simple",
@@ -365,7 +373,10 @@
     "textStructure": "Structure",
     "textStyles": "Styles",
     "textTableOfCont": "TOC",
-    "textTitle": "Title"
+    "textTextWrapping": "Text Wrapping",
+    "textTitle": "Title",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -406,6 +417,7 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field."

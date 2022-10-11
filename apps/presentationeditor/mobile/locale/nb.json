@@ -32,7 +32,8 @@
       "textResolve": "Resolve",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
       "textUsers": "Users",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Don't show again",
     "textRows": "Rows",
     "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -169,7 +171,8 @@
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
     "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator."
+    "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -245,7 +248,10 @@
       "textTable": "Table",
       "textTableSize": "Table Size",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -397,7 +403,15 @@
       "textTransitions": "Transitions",
       "textDesign": "Design",
       "textAutomatic": "Automatic",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

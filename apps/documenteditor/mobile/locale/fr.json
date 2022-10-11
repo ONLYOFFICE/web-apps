@@ -61,7 +61,10 @@
     "textTableSize": "Taille du tableau",
     "textWithBlueLinks": "Avec les liens bleus",
     "textWithPageNumbers": "Avec les numéros de page",
-    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
+    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUnderline": "Souligné",
       "textUsers": "Utilisateurs",
-      "textWidow": "Contrôle des veuves"
+      "textWidow": "Contrôle des veuves",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Pas de remplissage"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "Actualiser le tableau entier",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
     "textRows": "Lignes",
-    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
+    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertissement",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Actualiser le tableau entier",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
     "textRemoveChart": "Supprimer le graphique",
-    "textRemoveImage": "Supprimer l'image",
-    "textRemoveLink": "Supprimer le lien",
     "textRemoveShape": "Supprimer la forme",
     "textRemoveTable": "Supprimer le tableau",
     "textRemoveTableContent": "Supprimer la table des matières",
@@ -365,7 +368,15 @@
     "textTu": "mar.",
     "textType": "Type",
     "textWe": "mer.",
-    "textWrap": "Renvoi à la ligne"
+    "textWrap": "Renvoi à la ligne",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -408,7 +419,8 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",

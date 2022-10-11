@@ -32,7 +32,8 @@
       "textReopen": "Buka lagi",
       "textResolve": "Selesaikan",
       "textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
-      "textUsers": "Pengguna"
+      "textUsers": "Pengguna",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Tidak ada Isian"
@@ -60,6 +61,7 @@
     "textCopyCutPasteActions": "Salin, Potong dan Tempel",
     "textDoNotShowAgain": "Jangan tampilkan lagi",
     "textRows": "Baris",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -169,7 +171,8 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -245,7 +248,10 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”"
+      "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -351,11 +357,8 @@
       "textPt": "pt",
       "textPush": "Tekan",
       "textRemoveChart": "Hilangkan Grafik",
-      "textRemoveImage": "Hilangkan Gambar",
-      "textRemoveLink": "Hilangkan Link",
       "textRemoveShape": "Hilangkan Bentuk",
       "textRemoveTable": "Hilangkan Tabel",
-      "textReorder": "Reorder",
       "textReplace": "Ganti",
       "textReplaceAll": "Ganti Semua",
       "textReplaceImage": "Ganti Gambar",
@@ -396,7 +399,15 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi"
+      "textZoomRotate": "Zoom dan Rotasi",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

@@ -32,7 +32,8 @@
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs"
+      "textUsers": "Utilisateurs",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
     "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?",
-    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
+    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,8 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
@@ -370,7 +375,9 @@
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "txtYes": "Oui"
+      "txtYes": "Oui",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -504,10 +511,7 @@
       "textPt": "pt",
       "textRange": "Plage",
       "textRemoveChart": "Supprimer le graphique",
-      "textRemoveImage": "Supprimer l'image",
-      "textRemoveLink": "Supprimer le lien",
       "textRemoveShape": "Supprimer la forme",
-      "textReorder": "Réorganiser",
       "textReplace": "Remplacer",
       "textReplaceImage": "Remplacer l’image",
       "textRequired": "Requis",
@@ -552,7 +556,14 @@
       "textYen": "Yen",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSortHigh2Low": "Trier du plus élevé au plus bas",
-      "txtSortLow2High": "Trier le plus bas au plus élevé"
+      "txtSortLow2High": "Trier le plus bas au plus élevé",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Choisir les options CSV",

@@ -400,7 +400,6 @@
   "Common.Views.SignDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
   "Common.Views.SignDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
   "Common.Views.SignSettingsDialog.textAllowComment": "ອະນຸຍາດໃຫ້ເພີ່ມຜູ້ລົງນາມ",
-  "Common.Views.SignSettingsDialog.textInfo": "ຂໍ້ມູນຜູ້ລົງນາມ",
   "Common.Views.SignSettingsDialog.textInfoEmail": "ອິເມວ",
   "Common.Views.SignSettingsDialog.textInfoName": "ຊື່",
   "Common.Views.SignSettingsDialog.textInfoTitle": "ຊື່ຜູ້ລົງນາມ",

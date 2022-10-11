@@ -359,7 +359,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            Common.Utils.isIE && this.chUseAltKey.$el.parent().parent().hide();
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
@@ -628,7 +628,7 @@ define([
 
             this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
 
-            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pe-settings-use-alt-key"));
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pe-settings-show-alt-hints"));
 
             var value = Common.Utils.InternalSettings.get("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
@@ -692,8 +692,8 @@ define([
                 Common.localStorage.setBool("pe-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
             }
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pe-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-use-alt-key", Common.localStorage.getBool("pe-settings-use-alt-key"));
+            Common.localStorage.setItem("pe-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", Common.localStorage.getBool("pe-settings-show-alt-hints"));
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
             /** coauthoring begin **/
@@ -788,7 +788,7 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
