@@ -260,6 +260,9 @@ define([
                 this.api.asc_addVerticalGuide();
             else
                 this.api.asc_addHorizontalGuide();
+
+            !this.api.asc_getShowGuides() && this.onGuidesShow(true);
+
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
