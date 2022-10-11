@@ -248,6 +248,8 @@
   "Common.define.effectData.textWipe": "Wipe",
   "Common.define.effectData.textZigzag": "Zigzag",
   "Common.define.effectData.textZoom": "Zoom",
+  "Common.define.gridlineData.txtCm": "cm",
+  "Common.define.gridlineData.txtPt": "pt",
   "Common.Translation.textMoreButton": "More",
   "Common.Translation.warnFileLocked": "The file is being edited in another app. You can continue editing and save it as a copy.",
   "Common.Translation.warnFileLockedBtnEdit": "Create a copy",

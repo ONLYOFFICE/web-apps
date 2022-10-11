@@ -248,6 +248,8 @@
   "Common.define.effectData.textWipe": "Появление",
   "Common.define.effectData.textZigzag": "Зигзаг",
   "Common.define.effectData.textZoom": "Масштабирование",
+  "Common.define.gridlineData.txtCm": "см",
+  "Common.define.gridlineData.txtPt": "пт",
   "Common.Translation.textMoreButton": "Ещё",
   "Common.Translation.warnFileLocked": "Файл редактируется в другом приложении. Вы можете продолжить редактирование и сохранить его как копию.",
   "Common.Translation.warnFileLockedBtnEdit": "Создать копию",
