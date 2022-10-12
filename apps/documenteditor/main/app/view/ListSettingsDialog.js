@@ -330,15 +330,6 @@ define([
                 if (this._changedProps) {
                     if (record.value == -1) {
                         var callback = function(result) {
-                            var format = me._changedProps.get_Format();
-                            if (format == Asc.c_oAscNumberingFormat.Bullet) {
-                                var store = combo.store;
-                                if (!store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font}))
-                                    store.add({ displayValue: me.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font }, {at: store.length-1});
-                                combo.setData(store.models);
-                                combo.selectRecord(combo.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font}));
-                            } else
-                                combo.setValue(format || '');
                             me.fillLevelProps(me.levels[me.level]);
                         };
                         this.addNewBullet(callback);
@@ -346,7 +337,7 @@ define([
                         var oldformat = this._changedProps.get_Format();
                         this._changedProps.put_Format(record.value);
                         if (record.value == Asc.c_oAscNumberingFormat.Bullet) {
-                            this.bulletProps.font = record.font;
+                            this.bulletProps.font = record.font ? record.font : undefined;
                             this.bulletProps.symbol = record.symbol;
                             this._changedProps.put_FontFamily(this.bulletProps.font);
 
@@ -685,10 +676,6 @@ define([
             }
         },
 
-        onEditBullet: function(callback) {
-            this.addNewBullet();
-        },
-
         addNewBullet: function(callback) {
             var me = this,
                 props = me.bulletProps,
@@ -754,10 +741,6 @@ define([
                 this.levels[this.level] = levelProps || new Asc.CAscNumberingLvl(this.level);
 
                 if (this.type==2) {
-                    // var store = this.cmbFormat.store;
-                    // store.push(this._arrBullets);
-                    // store.push(this._itemNewBullet);
-                    // this.cmbFormat.setData(store.models);
                     this.levelsList.selectByIndex(this.level);
                 } else
                     this.fillLevelProps(this.levels[this.level]);
@@ -828,7 +811,7 @@ define([
                 this.makeFormatStr(levelProps);
             } else {
                 if (format == Asc.c_oAscNumberingFormat.Bullet || this.cmbFormat.store.length<1) {
-                    this.checkRecent(this.bulletProps.symbol, this.bulletProps.font);
+                    (format == Asc.c_oAscNumberingFormat.Bullet) && this.checkRecent(this.bulletProps.symbol, this.bulletProps.font);
                     var store = (this.type===2) ? [this._itemNoneBullet].concat(this._arrNumbers) : [];
                     store = store.concat(this._arrBullets);
                     this.recentBullets.forEach(function(item) {
@@ -838,7 +821,7 @@ define([
                     this.cmbFormat.setData(store);
                 }
                 if (format == Asc.c_oAscNumberingFormat.Bullet)
-                    this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                    this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font || ''}));
                 else
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
             }
@@ -890,6 +873,10 @@ define([
                             arr[num].end = formatStr.length;
                         }
                     });
+                    this.txtNumFormat.$el.find('input').css('font-family', 'inherit');
+                } else {
+                    formatStr = this.bulletProps.symbol;
+                    this.txtNumFormat.$el.find('input').css('font-family', this.bulletProps.font || 'inherit');
                 }
             }
             this.formatString.text = formatStr;
@@ -1042,7 +1029,10 @@ define([
 
         onFontName: function(combo, record) {
             if (this._changedProps) {
-                this._changedProps.put_FontFamily(record.name);
+                this._changedProps.put_FontFamily(record.name ? record.name : undefined);
+                if (this._changedProps.get_Format() === Asc.c_oAscNumberingFormat.Bullet) {
+                    this.fillLevelProps(this._changedProps);
+                }
             }
             if (this.api) {
                 this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
@@ -1074,6 +1064,12 @@ define([
             }
             if(_.isArray(sRecents)){
                 this.recentBullets = sRecents;
+                for (var i = 0; i < this.recentBullets.length; ++i){
+                    if(!this.recentBullets[i].symbol){
+                        this.recentBullets.splice(i, 1);
+                        i--;
+                    }
+                }
             }
         },
 
@@ -1083,6 +1079,9 @@ define([
         },
 
         checkRecent: function(sSymbol, sFont){
+            if (!sSymbol) return;
+            sFont = sFont || '';
+
             for(var i = 0; i < this._arrBullets.length; ++i){
                 if(this._arrBullets[i].symbol === sSymbol && this._arrBullets[i].font === sFont){
                     return;
@@ -1093,7 +1092,7 @@ define([
                 this.saveRecent();
                 return;
             }
-            for(var i = 0; i < this.recentBullets.length; ++i){
+            for (var i = 0; i < this.recentBullets.length; ++i){
                 if(this.recentBullets[i].symbol === sSymbol && this.recentBullets[i].font === sFont){
                     this.recentBullets.splice(i, 1);
                     break;
