@@ -135,7 +135,9 @@ define([
                     'duplicate:check'   : this.onDuplicateCheck.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
-                    'add:chart'         : this.onSelectChart
+                    'add:chart'         : this.onSelectChart,
+                    'generate:smartart' : this.generateSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -405,6 +407,8 @@ define([
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
                 this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -2684,6 +2688,43 @@ define([
             if (this._state.can_copycut !== can) {
                 this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
                 this._state.can_copycut = can;
+            }
+        },
+
+        generateSmartArt: function (groupName) {
+            this.api.asc_generateSmartArtPreviews(groupName);
+        },
+
+        onApiBeginSmartArtPreview: function () {
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtData = Common.define.smartArt.getSmartArtData();
+        },
+
+        onApiAddSmartArtPreview: function (previews) {
+            previews.forEach(_.bind(function (preview) {
+                var image = preview.asc_getImage(),
+                    sectionId = preview.asc_getSectionId(),
+                    section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
+                    item = _.findWhere(section.items, {type: image.asc_getName()}),
+                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}).menuPicker;
+                if (item) {
+                    var arr = [{
+                        tip: item.tip,
+                        value: item.type,
+                        imageUrl: image.asc_getImage()
+                    }];
+                    if (menu.store.length < 1) {
+                        menu.store.reset(arr);
+                    } else {
+                        menu.store.add(arr);
+                    }
+                }
+            }, this));
+        },
+
+        onInsertSmartArt: function (value) {
+            if (this.api) {
+                this.api.asc_createSmartArt(value);
             }
         },
 

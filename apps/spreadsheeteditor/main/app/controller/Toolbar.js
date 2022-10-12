@@ -85,7 +85,9 @@ define([
                     'insert:textart': this.onInsertTextart,
                     'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
                     'click:customscale': this.onScaleClick.bind(me),
-                    'home:open'        : this.onHomeOpen
+                    'home:open'        : this.onHomeOpen,
+                    'generate:smartart' : this.generateSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -488,6 +490,8 @@ define([
                 this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
             } else if (config.isEditOle) {
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (config.isRestrictedEdit) {
@@ -4713,6 +4717,43 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Vertical align');
+        },
+
+        generateSmartArt: function (groupName) {
+            this.api.asc_generateSmartArtPreviews(groupName);
+        },
+
+        onApiBeginSmartArtPreview: function () {
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtData = Common.define.smartArt.getSmartArtData();
+        },
+
+        onApiAddSmartArtPreview: function (previews) {
+            previews.forEach(_.bind(function (preview) {
+                var image = preview.asc_getImage(),
+                    sectionId = preview.asc_getSectionId(),
+                    section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
+                    item = _.findWhere(section.items, {type: image.asc_getName()}),
+                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}).menuPicker;
+                if (item) {
+                    var arr = [{
+                        tip: item.tip,
+                        value: item.type,
+                        imageUrl: image.asc_getImage()
+                    }];
+                    if (menu.store.length < 1) {
+                        menu.store.reset(arr);
+                    } else {
+                        menu.store.add(arr);
+                    }
+                }
+            }, this));
+        },
+
+        onInsertSmartArt: function (value) {
+            if (this.api) {
+                this.api.asc_createSmartArt(value);
+            }
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
