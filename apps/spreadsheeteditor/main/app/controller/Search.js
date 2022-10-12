@@ -367,6 +367,7 @@ define([
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
+            if (!this.resultItems) return;
             var me = this;
             arr.forEach(function (id) {
                 var ind = _.findIndex(me.resultItems, {id: id});
