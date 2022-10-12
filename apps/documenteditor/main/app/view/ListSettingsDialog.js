@@ -50,6 +50,7 @@ define([
     'common/main/lib/component/ComboBox',
     'common/main/lib/view/SymbolTableDialog'
 ], function () { 'use strict';
+    var nMaxRecent = 5;
 
     DE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -221,6 +222,7 @@ define([
                 lvlIndexes: []
             };
             this.spinners = [];
+            this.recentBullets = [];
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -279,7 +281,6 @@ define([
                 '</div>'
             ]);
             this._arrNumbers = [
-                { displayValue: this.txtNone,       value: Asc.c_oAscNumberingFormat.None },
                 { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
                 { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
                 { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
@@ -300,18 +301,20 @@ define([
                 { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "Ø", font: 'Wingdings' },
                 { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "ü", font: 'Wingdings' },
                 { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "¨", font: 'Symbol' },
-                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "–", font: 'Arial' },
-                { displayValue: this.txtNewBullet, value: -1 }
+                { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "–", font: 'Arial' }
             ];
+            this._itemNoneBullet = { displayValue: this.txtNone, value: Asc.c_oAscNumberingFormat.None };
+            this._itemNewBullet = { displayValue: this.txtNewBullet, value: -1 };
+            this.loadRecent();
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 220px;',
-                style       : this.type==2 ? "width: 107px;" : "width: 129px;",
+                style       : this.type===2 ? "width: 107px;" : "width: 129px;",
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 takeFocusOnClose: true,
-                data        : this.type==0 ? this._arrBullets : this._arrNumbers,
+                data        : this.type===1 ? [this._itemNoneBullet].concat(this._arrNumbers) : [],
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
@@ -345,14 +348,12 @@ define([
                         if (record.value == Asc.c_oAscNumberingFormat.Bullet) {
                             this.bulletProps.font = record.font;
                             this.bulletProps.symbol = record.symbol;
-                            if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                            this._changedProps.get_TextPr().put_FontFamily(this.bulletProps.font);
+                            this._changedProps.put_FontFamily(this.bulletProps.font);
 
                             this._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             this._changedProps.get_Text()[0].put_Value(this.bulletProps.symbol);
                         } else if (oldformat == Asc.c_oAscNumberingFormat.Bullet) {
-                            if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                            this._changedProps.get_TextPr().put_FontFamily(undefined);
+                            this._changedProps.put_FontFamily(undefined);
 
                             this._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             this._changedProps.get_Text()[0].put_Type(Asc.c_oAscNumberingLvlTextType.Num);
@@ -699,8 +700,7 @@ define([
                         props.symbol = settings.symbol;
                         if (me._changedProps) {
                             me._changedProps.put_Format(Asc.c_oAscNumberingFormat.Bullet);
-                            if (!me._changedProps.get_TextPr()) me._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                            me._changedProps.get_TextPr().put_FontFamily(props.font);
+                            me._changedProps.put_FontFamily(props.font);
 
                             me._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             me._changedProps.get_Text()[0].put_Value(props.symbol);
@@ -754,9 +754,10 @@ define([
                 this.levels[this.level] = levelProps || new Asc.CAscNumberingLvl(this.level);
 
                 if (this.type==2) {
-                    var store = this.cmbFormat.store;
-                    store.push(this._arrBullets);
-                    this.cmbFormat.setData(store.models);
+                    // var store = this.cmbFormat.store;
+                    // store.push(this._arrBullets);
+                    // store.push(this._itemNewBullet);
+                    // this.cmbFormat.setData(store.models);
                     this.levelsList.selectByIndex(this.level);
                 } else
                     this.fillLevelProps(this.levels[this.level]);
@@ -775,6 +776,8 @@ define([
 
         fillLevelProps: function(levelProps) {
             if (!levelProps) return;
+
+            var me = this;
 
             this.cmbAlign.setValue((levelProps.get_Align()!==undefined) ? levelProps.get_Align() : '');
             var format = levelProps.get_Format(),
@@ -820,17 +823,27 @@ define([
             }
             this.btnColor.setColor(color);
 
-            if (format == Asc.c_oAscNumberingFormat.Bullet) {
-                if (!this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
-                    this.cmbFormat.store.add({ displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbFormat.store.length-1});
-                this.cmbFormat.setData(this.cmbFormat.store.models);
-                this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
-            } else
+            if (this.type===1) { // numbers
                 this.cmbFormat.setValue((format!==undefined) ? format : '');
-
-            if (this.type===1) {
                 this.makeFormatStr(levelProps);
-            } else if (this.type===2) {
+            } else {
+                if (format == Asc.c_oAscNumberingFormat.Bullet || this.cmbFormat.store.length<1) {
+                    this.checkRecent(this.bulletProps.symbol, this.bulletProps.font);
+                    var store = (this.type===2) ? [this._itemNoneBullet].concat(this._arrNumbers) : [];
+                    store = store.concat(this._arrBullets);
+                    this.recentBullets.forEach(function(item) {
+                        store.push({ displayValue: me.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: item.symbol, font: item.font });
+                    });
+                    store.push(this._itemNewBullet);
+                    this.cmbFormat.setData(store);
+                }
+                if (format == Asc.c_oAscNumberingFormat.Bullet)
+                    this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                else
+                    this.cmbFormat.setValue((format!==undefined) ? format : '');
+            }
+
+            if (this.type===2) {
                 this.spnStart.setValue(levelProps.get_Start(), true);
                 this.spnAlign.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()), true);
                 this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);
@@ -839,9 +852,6 @@ define([
 
                 this.txtNumFormat.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.spnStart.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                // this.cmbFonts.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                // this.btnBold.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
-                // this.btnItalic.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.chRestart.setDisabled(this.level===0);
 
                 var arr = [];
@@ -1055,6 +1065,45 @@ define([
             if (this.api) {
                 this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
             }
+        },
+
+        loadRecent: function(){
+            var sRecents = Common.localStorage.getItem('de-recent-bullets');
+            if(sRecents !== ''){
+                sRecents = JSON.parse(sRecents);
+            }
+            if(_.isArray(sRecents)){
+                this.recentBullets = sRecents;
+            }
+        },
+
+        saveRecent: function(){
+            var sJSON = JSON.stringify(this.recentBullets);
+            Common.localStorage.setItem('de-recent-bullets', sJSON);
+        },
+
+        checkRecent: function(sSymbol, sFont){
+            for(var i = 0; i < this._arrBullets.length; ++i){
+                if(this._arrBullets[i].symbol === sSymbol && this._arrBullets[i].font === sFont){
+                    return;
+                }
+            }
+            if(this.recentBullets.length === 0){
+                this.recentBullets.push({symbol: sSymbol, font: sFont});
+                this.saveRecent();
+                return;
+            }
+            for(var i = 0; i < this.recentBullets.length; ++i){
+                if(this.recentBullets[i].symbol === sSymbol && this.recentBullets[i].font === sFont){
+                    this.recentBullets.splice(i, 1);
+                    break;
+                }
+            }
+            this.recentBullets.splice(0, 0, {symbol: sSymbol, font: sFont});
+            if(this.recentBullets.length > nMaxRecent){
+                this.recentBullets.splice(nMaxRecent, this.recentBullets.length - nMaxRecent);
+            }
+            this.saveRecent();
         },
 
         txtTitle: 'List Settings',
