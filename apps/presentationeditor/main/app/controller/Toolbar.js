@@ -110,7 +110,8 @@ define([
                 in_chart: false,
                 no_columns: false,
                 clrhighlight: undefined,
-                can_copycut: undefined
+                can_copycut: undefined,
+                needCallApiBullets: undefined
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -524,6 +525,12 @@ define([
         },
 
         onApiBullets: function(v) {
+            if (!(this.toolbar.mnuMarkersPicker && this.toolbar.mnuMarkersPicker.store)) {
+                this._state.needCallApiBullets = v;
+                return;
+            }
+            this._state.needCallApiBullets = undefined;
+
             if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===0x1000) {
                 this._state.bullets.type    = v.get_ListType();
                 this._state.bullets.subtype = v.get_ListSubType();
@@ -2593,6 +2600,7 @@ define([
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
+            this._state.needCallApiBullets && this.onApiBullets(this._state.needCallApiBullets);
         },
 
         onAppShowed: function (config) {
