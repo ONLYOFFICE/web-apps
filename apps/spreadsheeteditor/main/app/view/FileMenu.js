@@ -580,6 +580,8 @@ define([
         },
 
         SetDisabled: function(disable, options) {
+            if (!this.mode) return;
+
             if ( !this.panels ) {
                 this.mode.disableEditing = disable;
             } else {
