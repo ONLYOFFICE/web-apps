@@ -787,7 +787,6 @@ define([
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain,  _set.contentLock,  _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart],
                         caption: me.capBtnInsSmartArt,
-                        enableToggle: true,
                         menu: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -2223,6 +2222,11 @@ define([
 
                 var smartArtData = Common.define.smartArt.getSmartArtData();
                 smartArtData.forEach(function (item, index) {
+                    var length = item.items.length,
+                        width = 399;
+                    if (length < 5) {
+                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                    }
                     me.btnInsertSmartArt.menu.addItem({
                         caption: item.caption,
                         value: item.sectionId,
@@ -2230,7 +2234,7 @@ define([
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: 400px; height: 500px; margin-left: 5px;"></div>')}
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
                         })});
@@ -2251,21 +2255,13 @@ define([
                             ].join('')),
                             store: new Common.UI.DataViewStore(),
                             delayRenderTips: true,
-                            scrollAlwaysVisible: true
+                            scrollAlwaysVisible: true,
+                            showLast: false
                         });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
                             if (record) {
                                 me.fireEvent('insert:smartart', [record.get('value')]);
                             }
-                            me.btnInsertSmartArt.toggle(false, true);
-                            if (me.btnInsertText.pressed) {
-                                me.btnInsertText.toggle(false, true);
-                            }
-                            if (me.btnInsertShape.pressed) {
-                                me.btnInsertShape.toggle(false, true);
-                            }
-                            if (e.type !== 'click')
-                                me.btnInsertSmartArt.menu.hide();
                             Common.NotificationCenter.trigger('edit:complete', me);
                         });
                     });
