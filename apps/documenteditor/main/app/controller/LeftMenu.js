@@ -467,7 +467,7 @@ define([
             Common.Utils.InternalSettings.set("de-settings-livecomment", value);
             var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
-            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
