@@ -433,6 +433,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
             }
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -3191,6 +3192,7 @@ define([
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
+            this.onChangeProtectDocument();
         },
 
         onAppShowed: function (config) {
@@ -3233,13 +3235,24 @@ define([
                     me.toolbar.processPanelVisible(null, true, true);
                 }
 
-                if ( config.isDesktopApp ) {
-                    if ( config.canProtect ) {
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T', layoutname: 'toolbar-protect'};
-                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                // if ( config.isDesktopApp ) {
+                //     if ( config.canProtect ) {
+                //         tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T', layoutname: 'toolbar-protect'};
+                //         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                //
+                //         if ($panel) me.toolbar.addTab(tab, $panel, 6);
+                //     }
+                // }
 
-                        if ($panel) me.toolbar.addTab(tab, $panel, 6);
-                    }
+                tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
+                $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                if ($panel) {
+                    config.canProtect && $panel.append($('<div class="separator long"></div>'));
+                    var doctab = me.getApplication().getController('DocProtection');
+                    $panel.append(doctab.createToolbarPanel());
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
+                    Array.prototype.push.apply(me.toolbar.lockControls, doctab.getView('DocProtection').getButtons());
                 }
 
                 var links = me.getApplication().getController('Links');
@@ -3282,7 +3295,7 @@ define([
                 this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                     Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
-                                    Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode ],
+                                    Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ],
                                  undefined, undefined, undefined, '1', 'bottom');
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
@@ -3348,6 +3361,20 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
             })).show();
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.toolbar.lockToolbar(Common.enumLock.docLockView, props.isReadOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
+                this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
+            }
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
