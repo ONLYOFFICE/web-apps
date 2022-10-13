@@ -99,7 +99,7 @@ define([
                 type: 'password',
                 allowBlank  : true,
                 style       : 'width: 100%;',
-                maxLength: 255,
+                maxLength: 15,
                 validateOnBlur: false,
                 validation  : function(value) {
                     return me.txtIncorrectPwd;
@@ -111,7 +111,7 @@ define([
                 type: 'password',
                 allowBlank  : true,
                 style       : 'width: 100%;',
-                maxLength: 255,
+                maxLength: 15,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
                 showPwdOnClick: true

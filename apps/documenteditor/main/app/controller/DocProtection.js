@@ -147,6 +147,7 @@ define([
                         type: Common.Utils.importTextType.DRM,
                         txtOpenFile: me.view.txtWBUnlockDescription,
                         validatePwd: false,
+                        maxPasswordLength: 15,
                         handler: function (result, value) {
                             btn = result;
                             if (result == 'ok') {
