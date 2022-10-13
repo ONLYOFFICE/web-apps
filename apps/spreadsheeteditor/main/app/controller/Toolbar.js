@@ -492,6 +492,7 @@ define([
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
                 this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
             } else if (config.isEditOle) {
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (config.isRestrictedEdit) {
@@ -4734,20 +4735,28 @@ define([
                     sectionId = preview.asc_getSectionId(),
                     section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
                     item = _.findWhere(section.items, {type: image.asc_getName()}),
-                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}).menuPicker;
+                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}),
+                    menuPicker = menu.menuPicker;
                 if (item) {
                     var arr = [{
                         tip: item.tip,
                         value: item.type,
                         imageUrl: image.asc_getImage()
                     }];
-                    if (menu.store.length < 1) {
-                        menu.store.reset(arr);
+                    if (menuPicker.store.length < 1) {
+                        menuPicker.store.reset(arr);
                     } else {
-                        menu.store.add(arr);
+                        menuPicker.store.add(arr);
                     }
                 }
+                this.currentSmartArtMenu = menu;
             }, this));
+        },
+
+        onApiEndSmartArtPreview: function () {
+            if (this.currentSmartArtMenu) {
+                this.currentSmartArtMenu.menu.alignPosition();
+            }
         },
 
         onInsertSmartArt: function (value) {
