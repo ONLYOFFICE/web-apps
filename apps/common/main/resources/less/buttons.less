@@ -721,13 +721,26 @@
 
 // for color button auto color
 .dropdown-menu {
-    li > a.selected,
-    li > a:hover {
+    li > a {
         span.color-auto {
-            outline: @scaled-one-px-value-ie solid @icon-normal-ie;
-            outline: @scaled-one-px-value solid @icon-normal;
-            border: @scaled-one-px-value-ie solid @background-normal-ie;
-            border: @scaled-one-px-value solid @background-normal;
+            background-image: none;
+            width: 12px;
+            height: 12px;
+            margin: 1px 7px 0 1px;
+
+            .rtl & {
+                margin: 1px 1px 0 7px;
+            }
+        }
+
+        &.selected,
+        &:hover {
+            span.color-auto {
+                outline: @scaled-one-px-value-ie solid @icon-normal-ie;
+                outline: @scaled-one-px-value solid @icon-normal;
+                border: @scaled-one-px-value-ie solid @background-normal-ie;
+                border: @scaled-one-px-value solid @background-normal;
+            }
         }
     }
 }
