@@ -18,6 +18,7 @@
     "build-slide": "cross-env NODE_ENV=development TARGET_EDITOR=slide node ./build/build.js",
     "build-cell": "cross-env NODE_ENV=development TARGET_EDITOR=cell node ./build/build.js"
   },
+  "type": "module",
   "browserslist": [
     "Android >= 7",
     "IOS >= 11",
@@ -28,9 +29,9 @@
   ],
   "dependencies": {
     "dom7": "^3.0.0",
-    "framework7": "^6.0.4",
+    "framework7": "^7.0.8",
     "framework7-icons": "^3.0.1",
-    "framework7-react": "^6.0.4",
+    "framework7-react": "^7.0.8",
     "i18next": "^21.8.9",
     "i18next-fetch-backend": "^5.0.0",
     "postcss": "^8.4.12",
@@ -40,7 +41,8 @@
     "react-i18next": "^11.8.5",
     "react-transition-group": "^4.4.5",
     "swiper": "^8.2.4",
-    "template7": "^1.4.2"
+    "template7": "^1.4.2",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

@@ -1,5 +1,5 @@
 import { Dom7 } from 'framework7'
-import { LocalStorage } from "../../utils/LocalStorage";
+import { LocalStorage } from "../../utils/LocalStorage.mjs";
 
 class ThemesController {
     constructor() {
