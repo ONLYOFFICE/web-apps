@@ -576,6 +576,7 @@ define([
 
         onKeyChanged: function(combo, record) {
             if (this.api && !this._noApply) {
+                this._state.Key = undefined;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_Key(record.value);
