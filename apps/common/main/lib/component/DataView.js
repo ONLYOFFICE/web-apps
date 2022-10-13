@@ -393,8 +393,8 @@ define([
 
             if (suspendEvents)
                 this.suspendEvents();
-
-            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || ! this.currentSelectedRec || this.currentSelectedRec == record) {
+            this.extremeSeletedRec = record;
+            if (!this.multiSelect || ( !this.pressedShift && !this.pressedCtrl) || !this.currentSelectedRec || (this.pressedShift && this.currentSelectedRec == record)) {
                 _.each(this.store.where({selected: true}), function(rec){
                     rec.set({selected: false});
                 });
@@ -752,7 +752,7 @@ define([
                         this.parentMenu.hide();
                 } else {
                     this.pressedCtrl=false;
-                    var idx = (!this.multiSelect)? _.indexOf(this.store.models, rec):_.indexOf(this.store.models, this.lastSelectedRec);
+                    var idx = (!this.multiSelect)? _.indexOf(this.store.models, rec):_.indexOf(this.store.models, this.extremeSeletedRec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
                             var target = $(e.target).closest('.dropdown-submenu.over');
@@ -825,8 +825,6 @@ define([
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
                         this._fromKeyDown = false;
-                        if(this.multiSelect)
-                            this.lastSelectedRec = rec;
                     }
                 }
             } else {

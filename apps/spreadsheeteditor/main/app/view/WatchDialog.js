@@ -191,10 +191,9 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 this.watchList.store.reset(arr);
                 if (this._deletedIndex!==undefined) {
                     var store = this.watchList.store;
-                    var me = this;
                     (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
                     if(this.watchList.options.multiSelect)
-                        _.each(this.watchList.getSelectedRec(),function (rec){me.watchList.scrollToRecord(rec);});
+                        this.watchList.scrollToRecord(this.watchList.getSelectedRec()[0]);
                     else
                         this.watchList.scrollToRecord(this.watchList.getSelectedRec());
                     this._fromKeyDown && this.watchList.focus();
@@ -237,10 +236,12 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
             var rec = this.watchList.getSelectedRec();
             if (rec) {
                 if(this.watchList.options.multiSelect) {
-                    _.each(rec, function (r) {
+                    var props=[];
+                    _.each(rec, function (r, i) {
                         me._deletedIndex = me.watchList.store.indexOf(r);
-                        me.api.asc_deleteCellWatches([r.get('props')]);
+                        props[i] =r.get('props');
                     });
+                    this.api.asc_deleteCellWatches(props);
                 } else {
                     this._deletedIndex = this.watchList.store.indexOf(rec);
                     this.api.asc_deleteCellWatches([rec.get('props')]);
