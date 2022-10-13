@@ -425,6 +425,8 @@ define([
             view.menuParaTOCSettings.on('click', _.bind(me.onParaTOCSettings, me));
             view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuTableListIndents.on('click', _.bind(me.onListIndents, me));
+            view.menuParaListIndents.on('click', _.bind(me.onListIndents, me));
         },
 
         getView: function (name) {
@@ -2306,6 +2308,28 @@ define([
                 else if (item.options.type=='mode')
                     this.api.asc_ConvertMathDisplayMode(item.checked);
             }
+        },
+
+        onListIndents: function(item, e) {
+            if (this.api && !this.api.asc_IsShowListIndentsSettings()) {
+                this.documentHolder.fireEvent('list:settings', [2]); // multilevel list
+                return;
+            }
+
+            var me = this;
+            me.api && (new DE.Views.ListIndentsDialog({
+                api: me.api,
+                props: item.value.props,
+                isBullet: item.value.format === Asc.c_oAscNumberingFormat.Bullet,
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_ChangeNumberingLvl(item.value.listId, value, item.value.level);
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
         },
 
         editComplete: function() {

@@ -175,6 +175,9 @@ define([
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
+                },
+                'DocumentHolder': {
+                    'list:settings': this.onMarkerSettingsClick.bind(this)
                 }
             });
 

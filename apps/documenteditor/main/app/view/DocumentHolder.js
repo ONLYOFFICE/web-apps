@@ -57,7 +57,8 @@ define([
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsAddDialog'
+    'documenteditor/main/app/view/CellsAddDialog',
+    'documenteditor/main/app/view/ListIndentsDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -1122,6 +1123,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuTableListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuNumberingTable = new Common.UI.MenuItem({
                 caption     : me.bulletsText,
                 menu        : new Common.UI.Menu({
@@ -1130,7 +1135,8 @@ define([
                     items   : [
                         me.menuTableStartNewList,
                         me.menuTableStartNumberingFrom,
-                        me.menuTableContinueNumbering
+                        me.menuTableContinueNumbering,
+                        me.menuTableListIndents
                     ]
                 })
             });
@@ -1382,6 +1388,7 @@ define([
                         me.menuTableStartNumberingFrom.value = {format: format, start: start};
                         me.menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuTableListIndents.value = {format: format, props: numLvl};
                     }
 
                     // hyperlink properties
@@ -1930,6 +1937,10 @@ define([
                 caption: me.textContinueNumbering
             });
 
+            me.menuParaListIndents = new Common.UI.MenuItem({
+                caption: me.textIndents
+            });
+
             var menuParaNumberingSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2153,8 +2164,10 @@ define([
                     me.menuParaStartNewList.setVisible(in_list);
                     me.menuParaStartNumberingFrom.setVisible(in_list);
                     me.menuParaContinueNumbering.setVisible(in_list);
+                    me.menuParaListIndents.setVisible(in_list);
                     if (in_list) {
-                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                        var level = me.api.asc_GetCurrentNumberingLvl(),
+                            numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(level),
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
                         me.menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
@@ -2163,6 +2176,7 @@ define([
                         me.menuParaStartNumberingFrom.value = {format: format, start: start};
                         me.menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         me.menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                        me.menuParaListIndents.value = {listId: listId, level: level, format: format, props: numLvl};
                     }
                 },
                 items: [
@@ -2214,6 +2228,7 @@ define([
                     me.menuParaStartNewList,
                     me.menuParaStartNumberingFrom,
                     me.menuParaContinueNumbering,
+                    me.menuParaListIndents,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -3229,7 +3244,8 @@ define([
         currLinearText: 'Current - Linear',
         allProfText: 'All - Professional',
         allLinearText: 'All - Linear',
-        eqToInlineText: 'Change to Inline'
+        eqToInlineText: 'Change to Inline',
+        textIndents: 'Adjust list indents'
 
 }, DE.Views.DocumentHolder || {}));
 });
