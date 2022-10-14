@@ -31,6 +31,11 @@
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     overflow: hidden;
+
+    .rtl & {
+        left: 0;
+        right: 40px;
+    }
 }
 
 .btn-doc-format {
@@ -176,6 +181,11 @@
         padding-left: 260px;
         background-color: @background-normal-ie;
         background-color: @background-normal;
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 260px;
+        }
 
         .content-box {
             height: 100%;
@@ -519,6 +529,19 @@
                 }
             }
         }
+    }
+}
+
+#id-help-frame {
+    position: absolute;
+    left: 220px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .rtl & {
+        left: 0;
+        right: 220px;
     }
 }
 

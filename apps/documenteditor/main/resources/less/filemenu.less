@@ -66,6 +66,11 @@
     background-color: @background-normal-ie;
     background-color: @background-normal;
 
+    .rtl & {
+      padding-left: 0;
+      padding-right: 260px;
+    }
+
     .content-box {
       height: 100%;
       padding: 0 20px;
@@ -80,6 +85,19 @@
       overflow: hidden;
     }
   }
+}
+
+#id-help-frame {
+    position: absolute;
+    left: 220px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .rtl & {
+        left: 0;
+        right: 220px;
+    }
 }
 
 #panel-saveas, #panel-savecopy {
