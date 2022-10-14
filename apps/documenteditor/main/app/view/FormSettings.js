@@ -1469,7 +1469,7 @@ define([
         },
 
         onDisconnect: function() {
-            this.onKeyChanged(this.cmbKey, {value: ""});
+            this.onKeyChanged(this.cmbKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
         },
 
         disableListButtons: function() {
