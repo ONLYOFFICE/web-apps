@@ -1443,7 +1443,7 @@ define([
                 }
             } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
                 imageOnly = true;
-            } else if (type == Asc.c_oAscContentControlSpecificType.None) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.None || type == Asc.c_oAscContentControlSpecificType.Complex) {
                 textOnly = !!textProps;
             }
             this.TextOnlySettings.toggleClass('hidden', !textOnly);
