@@ -778,7 +778,7 @@ define([
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: true, disable: true},
+                    rightMenu: {clear: !temp, disable: true},
                     statusBar: true,
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true, history: temp},
@@ -842,7 +842,7 @@ define([
                     app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
                 }
                 if (options.plugins) {
-                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').SetDisabled(disable, options.reviewMode, options.fillFormMode);
                 }
                 if (options.protect) {
                     app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
@@ -1227,8 +1227,8 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                value = Common.localStorage.getBool("de-settings-use-alt-key", true);
-                Common.Utils.InternalSettings.set("de-settings-use-alt-key", value);
+                value = Common.localStorage.getBool("de-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                Common.Utils.InternalSettings.set("de-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
                 me._state.fastCoauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
@@ -1694,14 +1694,16 @@ define([
                 var toolbarController   = application.getController('Toolbar');
                 toolbarController   && toolbarController.setApi(me.api);
 
-                if (this.appOptions.isEdit) {
+                if (this.appOptions.isRestrictedEdit)
+                    application.getController('DocProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                else if (this.appOptions.isEdit) {
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
                     fontsControllers    && fontsControllers.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
-                    if (this.appOptions.canProtect)
-                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('DocProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
 
@@ -1969,6 +1971,14 @@ define([
 
                     case Asc.c_oAscError.ID.ComplexFieldNoTOC:
                         config.msg = this.errorNoTOC;
+                        break;
+
+                    case Asc.c_oAscError.ID.TextFormWrongFormat:
+                        config.msg = this.errorTextFormWrongFormat;
+                        break;
+
+                    case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                        config.msg = this.errorPasswordIsNotCorrect;
                         break;
 
                     default:
@@ -3252,7 +3262,9 @@ define([
             errorEmptyTOC: 'Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.',
             errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.',
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
-            textRememberMacros: 'Remember my choice for all macros'
+            textRememberMacros: 'Remember my choice for all macros',
+            errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
+            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -61,7 +61,10 @@
     "textTableSize": "Tamaño da táboa",
     "textWithBlueLinks": "Con ligazóns azuis",
     "textWithPageNumbers": "Con números de páxina",
-    "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "As funcións Desfacer/Refacer están activadas para o modo de coedición rápido.",
       "textUnderline": "Subliñado",
       "textUsers": "Usuarios",
-      "textWidow": "Control de liñas orfas"
+      "textWidow": "Control de liñas orfas",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sen encher"
@@ -200,6 +204,7 @@
     "textRefreshEntireTable": "Actualizar toda a táboa",
     "textRefreshPageNumbersOnly": "Actualizar soamente os números de páxina",
     "textRows": "Filas",
+    "menuEditLink": "Edit Link",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
   "Edit": {
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Actualizar toda a táboa",
     "textRefreshPageNumbersOnly": "Actualizar soamente os números de páxina",
     "textRemoveChart": "Eliminar gráfico",
-    "textRemoveImage": "Eliminar imaxe",
-    "textRemoveLink": "Eliminar ligazón",
     "textRemoveShape": "Eliminar forma",
     "textRemoveTable": "Eliminar táboa",
     "textRemoveTableContent": "Elimine a táboa de contidos",
@@ -365,7 +368,15 @@
     "textTu": "Ma",
     "textType": "Tipo",
     "textWe": "Me",
-    "textWrap": "Axuste"
+    "textWrap": "Axuste",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo límite de conversión.",
@@ -407,7 +418,9 @@
     "unknownErrorText": "Erro descoñecido.",
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
-    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -669,12 +682,16 @@
     "txtScheme6": "Concorrencia",
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundición"
+    "txtScheme9": "Fundición",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",
     "dlgLeaveTitleText": "Saiu do aplicativo",
     "leaveButtonText": "Saír desta página",
-    "stayButtonText": "Quedarse nesta páxina"
+    "stayButtonText": "Quedarse nesta páxina",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

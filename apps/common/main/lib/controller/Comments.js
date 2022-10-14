@@ -144,10 +144,20 @@ define([
                     }
                 }, this, area);
             }.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
         onLaunch: function () {
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+            this._state = {
+                disableEditing: false, // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
+            };
 
             this.collection                     =   this.getApplication().getCollection('Common.Collections.Comments');
             this.setComparator();
@@ -1645,16 +1655,25 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            if (this.viewmode === mode) return;
-            this.viewmode = mode;
-            if (mode)
+            this._state.disableEditing = mode;
+            this.updatePreviewMode();
+        },
+
+        updatePreviewMode: function() {
+            var docProtection = this._state.docProtection;
+            var viewmode = this._state.disableEditing || docProtection.isReadOnly || docProtection.isFormsOnly;
+
+            if (this.viewmode === viewmode) return;
+            this.viewmode = viewmode;
+
+            if (viewmode)
                 this.prevcanComments = this.mode.canComments;
-            this.mode.canComments = (mode) ? false : this.prevcanComments;
+            this.mode.canComments = (viewmode) ? false : this.prevcanComments;
             this.closeEditing();
             this.setMode(this.mode);
             this.updateComments(true);
             if (this.getPopover())
-                mode ? this.getPopover().hide() : this.getPopover().update(true);
+                viewmode ? this.getPopover().hide() : this.getPopover().update(true);
         },
 
         clearCollections: function() {
@@ -1718,6 +1737,27 @@ define([
                 }
             }
             this.updateComments(true);
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                me.onChangeProtectDocument();
+                Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
+            });
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.updatePreviewMode();
+            }
         }
 
     }, Common.Controllers.Comments || {}));

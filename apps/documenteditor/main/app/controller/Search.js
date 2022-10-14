@@ -90,7 +90,8 @@ define([
                 matchCase: false,
                 matchWord: false,
                 useRegExp: false,
-                isHighlightedResults: false
+                isHighlightedResults: false,
+                isContentChanged: false
             };
         },
 
@@ -117,6 +118,29 @@ define([
                 this.view : Backbone.Controller.prototype.getView.call(this, name);
         },
 
+        checkPunctuation: function (text) {
+            if (!!text) {
+                var isPunctuation = false;
+                for (var l = 0; l < text.length; l++) {
+                    var charCode = text.charCodeAt(l),
+                        char = text.charAt(l);
+                    if (AscCommon.g_aPunctuation[charCode] !== undefined || char.trim() === '') {
+                        isPunctuation = true;
+                        break;
+                    }
+                }
+                if (isPunctuation) {
+                    if (this._state.matchWord) {
+                        this.view.chMatchWord.setValue(false, true);
+                        this._state.matchWord = false;
+                    }
+                    this.view.chMatchWord.setDisabled(true);
+                } else if (this.view.chMatchWord.isDisabled()) {
+                    this.view.chMatchWord.setDisabled(false);
+                }
+            }
+        },
+
         onChangeSearchOption: function (option, checked) {
             switch (option) {
                 case 'case-sensitive':
@@ -130,63 +154,51 @@ define([
                     break;
             }
             if (this._state.searchText) {
-                this.hideResults();
-                if (this.onQuerySearch()) {
-                    if (this.searchTimer) {
-                        clearInterval(this.searchTimer);
-                        this.searchTimer = undefined;
-                    }
-                    this.api.asc_StartTextAroundSearch();
-                }
+                this.onQuerySearch();
             }
         },
 
         onSearchNext: function (type, text, e) {
             var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
             if (text && text.length > 0 && (isReturnKey || type !== 'keydown')) {
+                this.checkPunctuation(text);
                 this._state.searchText = text;
-                if (this.onQuerySearch(type) && (this.searchTimer || isReturnKey)) {
-                    this.hideResults();
-                    if (this.searchTimer) {
-                        clearInterval(this.searchTimer);
-                        this.searchTimer = undefined;
-                    }
-                    if (this.view.$el.is(':visible')) {
-                        this.api.asc_StartTextAroundSearch();
-                    }
-                }
+                this.onQuerySearch(type, !(this.searchTimer || isReturnKey));
             }
         },
 
         onInputSearchChange: function (text) {
             var me = this;
-            if (this._state.searchText !== text) {
+            if ((text && this._state.searchText !== text) || (!text && this._state.newSearchText)) {
                 this._state.newSearchText = text;
                 this._lastInputChange = (new Date());
                 if (this.searchTimer === undefined) {
                     this.searchTimer = setInterval(function(){
                         if ((new Date()) - me._lastInputChange < 400) return;
 
-                        me.hideResults();
+                        me.checkPunctuation(me._state.newSearchText);
                         me._state.searchText = me._state.newSearchText;
-                        if (me._state.newSearchText !== '' && me.onQuerySearch()) {
-                            if (me.view.$el.is(':visible')) {
-                                me.api.asc_StartTextAroundSearch();
-                            }
-                            me.view.disableReplaceButtons(false);
-                        } else if (me._state.newSearchText === '') {
+                        if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
+                            me.api.asc_endFindText();
+                            me.hideResults();
                             me.view.updateResultsNumber('no-results');
                             me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
+                            clearInterval(me.searchTimer);
+                            me.searchTimer = undefined;
                         }
-                        clearInterval(me.searchTimer);
-                        me.searchTimer = undefined;
                     }, 10);
                 }
             }
         },
 
-        onQuerySearch: function (d, w) {
+        onQuerySearch: function (d, noUpdate) {
+            var update = !noUpdate || this._state.isContentChanged;
+            this._state.isContentChanged = false;
+            this.searchTimer && clearInterval(this.searchTimer);
+            this.searchTimer = undefined;
+            update && this.hideResults();
+
             var searchSettings = new AscCommon.CSearchSettings();
             searchSettings.put_Text(this._state.searchText);
             searchSettings.put_MatchCase(this._state.matchCase);
@@ -200,6 +212,10 @@ define([
                 this.view.disableNavButtons();
                 return false;
             }
+            if (update && this.view.$el.is(':visible')) {
+                this.api.asc_StartTextAroundSearch();
+            }
+            this.view.disableReplaceButtons(false);
             return true;
         },
 
@@ -324,7 +340,8 @@ define([
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
                 if (data.length > 300 || !data.length) return;
-                var me = this;
+                var me = this,
+                    selectedInd;
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var el = document.createElement("div"),
@@ -334,17 +351,23 @@ define([
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');
+                        selectedInd = ind;
                     }
 
                     var resultItem = {id: item[0], $el: $(el), el: el, selected: isSelected};
                     me.resultItems.push(resultItem);
                     $(el).on('click', _.bind(function (el) {
+                        if (me._state.isContentChanged) {
+                            me.onQuerySearch();
+                            return;
+                        }
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
                     }, me));
                 });
 
                 this.view.$resultsContainer.show();
+                this.scrollToSelectedResult(selectedInd);
             }
         },
 
@@ -374,6 +397,7 @@ define([
 
             var selectedText = this.api.asc_GetSelectedText(),
                 text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
+            this.checkPunctuation(text);
             if (this.resultItems && this.resultItems.length > 0 &&
                 (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
                     this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
@@ -407,9 +431,7 @@ define([
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
                     me.view.$resultsContainer.append(item.el);
-                    if (item.selected) {
-                        $(item.el).addClass('selected');
-                    }
+                    $(item.el)[item.selected ? 'addClass' : 'removeClass']('selected');
                     $(item.el).on('click', function (el) {
                         me.api.asc_SelectSearchElement(item.id);
                         $('#search-results').find('.item').removeClass('selected');
@@ -435,7 +457,11 @@ define([
         },
 
         onApiSearchEnd: function () {
-            this.removeResultItems('stop');
+            if (!this._state.isContentChanged) {
+                this._state.isContentChanged = true;
+                this.view.updateResultsNumber('content-changed');
+                this.view.disableReplaceButtons(true);
+            }
         },
 
         onApiTextReplaced: function(found, replaced) {

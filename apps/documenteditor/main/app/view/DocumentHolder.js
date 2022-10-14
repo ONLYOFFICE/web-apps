@@ -76,6 +76,12 @@ define([
             this._currentParaObjDisabled = false;
             this._currLang        = {};
             this._isDisabled = false;
+            this._docProtection = {
+                isReadOnly: false,
+                isReviewOnly: false,
+                isFormsOnly: false,
+                isCommentsOnly: false
+            };
         },
 
         render: function () {
@@ -169,7 +175,7 @@ define([
                     }
 
                     me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo() || me._docProtection.isReadOnly);
                     me.menuViewCopySeparator.setVisible(isInSign);
 
                     var isRequested = (signProps) ? signProps.asc_getRequested() : false;
@@ -187,15 +193,15 @@ define([
                     }
 
                     me.menuViewAddComment.setVisible(canComment);
-                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true || me._docProtection.isReadOnly || me._docProtection.isFormsOnly);
 
                     var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuViewCopy.setDisabled(!cancopy);
                     me.menuViewCut.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewCut.setDisabled(disabled || !cancopy);
+                    me.menuViewCut.setDisabled(disabled || !cancopy || me._docProtection.isReadOnly || me._docProtection.isCommentsOnly);
                     me.menuViewPaste.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewPaste.setDisabled(disabled);
+                    me.menuViewPaste.setDisabled(disabled || me._docProtection.isReadOnly || me._docProtection.isCommentsOnly);
                     me.menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormMode);
                     me.menuViewPrint.setDisabled(!cancopy);
 

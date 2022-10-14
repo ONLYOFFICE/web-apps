@@ -3,11 +3,11 @@
     "textAbout": "Perihal",
     "textAddress": "Alamat",
     "textBack": "Kembali",
+    "textEditor": "Editor Hamparan",
     "textEmail": "E-mel",
     "textPoweredBy": "Dikuasakan Oleh",
     "textTel": "Tel",
-    "textVersion": "Versi",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Versi"
   },
   "Common": {
     "Collaboration": {
@@ -32,7 +32,8 @@
       "textReopen": "Membuka semula",
       "textResolve": "Selesaikan",
       "textTryUndoRedo": "Fungsi Buat asal/Buat semula dinyahdayakan bagi mod pengeditan Bersama Pantas.",
-      "textUsers": "Pengguna"
+      "textUsers": "Pengguna",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Warna Tersuai",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "Jangan tunjukkan semula",
     "textOk": "Okey",
     "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
-    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?"
+    "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -154,6 +156,7 @@
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Gantian telah dilakukan. {0} kejadian telah dilangkau.",
       "textReplaceSuccess": "Carian telah dilakukan. Kejadian digantikan: {0}",
+      "textRequestMacros": "Makro membuat permintaan ke URL. Adakah anda mahu membenarkan permintaan kepada %1?",
       "textYes": "Ya",
       "titleServerVersion": "Editor dikemas kini",
       "titleUpdateVersion": "Perubahan versi",
@@ -164,7 +167,8 @@
       "warnNoLicense": "Anda telah mencapai had pengguna untuk sambungan serentak kepada editor %1. Dokumen ini akan dibuka untuk dilihat sahaja. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -183,6 +187,7 @@
     "errorChangeArray": "Anda tidak boleh mengubah bahagian tatasusunan.",
     "errorChangeOnProtectedSheet": "Sel atau carta yang anda cuba ubah ialah helaian dilindung. Untuk membuat perubahan, nyahlindung helaian. Anda mungkin diminta untuk memasukkan kata laluan.",
     "errorConnectToServer": "Tidak dapat menyimpan dok ini. Semak seting sambungan anda atau hubungi pentadbir.<br>Apabila anda klik ‘OK’, anda akan diminta untuk muat turun dokumennya.",
+    "errorCopyMultiselectArea": "Perintah ini tidak boleh digunakan dengan berbilang pilihan.<br> Pilih julat tunggal dan cuba lagi.",
     "errorCountArg": "Terdapat ralat di dalam formula.<br>Bilangan argumen yang tidak sah.",
     "errorCountArgExceed": "Terdapat ralat di dalam formula.<br>Bilangan argumen telah melebihi maksimum.",
     "errorCreateDefName": "Julat nama sedia ada tidak boleh diedit dan yang baharu tidak boleh dicipta<br>pada masa sekarang kerana beberapa daripadanya sedang diedit.",
@@ -222,7 +227,7 @@
     "errorSessionToken": "Sambungan kepada pelayan telah terganggu. Sila muat semula halaman.",
     "errorStockChart": "Urutan baris tidak betul. Untuk membina carta stok, tempatkan data pada helaian mengikut urutan:<br> harga bukaan, harga mak, harga min, harga penutup.",
     "errorUnexpectedGuid": "Ralat luaran.<br>Guid tidak dijangka. Sila hubungi sokongan sekiranya ralat masih berlaku.",
-    "errorUpdateVersionOnDisconnect": "Sambungan internet telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
+    "errorUpdateVersionOnDisconnect": "Sambungan telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
     "errorUserDrop": "Fail tidak boleh diakses sekarang.",
     "errorUsersExceed": "Bilangan pengguna yang didizinkan mengikut pelan pembayaran telah lebih",
     "errorViewerDisconnect": "Sambungan telah hilang. Anda masih boleh melihat dokumen,<br>tetapi tidak dapat muat turun atau cetaknya sehingga sambungan dipulihkan dan halaman dimuat semua.",
@@ -238,7 +243,7 @@
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
     "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
-    "errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Kata laluan",
@@ -370,7 +375,9 @@
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "txtSorting": "Pengisihan",
       "txtSortSelected": "Isih Terpilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",
@@ -504,10 +511,7 @@
       "textPt": "pt",
       "textRange": "Julat",
       "textRemoveChart": "Alih Keluar Carta",
-      "textRemoveImage": "Alih Keluar Imej",
-      "textRemoveLink": "Alih Keluar Pautan",
       "textRemoveShape": "Alih Keluar Bentuk",
-      "textReorder": "Order Semula",
       "textReplace": "Gantikan",
       "textReplaceImage": "Gantikan Imej",
       "textRequired": "Memerlukan",
@@ -552,7 +556,14 @@
       "textYen": "Yen",
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "txtSortHigh2Low": "Isih Tertinggi Ke Terendah",
-      "txtSortLow2High": "Isih Terendah Ke Tertinggi."
+      "txtSortLow2High": "Isih Terendah Ke Tertinggi.",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Pilih pilihan CSV",
@@ -633,6 +644,7 @@
       "textReplace": "Gantikan",
       "textReplaceAll": "Gantikan Semua",
       "textResolvedComments": "Komen Diselesaikan",
+      "textRestartApplication": "Mulakan semula aplikasi untuk perubahan tersebut berkuat kuasa",
       "textRight": "Kanan",
       "textRightToLeft": "Kanan ke Kiri",
       "textSearch": "Carian",
@@ -645,6 +657,7 @@
       "textSpreadsheetInfo": "Maklumat Hamparan",
       "textSpreadsheetSettings": "Seting Hamparan",
       "textSpreadsheetTitle": "Tajuk Hamparan",
+      "textSubject": "Subjek",
       "textTel": "Tel",
       "textTitle": "Tajuk",
       "textTop": "Atas",
@@ -686,9 +699,7 @@
       "txtSemicolon": "Koma bertindih",
       "txtSpace": "Jarak",
       "txtTab": "Tab",
-      "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textSubject": "Subject"
+      "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?"
     }
   }
 }

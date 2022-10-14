@@ -61,7 +61,10 @@
     "textTableSize": "Tamanho da tabela",
     "textWithBlueLinks": "Com links azuis",
     "textWithPageNumbers": "Com números de página",
-    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido",
       "textUnderline": "Sublinhado",
       "textUsers": "Usuários",
-      "textWidow": "Controle de linhas órfãs/viúvas."
+      "textWidow": "Controle de linhas órfãs/viúvas.",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "Atualizar tabela inteira",
     "textRefreshPageNumbersOnly": "Atualizar apenas números de página",
     "textRows": "Linhas",
-    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?"
+    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Atualizar tabela inteira",
     "textRefreshPageNumbersOnly": "Atualizar apenas números de página",
     "textRemoveChart": "Remover gráfico",
-    "textRemoveImage": "Remover imagem",
-    "textRemoveLink": "Remover link",
     "textRemoveShape": "Remover forma",
     "textRemoveTable": "Remover tabela",
     "textRemoveTableContent": "Excluir tabela de conteúdo",
@@ -365,7 +368,15 @@
     "textTu": "Ter",
     "textType": "Tipo",
     "textWe": "Qua",
-    "textWrap": "Encapsulamento"
+    "textWrap": "Encapsulamento",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
@@ -393,6 +404,7 @@
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
     "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
+    "errorTextFormWrongFormat": "O valor inserido não corresponde ao formato do campo.",
     "errorUpdateVersionOnDisconnect": "A conexão à internet foi restabelecida, e a versão do arquivo foi alterada. <br> Antes de continuar seu trabalho, transfira o arquivo ou copie seu conteúdo para assegurar que nada seja perdido, e então, recarregue esta página.",
     "errorUserDrop": "O arquivo não pode ser acessado no momento.",
     "errorUsersExceed": "O número de usuários permitidos pelo plano de preços foi excedido",
@@ -407,7 +419,8 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -606,6 +619,7 @@
     "textMargins": "Margens",
     "textMarginsH": "Margens superior e inferior são muito altas para uma determinada altura da página",
     "textMarginsW": "Margens são muito grandes para uma determinada largura da página",
+    "textMobileView": "Exibição móvel",
     "textNavigation": "Navegação",
     "textNo": "Não",
     "textNoCharacters": "Caracteres não imprimíveis",
@@ -675,6 +689,9 @@
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
-    "stayButtonText": "Ficar nesta página"
+    "stayButtonText": "Ficar nesta página",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Alterado para a visualização móvel",
+    "textSwitchedStandardView": "Alterado para a visualização padrão"
   }
 }

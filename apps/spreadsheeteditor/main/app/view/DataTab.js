@@ -102,6 +102,11 @@ define([
             me.btnCustomSort.on('click', function (b, e) {
                 me.fireEvent('data:sortcustom');
             });
+
+            me.btnExternalLinks.on('click', function (b, e) {
+                me.fireEvent('data:externallinks');
+            });
+
             me.btnDataFromText.menu ?
             me.btnDataFromText.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('data:fromtext', [item.value]);
@@ -240,6 +245,19 @@ define([
                 });
                 this.lockedControls.push(this.btnCustomSort);
 
+                this.btnExternalLinks = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-data-external-links'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon edit-links',
+                    caption: this.capDataExternalLinks,
+                    disabled: true,
+                    lock: [_set.editCell, _set.sheetLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnExternalLinks);
+
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'toolbar__icon btn-sort-down', '',
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter, _set.sheetLock, _set.cantSort, _set['Sort']], undefined, undefined, undefined, '1', 'top', undefined, 'D');
 
@@ -301,6 +319,7 @@ define([
                     me.btnTextToColumns.updateHint(me.tipToColumns);
                     me.btnRemoveDuplicates.updateHint(me.tipRemDuplicates);
                     me.btnDataValidation.updateHint(me.tipDataValidation);
+                    me.btnExternalLinks.updateHint(me.tipExternalLinks);
 
                     me.btnsSortDown.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtSortAZ);
@@ -377,7 +396,9 @@ define([
             capDataFromText: 'From Text/CSV',
             tipDataFromText: 'Get data from Text/CSV file',
             mniFromFile: 'Get Data from File',
-            mniFromUrl: 'Get Data from URL'
+            mniFromUrl: 'Get Data from URL',
+            capDataExternalLinks: 'External Links',
+            tipExternalLinks: 'View other files this spreadsheet is linked to'
         }
     }()), SSE.Views.DataTab || {}));
 });

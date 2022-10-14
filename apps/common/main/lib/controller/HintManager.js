@@ -44,6 +44,7 @@
  *      <button ... data-hint="1" data-hint-direction="right" data-hint-offset="big" data-hint-title="B">...</button>
  *      <label ... data-hint="1" data-hint-direction="bottom" data-hint-offset="medium" data-hint-title="L">...</label>
  *
+ *
  *  Example usage with components:
  *
  *      new Common.UI.Button({
@@ -118,7 +119,10 @@ Common.UI.HintManager = new(function() {
         _isDocReady = false,
         _isEditDiagram = false,
         _usedTitles = [],
-        _appPrefix;
+        _appPrefix,
+        _staticHints = { // for desktop buttons
+            "btnhome": 'K'
+        };
 
     var _api;
 
@@ -223,6 +227,15 @@ Common.UI.HintManager = new(function() {
         return arr;
     };
 
+    var _getLetterInUILanguage = function (letter) {
+        var l = letter;
+        if (_arrAlphabet.indexOf(l) === -1) {
+            var ind = _arrEnAlphabet.indexOf(l);
+            l = _arrAlphabet[ind];
+        }
+        return l;
+    };
+
     var _isItemDisabled = function (item) {
         return (item.hasClass('disabled') || item.parent().hasClass('disabled') || item.attr('disabled'));
     };
@@ -268,21 +281,25 @@ Common.UI.HintManager = new(function() {
             });
             return;
         }
-        var _arrLetters = [];
+        var _arrLetters = [],
+            _usedLetters = [];
+        if (_currentLevel === 0) {
+            for (var key in _staticHints) {
+                var t = _staticHints[key].toLowerCase();
+                _usedTitles.push(t);
+                _usedLetters.push(_arrAlphabet.indexOf(t));
+            }
+        }
         if (visibleItems.length > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
                 var t = $(item).data('hint-title').toLowerCase();
-                if (_arrAlphabet.indexOf(t) === -1) {
-                    var ind = _arrEnAlphabet.indexOf(t);
-                    t = _arrAlphabet[ind];
-                }
+                t = _getLetterInUILanguage(t);
                 _usedTitles.push(t);
             });
-            _arrLetters = _getLetters(visibleItems.length);
+            _arrLetters = _getLetters(visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0));
         } else {
             _arrLetters = _arrAlphabet.slice();
         }
-        var usedLetters = [];
         if (arrItemsWithTitle.length > 0) {
             visibleItems.forEach(function (item) {
                 var el = $(item);
@@ -290,9 +307,9 @@ Common.UI.HintManager = new(function() {
                 if (title) {
                     var ind = _arrEnAlphabet.indexOf(title.toLowerCase());
                     if (ind === -1) { // we have already changed
-                        usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
+                        _usedLetters.push(_arrAlphabet.indexOf(title.toLowerCase()));
                     } else {
-                        usedLetters.push(ind);
+                        _usedLetters.push(ind);
                         if (_lang !== 'en') {
                             el.attr('data-hint-title', _arrLetters[ind].toUpperCase());
                         }
@@ -303,7 +320,7 @@ Common.UI.HintManager = new(function() {
         var index = 0;
         visibleItems.forEach(function (item) {
             var el = $(item);
-            while (usedLetters.indexOf(index) !== -1) {
+            while (_usedLetters.indexOf(index) !== -1) {
                 index++;
             }
             var title = el.attr('data-hint-title');
@@ -440,6 +457,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _init = function(api) {
+        if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko) // turn off hints on IE and FireFox (shortcut F6 selects link in address bar)
+            return;
         _api = api;
 
         var filter = Common.localStorage.getKeysFilter();
@@ -461,7 +480,7 @@ Common.UI.HintManager = new(function() {
             _clearHints();
         });
         $(document).on('keyup', function(e) {
-            if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
+            if ((e.keyCode == Common.UI.Keys.ALT || e.keyCode === 91) && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
                     $('input:focus').blur(); // to change value in inputField
@@ -603,10 +622,11 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
+                (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6) &&
                 !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (e.altKey && e.keyCode !== 115) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });
@@ -620,7 +640,16 @@ Common.UI.HintManager = new(function() {
                 _arrAlphabet = langsJson[lang];
                 return _arrAlphabet;
             };
-            return !_setAlphabet(lng) ? (!_setAlphabet(lng.split(/[\-_]/)[0]) ? _setAlphabet('en') : true) : true;
+            var loaded = !_setAlphabet(lng) ? (!_setAlphabet(lng.split(/[\-_]/)[0]) ? _setAlphabet('en') : true) : true;
+            if (loaded && _lang !== 'en') {
+                for (var key in _staticHints) {
+                    var hint = _getLetterInUILanguage(_staticHints[key].toLowerCase());
+                    if (hint) {
+                        _staticHints[key] = hint.toUpperCase();
+                    }
+                }
+            }
+            return loaded;
         });
         Common.Utils.loadConfig('../../common/main/resources/alphabetletters/qwertyletters.json', function (langsJson) {
             _arrQwerty = langsJson[_lang];
@@ -635,6 +664,8 @@ Common.UI.HintManager = new(function() {
     };
 
     var _clearHints = function (isComplete) {
+        if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
+            return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {
             _resetToDefault();
@@ -649,7 +680,9 @@ Common.UI.HintManager = new(function() {
             $('.hint-div').remove();
         }
         if ($('iframe').length > 0) {
-            $('iframe').contents().find('.hint-div').remove();
+            try {
+                $('iframe').contents().find('.hint-div').remove();
+            } catch (e) {}
         }
     };
 
@@ -661,11 +694,16 @@ Common.UI.HintManager = new(function() {
         _isEditDiagram = mode.isEditDiagram || mode.isEditMailMerge || mode.isEditOle;
     };
 
+    var _getStaticHint = function (key) {
+        return _staticHints[key];
+    };
+
     return {
         init: _init,
         setMode: _setMode,
         clearHints: _clearHints,
         needCloseFileMenu: _needCloseFileMenu,
-        isHintVisible: _isHintVisible
+        isHintVisible: _isHintVisible,
+        getStaticHint: _getStaticHint
     }
 })();

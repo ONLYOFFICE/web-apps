@@ -32,7 +32,8 @@
       "textReopen": "Təkrar açın",
       "textResolve": "Həll edin",
       "textTryUndoRedo": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
-      "textUsers": "İstifadəçilər"
+      "textUsers": "İstifadəçilər",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Fərdi Rənglər",
@@ -64,6 +65,7 @@
     "textCopyCutPasteActions": "Kopyalama, Kəsmə və Yapışdırma Əməliyyatları",
     "textDoNotShowAgain": "Bir daha göstərmə",
     "warnMergeLostData": "Birləşdirilmiş xanada yalnız yuxarı sol xanadakı məlumatlar qalacaq. <br>Davam etmək istədiyinizdən əminsiniz?",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -164,7 +166,9 @@
       "textOk": "Ok",
       "textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
       "textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,8 @@
     "uploadImageExtMessage": "Naməlum təsvir formatı.",
     "uploadImageFileCountMessage": "Heç bir təsvir yüklənməyib.",
     "uploadImageSizeMessage": "Təsvir çox böyükdür. Maksimum ölçü 25 MB-dır.",
-    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password."
+    "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Parol",
@@ -367,8 +372,10 @@
       "txtYes": "Bəli",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textDone": "Done",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
+      "textRecommended": "Recommended",
       "textThisRowHint": "Choose only this row of the specified column",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
@@ -501,10 +508,7 @@
       "textPt": "pt",
       "textRange": "Diapazon",
       "textRemoveChart": "Diaqramı Silin",
-      "textRemoveImage": "Təsviri Silin",
-      "textRemoveLink": "Keçidi Silin",
       "textRemoveShape": "Formanı Silin",
-      "textReorder": "Yenidən sıralayın",
       "textReplace": "Əvəz edin",
       "textReplaceImage": "Təsviri Əvəz edin",
       "textRequired": "Tələb olunur",
@@ -550,9 +554,16 @@
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
       "txtSortHigh2Low": "Ən Böyükdən ən Kiçiyə doğru Çeşidləyin.",
       "txtSortLow2High": "Ən Kiçikdən ən Böyüyə doğru Çeşidləyin.",
+      "textArrange": "Arrange",
       "textAutomatic": "Automatic",
+      "textCancel": "Cancel",
       "textCellStyle": "Cell Style",
-      "textOk": "Ok"
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textOk": "Ok",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",

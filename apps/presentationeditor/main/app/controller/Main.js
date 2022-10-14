@@ -852,8 +852,8 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                value = Common.localStorage.getBool("pe-settings-use-alt-key", true);
-                Common.Utils.InternalSettings.set("pe-settings-use-alt-key", value);
+                value = Common.localStorage.getBool("pe-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
                 me._state.fastCoauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
@@ -861,7 +861,17 @@ define([
                 me.api.asc_setAutoSaveGap(Common.Utils.InternalSettings.get("pe-settings-autosave"));
                 /** coauthoring end **/
 
-                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
+                value = Common.localStorage.getBool("pe-settings-showsnaplines", true);
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
+                me.api.asc_setShowSmartGuides(value);
+
+                value = Common.localStorage.getBool("pe-settings-showguides");
+                Common.Utils.InternalSettings.set("pe-settings-showguides", value);
+                me.api.asc_setShowGuides(value);
+
+                value = Common.localStorage.getBool("pe-settings-showgrid");
+                Common.Utils.InternalSettings.set("pe-settings-showgrid", value);
+                me.api.asc_setShowGridlines(value);
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
@@ -1050,7 +1060,7 @@ define([
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     allowSignature: false,
-                    rightMenu: {clear: true, disable: true},
+                    rightMenu: {clear: !temp, disable: true},
                     statusBar: true,
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true, history: temp},
@@ -1564,6 +1574,10 @@ define([
 
                     case Asc.c_oAscError.ID.LoadingFontError:
                         config.msg = this.errorLoadingFont;
+                        break;
+
+                    case Asc.c_oAscError.ID.DirectUrl:
+                        config.msg = this.errorDirectUrl;
                         break;
 
                     default:

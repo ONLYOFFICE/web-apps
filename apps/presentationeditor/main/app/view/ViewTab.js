@@ -77,6 +77,10 @@ define([
                         '<span class="btn-slot text" id="slot-chk-rulers"></span>' +
                     '</div>' +
                 '</div>' +
+                '<div class="group small">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-guides"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-gridlines"></span>' +
+                '</div>' +
                 '<div class="separator long separator-rulers"></div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
@@ -105,13 +109,56 @@ define([
                     me.fireEvent('statusbar:hide', [me.chStatusbar, state !== 'checked']);
                 }, me));
                 me.chRulers && me.chRulers.on('change', _.bind(function (checkbox, state) {
-                    me.fireEvent('rulers:change', [me.chRulers, state === 'checked']);
+                    me.fireEvent('rulers:change', [state === 'checked']);
                 }, me));
                 me.chNotes && me.chNotes.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('notes:change', [me.chNotes, state === 'checked']);
                 }, me));
-                me.cmbZoom.on('combo:focusin', _.bind(this.onComboOpen, this, false));
-                me.cmbZoom.on('show:after', _.bind(this.onComboOpen, this, true));
+                me.cmbZoom.on('selected', function (combo, record) {
+                    me.fireEvent('zoom:selected', [combo, record]);
+                }).on('changed:before', function (combo, record) {
+                    me.fireEvent('zoom:changedbefore', [true, combo, record]);
+                }).on('changed:after', function (combo, record) {
+                    me.fireEvent('zoom:changedafter', [false, combo, record]);
+                }).on('combo:blur', function () {
+                    me.fireEvent('editcomplete', me);
+                }).on('combo:focusin', _.bind(this.onComboOpen, this, false))
+                    .on('show:after', _.bind(this.onComboOpen, this, true));
+
+                me.btnGuides.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('guides:show', [state]);
+                }, me));
+                me.btnGuides.menu.on('item:click', _.bind(function(menu, item) {
+                    if (item.value === 'add-vert' || item.value === 'add-hor')
+                        me.fireEvent('guides:add', [item.value]);
+                    else if (item.value === 'clear')
+                        me.fireEvent('guides:clear');
+                    else if (item.value === 'smart')
+                        me.fireEvent('guides:smart', [item.isChecked()]);
+                    else
+                        me.fireEvent('guides:show', [item.isChecked()]);
+                }, me));
+                me.btnGuides.menu.on('show:after', _.bind(function(btn, state) {
+                    me.fireEvent('guides:aftershow');
+                }, me));
+
+                me.btnGridlines.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('gridlines:show', [state]);
+                }, me));
+                me.btnGridlines.menu.on('item:click', _.bind(function(menu, item) {
+                    if (item.value === 'custom')
+                        me.fireEvent('gridlines:custom');
+                    else if (item.value === 'snap')
+                        me.fireEvent('gridlines:snap', [item.isChecked()]);
+                    else if (item.value === 'show')
+                        me.fireEvent('gridlines:show', [item.isChecked()]);
+                    else
+                        me.fireEvent('gridlines:spacing', [item.value]);
+
+                }, me));
+                me.btnGridlines.menu.on('show:after', _.bind(function(btn, state) {
+                    me.fireEvent('gridlines:aftershow');
+                }, me));
             },
 
             initialize: function (options) {
@@ -225,6 +272,40 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chNotes);
+
+                this.btnGuides = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon guides',
+                    caption: this.textGuides,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    pressed: Common.localStorage.getBool("pe-settings-showguides", true),
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnGuides);
+
+                this.btnGridlines = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon gridlines',
+                    caption: this.textGridlines,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    pressed: Common.localStorage.getBool("pe-settings-showgrid", true),
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnGridlines);
+
+                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
             render: function (el) {
@@ -246,7 +327,99 @@ define([
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
                 this.chNotes.render($host.find('#slot-chk-notes'));
+                this.btnGuides.render($host.find('#slot-btn-guides'));
+                this.btnGridlines.render($host.find('#slot-btn-gridlines'));
                 return this.$el;
+            },
+
+            onAppReady: function (config) {
+                var me = this;
+                (new Promise(function (accept, reject) {
+                    accept();
+                })).then(function () {
+                    me.btnFitToSlide.updateHint(me.tipFitToSlide);
+                    me.btnFitToWidth.updateHint(me.tipFitToWidth);
+                    me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
+                    me.btnGuides.updateHint(me.tipGuides);
+                    me.btnGridlines.updateHint(me.tipGridlines);
+
+                    me.btnGuides.setMenu( new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items: [
+                            { caption: me.textShowGuides, value: 'show', checkable: true },
+                            { caption: '--'},
+                            { caption: me.textAddVGuides, iconCls: 'menu__icon vertical-guide', value: 'add-vert' },
+                            { caption: me.textAddHGuides, iconCls: 'menu__icon horizontal-guide', value: 'add-hor' },
+                            { caption: '--'},
+                            { caption: me.textSmartGuides, value: 'smart', checkable: true },
+                            { caption: me.textClearGuides, value: 'clear' }
+                        ]
+                    }));
+
+                    me.btnGridlines.setMenu( new Common.UI.Menu({
+                        restoreHeight: true,
+                        items: [
+                            { caption: me.textShowGridlines, value: 'show', checkable: true },
+                            { caption: me.textSnapObjects, value: 'snap', checkable: true },
+                            { caption: '--'},
+                            { caption: '--'},
+                            { caption: me.textCustom, value: 'custom' }
+                        ]
+                    }));
+
+                    if (!Common.UI.Themes.available()) {
+                        me.btnInterfaceTheme.$el.closest('.group').remove();
+                        me.$el.find('.separator-theme').remove();
+                    }
+                    if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                        me.chStatusbar.$el.remove();
+
+                        if (!config.isEdit) {
+                            var slotChkNotes = me.chNotes.$el,
+                                groupRulers = slotChkNotes.closest('.group'),
+                                groupToolbar = me.chToolbar.$el.closest('.group');
+                            groupToolbar.find('.elset')[1].append(slotChkNotes[0]);
+                            groupRulers.remove();
+                            me.$el.find('.separator-rulers').remove();
+                        }
+                    } else if (!config.isEdit) {
+                        me.chRulers.hide();
+                    }
+                    if (!config.isEdit) {
+                        me.btnGuides.$el.closest('.group').remove();
+                    }
+
+                    if (Common.UI.Themes.available()) {
+                        function _fill_themes() {
+                            var btn = this.btnInterfaceTheme;
+                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                            else btn.setMenu(new Common.UI.Menu());
+
+                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                            for (var t in Common.UI.Themes.map()) {
+                                btn.menu.addItem({
+                                    value: t,
+                                    caption: Common.UI.Themes.get(t).text,
+                                    checked: t === currentTheme,
+                                    checkable: true,
+                                    toggleGroup: 'interface-theme'
+                                });
+                            }
+                        }
+
+                        Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
+                        _fill_themes.call(me);
+
+                        if (me.btnInterfaceTheme.menu.items.length) {
+                            me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                var value = item.value;
+                                Common.UI.Themes.setTheme(value);
+                            }, me));
+                        }
+                    }
+
+                    me.setEvents();
+                });
             },
 
             show: function () {
@@ -283,7 +456,24 @@ define([
             textStatusBar: 'Status Bar',
             textAlwaysShowToolbar: 'Always show toolbar',
             textRulers: 'Rulers',
-            textNotes: 'Notes'
+            textNotes: 'Notes',
+            tipFitToSlide: 'Fit to slide',
+            tipFitToWidth: 'Fit to width',
+            tipInterfaceTheme: 'Interface theme',
+            textGuides: 'Guides',
+            tipGuides: 'Show guides',
+            textShowGuides: 'Show Guides',
+            textAddVGuides: 'Add Vertical Guide',
+            textAddHGuides: 'Add Horizontal Guide',
+            textSmartGuides: 'Smart Guides',
+            textClearGuides: 'Clear Guides',
+            textGridlines: 'Gridlines',
+            tipGridlines: 'Show gridlines',
+            textShowGridlines: 'Show Gridlines',
+            textSnapObjects: 'Snap Object to Grid',
+            textCm: 'cm',
+            textCustom: 'Custom'
+
         }
     }()), PE.Views.ViewTab || {}));
 });

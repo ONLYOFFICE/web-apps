@@ -50,8 +50,8 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
 
     SSE.Views.PivotSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
-            height: 395,
+            contentWidth: 310,
+            height: 440,
             toggleGroup: 'pivot-adv-settings-group',
             storageName: 'sse-pivot-adv-settings-category'
         },

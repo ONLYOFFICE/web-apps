@@ -32,7 +32,8 @@
       "textReopen": "Újranyitás",
       "textResolve": "Megold",
       "textTryUndoRedo": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
-      "textUsers": "Felhasználók"
+      "textUsers": "Felhasználók",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Nincs kitöltés"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Ne mutassa újra",
     "textOk": "Rendben",
     "textRows": "Sorok",
-    "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?"
+    "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -169,7 +171,8 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -245,7 +248,10 @@
       "textSlideNumber": "Dia száma",
       "textTable": "Táblázat",
       "textTableSize": "Táblázat mérete",
-      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”"
+      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -351,11 +357,8 @@
       "textPt": "pt",
       "textPush": "Nyom",
       "textRemoveChart": "Diagram eltávolítása",
-      "textRemoveImage": "Kép eltávolítása",
-      "textRemoveLink": "Link eltávolítása",
       "textRemoveShape": "Alakzat eltávolítása",
       "textRemoveTable": "Táblázat eltávolítása",
-      "textReorder": "Újrarendez",
       "textReplace": "Cserél",
       "textReplaceAll": "Mindent cserél",
       "textReplaceImage": "Kép cseréje",
@@ -396,7 +399,15 @@
       "textZoom": "Zoom",
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
-      "textZoomRotate": "Zoom és elforgatás"
+      "textZoomRotate": "Zoom és elforgatás",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",

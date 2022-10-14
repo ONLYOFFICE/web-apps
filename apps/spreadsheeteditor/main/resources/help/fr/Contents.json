@@ -100,11 +100,12 @@
     { "src": "UsageInstructions/RemoveDuplicates.htm", "name": "Supprimer les valeurs dupliquées" },
     { "src": "UsageInstructions/ConditionalFormatting.htm", "name": "La mise en forme conditionnelle" },
     {"src": "UsageInstructions/DataValidation.htm", "name": "Validation des données" },
-  {
-    "src": "UsageInstructions/InsertFunction.htm",
-    "name": "Insérer des fonctions",
-    "headername": "Travailler avec les fonctions"
-  },
+    {
+        "src": "UsageInstructions/InsertFunction.htm",
+        "name": "Insérer des fonctions",
+        "headername": "Travailler avec les fonctions"
+    },    
+    {"src": "UsageInstructions/InsertArrayFormulas.htm", "name": "Insérer des formules de tableau"},
   {
     "src": "UsageInstructions/UseNamedRanges.htm",
     "name": "Utiliser les plages nommées"
@@ -145,6 +146,9 @@
         "headername": "Co-édition des classeurs"
     },
     { "src": "UsageInstructions/SheetView.htm", "name": "Configurer les paramètres d'affichage de feuille" },
+    { "src": "HelpfulHints/Communicating.htm", "name": "Communiquer en temps réel" },
+    { "src": "HelpfulHints/Commenting.htm", "name": "Commentaires" },
+    { "src": "HelpfulHints/VersionHistory.htm", "name": "Historique des versions" },
     { "src": "UsageInstructions/ProtectSpreadsheet.htm", "name": "Protéger une feuille de calcul", "headername": "Protéger une feuille de calcul" },
     { "src": "UsageInstructions/AllowEditRanges.htm", "name": "Autoriser la modification des plages" },
     { "src": "UsageInstructions/Password.htm", "name": "Protéger un classeur avec un mot de passe" },
@@ -155,6 +159,7 @@
     {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
     {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
+    {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition"},
     {
         "src": "UsageInstructions/ViewDocInfo.htm",
         "name": "Afficher les informations de fichier",

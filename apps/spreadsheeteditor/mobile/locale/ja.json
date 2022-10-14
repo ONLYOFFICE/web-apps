@@ -32,7 +32,8 @@
       "textReopen": "もう一度開く",
       "textResolve": "解決する",
       "textTryUndoRedo": "高速で共同な編集モードでは、元に戻す/やり直し機能が無効になります。",
-      "textUsers": "ユーザー"
+      "textUsers": "ユーザー",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "ユーザー設定の色",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "再度表示しない",
     "textOk": "OK",
     "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？",
-    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？"
+    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
       "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
       "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-      "warnProcessRightsChange": "ファイルを編集する権限がありません！"
+      "warnProcessRightsChange": "ファイルを編集する権限がありません！",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "パスワード",
@@ -298,7 +303,7 @@
     "textMoveBefore": "シートの前へ移動",
     "textMoveToEnd": "(末尾へ移動)",
     "textOk": "OK",
-    "textRename": "名前の変更",
+    "textRename": "名前を変更する",
     "textRenameSheet": "このシートの名前を変更する",
     "textSheet": "シート",
     "textSheetName": "シートの名",
@@ -370,7 +375,9 @@
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSorting": "並べ替え中",
       "txtSortSelected": "選択したを並べ替える",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
@@ -504,10 +511,7 @@
       "textPt": "pt",
       "textRange": "範囲",
       "textRemoveChart": "チャートを削除する",
-      "textRemoveImage": "イメージを削除する",
-      "textRemoveLink": "リンクを削除する",
       "textRemoveShape": "形を削除する",
-      "textReorder": "並べ替え",
       "textReplace": "置換する",
       "textReplaceImage": "イメージを置換する",
       "textRequired": "必要な",
@@ -552,7 +556,14 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",

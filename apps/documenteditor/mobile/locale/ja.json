@@ -61,7 +61,10 @@
     "textTableSize": "表のサイズ",
     "textWithBlueLinks": "ブルーリンク付き",
     "textWithPageNumbers": "ページ番号付き",
-    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。"
+    "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "高速で共同な編集モードでは、元に戻す/やり直し機能が無効になります。",
       "textUnderline": "下線",
       "textUsers": "ユーザー",
-      "textWidow": "改ページ時 1 行残して段落を区切らない"
+      "textWidow": "改ページ時 1 行残して段落を区切らない",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "塗りつぶしなし"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "テーブル全体を更新する",
     "textRefreshPageNumbersOnly": "ページ番号のみを更新する",
     "textRows": "行",
-    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？"
+    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": " 警告",
@@ -258,7 +263,7 @@
     "textFebruary": "2月",
     "textFill": "塗りつぶし",
     "textFirstColumn": "最初の列",
-    "textFirstLine": "最初の線",
+    "textFirstLine": "最初の行",
     "textFlow": "フロー",
     "textFontColor": "フォントの色",
     "textFontColors": "フォントの色",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "テーブル全体を更新する",
     "textRefreshPageNumbersOnly": "ページ番号のみを更新する",
     "textRemoveChart": "チャートを削除する",
-    "textRemoveImage": "イメージを削除する",
-    "textRemoveLink": "リンクを削除する",
     "textRemoveShape": "形を削除する",
     "textRemoveTable": "表を削除する",
     "textRemoveTableContent": "目次を削除する",
@@ -365,7 +368,15 @@
     "textTu": "火",
     "textType": "タイプ",
     "textWe": "水",
-    "textWrap": "折り返す"
+    "textWrap": "折り返す",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
@@ -393,6 +404,7 @@
     "errorSessionIdle": "文書が長いとこ変更されませんでした。ページを再び読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
     "errorStockChart": "行の順序が正しくありません。株価チャートを作るようにシートにこのようにデータを配置してください：<br>始値、最高価格、最小価格、終値。",
+    "errorTextFormWrongFormat": "入力された値がフィールドのフォーマットと一致しません。",
     "errorUpdateVersionOnDisconnect": "インターネット接続が復旧し、ファイルのバージョンが更新されています。<br>作業を継続する前に、ファイルをダウンロードするか内容をコピーして変更が失われていないことを確認してから、このページを再読み込みしてください。",
     "errorUserDrop": "今、ファイルにアクセスすることはできません。",
     "errorUsersExceed": "料金プランで許可されているユーザー数を超えました。",
@@ -407,7 +419,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
@@ -606,6 +619,7 @@
     "textMargins": "余白",
     "textMarginsH": "指定されたページの高さ対して、上下の余白が大きすぎます。",
     "textMarginsW": "右左の余白がこのページの幅に広すぎる。",
+    "textMobileView": "モバイルビュー",
     "textNavigation": "ナビゲーション",
     "textNo": "いいえ",
     "textNoCharacters": "印刷されない文字",
@@ -675,6 +689,9 @@
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",
-    "stayButtonText": "このページから移動しない"
+    "stayButtonText": "このページから移動しない",
+    "textOk": "OK",
+    "textSwitchedMobileView": "モバイルビューに切り替えました",
+    "textSwitchedStandardView": "標準ビューに切り替えました"
   }
 }
