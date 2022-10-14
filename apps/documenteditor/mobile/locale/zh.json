@@ -26,6 +26,7 @@
     "textContinuousPage": "连续页",
     "textCurrentPosition": "当前位置",
     "textDisplay": "展示",
+    "textDone": "完成",
     "textEmptyImgUrl": "您需要指定图像URL。",
     "textEvenPage": "偶数页",
     "textFootnote": "脚注",
@@ -49,6 +50,8 @@
     "textPictureFromLibrary": "图库",
     "textPictureFromURL": "来自网络的图片",
     "textPosition": "位置",
+    "textRecommended": "推荐",
+    "textRequired": "必填",
     "textRightBottom": "右下",
     "textRightTop": "右上",
     "textRows": "行",
@@ -61,10 +64,7 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "带蓝色链接",
     "textWithPageNumbers": "带页号",
-    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
-    "textDone": "Done",
-    "textRecommended": "Recommended",
-    "textRequired": "Required"
+    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
   },
   "Common": {
     "Collaboration": {
@@ -147,6 +147,7 @@
       "textReviewChange": "审查变更",
       "textRight": "右对齐",
       "textShape": "形状",
+      "textSharingSettings": "共享设置",
       "textShd": "背景颜色",
       "textSmallCaps": "小型大写字母",
       "textSpacing": "间距",
@@ -160,11 +161,10 @@
       "textTableRowsDel": "行被删除",
       "textTabs": "更改选项卡",
       "textTrackChanges": "跟踪变化",
-      "textTryUndoRedo": "快速共同编辑模式下，撤销/重做功能被禁用。",
+      "textTryUndoRedo": "自动共同编辑模式下，撤销/重做功能被禁用。",
       "textUnderline": "下划线",
       "textUsers": "用户",
-      "textWidow": "单独控制",
-      "textSharingSettings": "Sharing Settings"
+      "textWidow": "单独控制"
     },
     "HighlightColorPalette": {
       "textNoFill": "无填充"
@@ -184,6 +184,7 @@
     "menuDelete": "删除",
     "menuDeleteTable": "删除表",
     "menuEdit": "编辑",
+    "menuEditLink": "编辑链接",
     "menuJoinList": "联接上一个列表",
     "menuMerge": "合并",
     "menuMore": "更多",
@@ -204,8 +205,7 @@
     "textRefreshEntireTable": "刷新整个表格",
     "textRefreshPageNumbersOnly": "仅刷新页号",
     "textRows": "行",
-    "txtWarnUrl": "点击该链接可能会损害您的设备或数据。<br>您确定要继续吗？",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "点击该链接可能会损害您的设备或数据。<br>您确定要继续吗？"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
@@ -238,6 +238,7 @@
     "textCancel": "取消",
     "textCellMargins": "单元格边距",
     "textCentered": "居中",
+    "textChangeShape": "改变形状",
     "textChart": "图表",
     "textClassic": "经典",
     "textClose": "关闭",
@@ -246,7 +247,10 @@
     "textCreateTextStyle": "创建新样式",
     "textCurrent": "当前",
     "textCustomColor": "自定义颜色",
+    "textCustomStyle": "自定义样式",
     "textDecember": "十二月",
+    "textDeleteImage": "删除图像",
+    "textDeleteLink": "删除链接",
     "textDesign": "设计",
     "textDifferentFirstPage": "不同的第一页",
     "textDifferentOddAndEvenPages": "不同的奇数页和偶数页",
@@ -319,6 +323,7 @@
     "textPictureFromLibrary": "图库",
     "textPictureFromURL": "来自网络的图片",
     "textPt": "像素",
+    "textRecommended": "推荐",
     "textRefresh": "刷新",
     "textRefreshEntireTable": "刷新整个表格",
     "textRefreshPageNumbersOnly": "仅刷新页号",
@@ -330,6 +335,7 @@
     "textRepeatAsHeaderRow": "重复标题行",
     "textReplace": "替换",
     "textReplaceImage": "替换图像",
+    "textRequired": "必填",
     "textResizeToFitContent": "调整大小以适应内容",
     "textRightAlign": "右对齐",
     "textSa": "周六",
@@ -359,6 +365,7 @@
     "textTableOfCont": "目录",
     "textTableOptions": "表格选项",
     "textText": "文本",
+    "textTextWrapping": "文字环绕",
     "textTh": "周四",
     "textThrough": "穿越型环绕",
     "textTight": "紧",
@@ -369,14 +376,7 @@
     "textType": "类型",
     "textWe": "周三",
     "textWrap": "包裹",
-    "textChangeShape": "Change Shape",
-    "textDeleteImage": "Delete Image",
-    "textDeleteLink": "Delete Link",
-    "textRecommended": "Recommended",
-    "textRequired": "Required",
-    "textTextWrapping": "Text Wrapping",
-    "textCustomStyle": "Custom Style",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "环绕样式"
   },
   "Error": {
     "convertationTimeoutText": "转换超时",
@@ -390,6 +390,7 @@
     "errorDataEncrypted": "加密更改已收到，无法对其解密。",
     "errorDataRange": "数据范围不正确",
     "errorDefaultMessage": "错误代码：%1",
+    "errorDirectUrl": "请验证指向文档的链接。<br>此链接必须是指向要下载的文件的直接链接。",
     "errorEditingDownloadas": "处理文档时发生错误.<br>请将文件备份保存到本地。",
     "errorEmptyTOC": "开始创建一个目录并应用样式库中的标题样式到选择的文本。",
     "errorFilePassProtect": "该文件已启动密码保护，无法打开。",
@@ -419,8 +420,7 @@
     "unknownErrorText": "未知错误。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有图片上传",
-    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "数据加载中…",

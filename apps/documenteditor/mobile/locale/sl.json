@@ -250,6 +250,7 @@
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
     "textCustomColor": "Custom Color",
+    "textCustomStyle": "Custom Style",
     "textDecember": "December",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
@@ -375,7 +376,6 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Main": {

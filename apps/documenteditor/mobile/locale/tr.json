@@ -330,6 +330,7 @@
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
@@ -375,7 +376,6 @@
     "textTitle": "Title",
     "textTu": "Tu",
     "textWe": "We",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Error": {

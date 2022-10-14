@@ -369,13 +369,13 @@
     "textWe": "Kami",
     "textWrap": "Balut",
     "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
     "textRecommended": "Recommended",
     "textRequired": "Required",
     "textTableOfCont": "TOC",
     "textTextWrapping": "Text Wrapping",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Error": {

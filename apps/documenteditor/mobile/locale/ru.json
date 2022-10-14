@@ -247,6 +247,7 @@
     "textCreateTextStyle": "Создать новый стиль текста",
     "textCurrent": "Текущий",
     "textCustomColor": "Пользовательский цвет",
+    "textCustomStyle": "Пользовательский стиль",
     "textDecember": "Декабрь",
     "textDeleteImage": "Удалить рисунок",
     "textDeleteLink": "Удалить ссылку",
@@ -375,8 +376,7 @@
     "textType": "Тип",
     "textWe": "Ср",
     "textWrap": "Стиль обтекания",
-    "textWrappingStyle": "Стиль обтекания",
-    "textCustomStyle": "Custom Style"
+    "textWrappingStyle": "Стиль обтекания"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",

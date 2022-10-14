@@ -347,6 +347,7 @@
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
@@ -375,7 +376,6 @@
     "textTableOfCont": "TOC",
     "textTextWrapping": "Text Wrapping",
     "textTitle": "Title",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Error": {

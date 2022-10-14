@@ -3,11 +3,11 @@
     "textAbout": "Tentang",
     "textAddress": "Alamat",
     "textBack": "Kembali",
+    "textEditor": "Penyunting Presentasi",
     "textEmail": "Email",
     "textPoweredBy": "Didukung oleh",
     "textTel": "Tel",
-    "textVersion": "Versi",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Versi"
   },
   "Common": {
     "Collaboration": {
@@ -31,9 +31,9 @@
       "textOk": "OK",
       "textReopen": "Buka lagi",
       "textResolve": "Selesaikan",
+      "textSharingSettings": "Pengaturan Berbagi",
       "textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
-      "textUsers": "Pengguna",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Pengguna"
     },
     "HighlightColorPalette": {
       "textNoFill": "Tidak ada Isian"
@@ -52,6 +52,7 @@
     "menuDelete": "Hapus",
     "menuDeleteTable": "Hapus Tabel",
     "menuEdit": "Sunting",
+    "menuEditLink": "Sunting Tautan",
     "menuMerge": "Merge",
     "menuMore": "Lainnya",
     "menuOpenLink": "Buka Link",
@@ -60,10 +61,9 @@
     "textColumns": "Kolom",
     "textCopyCutPasteActions": "Salin, Potong dan Tempel",
     "textDoNotShowAgain": "Jangan tampilkan lagi",
+    "textOk": "OK",
     "textRows": "Baris",
-    "menuEditLink": "Edit Link",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?"
   },
   "Controller": {
     "Main": {
@@ -118,6 +118,7 @@
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
       "textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti {0}",
+      "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ini ke %1?",
       "textYes": "Ya",
       "titleLicenseExp": "Lisensi kadaluwarsa",
       "titleServerVersion": "Editor mengupdate",
@@ -131,8 +132,7 @@
       "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
     }
   },
   "Error": {
@@ -147,6 +147,7 @@
     "errorDataEncrypted": "Perubahan enkripsi sudah diterima dan tidak bisa diuraikan.",
     "errorDataRange": "Rentang data salah.",
     "errorDefaultMessage": "Kode kesalahan: %1",
+    "errorDirectUrl": "Silakan verifikasi tautan ke dokumen.<br>Tautan ini harus merupakan tautan langsung menuju file yang akan diunduh.",
     "errorEditingDownloadas": "Ada kesalahan saat bekerja dengan dokumen.<br>Gunakan menu 'Download' untuk menyimpan file copy backup di lokal.",
     "errorFilePassProtect": "Password file diproteksi dan tidak bisa dibuka.",
     "errorFileSizeExceed": "Ukuran file melampaui limit server Anda. <br>Silakan, hubungi admin.",
@@ -157,7 +158,7 @@
     "errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
     "errorStockChart": "Urutan baris salah. Untuk membuat diagram garis, masukkan data pada lembar kerja dengan urutan berikut ini:<br>harga pembukaan, harga maksimal, harga minimal, harga penutupan.",
-    "errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu download file atau copy konten untuk memastikan tidak ada yang hilang, dan muat ulang halaman ini.",
+    "errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu mengunduh file atau salin konten untuk memastikan tidak ada yang hilang, lalu muat ulang halaman ini.",
     "errorUserDrop": "File tidak bisa diakses sekarang.",
     "errorUsersExceed": "Jumlah pengguna telah melebihi jumlah yang diijinkan dalam paket harga.",
     "errorViewerDisconnect": "Koneksi terputus. Anda tetap bisa melihat dokumen,<br>tapi tidak bisa download atau print sampai koneksi terhubung dan halaman dimuat ulang.",
@@ -171,8 +172,7 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -222,6 +222,7 @@
       "textComment": "Komentar",
       "textDefault": "Teks yang dipilih",
       "textDisplay": "Tampilan",
+      "textDone": "Selesai",
       "textEmptyImgUrl": "Anda perlu melengkapkan URL gambar.",
       "textExternalLink": "Tautan eksternal",
       "textFirstSlide": "Slide Pertama",
@@ -240,6 +241,8 @@
       "textPictureFromLibrary": "Gambar dari Perpustakaan",
       "textPictureFromURL": "Gambar dari URL",
       "textPreviousSlide": "Slide sebelumnya",
+      "textRecommended": "Direkomendasikan",
+      "textRequired": "Wajib Diisi",
       "textRows": "Baris",
       "textScreenTip": "Tip Layar",
       "textShape": "Bentuk",
@@ -248,10 +251,7 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
-      "textDone": "Done",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -270,6 +270,7 @@
       "textAlignTop": "Rata Atas",
       "textAllCaps": "Huruf kapital semua",
       "textApplyAll": "Terapkan untuk Semua Slide",
+      "textArrange": "Susun",
       "textAuto": "Otomatis",
       "textAutomatic": "Otomatis",
       "textBack": "Kembali",
@@ -284,8 +285,10 @@
       "textBringToForeground": "Tampilkan di Halaman Muka",
       "textBullets": "Butir",
       "textBulletsAndNumbers": "Butir & Angka",
+      "textCancel": "Batalkan",
       "textCaseSensitive": "Harus sama persis",
       "textCellMargins": "Margin Sel",
+      "textChangeShape": "Ubah Bentuk",
       "textChart": "Bagan",
       "textClock": "Jam",
       "textClockwise": "Searah Jarum Jam",
@@ -295,6 +298,8 @@
       "textCustomColor": "Custom Warna",
       "textDefault": "Teks yang dipilih",
       "textDelay": "Delay",
+      "textDeleteImage": "Hapus Gambar",
+      "textDeleteLink": "Hapus Tautan",
       "textDeleteSlide": "Hapus Slide",
       "textDesign": "Desain",
       "textDisplay": "Tampilan",
@@ -330,6 +335,7 @@
       "textHyperlink": "Hyperlink",
       "textImage": "Gambar",
       "textImageURL": "URL Gambar",
+      "textInsertImage": "Sisipkan Gambar",
       "textLastColumn": "Kolom Terakhir",
       "textLastSlide": "Slide Terakhir",
       "textLayout": "Layout",
@@ -356,12 +362,14 @@
       "textPreviousSlide": "Slide sebelumnya",
       "textPt": "pt",
       "textPush": "Tekan",
+      "textRecommended": "Direkomendasikan",
       "textRemoveChart": "Hilangkan Grafik",
       "textRemoveShape": "Hilangkan Bentuk",
       "textRemoveTable": "Hilangkan Tabel",
       "textReplace": "Ganti",
       "textReplaceAll": "Ganti Semua",
       "textReplaceImage": "Ganti Gambar",
+      "textRequired": "Wajib Diisi",
       "textRight": "Kanan",
       "textScreenTip": "Tip Layar",
       "textSearch": "Cari",
@@ -399,19 +407,12 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textInsertImage": "Insert Image",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textZoomRotate": "Zoom dan Rotasi"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Widescreen (16:9)",
+      "notcriticalErrorTitle": "Peringatan",
       "textAbout": "Tentang",
       "textAddress": "alamat:",
       "textApplication": "Aplikasi",
@@ -434,6 +435,7 @@
       "textEmail": "email:",
       "textEnableAll": "Aktifkan Semua",
       "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
+      "textFeedback": "Masukan & Dukungan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
       "textFindAndReplaceAll": "Temukan dan Ganti Semua",
@@ -446,6 +448,7 @@
       "textLocation": "Lokasi",
       "textMacrosSettings": "Pengaturan Macros",
       "textNoTextFound": "Teks tidak ditemukan",
+      "textOk": "OK",
       "textOwner": "Pemilik",
       "textPoint": "Titik",
       "textPoweredBy": "Didukung oleh",
@@ -455,6 +458,8 @@
       "textPrint": "Cetak",
       "textReplace": "Ganti",
       "textReplaceAll": "Ganti Semua",
+      "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
+      "textRTL": "RTL",
       "textSearch": "Cari",
       "textSettings": "Pengaturan",
       "textShowNotification": "Tampilkan Notifikasi",
@@ -487,12 +492,7 @@
       "txtScheme6": "Himpunan",
       "txtScheme7": "Margin Sisa",
       "txtScheme8": "Alur",
-      "txtScheme9": "Cetakan",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "txtScheme9": "Cetakan"
     }
   }
 }

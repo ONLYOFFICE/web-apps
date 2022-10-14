@@ -370,12 +370,12 @@
     "textWe": "Mi",
     "textWrap": "Umbrechen",
     "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
     "textRecommended": "Recommended",
     "textRequired": "Required",
     "textTextWrapping": "Text Wrapping",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Error": {

@@ -247,6 +247,7 @@
     "textCreateTextStyle": "Criar novo estilo de texto",
     "textCurrent": "Atual",
     "textCustomColor": "Cor personalizada",
+    "textCustomStyle": "Estilo personalizado",
     "textDecember": "dezembro",
     "textDeleteImage": "Eliminar imagem",
     "textDeleteLink": "Eliminar ligação",
@@ -375,8 +376,7 @@
     "textType": "Tipo",
     "textWe": "qua",
     "textWrap": "Moldar",
-    "textWrappingStyle": "Estilo de moldagem",
-    "textCustomStyle": "Custom Style"
+    "textWrappingStyle": "Estilo de moldagem"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",
