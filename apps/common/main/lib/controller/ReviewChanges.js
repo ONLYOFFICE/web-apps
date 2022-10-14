@@ -723,9 +723,9 @@ define([
                             }
                         }
                     })).show();
-                } 
-                Common.NotificationCenter.trigger('edit:complete', this.view);
+                }
             }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         setRevisedFile: function(data) {

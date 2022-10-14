@@ -945,7 +945,7 @@ define([
             txtCompare: 'Compare',
             tipCompare: 'Compare current document with another one',
             txtCombine: 'Combine',
-            tipCombine: 'Combine',
+            tipCombine: 'Combine current document with another one',
             mniFromFile: 'Document from File',
             mniFromUrl: 'Document from URL',
             mniFromStorage: 'Document from Storage',
