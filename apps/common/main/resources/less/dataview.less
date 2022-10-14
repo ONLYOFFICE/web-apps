@@ -41,10 +41,25 @@
         clear: left;
         overflow: hidden;
 
+        .rtl & {
+            clear: right;
+        }
+
         &.inline {
             display: inline-block;
+
+            .rtl & {
+                float: right;
+                clear: none;
+            }
+
             &.margin .group-items-container {
                 margin-right: 20px;
+
+                .rtl & {
+                    margin-right: 0;
+                    margin-left: 20px;
+                }
             }
         }
 
@@ -56,6 +71,10 @@
                 display: inline-block;
                 float: left;
                 margin: 2px 4px 4px;
+
+                .rtl & {
+                    float: right;
+                }
 
                 &:not(.disabled) {
                     cursor: pointer;
@@ -93,9 +112,20 @@
 .menu-insert-shape, .menu-change-shape {
     width: 362px;
     padding: 10px 5px 10px 10px !important;
+
+    .rtl & {
+        padding: 10px 10px 10px 5px !important;
+    }
+
     .group-description {
         padding: 3px 0 3px 4px;
+
+        .rtl & {
+            padding: 3px 4px 3px 0;
+            text-align: right;
+        }
     }
+
     .dataview .grouped-data .group-items-container .item {
         box-shadow: none;
         margin: 2px 2px 2px;

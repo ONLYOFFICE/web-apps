@@ -721,13 +721,27 @@
 .menu-insertchart {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
     .group-description {
         padding-left: 4px;
+
+        .rtl & {
+            padding: 0;
+            padding-right: 4px;
+            text-align: right;
+        }
     }
 
     .group-items-container {
         float: left;
         position: relative;
+
+        .rtl & {
+            float: right;
+        }
     }
 }
 
