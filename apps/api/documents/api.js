@@ -492,7 +492,7 @@
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
             if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
-                _self.createEmbedWorker && _self.createEmbedWorker();
+                window.AscEmbed && window.AscEmbed.initWorker(iframe);
 
             if (iframe.src) {
                 var pathArray = iframe.src.split('/');
