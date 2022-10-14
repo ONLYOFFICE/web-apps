@@ -1069,14 +1069,10 @@ define([
                 if (formPr) {
                     this._originalFormProps = formPr;
 
-                    var data = [];
-                    if (type == Asc.c_oAscContentControlSpecificType.CheckBox)
-                        data = this.api.asc_GetCheckBoxFormKeys();
-                    else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
-                        data = this.api.asc_GetPictureFormKeys();
+                    if (type == Asc.c_oAscContentControlSpecificType.Picture) 
                         this.labelFormName.text(this.textImage);
-                    } else
-                        data = this.api.asc_GetTextFormKeys();
+
+                    var data = this.api.asc_GetFormKeysByType(type);
                     if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
                         var arr = [];
                         data.forEach(function(item) {
