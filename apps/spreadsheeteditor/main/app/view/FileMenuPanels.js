@@ -1352,6 +1352,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
                     '<tr>',
+                        '<td class="left"><label>' + this.txtTags + '</label></td>',
+                        '<td class="right"><div id="id-info-tags"></div></td>',
+                    '</tr>',
+                    '<tr>',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
@@ -1431,6 +1435,15 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.inputTitle = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-title'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('keydown:before', keyDownBefore);
+            this.inputTags = new Common.UI.InputField({
+                el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
@@ -1642,6 +1655,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
                 value = props.asc_getTitle();
                 this.inputTitle.setValue(value || '');
+                value = props.asc_getKeywords();
+                this.inputTags.setValue(value || '');
                 value = props.asc_getSubject();
                 this.inputSubject.setValue(value || '');
                 value = props.asc_getDescription();
@@ -1680,6 +1695,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
+                this.inputTags._input.attr('placeholder', '');
                 this.inputSubject._input.attr('placeholder', '');
                 this.inputComment._input.attr('placeholder', '');
                 this.inputAuthor._input.attr('placeholder', '');
@@ -1703,6 +1719,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         SetDisabled: function() {
             var disable = !this.mode.isEdit || this._locked;
             this.inputTitle.setDisabled(disable);
+            this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);
             this.inputComment.setDisabled(disable);
             this.inputAuthor.setDisabled(disable);
@@ -1714,6 +1731,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         applySettings: function() {
             if (this.coreProps && this.api) {
                 this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putKeywords(this.inputTags.getValue());
                 this.coreProps.asc_putSubject(this.inputSubject.getValue());
                 this.coreProps.asc_putDescription(this.inputComment.getValue());
                 this.coreProps.asc_putCreator(this.authors.join(';'));
@@ -1727,6 +1745,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtUploaded: 'Uploaded',
         txtAppName: 'Application',
         txtTitle: 'Title',
+        txtTags: 'Tags',
         txtSubject: 'Subject',
         txtComment: 'Comment',
         txtModifyDate: 'Last Modified',

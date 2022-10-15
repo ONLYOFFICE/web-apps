@@ -1675,6 +1675,7 @@
   "PE.Views.FileMenuPanels.DocumentInfo.txtRights": "Люди, имеющие права",
   "PE.Views.FileMenuPanels.DocumentInfo.txtSubject": "Тема",
   "PE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Название",
+  "PE.Views.FileMenuPanels.DocumentInfo.txtTags": "Теги",
   "PE.Views.FileMenuPanels.DocumentInfo.txtUploaded": "Загружена",
   "PE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Изменить права доступа",
   "PE.Views.FileMenuPanels.DocumentRights.txtRights": "Люди, имеющие права",
