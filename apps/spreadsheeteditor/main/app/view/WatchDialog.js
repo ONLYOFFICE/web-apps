@@ -192,8 +192,10 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 if (this._deletedIndex!==undefined) {
                     var store = this.watchList.store;
                     (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
-                    if(this.watchList.options.multiSelect)
-                        this.watchList.scrollToRecord(this.watchList.getSelectedRec()[0]);
+                    if(this.watchList.options.multiSelect) {
+                        var selectedRec = this.watchList.getSelectedRec();
+                        (selectedRec.length > 0) && this.watchList.scrollToRecord(selectedRec[0]);
+                    }
                     else
                         this.watchList.scrollToRecord(this.watchList.getSelectedRec());
                     this._fromKeyDown && this.watchList.focus();
@@ -238,7 +240,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 if(this.watchList.options.multiSelect) {
                     var props=[];
                     _.each(rec, function (r, i) {
-                        me._deletedIndex = me.watchList.store.indexOf(r);
+                        me._deletedIndex = me.watchList.store.indexOf(r)-props.length;
                         props[i] =r.get('props');
                     });
                     this.api.asc_deleteCellWatches(props);
@@ -268,7 +270,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         },
 
         updateButtons: function() {
-            this.btnDelete.setDisabled(this.watchList.store.length<1 || !this.watchList.getSelectedRec());
+            this.btnDelete.setDisabled(this.watchList.store.length<1 || !this.watchList.getSelectedRec() || (this.watchList.multiSelect && this.watchList.getSelectedRec().length==0));
             this.watchList.scroller && this.watchList.scroller.update({alwaysVisibleY: true});
         },
 
