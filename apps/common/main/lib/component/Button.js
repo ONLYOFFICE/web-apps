@@ -346,6 +346,25 @@ define([
                 me.render();
             } else if (me.options.parentEl)
                 me.render(me.options.parentEl);
+
+            const str_mq_250 = `screen and (-webkit-min-device-pixel-ratio: 2.5),
+                screen and (min-resolution: 2.5dppx), screen and (min-resolution: 240dpi)`;
+            window.matchMedia(str_mq_250).addEventListener('change', e => {
+                if ( e.matches ) {
+                    console.log('scaling 250%');
+
+                    const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                    const icon_name = re_icon_name ? re_icon_name[0] : "null";
+                    const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
+
+                    me.$el.find('i.icon').replaceWith(svg_icon);
+                } else {
+                    console.log('scaling less than 250%');
+
+                    const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
+                    me.$el.find('svg.icon').replaceWith(png_icon);
+                }
+            });
         },
 
         getCaptionWithBreaks: function (caption) {
