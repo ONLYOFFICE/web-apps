@@ -144,6 +144,8 @@ var utils = new(function() {
                         "screen and (min-resolution: 1.75dppx) and (max-resolution: 1.99dppx)";
                 var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
                         "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
+                const str_mq_250 = "screen and (-webkit-min-device-pixel-ratio: 2.5), " +
+                        "screen and (min-resolution: 2.5dppx), screen and (min-resolution: 240dpi)";
 
                 if ( window.matchMedia(str_mq_125).matches ) {
                     scale.devicePixelRatio = 1.5;
@@ -157,6 +159,10 @@ var utils = new(function() {
                 if ( window.matchMedia(str_mq_200).matches )
                     scale.devicePixelRatio = 2;
                 else scale.devicePixelRatio = 1;
+
+                if ( window.matchMedia(str_mq_250).matches ) {
+                    scale.devicePixelRatio = 2.5;
+                }
             }
 
             var $root = $(document.body);

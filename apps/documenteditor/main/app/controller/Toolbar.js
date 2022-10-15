@@ -3193,6 +3193,8 @@ define([
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
             this.onChangeProtectDocument();
+
+            Common.Utils.injectSvgIcons();
         },
 
         onAppShowed: function (config) {
