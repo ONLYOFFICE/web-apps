@@ -2381,6 +2381,19 @@ define([
                             }
                         }, this)
                     });
+                } else if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.confirmMaxChangesSize,
+                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
+                        maxwidth: 600,
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback(btn === 'ok');
+                            }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                        }, this)
+                    });
                 }
             },
 
@@ -3660,8 +3673,10 @@ define([
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
             textRememberMacros: 'Remember my choice for all macros',
             confirmAddCellWatches: 'This action will add {0} cell watches.<br>Do you want to continue?',
-            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?'
-
+            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?',
+            confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
+            textUndo: 'Undo',
+            textContinue: 'Continue'
         }
     })(), SSE.Controllers.Main || {}))
 });

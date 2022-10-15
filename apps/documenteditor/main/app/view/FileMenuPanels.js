@@ -1990,7 +1990,7 @@ define([
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
-            this.urlHelpCenter = '{{HELP_CENTER_WEB_EDITORS}}';
+            this.urlHelpCenter = '{{HELP_CENTER_WEB_DE}}';
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
@@ -2114,7 +2114,7 @@ define([
                         } else {
                             if ( Common.Controllers.Desktop.isActive() ) {
                                 if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
-                                    me.usedHelpCenter = true;
+                                    me.noHelpContents = true;
                                     me.iFrame.src = '../../common/main/resources/help/download.html';
                                 } else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;

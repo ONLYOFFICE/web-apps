@@ -314,6 +314,7 @@ define([
                         this.showHistory();
                 }
                 break;
+            case 'external-help': close_menu = true; break;
             default: close_menu = false;
             }
 

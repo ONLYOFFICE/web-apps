@@ -2242,7 +2242,7 @@ define([
         },
 
         onRefreshField: function(item, e){
-            this.api && this.api.asc_UpdateComplexField(item.options.fieldProps);
+            this.api && this.api.asc_UpdateFields(true);
             this.editComplete();
         },
 
