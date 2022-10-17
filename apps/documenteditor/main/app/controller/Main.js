@@ -1224,10 +1224,6 @@ define([
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getBool("de-settings-inputmode");
-                Common.Utils.InternalSettings.set("de-settings-inputmode", value);
-                me.api.SetTextBoxInputMode(value);
-
                 value = Common.localStorage.getBool("de-settings-show-alt-hints", Common.Utils.isMac ? false : true);
                 Common.Utils.InternalSettings.set("de-settings-show-alt-hints", value);
 

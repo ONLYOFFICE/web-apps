@@ -435,10 +435,6 @@ define([
         applySettings: function(menu) {
             var value;
 
-            value = Common.localStorage.getBool("de-settings-inputmode");
-            Common.Utils.InternalSettings.set("de-settings-inputmode", value);
-            this.api.SetTextBoxInputMode(value);
-
             var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring ) {
