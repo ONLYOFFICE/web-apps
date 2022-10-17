@@ -249,6 +249,34 @@
       }
     }
   }
+
+  #fms-cmb-theme {
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+
+    .rtl & {
+      margin-right: 0;
+      margin-left: 15px;
+    }
+  }
+
+  #fms-chb-dark-mode {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 2px;
+  }
+
+  #fms-cmb-macros {
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+
+    .rtl & {
+      margin-right: 0;
+      margin-left: 15px;
+    }
+  }
 }
 
 #panel-createnew {
@@ -260,6 +288,10 @@
     .font-weight-bold();
     padding: 0 0 10px 10px;
     white-space: nowrap;
+
+    .rtl & {
+      padding: 0 10px 10px 0;
+    }
   }
 
 
@@ -420,11 +452,19 @@
 
     .help-item-wrap {
       padding: 4px 2px 4px 20px;
+
+      .rtl & {
+        padding: 4px 20px 4px 2px;
+      }
     }
 
     .header-name {
       padding: 16px 2px 4px 10px;
       font-size: 12px;
+
+      .rtl & {
+        padding: 16px 10px 4px 2px;
+      }
     }
   }
 }
@@ -432,6 +472,15 @@
 #panel-rights {
   #file-menu-panel & {
     padding: 0 30px;
+  }
+
+  #id-info-btn-edit {
+    margin-right: 10px;
+
+    .rtl & {
+      margin-right: 0;
+      margin-left: 10px;
+    }
   }
 }
 
@@ -442,10 +491,18 @@
       td {
         padding: 0 20px 5px 0;
 
+        .rtl & {
+          padding: 0 0 5px 20px;
+        }
+
         &.left {
           padding: 5px 10px;
           text-align: right;
           width: 30%;
+
+          .rtl & {
+            text-align: left;
+          }
 
           label {
             .font-weight-bold();
@@ -523,22 +580,31 @@
 }
 
 #panel-protect {
-label {
-  font-size: 12px;
-}
+  label {
+    font-size: 12px;
+  }
 
-#file-menu-panel & {
-  padding: 30px 30px;
-}
+  #file-menu-panel & {
+    padding: 30px 30px;
+  }
 
-.header {
-  .font-weight-bold();
-  margin: 30px 0 10px;
-}
+  .header {
+    .font-weight-bold();
+    margin: 30px 0 10px;
+  }
 
-table {
-  td {
-    padding: 5px 0;
+  table {
+    td {
+      padding: 5px 0;
+    }
+  }
+
+  #fms-btn-delete-pwd {
+    margin-left: 20px;
+    .rtl & {
+      margin-left: 0;
+      margin-right: 20px;
+    }
   }
 }
-}
+

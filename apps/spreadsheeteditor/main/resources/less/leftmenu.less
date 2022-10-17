@@ -319,6 +319,24 @@
                     display: block;
                 }
             }
+
+            #fms-cmb-macros,
+            #fms-cmb-func-locale,
+            #fms-cmb-reg-settings {
+                display: inline-block;
+                margin-right: 15px;
+                vertical-align: middle;
+
+                .rtl & {
+                    margin-right: 0;
+                    margin-left: 15px;
+                }
+            }
+
+            #fms-lbl-func-locale,
+            #fms-lbl-reg-settings {
+                vertical-align: middle;
+            }
         }
 
         #panel-createnew {
@@ -330,6 +348,10 @@
                 .font-weight-bold();
                 padding: 0 0 10px 10px;
                 white-space: nowrap;
+
+                .rtl & {
+                    padding: 0 10px 10px 0;
+                }
             }
 
             .blank-document-info {
@@ -488,10 +510,18 @@
 
                 .help-item-wrap {
                     padding: 4px 2px 4px 20px;
+
+                    .rtl & {
+                        padding: 4px 20px 4px 2px;
+                    }
                 }
 
                 .header-name {
                     padding: 16px 2px 4px 10px;
+
+                    .rtl & {
+                        padding: 16px 10px 4px 2px;
+                    }
                 }
             }
         }
@@ -507,10 +537,18 @@
                     td {
                         padding: 0 20px 5px 0;
 
+                        .rtl & {
+                            padding: 0 0 5px 20px;
+                        }
+
                         &.left {
                             padding: 5px 10px;
                             text-align: right;
                             width: 30%;
+
+                            .rtl & {
+                                text-align: left;
+                            }
 
                             label {
                                 .font-weight-bold();
@@ -583,6 +621,14 @@
                     padding: 5px 0;
                 }
             }
+
+            #fms-btn-delete-pwd {
+                margin-left: 20px;
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 20px;
+                }
+            }
         }
 
         #panel-print {
@@ -600,6 +646,11 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
+                .rtl & {
+                    right: 280px;
+                    left: 0;
+                }
 
                 div {
                     text-align: center;
@@ -625,6 +676,10 @@
                 .footer {
                     .btn.primary {
                         margin-right: 8px;
+                        .rtl & {
+                            margin-right: 0;
+                            margin-left: 8px;
+                        }
                     }
                 }
                 .settings-container {
@@ -658,12 +713,29 @@
                         }
                     }
                 }
+                #print-txt-top,
+                #print-txt-left,
+                #print-spin-margin-top,
+                #print-spin-margin-bottom {
+                    margin-right: 8px;
+                    .rtl & {
+                        margin-right: 0;
+                        margin-left: 8px;
+                    }
+                }
             }
             #print-navigation {
                 height: 50px;
                 padding-left: 20px;
                 padding-top: 10px;
                 display: flex;
+                #print-prev-page {
+                    display: inline-block;
+                    margin-right: 4px;
+                }
+                #print-next-page {
+                    display: inline-block;
+                }
                 .btn-prev-page, .btn-next-page {
                     background-color: transparent;
                     padding: 0;
@@ -703,21 +775,44 @@
                     align-items: center;
                     height: 20px;
                     margin-left: 10px;
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 10px;
+                    }
                     label {
                         .font-weight-bold();
                     }
                     #print-count-page, #print-number-page {
                         margin-left: 4px;
+                        .rtl & {
+                            margin-left: 0;
+                            margin-right: 4px;
+                        }
                     }
                 }
                 #print-active-sheet {
                     margin-left: 12px;
                     height: 20px;
                     line-height: 20px;
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 12px;
+                    }
                 }
             }
             #print-preview {
                 height: calc(100% - 50px);
+            }
+            #print-preview-box {
+                position: absolute;
+                left: 280px;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                .rtl & {
+                    right: 280px;
+                    left: 0;
+                }
             }
         }
     }

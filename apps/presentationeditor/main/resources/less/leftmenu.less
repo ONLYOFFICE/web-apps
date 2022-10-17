@@ -275,6 +275,10 @@
                 .font-weight-bold();
                 padding: 0 0 10px 10px;
                 white-space: nowrap;
+
+                .rtl & {
+                    padding: 0 10px 10px 0;
+                }
             }
 
             .blank-document-info {
@@ -433,10 +437,18 @@
 
                 .help-item-wrap {
                     padding: 4px 2px 4px 20px;
+
+                    .rtl & {
+                        padding: 4px 20px 4px 2px;
+                    }
                 }
 
                 .header-name {
                     padding: 16px 2px 4px 10px;
+
+                    .rtl & {
+                        padding: 16px 10px 4px 2px;
+                    }
                 }
             }
         }
@@ -452,10 +464,18 @@
                     td {
                         padding: 0 20px 5px 0;
 
+                        .rtl & {
+                            padding: 0 0 5px 20px;
+                        }
+
                         &.left {
                             padding: 5px 10px;
                             text-align: right;
                             width: 30%;
+
+                            .rtl & {
+                                text-align: left;
+                            }
 
                             label {
                                 .font-weight-bold();
@@ -526,6 +546,14 @@
             table {
                 td {
                     padding: 5px 0;
+                }
+            }
+
+            #fms-btn-delete-pwd {
+                margin-left: 20px;
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 20px;
                 }
             }
         }
