@@ -858,7 +858,7 @@ define([
                 var selectedRec = this.getSelectedRec();
                 if (!this.multiSelect)
                     this.scrollToRecord(selectedRec);
-                else if(selectedRec.length > 0)
+                else if(selectedRec && selectedRec.length > 0)
                     this.scrollToRecord(selectedRec[selectedRec.length - 1]);
             }
         },

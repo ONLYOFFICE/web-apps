@@ -193,7 +193,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                     var store = this.watchList.store;
                     (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
                     var selectedRec = this.watchList.getSelectedRec();
-                    (selectedRec.length > 0) && this.watchList.scrollToRecord(selectedRec[0]);
+                    (selectedRec && selectedRec.length > 0) && this.watchList.scrollToRecord(selectedRec[0]);
                     this._fromKeyDown && this.watchList.focus();
                     this._fromKeyDown = false;
                     this._deletedIndex=undefined;
@@ -261,7 +261,8 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         },
 
         updateButtons: function() {
-            this.btnDelete.setDisabled(this.watchList.store.length<1 ||  this.watchList.getSelectedRec().length==0);
+            var rec = this.watchList.getSelectedRec();
+            this.btnDelete.setDisabled(!(rec && rec.length>0));
             this.watchList.scroller && this.watchList.scroller.update({alwaysVisibleY: true});
         },
 
