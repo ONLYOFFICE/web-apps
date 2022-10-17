@@ -2171,6 +2171,7 @@
   "SSE.Views.FileMenuPanels.DocumentInfo.txtRights": "Люди, имеющие права",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtSubject": "Тема",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Название",
+  "SSE.Views.FileMenuPanels.DocumentInfo.txtTags": "Теги",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtUploaded": "Загружена",
   "SSE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Изменить права доступа",
   "SSE.Views.FileMenuPanels.DocumentRights.txtRights": "Люди, имеющие права",
