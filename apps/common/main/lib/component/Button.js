@@ -353,16 +353,20 @@ define([
                 if ( e.matches ) {
                     console.log('scaling 250%');
 
-                    const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
-                    const icon_name = re_icon_name ? re_icon_name[0] : "null";
-                    const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
+                    if ( !me.$el.find('svg.icon').length ) {
+                        const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                        const icon_name = re_icon_name ? re_icon_name[0] : "null";
+                        const svg_icon = `<svg class="icon"><use class="zoom-int" href="#${icon_name}"></use></svg>`;
 
-                    me.$el.find('i.icon').replaceWith(svg_icon);
+                        me.$el.find('i.icon').after(svg_icon);
+                    }
                 } else {
                     console.log('scaling less than 250%');
 
-                    const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
-                    me.$el.find('svg.icon').replaceWith(png_icon);
+                    if ( !me.$el.find('i.icon') ) {
+                        const png_icon = `<i class="icon ${me.iconCls}">&nbsp;</i>`;
+                        me.$el.find('svg.icon').after(png_icon);
+                    }
                 }
             });
         },

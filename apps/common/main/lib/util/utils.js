@@ -187,10 +187,15 @@ var utils = new(function() {
                 if ( !/pixel-ratio__1_75/.test(classes) ) {
                     document.body.className = clear_list + ' pixel-ratio__1_75';
                 }
-            } else {
-                $root.addClass('pixel-ratio__2');
-                if ( !/pixel-ratio__2/.test(classes) ) {
+            } else
+            if ( !(scale.devicePixelRatio < 2) && scale.devicePixelRatio < 2.5 ) {
+                if ( !/pixel-ratio__2\b/.test(classes) ) {
                     document.body.className = clear_list + ' pixel-ratio__2';
+                }
+            } else {
+                // $root.addClass('pixel-ratio__2_5');
+                if ( !/pixel-ratio__2_5/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__2_5';
                 }
             }
 

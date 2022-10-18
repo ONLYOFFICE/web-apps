@@ -424,8 +424,8 @@
             only screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
             only screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
             only screen and (min-resolution: 144dpi) and (max-resolution: 143dpi) {
-                width:calc(~"28px/1.5");
-                height:calc(~"28px/1.5");
+                //width:calc(~"28px/1.5");
+                //height:calc(~"28px/1.5");
             }
         }
     }
@@ -473,6 +473,16 @@
 
     &.align-left {
         text-align: left;
+    }
+
+    .pixel-ratio__2_5 & {
+        i.icon {
+            display: none;
+        }
+    }
+
+    & svg.icon:not(.pixel-ratio__2_5 *) {
+        display: none;
     }
 }
 
