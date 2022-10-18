@@ -15,6 +15,10 @@
         background-color: @background-normal-ie;
         background-color: @background-normal;
 
+        .rtl & {
+            float: right;
+        }
+
         .dataview {
             padding: 1px;
         }
@@ -24,12 +28,20 @@
         display: inline-block;
         float: right;
 
+        .rtl & {
+            float: left;
+        }
+
         button {
             border-radius:0 @border-radius-small @border-radius-small 0;
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
             background-color: @background-normal-ie;
             background-color: @background-normal;
+
+            .rtl & {
+                border-radius:@border-radius-small 0 0 @border-radius-small;
+            }
 
             &.dropdown-toggle {
                 .inner-box-caret {
@@ -92,6 +104,16 @@
         padding-right: @combo-dataview-button-width;
 
         .border-left-radius(0);
+
+        .rtl & {
+            margin-right: 0;
+            padding-right: 0;
+            margin-left: -@combo-dataview-button-width;
+            padding-left: @combo-dataview-button-width;
+
+            .border-radius(@border-radius-small);
+            .border-right-radius(0);
+        }
 
         .dataview {
             @minus-px: calc(-1px / @pixel-ratio-factor);

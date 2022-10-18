@@ -1096,7 +1096,10 @@ define([
                                 if (menuWidth>Common.Utils.innerWidth())
                                     menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
                                 var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
-                                menu.setOffset(Math.min(offset, 0));
+                                if (Common.UI.isRTL()) {
+                                    offset = cmp.openButton.$el.width();
+                                }
+                                menu.setOffset(Common.UI.isRTL() ? offset : Math.min(offset, 0));
 
                                 menu.cmpEl.css({
                                     'width': menuWidth,
