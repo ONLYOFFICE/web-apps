@@ -100,7 +100,8 @@ define([
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
                 },
                 'ViewTab': {
-                    'viewtab:navigation': _.bind(this.onShowHideNavigation, this)
+                    'viewtab:navigation': _.bind(this.onShowHideNavigation, this),
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 },
                 'SearchBar': {
                     'search:show': _.bind(this.onShowHideSearch, this)
@@ -914,6 +915,17 @@ define([
                 this._state.docProtection = props;
                 this.updatePreviewMode();
             }
+        },
+
+        onLeftMenuHide: function (view, status) {
+            if (this.leftMenu) {
+                !status && this.leftMenu.close();
+                status ? this.leftMenu.show() : this.leftMenu.hide();
+                Common.localStorage.setBool('de-hidden-leftmenu', !status);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.leftMenu);
         },
 
         textNoTextFound         : 'Text not found',

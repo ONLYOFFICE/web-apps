@@ -1667,6 +1667,8 @@ define([
                 toolbarController.setMode(this.appOptions);
                 documentHolder.setMode(this.appOptions);
 
+                viewport.applyCommonMode();
+
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
