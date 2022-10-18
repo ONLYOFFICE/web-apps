@@ -241,11 +241,66 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '1.75x',
                 extpath: 'big'
             }),
-        }
+        },
+        svg_sprite: {
+            options: {
+                svg: {
+                    rootAttributes: {
+                        //xmlns:'http://www.w3.org/2000/svg',
+                    },
+                },
+                shape: {
+                    transform: [{
+                        svgo: {
+                            plugins: [
+                                'removeXMLNS',
+                                {
+                                    name: "removeAttrs",
+                                    params: {
+                                      attrs: "(fill|stroke)"
+                                    }
+                                },
+                            ]
+                        },
+                    }]
+                },
+                mode: {
+                    symbol: {
+                    },
+                },
+            },
+            deiconssmall: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`],
+                dest: `${_prefix}apps/documenteditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconssmall@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            deiconsbig: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`],
+                dest: `${_prefix}apps/documenteditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+        },
     });
 
     // Load in `grunt-spritesmith`
     grunt.loadNpmTasks('grunt-spritesmith');
+    grunt.loadNpmTasks('grunt-svg-sprite');
 
     grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-big-1x', 'sprite:word-huge-1x', 'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x',
                                         'sprite:word1.25x', 'sprite:word-big-1.25x', 'sprite:word-huge-1.25x',
@@ -260,6 +315,6 @@ module.exports = function (grunt, rootpathprefix) {
                                         'sprite:cell-1.25x', 'sprite:cell-big-1.25x',
                                         'sprite:cell-1.75x', 'sprite:cell-big-1.75x']);
 
-    grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons']);
+    grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons','svg_sprite']);
     grunt.registerTask('default', ['all-icons-sprite']);
 };
