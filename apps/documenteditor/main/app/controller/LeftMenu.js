@@ -836,6 +836,7 @@ define([
         onPluginOpen: function(panel, type, action) {
             if ( type == 'onboard' ) {
                 if ( action == 'open' ) {
+                    this.tryToShowLeftMenu();
                     this.leftMenu.close();
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
@@ -862,6 +863,7 @@ define([
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
                     Common.UI.Menu.Manager.hideAll();
+                    this.tryToShowLeftMenu();
                     this.leftMenu.showMenu('chat');
                 } else {
                     this.leftMenu.btnChat.toggle(false, true);
@@ -873,6 +875,7 @@ define([
         onShowHideNavigation: function(state) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('navigation');
             } else {
                 this.leftMenu.btnNavigation.toggle(false, true);
@@ -922,10 +925,17 @@ define([
                 !status && this.leftMenu.close();
                 status ? this.leftMenu.show() : this.leftMenu.hide();
                 Common.localStorage.setBool('de-hidden-leftmenu', !status);
+
+                !view && this.leftMenu.fireEvent('view:hide', [this, !status]);
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.leftMenu);
+        },
+
+        tryToShowLeftMenu: function() {
+            if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
+                this.onLeftMenuHide(null, true);
         },
 
         textNoTextFound         : 'Text not found',

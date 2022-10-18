@@ -98,6 +98,11 @@ define([
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
                     }, this)
+                },
+                'LeftMenu': {
+                    'view:hide': _.bind(function (leftmenu, state) {
+                        this.view.chLeftMenu.setValue(!state, true);
+                    }, this)
                 }
             });
         },
