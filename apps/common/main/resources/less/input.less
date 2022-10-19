@@ -116,6 +116,10 @@ input[type="text"]::selection, textarea::selection {
     color: @text-inverse;
 }
 
+input.form-control:-ms-input-placeholder {
+    color: @text-tertiary-ie;
+}
+
 textarea.form-control:focus {
     //border-color: @border-control-focus;
 }
