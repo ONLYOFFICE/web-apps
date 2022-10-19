@@ -138,10 +138,20 @@ define([
         },
 
         applyEditorMode: function() {
-            PE.getController('RightMenu').getView('RightMenu').render(this.mode);
+            var me              = this,
+                rightMenuView   = PE.getController('RightMenu').getView('RightMenu');
 
+            me._rightMenu   = rightMenuView.render(this.mode);
+            if ( Common.localStorage.getBool('pe-hidden-rightmenu') )
+                me._rightMenu.hide();
+        },
+
+        applyCommonMode: function() {
             if ( Common.localStorage.getBool('pe-hidden-status') )
                 PE.getController('Statusbar').getView('Statusbar').setVisible(false);
+
+            if ( Common.localStorage.getBool('pe-hidden-leftmenu') )
+                PE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode, delay) {
