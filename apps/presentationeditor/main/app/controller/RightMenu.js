@@ -150,10 +150,14 @@ define([
                     this._settings[settingsType].lockedHeader = !!value.get_LockHeader && value.get_LockHeader();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
-                    if (settingsType == Common.Utils.documentSettingsType.Shape && value.asc_getTextArtProperties()) {
-                        this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
-                        this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
-                        this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
+                    if (settingsType == Common.Utils.documentSettingsType.Shape) {
+                        if (value.asc_getIsMotionPath()) {
+                            this._settings[settingsType].hidden = 1;
+                        } else if (value.asc_getTextArtProperties()) {
+                            this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
+                            this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
+                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
+                        }
                     }
                 }
             }

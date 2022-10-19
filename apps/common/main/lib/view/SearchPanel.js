@@ -210,6 +210,7 @@ define([
                     }).on('keyup:after', function(input, e) {
                         me.fireEvent('search:options', ['range', input.getValue(), e.keyCode !== Common.UI.Keys.RETURN]);
                     });
+                    this.inputSelectRange.$el.hide();
 
                     this.cmbSearch = new Common.UI.ComboBox({
                         el: $('#search-adv-cmb-search'),
@@ -285,8 +286,7 @@ define([
                     });
                 }
                 Common.NotificationCenter.on('window:resize', function() {
-                    me.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-                    me.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                    me.updateResultsContainerHeight();
                 });
             }
 
@@ -299,8 +299,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.fireEvent('show', this );
 
-            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            this.updateResultsContainerHeight();
         },
 
         hide: function () {
@@ -328,6 +327,13 @@ define([
         ChangeSettings: function(props) {
         },
 
+        updateResultsContainerHeight: function () {
+            if (this.$resultsContainer) {
+                this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
+                this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            }
+        },
+
         updateResultsNumber: function (current, count) {
             var text;
             if (count > 300) {
@@ -335,9 +341,19 @@ define([
             } else {
                 text = current === 'no-results' ? this.textNoSearchResults :
                     (current === 'stop' ? this.textSearchHasStopped :
-                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count)));
+                    (current === 'content-changed' ? (this.textContentChanged + ' ' + Common.Utils.String.format(this.textSearchAgain, '<a class="search-again">','</a>')) :
+                    (!count ? this.textNoMatches : Common.Utils.String.format(this.textSearchResults, current + 1, count))));
             }
-            this.$reaultsNumber.text(text);
+            if (current === 'content-changed') {
+                var me = this;
+                this.$reaultsNumber.html(text);
+                this.$reaultsNumber.find('.search-again').on('click', function () {
+                    me.fireEvent('search:next', [me.inputText.getValue(), true]);
+                });
+            } else {
+                this.$reaultsNumber.text(text);
+            }
+            this.updateResultsContainerHeight();
             !window.SSE && this.disableReplaceButtons(!count);
         },
 
@@ -367,8 +383,7 @@ define([
             this.$searchOptionsBlock[this.extendedOptions ? 'removeClass' : 'addClass']('no-expand');
             Common.localStorage.setBool('sse-search-options-extended', this.extendedOptions);
 
-            this.$resultsContainer.outerHeight($('#search-box').outerHeight() - $('#search-header').outerHeight() - $('#search-adv-settings').outerHeight());
-            this.$resultsContainer.scroller.update({alwaysVisibleY: true});
+            this.updateResultsContainerHeight();
         },
 
         setFindText: function (val) {
@@ -422,7 +437,9 @@ define([
         textCell: 'Cell',
         textValue: 'Value',
         textFormula: 'Formula',
-        textSearchHasStopped: 'Search has stopped'
+        textSearchHasStopped: 'Search has stopped',
+        textContentChanged: 'Document changed.',
+        textSearchAgain: '{0}Perform new search{1} for accurate results.'
 
     }, Common.Views.SearchPanel || {}));
 });

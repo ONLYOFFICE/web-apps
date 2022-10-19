@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
     SSE.Views.ChartSettingsDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 322,
+            contentWidth: 327,
             height: 535,
             toggleGroup: 'chart-settings-dlg-group',
             storageName: 'sse-chart-settings-adv-category'

@@ -17,7 +17,9 @@
   "DE.ApplicationController.errorUserDrop": "Файлът не може да бъде достъпен в момента.",
   "DE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "DE.ApplicationController.scriptLoadError": "Връзката е твърде бавна, някои от компонентите не могат да бъдат заредени. Моля, презаредете страницата.",
+  "DE.ApplicationController.textGuest": "Гост",
   "DE.ApplicationController.textLoadingDocument": "Зареждане на документ",
+  "DE.ApplicationController.textNext": "Следващо поле",
   "DE.ApplicationController.textOf": "на",
   "DE.ApplicationController.txtClose": "Затвори",
   "DE.ApplicationController.unknownErrorText": "Неизвестна грешка.",
@@ -25,6 +27,7 @@
   "DE.ApplicationController.waitText": "Моля изчакай...",
   "DE.ApplicationView.txtDownload": "Изтегли",
   "DE.ApplicationView.txtEmbed": "Вграждане",
+  "DE.ApplicationView.txtFileLocation": "Mестоположението на файла",
   "DE.ApplicationView.txtFullScreen": "Цял екран",
   "DE.ApplicationView.txtShare": "Дял"
 }

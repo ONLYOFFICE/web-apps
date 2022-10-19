@@ -57,7 +57,7 @@ define([
             onLaunch: function (view) {
                 this.toolbar = view;
                 this.editMode = true;
-
+                this._state = {};
                 return this;
             },
 
@@ -98,7 +98,6 @@ define([
                 this.api.asc_registerCallback('asc_onImgWrapStyleChanged', this.onApiWrappingStyleChanged.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', this.onApiCoAuthoringDisconnect.bind(this));
                 this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
-
                 return this;
             },
 

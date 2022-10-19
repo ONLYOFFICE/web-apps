@@ -427,7 +427,26 @@ define([
                 var id = get_ui_theme_name(obj),
                     refresh_only = arguments[1];
 
+                if ( !refresh_only && is_theme_type_system(this.currentThemeId()) ) {
+                    // TODO: need refactoring. for bug 58801
+                    if ( get_system_default_theme().id == id ) {
+                        Common.localStorage.setBool('ui-theme-use-system', false);
+                        Common.localStorage.setItem('ui-theme-id', '');
+                        Common.localStorage.setItem('ui-theme-id', id);
+                        Common.NotificationCenter.trigger('uitheme:changed', id);
+                        return;
+                    }
+                }
+
                 if ( is_theme_type_system(id) ) {
+                    if ( get_system_default_theme().id == this.currentThemeId() ) {
+                        Common.localStorage.setBool('ui-theme-use-system', true);
+                        Common.localStorage.setItem('ui-theme-id', '');
+                        Common.localStorage.setItem('ui-theme-id', id);
+                        Common.NotificationCenter.trigger('uitheme:changed', id);
+                        return;
+                    }
+
                     Common.localStorage.setBool('ui-theme-use-system', true);
                     id = get_system_default_theme().id;
                 } else {

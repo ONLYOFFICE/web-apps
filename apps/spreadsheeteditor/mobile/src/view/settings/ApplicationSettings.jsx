@@ -98,9 +98,9 @@ const PageApplicationSettings = props => {
                     </ListItem>
                 </List>
 
-                <List mediaList>
-                    <ListItem title={t("View.Settings.textDirection")} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
-                </List>
+                {/*<List mediaList>*/}
+                {/*    <ListItem title={t("View.Settings.textDirection")} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
+                {/*</List>*/}
             {/* } */}
             {/* {_isShowMacros && */}
                 <List>

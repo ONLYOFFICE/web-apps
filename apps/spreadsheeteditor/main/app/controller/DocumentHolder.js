@@ -119,6 +119,11 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
+            me.externalData = {
+                stackRequests: [],
+                stackResponse: [],
+                callback: undefined
+            };
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this),
@@ -373,6 +378,10 @@ define([
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
+                if (this.permissions.canRequestReferenceData) {
+                    this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
+                    Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
+                }
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -1289,6 +1298,9 @@ define([
                         row_columnTip.isHidden = true;
                     }
                 }
+                if (!index_foreign) {
+                    me.hideForeignSelectTips();
+                }
                 if (me.permissions.isEdit || me.permissions.canViewComments) {
                     if (!index_comments || this.popupmenu) {
                         commentTip.moveCommentId = undefined;
@@ -1308,9 +1320,6 @@ define([
                 if (me.permissions.isEdit) {
                     if (!index_locked) {
                         me.hideCoAuthTips();
-                    }
-                    if (!index_foreign) {
-                        me.hideForeignSelectTips();
                     }
                     if (index_slicer===undefined) {
                         if (!slicerTip.isHidden && slicerTip.ref) {
@@ -1511,48 +1520,47 @@ define([
                             }
                         }
                     }
-                    if (index_foreign && me.isUserVisible(dataarray[index_foreign-1].asc_getUserId())) {
-                        data = dataarray[index_foreign-1];
+                }
+                if (index_foreign && me.isUserVisible(dataarray[index_foreign-1].asc_getUserId())) {
+                    data = dataarray[index_foreign-1];
 
-                        if (!coAuthTip.XY)
-                            me.onDocumentResize();
+                    if (!coAuthTip.XY)
+                        me.onDocumentResize();
 
-                        if (foreignSelect.x_point != data.asc_getX() || foreignSelect.y_point != data.asc_getY()) {
-                            me.hideForeignSelectTips();
+                    if (foreignSelect.x_point != data.asc_getX() || foreignSelect.y_point != data.asc_getY()) {
+                        me.hideForeignSelectTips();
 
-                            foreignSelect.x_point = data.asc_getX();
-                            foreignSelect.y_point = data.asc_getY();
+                        foreignSelect.x_point = data.asc_getX();
+                        foreignSelect.y_point = data.asc_getY();
 
-                            var src = $(document.createElement("div")),
-                                color = data.asc_getColor();
-                            foreignSelect.ref = src;
-                            foreignSelect.userId = data.asc_getUserId();
+                        var src = $(document.createElement("div")),
+                            color = data.asc_getColor();
+                        foreignSelect.ref = src;
+                        foreignSelect.userId = data.asc_getUserId();
 
-                            src.addClass('username-tip');
-                            src.css({
-                                height      : foreignSelect.ttHeight + 'px',
-                                position    : 'absolute',
-                                zIndex      : '900',
-                                visibility  : 'visible',
-                                'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())
-                            });
-                            $(document.body).append(src);
+                        src.addClass('username-tip');
+                        src.css({
+                            height      : foreignSelect.ttHeight + 'px',
+                            position    : 'absolute',
+                            zIndex      : '900',
+                            visibility  : 'visible',
+                            'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())
+                        });
+                        $(document.body).append(src);
 
-                            showPoint = [
-                                foreignSelect.x_point + coAuthTip.XY[0],
-                                foreignSelect.y_point + coAuthTip.XY[1] - foreignSelect.ttHeight
-                            ];
+                        showPoint = [
+                            foreignSelect.x_point + coAuthTip.XY[0],
+                            foreignSelect.y_point + coAuthTip.XY[1] - foreignSelect.ttHeight
+                        ];
 
-                            src.text(me.getUserName(data.asc_getUserId()));
-                            src.css({
-                                visibility  : 'visible',
-                                left       : ((showPoint[0]+foreignSelect.ref.outerWidth()>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth) ? coAuthTip.bodyWidth-coAuthTip.rightMenuWidth-foreignSelect.ref.outerWidth() : showPoint[0]) + 'px',
-                                top         : showPoint[1] + 'px'
-                            });
-                        }
+                        src.text(me.getUserName(data.asc_getUserId()));
+                        src.css({
+                            visibility  : 'visible',
+                            left       : ((showPoint[0]+foreignSelect.ref.outerWidth()>coAuthTip.bodyWidth-coAuthTip.rightMenuWidth) ? coAuthTip.bodyWidth-coAuthTip.rightMenuWidth-foreignSelect.ref.outerWidth() : showPoint[0]) + 'px',
+                            top         : showPoint[1] + 'px'
+                        });
                     }
                 }
-
                 if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible()) && !dataarray[index_filter-1].asc_getFilter().asc_getPivotObj()) {
                     if (!filterTip.parentEl) {
                         filterTip.parentEl = $('<div id="tip-container-filtertip" style="position: absolute; z-index: 10000;"></div>');
@@ -1840,7 +1848,8 @@ define([
                     me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
                 ];
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
-                me.tooltips.coauth.rightMenuWidth = $('#right-menu').width();
+                var rightMenu = $('#right-menu');
+                me.tooltips.coauth.rightMenuWidth = rightMenu.is(':visible') ? rightMenu.width() : 0;
                 me.tooltips.coauth.bodyWidth = $(window).width();
                 me.tooltips.coauth.bodyHeight = $(window).height();
             }
@@ -1893,6 +1902,10 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
+                        } else if (this.permissions.isEditMailMerge || this.permissions.isEditDiagram || this.permissions.isEditOle) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
                         }
                     } else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
                         if (!this.api.isCellEdited) {
@@ -1902,6 +1915,10 @@ define([
                                 this.api.asc_setZoom(factor);
                             }
 
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
+                        } else if (this.permissions.isEditMailMerge || this.permissions.isEditDiagram || this.permissions.isEditOle) {
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
@@ -3146,6 +3163,8 @@ define([
             if (!item.cmpEl && me._state.lastSpecPasteChecked) {
                 for (var i = 0; i < menu.items.length; i++) {
                     menu.items[i].setChecked(menu.items[i].value===me._state.lastSpecPasteChecked.value, true);
+                    if (menu.items[i].value===me._state.lastSpecPasteChecked.value)
+                        me._state.lastSpecPasteChecked = menu.items[i];
                 }
             }
             return false;
@@ -4200,6 +4219,51 @@ define([
                     oleEditor.show();
                     oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(obj));
                 }
+            }
+        },
+
+        onUpdateExternalReference: function(arr, callback) {
+            if (this.permissions.isEdit && !this._isDisabled) {
+                var me = this;
+                me.externalData = {
+                    stackRequests: [],
+                    stackResponse: [],
+                    callback: undefined
+                };
+                arr && arr.length>0 && arr.forEach(function(item) {
+                    var data;
+                    switch (item.asc_getType()) {
+                        case Asc.c_oAscExternalReferenceType.link:
+                            data = {link: item.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.path:
+                            data = {path: item.asc_getData()};
+                            break;
+                        case Asc.c_oAscExternalReferenceType.referenceData:
+                            data = {referenceData: item.asc_getData()};
+                            break;
+                    }
+                    data && me.externalData.stackRequests.push(data);
+                });
+                me.externalData.callback = callback;
+                me.requestReferenceData();
+            }
+        },
+
+        requestReferenceData: function() {
+            if (this.externalData.stackRequests.length>0) {
+                var data = this.externalData.stackRequests.shift();
+                Common.Gateway.requestReferenceData(data);
+            }
+        },
+
+        setReferenceData: function(data) {
+            if (this.permissions.isEdit && !this._isDisabled) {
+                data && this.externalData.stackResponse.push(data);
+                if (this.externalData.stackRequests.length>0)
+                    this.requestReferenceData();
+                else if (this.externalData.callback)
+                    this.externalData.callback(this.externalData.stackResponse);
             }
         },
 

@@ -32,7 +32,7 @@
 */
 /**
  *
- *  WatchDialogDialog.js
+ *  WatchDialog.js
  *
  *  Created by Julia.Radzhabova on 24.06.22
  *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
@@ -86,6 +86,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
 
             this.watchList = new Common.UI.ListView({
                 el: $('#watch-dialog-list', this.$window),
+                multiSelect: true,
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 itemTemplate: _.template([
@@ -191,7 +192,8 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                 if (this._deletedIndex!==undefined) {
                     var store = this.watchList.store;
                     (store.length>0) && this.watchList.selectByIndex(this._deletedIndex<store.length ? this._deletedIndex : store.length-1);
-                    this.watchList.scrollToRecord(this.watchList.getSelectedRec());
+                    var selectedRec = this.watchList.getSelectedRec();
+                    (selectedRec && selectedRec.length > 0) && this.watchList.scrollToRecord(selectedRec[0]);
                     this._fromKeyDown && this.watchList.focus();
                     this._fromKeyDown = false;
                     this._deletedIndex=undefined;
@@ -228,10 +230,15 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         },
 
         onDeleteWatch: function() {
+            var me = this;
             var rec = this.watchList.getSelectedRec();
             if (rec) {
-                this._deletedIndex = this.watchList.store.indexOf(rec);
-                this.api.asc_deleteCellWatches([rec.get('props')]);
+                var props=[];
+                _.each(rec, function (r, i) {
+                    me._deletedIndex = me.watchList.store.indexOf(r)-props.length;
+                    props[i] =r.get('props');
+                });
+                this.api.asc_deleteCellWatches(props);
             }
         },
 
@@ -254,7 +261,8 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
         },
 
         updateButtons: function() {
-            this.btnDelete.setDisabled(this.watchList.store.length<1 || !this.watchList.getSelectedRec());
+            var rec = this.watchList.getSelectedRec();
+            this.btnDelete.setDisabled(!(rec && rec.length>0));
             this.watchList.scroller && this.watchList.scroller.update({alwaysVisibleY: true});
         },
 

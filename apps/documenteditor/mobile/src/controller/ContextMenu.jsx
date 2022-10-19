@@ -20,7 +20,8 @@ import EditorUIController from '../lib/patch';
     isDisconnected: stores.users.isDisconnected,
     displayMode: stores.storeReview.displayMode,
     dataDoc: stores.storeDocumentInfo.dataDoc,
-    objects: stores.storeFocusObjects.settings
+    objects: stores.storeFocusObjects.settings,
+    isViewer: stores.storeAppOptions.isViewer
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -241,6 +242,7 @@ class ContextMenu extends ContextMenuController {
             } else {
                 const { t } = this.props;
                 const _t = t("ContextMenu", { returnObjects: true });
+
                 f7.dialog.create({
                     title: t('Settings', {returnObjects: true}).notcriticalErrorTitle,
                     text  : _t.txtWarnUrl,
@@ -274,19 +276,20 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { isEdit, canFillForms, isDisconnected } = this.props;
+        const { isEdit, canFillForms, isDisconnected, isViewer } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
         } else {
             const { t } = this.props;
             const _t = t("ContextMenu", {returnObjects: true});
-            const { canViewComments, canCoAuthoring, canComments } = this.props;
+            const { canViewComments, canCoAuthoring, canComments, dataDoc } = this.props;
 
             const api = Common.EditorApi.get();
             const inToc = api.asc_GetTableOfContentsPr(true);
             const stack = api.getSelectedElements();
             const canCopy = api.can_CopyCut();
+            const docExt = dataDoc ? dataDoc.fileType : '';
 
             let isText = false,
                 isObject = false,
@@ -314,36 +317,36 @@ class ContextMenu extends ContextMenuController {
             let itemsIcon = [],
                 itemsText = [];
 
-            if ( canCopy ) {
+            if (canCopy) {
                 itemsIcon.push({
                     event: 'copy',
                     icon: 'icon-copy'
                 });
             }
 
-            if(!isDisconnected) {
-                if ( canFillForms && canCopy && !locked ) {
+            if (!isDisconnected) {
+                if (canFillForms && canCopy && !locked && (!isViewer || docExt === 'oform')) {
                     itemsIcon.push({
                         event: 'cut',
                         icon: 'icon-cut'
                     });
                 }
 
-                if ( canFillForms && canCopy && !locked ) {
+                if (canFillForms && canCopy && !locked && (!isViewer || docExt === 'oform')) {
                     itemsIcon.push({
                         event: 'paste',
                         icon: 'icon-paste'
                     });
                 }
 
-                if ( canViewComments && this.isComments ) {
+                if (canViewComments && this.isComments) {
                     itemsText.push({
                         caption: _t.menuViewComment,
                         event: 'viewcomment'
                     });
                 }
 
-                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject)) {
+                if (api.can_AddQuotedComment() !== false && canCoAuthoring && canComments && !locked && !(!isText && isObject) && !isViewer) {
                     itemsText.push({
                         caption: _t.menuAddComment,
                         event: 'addcomment'
@@ -351,7 +354,7 @@ class ContextMenu extends ContextMenuController {
                 }
             }
 
-            if ( isLink ) {
+            if (isLink) {
                 itemsText.push({
                     caption: _t.menuOpenLink,
                     event: 'openlink'
@@ -362,7 +365,7 @@ class ContextMenu extends ContextMenuController {
                 });
             }
 
-            if(inToc && isEdit) {
+            if(inToc && isEdit && !isViewer) {
                 itemsText.push({
                     caption: t('ContextMenu.textRefreshEntireTable'),
                     event: 'refreshEntireTable'

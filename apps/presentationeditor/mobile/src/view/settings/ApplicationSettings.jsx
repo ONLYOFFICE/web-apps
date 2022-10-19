@@ -46,21 +46,23 @@ const PageApplicationSettings = props => {
                                     }}
                             />
                         </ListItem>
-                        <ListItem title={t('View.Settings.textDarkTheme')}>
-                            <Toggle checked={isThemeDark}
-                                onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
-                            </Toggle>
-                        </ListItem>
                     </List>
-                    <RTLSetting />
+                    {/*<RTLSetting />*/}
                 </Fragment>
             }
+            <List>
+                <ListItem title={t('View.Settings.textDarkTheme')}>
+                    <Toggle checked={isThemeDark}
+                            onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
+                    </Toggle>
+                </ListItem>
+            </List>
             {/* {_isShowMacros && */}
-                <List mediaList>
-                    <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
-                        setMacrosSettings: props.setMacrosSettings
-                    }}></ListItem>
-                </List>
+            <List mediaList>
+                <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
+                    setMacrosSettings: props.setMacrosSettings
+                }}></ListItem>
+            </List>
             {/* } */}
         </Page>
     );

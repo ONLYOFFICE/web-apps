@@ -59,9 +59,12 @@
     "textTable": "表格",
     "textTableContents": "目錄",
     "textTableSize": "表格大小",
+    "textWithBlueLinks": "帶有藍色連結",
+    "textWithPageNumbers": "帶有頁碼",
     "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
-    "textWithBlueLinks": "With Blue Links",
-    "textWithPageNumbers": "With Page Numbers"
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "在快速共同編輯模式下，撤消/重做功能被禁用。",
       "textUnderline": "底線",
       "textUsers": "使用者",
-      "textWidow": "遺留文字控制"
+      "textWidow": "遺留文字控制",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "沒有填充"
@@ -197,10 +201,11 @@
     "textDoNotShowAgain": "不再顯示",
     "textNumberingValue": "編號值",
     "textOk": "確定",
+    "textRefreshEntireTable": "完整表格刷新",
+    "textRefreshPageNumbersOnly": "等級數量",
     "textRows": "行列",
     "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
-    "textRefreshEntireTable": "Refresh entire table",
-    "textRefreshPageNumbersOnly": "Refresh page numbers only"
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
@@ -215,6 +220,7 @@
     "textAlign": "對齊",
     "textAllCaps": "全部大寫",
     "textAllowOverlap": "允許重疊",
+    "textAmountOfLevels": "層級數量",
     "textApril": "四月",
     "textAugust": "八月",
     "textAuto": "自動",
@@ -237,6 +243,7 @@
     "textClose": "關閉",
     "textColor": "顏色",
     "textContinueFromPreviousSection": "從上個部份繼續",
+    "textCreateTextStyle": "建立新的文字樣式",
     "textCurrent": "當前",
     "textCustomColor": "自訂顏色",
     "textDecember": "十二月",
@@ -252,6 +259,7 @@
     "textEffects": "效果",
     "textEmpty": "空",
     "textEmptyImgUrl": "您必須輸入圖檔的URL.",
+    "textEnterTitleNewStyle": "輸入新樣式的標題",
     "textFebruary": "二月",
     "textFill": "填入",
     "textFirstColumn": "第一欄",
@@ -305,15 +313,16 @@
     "textOrphanControl": "遺留功能控制",
     "textPageBreakBefore": "分頁之前",
     "textPageNumbering": "頁編碼",
+    "textPageNumbers": "頁碼",
     "textParagraph": "段落",
     "textParagraphStyle": "段落風格",
     "textPictureFromLibrary": "來自圖庫的圖片",
     "textPictureFromURL": "網址圖片",
     "textPt": "pt",
     "textRefresh": "刷新",
+    "textRefreshEntireTable": "完整表格刷新",
+    "textRefreshPageNumbersOnly": "等級數量",
     "textRemoveChart": "刪除圖表",
-    "textRemoveImage": "移除圖片",
-    "textRemoveLink": "刪除連結",
     "textRemoveShape": "刪除形狀",
     "textRemoveTable": "刪除表格",
     "textRemoveTableContent": "刪除目錄",
@@ -322,6 +331,7 @@
     "textReplace": "取代",
     "textReplaceImage": "取代圖片",
     "textResizeToFitContent": "調整大小以適合內容",
+    "textRightAlign": "靠右對齊",
     "textSa": "Sa",
     "textSameCreatedNewStyle": "與新增風格相同",
     "textScreenTip": "提示功能",
@@ -338,6 +348,7 @@
     "textStandard": "標準",
     "textStartAt": "開始",
     "textStrikethrough": "刪除線",
+    "textStructure": "結構",
     "textStyle": "風格",
     "textStyleOptions": "樣式選項",
     "textStyles": "風格",
@@ -345,6 +356,7 @@
     "textSubscript": "下標",
     "textSuperscript": "上標",
     "textTable": "表格",
+    "textTableOfCont": "目錄",
     "textTableOptions": "表格選項",
     "textText": "文字",
     "textTh": "Th",
@@ -357,15 +369,14 @@
     "textType": "類型",
     "textWe": "We",
     "textWrap": "包覆",
-    "textAmountOfLevels": "Amount of Levels",
-    "textCreateTextStyle": "Create new text style",
-    "textEnterTitleNewStyle": "Enter title of a new style",
-    "textPageNumbers": "Page Numbers",
-    "textRefreshEntireTable": "Refresh entire table",
-    "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "textRightAlign": "Right Align",
-    "textStructure": "Structure",
-    "textTableOfCont": "TOC"
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "轉換逾時。",
@@ -407,7 +418,9 @@
     "unknownErrorText": "未知錯誤。",
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "無上傳圖片。",
-    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。"
+    "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "載入資料中...",
@@ -442,7 +455,10 @@
     "txtEditingMode": "設定編輯模式...",
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上傳圖片中",
-    "waitText": "請耐心等待..."
+    "waitText": "請耐心等待...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "錯誤",
@@ -581,6 +597,7 @@
     "textDownloadRtf": "以這個格式來儲存此文件的話，部份的文字排版效果將會遺失。您確定要繼續嗎？",
     "textDownloadTxt": "若使用此格式來儲存這份文件的話，除了純文字以外，其他的文件功能將會失效。您確定要繼續嗎？",
     "textEmptyHeading": "空標題",
+    "textEmptyScreens": "文件中沒有標題。將標題樣式應用於文字，使其顯示在目錄中。",
     "textEnableAll": "全部啟用",
     "textEnableAllMacrosWithoutNotification": "啟用所有不帶通知的巨集",
     "textEncoding": "編碼方式",
@@ -626,6 +643,7 @@
     "textReplace": "取代",
     "textReplaceAll": "取代全部",
     "textResolvedComments": "已解決的註解",
+    "textRestartApplication": "請重新啟動應用程式以讓變更生效",
     "textRight": "右",
     "textRightToLeft": "右到左",
     "textSearch": "搜尋",
@@ -668,13 +686,15 @@
     "txtScheme7": "產權",
     "txtScheme8": "流程",
     "txtScheme9": "鑄造廠",
-    "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
-    "textRestartApplication": "Please restart the application for the changes to take effect"
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未儲存的變更。點擊“留在此頁面”以等待自動儲存。點擊“離開此頁面”以放棄所有未儲存的變更。",
     "dlgLeaveTitleText": "您離開應用程式",
     "leaveButtonText": "離開這個頁面",
-    "stayButtonText": "保持此頁上"
+    "stayButtonText": "保持此頁上",
+    "textOk": "確定",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

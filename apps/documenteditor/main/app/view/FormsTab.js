@@ -49,13 +49,19 @@ define([
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
         '<section class="panel" data-tab="forms">' +
-            '<div class="group" style="display: none;">' +
+            '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-field"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-dropdown"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
+            '</div>' +
+            '<div class="separator long forms-buttons" style="display: none;"></div>' +
+            '<div class="group forms-buttons" style="display: none;">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-email"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-phone"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-complex"></span>' +
             '</div>' +
             '<div class="separator long forms" style="display: none;"></div>' +
             '<div class="group no-group-mask inner-elset small" style="display: none;">' +
@@ -98,6 +104,15 @@ define([
             });
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
+            });
+            this.btnComplexField && this.btnComplexField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['complex']);
+            });
+            this.btnEmailField && this.btnEmailField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {reg: "\\S+@\\S+\\.\\S+", placeholder: 'user_name@email.com'}]);
+            });
+            this.btnPhoneField && this.btnPhoneField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['text', {mask: "(999)999-9999", placeholder: '(999)999-9999'}]);
             });
             this.btnViewForm && this.btnViewForm.on('click', function (b, e) {
                 me.fireEvent('forms:mode', [b.pressed]);
@@ -154,7 +169,7 @@ define([
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text-field',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnText,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -165,7 +180,7 @@ define([
                     this.btnComboBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-combo-box',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnComboBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -176,7 +191,7 @@ define([
                     this.btnDropDown = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropdown',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnDropDown,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -187,7 +202,7 @@ define([
                     this.btnCheckBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-checkbox',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnCheckBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -198,7 +213,7 @@ define([
                     this.btnRadioBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-radio-button',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnRadioBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -209,7 +224,7 @@ define([
                     this.btnImageField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnImage,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -217,10 +232,43 @@ define([
                     });
                     this.paragraphControls.push(this.btnImageField);
 
+                    this.btnEmailField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-email',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capBtnEmail,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnEmailField);
+
+                    this.btnPhoneField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-phone',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capBtnPhone,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnPhoneField);
+
+                    this.btnComplexField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon complex-field',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        caption: this.capBtnComplex,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnComplexField);
+
                     this.btnViewForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-sheet-view',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption: this.capBtnView,
                         enableToggle: true,
                         dataHint: '1',
@@ -232,7 +280,7 @@ define([
                     this.btnClearFields = new Common.UI.Button({
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-clearstyle',
-                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                         caption     : this.textClearFields,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -243,7 +291,7 @@ define([
                     this.btnHighlight = new Common.UI.ButtonColored({
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-highlight',
-                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
                         caption     : this.textHighlight,
                         menu        : true,
                         additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
@@ -268,26 +316,26 @@ define([
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon previous-field',
-                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnPrev,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.paragraphControls.push(this.btnPrevForm);
+                !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnPrevForm);
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon next-field',
-                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart],
+                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                     caption: this.capBtnNext,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                this.paragraphControls.push(this.btnNextForm);
+                !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnNextForm);
 
                 if (this.appConfig.canSubmitForms) {
                     this.btnSubmit = new Common.UI.Button({
@@ -300,7 +348,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.paragraphControls.push(this.btnSubmit);
+                    !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnSubmit);
                 }
                 if (this.appConfig.canDownloadForms) {
                     this.btnSaveForm = new Common.UI.Button({
@@ -313,7 +361,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.paragraphControls.push(this.btnSaveForm);
+                    !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnSaveForm);
                 }
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
@@ -349,6 +397,9 @@ define([
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
                         me.btnViewForm.updateHint(me.tipViewForm);
+                        me.btnEmailField.updateHint(me.tipEmailField);
+                        me.btnPhoneField.updateHint(me.tipPhoneField);
+                        me.btnComplexField.updateHint(me.tipComplexField);
                     } else {
                         me.btnClear.updateHint(me.textClearFields);
                     }
@@ -381,10 +432,12 @@ define([
                     this.btnViewForm.render($host.find('#slot-btn-form-view'));
                     this.btnClearFields.render($host.find('#slot-form-clear-fields'));
                     this.btnHighlight.render($host.find('#slot-form-highlight'));
+                    this.btnEmailField.render($host.find('#slot-btn-form-email'));
+                    this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
+                    this.btnComplexField.render($host.find('#slot-btn-form-complex'));
 
-                    var separator_forms = $host.find('.separator.forms');
-                    separator_forms.prev('.group').show();
-                    separator_forms.show().next('.group').show();
+                    $host.find('.forms-buttons').show();
+                    $host.find('.separator.forms').show().next('.group').show();
                     $host.find('.separator.submit').show().next('.group').show();
                 }
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
@@ -443,7 +496,13 @@ define([
             textCreateForm: 'Add fields and create a fillable OFORM document',
             textGotIt: 'Got it',
             capBtnDownloadForm: 'Download as oform',
-            tipDownloadForm: 'Download a file as a fillable OFORM document'
+            tipDownloadForm: 'Download a file as a fillable OFORM document',
+            capBtnEmail: 'Email Address',
+            capBtnPhone: 'Phone Number',
+            capBtnComplex: 'Complex Field',
+            tipEmailField: 'Insert email address',
+            tipPhoneField: 'Insert phone number',
+            tipComplexField: 'Insert complex field'
         }
     }()), DE.Views.FormsTab || {}));
 });

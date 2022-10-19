@@ -271,6 +271,7 @@ define([
                             this.showHistory();
                     }
                     break;
+                case 'external-help': close_menu = true; break;
                 default: close_menu = false;
             }
 
@@ -383,9 +384,11 @@ define([
                 value = parseInt(Common.localStorage.getItem("pe-settings-paste-button"));
                 Common.Utils.InternalSettings.set("pe-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
-            }
 
-            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
+                value = Common.localStorage.getBool("pe-settings-showsnaplines");
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
+                this.api.asc_setShowSmartGuides(value);
+            }
 
             menu.hide();
         },
@@ -562,7 +565,7 @@ define([
                         if (this.isSearchPanelVisible()) {
                             selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                             this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                            this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText);
+                            this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText ? selectedText : undefined);
                             return false;
                         } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                             var viewport = this.getApplication().getController('Viewport');
@@ -578,10 +581,10 @@ define([
                             Common.NotificationCenter.trigger('search:show');
                             return false;
                         } else {
-                            this.onShowHideSearch(true, selectedText);
+                            this.onShowHideSearch(true, selectedText ? selectedText : undefined);
                         }
                         this.leftMenu.btnSearchBar.toggle(true,true);
-                        this.leftMenu.panelSearch.focus(s);
+                        this.leftMenu.panelSearch.focus(selectedText ? s : 'search');
                     }
                     return false;
                 case 'save':

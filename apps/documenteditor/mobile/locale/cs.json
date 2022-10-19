@@ -61,7 +61,10 @@
     "textTableSize": "Velikost tabulky",
     "textWithBlueLinks": "s modrými odkazy",
     "textWithPageNumbers": "s číslováním stránek",
-    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
       "textUnderline": "Podtržení",
       "textUsers": "Uživatelé",
-      "textWidow": "Ovládací prvek okna"
+      "textWidow": "Ovládací prvek okna",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez výplně"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "Obnovit celou tabulku",
     "textRefreshPageNumbersOnly": "Obnovit pouze číslování stránek",
     "textRows": "Řádky",
-    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Varování",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Obnovit celou tabulku",
     "textRefreshPageNumbersOnly": "Obnovit pouze číslování stránek",
     "textRemoveChart": "Odstranit graf",
-    "textRemoveImage": "Odstranit obrázek",
-    "textRemoveLink": "Odstranit odkaz",
     "textRemoveShape": "Odstranit obrazec",
     "textRemoveTable": "Odstranit tabulku",
     "textRemoveTableContent": "Odebrat obsah",
@@ -365,7 +368,15 @@
     "textTu": "út",
     "textType": "Typ",
     "textWe": "st",
-    "textWrap": "Obtékání"
+    "textWrap": "Obtékání",
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",
@@ -407,7 +418,9 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -442,7 +455,10 @@
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím..."
+    "waitText": "Čekejte prosím...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "Chyba",
@@ -669,12 +685,16 @@
     "txtScheme6": "Hala",
     "txtScheme7": "Rovnost",
     "txtScheme8": "Tok",
-    "txtScheme9": "Slévárna"
+    "txtScheme9": "Slévárna",
+    "textMobileView": "Mobile View"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
-    "stayButtonText": "Zůstat na této stránce"
+    "stayButtonText": "Zůstat na této stránce",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

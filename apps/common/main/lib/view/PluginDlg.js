@@ -154,6 +154,8 @@ define([
 
             this.$window.css('left',(maxWidth - width - borders_width) / 2);
             this.$window.css('top',(maxHeight - height - this._headerFooterHeight) / 2);
+
+            this._restoreHeight = this._restoreWidth = undefined;
         },
 
         onWindowResize: function() {
@@ -162,26 +164,38 @@ define([
                 win_width = this.getWidth(),
                 win_height = this.getHeight(),
                 bordersOffset = (this.resizable) ? 0 : this.bordersOffset;
-            if (win_height<main_height-bordersOffset*2+0.1 && win_width<main_width-bordersOffset*2+0.1) {
-                var left = this.getLeft(),
-                    top = this.getTop();
-
+            if (win_height<main_height-bordersOffset*2+0.1 ) {
+                if (!this.resizable && this._restoreHeight>0 && win_height < this._restoreHeight) {
+                    var height = Math.max(Math.min(this._restoreHeight, main_height-bordersOffset*2), this.initConfig.minheight);
+                    this.setHeight(height);
+                    this.boxEl.css('height', height - this._headerFooterHeight);
+                }
+                var top = this.getTop();
                 if (top<bordersOffset) this.$window.css('top', bordersOffset);
                 else if (top+win_height>main_height-bordersOffset)
                     this.$window.css('top', main_height-bordersOffset - win_height);
+            } else {
+                if (this._restoreHeight===undefined) {
+                    this._restoreHeight = win_height;
+                }
+                this.setHeight(Math.max(main_height-bordersOffset*2, this.initConfig.minheight));
+                this.boxEl.css('height', Math.max(main_height-bordersOffset*2, this.initConfig.minheight) - this._headerFooterHeight);
+                this.$window.css('top', bordersOffset);
+            }
+            if (win_width<main_width-bordersOffset*2+0.1) {
+                if (!this.resizable && this._restoreWidth>0 && win_width < this._restoreWidth) {
+                    this.setWidth(Math.max(Math.min(this._restoreWidth, main_width-bordersOffset*2), this.initConfig.minwidth));
+                }
+                var left = this.getLeft();
                 if (left<bordersOffset) this.$window.css('left', bordersOffset);
                 else if (left+win_width>main_width-bordersOffset)
                     this.$window.css('left', main_width-bordersOffset-win_width);
             } else {
-                if (win_height>main_height-bordersOffset*2) {
-                    this.setHeight(Math.max(main_height-bordersOffset*2, this.initConfig.minheight));
-                    this.boxEl.css('height', Math.max(main_height-bordersOffset*2, this.initConfig.minheight) - this._headerFooterHeight);
-                    this.$window.css('top', bordersOffset);
+                if (this._restoreWidth===undefined) {
+                    this._restoreWidth = win_width;
                 }
-                if (win_width>main_width-bordersOffset*2) {
-                    this.setWidth(Math.max(main_width-bordersOffset*2, this.initConfig.minwidth));
-                    this.$window.css('left', bordersOffset);
-                }
+                this.setWidth(Math.max(main_width-bordersOffset*2, this.initConfig.minwidth));
+                this.$window.css('left', bordersOffset);
             }
         },
 

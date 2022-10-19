@@ -59,6 +59,9 @@
     "textTable": "ຕາຕະລາງ",
     "textTableSize": "ຂະໜາດຕາຕະລາງ",
     "txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
       "textUnderline": "ີຂີດກ້ອງ",
       "textUsers": "ຜຸ້ໃຊ້",
-      "textWidow": "ໜ້າຄວບຄຸມ"
+      "textWidow": "ໜ້າຄວບຄຸມ",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "ບໍ່ມີການຕື່ມຂໍ້ມູນໃສ່"
@@ -198,6 +202,7 @@
     "textNumberingValue": "ມູນຄ່າ ໝາຍ ເລກ",
     "textOk": "ຕົກລົງ",
     "textRows": "ແຖວ",
+    "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
@@ -298,8 +303,6 @@
     "textPictureFromURL": "ຮູບພາບຈາກ URL",
     "textPt": "pt",
     "textRemoveChart": "ລົບແຜນວາດ",
-    "textRemoveImage": "ລົບຮູບ",
-    "textRemoveLink": "ລົບລີ້ງ",
     "textRemoveShape": "ລົບຮ່າງ",
     "textRemoveTable": "ລົບຕາຕະລາງ",
     "textReorder": "ຈັດຮຽງໃໝ່",
@@ -340,9 +343,13 @@
     "textAmountOfLevels": "Amount of Levels",
     "textCancel": "Cancel",
     "textCentered": "Centered",
+    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
     "textDone": "Done",
     "textEnterTitleNewStyle": "Enter title of a new style",
@@ -354,10 +361,12 @@
     "textOnline": "Online",
     "textPageNumbers": "Page Numbers",
     "textParagraphStyle": "Paragraph Style",
+    "textRecommended": "Recommended",
     "textRefresh": "Refresh",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRemoveTableContent": "Remove table of contents",
+    "textRequired": "Required",
     "textRightAlign": "Right Align",
     "textSameCreatedNewStyle": "Same as created new style",
     "textSimple": "Simple",
@@ -365,7 +374,9 @@
     "textStructure": "Structure",
     "textStyles": "Styles",
     "textTableOfCont": "TOC",
-    "textTitle": "Title"
+    "textTextWrapping": "Text Wrapping",
+    "textTitle": "Title",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "ໝົດເວລາການປ່ຽນແປງ.",
@@ -406,8 +417,10 @@
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິດຜາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
     "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ...",
@@ -442,7 +455,10 @@
     "txtEditingMode": "ຕັ້ງຄ່າຮູບແບບການແກ້ໄຂ...",
     "uploadImageTextText": "ກໍາລັງອັບໂຫລດຮູບພາບ...",
     "uploadImageTitleText": "ກໍາລັງອັບໂຫລດຮູບພາບ",
-    "waitText": "ກະລຸນາລໍຖ້າ..."
+    "waitText": "ກະລຸນາລໍຖ້າ...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "ຂໍ້ຜິດພາດ",
@@ -666,6 +682,7 @@
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textFeedback": "Feedback & Support",
     "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textPdfProducer": "PDF Producer",
     "textRestartApplication": "Please restart the application for the changes to take effect",
@@ -675,6 +692,9 @@
     "dlgLeaveMsgText": "ທ່ານມີການປ່ຽນແປງທີ່ຍັງບໍ່ໄດ້ບັນທຶກໄວ້. ຄລິກທີ່ 'ຢູ່ໃນໜ້ານີ້' ເພື່ອລໍຖ້າການບັນທຶກອັດຕະໂນມັດ. ຄລິກ 'ອອກຈາກໜ້ານີ້' ເພື່ອຍົກເລີກການປ່ຽນແປງທີ່ບໍ່ໄດ້ບັນທຶກໄວ້ທັງໝົດ.",
     "dlgLeaveTitleText": "ທ່ານໄດ້ອອກຈາກໜ້າຄໍາຮ້ອງສະຫມັກ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
-    "stayButtonText": "ຢູ່ໃນໜ້ານີ້"
+    "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

@@ -122,7 +122,6 @@ define([
                     me.statusbar.$el.find('.hide-select-tools').removeClass('hide-select-tools');
                 }
             });
-
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
         },
 

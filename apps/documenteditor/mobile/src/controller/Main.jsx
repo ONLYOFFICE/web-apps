@@ -214,6 +214,16 @@ class MainController extends Component {
 
                 this.applyMode(storeAppOptions);
 
+                const storeDocumentInfo = this.props.storeDocumentInfo;
+                const dataDoc = storeDocumentInfo.dataDoc;
+                const isExtRestriction = dataDoc.fileType !== 'oform';
+
+                if(isExtRestriction) {
+                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                } else {
+                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
+                }
+
                 this.api.asc_LoadDocument();
                 this.api.Resize();
             };
@@ -256,6 +266,14 @@ class MainController extends Component {
                 appSettings.changeShowTableEmptyLine(value);
                 this.api.put_ShowTableEmptyLine(value);
 
+                value = LocalStorage.getBool('mobile-view', true);
+
+                if(value) {
+                    this.api.ChangeReaderMode();
+                } else {
+                    appOptions.changeMobileView();
+                }
+
                 if (appOptions.isEdit && this.needToUpdateVersion) {
                     Common.Notifications.trigger('api:disconnect');
                 }
@@ -272,7 +290,6 @@ class MainController extends Component {
                 this.api.Resize();
                 this.api.zoomFitToWidth();
                 this.api.asc_GetDefaultTableStyles && setTimeout(() => {this.api.asc_GetDefaultTableStyles()}, 1);
-
                 this.applyLicense();
 
                 Common.Notifications.trigger('document:ready');

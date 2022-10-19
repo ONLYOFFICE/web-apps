@@ -116,7 +116,12 @@ class SearchView extends Component {
                 expandable: true,
                 backdrop: false,
                 on: {
-                    search: (bar, curval, prevval) => {
+                    search: (sb, query, previousQuery) => {
+                        const api = Common.EditorApi.get();
+
+                        if(!query) {
+                            api.asc_selectSearchingResults(false);
+                        }
                     },
                 }
             });
