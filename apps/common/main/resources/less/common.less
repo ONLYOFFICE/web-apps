@@ -236,6 +236,10 @@ textarea {
     background-color: @background-normal;
     color: @text-normal-ie;
     color: @text-normal;
+    &:-ms-input-placeholder {
+        color: @text-tertiary-ie;
+    }
+    .placeholder();
 }
 
 .btn-edit-table,
