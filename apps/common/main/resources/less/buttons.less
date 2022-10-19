@@ -529,6 +529,10 @@
     > .dropdown-toggle:first-child {
         .inner-box-caret {
             padding: 0 4px 0 3px;
+
+            .rtl & {
+                padding: 0 3px 0 4px;
+            }
         }
     }
 
@@ -664,6 +668,11 @@
     border:@scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
+    .rtl & {
+        padding: @scaled-one-px-value-ie @scaled-one-px-value-ie @scaled-one-px-value-ie 11px;
+        padding: @scaled-one-px-value @scaled-one-px-value @scaled-one-px-value 11px ;
+    }
+
     span:nth-child(1) {
         float: left;
         width: 100%;
@@ -677,6 +686,11 @@
         position: absolute;
         right: 0;
         top: 2px;
+
+        .rtl & {
+            right: auto;
+            left: 0;
+        }
     }
 
     &,
@@ -701,6 +715,12 @@
             height: 34px;
             transform: translate(16px, -9px) rotate(62deg);
             left: 0;
+
+            .rtl & {
+                left: auto;
+                right: 0;
+                transform: translate(-16px, -9px) rotate(62deg);
+            }
         }
     }
 

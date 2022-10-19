@@ -287,6 +287,13 @@
     .view {
         margin-right: -@combo-dataview-button-width;
         padding-right: @combo-dataview-button-width;
+
+        .rtl & {
+            margin-right: 0;
+            padding-right: 0;
+            margin-left: -@combo-dataview-button-width;
+            padding-left: @combo-dataview-button-width;
+        }
     }
 
     .button {
@@ -343,6 +350,11 @@
         margin-left: 4px;
         .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
         .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+
+        .rtl & {
+            margin: 2px 0 2px 2px;
+            margin-right: 4px;
+        }
     }
 
     &.disabled {

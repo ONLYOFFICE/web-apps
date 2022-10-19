@@ -112,7 +112,7 @@ define([
             this.openButton = new Common.UI.Button({
                 cls: 'open-menu',
                 menu: new Common.UI.Menu({
-                    menuAlign: 'tl-tl',
+                    menuAlign: Common.UI.isRTL() ? 'tr-tr' : 'tl-tl',
                     offset: [0, 3],
                     items: [
                         {template: _.template('<div class="menu-picker-container"></div>')}

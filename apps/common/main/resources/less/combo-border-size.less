@@ -34,10 +34,6 @@
             background-color: transparent;
             image-rendering: pixelated;
             float: left;
-
-            .rtl & {
-                float: right;
-            }
         }
     }
 
@@ -70,6 +66,18 @@
         .pixel-ratio__2 & {
             background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@2x.png)";
         }
+    }
+
+    &:not(.combo-border-size-ed) {
+        .rtl & li img {
+            float: right;
+        }
+    }
+}
+
+.combo-border-size-ed {
+    .dropdown-menu li a {
+        padding: 5px 20px;
     }
 }
 

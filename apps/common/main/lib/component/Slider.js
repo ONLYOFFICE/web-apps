@@ -156,7 +156,7 @@ define([
                 $(document).off('mousemove', onMouseMove);
 
                 me._dragstart = undefined;
-                me.trigger('changecomplete', me, me.value, me.lastValue);
+                me.trigger('changecomplete', me, Common.UI.isRTL() ? me.maxValue - me.value : me.value, me.lastValue);
             };
 
             var onMouseMove = function (e) {
@@ -175,7 +175,7 @@ define([
                 me.value = pos/me.delta + me.minValue;
 
                 if (Math.abs(me.value-me.lastValue)>0.001)
-                    me.trigger('change', me, me.value, me.lastValue);
+                    me.trigger('change', me, Common.UI.isRTL() ? me.maxValue - me.value : me.value, me.lastValue);
             };
 
             var onMouseDown = function (e) {
@@ -201,8 +201,8 @@ define([
                 me.lastValue = me.value;
                 me.value = pos/me.delta + me.minValue;
 
-                me.trigger('change', me, me.value, me.lastValue);
-                me.trigger('changecomplete', me, me.value, me.lastValue);
+                me.trigger('change', me, Common.UI.isRTL() ? me.maxValue - me.value : me.value, me.lastValue);
+                me.trigger('changecomplete', me, Common.UI.isRTL() ? me.maxValue - me.value : me.value, me.lastValue);
             };
 
             var updateslider;
@@ -211,7 +211,7 @@ define([
                 me.lastValue = me.value;
                 me.value = Math.max(me.minValue, Math.min(me.maxValue, me.value + ((increase) ? me.step : -me.step)));
                 me.setThumbPosition(Math.round((me.value-me.minValue)*me.delta));
-                me.trigger('change', me, me.value, me.lastValue);
+                me.trigger('change', me, Common.UI.isRTL() ? me.maxValue - me.value : me.value, me.lastValue);
             };
 
             var onKeyDown = function (e) {
@@ -234,7 +234,7 @@ define([
                     clearInterval(updateslider);
                     moveThumb(e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.RIGHT);
                     el.on('keydown', 'input', onKeyDown);
-                    me.trigger('changecomplete', me, me.value, me.lastValue);
+                    me.trigger('changecomplete', me, Common.UI.isRTL() ? me.maxValue - me.value : me.value, me.lastValue);
                 }
             };
 
@@ -264,7 +264,7 @@ define([
         setValue: function(value) {
             this.lastValue = this.value;
             this.value = Math.max(this.minValue, Math.min(this.maxValue, value));
-            this.setThumbPosition(Math.round((value-this.minValue)*this.delta));
+            this.setThumbPosition(Math.round(((Common.UI.isRTL() ? this.maxValue - value : value)-this.minValue)*this.delta));
         },
 
         getValue: function() {

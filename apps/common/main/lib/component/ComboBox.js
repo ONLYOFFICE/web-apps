@@ -153,7 +153,8 @@ define([
                         scope       : me,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
-                        dataHintOffset: this.options.dataHintOffset
+                        dataHintOffset: this.options.dataHintOffset,
+                        isRTL       : Common.UI.isRTL()
                     }));
                     if (this.itemsTemplate)
                         this.cmpEl.find('ul').html(

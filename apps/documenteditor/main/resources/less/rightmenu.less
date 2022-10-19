@@ -12,6 +12,65 @@
     label.input-label{
         vertical-align: baseline;
     }
+
+    &#id-shape-settings {
+        #shape-panel-transparent-fill {
+            width: 100%;
+
+            .header {
+                display: block;
+            }
+
+            .shape-slider {
+                display: inline-block;
+                margin-top: 3px;
+            }
+
+            #shape-spin-transparency {
+                display: inline-block;
+                float: right;
+
+                .rtl & {
+                    float: left;
+                }
+            }
+
+            #shape-slider-transparency {
+                display: inline-block;
+                margin: 0 4px;
+                vertical-align: middle;
+            }
+        }
+
+        #shape-button-270, #shape-button-fliph {
+            display: inline-block;
+            margin-right: 4px;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 4px;
+            }
+        }
+
+        #shape-button-90, #shape-button-flipv {
+            display: inline-block;
+        }
+
+        .change-type {
+            .header {
+                margin-top: 3px;
+            }
+
+            #shape-btn-change {
+                display: inline-block;
+                float: right;
+
+                .rtl & {
+                    float: left;
+                }
+            }
+        }
+    }
 }
 
 .ie {

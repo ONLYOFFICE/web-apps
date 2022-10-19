@@ -178,6 +178,8 @@ define([
                         this.menuAlign = 'tr-tl';
                     } else if (this.menuAlign === 'tl-bl') {
                         this.menuAlign = 'tr-br';
+                    } else if (this.menuAlign === 'tr-br') {
+                        this.menuAlign = 'tl-bl';
                     }
                 }
 

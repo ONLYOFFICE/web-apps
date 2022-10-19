@@ -101,14 +101,14 @@
     </tr>
     <tr class="no-form">
         <td>
-            <div class="padding-small" id="shape-panel-transparent-fill" style="width: 100%;">
-                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
-                <div style="display: inline-block; margin-top: 3px;">
+            <div class="padding-small" id="shape-panel-transparent-fill">
+                <label class="header"><%= scope.strTransparency %></label>
+                <div class="shape-slider">
                     <label id="shape-lbl-transparency-start">0</label>
-                    <div id="shape-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <div id="shape-slider-transparency"></div>
                     <label id="shape-lbl-transparency-end">100</label>
                 </div>
-                <div id="shape-spin-transparency" style="display: inline-block;float: right;"></div>
+                <div id="shape-spin-transparency"></div>
             </div>
         </td>
     </tr>
@@ -159,15 +159,15 @@
                     <td class="padding-small" width="50%">
                         <label class="input-label"><%= scope.textRotate90 %></label>
                         <div>
-                            <div id="shape-button-270" style="display: inline-block;margin-right: 4px;"></div>
-                            <div id="shape-button-90" style="display: inline-block;"></div>
+                            <div id="shape-button-270"></div>
+                            <div id="shape-button-90"></div>
                         </div>
                     </td>
                     <td class="padding-small" width="50%">
                         <label class="input-label"><%= scope.textFlip %></label>
                         <div>
-                            <div id="shape-button-fliph" style="display: inline-block;margin-right: 4px;"></div>
-                            <div id="shape-button-flipv" style="display: inline-block;"></div>
+                            <div id="shape-button-fliph"></div>
+                            <div id="shape-button-flipv"></div>
                         </div>
                     </td>
                 </tr>
@@ -199,8 +199,8 @@
     </tr>
     <tr class="change-type">
         <td class="padding-small">
-            <label class="header" style="margin-top: 3px;"><%= scope.strChange %></label>
-            <div id="shape-btn-change" style="display: inline-block; float:right;"></div>
+            <label class="header"><%= scope.strChange %></label>
+            <div id="shape-btn-change"></div>
         </td>
     </tr>
     <tr class="no-form">

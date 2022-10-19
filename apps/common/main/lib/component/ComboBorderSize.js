@@ -182,7 +182,7 @@ define([
 
     Common.UI.ComboBorderSizeEditable = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
-            '<span class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+            '<span class="input-group combobox combo-border-size combo-border-size-ed input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
                 '<input type="text" class="form-control text" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
@@ -190,10 +190,17 @@ define([
                 '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<% if (!isRTL) { %>',
                             '<span><%= item.displayValue %></span>',
                             '<% if (item.offsety!==undefined) { %>',
                              '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" align="right" style="background-position: 0 -<%= item.offsety %>px;">',
                             '<% } %>',
+                        '<% } else { %>',
+                            '<% if (item.offsety!==undefined) { %>',
+                            '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" align="left" style="background-position: 0 -<%= item.offsety %>px;">',
+                            '<% } %>',
+                            '<span><%= item.displayValue %></span>',
+                        '<% } %>',
                         '</a></li>',
                     '<% }); %>',
                 '</ul>',
