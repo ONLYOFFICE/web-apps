@@ -69,6 +69,9 @@ define([
                 },
                 'PivotTable': {
                     'insertpivot': this.onInsertPivot
+                },
+                'ViewTab': {
+                    'rightmenu:hide': this.onRightMenuHide.bind(this)
                 }
             });
 
@@ -466,6 +469,17 @@ define([
                 this._state.wsLock = props.wsLock;
             }
             this.onSelectionChanged(this.api.asc_getCellInfo());
+        },
+
+        onRightMenuHide: function (view, status) {
+            if (this.rightmenu) {
+                !status && this.rightmenu.clearSelection();
+                status ? this.rightmenu.show() : this.rightmenu.hide();
+                Common.localStorage.setBool('sse-hidden-rightmenu', !status);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         }
     });
 });

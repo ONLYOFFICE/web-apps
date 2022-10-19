@@ -1412,6 +1412,8 @@ define([
                 app.getController('Toolbar').setMode(this.appOptions);
                 app.getController('DocumentHolder').setMode(this.appOptions);
 
+                viewport && viewport.applyCommonMode();
+
                 if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) {
                     statusbarView.hide();
                 }

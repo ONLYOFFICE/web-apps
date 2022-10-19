@@ -162,6 +162,13 @@ define([
                 rightMenuView   = SSE.getController('RightMenu').getView('RightMenu');
 
             me._rightMenu   = rightMenuView.render(this.mode);
+            if ( Common.localStorage.getBool('sse-hidden-rightmenu') )
+                me._rightMenu.hide();
+        },
+
+        applyCommonMode: function() {
+            if ( Common.localStorage.getBool('sse-hidden-leftmenu') )
+                SSE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode, delay) {
