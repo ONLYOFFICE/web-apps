@@ -233,7 +233,7 @@ define([
                 this.viewport.hlayout.doLayout();
                 break;
             case 'history':
-                var panel = this.viewport.hlayout.items[1];
+                var panel = this.viewport.hlayout.getItem('history');
                 if (panel.resize.el) {
                     this.boxSdk.css('border-left', '');
                     panel.resize.el.show();
@@ -241,7 +241,7 @@ define([
                 this.viewport.hlayout.doLayout();
                 break;
             case 'leftmenu':
-                var panel = this.viewport.hlayout.items[0];
+                var panel = this.viewport.hlayout.getItem('left');
                 if (panel.resize.el) {
                     if (panel.el.width() > 40) {
                         this.boxSdk.css('border-left', '');
