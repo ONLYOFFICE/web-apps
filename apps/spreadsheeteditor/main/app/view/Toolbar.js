@@ -532,6 +532,20 @@ define([
                         dataHintDirection: 'bottom'
                     });
 
+                    me.btnCellStyle = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-cstyle',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-menu-cell',
+                        lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.wsLock, _set.editVisibleArea],
+                        menu        : new Common.UI.Menu({
+                            items: [
+                                { template: _.template('<div id="id-toolbar-menu-cell-styles" style="width: 645px; height: 306px; margin: 0px 4px;"></div>') }
+                            ]
+                        }),
+                        dataHint    : '1',
+                        dataHintDirection: 'bottom'
+                    });
+
                     me.btnTextFormatting = new Common.UI.Button({
                         id          : 'id-toolbar-btn-formatting',
                         cls         : 'btn-toolbar no-caret',
@@ -802,7 +816,7 @@ define([
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
                     signals: ['disabled'],
                     dataHint    : '1',
-                    dataHintDirection: 'top',
+                    dataHintDirection: 'bottom',
                     dataHintTitle: 'P'
                 });
 
@@ -813,7 +827,7 @@ define([
                     lock        : [_set.lostConnect],
                     signals     : ['disabled'],
                     dataHint    : '1',
-                    dataHintDirection: 'bottom',
+                    dataHintDirection: 'top',
                     dataHintTitle: 'S'
                 });
                 me.btnCollabChanges = me.btnSave;
@@ -1195,6 +1209,18 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                this.btnInsertSmartArt = new Common.UI.Button({
+                    id: 'tlbtn-insertsmartart',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon smart-art',
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
+                    caption: me.capBtnInsSmartArt,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnInsertShape = new Common.UI.Button({
                     id          : 'tlbtn-insertshape',
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -1215,9 +1241,11 @@ define([
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
+                    split       : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small', 
+                    textboxType: 'textRect',
                 });
 
                 me.btnInsertTextArt = new Common.UI.Button({
@@ -1299,43 +1327,42 @@ define([
                 });
 
                 me.listStyles = new Common.UI.ComboDataView({
-                    cls             : 'combo-styles',
+                    cls             : 'combo-cell-styles',
                     enableKeyEvents : true,
-                    itemWidth       : 112,
-                    itemHeight      : 40,
-                    style: 'min-width:158px;',
-                    menuMaxHeight   : 226,
+                    itemWidth       : 100,
+                    itemHeight      : 20,
+                    style: 'min-width:135px; max-width: 660px;',
+                    groups: new Common.UI.DataViewGroupStore(),
+                    menuMaxHeight   : 380,
                     lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells']],
                     dataHint        : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset  : '-16, -4',
                     delayRenderTips: true,
+                    autoWidth:      true,
                     beforeOpenHandler: function(e) {
                         var cmp = this,
-                            menu = cmp.openButton.menu,
-                            minMenuColumn = 6;
+                            menu = cmp.openButton.menu;
 
                         if (menu.cmpEl) {
-                            var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                            var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
+                            var itemEl = $(menu.menuRoot.find('.dataview .item').get(0));
+                            var groupContainerEl = $(menu.menuRoot.find('.dataview .group-items-container').get(0));
+                            var itemMargin = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
                             Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1/Common.Utils.applicationPixelRatio());
                             var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                 (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                 parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
 
-                            var minCount        = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
-                                columnCount     = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth) + 0.5));
-
-                            columnCount = columnCount < minCount ? minCount : columnCount;
+                            var columnCount = 6;
                             menu.menuAlignEl = cmp.cmpEl;
 
                             menu.menuAlign = 'tl-tl';
-                            var menuWidth = columnCount * (itemMargin + itemWidth),
+                            var menuPickerEl = $(menu.menuRoot.find('.menu-picker-container').get(0)),
+                                paddings = 15 + parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(menuPickerEl.css('margin-left')) + parseFloat(menuPickerEl.css('margin-right')),
+                                menuWidth = Math.ceil(+ columnCount * (itemWidth + itemMargin) + paddings),
                                 buttonOffsetLeft = cmp.openButton.$el.offset().left;
-                            // if (menuWidth>buttonOffsetLeft)
-                            //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
                             if (menuWidth>Common.Utils.innerWidth())
-                                menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                                menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-paddings)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + paddings;
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
                             if (Common.UI.isRTL()) {
                                 offset = cmp.openButton.$el.width();
@@ -2067,9 +2094,9 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
+                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.listStyles, me.btnPrint,
@@ -2260,6 +2287,7 @@ define([
             _injectComponent('#slot-btn-setfilter',      this.btnSetAutofilter);
             _injectComponent('#slot-btn-clear-filter',   this.btnClearAutofilter);
             _injectComponent('#slot-btn-table-tpl',      this.btnTableTemplate);
+            _injectComponent('#slot-btn-cell-style',     this.btnCellStyle);
             _injectComponent('#slot-btn-format',         this.cmbNumberFormat);
             _injectComponent('#slot-btn-percents',       this.btnPercentStyle);
             _injectComponent('#slot-btn-currency',       this.btnCurrencyStyle);
@@ -2275,6 +2303,7 @@ define([
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
             _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
+            _injectComponent('#slot-btn-inssmartart',    this.btnInsertSmartArt);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
@@ -2345,7 +2374,8 @@ define([
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
-            _updateHint(this.btnInsertText, this.tipInsertText);
+            _updateHint(this.btnInsertSmartArt, this.tipInsertSmartArt);
+            _updateHint(this.btnInsertText, [this.tipInsertHorizontalText ,this.tipInsertText]);
             _updateHint(this.btnInsertTextArt, this.tipInsertTextart);
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             _updateHint(this.btnInsertShape, this.tipInsertShape);
@@ -2358,6 +2388,7 @@ define([
             _updateHint(this.btnClearAutofilter, this.txtClearFilter);
             _updateHint(this.btnSearch, this.txtSearch);
             _updateHint(this.btnTableTemplate, this.txtTableTemplate);
+            _updateHint(this.btnCellStyle, this.txtCellStyle);
             _updateHint(this.btnPercentStyle, this.tipDigStylePercent);
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
@@ -2378,8 +2409,8 @@ define([
             _updateHint(this.btnCondFormat, this.tipCondFormat);
             _updateHint(this.btnVisibleArea, this.tipVisibleArea);
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
-            _updateHint(this.btnHorizontalAlign, this.tipHAligh);
-            _updateHint(this.btnVerticalAlign, this.tipVAligh);
+            _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
+            _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -2555,6 +2586,62 @@ define([
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
             }
 
+            if (this.btnInsertSmartArt) {
+                this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    items: []
+                }));
+
+                var smartArtData = Common.define.smartArt.getSmartArtData();
+                smartArtData.forEach(function (item, index) {
+                    var length = item.items.length,
+                        width = 399;
+                    if (length < 5) {
+                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                    }
+                    me.btnInsertSmartArt.menu.addItem({
+                        caption: item.caption,
+                        value: item.sectionId,
+                        itemId: item.id,
+                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                            ],
+                            menuAlign: 'tl-tr',
+                        })});
+                });
+                var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                        item.$el.one('mouseenter', function () {
+                            me.fireEvent('generate:smartart', [item.value]);
+                            item.$el.mouseenter();
+                        });
+                        item.menuPicker = new Common.UI.DataView({
+                            el: $('#' + item.options.itemId),
+                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            itemTemplate: _.template([
+                                '<div>',
+                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                '</div>'
+                            ].join('')),
+                            store: new Common.UI.DataViewStore(),
+                            delayRenderTips: true,
+                            scrollAlwaysVisible: true,
+                            showLast: false
+                        });
+                        item.menuPicker.on('item:click', function(picker, item, record, e) {
+                            if (record) {
+                                me.fireEvent('insert:smartart', [record.get('value')]);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                    });
+                    menu.off('show:before', onShowBeforeSmartArt);
+                };
+                this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
+            }
+
             if ( this.btnInsertSparkline ) {
                 this.btnInsertSparkline.setMenu(new Common.UI.Menu({
                     style: 'width: 166px;padding: 5px 0 10px;',
@@ -2581,6 +2668,31 @@ define([
                     menu.off('show:before', onShowBefore);
                 };
                 this.btnInsertSparkline.menu.on('show:before', onShowBefore);
+            }
+
+            if(this.btnInsertText) {
+                this.btnInsertText.setMenu(new Common.UI.Menu({
+                    items: [
+                        {
+                            caption: this.tipInsertHorizontalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon btn-text',
+                            toggleGroup: 'textbox',
+                            value: 'textRect',
+                            iconClsForMainBtn: 'btn-text'
+                        },
+                        {
+                            caption: this.tipInsertVerticalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon btn-text-vertical',
+                            toggleGroup: 'textbox',
+                            value: 'textRectVertical',
+                            iconClsForMainBtn: 'btn-text-vertical'
+                        },
+                    ]
+                }));
             }
 
             if (this.btnInsertTextArt) {
@@ -2837,6 +2949,7 @@ define([
                     this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
+                !mode.canPrint && this.btnPrint.hide();
                 this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
             }
 
@@ -3144,7 +3257,9 @@ define([
         tipSynchronize:     'The document has been changed by another user. Please click to save your changes and reload the updates.',
         tipIncFont:         'Increment font size',
         tipDecFont:         'Decrement font size',
-        tipInsertText:      'Insert Text',
+        tipInsertHorizontalText: 'Insert horizontal text box',
+        tipInsertVerticalText: 'Insert vertical text box',
+        tipInsertText: 'Insert text box',
         tipInsertTextart:   'Insert Text Art',
         tipInsertShape:     'Insert Autoshape',
         tipDigStylePercent: 'Percent Style',
@@ -3180,6 +3295,7 @@ define([
         txtSortZA:          'Sort Z to A',
         txtFilter:          'Filter',
         txtTableTemplate:   'Format As Table Template',
+        txtCellStyle:       'Cell Style',
         textHorizontal:     'Horizontal Text',
         textCounterCw:      'Angle Counterclockwise',
         textClockwise:      'Angle Clockwise',
@@ -3323,9 +3439,11 @@ define([
         tipVisibleArea: 'Visible area',
         textDone: 'Done',
         tipTextFormatting: 'More text formatting tools',
-        tipHAligh: 'Horizontal Align',
-        tipVAligh: 'Vertical Align',
+        tipHAlighOle: 'Horizontal Align',
+        tipVAlighOle: 'Vertical Align',
         tipSelectAll: 'Select all',
-        tipCut: 'Cut'
+        tipCut: 'Cut',
+        tipInsertSmartArt: 'Insert SmartArt',
+        capBtnInsSmartArt: 'SmartArt'
     }, SSE.Views.Toolbar || {}));
 });

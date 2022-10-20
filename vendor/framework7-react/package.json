@@ -38,6 +38,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-i18next": "^11.8.5",
+    "react-transition-group": "^4.4.5",
     "swiper": "^8.2.4",
     "template7": "^1.4.2"
   },

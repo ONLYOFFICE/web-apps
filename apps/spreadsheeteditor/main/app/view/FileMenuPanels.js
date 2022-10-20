@@ -381,6 +381,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             this.rbCoAuthModeFast = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-fast'),
@@ -809,7 +810,7 @@ define([
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
-            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("sse-settings-use-alt-key"));
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("sse-settings-show-alt-hints"));
 
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
@@ -904,6 +905,7 @@ define([
             if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
 
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                    defaultShortName = "en-US",
                     allLangs = arrLang[0],
                     langs = arrLang[1],
                     change = arrLang[2];
@@ -923,6 +925,8 @@ define([
                         item = this.cmbDictionaryLanguage.store.find(function (model) {
                             return model.get('shortName').indexOf(value) == 0;
                         });
+                        if(!item)
+                            item = this.cmbDictionaryLanguage.store.findWhere({shortName: defaultShortName})
                     }
                     this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
                     value = this.cmbDictionaryLanguage.getValue();
@@ -942,8 +946,8 @@ define([
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
-            Common.localStorage.setItem("sse-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("sse-settings-use-alt-key", Common.localStorage.getBool("sse-settings-use-alt-key"));
+            Common.localStorage.setItem("sse-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", Common.localStorage.getBool("sse-settings-show-alt-hints"));
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
             /** coauthoring begin **/
@@ -1172,7 +1176,7 @@ define([
         txtWorkspace: 'Workspace',
         strReferenceStyle: 'R1C1 reference style',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
         txtRegion: 'Region',
         txtProofing: 'Proofing',
         strDictionaryLanguage: 'Dictionary language',
@@ -1365,6 +1369,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
                     '<tr>',
+                        '<td class="left"><label>' + this.txtTags + '</label></td>',
+                        '<td class="right"><div id="id-info-tags"></div></td>',
+                    '</tr>',
+                    '<tr>',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
@@ -1444,6 +1452,15 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.inputTitle = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-title'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('keydown:before', keyDownBefore);
+            this.inputTags = new Common.UI.InputField({
+                el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
@@ -1655,6 +1672,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
                 value = props.asc_getTitle();
                 this.inputTitle.setValue(value || '');
+                value = props.asc_getKeywords();
+                this.inputTags.setValue(value || '');
                 value = props.asc_getSubject();
                 this.inputSubject.setValue(value || '');
                 value = props.asc_getDescription();
@@ -1693,6 +1712,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
+                this.inputTags._input.attr('placeholder', '');
                 this.inputSubject._input.attr('placeholder', '');
                 this.inputComment._input.attr('placeholder', '');
                 this.inputAuthor._input.attr('placeholder', '');
@@ -1716,6 +1736,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         SetDisabled: function() {
             var disable = !this.mode.isEdit || this._locked;
             this.inputTitle.setDisabled(disable);
+            this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);
             this.inputComment.setDisabled(disable);
             this.inputAuthor.setDisabled(disable);
@@ -1727,6 +1748,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         applySettings: function() {
             if (this.coreProps && this.api) {
                 this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putKeywords(this.inputTags.getValue());
                 this.coreProps.asc_putSubject(this.inputSubject.getValue());
                 this.coreProps.asc_putDescription(this.inputComment.getValue());
                 this.coreProps.asc_putCreator(this.authors.join(';'));
@@ -1740,6 +1762,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtUploaded: 'Uploaded',
         txtAppName: 'Application',
         txtTitle: 'Title',
+        txtTags: 'Tags',
         txtSubject: 'Subject',
         txtComment: 'Comment',
         txtModifyDate: 'Last Modified',
@@ -1891,6 +1914,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
+            this.urlHelpCenter = '{{HELP_CENTER_WEB_SSE}}';
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Spreadsheet Editor user interface", "headername": "Program Interface"},
@@ -1998,11 +2022,12 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                             store.fetch(config);
                         } else {
                             if ( Common.Controllers.Desktop.isActive() ) {
-                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() )
+                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
+                                    me.noHelpContents = true;
                                     me.iFrame.src = '../../common/main/resources/help/download.html';
-                                else {
+                                } else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
-                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
+                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + store.contentLang + '/';
                                     store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }

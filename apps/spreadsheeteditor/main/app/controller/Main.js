@@ -416,6 +416,7 @@ define([
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
                 this.appOptions.uiRtl = Common.localStorage.getBool("ui-rtl");
+                this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
 
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -508,6 +509,7 @@ define([
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_ReferenceData(data.doc.referenceData);
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -872,8 +874,8 @@ define([
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
                 this.api.asc_setZoom(zf>0 ? zf : 1);
 
-                value = Common.localStorage.getBool("sse-settings-use-alt-key", true);
-                Common.Utils.InternalSettings.set("sse-settings-use-alt-key", value);
+                value = Common.localStorage.getBool("sse-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
@@ -1141,7 +1143,7 @@ define([
                     viewMode: disable,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: true, disable: true},
+                    rightMenu: {clear: !temp, disable: true},
                     statusBar: true,
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true, history: temp},
@@ -1422,7 +1424,7 @@ define([
                             Common.Gateway.internalMessage('processMouse', {event: 'mouse:up'});
                         })
                         .mousemove($.proxy(function(e){
-                            if (this.isDiagramDrag) {
+                            if (this.isDiagramDrag || this.isDiagramResize) {
                                 Common.Gateway.internalMessage('processMouse', {event: 'mouse:move', pagex: e.pageX*Common.Utils.zoom(), pagey: e.pageY*Common.Utils.zoom()});
                             }
                         },this));
@@ -1435,8 +1437,11 @@ define([
 
                     var printController = app.getController('Print');
                     printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
-                } else if (this.appOptions.isEditOle)
-                    this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+                } else {
+                    this.api.asc_registerCallback('asc_sendFromFrameToGeneralEditor', _.bind(this.onSendFromFrameToGeneralEditor, this));
+                    if (this.appOptions.isEditOle)
+                        this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+                }
 
                 var celleditorController = this.getApplication().getController('CellEditor');
                 celleditorController && celleditorController.setApi(this.api).setMode(this.appOptions);
@@ -1968,6 +1973,10 @@ define([
                         config.msg = this.errorCannotUseCommandProtectedSheet;
                         break;
 
+                    case Asc.c_oAscError.ID.DirectUrl:
+                        config.msg = this.errorDirectUrl;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2361,6 +2370,31 @@ define([
                         }
                     });
                     win.show();
+                } else if (id == Asc.c_oAscConfirm.ConfirmAddCellWatches) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: (data>Asc.c_nAscMaxAddCellWatchesCount) ? Common.Utils.String.format(this.confirmAddCellWatchesMax, Asc.c_nAscMaxAddCellWatchesCount) : Common.Utils.String.format(this.confirmAddCellWatches, data),
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback(btn === 'yes');
+                            }
+                        }, this)
+                    });
+                } else if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.confirmMaxChangesSize,
+                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
+                        maxwidth: 600,
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback(btn === 'ok');
+                            }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                        }, this)
+                    });
                 }
             },
 
@@ -2591,6 +2625,9 @@ define([
                     case 'window:drag':
                         this.isDiagramDrag = data.data;
                         break;
+                    case 'window:resize':
+                        this.isDiagramResize = data.data;
+                        break;
                     case 'processmouse':
                         this.onProcessMouse(data.data);
                         break;
@@ -2598,6 +2635,9 @@ define([
                         document.documentElement.className =
                             document.documentElement.className.replace(/theme-\w+\s?/, data.data);
                         this.api.asc_setSkin(data.data == "theme-dark" ? 'flatDark' : "flat");
+                        break;
+                    case 'generalToFrameData':
+                        this.api.asc_getInformationBetweenFrameAndGeneralEditor(data.data);
                         break;
                     }
                 }
@@ -2677,6 +2717,10 @@ define([
                         });
                     }
                 }
+            },
+
+            onSendFromFrameToGeneralEditor: function(data) {
+                Common.Gateway.internalMessage('frameToGeneralData', data);
             },
 
             unitsChanged: function(m) {
@@ -3628,7 +3672,12 @@ define([
             textReconnect: 'Connection is restored',
             errorCannotUseCommandProtectedSheet: 'You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.',
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
-            textRememberMacros: 'Remember my choice for all macros'
+            textRememberMacros: 'Remember my choice for all macros',
+            confirmAddCellWatches: 'This action will add {0} cell watches.<br>Do you want to continue?',
+            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?',
+            confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
+            textUndo: 'Undo',
+            textContinue: 'Continue'
         }
     })(), SSE.Controllers.Main || {}))
 });

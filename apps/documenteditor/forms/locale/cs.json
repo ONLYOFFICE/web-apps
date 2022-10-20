@@ -39,6 +39,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Standartní světlost",
   "Common.UI.Themes.txtThemeDark": "Tmavé",
   "Common.UI.Themes.txtThemeLight": "Světlé",
+  "Common.UI.Themes.txtThemeSystem": "Stejné jako systémové",
   "Common.UI.Window.cancelButtonText": "Zrušit",
   "Common.UI.Window.closeButtonText": "Zavřít",
   "Common.UI.Window.noButtonText": "Ne",

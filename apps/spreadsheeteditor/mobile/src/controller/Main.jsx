@@ -206,6 +206,25 @@ class MainController extends Component {
 
             const onEditorPermissions = params => {
                 const licType = params.asc_getLicenseType();
+                const { t } = this.props;
+                // const _t = t('Controller.Main', { returnObjects:true });
+               
+                if (Asc.c_oLicenseResult.Expired === licType ||
+                    Asc.c_oLicenseResult.Error === licType ||
+                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+
+                    f7.dialog.create({
+                        title: t('Controller.Main.titleLicenseExp'),
+                        text: t('Controller.Main.warnLicenseExp')
+                    }).open();
+
+                    return;
+                }
+
+                if (Asc.c_oLicenseResult.ExpiredLimited === licType) {
+                    this._state.licenseType = licType;
+                }
+
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const appOptions = this.props.storeAppOptions;
@@ -440,7 +459,55 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onEntriesListMenu', this.onEntriesListMenu.bind(this, false));
         this.api.asc_registerCallback('asc_onValidationListMenu', this.onEntriesListMenu.bind(this, true));
 
-        // Spreadsheet Info
+        this.api.asc_registerCallback('asc_onInputMessage', (title, msg) => {
+            if(!!msg) {
+                const coord  = this.api.asc_getActiveCellCoord();
+                const widthCell = coord.asc_getWidth();
+                const heightCell = coord.asc_getHeight();
+                const topPosition = coord.asc_getY();
+                const leftPosition = coord.asc_getX();
+                const sdk = document.querySelector('#editor_sdk');
+                const rect = sdk.getBoundingClientRect();
+
+                f7.popover.create({
+                    targetX: -10000,
+                    targetY: -10000,
+                    content: `
+                        <div class="popover tooltip-cell-data">
+                            <div class="popover-angle"></div>
+                            <div class="popover-inner">
+                                <p class="tooltip-cell-data__title">${title}</p>
+                                <p class="tooltip-cell-data__msg">${msg}</p>
+                            </div>
+                        </div>
+                    `,
+                    backdrop: false,
+                    closeByBackdropClick: false
+                }).open();
+
+                const tooltipCell = document.querySelector('.tooltip-cell-data');
+
+                // Define left position
+
+                if(rect.right - leftPosition <= widthCell || rect.right - leftPosition <= tooltipCell.offsetWidth) {
+                    tooltipCell.style.left = `${leftPosition - tooltipCell.offsetWidth}px`;
+                } else if(leftPosition === 0) {
+                    tooltipCell.style.left = `26px`;
+                } else {
+                    tooltipCell.style.left = `${leftPosition}px`;
+                }
+
+                // Define top position
+
+                if(rect.bottom - topPosition <= heightCell || rect.bottom - topPosition <= tooltipCell.offsetHeight) {
+                    tooltipCell.style.top = `${rect.bottom - tooltipCell.offsetHeight - heightCell - 7}px`;
+                } else if(topPosition === 0) {
+                    tooltipCell.style.top = `${heightCell + rect.top + 22}px`;
+                } else {
+                    tooltipCell.style.top = `${topPosition + rect.top + heightCell + 2}px`;
+                }
+            }
+        });
 
         const storeSpreadsheetInfo = this.props.storeSpreadsheetInfo;
 
@@ -449,8 +516,6 @@ class MainController extends Component {
                 storeSpreadsheetInfo.changeTitle(meta.title);
             }
         });
-
-
     }
 
     onEntriesListMenu(validation, textArr, addArr) {

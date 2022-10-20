@@ -694,6 +694,14 @@ define([
             this._state.beginPreviewStyles = true;
             this._state.currentStyleFound = false;
             this._state.previewStylesCount = count;
+            this._state.groups = {
+                'menu-table-group-custom':  {id: 'menu-table-group-custom',    caption: this.txtGroupTable_Custom,  index: 0, templateCount: 0},
+                'menu-table-group-optimal': {id: 'menu-table-group-optimal',   caption: this.txtGroupTable_Optimal, index: 1, templateCount: 0},
+                'menu-table-group-light':   {id: 'menu-table-group-light',     caption: this.txtGroupTable_Light,   index: 2, templateCount: 0},
+                'menu-table-group-medium':  {id: 'menu-table-group-medium',    caption: this.txtGroupTable_Medium,  index: 3, templateCount: 0},
+                'menu-table-group-dark':    {id: 'menu-table-group-dark',      caption: this.txtGroupTable_Dark,    index: 4, templateCount: 0},
+                'menu-table-group-no-name': {id: 'menu-table-group-no-name',   caption: '&nbsp',                    index: 5, templateCount: 0},
+            };
         },
 
         onEndTableStylesPreview: function(){
@@ -707,28 +715,68 @@ define([
 
         onAddTableStylesPreview: function(Templates){
             var self = this;
-            var arr = [];
+
             _.each(Templates, function(template){
                 var tip = template.asc_getDisplayName();
+                var groupItem = '';
+
                 if (template.asc_getType()==0) {
+                    var arr = tip.split(' ');
+                    
+                    if(new RegExp('No Style|Themed Style', 'i').test(tip)){
+                        groupItem = 'menu-table-group-optimal';
+                    }
+                    else{
+                        if(arr[0]){
+                            groupItem = 'menu-table-group-' + arr[0].toLowerCase();
+                        }
+                        if(self._state.groups.hasOwnProperty(groupItem) == false) {
+                            groupItem = 'menu-table-group-no-name';
+                        }
+                    }
+
                     ['No Style', 'No Grid', 'Table Grid', 'Themed Style', 'Light Style', 'Medium Style', 'Dark Style', 'Accent'].forEach(function(item){
                         var str = 'txtTable_' + item.replace(' ', '');
                         if (self[str])
                             tip = tip.replace(new RegExp(item, 'g'), self[str]);
                     });
                 }
-                arr.push({
+                else {
+                    groupItem = 'menu-table-group-custom'
+                }   
+
+                var templateObj = {
                     imageUrl: template.asc_getImage(),
                     id     : Common.UI.getId(),
                     templateId: template.asc_getId(),
+                    group  : groupItem,
                     tip    : tip
-                });
+                };
+                var templateIndex = 0;
+
+                for(var group in self._state.groups) {
+                    if(self._state.groups[group].index <= self._state.groups[groupItem].index) {
+                        templateIndex += self._state.groups[group].templateCount;
+                    }
+                }
+
+                if (self._state.beginPreviewStyles) {
+                    self._state.beginPreviewStyles = false;
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.reset(self._state.groups[groupItem]);
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(templateObj);
+                    self.mnuTableTemplatePicker.groups.comparator = function(item) {
+                        return item.get('index');
+                    };
+                } 
+                else {
+                    if(self._state.groups[groupItem].templateCount == 0) {
+                        self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.groups.add(self._state.groups[groupItem]);
+                    } 
+                    self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(templateObj, {at: templateIndex});
+                }
+
+                self._state.groups[groupItem].templateCount += 1;
             });
-            if (this._state.beginPreviewStyles) {
-                this._state.beginPreviewStyles = false;
-                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.reset(arr);
-            } else
-                self.mnuTableTemplatePicker && self.mnuTableTemplatePicker.store.add(arr);
             !this._state.currentStyleFound && this.selectCurrentTableStyle();
         },
 
@@ -878,7 +926,12 @@ define([
         txtTable_LightStyle: 'Light Style',
         txtTable_MediumStyle: 'Medium Style',
         txtTable_DarkStyle: 'Dark Style',
-        txtTable_Accent: 'Accent'
+        txtTable_Accent: 'Accent',
+        txtGroupTable_Custom: 'Custom',
+        txtGroupTable_Optimal: 'Best Match for Document',
+        txtGroupTable_Light: 'Light',
+        txtGroupTable_Medium: 'Medium',
+        txtGroupTable_Dark: 'Dark',
 
 }, PE.Views.TableSettings || {}));
 });

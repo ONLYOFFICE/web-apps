@@ -25,7 +25,6 @@ const PageUsers = inject("users")(observer(props => {
                 </NavRight>
                 }
             </Navbar>
-            <BlockTitle>{_t.textEditUser}</BlockTitle>
             <List className="coauth__list">
                 {storeUsers.editUsers.map((user, i) => (
                     <ListItem title={user.name + (user.count > 1 ? ` (${user.count})` : '')} key={i}>

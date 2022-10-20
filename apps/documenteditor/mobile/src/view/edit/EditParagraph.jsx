@@ -201,13 +201,13 @@ const EditParagraph = props => {
         <Fragment>
             <BlockTitle>{t('Edit.textParagraphStyle')}</BlockTitle>
             <List style={{marginBottom: 0}}>
-                <ListItem link="/edit-paragraph-style/" title={!curStyle && curStyleName} routeProps={{
+                <ListItem link="/edit-paragraph-style/" title={!curStyle && t('Edit.textCustomStyle')} routeProps={{
                     onStyleClick: props.onStyleClick,
                     onSaveStyle: props.onSaveStyle,
                     onStyleMenuDelete: props.onStyleMenuDelete
                 }}>
                     {curStyle && 
-                        <div slot="inner" style={{backgroundImage: 'url(' + curStyle.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}}></div>
+                        <div slot="inner" style={{backgroundImage: 'url(' + curStyle.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#fff'}}></div>
                     }
                 </ListItem>
             </List>
@@ -278,7 +278,7 @@ const EditParagraphStyle = props => {
                         }}
                     >
                         <div slot="inner"
-                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}}
+                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#fff'}}
                         ></div>
                         {!api.asc_IsStyleDefault(style.name) && (
                             <div slot="inner-end">
@@ -369,7 +369,7 @@ const ChangeNextParagraphStyle = props => {
                         }}
                     >
                         <div slot="inner"
-                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}}
+                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#fff'}}
                         ></div>
                     </ListItem>
                 ))}

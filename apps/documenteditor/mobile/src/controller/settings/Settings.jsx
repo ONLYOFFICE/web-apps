@@ -5,6 +5,7 @@ import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import SettingsView from "../../view/settings/Settings";
+import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage";
 
 const Settings = props => {
     useEffect(() => {
@@ -82,20 +83,19 @@ const Settings = props => {
     };
 
     const onChangeMobileView = () => {
-        const api = Common.EditorApi.get()
+        const api = Common.EditorApi.get();
         const appOptions = props.storeAppOptions;
+        const isMobileView = appOptions.isMobileView;
 
+        LocalStorage.setBool('mobile-view', !isMobileView);
         appOptions.changeMobileView();
         api.ChangeReaderMode();
-
-        if (Device.phone) {
-            closeModal();
-        }
-    }
+    };
 
     return <SettingsView usePopover={!Device.phone}
                          openOptions={props.openOptions}
-                         onclosed={props.onclosed}
+                         closeOptions={props.closeOptions}
+                         // onclosed={props.onclosed}
                          onPrint={onPrint}
                          showHelp={showHelp}
                          showFeedback={showFeedback}

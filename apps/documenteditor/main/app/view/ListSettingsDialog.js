@@ -210,7 +210,7 @@ define([
                 { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
                 { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
             ];
-            if ('{{DEFAULT_LANG}}' === 'ru') {
+            if (Common.Locale.getDefaultLanguage() === 'ru') {
                 items = items.concat([
                     { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower },
                     { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper }

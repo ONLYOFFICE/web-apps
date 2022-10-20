@@ -997,23 +997,27 @@ jQuery.fn.extend({
         var _el = document.getElementById(id.substring(1));
         if ( !_el ) {
             parent = parent || this;
-            if ( parent instanceof jQuery ) {
+            if ( parent && parent.length > 0 ) {
                 parent.each(function (i, node) {
-                    _el = node.querySelectorAll(id);
-                    if ( _el.length == 0 ) {
-                        if ( ('#' + node.id) == id ) {
-                            _el = node;
+                    if (node.querySelectorAll) {
+                        _el = node.querySelectorAll(id);
+                        if ( _el.length == 0 ) {
+                            if ( ('#' + node.id) == id ) {
+                                _el = node;
+                                return false;
+                            }
+                        } else
+                        if ( _el.length ) {
+                            _el = _el[0];
                             return false;
                         }
-                    } else
-                    if ( _el.length ) {
-                        _el = _el[0];
-                        return false;
                     }
                 })
             } else {
-                _el = parent.querySelectorAll(id);
-                if ( _el && _el.length ) return _el[0];
+                if (parent && parent.querySelectorAll) {
+                    _el = parent.querySelectorAll(id);
+                    if ( _el && _el.length ) return _el[0];
+                }
             }
         }
 

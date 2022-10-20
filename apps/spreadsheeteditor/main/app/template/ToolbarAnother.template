@@ -23,7 +23,7 @@
                 <div class="elset">
                     <span class="btn-slot split" id="slot-btn-digit-dec"></span>
                     <span class="btn-slot split" id="slot-btn-digit-inc"></span>
-                    <span class="btn-slot" id="slot-btn-format" style="width: 84px; vertical-align: middle;"></span>
+                    <span class="btn-slot" id="slot-btn-format" style="width: 80px; vertical-align: middle;"></span>
                 </div>
             </div>
             <div class="separator short"></div>
@@ -86,9 +86,9 @@
             </div>
             <div class="separator short"></div>
             <div class="group small">
-                <div class="elset" style="width: 202px;">
-                    <span class="btn-slot" id="slot-field-fontname" style="width: 100px;float: left;"></span>
-                    <span class="btn-slot" id="slot-field-fontsize" style="margin-left: 2px;float: left;"></span>
+                <div class="elset" style="width: 172px;">
+                    <span class="btn-slot" id="slot-field-fontname" style="width: 80px;float: left;"></span>
+                    <span class="btn-slot" id="slot-field-fontsize" style="width: 35px;margin-left: 2px;float: left;"></span>
                     <span class="btn-slot split" id="slot-btn-fontcolor" style="margin-left: 2px;margin-top: 1px;float: left;"></span>
                     <span class="btn-slot" id="slot-btn-formatting" style="margin-left: 2px;margin-top: 1px;float: left;"></span>
                 </div>
@@ -108,12 +108,13 @@
                     <span class="btn-slot split" id="slot-btn-borders"></span>
                     <span class="btn-slot split" id="slot-btn-fillparag"></span>
                     <span class="btn-slot split" id="slot-btn-table-tpl"></span>
+                    <span class="btn-slot split" id="slot-btn-cell-style"></span>
                 </div>
             </div>
             <div class="separator short"></div>
             <div class="group small">
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-format" style="width: 84px; float: left;"></span>
+                    <span class="btn-slot" id="slot-btn-format" style="width: 80px; float: left;"></span>
                 </div>
             </div>
             <div class="separator short"></div>
@@ -128,7 +129,7 @@
                     <span class="btn-slot" id="slot-btn-search"></span>
                 </div>
             </div>
-            <div class="group" style="width: 100%;"></div>
+            <div class="group" style="width: 100%;padding-left: 0;"></div>
             <div class="group small" style="padding-right: 10px;">
                 <div class="elset">
                     <span class="btn-slot" id="slot-btn-visible-area" style="width: auto;float: left;"></span>

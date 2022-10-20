@@ -32,7 +32,8 @@
       "textReopen": "Reabrir",
       "textResolve": "Resolver",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
-      "textUsers": "Usuários"
+      "textUsers": "Usuários",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sem preenchimento"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Não volte a aparecer",
     "textOk": "OK",
     "textRows": "Linhas",
-    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?"
+    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -169,7 +171,8 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -245,7 +251,10 @@
       "textSlideNumber": "Número do slide",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Atenção",
@@ -351,11 +360,8 @@
       "textPt": "Pt",
       "textPush": "Empurrar",
       "textRemoveChart": "Remover gráfico",
-      "textRemoveImage": "Remover imagem",
-      "textRemoveLink": "Remover link",
       "textRemoveShape": "Remover forma",
       "textRemoveTable": "Remover tabela",
-      "textReorder": "Reordenar",
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
       "textReplaceImage": "Substituir imagem",
@@ -396,7 +402,15 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Zoom e Rotação"
+      "textZoomRotate": "Zoom e Rotação",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",

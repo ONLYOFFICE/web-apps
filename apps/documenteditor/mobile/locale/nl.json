@@ -58,7 +58,10 @@
     "textTable": "Tabel",
     "textTableSize": "Tabelgrootte",
     "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
+    "textDone": "Done",
     "textOk": "Ok",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
       "textUnderline": "Onderstrepen",
       "textUsers": "Gebruikers",
-      "textWidow": "Zwevende regels voorkomen"
+      "textWidow": "Zwevende regels voorkomen",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Aangepaste kleuren",
@@ -198,6 +202,7 @@
     "textNumberingValue": "Nummeringswaarde",
     "textOk": "OK",
     "textRows": "Rijen",
+    "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
@@ -282,8 +287,6 @@
     "textPictureFromURL": "Afbeelding van URL",
     "textPt": "pt",
     "textRemoveChart": "Grafiek verwijderen",
-    "textRemoveImage": "Afbeelding verwijderen",
-    "textRemoveLink": "Koppeling verwijderen",
     "textRemoveShape": "Vorm verwijderen",
     "textRemoveTable": "Tabel verwijderen",
     "textReorder": "Opnieuw ordenen",
@@ -320,10 +323,14 @@
     "textAugust": "August",
     "textCancel": "Cancel",
     "textCentered": "Centered",
+    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
     "textDecember": "December",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
     "textDesign": "Design",
     "textDistinctive": "Distinctive",
     "textDone": "Done",
@@ -348,10 +355,12 @@
     "textOnline": "Online",
     "textPageNumbers": "Page Numbers",
     "textParagraphStyle": "Paragraph Style",
+    "textRecommended": "Recommended",
     "textRefresh": "Refresh",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRemoveTableContent": "Remove table of contents",
+    "textRequired": "Required",
     "textRightAlign": "Right Align",
     "textSa": "Sa",
     "textSameCreatedNewStyle": "Same as created new style",
@@ -362,10 +371,12 @@
     "textStyles": "Styles",
     "textSu": "Su",
     "textTableOfCont": "TOC",
+    "textTextWrapping": "Text Wrapping",
     "textTh": "Th",
     "textTitle": "Title",
     "textTu": "Tu",
-    "textWe": "We"
+    "textWe": "We",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Time-out voor conversie overschreden.",
@@ -406,8 +417,10 @@
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
     "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Gegevens worden geladen...",
@@ -442,7 +455,10 @@
     "txtEditingMode": "Bewerkmodus instellen...",
     "uploadImageTextText": "Afbeelding wordt geüpload...",
     "uploadImageTitleText": "Afbeelding wordt geüpload",
-    "waitText": "Een moment geduld..."
+    "waitText": "Een moment geduld...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "Fout",
@@ -661,6 +677,7 @@
     "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
     "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
@@ -675,6 +692,9 @@
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",
     "dlgLeaveTitleText": "U verlaat de toepassing",
     "leaveButtonText": "Pagina verlaten",
-    "stayButtonText": "Op deze pagina blijven"
+    "stayButtonText": "Op deze pagina blijven",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

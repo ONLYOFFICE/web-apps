@@ -19,7 +19,7 @@
   "DE.ApplicationController.errorLoadingFont": "Letra-tipoak ez dira kargatu.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
   "DE.ApplicationController.errorSubmit": "Huts egin du bidaltzean.",
   "DE.ApplicationController.errorTokenExpire": "Dokumentuaren segurtasun-tokena iraungi da.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
-  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Interneteko konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
   "DE.ApplicationController.errorUserDrop": "Ezin da fitxategia atzitu une honetan.",
   "DE.ApplicationController.notcriticalErrorTitle": "Abisua",
   "DE.ApplicationController.openErrorText": "Errore bat gertatu da fitxategia irekitzean.",

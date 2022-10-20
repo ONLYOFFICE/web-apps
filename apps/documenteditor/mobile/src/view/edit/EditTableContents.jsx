@@ -68,7 +68,7 @@ const EditTableContents = props => {
     return (
         <Fragment>
             <List>
-                <ListItem title={t('Edit.textStyle')} link="/edit-style-table-contents/" after={activeStyle.displayValue} routeProps={{
+                <ListItem title={t('Edit.textStyle')} link="/edit-style-table-contents/" after={activeStyle ? activeStyle.displayValue : ''} routeProps={{
                     onStyle: props.onStyle, 
                     arrStyles,
                     setStyleValue,

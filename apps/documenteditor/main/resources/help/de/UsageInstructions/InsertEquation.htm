@@ -10,33 +10,35 @@
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
-		<div class="mainpart">
-        <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
-        </div>
-			<h1>Formeln einfügen</h1>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Formeln einfügen</h1>
             <p>Mit dem <a target="_blank" href="https://www.onlyoffice.com/de/document-editor.aspx" onclick="onhyperlinkclick(this)"><b>Dokumenteneditor</b></a> können Sie Formeln mithilfe der integrierten Vorlagen erstellen, sie bearbeiten, Sonderzeichen einfügen (einschließlich mathematischer Operatoren, griechischer Buchstaben, Akzente usw.).</p>
             <h3>Eine neue Formel einfügen</h3>
             <p>Eine Formel aus den Vorlagen einfügen:</p>
-			<ol>
-				<li>Positionieren Sie den Mauszeiger an der gewünschten Stelle.</li>
+            <ol>
+                <li>Positionieren Sie den Mauszeiger an der gewünschten Stelle.</li>
                 <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Einfügen</b>.</li>
-				<li>Klicken Sie auf den Pfeil neben dem Symbol <div class = "icon icon-insertequationicon"></div> <b>Formel</b>.</li>
-				<li>Wählen Sie im geöffneten Listenmenü die gewünschte Option: Derzeit sind die folgenden Kategorien verfügbar: <em>Symbole</em>, <em>Brüche</em>, <em>Skripte</em>, <em>Wurzeln</em>, <em>Integrale</em>, <em>Große Operatoren</em>, <em>Klammern</em>, <em>Funktionen</em>, <em>Akzente</em>, <em>Grenzwerte und Logarithmen</em>, <em>Operators</em>, <em>Matrizen</em>.</li>
+                <li>Klicken Sie auf den Pfeil neben dem Symbol <div class = "icon icon-insertequationicon"></div> <b>Formel</b>.</li>
+                <li>Wählen Sie im geöffneten Listenmenü die gewünschte Option: Derzeit sind die folgenden Kategorien verfügbar: <em>Symbole</em>, <em>Brüche</em>, <em>Skripte</em>, <em>Wurzeln</em>, <em>Integrale</em>, <em>Große Operatoren</em>, <em>Klammern</em>, <em>Funktionen</em>, <em>Akzente</em>, <em>Grenzwerte und Logarithmen</em>, <em>Operators</em>, <em>Matrizen</em>.</li>
                 <li>Klicken Sie im entsprechenden Vorlagensatz auf das gewünschte Symbol/die gewünschte Gleichung.</li>
-			</ol>
-            <p>Das ausgewählte Symbol/die ausgewählte Formel wird an der aktuellen Cursorposition eingefügt. Wenn die ausgewählte Zeile leer ist, wird die Gleichung zentriert. Um die Formel links- oder rechtsbündig auszurichten, klicken Sie auf der Registerkarte <b>Start</b> auf <span class = "icon icon-alignleft"></span> oder <span class = "icon icon-alignright"></span>.</p>
+            </ol>
+            <p>Das ausgewählte Symbol/die ausgewählte Formel wird an der aktuellen Cursorposition eingefügt. Wenn die ausgewählte Zeile leer ist, wird die Gleichung zentriert. Um die Formel links- oder rechtsbündig auszurichten, klicken Sie auf der Registerkarte <b>Startseite</b> auf <span class = "icon icon-alignleft"></span> oder <span class = "icon icon-alignright"></span>.</p>
             <div class = "icon icon-insertedequation"></div>
-            <p>Jede Formelvorlage steht für eine Reihe von Slots. Ein Slot für jedes Element, aus dem die Gleichung besteht Ein leerer Slot (auch Platzhalter genannt) hat eine gepunktete Linie <span class = "icon icon-equationplaceholder"></span> Setzen Sie in alle Platzhalter die gewünschten Werte ein.</p>
-            <p class="note"><b>Hinweis</b>: Um eine Gleichung zu erstellen, können Sie auch die Tastenkombination <b>Alt + =</b> verwenden.</p>
+            <p>Jede Gleichungsvorlage repräsentiert einen Satz von Slots. Ein Slot ist eine Position für jedes Element, aus dem die Gleichung besteht. Ein leerer Platz (auch als Platzhalter bezeichnet) hat einen gepunkteten Umriss <span class = "icon icon-equationplaceholder"></span>. Sie müssen alle Platzhalter mit den erforderlichen Werten ausfüllen.</p>
+            <p class="note">Um eine Gleichung zu erstellen, können Sie auch die Tastenkombination <b>Alt + =</b> verwenden.</p>
+            <p>Es ist auch möglich, der Gleichung eine Beschriftung hinzuzufügen. Weitere Informationen zum Arbeiten mit Beschriftungen für Gleichungen finden Sie in <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">diesem Artikel</a>.</p>
             <h3>Werte eingeben</h3>
             <p>Der <b>Einfügepunkt</b> zeigt an, an welcher Stelle das nächste Zeichen erscheint, das Sie eingeben. Um den Cursor präzise zu positionieren, klicken Sie in einen Platzhalter und verschieben Sie den Einfügepunkt mithilfe der Tastaturpfeile um ein Zeichen nach links/rechts oder eine Zeile nach oben/unten.</p>
             <p>Wenn Sie unter dem Slot einen neuen Platzhalter erstellen wollen, positionieren Sie den Cursor in der ausgwählten Vorlage und drücken Sie die <b>Eingabetaste</b>.</p>
             <div class = "big big-newslot"></div>
-            <p>Wenn Sie den Einfügepunkt positioniert haben, können Sie die Werte in den Platzhaltern einfügen:<ul>
+            <p>Wenn Sie den Einfügepunkt positioniert haben, können Sie die Werte in den Platzhaltern einfügen:
+            <ul>
                 <li>Geben Sie geben Sie den gewünschten numerischen/literalen Wert über die Tastatur ein.</li>
                 <li>Wechseln Sie zum Einfügen von Sonderzeichen in die Registerkarte <b>Einfügen</b> und wählen Sie im Menü <div class = "icon icon-insertequationicon"></div> <b>Formel</b> das gewünschte Zeichen aus der Palette mit den <b>Symbolen</b> aus.</li>
-                <li>Fügen Sie eine weitere Vorlage aus der Palette hinzu, um eine komplexe verschachtelte Gleichung zu erstellen. Die Größe der primären Formel wird automatisch an den Inhalt angepasst. Die Größe der verschachtelten Gleichungselemente hängt von der Platzhaltergröße der primären Gleichung ab, sie darf jedoch nicht kleiner sein als die Vorlage für tiefgestellte Zeichen.</li>                
+                <li>Fügen Sie eine weitere Vorlage aus der Palette hinzu, um eine komplexe verschachtelte Gleichung zu erstellen. Die Größe der primären Formel wird automatisch an den Inhalt angepasst. Die Größe der verschachtelten Gleichungselemente hängt von der Platzhaltergröße der primären Gleichung ab, sie darf jedoch nicht kleiner sein als die Vorlage für tiefgestellte Zeichen.</li>
             </ul>
             </p>
             <p><div class = "big big-nestedfraction"></div></p>
@@ -46,12 +48,12 @@
                 <li>Um in <em>Fällen</em> mit mehreren Bedingungen eine neue Formel aus der Gruppe <em>Klammern</em> hinzuzufügen (oder eine beliebige andere Formel, wenn Sie zuvor über die <b>Eingabetaste</b> einen neuen Platzhalter eingefügt haben), klicken Sie mit der rechten Maustaste auf einen leeren Platzhalter oder eine im Platzhalter eingegebene Gleichung und wählen Sie <b>Formel vorher/nachher einfügen</b> aus dem Menü aus.</li>
                 <li>Um in einer <em>Matrix</em> eine neue Zeile oder Spalte einzugeben, wählen Sie die Option <b>Einfügen</b> aus dem Menü, und klicken Sie dann auf <b>Zeile oberhalb/unterhalb</b> oder <b>Spalte links/rechts</b>.</li>
             </ul>
-            <p class="note"><b>Hinweis</b>: aktuell ist es nicht möglich Gleichungen im linearen Format einzugeben werden, d.h. <b>\sqrt(4&amp;x^3)</b>.</p>
+            <p class="note">Aktuell ist es nicht möglich Gleichungen im linearen Format einzugeben werden, d.h. <b>\sqrt(4&amp;x^3)</b>.</p>
             <p>Wenn Sie die Werte der mathematischen Ausdrücke eingeben, ist es nicht notwendig die <b>Leertaste</b> zu verwenden, da die Leerzeichen zwischen den Zeichen und Werten automatisch gesetzt werden.</p>
             <p>Wenn die Formel zu lang ist und nicht in eine einzelnen Zeile passt, wird während der Eingabe automatisch ein Zeilenumbruch ausgeführt. Bei Bedarf können Sie auch manuell einen Zeilenumbruch an einer bestimmten Position einfügen. Klicken sie dazu mit der rechten Maustaste auf einen der Platzhalter und wählen Sie im Menü die Option <b>manuellen Umbruch einfügen</b> aus. Der ausgewählte Platzhalter wird in die nächste Zeile verschoben. Wenn Sie einen manuellen Zeilenumbruch eingefügt haben können Sie die neue Zeile mithilfe der <b>Tab-</b> Taste an die mathematischen Operatoren der vorherigen Zeile anpassen und die Zeile entsprechend ausrichten. Um einen manuell hinzugefügten Zeilenumbruch zu entfernen, klicken Sie mit der rechten Maustaste auf den Platzhalter der die neue Zeile einleitet und wählen Sie die Option <b>manuellen Umbruch entfernen</b>.</p>
             <h3>Formeln formatieren</h3>
-            <p>Um die <b>Schriftgröße</b> der Formel zu verkleinern oder zu vergrößern, klicken Sie an eine beliebige Stelle im Formelfeld und verwenden Sie die Schaltflächen <span class = "icon icon-larger"></span> und <span class = "icon icon-smaller"></span> in der Registerkarte <b>Start</b> oder wählen Sie die gewünschte Schriftgröße aus der Liste aus. Alle Elemente in der Formel werden entsprechend angepasst.</p>
-            <p>Die Buchstaben innerhalb der Formel werden standardmäßig kursiv gestellt. Bei Bedarf können Sie <b>Schriftart</b> (<em>fett, kursiv, durchgestrichen</em>) oder <b>Schriftfarbe</b> für die gesamte Formel oder Teile davon ändern. <em>Unterstreichen</em> ist nur für die gesamte Formel nötig und nicht für einzelne Zeichen. Wählen Sie den gewünschten Teil der Formel durch anklicken und ziehen aus. Der ausgewählte Teil wird blau markiert. Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Start</b>, um die Auswahl zu formatieren. Sie können zum Beispiel das Kursivformat für gewöhnliche Wörter entfernen, die keine Variablen oder Konstanten darstellen.</p>
+            <p>Um die <b>Schriftgröße</b> der Formel zu verkleinern oder zu vergrößern, klicken Sie an eine beliebige Stelle im Formelfeld und verwenden Sie die Schaltflächen <span class = "icon icon-larger"></span> und <span class = "icon icon-smaller"></span> in der Registerkarte <b>Startseite</b> oder wählen Sie die gewünschte Schriftgröße aus der Liste aus. Alle Elemente in der Formel werden entsprechend angepasst.</p>
+            <p>Die Buchstaben innerhalb der Formel werden standardmäßig kursiv gestellt. Bei Bedarf können Sie <b>Schriftart</b> (<em>fett, kursiv, durchgestrichen</em>) oder <b>Schriftfarbe</b> für die gesamte Formel oder Teile davon ändern. <em>Unterstreichen</em> ist nur für die gesamte Formel nötig und nicht für einzelne Zeichen. Wählen Sie den gewünschten Teil der Formel durch anklicken und ziehen aus. Der ausgewählte Teil wird blau markiert. Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Startseite</b>, um die Auswahl zu formatieren. Sie können zum Beispiel das Kursivformat für gewöhnliche Wörter entfernen, die keine Variablen oder Konstanten darstellen.</p>
             <div class = "big big-formatastext"></div>
             <p>Einige Elemente aus der Formel lassen sich auch über das <b>Rechtsklickmenü</b> ändern:</p>
             <ul><li>Um das Format von <em>Brüchen</em> zu ändern, klicken Sie mit der rechten Maustaste auf einen Bruch und wählen Sie im Menü die Option <b>in schrägen/linearen/gestapelten Bruch ändern</b> (die verfügbaren Optionen hängen vom ausgewählten Bruchtyp ab). <!--The <b>Remove/Add fraction bar</b> option is also available for stacked fractions.--></li>
@@ -95,6 +97,6 @@
             <p><img alt="Gleichungen konvertieren" src="../images/convertequation.png" /></p>
             <p>Um nur die ausgewählte Gleichung zu konvertieren, klicken Sie im Warnfenster auf die Schaltfläche <b>Ja</b>. Um alle Gleichungen in diesem Dokument zu konvertieren, aktivieren Sie das Kontrollkästchen <b>Auf alle Gleichungen anwenden</b> und klicken Sie auf <b>Ja</b>.</p>
             <p>Nachdem die Gleichung konvertiert wurde, können Sie sie bearbeiten.</p>
-		</div>
+        </div>
 	</body>
 </html>

@@ -710,8 +710,10 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
 
                 value = props.asc_getRot();
                 this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
-                this.chFlipHor.setValue(props.asc_getFlipH());
-                this.chFlipVert.setValue(props.asc_getFlipV());
+                value = props.asc_getFlipH();
+                this.chFlipHor.setValue((value==undefined || value===null) ? 'indeterminate' : value);
+                value = props.asc_getFlipV();
+                this.chFlipVert.setValue((value==undefined || value===null) ? 'indeterminate' : value);
 
                 this._changedProps = new Asc.asc_CShapeProperty();
             }
@@ -742,8 +744,10 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 this._changedProps.asc_putDescription(this.textareaAltDescription.val());
 
             this._changedProps.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
-            this._changedProps.asc_putFlipH(this.chFlipHor.getValue()=='checked');
-            this._changedProps.asc_putFlipV(this.chFlipVert.getValue()=='checked');
+            if (this.chFlipHor.getValue()!=='indeterminate')
+                this._changedProps.asc_putFlipH(this.chFlipHor.getValue()==='checked');
+            if (this.chFlipVert.getValue()!=='indeterminate')
+                this._changedProps.asc_putFlipV(this.chFlipVert.getValue()==='checked');
 
             Common.localStorage.setItem("pe-settings-shaperatio", (this.btnRatio.pressed) ? 1 : 0);
             return { shapeProps: this._changedProps} ;

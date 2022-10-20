@@ -109,7 +109,7 @@
         };
 
         var onInputSearchChange = function (text) {
-            if (_state.searchText !== text) {
+            if ((text && _state.searchText !== text) || (!text && _state.newSearchText)) {
                 _state.newSearchText = text;
                 _lastInputChange = (new Date());
                 if (_searchTimer === undefined) {
@@ -117,7 +117,11 @@
                         if ((new Date()) - _lastInputChange < 400) return;
 
                         _state.searchText = _state.newSearchText;
-                        (_state.newSearchText !== '') && onQuerySearch();
+                        if (_state.newSearchText !== '') {
+                            onQuerySearch();
+                        } else {
+                            api.asc_endFindText();
+                        }
                         clearInterval(_searchTimer);
                         _searchTimer = undefined;
                     }, 10);

@@ -19,7 +19,7 @@
   "DE.ApplicationController.errorLoadingFont": "Fon tidak dimuatkan.<br>Sila hubungi pentadbir Pelayan Dokumen anda.",
   "DE.ApplicationController.errorSubmit": "Serahan telah gagal.",
   "DE.ApplicationController.errorTokenExpire": "Dokumen token keselamatan telah tamat tempoh.<br>Sila hubungi pentadbir Pelayan Dokumen.",
-  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan internet telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
   "DE.ApplicationController.errorUserDrop": "Fail tidak boleh diakses sekarang.",
   "DE.ApplicationController.notcriticalErrorTitle": "Amaran",
   "DE.ApplicationController.openErrorText": "Ralat telah berlaku semasa membuka fail.",

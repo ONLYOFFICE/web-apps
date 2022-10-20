@@ -88,6 +88,10 @@ Common.Locale = new(function() {
         return currentLang;
     };
 
+    var _getDefaultLanguage = function() {
+        return defLang;
+    };
+
     var _getLoadedLanguage = function() {
         return loadedLang;
     };
@@ -175,7 +179,8 @@ Common.Locale = new(function() {
         apply: _applyLocalization,
         get: _get,
         getCurrentLanguage: _getCurrentLanguage,
-        isCurrentLanguageRtl: _isCurrentRtl
+        isCurrentLanguageRtl: _isCurrentRtl,
+        getDefaultLanguage: _getDefaultLanguage
     };
     
 })();

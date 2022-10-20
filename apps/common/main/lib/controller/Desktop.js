@@ -90,11 +90,8 @@ define([
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
-                    } else
-                    if ( obj.lockthemes != undefined ) {
-                        // TODO: remove after 7.0.2. depricated. used is_win_xp variable instead
-                        // Common.UI.Themes.setAvailable(!obj.lockthemes);
                     }
+
                     if ( obj.singlewindow !== undefined ) {
                         $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;
@@ -199,13 +196,11 @@ define([
             };
 
             if ( !!titlebuttons ) {
-                info.hints = {
-                    'print': titlebuttons['print'].btn.btnEl.attr('data-hint-title'),
-                    // 'home': Common.UI.HintManager.getStaticHint('btnhome'),
-                    'undo': titlebuttons['undo'].btn.btnEl.attr('data-hint-title'),
-                    'redo': titlebuttons['redo'].btn.btnEl.attr('data-hint-title'),
-                    'save': titlebuttons['save'].btn.btnEl.attr('data-hint-title'),
-                };
+                info.hints = {};
+                !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
             }
 
             native.execCommand('althints:show', JSON.stringify(info));

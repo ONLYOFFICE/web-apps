@@ -181,9 +181,10 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onRefreshClick: function(btn, opts){
+        onRefreshClick: function(type){
             if (this.api) {
-                this._originalProps.asc_refresh(this.api);
+                if(type == 'current') this._originalProps.asc_refresh(this.api);
+                else if(type == 'all') this.api.asc_refreshAllPivots();
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -355,8 +356,8 @@ define([
             var self = this,
                 styles = this.view.pivotStyles;
             this._isTemplatesChanged = true;
-
             var count = styles.menuPicker.store.length;
+
             if (count>0 && count==Templates.length) {
                 var data = styles.menuPicker.dataViewItems;
                 data && _.each(Templates, function(template, index){
@@ -367,20 +368,62 @@ define([
                 styles.fieldPicker.store.reset(styles.fieldPicker.store.models);
             } else {
                 styles.menuPicker.store.reset([]);
-                var arr = [];
-                _.each(Templates, function(template){
-                    arr.push({
+                var templates = [];
+                var groups = [
+                    {id: 'menu-table-group-custom',    caption: self.view.__proto__.txtGroupPivot_Custom, templates: []},
+                    {id: 'menu-table-group-light',     caption: self.view.__proto__.txtGroupPivot_Light,  templates: []},
+                    {id: 'menu-table-group-medium',    caption: self.view.__proto__.txtGroupPivot_Medium, templates: []},
+                    {id: 'menu-table-group-dark',      caption: self.view.__proto__.txtGroupPivot_Dark,   templates: []},
+                    {id: 'menu-table-group-no-name',   caption: '&nbsp',                                  templates: []},
+                ];
+                _.each(Templates, function(template, index){
+                    var tip = template.asc_getDisplayName();
+                    var groupItem = '';
+                    
+                    if (template.asc_getType()==0) {
+                        var arr = tip.split(' '),
+                            last = arr.pop();
+                            
+                        if(tip == 'None'){
+                            groupItem = 'menu-table-group-light';
+                        }
+                        else {
+                            if(arr.length > 0){
+                                groupItem = 'menu-table-group-' + arr[arr.length - 1].toLowerCase();
+                            }
+                            if(groups.some(function(item) {return item.id === groupItem;}) == false) {
+                                groupItem = 'menu-table-group-no-name';
+                            }
+                        }
+                        arr = 'txtTable_' + arr.join('');
+                        tip = self.view.__proto__[arr] ? self.view.__proto__[arr] + ' ' + last : tip;
+                    }
+                    else {
+                        groupItem = 'menu-table-group-custom'
+                    }  
+                    groups.filter(function(item){ return item.id == groupItem; })[0].templates.push({
                         id          : Common.UI.getId(),
                         name        : template.asc_getName(),
                         caption     : template.asc_getDisplayName(),
                         type        : template.asc_getType(),
                         imageUrl    : template.asc_getImage(),
+                        group       : groupItem, 
                         allowSelected : true,
                         selected    : false,
-                        tip         : template.asc_getDisplayName()
+                        tip         : tip
                     });
                 });
-                styles.menuPicker.store.add(arr);
+                groups = groups.filter(function(item, index){
+                    return item.templates.length > 0
+                });
+                
+                groups.forEach(function(item){
+                    templates = templates.concat(item.templates);
+                    delete item.templates;
+                });
+                
+                styles.groups.reset(groups);
+                styles.menuPicker.store.reset(templates);
             }
         },
 

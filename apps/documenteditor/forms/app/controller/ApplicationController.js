@@ -297,6 +297,10 @@ define([
                     config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.saveErrorTextDesktop : this.saveErrorText;
                     break;
 
+                case Asc.c_oAscError.ID.TextFormWrongFormat:
+                    config.msg = this.errorTextFormWrongFormat;
+                    break;
+
                 default:
                     config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                     break;
@@ -360,8 +364,10 @@ define([
         },
 
         onCountPages: function(count) {
-            maxPages = count;
-            $('#pages').text(this.textOf + " " + count);
+            if (maxPages !== count) {
+                maxPages = count;
+                $('#pages').text(this.textOf + " " + count);
+            }
         },
 
         onCurrentPage: function(number) {
@@ -1902,7 +1908,8 @@ define([
         textSaveAs: 'Save as PDF',
         textSaveAsDesktop: 'Save as...',
         warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-        titleLicenseExp: 'License expired'
+        titleLicenseExp: 'License expired',
+        errorTextFormWrongFormat: 'The value entered does not match the format of the field.'
 
     }, DE.Controllers.ApplicationController));
 
@@ -1943,9 +1950,13 @@ define([
 
             Common.NotificationCenter.on({
                 'uitheme:changed' : function (name) {
-                    var theme = Common.UI.Themes.get(name);
-                    if ( theme )
-                        native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                    if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                        native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
+                    } else {
+                        const theme = Common.UI.Themes.get(name);
+                        if ( theme )
+                            native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                    }
                 },
             });
 
@@ -1978,4 +1989,6 @@ define([
         }
     };
     DE.Controllers.Desktop = new Desktop();
+    Common.Controllers = Common.Controllers || {};
+    Common.Controllers.Desktop = DE.Controllers.Desktop;
 });

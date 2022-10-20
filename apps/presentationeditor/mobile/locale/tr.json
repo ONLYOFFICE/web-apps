@@ -32,7 +32,8 @@
       "textReopen": "Tekrar aç",
       "textResolve": "Çöz",
       "textTryUndoRedo": "Hızlı birlikte düzenleme modunda geri al/ileri al fonksiyonları devre dışıdır.",
-      "textUsers": "Kullanıcılar"
+      "textUsers": "Kullanıcılar",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Özel Renkler",
@@ -60,6 +61,7 @@
     "textCopyCutPasteActions": "Eylemleri Kopyala,Kes ve Yapıştır",
     "textDoNotShowAgain": "Tekrar gösterme",
     "textRows": "Satırlar",
+    "menuEditLink": "Edit Link",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -169,7 +171,8 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Düzenleme modunu belirle...",
     "uploadImageTextText": "Resim yükleniyor...",
     "uploadImageTitleText": "Resim Yükleniyor",
-    "waitText": "Lütfen bekleyin..."
+    "waitText": "Lütfen bekleyin...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Bu belgede kaydedilmemiş değişiklikleriniz var. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
@@ -245,7 +251,10 @@
       "textSlideNumber": "Slayt numarası",
       "textTable": "Tablo",
       "textTableSize": "Tablo Boyutu",
-      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır."
+      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -348,11 +357,8 @@
       "textPreviousSlide": "Önceki slayt",
       "textPt": "pt",
       "textRemoveChart": "Grafiği Kaldır",
-      "textRemoveImage": "Resmi Kaldır",
-      "textRemoveLink": "Linki Kaldır",
       "textRemoveShape": "Şekli Kaldır",
       "textRemoveTable": "Tabloyu Kaldır",
-      "textReorder": "Yeniden Sırala",
       "textReplace": "Değiştir",
       "textReplaceAll": "Tümünü Değiştir",
       "textReplaceImage": "Resmi Değiştir",
@@ -393,9 +399,17 @@
       "textZoomIn": "Yakınlaştır",
       "textZoomOut": "Uzaklaştır",
       "textZoomRotate": "Büyüt ve Döndür",
+      "textArrange": "Arrange",
       "textAutomatic": "Automatic",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
       "textDesign": "Design",
+      "textInsertImage": "Insert Image",
       "textPush": "Push",
+      "textRecommended": "Recommended",
+      "textRequired": "Required",
       "textWedge": "Wedge"
     },
     "Settings": {

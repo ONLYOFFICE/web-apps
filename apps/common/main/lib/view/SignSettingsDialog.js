@@ -63,10 +63,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
-                    '<div class="input-row">',
-                        '<label>' + this.textInfo + '</label>',
-                    '</div>',
+                '<div class="box" style="height: 250px;">',
                     '<div class="input-row">',
                         '<label>' + this.textInfoName + '</label>',
                     '</div>',
@@ -125,6 +122,7 @@ define([
             });
 
             me.textareaInstructions = this.$window.find('textarea');
+            me.textareaInstructions.val(this.textDefInstruction);
             me.textareaInstructions.keydown(function (event) {
                 if (event.keyCode == Common.UI.Keys.RETURN) {
                     event.stopPropagation();
@@ -136,7 +134,8 @@ define([
             this.chDate = new Common.UI.CheckBox({
                 el: $('#id-dlg-sign-settings-date'),
                 labelText: this.textShowDate,
-                disabled: this.type=='view'
+                disabled: this.type=='view',
+                value: 'checked'
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -198,13 +197,14 @@ define([
         },
 
         textInfo:           'Signer Info',
-        textInfoName:       'Name',
-        textInfoTitle:      'Signer Title',
-        textInfoEmail:      'E-mail',
-        textInstructions:   'Instructions for Signer',
+        textInfoName:       'Suggested signer',
+        textInfoTitle:      'Suggested signer\'s title',
+        textInfoEmail:      'Suggested signer\'s e-mail',
+        textInstructions:   'Instructions for signer',
         txtEmpty:           'This field is required',
         textAllowComment:   'Allow signer to add comment in the signature dialog',
         textShowDate:       'Show sign date in signature line',
-        textTitle:          'Signature Setup'
+        textTitle:          'Signature Setup',
+        textDefInstruction: 'Before signing this document, verify that the content you are signing is correct.'
     }, Common.Views.SignSettingsDialog || {}))
 });

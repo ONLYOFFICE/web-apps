@@ -516,7 +516,7 @@ define([
                         disabled: disabled === true,
                         dataHint:'0',
                         dataHintDirection: hintDirection ? hintDirection : (config.isDesktopApp ? 'right' : 'left'),
-                        dataHintOffset: hintOffset ? hintOffset : (config.isDesktopApp ? '10, -10' : '10, 10'),
+                        dataHintOffset: hintOffset ? hintOffset : (config.isDesktopApp ? '10, -18' : '10, 10'),
                         dataHintTitle: hintTitle
                     })).render(slot);
                 }
@@ -543,7 +543,7 @@ define([
                     if ( !$labelDocName ) {
                         $labelDocName = $html.find('#rib-doc-name');
                         if ( me.documentCaption ) {
-                            me.setDocTitle(me.documentCaption);
+                            setTimeout(function() { me.setDocTitle(me.documentCaption); }, 50);
                         }
                     } else {
                         $html.find('#rib-doc-name').hide();
@@ -621,7 +621,7 @@ define([
 
                     !!$labelDocName && $labelDocName.hide().off();                  // hide document title if it was created in right box
                     $labelDocName = $html.find('#title-doc-name');
-                    me.setDocTitle( me.documentCaption );
+                    setTimeout(function() { me.setDocTitle(me.documentCaption); }, 50);
 
                     me.options.wopi && $labelDocName.attr('maxlength', me.options.wopi.FileNameMaxLength);
 
@@ -791,12 +791,9 @@ define([
             },
 
             setDocTitle: function(name){
-                if(name)
-                    $labelDocName.val(name);
-                else
-                    name = $labelDocName.val();
-                var width = this.getTextWidth(name);
+                var width = this.getTextWidth(name || $labelDocName.val());
                 (width>=0) && $labelDocName.width(width);
+                name && (width>=0) && $labelDocName.val(name);
                 if (this._showImgCrypted && width>=0) {
                     this.imgCrypted.toggleClass('hidden', false);
                     this._showImgCrypted = false;
