@@ -1178,7 +1178,7 @@ define([
 
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
-                documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
+                documentHolder.cmpEl.append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-special-paste'),
@@ -1217,10 +1217,6 @@ define([
                 var sdkPanelLeft = documentHolder.cmpEl.find('#id_panel_left');
                 if (sdkPanelLeft.length)
                     offsetLeft += (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
-
-                var sdkPanelThumbs = documentHolder.cmpEl.find('#id_panel_thumbnails');
-                if (sdkPanelThumbs.length)
-                    offsetLeft += (sdkPanelThumbs.css('display') !== 'none') ? sdkPanelThumbs.width() : 0;
 
                 var showPoint = [Math.max(0, coord.asc_getX() + coord.asc_getWidth() + 3 - offsetLeft), coord.asc_getY() + coord.asc_getHeight() + 3];
                 pasteContainer.css({left: showPoint[0], top : showPoint[1]});
