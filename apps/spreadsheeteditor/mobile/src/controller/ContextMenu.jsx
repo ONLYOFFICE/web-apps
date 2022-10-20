@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
-import { Device } from '../../../../common/mobile/utils/device';
+// import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
 @inject (stores => ({
