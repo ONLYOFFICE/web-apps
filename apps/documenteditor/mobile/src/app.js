@@ -3,9 +3,8 @@ import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 
 // Import Framework7
-// framework7/lite-bundle
-import Framework7 from 'framework7/lite';
-import { Dom7 } from 'framework7/lite';
+import Framework7 from 'framework7/lite-bundle';
+import { Dom7 } from 'framework7/lite-bundle';
 window.$$ = Dom7;
 
 // Import Framework7-React Plugin
