@@ -165,7 +165,7 @@ define([
                         canComment = canComment && !(spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime);
 
-                        canEditControl = spectype !== undefined && (spectype === Asc.c_oAscContentControlSpecificType.None || spectype === Asc.c_oAscContentControlSpecificType.ComboBox) && !control_lock;
+                        canEditControl = spectype !== undefined && (spectype === Asc.c_oAscContentControlSpecificType.None || spectype === Asc.c_oAscContentControlSpecificType.ComboBox || spectype === Asc.c_oAscContentControlSpecificType.Complex) && !control_lock;
                     }
 
                     me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
@@ -1420,13 +1420,10 @@ define([
                     me.menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
                     /** coauthoring end **/
 
-                    var in_field = me.api.asc_GetCurrentComplexField();
+                    var in_field = me.api.asc_HaveFields(true);
                     me.menuTableRefreshField.setVisible(!!in_field);
                     me.menuTableRefreshField.setDisabled(disabled);
                     menuTableFieldSeparator.setVisible(!!in_field);
-                    if (in_field) {
-                        me.menuTableRefreshField.options.fieldProps = in_field;
-                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -1996,13 +1993,10 @@ define([
                     me.menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
                     /** coauthoring end **/
 
-                    var in_field = me.api.asc_GetCurrentComplexField();
+                    var in_field = me.api.asc_HaveFields(true);
                     me.menuParaRefreshField.setVisible(!!in_field);
                     me.menuParaRefreshField.setDisabled(disabled);
                     menuParaFieldSeparator.setVisible(!!in_field);
-                    if (in_field) {
-                        me.menuParaRefreshField.options.fieldProps = in_field;
-                    }
 
                     var listId = me.api.asc_GetCurrentNumberingId(),
                         in_list = (listId !== null);

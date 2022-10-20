@@ -200,7 +200,10 @@
     "txtEditingMode": "設定編輯模式...",
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上載圖片",
-    "waitText": "請耐心等待..."
+    "waitText": "請耐心等待...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您在此文件中有未儲存的變更。點擊\"留在此頁面\"以等待自動儲存。點擊\"離開此頁面\"以放棄所有未儲存的變更。",

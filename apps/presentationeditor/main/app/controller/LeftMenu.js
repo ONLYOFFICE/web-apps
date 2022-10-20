@@ -271,6 +271,7 @@ define([
                             this.showHistory();
                     }
                     break;
+                case 'external-help': close_menu = true; break;
                 default: close_menu = false;
             }
 
@@ -332,10 +333,6 @@ define([
         },
 
         applySettings: function(menu) {
-            var value = Common.localStorage.getBool("pe-settings-inputmode");
-            Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
-            this.api.SetTextBoxInputMode(value);
-
             var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
@@ -351,7 +348,7 @@ define([
             }
             /** coauthoring end **/
 
-            value = Common.localStorage.getBool("pe-settings-cachemode", true);
+            var value = Common.localStorage.getBool("pe-settings-cachemode", true);
             Common.Utils.InternalSettings.set("pe-settings-cachemode", value);
             this.api.asc_setDefaultBlitMode(value);
 

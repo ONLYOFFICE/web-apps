@@ -527,7 +527,7 @@ const EditShape = props => {
 
     if (controlProps) {
         let spectype = controlProps.get_SpecificType();
-        fixedSize = (spectype == Asc.c_oAscContentControlSpecificType.CheckBox || spectype == Asc. c_oAscContentControlSpecificType.ComboBox || spectype == Asc.c_oAscContentControlSpecificType.DropDownList || spectype == Asc.c_oAscContentControlSpecificType.None || spectype == Asc.c_oAscContentControlSpecificType.Picture) && controlProps.get_FormPr() && controlProps.get_FormPr().get_Fixed();
+        fixedSize = (spectype == Asc.c_oAscContentControlSpecificType.CheckBox || spectype == Asc. c_oAscContentControlSpecificType.ComboBox || spectype == Asc.c_oAscContentControlSpecificType.DropDownList || spectype == Asc.c_oAscContentControlSpecificType.None || spectype == Asc.c_oAscContentControlSpecificType.Picture || spectype == Asc.c_oAscContentControlSpecificType.Complex) && controlProps.get_FormPr() && controlProps.get_FormPr().get_Fixed();
     }
 
     let disableRemove = !!props.storeFocusObjects.paragraphObject || (lockType == Asc.c_oAscSdtLockType.SdtContentLocked || lockType == Asc.c_oAscSdtLockType.SdtLocked);

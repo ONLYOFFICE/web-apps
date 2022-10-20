@@ -620,10 +620,10 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-use-alt-key") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
                 !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (e.altKey && e.keyCode !== 115) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });

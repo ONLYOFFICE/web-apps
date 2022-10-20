@@ -246,6 +246,23 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
                     }
                 ]
             }).open();
+        } else if (id === Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text: _t.confirmMaxChangesSize,
+                buttons: [
+                    {text: _t.textUndo,
+                        onClick: () => {
+                            if (apiCallback) apiCallback(true);
+                        }
+                    },
+                    {text: _t.textContinue,
+                        onClick: () => {
+                            if (apiCallback) apiCallback(false);
+                        }
+                    }
+                ],
+            }).open();
         }
     };
 

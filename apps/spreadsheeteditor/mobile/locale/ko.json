@@ -279,7 +279,10 @@
     "txtEditingMode": "편집 모드 설정 ...",
     "uploadImageTextText": "이미지 업로드 중 ...",
     "uploadImageTitleText": "이미지 업로드 중",
-    "waitText": "잠시만 기다려주세요..."
+    "waitText": "잠시만 기다려주세요...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "경고",

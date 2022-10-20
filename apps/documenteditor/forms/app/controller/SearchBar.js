@@ -127,7 +127,7 @@ define([
 
         onInputSearchChange: function (text) {
             var text = text[0];
-            if (this._state.searchText !== text) {
+            if ((text && this._state.searchText !== text) || (!text && this._state.newSearchText)) {
                 this._state.newSearchText = text;
                 this._lastInputChange = (new Date());
                 if (this._searchTimer === undefined) {
@@ -136,7 +136,11 @@ define([
                         if ((new Date()) - me._lastInputChange < 400) return;
 
                         me._state.searchText = me._state.newSearchText;
-                        (me._state.newSearchText !== '') && me.onQuerySearch();
+                        if (me._state.newSearchText !== '') {
+                            me.onQuerySearch();
+                        } else {
+                            me.api.asc_endFindText();
+                        }
                         clearInterval(me._searchTimer);
                         me._searchTimer = undefined;
                     }, 10);

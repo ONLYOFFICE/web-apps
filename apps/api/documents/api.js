@@ -218,6 +218,7 @@
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
+                    integrationMode: "embed" // turn off scroll to frame
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -490,6 +491,9 @@
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
+            if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
+                window.AscEmbed && window.AscEmbed.initWorker(iframe);
+
             if (iframe.src) {
                 var pathArray = iframe.src.split('/');
                 this.frameOrigin = pathArray[0] + '//' + pathArray[2];

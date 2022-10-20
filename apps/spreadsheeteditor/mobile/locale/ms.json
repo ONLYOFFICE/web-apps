@@ -279,7 +279,10 @@
     "txtEditingMode": "Tetapkan mod pengeditan…",
     "uploadImageTextText": "Imej dimuat naik…",
     "uploadImageTitleText": "Imej dimuat naik",
-    "waitText": "Sila, tunggu…"
+    "waitText": "Sila, tunggu…",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Amaran",

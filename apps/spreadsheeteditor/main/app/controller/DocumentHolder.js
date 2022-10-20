@@ -3154,6 +3154,8 @@ define([
             if (!item.cmpEl && me._state.lastSpecPasteChecked) {
                 for (var i = 0; i < menu.items.length; i++) {
                     menu.items[i].setChecked(menu.items[i].value===me._state.lastSpecPasteChecked.value, true);
+                    if (menu.items[i].value===me._state.lastSpecPasteChecked.value)
+                        me._state.lastSpecPasteChecked = menu.items[i];
                 }
             }
             return false;

@@ -293,6 +293,9 @@ define([
                     }
                 })).show();
                 break;
+            case 'external-help':
+                close_menu = !!isopts;
+                break;
             default: close_menu = false;
             }
 
@@ -431,10 +434,6 @@ define([
 
         applySettings: function(menu) {
             var value;
-
-            value = Common.localStorage.getBool("de-settings-inputmode");
-            Common.Utils.InternalSettings.set("de-settings-inputmode", value);
-            this.api.SetTextBoxInputMode(value);
 
             var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
             /** coauthoring begin **/
