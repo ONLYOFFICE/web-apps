@@ -11,7 +11,7 @@ import {
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
-import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
+import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 import About from '../../../../common/mobile/lib/view/About';
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import { Device } from '../../../../common/mobile/utils/device';

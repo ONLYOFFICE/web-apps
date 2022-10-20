@@ -12,7 +12,7 @@ import {
     EditCommentController,
     ViewCommentsSheetsController
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
-import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
+import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 import LongActionsController from "./LongActions";
 import ErrorController from "./Error";
 import app from "../page/app";
