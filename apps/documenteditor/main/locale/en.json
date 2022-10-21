@@ -3160,6 +3160,8 @@
   "DE.Views.ViewTab.tipFitToWidth": "Fit to width",
   "DE.Views.ViewTab.tipHeadings": "Headings",
   "DE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "DE.Views.ViewTab.textLeftMenu": "Left panel",
+  "DE.Views.ViewTab.textRightMenu": "Right panel",
   "DE.Views.WatermarkSettingsDialog.textAuto": "Auto",
   "DE.Views.WatermarkSettingsDialog.textBold": "Bold",
   "DE.Views.WatermarkSettingsDialog.textColor": "Text color",
