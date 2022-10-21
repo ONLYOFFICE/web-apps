@@ -1,0 +1,436 @@
+/*
+ *
+ * (c) Copyright Ascensio System SIA 2010-2022
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+*/
+define([
+    'core',
+    'documenteditor/main/app/view/FileMenuPanels'
+], function () {
+    'use strict';
+
+    DE.Controllers.Print = Backbone.Controller.extend(_.extend({
+        views: [
+            'PrintWithPreview'
+        ],
+
+        initialize: function() {
+            var value = Common.localStorage.getItem("de-print-settings-range");
+            value = (value!==null) ? parseInt(value) : Asc.c_oAscPrintType.ActiveSheets;
+            this._currentPrintType = value;
+
+            this.adjPrintParams = new Asc.asc_CAdjustPrint();
+            this.adjPrintParams.asc_setPrintType(value);
+            // fill page numbers, copies, collated from local storage
+
+            this._state = {};
+
+            this._navigationPreview = {
+                pageCount: false,
+                currentPage: 0,
+                currentPreviewPage: 0
+            };
+
+            this._isPreviewVisible = false;
+
+            this.addListeners({
+                'PrintWithPreview': {
+                    'show': _.bind(this.onShowMainSettingsPrint, this),
+                    'render:after': _.bind(this.onAfterRender, this)
+                }
+            });
+        },
+
+        onLaunch: function() {
+            this.printSettings = this.createView('PrintWithPreview');
+        },
+
+        onAfterRender: function(view) {
+            var me = this;
+            this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
+            // this.printSettings.btnPrint.on('click', _.bind(me.onBtnPrint, me));
+            // this.printSettings.btnPrintPdf.on('click', _.bind(me.onBtnPrintPdf, me));
+            this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
+            this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
+            this.printSettings.txtNumberPage.on({
+                'keypress:after':  _.bind(this.onKeypressPageNumber, this),
+                'keyup:after': _.bind(this.onKeyupPageNumber, this)
+            });
+            this.printSettings.txtNumberPage.cmpEl.find('input').on('blur', _.bind(this.onBlurPageNumber, this));
+            this.printSettings.cmbPaperSize.on('selected', _.bind(this.onPaperSizeSelect, this));
+            this.printSettings.cmbPaperOrientation.on('selected', _.bind(this.onPaperOrientSelect, this));
+            this.printSettings.cmbPaperMargins.on('selected', _.bind(this.onPaperMarginsSelect, this));
+            this.printSettings.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
+
+            Common.NotificationCenter.on('window:resize', _.bind(function () {
+                if (this._isPreviewVisible) {
+                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                }
+            }, this));
+
+            var eventname = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+            this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
+        },
+
+        setMode: function (mode) {
+            this.mode = mode;
+            this.printSettings && this.printSettings.setMode(mode);
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            this.api.asc_registerCallback('asc_onDocSize', _.bind(this.onApiPageSize, this));
+            this.api.asc_registerCallback('asc_onPageOrient', _.bind(this.onApiPageOrient, this));
+            this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+            this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
+            this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
+
+            return this;
+        },
+
+        onApiPageSize: function(w, h) {
+            this._state.pgsize = [w, h];
+            if (this.printSettings.isVisible()) {
+                var width = this._state.pgorient ? w : h,
+                    height = this._state.pgorient ? h : w;
+                var panel = this.printSettings;
+                var store = panel.cmbPaperSize.store,
+                    item = null;
+                for (var i=0; i<store.length-1; i++) {
+                    var rec = store.at(i),
+                        size = rec.get('size'),
+                        pagewidth = size[0],
+                        pageheight = size[1];
+                    if (Math.abs(pagewidth - width) < 0.1 && Math.abs(pageheight - height) < 0.1) {
+                        item = rec;
+                        break;
+                    }
+                }
+                if (item)
+                    panel.cmbPaperSize.setValue(item.get('value'));
+                else
+                    panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+            } else {
+                this.isFillProps = false;
+            }
+        },
+
+        onApiPageOrient: function(isportrait) {
+            this._state.pgorient = isportrait;
+            if (this.printSettings.isVisible()) {
+                var item = this.printSettings.cmbPaperOrientation.store.findWhere({value: isportrait ? Asc.c_oAscPageOrientation.PagePortrait : Asc.c_oAscPageOrientation.PageLandscape});
+                if (item) this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
+            }
+        },
+
+        onSectionProps: function(props) {
+            this._state.sectionprops = props;
+            if (this.printSettings.isVisible()) {
+                var left = props.get_LeftMargin(),
+                    top = props.get_TopMargin(),
+                    right = props.get_RightMargin(),
+                    bottom = props.get_BottomMargin();
+
+                this._state.pgmargins = [top, left, bottom, right];
+                var store = this.printSettings.cmbPaperMargins.store,
+                    item = null;
+                for (var i=0; i<store.length-1; i++) {
+                    var rec = store.at(i),
+                        size = rec.get('size');
+                    if (typeof(size) == 'object' &&
+                        Math.abs(size[0] - top) < 0.1 && Math.abs(size[1] - left) < 0.1 &&
+                        Math.abs(size[2] - bottom) < 0.1 && Math.abs(size[3] - right) < 0.1) {
+                        item = rec;
+                        break;
+                    }
+                }
+                if (item)
+                    this.printSettings.cmbPaperMargins.setValue(item.get('value'));
+                else
+                    this.printSettings.cmbPaperMargins.setValue(this.txtCustom);
+
+            }
+        },
+
+        fillPrintOptions: function(props) {
+            // fill page numbers, copies, collated
+            var panel = this.printSettings;
+            panel.cmbRange.setValue(this.adjPrintParams.asc_getPrintType());
+            panel.txtPages.setValue(); // pages numbers
+        },
+
+        comboRangeChange: function(combo, record) {
+            if (record.value === -1) {
+                // set page numbers
+                // this.printSettings.txtNumberPage.setValue();
+            } else {
+                this.adjPrintParams.asc_setPrintType(record.value)
+            }
+        },
+
+        onCountPages: function(count) {
+            this._navigationPreview.pageCount = count;
+            if (this._navigationPreview.currentPreviewPage > count - 1) {
+                this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
+                if (this.printSettings.isVisible()) {
+                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
+                }
+            }
+        },
+
+        onCurrentPage: function(number) {
+            this._navigationPreview.currentPreviewPage = number;
+            if (this.printSettings.isVisible()) {
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+            }
+        },
+
+        onShowMainSettingsPrint: function() {
+            var me = this;
+            this.printSettings.$previewBox.removeClass('hidden');
+
+            this.onApiPageSize(this._state.pgsize[0], this._state.pgsize[1]);
+            this.onApiPageOrient(this._state.pgorient);
+            this.onSectionProps(this._state.sectionprops);
+
+            this.fillPrintOptions(this.adjPrintParams);
+
+            var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+            opts.asc_setAdvancedOptions(this.adjPrintParams);
+
+            this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
+            this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+            this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+        },
+
+        onPaperSizeSelect: function(combo, record) {
+            this._state.pgsize = [0, 0];
+            if (record.value !== -1) {
+                if (this.checkPageSize(record.size[0], record.size[1])) {
+                    var section = this.api.asc_GetSectionProps();
+                    this.onApiPageSize(section.get_W(), section.get_H());
+                    return;
+                } else
+                    this.api.change_DocSize(record.size[0], record.size[1]);
+            } else {
+                var win, props,
+                    me = this;
+                win = new DE.Views.PageSizeDialog({
+                    checkPageSize: _.bind(this.checkPageSize, this),
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            props = dlg.getSettings();
+                            me.api.change_DocSize(props[0], props[1]);
+                            Common.NotificationCenter.trigger('edit:complete');
+                        }
+                    }
+                });
+                win.show();
+                win.setSettings(me.api.asc_GetSectionProps());
+            }
+
+            Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        onPaperMarginsSelect: function(combo, record) {
+            this._state.pgmargins = undefined;
+            if (record.value !== -1) {
+                if (this.checkPageSize(undefined, undefined, record.size[1], record.size[3], record.size[0], record.size[2])) {
+                    this.onSectionProps(this.api.asc_GetSectionProps());
+                    return;
+                } else {
+                    var props = new Asc.CDocumentSectionProps();
+                    props.put_TopMargin(record.size[0]);
+                    props.put_LeftMargin(record.size[1]);
+                    props.put_BottomMargin(record.size[2]);
+                    props.put_RightMargin(record.size[3]);
+                    this.api.asc_SetSectionProps(props);
+                }
+            } else {
+                var win, props,
+                    me = this;
+                win = new DE.Views.PageMarginsDialog({
+                    api: me.api,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            // props = dlg.getSettings();
+                            // var mnu = me.toolbar.btnPageMargins.menu.items[0];
+                            // mnu.setVisible(true);
+                            // mnu.setChecked(true);
+                            // mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
+                            // $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                            Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
+                            Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
+                            Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
+                            Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+
+                            me.api.asc_SetSectionProps(props);
+                            Common.NotificationCenter.trigger('edit:complete');
+                        }
+                    }
+                });
+                win.show();
+                win.setSettings(me.api.asc_GetSectionProps());
+            }
+
+            Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        onPaperOrientSelect: function(combo, record) {
+            this._state.pgorient = undefined;
+            if (this.api && item.checked) {
+                this.api.change_PageOrient(record.value === Asc.c_oAscPageOrientation.PagePortrait);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        checkPageSize: function(width, height, left, right, top, bottom) {
+            var section = this.api.asc_GetSectionProps();
+            (width===undefined) && (width = parseFloat(section.get_W().toFixed(4)));
+            (height===undefined) && (height = parseFloat(section.get_H().toFixed(4)));
+            (left===undefined) && (left = parseFloat(section.get_LeftMargin().toFixed(4)));
+            (right===undefined) && (right = parseFloat(section.get_RightMargin().toFixed(4)));
+            (top===undefined) && (top = parseFloat(section.get_TopMargin().toFixed(4)));
+            (bottom===undefined) && (bottom = parseFloat(section.get_BottomMargin().toFixed(4)));
+            var gutterLeft = section.get_GutterAtTop() ? 0 : parseFloat(section.get_Gutter().toFixed(4)),
+                gutterTop = section.get_GutterAtTop() ? parseFloat(section.get_Gutter().toFixed(4)) : 0;
+
+            var errmsg = null;
+            if (left + right + gutterLeft > width-12.7 )
+                errmsg = this.txtMarginsW;
+            else if (top + bottom + gutterTop > height-2.6 )
+                errmsg = this.txtMarginsH;
+            if (errmsg) {
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    msg  : errmsg,
+                    callback: function() {
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+                return true;
+            }
+        },
+
+        getPrintParams: function() {
+            return this.adjPrintParams;
+        },
+
+        onHidePrintMenu: function () {
+            if (this._isPreviewVisible) {
+                this.api.asc_closePrintPreview(this._isPrint);
+                this._isPreviewVisible = false;
+            }
+        },
+
+        onChangePreviewPage: function (next) {
+            var index = this._navigationPreview.currentPreviewPage;
+            if (next) {
+                index++;
+                index = Math.min(index, this._navigationPreview.pageCount - 1);
+            } else {
+                index--;
+                index = Math.max(index, 0);
+            }
+            this.api.goToPage(index);
+        },
+
+        onKeypressPageNumber: function (input, e) {
+            if (e.keyCode === Common.UI.Keys.RETURN) {
+                var box = this.printSettings.$el.find('#print-number-page'),
+                    edit = box.find('input[type=text]'), page = parseInt(edit.val());
+                if (!page || page > this._navigationPreview.pageCount || page < 0) {
+                    edit.select();
+                    this.printSettings.txtNumberPage.setValue(this._navigationPreview.currentPreviewPage + 1);
+                    this.printSettings.txtNumberPage.checkValidate();
+                    return false;
+                }
+
+                box.focus(); // for IE
+
+                this.api.goToPage(page-1);
+                this.api.asc_enableKeyEvents(true);
+                return false;
+            }
+        },
+
+        onKeyupPageNumber: function (input, e) {
+            if (e.keyCode === Common.UI.Keys.ESC) {
+                var box = this.printSettings.$el.find('#print-number-page');
+                box.focus(); // for IE
+                this.api.asc_enableKeyEvents(true);
+                return false;
+            }
+        },
+
+        onBlurPageNumber: function () {
+            if (this.printSettings.txtNumberPage.getValue() != this._navigationPreview.currentPreviewPage + 1) {
+                this.printSettings.txtNumberPage.setValue(this._navigationPreview.currentPreviewPage + 1);
+                this.printSettings.txtNumberPage.checkValidate();
+            }
+        },
+
+        onPreviewWheel: function (e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+            var forward = (e.deltaY || (e.detail && -e.detail) || e.wheelDelta) < 0;
+            this.onChangePreviewPage(forward);
+        },
+
+        updateNavigationButtons: function (page, count) {
+            this._navigationPreview.currentPage = page;
+            this.printSettings.updateCurrentPage(page);
+            this._navigationPreview.pageCount = count;
+            this.printSettings.updateCountOfPages(count);
+            this.disableNavButtons();
+        },
+
+        disableNavButtons: function (force) {
+            if (force) {
+                this.printSettings.btnPrevPage.setDisabled(true);
+                this.printSettings.btnNextPage.setDisabled(true);
+                return;
+            }
+            var curPage = this._navigationPreview.currentPage,
+                pageCount = this._navigationPreview.pageCount;
+            this.printSettings.btnPrevPage.setDisabled(curPage < 1);
+            this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
+        },
+
+        textWarning: 'Warning',
+        txtCustom: 'Custom'
+    }, DE.Controllers.Print || {}));
+});

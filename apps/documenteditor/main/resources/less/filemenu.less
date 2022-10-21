@@ -524,3 +524,110 @@ table {
   }
 }
 }
+
+#file-menu-panel {
+  #panel-print {
+    padding: 0;
+
+    #id-print-settings {
+      position: absolute;
+      width:280px;
+      top: 0;
+      bottom: 0;
+    }
+    .print-settings {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+      border-right: @scaled-one-px-value solid @border-toolbar;
+      label.header {
+        font-weight: 700;
+      }
+      .footer {
+        .btn.primary {
+          margin-right: 8px;
+        }
+      }
+      .settings-container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 12px 16px;
+        .padding-small {
+          padding-bottom: 8px;
+        }
+        .padding-large {
+          padding-bottom: 16px;
+        }
+
+        #print-apply-all {
+          margin-top: 5px;
+        }
+        .link {
+          margin-top: 9px;
+        }
+        .footer {
+          margin-top: 24px;
+        }
+      }
+    }
+    #print-navigation {
+      height: 50px;
+      padding-left: 20px;
+      padding-top: 10px;
+      display: flex;
+      .btn-prev-page, .btn-next-page {
+        background-color: transparent;
+        padding: 0;
+        height: 20px;
+        width: 20px;
+        i.arrow {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+
+          border: solid @scaled-one-px-value-ie @icon-normal-ie;
+          border: solid @scaled-one-px-value @icon-normal;
+          border-bottom: none;
+          border-right: none;
+        }
+        &.disabled {
+          opacity: @component-disabled-opacity;
+        }
+
+        &:hover:not(:disabled):not(.disabled) {
+          background-color: @highlight-button-hover-ie;
+          background-color: @highlight-button-hover;
+        }
+      }
+      .btn-prev-page {
+        i {
+          transform: rotate(-45deg) translate(-1px, 3px);
+        }
+      }
+      .btn-next-page {
+        i {
+          transform: rotate(135deg) translate(4px, 0px);
+        }
+      }
+      .page-number {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        margin-left: 10px;
+        label {
+          .font-weight-bold();
+        }
+        #print-count-page, #print-number-page {
+          margin-left: 4px;
+        }
+      }
+    }
+    #print-preview {
+      height: calc(100% - 50px);
+    }
+  }
+}
