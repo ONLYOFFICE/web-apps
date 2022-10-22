@@ -2879,6 +2879,13 @@ define([
             toolbar.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects']);
             toolbar.lockToolbar(Common.enumLock['FormatCells'], !!this._state.wsProps['FormatCells']);
 
+            // info.asc_getComments()===null - has comment, but no permissions to view it
+            toolbar.lockToolbar(Common.enumLock.commentLock, 
+                (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) 
+                || this.toolbar.mode.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells)
+                || selectionType != Asc.c_oAscSelectionType.RangeCells,
+                { array: this.btnsComment });
+
             if (editOptionsDisabled) return;
 
             /* read font params */
@@ -3234,10 +3241,6 @@ define([
             }
             toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
 
-            // info.asc_getComments()===null - has comment, but no permissions to view it
-            toolbar.lockToolbar(Common.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
-                                                          this.toolbar.mode.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
-                                { array: this.btnsComment });
 
             toolbar.lockToolbar(Common.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
         },
