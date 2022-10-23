@@ -9,8 +9,106 @@
     }
 }
 .right-panel .settings-panel {
-    label.input-label{
+    label.input-label {
         vertical-align: baseline;
+    }
+
+    &#id-paragraph-settings {
+        .input-label.margin {
+            margin-left: 5px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    &#id-table-settings {
+        #id-table-menu-template {
+            margin: 5px 5px 5px 10px;
+
+            .rtl & {
+                margin: 5px 10px 5px 5px;
+            }
+
+            .group-description {
+                padding: 3px 0 3px 10px;
+
+                .rtl & {
+                    padding: 3px 10px 3px 0;
+                    text-align: right;
+                }
+            }
+        }
+
+        #table-combo-border-size {
+            display: inline-block;
+            vertical-align: middle;
+            width: 93px;
+        }
+
+        .table-color {
+            display: inline-block;
+            float: right;
+            vertical-align: middle;
+
+            .rtl & {
+                float: left;
+            }
+
+            .input-label {
+                margin-right: 5px;
+
+                .rtl & {
+                    margin-right: 0;
+                    margin-left: 5px;
+                }
+            }
+
+            #table-border-color-btn {
+                display: inline-block;
+            }
+        }
+
+        .input-label.margin {
+            margin-right: 5px;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 5px;
+            }
+        }
+
+        #table-btn-distrub-rows, #table-btn-distrub-cols,
+        #table-spin-cell-height, #table-spin-cell-width {
+            display: inline-block;
+            float: right;
+
+            .rtl & {
+                float: left;
+            }
+        }
+
+        #table-btn-distrub-rows, #table-btn-distrub-cols {
+            margin-left: 4px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: 4px;
+            }
+        }
+
+        #table-btn-convert-to-text {
+            .btn {
+                width: 100%;
+                text-align: left;
+
+                .rtl & {
+                    text-align: right;
+                }
+            }
+        }
     }
 
     &#id-shape-settings {
@@ -68,6 +166,107 @@
                 .rtl & {
                     float: left;
                 }
+            }
+        }
+    }
+
+    &#id-image-settings {
+        #image-button-270, #image-button-fliph {
+            display: inline-block;
+            margin-right: 4px;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 4px;
+            }
+        }
+
+        #image-button-90, #image-button-flipv {
+            display: inline-block;
+        }
+    }
+
+    &#id-header-settings {
+        #headerfooter-radio-from {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 2px;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
+        }
+
+        #headerfooter-radio-prev {
+            margin-bottom: 5px;
+        }
+
+        #headerfooter-spin-from {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #headerfooter-button-top-left,
+        #headerfooter-button-top-center,
+        #headerfooter-button-top-right,
+        #headerfooter-button-bottom-left,
+        #headerfooter-button-bottom-center,
+        #headerfooter-button-bottom-right {
+            display: inline-block;
+            margin-right: 5px;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    &#id-textart-settings {
+        #textart-spin-transparency {
+            display: inline-block;
+            float: right;
+
+            .rtl & {
+                float: left;
+            }
+        }
+
+        #textart-panel-gradient-fill {
+            .textart-direction {
+                float: right;
+
+                .rtl & {
+                    float: left;
+                }
+            }
+        }
+
+        .angle-label {
+            margin-bottom: 3px;
+            margin-right: 5px;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 5px;
+            }
+        }
+
+        #id-textart-menu-direction {
+            .dataview .item {
+                .rtl & {
+                    float: left;
+                }
+            }
+        }
+
+        .gradient-position {
+            margin-left: 10px;
+
+            .rtl & {
+                margin-left: 0;
+                margin-right: 10px;
             }
         }
     }

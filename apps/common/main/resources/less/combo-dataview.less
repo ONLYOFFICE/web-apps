@@ -320,6 +320,10 @@
     .item {
         margin: @combo-dataview-item-margins 0 @combo-dataview-item-margins @combo-dataview-item-margins;
         .box-shadow(none);
+
+        .rtl & {
+            margin: @combo-dataview-item-margins @combo-dataview-item-margins @combo-dataview-item-margins 0;
+        }
     }
 
     &.disabled {

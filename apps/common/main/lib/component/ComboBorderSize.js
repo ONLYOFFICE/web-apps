@@ -182,7 +182,7 @@ define([
 
     Common.UI.ComboBorderSizeEditable = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
-            '<span class="input-group combobox combo-border-size combo-border-size-ed input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+            '<span class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
                 '<input type="text" class="form-control text" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
@@ -241,7 +241,7 @@ define([
 
     Common.UI.ComboBorderType = Common.UI.ComboBorderSize.extend(_.extend({
         template: _.template([
-            '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+            '<div class="input-group combobox combo-border-size combo-border-type input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
                 '<div class="form-control" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<i class="image"></i>',
                 '</div>',
