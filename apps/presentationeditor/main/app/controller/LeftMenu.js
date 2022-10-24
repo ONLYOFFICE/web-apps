@@ -164,7 +164,10 @@ define([
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
-            this.isThumbsShown = !Common.localStorage.getBool('pe-hidden-leftmenu');
+
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            this.isThumbsShown = !Common.localStorage.getBool("pe-hidden-leftmenu", value);
             this.leftMenu.btnThumbs.toggle(this.isThumbsShown);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));

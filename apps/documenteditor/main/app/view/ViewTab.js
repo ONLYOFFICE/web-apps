@@ -315,21 +315,13 @@ define([
                 this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
                 this.btnDarkDocument.updateHint(this.tipDarkDocument);
 
-                var value = Common.localStorage.getItem("de-hidden-leftmenu");
-                if (value===null) {
-                    value = Common.UI.LayoutManager.getInitValue('leftMenu');
-                    value = (value!==undefined) ? !value : false;
-                } else
-                    value = (parseInt(value) == 1);
-                this.chLeftMenu.setValue(!value);
+                var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+                value = (value!==undefined) ? !value : false;
+                this.chLeftMenu.setValue(!Common.localStorage.getBool("de-hidden-leftmenu", value));
 
-                value = Common.localStorage.getItem("de-hidden-rightmenu");
-                if (value===null) {
-                    value = Common.UI.LayoutManager.getInitValue('rightMenu');
-                    value = (value!==undefined) ? !value : false;
-                } else
-                    value = (parseInt(value) == 1);
-                this.chRightMenu.setValue(!value);
+                value = Common.UI.LayoutManager.getInitValue('rightMenu');
+                value = (value!==undefined) ? !value : false;
+                this.chRightMenu.setValue(!Common.localStorage.getBool("de-hidden-rightmenu", value));
             },
 
             show: function () {

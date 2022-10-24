@@ -322,7 +322,6 @@ define([
                 this.chRightMenu = new Common.UI.CheckBox({
                     lock: [_set.disableOnStart],
                     labelText: this.textRightMenu,
-                    value: !Common.localStorage.getBool("pe-hidden-rightmenu"),
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -332,7 +331,6 @@ define([
                 this.chLeftMenu = new Common.UI.CheckBox({
                     lock: [_set.disableOnStart],
                     labelText: this.textLeftMenu,
-                    value: !Common.localStorage.getBool("pe-hidden-leftmenu"),
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -468,6 +466,14 @@ define([
                             }, me));
                         }
                     }
+
+                    var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+                    value = (value!==undefined) ? !value : false;
+                    me.chLeftMenu.setValue(!Common.localStorage.getBool("pe-hidden-leftmenu", value));
+
+                    value = Common.UI.LayoutManager.getInitValue('rightMenu');
+                    value = (value!==undefined) ? !value : false;
+                    me.chRightMenu.setValue(!Common.localStorage.getBool("pe-hidden-rightmenu", value));
 
                     me.setEvents();
                 });
