@@ -113,6 +113,7 @@ define([
                 if ( !this.leftMenu.panelHistory.isVisible() )
                     this.clickMenuFileItem(null, 'history');
             }, this));
+            Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
         onLaunch: function() {
@@ -547,6 +548,13 @@ define([
             if (tab == 'file')
                 this.leftMenu.showMenu('file'); else
                 this.leftMenu.menuFile.hide();
+        },
+
+        clickToolbarPrint: function () {
+            if (this.mode.canPreviewPrint)
+                this.leftMenu.showMenu('file:printpreview');
+            else if (this.mode.canPrint)
+                this.clickMenuFileItem(null, 'print');
         },
 
         changeToolbarSaveState: function (state) {

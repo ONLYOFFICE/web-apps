@@ -75,8 +75,8 @@ define([
         onAfterRender: function(view) {
             var me = this;
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
-            // this.printSettings.btnPrint.on('click', _.bind(me.onBtnPrint, me));
-            // this.printSettings.btnPrintPdf.on('click', _.bind(me.onBtnPrintPdf, me));
+            this.printSettings.btnPrint.on('click', _.bind(this.onBtnPrint, this, true));
+            this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false));
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.txtNumberPage.on({
@@ -429,6 +429,19 @@ define([
                 pageCount = this._navigationPreview.pageCount;
             this.printSettings.btnPrevPage.setDisabled(curPage < 1);
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
+        },
+
+        onBtnPrint: function(print) {
+            if ( print ) {
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
+                opts.asc_setAdvancedOptions(this.adjPrintParams);
+                this.api.asc_Print(opts);
+            } else {
+                var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                opts.asc_setAdvancedOptions(this.adjPrintParams);
+                this.api.asc_DownloadAs(opts);
+            }
+            this.printSettings.menu.hide();
         },
 
         textWarning: 'Warning',
