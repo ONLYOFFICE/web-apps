@@ -4,7 +4,7 @@ import {observer, inject} from "mobx-react"
 import { withTranslation } from 'react-i18next';
 
 import {PageReview, PageReviewChange} from "../../view/collaboration/Review";
-import {LocalStorage} from "../../../utils/LocalStorage";
+import {LocalStorage} from "../../../utils/LocalStorage.mjs";
 
 class InitReview extends Component {
     constructor(props){

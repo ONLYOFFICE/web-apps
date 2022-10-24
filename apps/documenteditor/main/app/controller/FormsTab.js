@@ -76,6 +76,7 @@ define([
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
             }
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             return this;
         },
 
@@ -216,6 +217,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        changeViewFormMode: function(state) {
+            if (this.view && (state !== this.view.btnViewForm.isActive())) {
+                this.view.btnViewForm.toggle(state, true);
+                this.onModeClick(state);
+            }
+        },
+
         onClearClick: function() {
             if (this.api) {
                 this.api.asc_ClearAllSpecialForms();
@@ -316,7 +324,7 @@ define([
                     rightMenu: {clear: disable, disable: true},
                     statusBar: true,
                     leftMenu: {disable: false, previewMode: true},
-                    fileMenu: false,
+                    fileMenu: {info: true},
                     navigation: {disable: false, previewMode: true},
                     comments: {disable: false, previewMode: true},
                     chat: false,
@@ -377,6 +385,7 @@ define([
                     me.view.btnHighlight.currentColor = clr;
                 }
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showCreateFormTip(); // show tip only when create form in docxf
+                me.onChangeProtectDocument();
             });
         },
 
@@ -429,6 +438,23 @@ define([
         onActiveTab: function(tab) {
             if (tab !== 'forms') {
                 this.tipSaveForm && this.tipSaveForm.close();
+            }
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                if (this.view) {
+                    var arr = this.view.getButtons();
+                    Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly,   {array: arr});
+                    Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly,   {array: arr});
+                    Common.Utils.lockControls(Common.enumLock.docLockReview, props.isReviewOnly,   {array: arr});
+                    Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly,   {array: arr});
+                }
             }
         }
 

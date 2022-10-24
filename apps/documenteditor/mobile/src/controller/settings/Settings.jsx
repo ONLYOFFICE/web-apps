@@ -5,7 +5,7 @@ import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import SettingsView from "../../view/settings/Settings";
-import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage";
+import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage.mjs";
 
 const Settings = props => {
     useEffect(() => {

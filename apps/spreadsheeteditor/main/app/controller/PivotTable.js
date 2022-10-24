@@ -181,9 +181,10 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onRefreshClick: function(btn, opts){
+        onRefreshClick: function(type){
             if (this.api) {
-                this._originalProps.asc_refresh(this.api);
+                if(type == 'current') this._originalProps.asc_refresh(this.api);
+                else if(type == 'all') this.api.asc_refreshAllPivots();
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },

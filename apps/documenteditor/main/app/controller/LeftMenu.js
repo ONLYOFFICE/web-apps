@@ -113,12 +113,21 @@ define([
                 if ( !this.leftMenu.panelHistory.isVisible() )
                     this.clickMenuFileItem(null, 'history');
             }, this));
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
 
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
-
+            this._state = {
+                disableEditing: false,
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
+            };
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
@@ -215,7 +224,7 @@ define([
             }
 
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
-
+            this.onChangeProtectDocument();
             Common.util.Shortcuts.resumeEvents();
             return this;
         },
@@ -293,7 +302,7 @@ define([
                     }
                 })).show();
                 break;
-            case 'help':
+            case 'external-help':
                 close_menu = !!isopts;
                 break;
             default: close_menu = false;
@@ -467,7 +476,7 @@ define([
             Common.Utils.InternalSettings.set("de-settings-livecomment", value);
             var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
-            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
@@ -584,8 +593,14 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            if (this.viewmode === mode) return;
-            this.viewmode = mode;
+            this._state.disableEditing = mode;
+            this.updatePreviewMode();
+        },
+
+        updatePreviewMode: function() {
+            var viewmode = this._state.disableEditing || this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly;
+            if (this.viewmode === viewmode) return;
+            this.viewmode = viewmode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
         },
@@ -888,6 +903,17 @@ define([
 
         isCommentsVisible: function() {
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.updatePreviewMode();
+            }
         },
 
         textNoTextFound         : 'Text not found',

@@ -85,7 +85,9 @@ define([
                     'insert:textart': this.onInsertTextart,
                     'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
                     'click:customscale': this.onScaleClick.bind(me),
-                    'home:open'        : this.onHomeOpen
+                    'home:open'        : this.onHomeOpen,
+                    'generate:smartart' : this.generateSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -255,7 +257,10 @@ define([
 
             this.onApiEndAddShape = function() {
                 if (this.toolbar.btnInsertShape.pressed) this.toolbar.btnInsertShape.toggle(false, true);
-                if (this.toolbar.btnInsertText.pressed)  this.toolbar.btnInsertText.toggle(false, true);
+                if (this.toolbar.btnInsertText.pressed) {
+                    this.toolbar.btnInsertText.toggle(false, true);
+                    this.toolbar.btnInsertText.menu.clearAll();
+                }
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
         },
@@ -401,6 +406,7 @@ define([
                 toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
                 toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
+                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
@@ -489,6 +495,9 @@ define([
                 this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
             } else if (config.isEditOle) {
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (config.isRestrictedEdit) {
@@ -1248,8 +1257,35 @@ define([
         },
 
         onBtnInsertTextClick: function(btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.textboxType) 
+                item.setChecked(true);
+            });
+            if(!this.toolbar.btnInsertText.pressed) {
+                this.toolbar.btnInsertText.menu.clearAll();
+            } 
+            this.onInsertText(btn.options.textboxType, btn, e);
+        },
+        
+        onMenuInsertTextClick: function(btn, e) {
+            var oldType = this.toolbar.btnInsertText.options.textboxType;
+            var newType = e.value;
+            this.toolbar.btnInsertText.toggle(true);
+
+            if(newType != oldType){
+                this.toolbar.btnInsertText.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
+                this.toolbar.btnInsertText.options.textboxType = newType;
+            }
+            this.onInsertText(newType, btn, e);
+        },
+
+        onInsertText: function(type, btn, e) {
             if (this.api)
-                this._addAutoshape(btn.pressed, 'textRect');
+                this._addAutoshape(this.toolbar.btnInsertText.pressed, type);
 
             if (this.toolbar.btnInsertShape.pressed)
                 this.toolbar.btnInsertShape.toggle(false, true);
@@ -2321,14 +2357,14 @@ define([
             }
 
             var self = this,
-                listStyles = this.toolbar.mode.isEditOle ? self.toolbar.mnuCellStylePicker: self.toolbar.listStyles,
-                menuPicker = this.toolbar.mode.isEditOle ? listStyles: listStyles.menuPicker;
+                listStyles = this.toolbar.mode.isEditOle ? self.toolbar.mnuCellStylePicker: self.toolbar.listStyles;
 
             if (!listStyles) {
                 self.styles = styles;
                 return;
             }
-
+        
+            var menuPicker = this.toolbar.mode.isEditOle ? listStyles: listStyles.menuPicker;
             var mainController = this.getApplication().getController('Main');
             var count = menuPicker.store.length;
             var rec = menuPicker.getSelectedRec();
@@ -4895,6 +4931,51 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Vertical align');
+        },
+
+        generateSmartArt: function (groupName) {
+            this.api.asc_generateSmartArtPreviews(groupName);
+        },
+
+        onApiBeginSmartArtPreview: function () {
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtData = Common.define.smartArt.getSmartArtData();
+        },
+
+        onApiAddSmartArtPreview: function (previews) {
+            previews.forEach(_.bind(function (preview) {
+                var image = preview.asc_getImage(),
+                    sectionId = preview.asc_getSectionId(),
+                    section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
+                    item = _.findWhere(section.items, {type: image.asc_getName()}),
+                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}),
+                    menuPicker = menu.menuPicker;
+                if (item) {
+                    var arr = [{
+                        tip: item.tip,
+                        value: item.type,
+                        imageUrl: image.asc_getImage()
+                    }];
+                    if (menuPicker.store.length < 1) {
+                        menuPicker.store.reset(arr);
+                    } else {
+                        menuPicker.store.add(arr);
+                    }
+                }
+                this.currentSmartArtMenu = menu;
+            }, this));
+        },
+
+        onApiEndSmartArtPreview: function () {
+            if (this.currentSmartArtMenu) {
+                this.currentSmartArtMenu.menu.alignPosition();
+            }
+        },
+
+        onInsertSmartArt: function (value) {
+            if (this.api) {
+                this.api.asc_createSmartArt(value);
+            }
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

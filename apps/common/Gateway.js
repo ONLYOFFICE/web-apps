@@ -138,6 +138,10 @@ if (window.Common === undefined) {
 
             'grabFocus': function(data) {
                 $me.trigger('grabfocus', data);
+            },
+
+            'setReferenceData': function(data) {
+                $me.trigger('setreferencedata', data);
             }
         };
 
@@ -345,6 +349,10 @@ if (window.Common === undefined) {
 
             requestCreateNew:  function () {
                 _postMessage({event:'onRequestCreateNew'});
+            },
+
+            requestReferenceData:  function (data) {
+                _postMessage({event:'onRequestReferenceData', data: data});
             },
 
             pluginsReady: function() {

@@ -140,6 +140,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssparkline"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -223,6 +224,10 @@
             <section class="panel" data-tab="data">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-data-from-text"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-data-external-links"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

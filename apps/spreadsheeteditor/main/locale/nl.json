@@ -407,7 +407,6 @@
   "Common.Views.SignDialog.tipFontName": "Lettertype",
   "Common.Views.SignDialog.tipFontSize": "Tekengrootte",
   "Common.Views.SignSettingsDialog.textAllowComment": "Sta ondertekenaar toe commentaar toe te voegen in het handtekening venster.",
-  "Common.Views.SignSettingsDialog.textInfo": "Ondertekenaar info",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-mail",
   "Common.Views.SignSettingsDialog.textInfoName": "Naam",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Ondertekenaar titel",

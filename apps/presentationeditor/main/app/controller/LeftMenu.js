@@ -271,6 +271,7 @@ define([
                             this.showHistory();
                     }
                     break;
+                case 'external-help': close_menu = true; break;
                 default: close_menu = false;
             }
 
@@ -383,9 +384,11 @@ define([
                 value = parseInt(Common.localStorage.getItem("pe-settings-paste-button"));
                 Common.Utils.InternalSettings.set("pe-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
-            }
 
-            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
+                value = Common.localStorage.getBool("pe-settings-showsnaplines");
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
+                this.api.asc_setShowSmartGuides(value);
+            }
 
             menu.hide();
         },

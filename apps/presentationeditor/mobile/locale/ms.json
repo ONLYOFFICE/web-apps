@@ -32,7 +32,8 @@
       "textReopen": "Membuka semula",
       "textResolve": "Selesaikan",
       "textTryUndoRedo": "Fungsi Buat asal/Buat semula dinyahdayakan bagi mod pengeditan Bersama Pantas.",
-      "textUsers": "Pengguna"
+      "textUsers": "Pengguna",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Tiada Isian"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Jangan tunjukkan semula",
     "textOk": "Okey",
     "textRows": "Baris",
-    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?"
+    "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -155,7 +157,7 @@
     "errorSessionIdle": "Dokumen tidak diedit buat masa yang lama. Sila muat semula halaman.",
     "errorSessionToken": "Sambungan kepada pelayan telah terganggu. Sila muat semula halaman.",
     "errorStockChart": "Urutan baris tidak betul. Untuk membina carta stok, tempatkan data pada helaian mengikut urutan:<br> harga bukaan, harga mak, harga min, harga penutup.",
-    "errorUpdateVersionOnDisconnect": "Sambungan internet telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
+    "errorUpdateVersionOnDisconnect": "Sambungan telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
     "errorUserDrop": "Fail tidak boleh diakses sekarang.",
     "errorUsersExceed": "Bilangan pengguna yang didizinkan mengikut pelan pembayaran telah lebih",
     "errorViewerDisconnect": "Sambungan telah hilang. Anda masih boleh melihat dokumen,<br>tetapi tidak dapat muat turun atau cetaknya sehingga sambungan dipulihkan dan halaman dimuat semua.",
@@ -169,7 +171,8 @@
     "unknownErrorText": "Ralat tidak diketahui.",
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
-    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Data dimuatkan…",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Tetapkan mod pengeditan…",
     "uploadImageTextText": "Imej dimuat naik…",
     "uploadImageTitleText": "Imej dimuat naik",
-    "waitText": "Sila, tunggu…"
+    "waitText": "Sila, tunggu…",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",
@@ -245,7 +251,10 @@
       "textSlideNumber": "Nombor Slaid",
       "textTable": "Jadual",
       "textTableSize": "Saiz Jadual",
-      "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya"
+      "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",
@@ -351,11 +360,8 @@
       "textPt": "pt",
       "textPush": "Tolak",
       "textRemoveChart": "Alih Keluar Carta",
-      "textRemoveImage": "Alih Keluar Imej",
-      "textRemoveLink": "Alih Keluar Pautan",
       "textRemoveShape": "Alih Keluar Bentuk",
       "textRemoveTable": "Alih Keluar Jadual",
-      "textReorder": "Order Semula",
       "textReplace": "Gantikan",
       "textReplaceAll": "Gantikan Semua",
       "textReplaceImage": "Gantikan Imej",
@@ -396,7 +402,15 @@
       "textZoom": "Zum",
       "textZoomIn": "Zum Masuk",
       "textZoomOut": "Zum Keluar",
-      "textZoomRotate": "Zum dan Putar"
+      "textZoomRotate": "Zum dan Putar",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

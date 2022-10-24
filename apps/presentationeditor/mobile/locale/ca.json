@@ -32,7 +32,8 @@
       "textReopen": "Torna a obrir",
       "textResolve": "Resol",
       "textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
-      "textUsers": "Usuaris"
+      "textUsers": "Usuaris",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sense emplenament"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "No ho mostris més",
     "textOk": "D'acord",
     "textRows": "Files",
-    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?"
+    "txtWarnUrl": "Fer clic en aquest enllaç pot ser perjudicial per al dispositiu i les dades.<br>Esteu segur que voleu continuar?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -169,7 +171,8 @@
     "unknownErrorText": "Error desconegut.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "S'estant carregant les dades...",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Estableix el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espereu..."
+    "waitText": "Espereu...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Teniu canvis no desats en aquest document. Feu clic a \"Queda't en aquesta pàgina\" per esperar al desament automàtic. Feu clic a \"Deixa aquesta pàgina\" per descartar tots els canvis no desats.",
@@ -245,7 +251,10 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Taula",
       "textTableSize": "Mida de la taula",
-      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -351,11 +360,8 @@
       "textPt": "pt",
       "textPush": "Inserció",
       "textRemoveChart": "Suprimeix el gràfic",
-      "textRemoveImage": "Suprimeix la imatge",
-      "textRemoveLink": "Suprimeix l'enllaç",
       "textRemoveShape": "Suprimeix la forma",
       "textRemoveTable": "Suprimeix la taula",
-      "textReorder": "Torna a ordenar",
       "textReplace": "Substitueix",
       "textReplaceAll": "Substitueix-ho tot ",
       "textReplaceImage": "Substitueix la imatge",
@@ -396,7 +402,15 @@
       "textZoom": "Zoom",
       "textZoomIn": "Amplia",
       "textZoomOut": "Redueix",
-      "textZoomRotate": "Amplia i gira"
+      "textZoomRotate": "Amplia i gira",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",

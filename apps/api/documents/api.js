@@ -23,6 +23,7 @@
                 options: <advanced options>,
                 key: 'key',
                 vkey: 'vkey',
+                referenceData: 'data for external paste',
                 info: {
                     owner: 'owner name',
                     folder: 'path to document',
@@ -218,6 +219,7 @@
                     hideRulers: false // hide or show rulers on first loading (presentation or document editor)
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
+                    integrationMode: "embed" // turn off scroll to frame
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -263,6 +265,7 @@
                 'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
                 'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
                 'onRequestCreateNew': <try to create document>,
+                'onRequestReferenceData': <try to refresh external data>,
             }
         }
 
@@ -326,6 +329,7 @@
         _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
+        _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -490,6 +494,9 @@
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
+            if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
+                window.AscEmbed && window.AscEmbed.initWorker(iframe);
+
             if (iframe.src) {
                 var pathArray = iframe.src.split('/');
                 this.frameOrigin = pathArray[0] + '//' + pathArray[2];
@@ -732,6 +739,13 @@
             });
         };
 
+        var _setReferenceData = function(data) {
+            _sendCommand({
+                command: 'setReferenceData',
+                data: data
+            });
+        };
+
         var _serviceCommand = function(command, data) {
             _sendCommand({
                 command: 'internalCommand',
@@ -766,7 +780,8 @@
             setFavorite         : _setFavorite,
             requestClose        : _requestClose,
             grabFocus           : _grabFocus,
-            blurFocus           : _blurFocus
+            blurFocus           : _blurFocus,
+            setReferenceData    : _setReferenceData
         }
     };
 

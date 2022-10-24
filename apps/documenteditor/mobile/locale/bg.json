@@ -61,7 +61,10 @@
     "textOk": "Ok",
     "textTableContents": "Table of Contents",
     "textWithPageNumbers": "With Page Numbers",
-    "textWithBlueLinks": "With Blue Links"
+    "textWithBlueLinks": "With Blue Links",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textUnderline": "Underline",
       "textUsers": "Users",
       "textWidow": "Widow control",
-      "textOk": "Ok"
+      "textOk": "Ok",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
@@ -200,7 +204,8 @@
     "textNumberingValue": "Numbering Value",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
@@ -366,7 +371,15 @@
     "textEnterTitleNewStyle": "Enter title of a new style",
     "textNextParagraphStyle": "Next paragraph style",
     "textSameCreatedNewStyle": "Same as created new style",
-    "textParagraphStyle": "Paragraph Style"
+    "textParagraphStyle": "Paragraph Style",
+    "textChangeShape": "Change Shape",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textCustomStyle": "Custom Style",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -409,7 +422,8 @@
     "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -444,7 +458,10 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait..."
+    "waitText": "Please, wait...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textUndo": "Undo",
+    "textContinue": "Continue"
   },
   "Main": {
     "criticalErrorTitle": "Error",

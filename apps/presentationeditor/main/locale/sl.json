@@ -103,8 +103,6 @@
   "Common.Views.CopyWarningDialog.textToPaste": "za Lepljenje",
   "Common.Views.DocumentAccessDialog.textLoading": "Nalaganje...",
   "Common.Views.DocumentAccessDialog.textTitle": "Nastavitve deljenja",
-  "Common.Views.ExternalDiagramEditor.textClose": "Zapri",
-  "Common.Views.ExternalDiagramEditor.textSave": "Shrani & Zapusti",
   "Common.Views.ExternalDiagramEditor.textTitle": "Urejevalec grafa",
   "Common.Views.Header.textBack": "Pojdi v dokumente",
   "Common.Views.Header.textHideStatusBar": "Skrij statusno vrstico",

@@ -1209,6 +1209,18 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                this.btnInsertSmartArt = new Common.UI.Button({
+                    id: 'tlbtn-insertsmartart',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon smart-art',
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
+                    caption: me.capBtnInsSmartArt,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnInsertShape = new Common.UI.Button({
                     id          : 'tlbtn-insertshape',
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -1229,9 +1241,11 @@ define([
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
+                    split       : true,
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small', 
+                    textboxType: 'textRect',
                 });
 
                 me.btnInsertTextArt = new Common.UI.Button({
@@ -2063,7 +2077,7 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -2272,6 +2286,7 @@ define([
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
             _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
+            _injectComponent('#slot-btn-inssmartart',    this.btnInsertSmartArt);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
@@ -2342,7 +2357,8 @@ define([
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
-            _updateHint(this.btnInsertText, this.tipInsertText);
+            _updateHint(this.btnInsertSmartArt, this.tipInsertSmartArt);
+            _updateHint(this.btnInsertText, [this.tipInsertHorizontalText ,this.tipInsertText]);
             _updateHint(this.btnInsertTextArt, this.tipInsertTextart);
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             _updateHint(this.btnInsertShape, this.tipInsertShape);
@@ -2553,6 +2569,62 @@ define([
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
             }
 
+            if (this.btnInsertSmartArt) {
+                this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    items: []
+                }));
+
+                var smartArtData = Common.define.smartArt.getSmartArtData();
+                smartArtData.forEach(function (item, index) {
+                    var length = item.items.length,
+                        width = 399;
+                    if (length < 5) {
+                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                    }
+                    me.btnInsertSmartArt.menu.addItem({
+                        caption: item.caption,
+                        value: item.sectionId,
+                        itemId: item.id,
+                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art" style="width: ' + width + 'px; height: 500px; margin-left: 5px;"></div>')}
+                            ],
+                            menuAlign: 'tl-tr',
+                        })});
+                });
+                var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                        item.$el.one('mouseenter', function () {
+                            me.fireEvent('generate:smartart', [item.value]);
+                            item.$el.mouseenter();
+                        });
+                        item.menuPicker = new Common.UI.DataView({
+                            el: $('#' + item.options.itemId),
+                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            itemTemplate: _.template([
+                                '<div>',
+                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                '</div>'
+                            ].join('')),
+                            store: new Common.UI.DataViewStore(),
+                            delayRenderTips: true,
+                            scrollAlwaysVisible: true,
+                            showLast: false
+                        });
+                        item.menuPicker.on('item:click', function(picker, item, record, e) {
+                            if (record) {
+                                me.fireEvent('insert:smartart', [record.get('value')]);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                    });
+                    menu.off('show:before', onShowBeforeSmartArt);
+                };
+                this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
+            }
+
             if ( this.btnInsertSparkline ) {
                 this.btnInsertSparkline.setMenu(new Common.UI.Menu({
                     style: 'width: 166px;padding: 5px 0 10px;',
@@ -2579,6 +2651,31 @@ define([
                     menu.off('show:before', onShowBefore);
                 };
                 this.btnInsertSparkline.menu.on('show:before', onShowBefore);
+            }
+
+            if(this.btnInsertText) {
+                this.btnInsertText.setMenu(new Common.UI.Menu({
+                    items: [
+                        {
+                            caption: this.tipInsertHorizontalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon btn-text',
+                            toggleGroup: 'textbox',
+                            value: 'textRect',
+                            iconClsForMainBtn: 'btn-text'
+                        },
+                        {
+                            caption: this.tipInsertVerticalText,
+                            checkable: true,
+                            checkmark: false,
+                            iconCls     : 'menu__icon btn-text-vertical',
+                            toggleGroup: 'textbox',
+                            value: 'textRectVertical',
+                            iconClsForMainBtn: 'btn-text-vertical'
+                        },
+                    ]
+                }));
             }
 
             if (this.btnInsertTextArt) {
@@ -3143,7 +3240,9 @@ define([
         tipSynchronize:     'The document has been changed by another user. Please click to save your changes and reload the updates.',
         tipIncFont:         'Increment font size',
         tipDecFont:         'Decrement font size',
-        tipInsertText:      'Insert Text',
+        tipInsertHorizontalText: 'Insert horizontal text box',
+        tipInsertVerticalText: 'Insert vertical text box',
+        tipInsertText: 'Insert text box',
         tipInsertTextart:   'Insert Text Art',
         tipInsertShape:     'Insert Autoshape',
         tipDigStylePercent: 'Percent Style',
@@ -3326,6 +3425,8 @@ define([
         tipHAlighOle: 'Horizontal Align',
         tipVAlighOle: 'Vertical Align',
         tipSelectAll: 'Select all',
-        tipCut: 'Cut'
+        tipCut: 'Cut',
+        tipInsertSmartArt: 'Insert SmartArt',
+        capBtnInsSmartArt: 'SmartArt'
     }, SSE.Views.Toolbar || {}));
 });

@@ -32,7 +32,8 @@
       "textReopen": "Znovu otevřít",
       "textResolve": "Vyřešit",
       "textTryUndoRedo": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
-      "textUsers": "Uživatelé"
+      "textUsers": "Uživatelé",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Vlastní barvy",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
-    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?"
+    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -238,7 +242,8 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Heslo",
@@ -279,7 +284,10 @@
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím..."
+    "waitText": "Čekejte prosím...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Varování",
@@ -370,7 +378,9 @@
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSorting": "Řazení",
       "txtSortSelected": "Seřadit vybrané",
-      "txtYes": "Ano"
+      "txtYes": "Ano",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",
@@ -504,10 +514,7 @@
       "textPt": "pt",
       "textRange": "Rozsah",
       "textRemoveChart": "Odstranit graf",
-      "textRemoveImage": "Odstranit obrázek",
-      "textRemoveLink": "Odstranit odkaz",
       "textRemoveShape": "Odstranit obrazec",
-      "textReorder": "Změnit řazení",
       "textReplace": "Nahradit",
       "textReplaceImage": "Nahradit obrázek",
       "textRequired": "Požadováno",
@@ -552,7 +559,14 @@
       "textYen": "Jen",
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
-      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší"
+      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",

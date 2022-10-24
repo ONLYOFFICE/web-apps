@@ -32,7 +32,8 @@
       "textReopen": "Նորից բացել",
       "textResolve": "Լուծել",
       "textTryUndoRedo": "Հետարկումն ու վերարկումն գործառույթներն անջատված են արագ համատեղ խմբագրման ռեժիմի համար:",
-      "textUsers": "Օգտատերեր"
+      "textUsers": "Օգտատերեր",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Առանց լցման"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Այլևս ցույց չտալ",
     "textOk": "Լավ",
     "textRows": "Տողեր",
-    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
+    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -155,7 +157,7 @@
     "errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։Խնդրում ենք վերաբեռնել էջը:",
     "errorSessionToken": "Սերվերի հետ կապն ընդհատվել է:Խնդրում ենք վերաբեռնել էջը:",
     "errorStockChart": "Սխալ տողերի հերթականություն:Տվյալների տատանման գծապատկեր կառուցելու համար տվյալները թերթիկի վրա տեղադրեք հետևյալ հաջորդականությամբ.<br> Բացման գին,առավելագույն գին,նվազագույն գին, փակման գին։",
-    "errorUpdateVersionOnDisconnect": "Ինտերնետ կապը վերականգնվել է, և ֆայլի տարբերակը փոխվել է:Նախքան աշխատանքը շարունակելը, ներբեռնեք ֆայլը կամ պատճենեք դրա բովանդակությունը՝ համոզվելու համար, որ ոչինչ կորած չէ, այնուհետև վերաբեռնեք այս էջը:",
+    "errorUpdateVersionOnDisconnect": "Կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք ֆայլը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
     "errorUserDrop": "Այս պահին նիշքն անհասանելի է։",
     "errorUsersExceed": "Օգտատերերի՝ սակագնային պլանով թույլատրված քանակը գերազանցվել է։",
     "errorViewerDisconnect": "Կապը կորել է:Դուք դեռ կարող եք դիտել փաստաթուղթը,<br>բայց Դուք չեք կարողանա ներբեռնել կամ տպել այն, մինչև կապը չվերականգնվի և էջը վերաբեռնվի:",
@@ -169,7 +171,8 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Խմբագրման աշխատակարգի հաստատում...",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել..."
+    "waitText": "Խնդրում ենք սպասել...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
@@ -245,7 +251,10 @@
       "textSlideNumber": "Սահիկի համարը",
       "textTable": "Աղյուսակ",
       "textTableSize": "Աղյուսակի չափ",
-      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
+      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -351,11 +360,8 @@
       "textPt": "կտ",
       "textPush": "Հրում",
       "textRemoveChart": "Հեռացնել գծապատկերը",
-      "textRemoveImage": "Հեռացնել նկարը",
-      "textRemoveLink": "Հեռացնել հղումը",
       "textRemoveShape": "Հեռացնել պատկերը",
       "textRemoveTable": "Հեռացնել աղյուսակը",
-      "textReorder": "Վերադասավորել",
       "textReplace": "Փոխարինել",
       "textReplaceAll": "Փոխարինել բոլորը",
       "textReplaceImage": "Փոխարինել նկարը",
@@ -396,7 +402,15 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում"
+      "textZoomRotate": "Դիտափոխում և պտտում",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",

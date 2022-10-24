@@ -185,7 +185,6 @@
   "Common.Views.SignDialog.tipFontName": "Fonts",
   "Common.Views.SignDialog.tipFontSize": "Fonta izmērs",
   "Common.Views.SignSettingsDialog.textAllowComment": "Atļaut parakstītājam pievienot komentāru paraksta logā",
-  "Common.Views.SignSettingsDialog.textInfo": "Informācija par parakstītāju",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-pasts",
   "Common.Views.SignSettingsDialog.textInfoName": "Name",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Parakstītāja amats",

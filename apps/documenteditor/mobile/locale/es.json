@@ -61,7 +61,10 @@
     "textTableSize": "Tamaño de tabla",
     "textWithBlueLinks": "Con enlaces azules",
     "textWithPageNumbers": "Con números de página",
-    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Las funciones Deshacer/Rehacer están desactivadas en el modo de co-edición rápido.",
       "textUnderline": "Subrayar",
       "textUsers": "Usuarios",
-      "textWidow": "Control de viudas"
+      "textWidow": "Control de viudas",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Sin relleno"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "Actualizar toda la tabla",
     "textRefreshPageNumbersOnly": "Actualizar solamente los números de página",
     "textRows": "Filas",
-    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
+    "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertencia",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Actualizar toda la tabla",
     "textRefreshPageNumbersOnly": "Actualizar solamente los números de página",
     "textRemoveChart": "Eliminar gráfico",
-    "textRemoveImage": "Eliminar imagen",
-    "textRemoveLink": "Eliminar enlace",
     "textRemoveShape": "Eliminar forma",
     "textRemoveTable": "Eliminar tabla",
     "textRemoveTableContent": "Eliminar la tabla de contenidos",
@@ -365,7 +368,15 @@
     "textTu": "ma.",
     "textType": "Tipo",
     "textWe": "mi.",
-    "textWrap": "Ajuste"
+    "textWrap": "Ajuste",
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -393,6 +404,7 @@
     "errorSessionIdle": "El documento no ha sido editado desde hace mucho tiempo. Por favor, vuelva a cargar la página.",
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
     "errorStockChart": "Orden incorrecto de las filas. Para construir un gráfico de cotizaciones, coloque los datos en la hoja en el siguiente orden:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
+    "errorTextFormWrongFormat": "El valor introducido no se corresponde con el formato del campo",
     "errorUpdateVersionOnDisconnect": "Se ha restablecido la conexión a Internet y se ha cambiado la versión del archivo. <br>Para poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se ha perdido nada, y luego volver a cargar esta página.",
     "errorUserDrop": "No se puede acceder al archivo en este momento.",
     "errorUsersExceed": "El número de usuarios permitido según su plan de precios fue excedido",
@@ -408,7 +420,7 @@
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -443,7 +455,10 @@
     "txtEditingMode": "Establecer el modo de edición...",
     "uploadImageTextText": "Cargando imagen...",
     "uploadImageTitleText": "Cargando imagen",
-    "waitText": "Por favor, espere..."
+    "waitText": "Por favor, espere...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Error",

@@ -451,7 +451,6 @@
   "Common.Views.SignDialog.tipFontName": "Nom de la lletra",
   "Common.Views.SignDialog.tipFontSize": "Mida de la lletra",
   "Common.Views.SignSettingsDialog.textAllowComment": "Permetre al signant afegir comentaris al quadre de diàleg de la signatura",
-  "Common.Views.SignSettingsDialog.textInfo": "Informació del signant",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Correu electrònic",
   "Common.Views.SignSettingsDialog.textInfoName": "Nom",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Títol del signant",

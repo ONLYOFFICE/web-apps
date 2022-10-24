@@ -314,6 +314,7 @@ define([
                         this.showHistory();
                 }
                 break;
+            case 'external-help': close_menu = true; break;
             default: close_menu = false;
             }
 
@@ -429,7 +430,7 @@ define([
             var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
 
-            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
@@ -805,8 +806,8 @@ define([
             this.leftMenu.btnSearchBar.setDisabled(isRangeSelection);
             this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                Common.Utils.lockControls(Common.enumLock.selRangeEdit, isRangeSelection, {array: this.leftMenu.panelPlugins.lockedControls});
                 this.leftMenu.panelPlugins.setLocked(isRangeSelection);
-                this.leftMenu.panelPlugins.disableControls(isRangeSelection);
             }
         },
 
@@ -817,8 +818,8 @@ define([
             this.leftMenu.btnSearchBar.setDisabled(isEditFormula);
             this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                Common.Utils.lockControls(Common.enumLock.editFormula, isEditFormula, {array: this.leftMenu.panelPlugins.lockedControls});
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
-                this.leftMenu.panelPlugins.disableControls(isEditFormula);
             }
         },
 
