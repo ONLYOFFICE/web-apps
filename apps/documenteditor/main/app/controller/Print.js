@@ -227,6 +227,7 @@ define([
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
+            this.api.asc_initPrintPreview('print-preview', opts);
 
             this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
             this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
