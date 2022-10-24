@@ -48,7 +48,7 @@ require.config({
         jquery          : '../vendor/jquery/jquery.min',
         underscore      : '../vendor/underscore/underscore-min',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
-        sockjs          : '../vendor/sockjs/sockjs.min',
+        socketio        : '../vendor/socketio/socket.io.min.js',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/slide/sdk-all-min'
     },
@@ -62,7 +62,7 @@ require.config({
                 'underscore',
                 'allfonts',
                 'xregexp',
-                'sockjs'
+                'socketio'
             ]
         }
     }
