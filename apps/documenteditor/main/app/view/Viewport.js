@@ -141,16 +141,26 @@ define([
                 rightMenuView   = DE.getController('RightMenu').getView('RightMenu');
 
             me._rightMenu   = rightMenuView.render(this.mode);
-            if ( Common.localStorage.getBool('de-hidden-rightmenu') )
-                me._rightMenu.hide();
+            var value = Common.localStorage.getItem("de-hidden-rightmenu");
+            if (value===null) {
+                value = Common.UI.LayoutManager.getInitValue('rightMenu');
+                value = (value!==undefined) ? !value : false;
+            } else
+                value = (parseInt(value) == 1);
+            value && me._rightMenu.hide();
         },
 
         applyCommonMode: function() {
             if ( Common.localStorage.getBool('de-hidden-status') )
                 DE.getController('Statusbar').getView('Statusbar').setVisible(false);
 
-            if ( Common.localStorage.getBool('de-hidden-leftmenu') )
-                DE.getController('LeftMenu').getView('LeftMenu').hide();
+            var value = Common.localStorage.getItem("de-hidden-leftmenu");
+            if (value===null) {
+                value = Common.UI.LayoutManager.getInitValue('leftMenu');
+                value = (value!==undefined) ? !value : false;
+            } else
+                value = (parseInt(value) == 1);
+            value && DE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode) {

@@ -254,7 +254,6 @@ define([
                 this.chRightMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textRightMenu,
-                    value: !Common.localStorage.getBool("de-hidden-rightmenu"),
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -264,7 +263,6 @@ define([
                 this.chLeftMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textLeftMenu,
-                    value: !Common.localStorage.getBool("de-hidden-leftmenu"),
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -316,6 +314,22 @@ define([
                 this.btnFitToWidth.updateHint(this.tipFitToWidth);
                 this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
                 this.btnDarkDocument.updateHint(this.tipDarkDocument);
+
+                var value = Common.localStorage.getItem("de-hidden-leftmenu");
+                if (value===null) {
+                    value = Common.UI.LayoutManager.getInitValue('leftMenu');
+                    value = (value!==undefined) ? !value : false;
+                } else
+                    value = (parseInt(value) == 1);
+                this.chLeftMenu.setValue(!value);
+
+                value = Common.localStorage.getItem("de-hidden-rightmenu");
+                if (value===null) {
+                    value = Common.UI.LayoutManager.getInitValue('rightMenu');
+                    value = (value!==undefined) ? !value : false;
+                } else
+                    value = (parseInt(value) == 1);
+                this.chRightMenu.setValue(!value);
             },
 
             show: function () {
