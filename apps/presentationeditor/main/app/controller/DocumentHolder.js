@@ -2164,6 +2164,16 @@ define([
                     tip.isHidden = true;
                 }
             } else {
+                if (_.isUndefined(this._XY)) {
+                    this._XY = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    ];
+                    this._Width       = this.documentHolder.cmpEl.width();
+                    this._Height      = this.documentHolder.cmpEl.height();
+                    this._BodyWidth   = $('body').width();
+                }
+
                 if (!tip.parentEl) {
                     tip.parentEl = $('<div id="tip-container-guide" style="position: absolute; z-index: 10000;"></div>');
                     this.documentHolder.cmpEl.append(tip.parentEl);
