@@ -53,7 +53,7 @@ require.config({
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
-        socketio        : '../vendor/socketio/socket.io.min.js',
+        socketio        : '../vendor/socketio/socket.io.min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',

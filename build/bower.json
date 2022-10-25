@@ -10,7 +10,7 @@
     "requirejs-text": "~2.0.5",
     "less": "~1.5.0",
     "bootstrap": "~3.0.3",
-    "sockjs": "~0.3.2",
+    "socketio": "~4.5.3",
     "perfect-scrollbar": "latest"
   }
 }

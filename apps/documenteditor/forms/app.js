@@ -46,7 +46,7 @@ require.config({
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
-        socketio        : '../vendor/socketio/socket.io.min.js',
+        socketio        : '../vendor/socketio/socket.io.min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',

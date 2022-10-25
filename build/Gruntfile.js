@@ -281,7 +281,7 @@ module.exports = function(grunt) {
             },
         }
     });
-    doRegisterTask('sockjs');
+    doRegisterTask('socketio');
     doRegisterTask('xregexp');
     doRegisterTask('megapixel');
     doRegisterTask('jquery');
@@ -673,7 +673,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'imagemin', 'svgmin']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
-    grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-socketio',               ['socketio-init', 'clean', 'copy']);
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
