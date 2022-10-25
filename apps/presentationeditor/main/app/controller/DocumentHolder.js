@@ -370,6 +370,7 @@ define([
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
+            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
@@ -1350,6 +1351,12 @@ define([
             Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
         },
 
+
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
+            }
+        },
 
         /** coauthoring begin **/
         addComment: function(item, e, eOpt){

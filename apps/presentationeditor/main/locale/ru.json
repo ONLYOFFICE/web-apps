@@ -1592,6 +1592,7 @@
   "PE.Views.DateTimeDialog.textUpdate": "Обновлять автоматически",
   "PE.Views.DateTimeDialog.txtTitle": "Дата и время",
   "PE.Views.DocumentHolder.aboveText": "Выше",
+  "PE.Views.DocumentHolder.textSaveAsPicture": "Сохранить как картинку",
   "PE.Views.DocumentHolder.addCommentText": "Добавить комментарий",
   "PE.Views.DocumentHolder.addToLayoutText": "Добавить в макет",
   "PE.Views.DocumentHolder.advancedChartText": "Дополнительные параметры диаграммы",
