@@ -2242,6 +2242,7 @@
   "SSE.Views.DocumentHolder.txtPaste": "Paste",
   "SSE.Views.DocumentHolder.txtPercentage": "Percentage",
   "SSE.Views.DocumentHolder.txtReapply": "Reapply",
+  "SSE.Views.DocumentHolder.txtRefresh": "Refresh",
   "SSE.Views.DocumentHolder.txtRow": "Entire row",
   "SSE.Views.DocumentHolder.txtRowHeight": "Set Row Height",
   "SSE.Views.DocumentHolder.txtScientific": "Scientific",
