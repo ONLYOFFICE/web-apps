@@ -2343,8 +2343,9 @@ define([
                                 '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
                                 '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large">',
-                                    '<label style="display: inline-block;vertical-align: middle;margin-right: 10px;"><%= scope.txtPages %></label>',
-                                    '<div id="print-txt-pages" style="display: inline-block;vertical-align: middle;"></div>',
+                                    '<table style="width: 100%;"><tbody><tr>',
+                                        '<td><%= scope.txtPages %></td><td><div id="print-txt-pages" style="width: 100%;padding-left: 5px;"></div></td>',
+                                    '</tr></tbody></table>',
                                 '</td></tr>',
                                 '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
@@ -2400,7 +2401,6 @@ define([
                 data: [
                     { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.txtAllPages },
                     { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtCurrentPage },
-                    { value: Asc.c_oAscPrintType.Selection, displayValue: this.txtSelection },
                     { value: -1, displayValue: this.txtCustomPages }
                 ],
                 dataHint: '2',
@@ -2412,8 +2412,8 @@ define([
                 el: $markup.findById('#print-txt-pages'),
                 allowBlank: true,
                 validateOnChange: true,
-                style: 'width: 150px;',
-                maskExp: /[0-9]/,
+                validateOnBlur: false,
+                maskExp: /[0-9,\-]/,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
