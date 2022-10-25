@@ -129,6 +129,7 @@ define([
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
                 }
             }, this));
+            Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
 
             var eventname = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
             this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
@@ -260,6 +261,7 @@ define([
             var me = this;
             this.printSettings.$previewBox.removeClass('hidden');
 
+            this.onUpdateLastCustomMargins(this._state.lastmargins);
             this.onApiPageSize(this._state.pgsize[0], this._state.pgsize[1]);
             this.onApiPageOrient(this._state.pgorient);
             this.onSectionProps(this._state.sectionprops);
@@ -323,16 +325,12 @@ define([
                     api: me.api,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
-                            // props = dlg.getSettings();
-                            // var mnu = me.toolbar.btnPageMargins.menu.items[0];
-                            // mnu.setVisible(true);
-                            // mnu.setChecked(true);
-                            // mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                            // $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                            props = dlg.getSettings();
                             Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
                             Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
                             Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
                             Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                            Common.NotificationCenter.trigger('margins:update', props);
 
                             me.api.asc_SetSectionProps(props);
                             Common.NotificationCenter.trigger('edit:complete');
@@ -344,6 +342,24 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        onUpdateLastCustomMargins: function(props) {
+            this._state.lastmargins = props;
+            if (this.printSettings.isVisible()) {
+                var top = props ? props.get_TopMargin() : Common.localStorage.getItem("de-pgmargins-top"),
+                    left = props ? props.get_LeftMargin() : Common.localStorage.getItem("de-pgmargins-left"),
+                    bottom = props ? props.get_BottomMargin() : Common.localStorage.getItem("de-pgmargins-bottom"),
+                    right = props ? props.get_RightMargin() : Common.localStorage.getItem("de-pgmargins-right");
+                if ( top!==null && left!==null && bottom!==null && right!==null ) {
+                    var rec = this.printSettings.cmbPaperMargins.store.at(0);
+                    if (rec.get('value')===-2)
+                        rec.set('size', [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]);
+                    else
+                        this.printSettings.cmbPaperMargins.store.unshift({ value: -2, displayValue: this.textMarginsLast, size: [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]});
+                    this.printSettings.cmbPaperMargins.onResetItems();
+                }
+            }
         },
 
         onPaperOrientSelect: function(combo, record) {
@@ -498,6 +514,7 @@ define([
 
         textWarning: 'Warning',
         txtCustom: 'Custom',
-        txtPrintRangeInvalid: 'Invalid print range'
+        txtPrintRangeInvalid: 'Invalid print range',
+        textMarginsLast: 'Last Custom'
     }, DE.Controllers.Print || {}));
 });

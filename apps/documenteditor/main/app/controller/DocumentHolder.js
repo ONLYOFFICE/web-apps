@@ -1249,15 +1249,11 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
-                            var mnu = DE.getController('Toolbar').toolbar.btnPageMargins.menu.items[0];
-                            mnu.setVisible(true);
-                            mnu.setChecked(true);
-                            mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                            $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                             Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
                             Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
                             Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
                             Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                            Common.NotificationCenter.trigger('margins:update', props);
 
                             me.api.asc_SetSectionProps(props);
                             me.editComplete();

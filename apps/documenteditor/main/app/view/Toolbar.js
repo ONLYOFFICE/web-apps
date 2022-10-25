@@ -1628,17 +1628,8 @@ define([
 
                     me.setTab('home');
 
-                    var top = Common.localStorage.getItem("de-pgmargins-top"),
-                        left = Common.localStorage.getItem("de-pgmargins-left"),
-                        bottom = Common.localStorage.getItem("de-pgmargins-bottom"),
-                        right = Common.localStorage.getItem("de-pgmargins-right");
-                    if ( top!==null && left!==null && bottom!==null && right!==null ) {
-                        var mnu = this.btnPageMargins.menu.items[0];
-                        mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
-                        mnu.setVisible(true);
-                        $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                    } else
-                        this.btnPageMargins.menu.items[0].setVisible(false);
+                    me.onUpdateLastCustomMargins();
+                    Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
                 }
 
                 if ( me.isCompactView )
@@ -2641,6 +2632,22 @@ define([
             onStyleMenuDeleteAll: function (item, e, eOpt) {
                 if (this.api)
                     this.api.asc_RemoveAllCustomStyles();
+            },
+
+            onUpdateLastCustomMargins: function(props) {
+                if (!this.btnPageMargins) return;
+
+                var top = props ? props.get_TopMargin() : Common.localStorage.getItem("de-pgmargins-top"),
+                    left = props ? props.get_LeftMargin() : Common.localStorage.getItem("de-pgmargins-left"),
+                    bottom = props ? props.get_BottomMargin() : Common.localStorage.getItem("de-pgmargins-bottom"),
+                    right = props ? props.get_RightMargin() : Common.localStorage.getItem("de-pgmargins-right");
+                if ( top!==null && left!==null && bottom!==null && right!==null ) {
+                    var mnu = this.btnPageMargins.menu.items[0];
+                    mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
+                    mnu.setVisible(true);
+                    $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                } else
+                    this.btnPageMargins.menu.items[0].setVisible(false);
             },
 
             lockToolbar: function (causes, lock, opts) {
