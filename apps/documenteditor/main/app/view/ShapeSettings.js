@@ -2020,7 +2020,7 @@ define([
 
         onPositionChange: function(btn) {
             var pos = btn.getNumberValue();
-                if (Common.UI.isRTL()) {
+            if (Common.UI.isRTL()) {
                 pos = this.sldrGradient.maxValue - pos;
             }
             var minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
