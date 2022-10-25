@@ -86,8 +86,8 @@ define([
             this.printSettings.cmbPaperOrientation.on('selected', _.bind(this.onPaperOrientSelect, this));
             this.printSettings.cmbPaperMargins.on('selected', _.bind(this.onPaperMarginsSelect, this));
             this.printSettings.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
-            this.printSettings.txtPages.on('changing', _.bind(this.txtPagesChanging, this));
-            this.printSettings.txtPages.validation = function(value) {
+            this.printSettings.inputPages.on('changing', _.bind(this.inputPagesChanging, this));
+            this.printSettings.inputPages.validation = function(value) {
                 if (!_.isEmpty(value) && /[0-9,\-]/.test(value)) {
                     var res = [],
                         arr = value.split(',');
@@ -222,20 +222,21 @@ define([
             // fill page numbers, copies, collated
             var panel = this.printSettings;
             panel.cmbRange.setValue(this.adjPrintParams.asc_getPrintType());
-            panel.txtPages.setValue(''); // pages numbers
+            panel.inputPages.setValue(''); // pages numbers
         },
 
         comboRangeChange: function(combo, record) {
             if (record.value === -1) {
                 var me = this;
                 setTimeout(function(){
-                    me.printSettings.txtPages.focus();
+                    me.printSettings.inputPages.focus();
                 }, 50);
                 // this.adjPrintParams.asc_setPrintType(record.value)
             } else {
-                this.printSettings.txtPages.setValue('');
+                this.printSettings.inputPages.setValue('');
                 this.adjPrintParams.asc_setPrintType(record.value)
             }
+            this.printSettings.inputPages.showError();
         },
 
         onCountPages: function(count) {
@@ -364,7 +365,7 @@ define([
 
         onPaperOrientSelect: function(combo, record) {
             this._state.pgorient = undefined;
-            if (this.api && item.checked) {
+            if (this.api) {
                 this.api.change_PageOrient(record.value === Asc.c_oAscPageOrientation.PagePortrait);
             }
 
@@ -487,8 +488,9 @@ define([
         },
 
         onBtnPrint: function(print) {
-            if (this.printSettings.txtPages.checkValidate() !== true)  {
-                this.printSettings.txtPages.focus();
+            if (this.printSettings.cmbRange.getValue()===-1 && this.printSettings.inputPages.checkValidate() !== true)  {
+                this.printSettings.inputPages.focus();
+                this.isInputFirstChange = true;
                 return;
             }
 
@@ -505,7 +507,10 @@ define([
             this.printSettings.menu.hide();
         },
 
-        txtPagesChanging: function (input, value) {
+        inputPagesChanging: function (input, value) {
+            this.isInputFirstChange && this.printSettings.inputPages.showError();
+            this.isInputFirstChange = false;
+
             if (value.length<1)
                 this.printSettings.cmbRange.setValue(Asc.c_oAscPrintType.EntireWorkbook);
             else if (this.printSettings.cmbRange.getValue()!==-1)

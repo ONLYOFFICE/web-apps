@@ -2408,7 +2408,7 @@ define([
                 dataHintOffset: 'big'
             });
 
-            this.txtPages = new Common.UI.InputField({
+            this.inputPages = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-pages'),
                 allowBlank: true,
                 validateOnChange: true,
