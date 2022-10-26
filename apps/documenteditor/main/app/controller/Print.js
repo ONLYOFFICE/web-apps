@@ -48,7 +48,9 @@ define([
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
             this.adjPrintParams.asc_setPrintType(value);
 
-            this._state = {};
+            this._state = {
+                lock_doc: false
+            };
 
             this._navigationPreview = {
                 pageCount: false,
@@ -149,6 +151,8 @@ define([
             this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
+            this.api.asc_registerCallback('asc_onLockDocumentProps', _.bind(this.onApiLockDocumentProps, this));
+            this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
 
             return this;
         },
@@ -182,14 +186,16 @@ define([
         },
 
         onApiPageOrient: function(isportrait) {
-            this._state.pgorient = isportrait;
+            this._state.pgorient = !!isportrait;
             if (this.printSettings.isVisible()) {
-                var item = this.printSettings.cmbPaperOrientation.store.findWhere({value: isportrait ? Asc.c_oAscPageOrientation.PagePortrait : Asc.c_oAscPageOrientation.PageLandscape});
+                var item = this.printSettings.cmbPaperOrientation.store.findWhere({value: this._state.pgorient ? Asc.c_oAscPageOrientation.PagePortrait : Asc.c_oAscPageOrientation.PageLandscape});
                 if (item) this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
             }
         },
 
         onSectionProps: function(props) {
+            if (!props) return;
+
             this._state.sectionprops = props;
             if (this.printSettings.isVisible()) {
                 var left = props.get_LeftMargin(),
@@ -263,9 +269,9 @@ define([
             this.printSettings.$previewBox.removeClass('hidden');
 
             this.onUpdateLastCustomMargins(this._state.lastmargins);
-            this.onApiPageSize(this._state.pgsize[0], this._state.pgsize[1]);
+            this._state.pgsize && this.onApiPageSize(this._state.pgsize[0], this._state.pgsize[1]);
             this.onApiPageOrient(this._state.pgorient);
-            this.onSectionProps(this._state.sectionprops);
+            this._state.sectionprops && this.onSectionProps(this._state.sectionprops);
 
             var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
             opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -274,6 +280,7 @@ define([
             this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
             this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
+            this.SetDisabled();
         },
 
         onPaperSizeSelect: function(combo, record) {
@@ -515,6 +522,25 @@ define([
                 this.printSettings.cmbRange.setValue(Asc.c_oAscPrintType.EntireWorkbook);
             else if (this.printSettings.cmbRange.getValue()!==-1)
                 this.printSettings.cmbRange.setValue(-1);
+        },
+
+        onApiLockDocumentProps: function() {
+            this._state.lock_doc = true;
+            this.SetDisabled();
+        },
+
+        onApiUnLockDocumentProps: function() {
+            this._state.lock_doc = false;
+            this.SetDisabled();
+        },
+
+        SetDisabled: function() {
+            if (this.printSettings.isVisible()) {
+                var disable = !this.mode.isEdit || this._state.lock_doc;
+                this.printSettings.cmbPaperSize.setDisabled(disable);
+                this.printSettings.cmbPaperMargins.setDisabled(disable);
+                this.printSettings.cmbPaperOrientation.setDisabled(disable);
+            }
         },
 
         textWarning: 'Warning',
