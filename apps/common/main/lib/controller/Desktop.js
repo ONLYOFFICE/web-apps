@@ -45,7 +45,8 @@ define([
         version: '{{PRODUCT_VERSION}}',
         eventloading: true,
         titlebuttons: true,
-        uithemes: true
+        uithemes: true,
+        btnhome: true,
     };
 
     var native = window.desktop || window.AscDesktopEditor;
