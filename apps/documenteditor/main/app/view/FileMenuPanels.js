@@ -338,9 +338,6 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
-                '</tr>',
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
@@ -394,14 +391,6 @@ define([
         render: function(node) {
             var me = this;
             var $markup = $(this.template({scope: this}));
-
-            this.chInputMode = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-input-mode'),
-                labelText: this.txtHieroglyphs,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
 
             this.chUseAltKey = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-use-alt-key'),
@@ -789,8 +778,6 @@ define([
         },
 
         updateSettings: function() {
-            this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
-
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-show-alt-hints"));
 
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
@@ -874,7 +861,6 @@ define([
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
-            Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());

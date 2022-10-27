@@ -256,8 +256,6 @@ class MainController extends Component {
 
                 this.updateWindowTitle(true);
 
-                this.api.SetTextBoxInputMode(LocalStorage.getBool("de-settings-inputmode"));
-
                 value = LocalStorage.getBool("de-mobile-no-characters");
                 appSettings.changeNoCharacters(value);
                 this.api.put_ShowParaMarks(value);

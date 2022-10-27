@@ -499,8 +499,6 @@ class MainController extends Component {
 
         this.updateWindowTitle(true);
 
-        this.api.SetTextBoxInputMode(LocalStorage.getBool("pe-settings-inputmode"));
-
         if (appOptions.isEdit && this.needToUpdateVersion) {
             Common.Notifications.trigger('api:disconnect');
         }
