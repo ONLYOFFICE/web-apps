@@ -806,11 +806,19 @@ define([
             return str_res;
         },
 
-        pickEMail: function (commentId, message) {
+        pickEMail: function (commentId, message, oldMessage) {
+            var old_arr = [];
+            if (oldMessage) {
+                old_arr = Common.Utils.String.htmlEncode(oldMessage).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._-]+\.[A-Z]+\b/gi);
+                old_arr = _.map(old_arr, function(str){
+                    return str.slice(1, str.length);
+                });
+            }
             var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._-]+\.[A-Z]+\b/gi);
             arr = _.map(arr, function(str){
                 return str.slice(1, str.length);
             });
+            arr = _.difference(arr, old_arr);
             (arr.length>0) && Common.Gateway.requestSendNotify({
                 emails: arr,
                 actionId: commentId, // comment id
