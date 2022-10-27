@@ -1821,4 +1821,220 @@ define([
 
     }, PE.Views.FileMenuPanels.ProtectDoc || {}));
 
+    PE.Views.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-print',
+        menu: undefined,
+
+        template: _.template([
+            '<div style="width:100%; height:100%; position: relative;">',
+                '<div id="id-print-settings" class="no-padding">',
+                    '<div class="print-settings">',
+                        '<div class="flex-settings ps-container oo settings-container">',
+                            '<table style="width: 100%;">',
+                                '<tbody>',
+                                    '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
+                                    '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-large">',
+                                        '<table style="width: 100%;"><tbody><tr>',
+                                        '<td><%= scope.txtPages %></td><td><div id="print-txt-pages" style="width: 100%;padding-left: 5px;"></div></td>',
+                                        '</tr></tbody></table>',
+                                    '</td></tr>',
+                                    '<tr class="fms-btn-apply"><td>',
+                                        '<div class="footer justify">',
+                                            '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                            '<button id="print-btn-print-pdf" class="btn normal dlg-btn" result="pdf" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintPdf %></button>',
+                                        '</div>',
+                                    '</td></tr>',
+                                '</tbody>',
+                            '</table>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="print-preview-box" style="position: absolute; left: 280px; top: 0; right: 0; bottom: 0;" class="no-padding">',
+                    '<div id="print-preview"></div>',
+                    '<div id="print-navigation">',
+                        '<div id="print-prev-page" style="display: inline-block; margin-right: 4px;"></div>',
+                        '<div id="print-next-page" style="display: inline-block;"></div>',
+                        '<div class="page-number">',
+                            '<label><%= scope.txtPage %></label>',
+                            '<div id="print-number-page"></div>',
+                            '<label id="print-count-page"><%= scope.txtOf %></label>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="print-preview-empty" class="hidden">',
+                    '<div><%= scope.txtEmptyTable %></div>',
+                '</div>',
+            '</div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function(node) {
+            var me = this;
+
+            var $markup = $(this.template({scope: this}));
+
+            this.cmbRange = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-range'),
+                menuStyle: 'min-width: 248px;max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.txtAllPages },
+                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtCurrentPage },
+                    { value: -1, displayValue: this.txtCustomPages }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.inputPages = new Common.UI.InputField({
+                el: $markup.findById('#print-txt-pages'),
+                allowBlank: true,
+                validateOnChange: true,
+                validateOnBlur: false,
+                maskExp: /[0-9,\-]/,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlTable = $(this.pnlSettings.find('table')[0]);
+            this.trApply = $markup.find('.fms-btn-apply');
+
+            this.btnPrint = new Common.UI.Button({
+                el: $markup.findById('#print-btn-print')
+            });
+            this.btnPrintPdf = new Common.UI.Button({
+                el: $markup.findById('#print-btn-print-pdf')
+            });
+
+            this.btnPrevPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-prev-page'),
+                cls: 'btn-prev-page',
+                iconCls: 'arrow',
+                dataHint: '2',
+                dataHintDirection: 'top'
+            });
+
+            this.btnNextPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-next-page'),
+                cls: 'btn-next-page',
+                iconCls: 'arrow',
+                dataHint: '2',
+                dataHintDirection: 'top'
+            });
+
+            this.countOfPages = $markup.findById('#print-count-page');
+
+            this.txtNumberPage = new Common.UI.InputField({
+                el: $markup.findById('#print-number-page'),
+                allowBlank: true,
+                validateOnChange: true,
+                style: 'width: 50px;',
+                maskExp: /[0-9]/,
+                validation: function(value) {
+                    if (/(^[0-9]+$)/.test(value)) {
+                        value = parseInt(value);
+                        if (undefined !== value && value > 0 && value <= me.pageCount)
+                            return true;
+                    }
+
+                    return me.txtPageNumInvalid;
+                },
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.$el = $(node).html($markup);
+            this.$previewBox = $('#print-preview-box');
+            this.$previewEmpty = $('#print-preview-empty');
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.pnlSettings,
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                });
+            }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
+            this.fireEvent('render:after', this);
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateScroller();
+            this.fireEvent('show', this);
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                Common.UI.Menu.Manager.hideAll();
+                var scrolled = this.$el.height()< this.pnlTable.height();
+                this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
+                this.scroller.update();
+            }
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
+        setApi: function(api) {
+
+        },
+
+        isVisible: function() {
+            return (this.$el || $(this.el)).is(":visible");
+        },
+
+        setRange: function(value) {
+            this.cmbRange.setValue(value);
+        },
+
+        getRange: function() {
+            return this.cmbRange.getValue();
+        },
+
+        updateCountOfPages: function (count) {
+            this.countOfPages.text(
+                Common.Utils.String.format(this.txtOf, count)
+            );
+            this.pageCount = count;
+        },
+
+        updateCurrentPage: function (index) {
+            this.txtNumberPage.setValue(index + 1);
+        },
+
+        txtPrint: 'Print',
+        txtPrintPdf: 'Print to PDF',
+        txtPrintRange: 'Print range',
+        txtCurrentPage: 'Current slide',
+        txtAllPages: 'All slides',
+        txtCustomPages: 'Custom print',
+        txtPage: 'Slide',
+        txtOf: 'of {0}',
+        txtPageNumInvalid: 'Slide number invalid',
+        txtEmptyTable: 'There is nothing to print because the presentation is empty',
+        txtPages: 'Slides'
+
+    }, PE.Views.PrintWithPreview || {}));
 });
