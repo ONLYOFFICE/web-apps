@@ -2654,7 +2654,6 @@ define([
         txtPage: 'Page',
         txtOf: 'of {0}',
         txtPageNumInvalid: 'Page number invalid',
-        txtEmptyTable: 'There is nothing to print because the document is empty',
         txtPages: 'Pages',
         textMarginsLast: 'Last Custom',
         textMarginsNormal: 'Normal',

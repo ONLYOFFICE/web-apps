@@ -281,6 +281,7 @@ define([
             this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
+            this._isPreviewVisible = true;
         },
 
         onPaperSizeSelect: function(combo, record) {
@@ -413,7 +414,7 @@ define([
 
         onHidePrintMenu: function () {
             if (this._isPreviewVisible) {
-                this.api.asc_closePrintPreview(this._isPrint);
+                this.api.asc_closePrintPreview && this.api.asc_closePrintPreview(this._isPrint);
                 this._isPreviewVisible = false;
             }
         },
@@ -500,12 +501,13 @@ define([
                 this.isInputFirstChange = true;
                 return;
             }
-
+            this._isPrint = print;
 
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
                 this.api.asc_Print(opts);
+                this._isPrint = false;
             } else {
                 var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -543,7 +545,6 @@ define([
             }
         },
 
-        textWarning: 'Warning',
         txtCustom: 'Custom',
         txtPrintRangeInvalid: 'Invalid print range',
         textMarginsLast: 'Last Custom'
