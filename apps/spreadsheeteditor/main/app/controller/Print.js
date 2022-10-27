@@ -424,6 +424,7 @@ define([
                 this.printSettings.applySettings();
 
                 if (print) {
+                    var view = SSE.getController('Toolbar').getView('Toolbar');
                     var printType = this.printSettings.getRange();
                     this.adjPrintParams.asc_setPrintType(printType);
                     this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);

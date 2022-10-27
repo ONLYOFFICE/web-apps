@@ -121,7 +121,7 @@ Common.UI.HintManager = new(function() {
         _usedTitles = [],
         _appPrefix,
         _staticHints = { // for desktop buttons
-            "btnhome": 'K'
+            // "btnhome": 'K'
         };
 
     var _api;

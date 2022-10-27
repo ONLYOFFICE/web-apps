@@ -425,6 +425,7 @@
   "LongActions": {
     "applyChangesTextText": "Loading data...",
     "applyChangesTitleText": "Loading Data",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "downloadMergeText": "Downloading...",
     "downloadMergeTitle": "Downloading",
     "downloadTextText": "Downloading document...",
@@ -451,14 +452,13 @@
     "saveTitleText": "Saving Document",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
+    "textContinue": "Continue",
     "textLoadingDocument": "Loading document",
+    "textUndo": "Undo",
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "waitText": "Please, wait..."
   },
   "Main": {
     "criticalErrorTitle": "Error",

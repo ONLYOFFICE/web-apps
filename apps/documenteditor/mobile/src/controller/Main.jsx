@@ -3,7 +3,7 @@ import React, {Component, Fragment} from 'react';
 import {inject} from "mobx-react";
 import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
 import {InitReviewController as ReviewController} from '../../../../common/mobile/lib/controller/collaboration/Review.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
@@ -61,7 +61,7 @@ class MainController extends Component {
             !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
                                                             '../../../../sdkjs/word/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
-                                '../../../vendor/sockjs/sockjs.min.js'];
+                                '../../../vendor/socketio/socket.io.min.js'];
             dep_scripts.push(...window.sdk_scripts);
 
             const promise_get_script = (scriptpath) => {

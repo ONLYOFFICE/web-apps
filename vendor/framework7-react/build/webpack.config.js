@@ -1,15 +1,14 @@
-const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+import webpack from 'webpack';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from "url";
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
-const fs = require('fs')
-
-const path = require('path');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function resolvePath(dir) {
   return path.join(__dirname, '..', dir);
@@ -22,7 +21,7 @@ const editor = process.env.TARGET_EDITOR == 'cell' ? 'spreadsheeteditor' :
 const targetPatch = process.env.TARGET_EDITOR || 'word';
 const addonPath = process.env.ADDON_ENV || 'path';
 
-module.exports = {
+const config = {
   mode: env,
   entry: {
     app: `../../apps/${editor}/mobile/src/app.js`,
@@ -261,3 +260,5 @@ module.exports = {
     ),
   ],
 };
+
+export default config;

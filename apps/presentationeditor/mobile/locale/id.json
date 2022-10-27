@@ -177,6 +177,7 @@
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
     "applyChangesTitleText": "Memuat Data",
+    "confirmMaxChangesSize": "Ukuran tindakan melebihi batas yang ditetapkan untuk server Anda.<br>Tekan \"Batalkan\" untuk membatalkan tindakan terakhir Anda atau tekan \"Lanjutkan\" untuk menyimpan tindakan secara lokal (Anda perlu mengunduh file atau menyalin isinya untuk memastikan tidak ada yang hilang).",
     "downloadTextText": "Mengunduh dokumen...",
     "downloadTitleText": "Mengunduh Dokumen",
     "loadFontsTextText": "Memuat data...",
@@ -199,14 +200,13 @@
     "savePreparingTitle": "Bersiap untuk menyimpan. Silahkan menunggu...",
     "saveTextText": "Menyimpan dokumen...",
     "saveTitleText": "Menyimpan Dokumen",
+    "textContinue": "Lanjutkan",
     "textLoadingDocument": "Memuat dokumen",
+    "textUndo": "Batalkan",
     "txtEditingMode": "Atur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",
     "uploadImageTitleText": "Mengunggah Gambar",
-    "waitText": "Silahkan menunggu",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "waitText": "Silahkan menunggu"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",

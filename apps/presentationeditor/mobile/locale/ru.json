@@ -177,6 +177,7 @@
   "LongActions": {
     "applyChangesTextText": "Загрузка данных...",
     "applyChangesTitleText": "Загрузка данных",
+    "confirmMaxChangesSize": "Размер внесенных изменений превышает ограничение, установленное для вашего сервера.<br>Нажмите \"Отменить\" для отмены последнего действия или нажмите \"Продолжить\", чтобы сохранить действие локально (потребуется скачать файл или скопировать его содержимое чтобы ничего не потерялось).",
     "downloadTextText": "Загрузка документа...",
     "downloadTitleText": "Загрузка документа",
     "loadFontsTextText": "Загрузка данных...",
@@ -199,14 +200,13 @@
     "savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
     "saveTextText": "Сохранение документа...",
     "saveTitleText": "Сохранение документа",
+    "textContinue": "Продолжить",
     "textLoadingDocument": "Загрузка документа",
+    "textUndo": "Отменить",
     "txtEditingMode": "Установка режима редактирования...",
     "uploadImageTextText": "Загрузка рисунка...",
     "uploadImageTitleText": "Загрузка рисунка",
-    "waitText": "Пожалуйста, подождите...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "waitText": "Пожалуйста, подождите..."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",

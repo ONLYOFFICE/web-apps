@@ -893,6 +893,7 @@ define([
             if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
 
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                    defaultShortName = "en-US",
                     allLangs = arrLang[0],
                     langs = arrLang[1],
                     change = arrLang[2];
@@ -912,6 +913,8 @@ define([
                         item = this.cmbDictionaryLanguage.store.find(function (model) {
                             return model.get('shortName').indexOf(value) == 0;
                         });
+                        if(!item)
+                            item = this.cmbDictionaryLanguage.store.findWhere({shortName: defaultShortName})
                     }
                     this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
                     value = this.cmbDictionaryLanguage.getValue();
