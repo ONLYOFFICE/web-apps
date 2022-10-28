@@ -2605,5 +2605,7 @@
   "PE.Views.ViewTab.tipFitToWidth": "Fit to width",
   "PE.Views.ViewTab.tipGridlines": "Show gridlines",
   "PE.Views.ViewTab.tipGuides": "Show Guides",
-  "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PE.Views.ViewTab.textLeftMenu": "Left panel",
+  "PE.Views.ViewTab.textRightMenu": "Right panel"
 }

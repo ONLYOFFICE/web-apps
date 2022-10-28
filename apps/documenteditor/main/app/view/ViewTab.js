@@ -82,6 +82,14 @@ define([
                     '<span class="btn-slot text" id="slot-chk-statusbar"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-leftmenu"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
+                '</div>' +
+            '</div>' +
             '<div class="separator long separator-rulers"></div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
@@ -113,6 +121,12 @@ define([
                 }, me));
                 me.chRulers.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('rulers:change', [me.chRulers, state === 'checked']);
+                }, me));
+                me.chLeftMenu.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('leftmenu:hide', [me.chLeftMenu, state === 'checked']);
+                }, me));
+                me.chRightMenu.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
                 }, me));
                 me.btnDarkDocument.on('click', _.bind(function () {
                     me.fireEvent('darkmode:change');
@@ -237,6 +251,24 @@ define([
                 });
                 this.lockedControls.push(this.chToolbar);
 
+                this.chRightMenu = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    labelText: this.textRightMenu,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chRightMenu);
+
+                this.chLeftMenu = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    labelText: this.textLeftMenu,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chLeftMenu);
+
                 this.chRulers = new Common.UI.CheckBox({
                     lock: [_set.lostConnect, _set.disableOnStart],
                     labelText: this.textRulers,
@@ -271,6 +303,8 @@ define([
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
+                this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
+                this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 return this.$el;
             },
 
@@ -280,6 +314,14 @@ define([
                 this.btnFitToWidth.updateHint(this.tipFitToWidth);
                 this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
                 this.btnDarkDocument.updateHint(this.tipDarkDocument);
+
+                var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+                value = (value!==undefined) ? !value : false;
+                this.chLeftMenu.setValue(!Common.localStorage.getBool("de-hidden-leftmenu", value));
+
+                value = Common.UI.LayoutManager.getInitValue('rightMenu');
+                value = (value!==undefined) ? !value : false;
+                this.chRightMenu.setValue(!Common.localStorage.getBool("de-hidden-rightmenu", value));
             },
 
             show: function () {
@@ -327,7 +369,9 @@ define([
             tipFitToPage: 'Fit to page',
             tipFitToWidth: 'Fit to width',
             tipInterfaceTheme: 'Interface theme',
-            tipDarkDocument: 'Dark document'
+            tipDarkDocument: 'Dark document',
+            textLeftMenu: 'Left panel',
+            textRightMenu: 'Right panel'
         }
     }()), DE.Views.ViewTab || {}));
 });

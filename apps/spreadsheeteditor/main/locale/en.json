@@ -3917,6 +3917,8 @@
   "SSE.Views.ViewTab.tipFreeze": "Freeze panes",
   "SSE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "SSE.Views.ViewTab.tipSheetView": "Sheet view",
+  "SSE.Views.ViewTab.textLeftMenu": "Left panel",
+  "SSE.Views.ViewTab.textRightMenu": "Right panel",
   "SSE.Views.WatchDialog.closeButtonText": "Close",
   "SSE.Views.WatchDialog.textAdd": "Add watch",
   "SSE.Views.WatchDialog.textBook": "Book",
