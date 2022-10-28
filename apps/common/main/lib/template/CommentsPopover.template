@@ -59,14 +59,16 @@
         <% }); %>
     <% } %>
 
-    <!-- add reply button -->
+    <!-- reply -->
 
-    <% if (!showReplyInPopover && !hideAddReply && !hint && !scope.viewmode) { %>
-        <% if (replys.length && !add_arrow) { %>
-            <label class="user-reply" style="margin-left: 20px; margin-top: 5px;" role="presentation" tabindex="-1">textAddReply</label>
-        <% } else { %>
-            <label class="user-reply" role="presentation" tabindex="-1">textAddReply</label>
-        <% } %>
+    <% if (showReplyInPopover && !hideAddReply && !hint && !scope.viewmode) { %>
+        <div class="reply-ct">
+            <textarea class="msg-reply user-select" placeholder="textAddReply" maxlength="maxCommLength" spellcheck="false"></textarea>
+            <% if(true) { %>
+                <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change-popover" style="display:none">textReply</button>
+                <button class="btn normal dlg-btn btn-close" style="display:none">textClose</button>
+            <% } %>
+        </div>
     <% } %>
 
     <!-- edit buttons -->
@@ -86,16 +88,6 @@
             <% } else if (!hint && (!editable || scope.viewmode) && resolved) { %>
                 <div class="icon-resolve i-comment-resolved" data-toggle="tooltip"></div>
             <% } %>
-        </div>
-    <% } %>
-
-    <!-- reply -->
-
-    <% if (showReplyInPopover) { %>
-        <div class="reply-ct">
-            <textarea class="msg-reply user-select" placeholder="textAddReply" maxlength="maxCommLength" spellcheck="false"></textarea>
-            <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change-popover">textReply</button>
-            <button class="btn normal dlg-btn btn-close">textClose</button>
         </div>
     <% } %>
 

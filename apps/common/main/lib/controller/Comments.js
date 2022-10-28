@@ -966,8 +966,14 @@ define([
 
                     if (!comment) continue;
 
+
+                    if(comment.get('replys').some(function(reply){ return reply.get('editTextInPopover'); })){
+                        comment.set('showReplyInPopover', false); 
+                    }
+
                     if (this.subEditStrings[saveTxtId] && !hint) {
                         comment.set('editTextInPopover', true);
+                        comment.set('showReplyInPopover', false);
                         text = this.subEditStrings[saveTxtId];
                     }
                     else if (this.subEditStrings[saveTxtReplyId] && !hint) {
@@ -1348,7 +1354,7 @@ define([
                 editText            : false,
                 last                : undefined,
                 editTextInPopover   : (this.editPopover ? true : false),
-                showReplyInPopover  : false,
+                showReplyInPopover  : true,
                 hideAddReply        : !_.isUndefined(this.hidereply) ? this.hidereply : (this.showPopover ? true : false),
                 scope               : this.view,
                 editable            : (this.mode.canEditComments || (data.asc_getUserId() == this.currentUserId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getUserName()),

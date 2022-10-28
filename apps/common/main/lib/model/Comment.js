@@ -72,7 +72,8 @@ define([
             id                  : Common.UI.getId(),        //  internal
             time                : 0,
             showReply           : false,
-            showReplyInPopover  : false,
+            showReplyInPopover  : true,
+            showBtnsInPopover   : false,
             editText            : false,
             editTextInPopover   : false,
             last                : undefined,

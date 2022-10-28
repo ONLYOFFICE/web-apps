@@ -140,6 +140,10 @@ define([
                 body.css('position', 'relative');
             }
 
+            me.$window.on('focus', 'textarea', function(e) { me.commentsView.onFocusTextarea(e.currentTarget) });
+            me.$window.on('blur', 'textarea', function(e) { me.commentsView.onBlurTextarea(e.currentTarget) });
+
+
             var CommentsPopoverDataView = Common.UI.DataView.extend((function () {
 
                 var parentView = me;
@@ -150,6 +154,19 @@ define([
                         handleSelect: false,
                         allowScrollbar: false,
                         template: _.template('<div class="dataview-ct inner" style="overflow-y: visible;"></div>')
+                    },
+
+                    onFocusTextarea: function(textarea) {
+                        if($(textarea).parent().hasClass('reply-ct'))
+                            me.$window.find('.reply-ct button').show();
+                    },
+
+                    onBlurTextarea: function(textarea) {
+                        if($(textarea).parent().hasClass('reply-ct')){
+                            setTimeout(() => {
+                                me.$window.find('.reply-ct button').hide();
+                            }, 120);
+                        }
                     },
 
                     getTextBox: function () {
@@ -177,7 +194,7 @@ define([
                         var view = this,
                             textBox = this.$el.find('textarea'),
                             domTextBox = null,
-                            minHeight = 55,
+                            minHeight = 21,
                             lineHeight = 0,
                             scrollPos = 0,
                             oldHeight = 0,
@@ -325,7 +342,8 @@ define([
                             }
 
                             if (btn.hasClass('btn-edit')) {
-                                var tip = btn.data('bs.tooltip');
+                                var tip = btn.data('bs.tooltip'),
+                                    isEdit = false;
                                 if (tip) tip.dontShow = true;
 
                                 if (!_.isUndefined(replyId)) {
@@ -333,7 +351,19 @@ define([
                                     me.fireEvent('comment:editReply', [commentId, replyId, true]);
 
                                     this.replyId = replyId;
+                                    isEdit = true;
+                                } else {
+                                    if (!showEditBox) {
+                                        me.fireEvent('comment:closeEditing');
+                                        record.set('editTextInPopover', true);
 
+                                        me.fireEvent('comment:show', [commentId]);
+                                        isEdit = true;
+                                    }
+                                }
+
+                                if(isEdit) {
+                                    record.set('showReplyInPopover', false);
                                     this.autoHeightTextBox();
 
                                     me.calculateSizeOfContent();
@@ -346,26 +376,6 @@ define([
 
                                     me.autoScrollToEditButtons();
                                     this.setFocusToTextBox();
-                                } else {
-                                    if (!showEditBox) {
-                                        me.fireEvent('comment:closeEditing');
-                                        record.set('editTextInPopover', true);
-
-                                        me.fireEvent('comment:show', [commentId]);
-
-                                        this.autoHeightTextBox();
-
-                                        me.calculateSizeOfContent();
-                                        me.setLeftTop(me.arrowPosX, me.arrowPosY, me.leftX);
-                                        me.calculateSizeOfContent();
-
-                                        readdresolves();
-
-                                        me.hookTextBox();
-
-                                        me.autoScrollToEditButtons();
-                                        this.setFocusToTextBox();
-                                    }
                                 }
                             } else if (btn.hasClass('btn-delete')) {
                                 var tip = btn.data('bs.tooltip');
@@ -386,23 +396,8 @@ define([
 
                                 readdresolves();
 
-                            } else if (btn.hasClass('user-reply')) {
-                                me.fireEvent('comment:closeEditing');
-                                record.set('showReplyInPopover', true);
-
-                                me.calculateSizeOfContent();
-                                me.setLeftTop(me.arrowPosX, me.arrowPosY, me.leftX);
-                                me.calculateSizeOfContent();
-
-                                readdresolves();
-
-                                this.autoHeightTextBox();
-                                me.hookTextBox();
-
-                                me.autoScrollToEditButtons();
-                                this.setFocusToTextBox();
                             } else if (btn.hasClass('btn-reply', false)) {
-                                if (showReplyBox) {
+                                if (true) {
                                     this.clearTextBoxBind();
 
                                     me.fireEvent('comment:addReply', [commentId, this.getActiveTextBoxVal()]);
@@ -412,10 +407,7 @@ define([
                                     readdresolves();
                                 }
                             } else if (btn.hasClass('btn-close', false)) {
-                                me.fireEvent('comment:closeEditing', [commentId]);
-                                me.calculateSizeOfContent();
-                                me.fireEvent('comment:show', [commentId]);
-
+                                me.hideComments();
                                 readdresolves();
 
                             } else if (btn.hasClass('btn-inner-edit', false)) {
@@ -447,9 +439,11 @@ define([
                                     me.calculateSizeOfContent();
                                 }
 
+                                record.set('showReplyInPopover', true);
                                 readdresolves();
 
                             } else if (btn.hasClass('btn-inner-close', false)) {
+
                                 if (record.get('dummy')) {
                                     me.clearDummyText();
                                     me.hide();
@@ -474,6 +468,7 @@ define([
                                 me.setLeftTop(me.arrowPosX, me.arrowPosY, me.leftX);
                                 me.calculateSizeOfContent();
 
+                                record.set('showReplyInPopover', true);
                                 readdresolves();
 
                             } else if (btn.hasClass('btn-resolve')) {
@@ -506,7 +501,7 @@ define([
                     });
 
                     me.on({
-                        'show': function () {
+                        'show': function (picker, item, record, e) {
                             me.commentsView.autoHeightTextBox();
                             me.$window.find('textarea').keydown(function (event) {
                                 if (event.keyCode == Common.UI.Keys.ESC) {
@@ -516,8 +511,9 @@ define([
                         },
                         'animate:before': function () {
                             var text = me.$window.find('textarea');
-                            if (text && text.length)
-                                text.focus();
+                            if (text && text.length && !$(text).parent().hasClass('reply-ct')){
+                                me.commentsView.setFocusToTextBox();
+                            }
                         }
                     });
                 }
