@@ -1273,7 +1273,7 @@ define([
         },
 
         onChangeCropState: function(state) {
-            this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
+            this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
