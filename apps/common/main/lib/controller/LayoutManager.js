@@ -92,7 +92,7 @@ Common.UI.LayoutManager = new(function() {
     };
 
     var _getInitValue = function(name) {
-        if (_config) {
+        if (_licensed && _config) {
             var arr = name.split('-'),
                 i = 0,
                 obj = _config;
