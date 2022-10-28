@@ -832,7 +832,7 @@ define([
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
                 if (paragraph_locked!==undefined)
                     this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls});
-                this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked===true, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum]});
+                this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked===true, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum, me.toolbar.btnInsertEquation]});
             }
 
             if (this._state.no_paragraph !== no_paragraph) {
