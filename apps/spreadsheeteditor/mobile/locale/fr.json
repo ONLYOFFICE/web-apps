@@ -31,9 +31,9 @@
       "textOk": "Ok",
       "textReopen": "Rouvrir",
       "textResolve": "Résoudre",
+      "textSharingSettings": "Paramètres de partage",
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
-      "textUsers": "Utilisateurs",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Utilisateurs"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Couleurs personnalisées",
@@ -50,6 +50,7 @@
     "menuCell": "Cellule",
     "menuDelete": "Supprimer",
     "menuEdit": "Modifier",
+    "menuEditLink": "Modifier le lien",
     "menuFreezePanes": "Figer les volets",
     "menuHide": "Masquer",
     "menuMerge": "Fusionner",
@@ -66,8 +67,7 @@
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
     "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?",
-    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
-    "menuEditLink": "Edit Link"
+    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Controller": {
     "Main": {
@@ -158,17 +158,17 @@
       "textReplaceSuccess": "La recherche a été effectuée. Occurrences remplacées : {0}",
       "textRequestMacros": "Une macro fait une demande à l'URL. Voulez-vous autoriser la demande à l'adresse %1 ?",
       "textYes": "Oui",
+      "titleLicenseExp": "Licence expirée",
       "titleServerVersion": "L'éditeur est mis à jour",
       "titleUpdateVersion": "La version a été modifiée",
       "warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Pour en savoir plus, contactez votre administrateur.",
+      "warnLicenseExp": "Votre licence a expiré. Veuillez mettre à jour votre licence et rafraîchir la page.",
       "warnLicenseLimitedNoAccess": "La licence est expirée. Vous n'avez plus d'accès aux outils d'édition. Veuillez contacter votre administrateur.",
       "warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence. Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-      "titleLicenseExp": "License expired",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
   "Error": {
@@ -196,6 +196,7 @@
     "errorDataRange": "Plage de données incorrecte.",
     "errorDataValidate": "La valeur saisie est incorrecte.<br>Un utilisateur a restreint les valeurs pouvant être saisies dans cette cellule.",
     "errorDefaultMessage": "Code d'erreur: %1",
+    "errorDirectUrl": "Veuillez vérifier le lien vers le document.<br>Ce lien doit être un lien direct vers le fichier à télécharger.",
     "errorEditingDownloadas": "Une erreur s'est produite pendant le travail sur le document. Utilisez l'option \"Télécharger\" pour enregistrer une sauvegarde locale",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
     "errorFileRequest": "Erreur externe.<br>Erreur de demande du fichier. Contactez l'assistance technique.",
@@ -242,13 +243,13 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
     "applyChangesTextText": "Chargement des données en cours...",
     "applyChangesTitleText": "Chargement des données",
+    "confirmMaxChangesSize": "La taille des actions dépasse la limitation fixée pour votre serveur.<br>Appuyez sur \"Annuler\" pour annuler votre dernière action ou sur \"Continuer\" pour maintenir l'action en local (vous devez télécharger le fichier ou copier son contenu pour vous assurer que rien n'est perdu).",
     "confirmMoveCellRange": "La plage de cellules finale peut contenir des données.Voulez-vous continuer?",
     "confirmPutMergeRange": "Les données source contiennent des cellules fusionnées.<br>La fusion sera annuléé avant le collage dans le tableau.",
     "confirmReplaceFormulaInTable": "Les formules de la ligne en-tête seront supprimées et transformées en texte statique.<br>Voulez-vous continuer?",
@@ -274,20 +275,19 @@
     "saveTextText": "Enregistrement du document...",
     "saveTitleText": "Enregistrement du document",
     "textCancel": "Annuler",
+    "textContinue": "Continuer",
     "textErrorWrongPassword": "Le mot de passe que vous avez fourni n'est pas correct.",
     "textLoadingDocument": "Chargement du document",
     "textNo": "Non",
     "textOk": "OK",
+    "textUndo": "Annuler",
     "textUnlockRange": "Déverouiller la plage",
     "textUnlockRangeWarning": "La plage que vous essayez de modifier est protégée par un mot de passe.",
     "textYes": "Oui",
     "txtEditingMode": "Réglage mode d'édition...",
     "uploadImageTextText": "Chargement d'une image en cours...",
     "uploadImageTitleText": "Chargement d'une image",
-    "waitText": "Veuillez patienter...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "Veuillez patienter..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Avertissement",
@@ -343,6 +343,7 @@
       "textComment": "Commentaire",
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
       "textDisplay": "Afficher",
+      "textDone": "Terminé",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFilter": "Filtre",
@@ -363,6 +364,7 @@
       "textPictureFromLibrary": "Image depuis la bibliothèque",
       "textPictureFromURL": "Image à partir d'une URL",
       "textRange": "Plage",
+      "textRecommended": "Recommandés",
       "textRequired": "Requis",
       "textScreenTip": "Info-bulle",
       "textSelectedRange": "Plage sélectionnée",
@@ -378,9 +380,7 @@
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "txtYes": "Oui",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "txtYes": "Oui"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -398,6 +398,7 @@
       "textAllBorders": "Toutes les bordures",
       "textAngleClockwise": "Rotation dans le sens des aiguilles d'une montre",
       "textAngleCounterclockwise": "Rotation dans le sens inverse des aiguilles d'une montre",
+      "textArrange": "Organiser",
       "textAuto": "Auto",
       "textAutomatic": "Automatique",
       "textAxisCrosses": "Intersection de l'axe",
@@ -412,9 +413,11 @@
       "textBottom": "En bas",
       "textBottomBorder": "Bordure inférieure",
       "textBringToForeground": "Mettre au premier plan",
+      "textCancel": "Annuler",
       "textCell": "Cellule",
       "textCellStyle": "Style de cellule",
       "textCenter": "Au centre",
+      "textChangeShape": "Changer la forme",
       "textChart": "Graphique",
       "textChartTitle": "Titre du graphique",
       "textClearFilter": "Effacer le filtre",
@@ -427,12 +430,15 @@
       "textDate": "Date",
       "textDefault": "Plage sélectionnée",
       "textDeleteFilter": "Supprimer filtre",
+      "textDeleteImage": "Supprimer l’image",
+      "textDeleteLink": "Supprimer le lien",
       "textDesign": "Stylique",
       "textDiagonalDownBorder": "Bordure diagonale bas",
       "textDiagonalUpBorder": "Bordure diagonale haut",
       "textDisplay": "Afficher",
       "textDisplayUnits": "Unités d'affichage",
       "textDollar": "Dollar",
+      "textDone": "Terminé",
       "textEditLink": "Modifier le lien",
       "textEffects": "Effets",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
@@ -513,6 +519,7 @@
       "textPound": "Livre",
       "textPt": "pt",
       "textRange": "Plage",
+      "textRecommended": "Recommandés",
       "textRemoveChart": "Supprimer le graphique",
       "textRemoveShape": "Supprimer la forme",
       "textReplace": "Remplacer",
@@ -559,14 +566,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSortHigh2Low": "Trier du plus élevé au plus bas",
-      "txtSortLow2High": "Trier le plus bas au plus élevé",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "txtSortLow2High": "Trier le plus bas au plus élevé"
     },
     "Settings": {
       "advCSVOptions": "Choisir les options CSV",
