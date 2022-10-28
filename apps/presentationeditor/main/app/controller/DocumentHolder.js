@@ -626,6 +626,22 @@ define([
                     }
                 }
             }
+            var i = -1,
+                in_equation = false,
+                locked = false;
+            while (++i < selectedElements.length) {
+                var type = selectedElements[i].get_ObjectType();
+                if (type === Asc.c_oAscTypeSelectElement.Math) {
+                    in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Slide) {
+                    var value = selectedElements[i].get_ObjectValue();
+                    value && (locked = locked || value.get_LockDelete());
+                } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    var value = selectedElements[i].get_ObjectValue();
+                    value && (locked = locked || value.get_Locked());
+                }
+            }
+            in_equation ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
         },
 
         handleDocumentWheel: function(event){
@@ -2218,6 +2234,118 @@ define([
                     top : showPoint[1] + 'px',
                     left: showPoint[0] + 'px'
                 });
+            }
+        },
+
+        onEquationPanelShow: function(disabled) {
+            var me = this,
+                documentHolder = me.documentHolder,
+                eqContainer = documentHolder.cmpEl.find('#equation-container');
+
+            // Prepare menu container
+            if (eqContainer.length < 1) {
+                var equationsStore = me.getApplication().getCollection('EquationGroups'),
+                    eqStr = '<div id="equation-container" style="position: absolute;">';
+
+                me.getApplication().getController('Toolbar').onMathTypes();
+
+                me.equationBtns = [];
+                for (var i = 0; i < equationsStore.length; ++i) {
+                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                }
+                // eqStr += '<div class="separator"></div>';
+                // eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '</div>';
+                eqContainer = $(eqStr);
+                documentHolder.cmpEl.append(eqContainer);
+                var onShowBefore = function (menu) {
+                    var index = menu.options.value,
+                        group = equationsStore.at(index);
+                    var equationPicker = new Common.UI.DataViewSimple({
+                        el: $('#id-document-holder-btn-equation-menu-' + index, menu.cmpEl),
+                        parentMenu: menu,
+                        store: group.get('groupStore'),
+                        scrollAlwaysVisible: true,
+                        showLast: false,
+                        restoreHeight: group.get('groupHeight') ? parseInt(group.get('groupHeight')) : true,
+                        itemTemplate: _.template(
+                            '<div class="item-equation" style="" >' +
+                            '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                            '</div>')
+                    });
+                    equationPicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            if (record)
+                                me.api.asc_AddMath(record.get('data').equationType);
+                        }
+                    });
+                    menu.off('show:before', onShowBefore);
+                };
+                for (var i = 0; i < equationsStore.length; ++i) {
+                    var equationGroup = equationsStore.at(i);
+                    var btn = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-equation-' + i, documentHolder.cmpEl),
+                        cls         : 'btn-toolbar no-caret',
+                        iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
+                        hint        : equationGroup.get('groupName'),
+                        menu        : new Common.UI.Menu({
+                            cls: 'menu-shapes',
+                            value: i,
+                            // restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
+                            items: [
+                                { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
+                                        '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                        equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                            ]
+                        })
+                    });
+                    btn.menu.on('show:before', onShowBefore);
+                    me.equationBtns.push(btn);
+                }
+
+                /*
+                me.equationSettingsBtn = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
+                    cls         : 'btn-toolbar no-caret',
+                    iconCls     : 'toolbar__icon more-vertical',
+                    hint        : me.documentHolder.advancedEquationText,
+                    menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
+                });
+                me.equationSettingsBtn.menu.options.initMenu = function() {
+                    var eq = me.api.asc_GetMathInputType();
+                    var menu = me.equationSettingsBtn.menu;
+                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].setChecked(me.api.asc_IsInlineMath());
+                };
+                me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
+                me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    menu.options.initMenu();
+                });
+                */
+            }
+
+            var showPoint = [(me._Width - eqContainer.outerWidth())/2, 0];
+            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+            if (eqContainer.is(':visible')) {
+                // if (me.equationSettingsBtn.menu.isVisible()) {
+                //     me.equationSettingsBtn.menu.options.initMenu();
+                //     me.equationSettingsBtn.menu.alignPosition();
+                // }
+            } else {
+                eqContainer.show();
+            }
+            me.equationBtns.forEach(function(item){
+                item && item.setDisabled(!!disabled);
+            });
+            // me.equationSettingsBtn.setDisabled(!!disabled);
+        },
+
+        onEquationPanelHide: function() {
+            var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
+            if (eqContainer.is(':visible')) {
+                eqContainer.hide();
             }
         },
 
