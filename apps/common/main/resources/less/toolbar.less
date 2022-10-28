@@ -643,9 +643,11 @@
 .btn-toolbar {
     &:active,
     &.active {
-        svg.icon {
-            fill: @icon-normal-pressed-ie;
-            fill: @icon-normal-pressed;
+        &:not(.disabled) {
+            svg.icon {
+                fill: @icon-normal-pressed-ie;
+                fill: @icon-normal-pressed;
+            }
         }
     }
 
