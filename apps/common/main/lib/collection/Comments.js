@@ -58,7 +58,6 @@ define([
             this.each(function(comment) {
                 comment.set('editText', false);
                 comment.set('editTextInPopover', false);
-                comment.set('showBtnsInPopover', false);
                 comment.set('showReply', false);
                 comment.set('showReplyInPopover', true);
                 comment.set('hideAddReply', false);
