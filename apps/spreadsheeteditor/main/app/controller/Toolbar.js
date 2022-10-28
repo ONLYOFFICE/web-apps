@@ -2814,7 +2814,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
-            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0) return;
+            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0 || !info) return;
             if ( this.toolbar.mode.isEditDiagram )
                 return this.onApiSelectionChanged_DiagramEditor(info); else
             if ( this.toolbar.mode.isEditMailMerge )
@@ -3245,7 +3245,7 @@ define([
         },
 
         onApiSelectionChangedRestricted: function(info) {
-            if (!this.appConfig.isRestrictedEdit) return;
+            if (!this.appConfig.isRestrictedEdit || !info) return;
 
             var selectionType = info.asc_getSelectionType();
             this.toolbar.lockToolbar(Common.enumLock.commentLock, 
@@ -3256,7 +3256,7 @@ define([
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
@@ -3326,7 +3326,7 @@ define([
         },
 
         onApiSelectionChanged_MailMergeEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
@@ -3383,7 +3383,7 @@ define([
         },
 
         onApiSelectionChanged_OleEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {

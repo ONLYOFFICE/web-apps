@@ -153,7 +153,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
-            if (this.viewmode) return; // signed file
+            if (this.viewmode || !info) return; // signed file
 
             var seltype = info.asc_getSelectionType(),
                 coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;

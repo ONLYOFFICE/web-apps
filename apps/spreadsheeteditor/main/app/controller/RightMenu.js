@@ -148,7 +148,7 @@ define([
         },
 
         onSelectionChanged: function(info) {
-            if (this.rangeSelectionMode) return;
+            if (this.rangeSelectionMode || !info) return;
             
             var SelectedObjects = [],
                 selectType = info.asc_getSelectionType(),

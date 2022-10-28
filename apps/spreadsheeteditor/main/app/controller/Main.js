@@ -669,6 +669,7 @@ define([
             },
 
             onSelectionChanged: function(info){
+                if (!info) return;
                 if (!this._isChartDataReady && info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
                     this._isChartDataReady = true;
                     Common.Gateway.internalMessage('chartDataReady');

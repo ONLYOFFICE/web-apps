@@ -1987,6 +1987,7 @@ define([
         },
 
         fillMenuProps: function(cellinfo, showMenu, event){
+            if (!cellinfo) return;
             var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly, isslicermenu,
                 documentHolder      = this.documentHolder,
                 seltype             = cellinfo.asc_getSelectionType(),
@@ -2430,6 +2431,7 @@ define([
         },
 
         fillViewMenuProps: function(cellinfo, showMenu, event){
+            if (!cellinfo) return;
             var documentHolder      = this.documentHolder,
                 seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
