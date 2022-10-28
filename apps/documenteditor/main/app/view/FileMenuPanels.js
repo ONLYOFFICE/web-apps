@@ -338,9 +338,6 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
-                '</tr>',
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
@@ -394,14 +391,6 @@ define([
         render: function(node) {
             var me = this;
             var $markup = $(this.template({scope: this}));
-
-            this.chInputMode = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-input-mode'),
-                labelText: this.txtHieroglyphs,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
 
             this.chUseAltKey = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-use-alt-key'),
@@ -789,8 +778,6 @@ define([
         },
 
         updateSettings: function() {
-            this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
-
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-show-alt-hints"));
 
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
@@ -874,7 +861,6 @@ define([
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
-            Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
@@ -1316,7 +1302,16 @@ define([
             this.menu = options.menu;
             this.coreProps = null;
             this.authors = [];
-            this._locked = false;
+            this._state = {
+                _locked: false,
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                },
+                disableEditing: false
+            };
         },
 
         render: function(node) {
@@ -1601,7 +1596,7 @@ define([
                     me.authors.push(item);
                 });
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
-                !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
+                this._ShowHideInfoItem(this.tblAuthor, this.mode.isEdit || !!this.authors.length);
             }
             this.SetDisabled();
         },
@@ -1729,6 +1724,8 @@ define([
             this.api.asc_registerCallback('asc_onGetDocInfoEnd', _.bind(this._onGetDocInfoEnd, this));
             // this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
             this.api.asc_registerCallback('asc_onLockCore',  _.bind(this.onLockCore, this));
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            this.onChangeProtectDocument();
             this.updateInfo(this.doc);
             return this;
         },
@@ -1738,15 +1735,17 @@ define([
             this.inputAuthor.setVisible(mode.isEdit);
             this.pnlApply.toggleClass('hidden', !mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
-            if (!mode.isEdit) {
-                this.inputTitle._input.attr('placeholder', '');
-                this.inputTags._input.attr('placeholder', '');
-                this.inputSubject._input.attr('placeholder', '');
-                this.inputComment._input.attr('placeholder', '');
-                this.inputAuthor._input.attr('placeholder', '');
-            }
+            this.inputTitle._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputTags._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputSubject._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputComment._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputAuthor._input.attr('placeholder', mode.isEdit ? this.txtAddAuthor : '');
             this.SetDisabled();
             return this;
+        },
+
+        setPreviewMode: function(mode) {
+            this._state.disableEditing = mode;
         },
 
         _onGetDocInfoStart: function() {
@@ -1804,20 +1803,31 @@ define([
         },
 
         onLockCore: function(lock) {
-            this._locked = lock;
+            this._state._locked = lock;
             this.updateFileInfo();
         },
 
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = DE.getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+            }
+        },
+
         SetDisabled: function() {
-            var disable = !this.mode.isEdit || this._locked;
+            var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
+            var disable = !this.mode.isEdit || this._state._locked || isProtected || this._state.disableEditing;
             this.inputTitle.setDisabled(disable);
             this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);
             this.inputComment.setDisabled(disable);
             this.inputAuthor.setDisabled(disable);
-            this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
+            this.tblAuthor.find('.close').toggleClass('disabled', this._state._locked);
             this.tblAuthor.toggleClass('disabled', disable);
-            this.btnApply.setDisabled(this._locked);
+            this.btnApply.setDisabled(this._state._locked);
         },
 
         applySettings: function() {

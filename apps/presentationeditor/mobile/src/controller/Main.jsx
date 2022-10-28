@@ -11,7 +11,7 @@ import {
 } from "../../../../common/mobile/lib/controller/collaboration/Comments";
 import ErrorController from "./Error";
 import LongActionsController from "./LongActions";
-import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage";
+import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 import About from '../../../../common/mobile/lib/view/About';
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
@@ -55,7 +55,7 @@ class MainController extends Component {
             !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
                                                            '../../../../sdkjs/slide/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
-                                '../../../vendor/sockjs/sockjs.min.js'];
+                                '../../../vendor/socketio/socket.io.min.js'];
             dep_scripts.push(...window.sdk_scripts);
 
             const promise_get_script = (scriptpath) => {
@@ -498,8 +498,6 @@ class MainController extends Component {
         this.api.asc_setSpellCheck(value);
 
         this.updateWindowTitle(true);
-
-        this.api.SetTextBoxInputMode(LocalStorage.getBool("pe-settings-inputmode"));
 
         if (appOptions.isEdit && this.needToUpdateVersion) {
             Common.Notifications.trigger('api:disconnect');

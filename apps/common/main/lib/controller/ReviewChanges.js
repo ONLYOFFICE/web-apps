@@ -824,7 +824,7 @@ define([
                 rightMenu: {clear: disable, disable: true},
                 statusBar: true,
                 leftMenu: {disable: false, previewMode: true},
-                fileMenu: {protect: true},
+                fileMenu: {protect: true, info: true},
                 navigation: {disable: false, previewMode: true},
                 comments: {disable: false, previewMode: true},
                 chat: false,

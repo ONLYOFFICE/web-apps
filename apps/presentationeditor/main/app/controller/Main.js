@@ -849,10 +849,6 @@ define([
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getBool("pe-settings-inputmode");
-                Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
-                me.api.SetTextBoxInputMode(value);
-
                 value = Common.localStorage.getBool("pe-settings-show-alt-hints", Common.Utils.isMac ? false : true);
                 Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", value);
 

@@ -406,9 +406,11 @@ define([
                     reply = null,
                     addReply = null,
                     ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                    comment = t.findComment(id);
+                    comment = t.findComment(id),
+                    oldCommentVal = '';
 
                 if (comment && ascComment) {
+                    oldCommentVal = comment.get('comment');
                     ascComment.asc_putText(commentVal);
                     ascComment.asc_putQuoteText(comment.get('quote'));
                     ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
@@ -452,6 +454,7 @@ define([
                     }
 
                     t.api.asc_changeComment(id, ascComment);
+                    t.mode && t.mode.canRequestSendNotify && t.view.pickEMail(ascComment.asc_getGuid(), commentVal, oldCommentVal);
 
                     return true;
                 }
@@ -465,7 +468,8 @@ define([
                     reply = null,
                     addReply = null,
                     ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                    comment = me.findComment(id);
+                    comment = me.findComment(id),
+                    oldReplyVal = '';
 
                 if (ascComment && comment) {
                     ascComment.asc_putText(comment.get('comment'));
@@ -489,6 +493,7 @@ define([
                             addReply = buildCommentData();   //  new asc_CCommentData();
                             if (addReply) {
                                 if (reply.get('id') === replyId && !_.isUndefined(replyVal)) {
+                                    oldReplyVal = reply.get('reply');
                                     addReply.asc_putText(replyVal);
                                     addReply.asc_putUserId(me.currentUserId);
                                     addReply.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
@@ -508,7 +513,7 @@ define([
                     }
 
                     me.api.asc_changeComment(id, ascComment);
-
+                    me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), replyVal, oldReplyVal);
                     return true;
                 }
             }

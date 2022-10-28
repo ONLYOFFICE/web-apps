@@ -275,19 +275,19 @@
     "textUnlockRangeWarning": "Et område, du forsøger at ændre, er beskyttet med adgangskode.",
     "textYes": "Ja",
     "waitText": "Vent venligst...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "confirmMoveCellRange": "The destination cells range can contain data. Continue the operation?",
     "confirmPutMergeRange": "The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.",
     "notcriticalErrorTitle": "Warning",
     "saveTextText": "Saving document...",
     "saveTitleText": "Saving Document",
+    "textContinue": "Continue",
     "textErrorWrongPassword": "The password you supplied is not correct.",
+    "textUndo": "Undo",
     "textUnlockRange": "Unlock Range",
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
-    "uploadImageTitleText": "Uploading Image",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "uploadImageTitleText": "Uploading Image"
   },
   "Statusbar": {
     "textCancel": "Annuller",

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { f7 } from 'framework7-react';
 import {observer, inject} from "mobx-react"
-import { LocalStorage } from '../../../utils/LocalStorage';
+import { LocalStorage } from '../../../utils/LocalStorage.mjs';
 import { withTranslation } from 'react-i18next';
 
 class CollaborationController extends Component {

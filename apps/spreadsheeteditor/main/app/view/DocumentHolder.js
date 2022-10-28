@@ -335,6 +335,10 @@ define([
                 caption     : me.txtReapply
             });
 
+            me.mnuRefreshPivot = new Common.UI.MenuItem({
+                caption     : me.txtRefresh
+            });
+
             me.mnuGroupPivot = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
                 value       : 'grouping'
@@ -584,6 +588,7 @@ define([
                     me.pmiSortCells,
                     me.pmiFilterCells,
                     me.pmiReapply,
+                    me.mnuRefreshPivot,
                     me.mnuGroupPivot,
                     me.mnuUnGroupPivot,
                     {caption: '--'},
@@ -1319,7 +1324,8 @@ define([
         tipMarkersDash: 'Dash bullets',
         chartDataText: 'Select Chart Data',
         chartTypeText: 'Change Chart Type',
-        txtGetLink: 'Get link to this range'
+        txtGetLink: 'Get link to this range',
+        txtRefresh: 'Refresh'
 
     }, SSE.Views.DocumentHolder || {}));
 });
