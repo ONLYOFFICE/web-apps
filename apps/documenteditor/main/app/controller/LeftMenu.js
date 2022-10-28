@@ -218,7 +218,6 @@ define([
             this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
 
             if (this.mode.canUseThumbnails) {
-                this.leftMenu.btnThumbnails.show();
                 this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
             } else {
                 this.leftMenu.btnThumbnails.hide();
