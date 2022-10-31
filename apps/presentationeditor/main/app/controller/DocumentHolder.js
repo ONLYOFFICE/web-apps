@@ -641,7 +641,7 @@ define([
                     value && (locked = locked || value.get_Locked());
                 }
             }
-            in_equation ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
+            in_equation && me.mode.isEdit && !me._isDisabled ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
         },
 
         handleDocumentWheel: function(event){

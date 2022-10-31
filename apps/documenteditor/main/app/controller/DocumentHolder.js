@@ -614,9 +614,9 @@ define([
 
         onFocusObject: function(selectedElements) {
             var me = this,
-                currentMenu = me.documentHolder.currentMenu;
+                currentMenu = me.documentHolder.currentMenu,
+                docProtection = me.documentHolder._docProtection;
             if (currentMenu && currentMenu.isVisible() && currentMenu !== me.documentHolder.hdrMenu){
-                var docProtection = me.documentHolder._docProtection;
                 var obj = (me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) ?
                             me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                 if (obj) {
@@ -638,7 +638,7 @@ define([
                     value && (locked = locked || value.get_Locked());
                 }
             }
-            in_equation ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
+            in_equation && me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly) ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
         },
 
         handleDocumentWheel: function(event) {
