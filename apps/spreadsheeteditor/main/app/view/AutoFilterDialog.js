@@ -965,7 +965,7 @@ define([
                 height          : height || 277,
                 contentWidth    : (width - 50) || 400,
                 header          : false,
-                cls             : 'filter-dlg',
+                cls             : 'filter-dlg autofilter',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 modal           : false,
