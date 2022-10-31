@@ -179,8 +179,8 @@ define([
                     isN2 = n2!==undefined;
                 if (isN1 !== isN2) return (isN1) ? -1 : 1;
                 !isN1 && (n1 = item1.get('value').toLowerCase()) && (n2 = item2.get('value').toLowerCase());
-                if (n1==n2) return 0;
-                return (n2=='' || n1!=='' && n1<n2) ? -1 : 1;
+                if (n1===n2) return 0;
+                return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
             };
             this.cmbValue1.store.comparator = this.cmbValue2.store.comparator = comparator;
 
@@ -1328,8 +1328,8 @@ define([
                         isN2 = n2!==undefined;
                     if (isN1 !== isN2) return (isN1) ? -1 : 1;
                     !isN1 && (n1 = item1.get('cellvalue').toLowerCase()) && (n2 = item2.get('cellvalue').toLowerCase());
-                    if (n1==n2) return 0;
-                    return (n2=='' || n1!=='' && n1<n2) ? -1 : 1;
+                    if (n1===n2) return 0;
+                    return (n2==='' || n1!=='' && n1<n2) ? -1 : 1;
                 };
                 this.cellsList.on({
                     'item:change': this.onItemChanged.bind(this),
