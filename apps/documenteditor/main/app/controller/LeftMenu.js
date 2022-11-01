@@ -100,7 +100,8 @@ define([
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
                 },
                 'ViewTab': {
-                    'viewtab:navigation': _.bind(this.onShowHideNavigation, this)
+                    'viewtab:navigation': _.bind(this.onShowHideNavigation, this),
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 },
                 'SearchBar': {
                     'search:show': _.bind(this.onShowHideSearch, this)
@@ -217,7 +218,6 @@ define([
             this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
 
             if (this.mode.canUseThumbnails) {
-                this.leftMenu.btnThumbnails.show();
                 this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
             } else {
                 this.leftMenu.btnThumbnails.hide();
@@ -443,10 +443,6 @@ define([
 
         applySettings: function(menu) {
             var value;
-
-            value = Common.localStorage.getBool("de-settings-inputmode");
-            Common.Utils.InternalSettings.set("de-settings-inputmode", value);
-            this.api.SetTextBoxInputMode(value);
 
             var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
             /** coauthoring begin **/
@@ -835,6 +831,7 @@ define([
         onPluginOpen: function(panel, type, action) {
             if ( type == 'onboard' ) {
                 if ( action == 'open' ) {
+                    this.tryToShowLeftMenu();
                     this.leftMenu.close();
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
@@ -861,6 +858,7 @@ define([
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
                     Common.UI.Menu.Manager.hideAll();
+                    this.tryToShowLeftMenu();
                     this.leftMenu.showMenu('chat');
                 } else {
                     this.leftMenu.btnChat.toggle(false, true);
@@ -872,6 +870,7 @@ define([
         onShowHideNavigation: function(state) {
             if (state) {
                 Common.UI.Menu.Manager.hideAll();
+                this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('navigation');
             } else {
                 this.leftMenu.btnNavigation.toggle(false, true);
@@ -914,6 +913,24 @@ define([
                 this._state.docProtection = props;
                 this.updatePreviewMode();
             }
+        },
+
+        onLeftMenuHide: function (view, status) {
+            if (this.leftMenu) {
+                !status && this.leftMenu.close();
+                status ? this.leftMenu.show() : this.leftMenu.hide();
+                Common.localStorage.setBool('de-hidden-leftmenu', !status);
+
+                !view && this.leftMenu.fireEvent('view:hide', [this, !status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.leftMenu);
+        },
+
+        tryToShowLeftMenu: function() {
+            if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
+                this.onLeftMenuHide(null, true);
         },
 
         textNoTextFound         : 'Text not found',

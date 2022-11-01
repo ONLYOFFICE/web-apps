@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   presets: [
     '@babel/preset-react',
     ['@babel/preset-env', {
@@ -12,3 +12,5 @@ module.exports = {
     ['@babel/plugin-proposal-class-properties',{'loose':false}],
   ],
 };
+
+export default config;

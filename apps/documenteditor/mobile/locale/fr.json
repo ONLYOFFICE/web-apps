@@ -26,6 +26,7 @@
     "textContinuousPage": "Page continue",
     "textCurrentPosition": "Position actuelle",
     "textDisplay": "Afficher",
+    "textDone": "Terminé",
     "textEmptyImgUrl": "Spécifiez l'URL de l'image",
     "textEvenPage": "Page paire",
     "textFootnote": "Note de bas de page",
@@ -49,6 +50,8 @@
     "textPictureFromLibrary": "Image depuis la bibliothèque",
     "textPictureFromURL": "Image depuis URL",
     "textPosition": "Position",
+    "textRecommended": "Recommandés",
+    "textRequired": "Obligatoire",
     "textRightBottom": "À droite en bas",
     "textRightTop": "À droite en haut",
     "textRows": "Lignes",
@@ -61,10 +64,7 @@
     "textTableSize": "Taille du tableau",
     "textWithBlueLinks": "Avec les liens bleus",
     "textWithPageNumbers": "Avec les numéros de page",
-    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
-    "textDone": "Done",
-    "textRecommended": "Recommended",
-    "textRequired": "Required"
+    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -147,6 +147,7 @@
       "textReviewChange": "Réviser modifications",
       "textRight": "Aligner à droite",
       "textShape": "Forme",
+      "textSharingSettings": "Paramètres de partage",
       "textShd": "Couleur d'arrière-plan",
       "textSmallCaps": "Petites majuscules",
       "textSpacing": "Espacement",
@@ -163,8 +164,7 @@
       "textTryUndoRedo": "Les fonctions Annuler/Rétablir sont désactivées pour le mode de co-édition rapide.",
       "textUnderline": "Souligné",
       "textUsers": "Utilisateurs",
-      "textWidow": "Contrôle des veuves",
-      "textSharingSettings": "Sharing Settings"
+      "textWidow": "Contrôle des veuves"
     },
     "HighlightColorPalette": {
       "textNoFill": "Pas de remplissage"
@@ -184,6 +184,7 @@
     "menuDelete": "Supprimer",
     "menuDeleteTable": "Supprimer le tableau",
     "menuEdit": "Modifier",
+    "menuEditLink": "Modifier le lien",
     "menuJoinList": "Joindre à la liste précédente",
     "menuMerge": "Fusionner",
     "menuMore": "Plus",
@@ -204,8 +205,7 @@
     "textRefreshEntireTable": "Actualiser le tableau entier",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
     "textRows": "Lignes",
-    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertissement",
@@ -238,6 +238,7 @@
     "textCancel": "Annuler",
     "textCellMargins": "Marges de la cellule",
     "textCentered": "Centré",
+    "textChangeShape": "Changer la forme",
     "textChart": "Graphique",
     "textClassic": "Classique",
     "textClose": "Fermer",
@@ -246,7 +247,10 @@
     "textCreateTextStyle": "Créer un nouveau style de texte",
     "textCurrent": "Actuel",
     "textCustomColor": "Couleur personnalisée",
+    "textCustomStyle": "Style personnalisé",
     "textDecember": "décembre",
+    "textDeleteImage": "Supprimer l’image",
+    "textDeleteLink": "Supprimer le lien",
     "textDesign": "Design",
     "textDifferentFirstPage": "Première page différente",
     "textDifferentOddAndEvenPages": "Pages paires et impaires différentes",
@@ -319,6 +323,7 @@
     "textPictureFromLibrary": "Image depuis la bibliothèque",
     "textPictureFromURL": "Image depuis URL",
     "textPt": "pt",
+    "textRecommended": "Recommandés",
     "textRefresh": "Actualiser",
     "textRefreshEntireTable": "Actualiser le tableau entier",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
@@ -330,6 +335,7 @@
     "textRepeatAsHeaderRow": "Répéter la ligne d'en-tête",
     "textReplace": "Remplacer",
     "textReplaceImage": "Remplacer l’image",
+    "textRequired": "Obligatoire",
     "textResizeToFitContent": "Redimensionner pour adapter au contenu",
     "textRightAlign": "Aligner à droite",
     "textSa": "sam.",
@@ -359,6 +365,7 @@
     "textTableOfCont": "Table des matières",
     "textTableOptions": "Options du tableau",
     "textText": "Texte",
+    "textTextWrapping": "Habillage du texte",
     "textTh": "jeu.",
     "textThrough": "Au travers",
     "textTight": "Rapproché",
@@ -369,14 +376,7 @@
     "textType": "Type",
     "textWe": "mer.",
     "textWrap": "Renvoi à la ligne",
-    "textChangeShape": "Change Shape",
-    "textCustomStyle": "Custom Style",
-    "textDeleteImage": "Delete Image",
-    "textDeleteLink": "Delete Link",
-    "textRecommended": "Recommended",
-    "textRequired": "Required",
-    "textTextWrapping": "Text Wrapping",
-    "textWrappingStyle": "Wrapping Style"
+    "textWrappingStyle": "Style d'habillage"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -390,6 +390,7 @@
     "errorDataEncrypted": "Les modifications chiffrées ont été reçues, mais ne peuvent pas être déchiffrées.",
     "errorDataRange": "Plage de données incorrecte.",
     "errorDefaultMessage": "Code d'erreur: %1",
+    "errorDirectUrl": "Veuillez vérifier le lien vers le document.<br>Ce lien doit être un lien direct vers le fichier à télécharger.",
     "errorEditingDownloadas": "Une erreure s'est produite lors du travail avec le document.<br>Téléchargez le document pour enregistrer une copie locale de sauvegarde du fichier.",
     "errorEmptyTOC": "Commencez à créer une table des matières en appliquant un style de titres de la galerie Styles au texte sélectionné.",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
@@ -419,12 +420,12 @@
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
     "applyChangesTitleText": "Chargement des données",
+    "confirmMaxChangesSize": "La taille des actions dépasse la limitation fixée pour votre serveur.<br>Appuyez sur \"Annuler\" pour annuler votre dernière action ou sur \"Continuer\" pour maintenir l'action en local (vous devez télécharger le fichier ou copier son contenu pour vous assurer que rien n'est perdu).",
     "downloadMergeText": "Téléchargement en cours...",
     "downloadMergeTitle": "Téléchargement en cours",
     "downloadTextText": "Téléchargement du document...",
@@ -451,14 +452,13 @@
     "saveTitleText": "Enregistrement du document",
     "sendMergeText": "Envoie du résultat de la fusion...",
     "sendMergeTitle": "Envoie du résultat de la fusion",
+    "textContinue": "Continuer",
     "textLoadingDocument": "Chargement du document",
+    "textUndo": "Annuler",
     "txtEditingMode": "Réglage mode d'édition...",
     "uploadImageTextText": "Chargement d'une image en cours...",
     "uploadImageTitleText": "Chargement d'une image",
-    "waitText": "Veuillez patienter...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "waitText": "Veuillez patienter..."
   },
   "Main": {
     "criticalErrorTitle": "Erreur",

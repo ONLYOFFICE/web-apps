@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import {observer, inject} from "mobx-react";
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
-
-import {LocalStorage} from '../../../../../common/mobile/utils/LocalStorage';
-
+import {LocalStorage} from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import {AddFunction} from '../../view/add/AddFunction';
 
 class _FunctionGroups extends Component {

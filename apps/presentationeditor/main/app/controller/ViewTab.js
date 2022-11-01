@@ -127,6 +127,11 @@ define([
                     'gridlines:spacing': _.bind(this.onGridlinesSpacing, this),
                     'gridlines:custom': _.bind(this.onGridlinesCustom, this),
                     'rulers:change': _.bind(this.onChangeRulers, this)
+                },
+                'LeftMenu': {
+                    'view:hide': _.bind(function (leftmenu, state) {
+                        this.view.chLeftMenu.setValue(!state, true);
+                    }, this)
                 }
             });
         },

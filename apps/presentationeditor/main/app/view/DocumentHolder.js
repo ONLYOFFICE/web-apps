@@ -1795,6 +1795,14 @@ define([
                 })
             });
 
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
+            });
+
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             /** coauthoring begin **/
             me.menuAddCommentPara = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-comments',
@@ -2253,6 +2261,7 @@ define([
                     me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
+                
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuCommentSeparatorImg.setVisible(me.menuAddCommentImg.isVisible());
@@ -2276,6 +2285,7 @@ define([
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
+                    me.menuSaveAsPicture.setDisabled(disabled);
                     me.menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
@@ -2296,6 +2306,8 @@ define([
                     me.menuShapeAdvanced
                     ,me.menuChartEdit
                     ,me.menuChartAdvanced
+                    ,menuSaveAsPictureSeparator
+                    ,me.menuSaveAsPicture
                 /** coauthoring begin **/
                     ,menuCommentSeparatorImg,
                     me.menuAddCommentImg,
@@ -2411,6 +2423,7 @@ define([
         txtSlide                : 'Slide',
         cellAlignText           : 'Cell Vertical Alignment',
         advancedShapeText       : 'Shape Advanced Settings',
+        textSaveAsPicture       : 'Save as picture',
         /** coauthoring begin **/
         addCommentText          : 'Add Comment',
         /** coauthoring end **/

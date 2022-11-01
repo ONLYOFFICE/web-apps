@@ -90,6 +90,14 @@ define([
                         '<span class="btn-slot text" id="slot-chk-statusbar"></span>' +
                     '</div>' +
                 '</div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-leftmenu"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
+                    '</div>' +
+                '</div>' +
             '</section>';
         return {
             options: {},
@@ -158,6 +166,12 @@ define([
                 }, me));
                 me.btnGridlines.menu.on('show:after', _.bind(function(btn, state) {
                     me.fireEvent('gridlines:aftershow');
+                }, me));
+                me.chLeftMenu.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('leftmenu:hide', [me.chLeftMenu, state === 'checked']);
+                }, me));
+                me.chRightMenu.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
                 }, me));
             },
 
@@ -305,6 +319,24 @@ define([
                 });
                 this.lockedControls.push(this.btnGridlines);
 
+                this.chRightMenu = new Common.UI.CheckBox({
+                    lock: [_set.disableOnStart],
+                    labelText: this.textRightMenu,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chRightMenu);
+
+                this.chLeftMenu = new Common.UI.CheckBox({
+                    lock: [_set.disableOnStart],
+                    labelText: this.textLeftMenu,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chLeftMenu);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -329,6 +361,8 @@ define([
                 this.chNotes.render($host.find('#slot-chk-notes'));
                 this.btnGuides.render($host.find('#slot-btn-guides'));
                 this.btnGridlines.render($host.find('#slot-btn-gridlines'));
+                this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
+                this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 return this.$el;
             },
 
@@ -371,18 +405,33 @@ define([
                         me.btnInterfaceTheme.$el.closest('.group').remove();
                         me.$el.find('.separator-theme').remove();
                     }
-                    if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
-                        me.chStatusbar.$el.remove();
 
-                        if (!config.isEdit) {
-                            var slotChkNotes = me.chNotes.$el,
-                                groupRulers = slotChkNotes.closest('.group'),
-                                groupToolbar = me.chToolbar.$el.closest('.group');
-                            groupToolbar.find('.elset')[1].append(slotChkNotes[0]);
-                            groupRulers.remove();
-                            me.$el.find('.separator-rulers').remove();
-                        }
-                    } else if (!config.isEdit) {
+                    var emptyGroup = [];
+                    if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                        emptyGroup.push(me.chStatusbar.$el.closest('.elset'));
+                        me.chStatusbar.$el.remove();
+                    }
+
+                    if (config.canBrandingExt && config.customization && config.customization.leftMenu === false || !Common.UI.LayoutManager.isElementVisible('leftMenu')) {
+                        emptyGroup.push(me.chLeftMenu.$el.closest('.elset'));
+                        me.chLeftMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.chLeftMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.chLeftMenu.$el[0]);
+                    }
+
+                    if (!config.isEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
+                        emptyGroup.push(me.chRightMenu.$el.closest('.elset'));
+                        me.chRightMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.chRightMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.chRightMenu.$el[0]);
+                    }
+                    if (emptyGroup.length>1) { // remove empty group
+                        emptyGroup[emptyGroup.length-1].closest('.group').remove();
+                    }
+
+                    if (!config.isEdit) {
                         me.chRulers.hide();
                     }
                     if (!config.isEdit) {
@@ -417,6 +466,14 @@ define([
                             }, me));
                         }
                     }
+
+                    var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+                    value = (value!==undefined) ? !value : false;
+                    me.chLeftMenu.setValue(!Common.localStorage.getBool("pe-hidden-leftmenu", value));
+
+                    value = Common.UI.LayoutManager.getInitValue('rightMenu');
+                    value = (value!==undefined) ? !value : false;
+                    me.chRightMenu.setValue(!Common.localStorage.getBool("pe-hidden-rightmenu", value));
 
                     me.setEvents();
                 });
@@ -472,7 +529,9 @@ define([
             textShowGridlines: 'Show Gridlines',
             textSnapObjects: 'Snap Object to Grid',
             textCm: 'cm',
-            textCustom: 'Custom'
+            textCustom: 'Custom',
+            textLeftMenu: 'Left panel',
+            textRightMenu: 'Right panel'
 
         }
     }()), PE.Views.ViewTab || {}));

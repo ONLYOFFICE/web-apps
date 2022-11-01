@@ -31,9 +31,9 @@
       "textOk": "Լավ",
       "textReopen": "Նորից բացել",
       "textResolve": "Լուծել",
+      "textSharingSettings": "Համօգտագործման կարգավորումներ",
       "textTryUndoRedo": "Հետարկումն ու վերարկումն գործառույթներն անջատված են արագ համատեղ խմբագրման ռեժիմի համար:",
-      "textUsers": "Օգտատերեր",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Օգտատերեր"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Հարմարեցված գույներ",
@@ -50,6 +50,7 @@
     "menuCell": "Վանդակ",
     "menuDelete": "Ջնջել",
     "menuEdit": "Խմբագրել",
+    "menuEditLink": "Խմբագրել հղումը",
     "menuFreezePanes": "Փեղկերի սառեցում",
     "menuHide": "Թաքցնել",
     "menuMerge": "Միաձուլել",
@@ -66,8 +67,7 @@
     "textDoNotShowAgain": "Այլևս ցույց չտալ",
     "textOk": "Լավ",
     "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-    "warnMergeLostData": "Գործողությունը կարող է ոչնչացնել ընտրված վանդակների տվյալները։<br>Շարունակե՞լ։",
-    "menuEditLink": "Edit Link"
+    "warnMergeLostData": "Գործողությունը կարող է ոչնչացնել ընտրված վանդակների տվյալները։<br>Շարունակե՞լ։"
   },
   "Controller": {
     "Main": {
@@ -158,17 +158,17 @@
       "textReplaceSuccess": "Որոնողական աշխատանքները կատարվել են։ Փոխարինված դեպքերը՝ {0}",
       "textRequestMacros": "Մակրոն հարցում է անում URL-ին: Ցանկանու՞մ եք թույլ տալ հարցումը %1-ին:",
       "textYes": "Այո",
+      "titleLicenseExp": "Թույլատրագրի ժամկետը սպառվել է",
       "titleServerVersion": "Խմբագրիչը արդիացվել է",
       "titleUpdateVersion": "Տարբերակը փոխվել է",
       "warnLicenseExceeded": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
+      "warnLicenseExp": "Ձեր լիցենզիայի ժամկետը լրացել է:Խնդրում ենք թարմացնել Ձեր լիցենզիան և թարմացնել էջը:",
       "warnLicenseLimitedNoAccess": "Լիցենզիայի ժամկետը լրացել է․Փաստաթղթերի խմբագրման գործառույթից օգտվելու հնարավորություն չունեք:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
       "warnLicenseLimitedRenewed": "Լիցենզիան պետք է երկարաձգվի։Փաստաթղթերի խմբագրման գործառույթի հասանելիությունը սահմանափակ է:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ՝ լիարժեք մուտք ստանալու համար․",
       "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
       "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
       "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:",
-      "titleLicenseExp": "License expired",
-      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
+      "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
     }
   },
   "Error": {
@@ -196,6 +196,7 @@
     "errorDataRange": "Տվյալների սխալ ընդգրկույթ։",
     "errorDataValidate": "Ձեր մուտքագրած արժեքը վավեր չէ:Օգտագործողը ունի սահմանափակ արժեքներ, որոնք կարող են մուտքագրվել այս վանդակում:",
     "errorDefaultMessage": "Սխալի կոդ՝ %1",
+    "errorDirectUrl": "Խնդրում ենք ստուգել փաստաթղթի հղումը:<br> Այս հղումը պետք է լինի ուղիղ հղում դեպի ներբեռնելու ֆայլը:",
     "errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում սխալ է տեղի ունեցել:<br>Օգտագործեք «Ներբեռնում» տարբերակը՝ ֆայլի կրկնօրինակը տեղում պահելու համար:",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileRequest": "Արտաքին սխալ։<br>ֆայլի հարցում:Խնդրում ենք կապվել աջակցության հետ:",
@@ -242,8 +243,7 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
@@ -274,10 +274,12 @@
     "saveTextText": "Փաստաթղթի պահպանում...",
     "saveTitleText": "Փաստաթղթի պահպանում",
     "textCancel": "Չեղարկել",
+    "textContinue": "Շարունակել",
     "textErrorWrongPassword": "Ձեր տրամադրած գաղտնաբառը ճիշտ չէ:",
     "textLoadingDocument": "Փաստաթղթի բեռնում",
     "textNo": "Ոչ",
     "textOk": "Լավ",
+    "textUndo": "Հետարկել",
     "textUnlockRange": "Ապակողպել շարանը",
     "textUnlockRangeWarning": "Շրջանակը, որը փորձում եք փոխել, պաշտպանված է գաղտնաբառով:",
     "textYes": "Այո",
@@ -285,9 +287,7 @@
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
     "waitText": "Խնդրում ենք սպասել...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Զգուշացում",
@@ -343,6 +343,7 @@
       "textComment": "Մեկնաբանություն",
       "textDataTableHint": "Վերադարձնում էաղյուսակի կամ աղյուսակի հատկորոշված սյունակների տվյալների բջիջները",
       "textDisplay": "Ցուցադրել",
+      "textDone": "Պատրաստ է",
       "textEmptyImgUrl": "Դուք պետք է նշեք պատկերի URL-ը:",
       "textExternalLink": "Արտաքին հղում",
       "textFilter": "Զտիչ",
@@ -363,6 +364,7 @@
       "textPictureFromLibrary": "Նկար գրադարանից",
       "textPictureFromURL": "Նկար URL-ից",
       "textRange": "Ընդգրկույթ",
+      "textRecommended": "Առաջարկվում է",
       "textRequired": "Պարտադիր",
       "textScreenTip": "Հուշակի գրվածք",
       "textSelectedRange": "Ընտրված ընդգրկույթ",
@@ -378,9 +380,7 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "txtYes": "Այո"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -398,6 +398,7 @@
       "textAllBorders": "Բոլոր եզրագծերը",
       "textAngleClockwise": "Ժամասլաքի ուղղությամբ",
       "textAngleCounterclockwise": "Ժամասլաքի հակառակ ուղղությամբ",
+      "textArrange": "Դասավորել",
       "textAuto": "Ինքնաշխատ",
       "textAutomatic": "Ինքնաշխատ",
       "textAxisCrosses": "Առանցքի հետ հատումներ",
@@ -412,6 +413,7 @@
       "textBottom": "Ներքև",
       "textBottomBorder": "Ստորին եզրագիծ",
       "textBringToForeground": "Բերել առջևք ",
+      "textCancel": "Չեղարկել",
       "textCell": "Վանդակ",
       "textCellStyle": "Վանդակի ոճ",
       "textCenter": "Կենտրոն",
@@ -433,6 +435,7 @@
       "textDisplay": "Ցուցադրել",
       "textDisplayUnits": "Ցուցադրման միավորներ",
       "textDollar": "Դոլար",
+      "textDone": "Պատրաստ է",
       "textEditLink": "Խմբագրել հղումը",
       "textEffects": "Էֆեկտներ",
       "textEmptyImgUrl": "Դուք պետք է նշեք պատկերի URL-ը:",
@@ -513,6 +516,7 @@
       "textPound": "Ֆունտ",
       "textPt": "կտ",
       "textRange": "Ընդգրկույթ",
+      "textRecommended": "Առաջարկվում է",
       "textRemoveChart": "Հեռացնել գծապատկերը",
       "textRemoveShape": "Հեռացնել պատկերը",
       "textReplace": "Փոխարինել",
@@ -560,13 +564,9 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
       "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textDone": "Done",
-      "textRecommended": "Recommended"
+      "textDeleteLink": "Delete Link"
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",

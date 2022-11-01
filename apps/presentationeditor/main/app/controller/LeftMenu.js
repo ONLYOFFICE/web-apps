@@ -100,6 +100,9 @@ define([
                 },
                 'SearchBar': {
                     'search:show': _.bind(this.onShowHideSearch, this)
+                },
+                'ViewTab': {
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 }
             });
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
@@ -112,7 +115,6 @@ define([
         onLaunch: function() {
             this.leftMenu = this.createView('LeftMenu').render();
             this.leftMenu.btnThumbs.on('toggle', _.bind(this.onShowTumbnails, this));
-            this.isThumbsShown = true;
             this.leftMenu.btnSearchBar.on('toggle', _.bind(this.onMenuSearchBar, this));
 
             Common.util.Shortcuts.delegateShortcuts({
@@ -162,7 +164,11 @@ define([
             this.leftMenu.getMenu('file').setApi(api);
             if (this.mode.canUseHistory)
                 this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
-            this.leftMenu.btnThumbs.toggle(true);
+
+            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+            value = (value!==undefined) ? !value : false;
+            this.isThumbsShown = !Common.localStorage.getBool("pe-hidden-leftmenu", value);
+            this.leftMenu.btnThumbs.toggle(this.isThumbsShown);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
@@ -333,10 +339,6 @@ define([
         },
 
         applySettings: function(menu) {
-            var value = Common.localStorage.getBool("pe-settings-inputmode");
-            Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
-            this.api.SetTextBoxInputMode(value);
-
             var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
@@ -352,7 +354,7 @@ define([
             }
             /** coauthoring end **/
 
-            value = Common.localStorage.getBool("pe-settings-cachemode", true);
+            var value = Common.localStorage.getBool("pe-settings-cachemode", true);
             Common.Utils.InternalSettings.set("pe-settings-cachemode", value);
             this.api.asc_setDefaultBlitMode(value);
 
@@ -669,6 +671,7 @@ define([
         onPluginOpen: function(panel, type, action) {
             if (type == 'onboard') {
                 if (action == 'open') {
+                    this.tryToShowLeftMenu();
                     this.leftMenu.close();
                     this.leftMenu.btnThumbs.toggle(false, false);
                     this.leftMenu.panelPlugins.show();
@@ -702,6 +705,7 @@ define([
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
                     Common.UI.Menu.Manager.hideAll();
+                    this.tryToShowLeftMenu();
                     this.leftMenu.showMenu('chat');
                 } else {
                     this.leftMenu.btnChat.toggle(false, true);
@@ -770,7 +774,30 @@ define([
         isCommentsVisible: function() {
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
         },
-        
+
+        onLeftMenuHide: function (view, status) {
+            if (this.leftMenu) {
+                if (status) {
+                    this.leftMenu.show();
+                } else {
+                    this.menuExpand(this, 'thumbs', false);
+                    this.leftMenu.close();
+                    this.leftMenu.hide();
+                }
+                Common.localStorage.setBool('pe-hidden-leftmenu', !status);
+
+                !view && this.leftMenu.fireEvent('view:hide', [this, !status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.leftMenu);
+        },
+
+        tryToShowLeftMenu: function() {
+            if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
+                this.onLeftMenuHide(null, true);
+        },
+
         textNoTextFound         : 'Text not found',
         newDocumentTitle        : 'Unnamed document',
         requestEditRightsText   : 'Requesting editing rights...',

@@ -370,6 +370,7 @@ define([
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
+            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
@@ -1272,7 +1273,7 @@ define([
         },
 
         onChangeCropState: function(state) {
-            this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
+            this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
@@ -1350,6 +1351,12 @@ define([
             Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
         },
 
+
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
+            }
+        },
 
         /** coauthoring begin **/
         addComment: function(item, e, eOpt){
@@ -2164,6 +2171,16 @@ define([
                     tip.isHidden = true;
                 }
             } else {
+                if (_.isUndefined(this._XY)) {
+                    this._XY = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    ];
+                    this._Width       = this.documentHolder.cmpEl.width();
+                    this._Height      = this.documentHolder.cmpEl.height();
+                    this._BodyWidth   = $('body').width();
+                }
+
                 if (!tip.parentEl) {
                     tip.parentEl = $('<div id="tip-container-guide" style="position: absolute; z-index: 10000;"></div>');
                     this.documentHolder.cmpEl.append(tip.parentEl);

@@ -45,7 +45,8 @@ define([
         version: '{{PRODUCT_VERSION}}',
         eventloading: true,
         titlebuttons: true,
-        uithemes: true
+        uithemes: true,
+        btnhome: true,
     };
 
     var native = window.desktop || window.AscDesktopEditor;
@@ -93,8 +94,9 @@ define([
                     }
 
                     if ( obj.singlewindow !== undefined ) {
-                        $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
+                        // $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;
+                        titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -245,6 +247,40 @@ define([
                         titlebuttons = {};
                         if ( mode.isEdit ) {
                             var header = webapp.getController('Viewport').getView('Common.Views.Header');
+
+                            {
+                                header.btnHome = (new Common.UI.Button({
+                                    cls: 'btn-header',
+                                    iconCls: 'toolbar__icon icon--inverse btn-home',
+                                    visible: false,
+                                    hint: 'Show Main window',
+                                    dataHint:'0',
+                                    dataHintDirection: 'right',
+                                    dataHintOffset: '10, -18',
+                                    dataHintTitle: 'K'
+                                })).render($('#box-document-title #slot-btn-dt-home'));
+                                titlebuttons['home'] = {btn: header.btnHome};
+
+                                header.btnHome.on('click', event => {
+                                    native.execCommand('title:button', JSON.stringify({click: "home"}));
+                                });
+
+                                $('#id-box-doc-name').on({
+                                    'dblclick': e => {
+                                        native.execCommand('title:dblclick', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mousedown': e => {
+                                        native.execCommand('title:mousedown', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mousemove': e => {
+                                        native.execCommand('title:mousemove', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mouseup': e => {
+                                        native.execCommand('title:mouseup', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    }
+                                });
+                            }
+
                             if (!!header.btnSave) {
                                 titlebuttons['save'] = {btn: header.btnSave};
 
@@ -278,7 +314,8 @@ define([
                         }
 
                         if ( native.features.singlewindow !== undefined ) {
-                            $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
+                            // $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
+                            !!titlebuttons.home && titlebuttons.home.btn.setVisible(native.features.singlewindow);
                         }
                     });
 

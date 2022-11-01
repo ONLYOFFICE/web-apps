@@ -2814,7 +2814,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
-            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0) return;
+            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0 || !info) return;
             if ( this.toolbar.mode.isEditDiagram )
                 return this.onApiSelectionChanged_DiagramEditor(info); else
             if ( this.toolbar.mode.isEditMailMerge )
@@ -2878,6 +2878,12 @@ define([
 
             toolbar.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects']);
             toolbar.lockToolbar(Common.enumLock['FormatCells'], !!this._state.wsProps['FormatCells']);
+
+            // info.asc_getComments()===null - has comment, but no permissions to view it
+            toolbar.lockToolbar(Common.enumLock.commentLock, 
+                (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) 
+                || selectionType != Asc.c_oAscSelectionType.RangeCells,
+                { array: this.btnsComment });
 
             if (editOptionsDisabled) return;
 
@@ -3234,26 +3240,23 @@ define([
             }
             toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnDeleteCell]});
 
-            // info.asc_getComments()===null - has comment, but no permissions to view it
-            toolbar.lockToolbar(Common.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
-                                                          this.toolbar.mode.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
-                                { array: this.btnsComment });
 
             toolbar.lockToolbar(Common.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
         },
 
         onApiSelectionChangedRestricted: function(info) {
-            if (!this.appConfig.isRestrictedEdit) return;
+            if (!this.appConfig.isRestrictedEdit || !info) return;
 
             var selectionType = info.asc_getSelectionType();
-            this.toolbar.lockToolbar(Common.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked()) ||
-                                    this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
-                                    { array: this.btnsComment });
+            this.toolbar.lockToolbar(Common.enumLock.commentLock, 
+                (selectionType == Asc.c_oAscSelectionType.RangeCells) && (!info.asc_getComments() || info.asc_getComments().length>0 || info.asc_getLocked())
+                || selectionType != Asc.c_oAscSelectionType.RangeCells,
+                { array: this.btnsComment });
             this.toolbar.lockToolbar(Common.enumLock['Objects'], !!this._state.wsProps['Objects'], { array: this.btnsComment });
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
@@ -3323,7 +3326,7 @@ define([
         },
 
         onApiSelectionChanged_MailMergeEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
@@ -3380,7 +3383,7 @@ define([
         },
 
         onApiSelectionChanged_OleEditor: function(info) {
-            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
+            if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection || !info) return;
 
             var me = this;
             var _disableEditOptions = function(seltype, coauth_disable) {
