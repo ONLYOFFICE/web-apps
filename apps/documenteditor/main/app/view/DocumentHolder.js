@@ -732,9 +732,9 @@ define([
                     me.menuImgPrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    me.menuImgAccept.setVisible(!lockreview);
-                    me.menuImgReject.setVisible(!lockreview);
-                    menuImgReviewSeparator.setVisible(!lockreview);
+                    me.menuImgAccept.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    me.menuImgReject.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    menuImgReviewSeparator.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
 
                     var signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = !!signGuid;
@@ -1302,9 +1302,9 @@ define([
                     me.menuTablePrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    me.menuTableAccept.setVisible(!lockreview);
-                    me.menuTableReject.setVisible(!lockreview);
-                    menuTableReviewSeparator.setVisible(!lockreview);
+                    me.menuTableAccept.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    me.menuTableReject.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    menuTableReviewSeparator.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
 
                     // bullets & numbering
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -1914,9 +1914,9 @@ define([
                     me.menuParaPrint.setDisabled(!cancopy);
 
                     var lockreview = Common.Utils.InternalSettings.get("de-accept-reject-lock");
-                    me.menuParaAccept.setVisible(!lockreview);
-                    me.menuParaReject.setVisible(!lockreview);
-                    menuParaReviewSeparator.setVisible(!lockreview);
+                    me.menuParaAccept.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    me.menuParaReject.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
+                    menuParaReviewSeparator.setVisible(me.mode.canReview && !me.mode.isReviewOnly && !lockreview);
 
                     // spellCheck
                     var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
