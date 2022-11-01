@@ -268,6 +268,7 @@ define([
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
+                view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -2283,6 +2284,14 @@ define([
                     eqlen = this.addEquationMenu(4);
                 } else
                     this.clearEquationMenu(4);
+
+                documentHolder.menuParagraphEquation.setVisible(isEquation);
+                documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
+                if (isEquation) {
+                    var eq = this.api.asc_GetMathInputType();
+                    documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
 
@@ -4311,8 +4320,8 @@ define([
                     var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
                     eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
                 }
-                // eqStr += '<div class="separator"></div>';
-                // eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<div class="separator"></div>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -4349,7 +4358,7 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            // restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
+                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
@@ -4361,7 +4370,6 @@ define([
                     me.equationBtns.push(btn);
                 }
 
-                /*
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
@@ -4374,13 +4382,11 @@ define([
                     var menu = me.equationSettingsBtn.menu;
                     menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                    menu.items[8].setChecked(me.api.asc_IsInlineMath());
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
                     menu.options.initMenu();
                 });
-                */
             }
 
             if (!me.tooltips.coauth.XY)
@@ -4389,23 +4395,32 @@ define([
             var showPoint = [(me.tooltips.coauth.apiWidth - eqContainer.outerWidth())/2, 0];
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
             if (eqContainer.is(':visible')) {
-                // if (me.equationSettingsBtn.menu.isVisible()) {
-                //     me.equationSettingsBtn.menu.options.initMenu();
-                //     me.equationSettingsBtn.menu.alignPosition();
-                // }
+                if (me.equationSettingsBtn.menu.isVisible()) {
+                    me.equationSettingsBtn.menu.options.initMenu();
+                    me.equationSettingsBtn.menu.alignPosition();
+                }
             } else {
                 eqContainer.show();
             }
             me.equationBtns.forEach(function(item){
                 item && item.setDisabled(!!disabled);
             });
-            // me.equationSettingsBtn.setDisabled(!!disabled);
+            me.equationSettingsBtn.setDisabled(!!disabled);
         },
 
         onEquationPanelHide: function() {
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
+            }
+        },
+
+        convertEquation: function(menu, item, e) {
+            if (this.api) {
+                if (item.options.type=='input')
+                    this.api.asc_SetMathInputType(item.value);
+                else if (item.options.type=='view')
+                    this.api.asc_ConvertMathView(item.value.linear, item.value.all);
             }
         },
 
