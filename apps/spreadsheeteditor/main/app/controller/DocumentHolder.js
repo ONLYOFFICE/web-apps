@@ -384,6 +384,8 @@ define([
                     this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
                     Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
                 }
+                this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
+                this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -1989,20 +1991,25 @@ define([
 
             if (!this.mouse.isLeftButtonDown) return;
 
-            var selectedObjects = this.api.asc_getGraphicObjectProps(),
-                i = -1,
-                in_equation = false,
-                locked = false;
-            while (++i < selectedObjects.length) {
-                var type = selectedObjects[i].asc_getObjectType();
-                if (type === Asc.c_oAscTypeSelectElement.Math) {
-                    in_equation = true;
-                } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
-                    var value = selectedObjects[i].asc_getObjectValue();
-                    value && (locked = locked || value.asc_getLocked());
+            if (this.permissions && this.permissions.isEdit) {
+                var selectedObjects = this.api.asc_getGraphicObjectProps(),
+                    i = -1,
+                    in_equation = false,
+                    locked = false;
+                while (++i < selectedObjects.length) {
+                    var type = selectedObjects[i].asc_getObjectType();
+                    if (type === Asc.c_oAscTypeSelectElement.Math) {
+                        in_equation = true;
+                    } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                        var value = selectedObjects[i].asc_getObjectValue();
+                        value && (locked = locked || value.asc_getLocked());
+                    }
+                }
+                if (in_equation) {
+                    this._state.equationLocked = locked;
+                    this.disableEquationBar();
                 }
             }
-            in_equation && this.permissions.isEdit && !this._isDisabled ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
         },
 
         fillMenuProps: function(cellinfo, showMenu, event){
@@ -2448,6 +2455,7 @@ define([
                 documentHolder.menuParagraphVAlign.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
+                documentHolder.menuParagraphEquation.setVisible(false);
                 documentHolder.textInShapeMenu.items[9].setVisible(false);
                 documentHolder.menuParagraphBullets.setVisible(false);
                 documentHolder.textInShapeMenu.items[3].setVisible(false);
@@ -4303,7 +4311,11 @@ define([
             }
         },
 
-        onEquationPanelShow: function(disabled) {
+        onShowMathTrack: function(bounds) {
+            if (bounds[3] < 0) {
+                this.onHideMathTrack();
+                return;
+            }
             var me = this,
                 documentHolder = me.documentHolder,
                 eqContainer = documentHolder.cmpEl.find('#equation-container');
@@ -4392,8 +4404,12 @@ define([
             if (!me.tooltips.coauth.XY)
                 me.onDocumentResize();
 
-            var showPoint = [(me.tooltips.coauth.apiWidth - eqContainer.outerWidth())/2, 0];
-            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+            var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            if (showPoint[1]<0) {
+                showPoint[1] = bounds[3] + 10;
+            }
+            eqContainer.css({left: showPoint[0], top : Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]))});
+            // menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
             if (eqContainer.is(':visible')) {
                 if (me.equationSettingsBtn.menu.isVisible()) {
                     me.equationSettingsBtn.menu.options.initMenu();
@@ -4402,16 +4418,25 @@ define([
             } else {
                 eqContainer.show();
             }
-            me.equationBtns.forEach(function(item){
-                item && item.setDisabled(!!disabled);
-            });
-            me.equationSettingsBtn.setDisabled(!!disabled);
+            me.disableEquationBar();
         },
 
-        onEquationPanelHide: function() {
+        onHideMathTrack: function() {
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
+            }
+        },
+
+        disableEquationBar: function() {
+            var eqContainer = this.documentHolder.cmpEl.find('#equation-container'),
+                disabled = this._isDisabled || this._state.equationLocked;
+
+            if (eqContainer.length>0 && eqContainer.is(':visible')) {
+                this.equationBtns.forEach(function(item){
+                    item && item.setDisabled(!!disabled);
+                });
+                this.equationSettingsBtn.setDisabled(!!disabled);
             }
         },
 
@@ -4447,6 +4472,7 @@ define([
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
+            this.disableEquationBar();
         },
 
         guestText               : 'Guest',

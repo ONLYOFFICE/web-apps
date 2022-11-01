@@ -221,6 +221,8 @@ define([
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
                     me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
+                    me.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(me.onShowMathTrack, me));
+                    me.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(me.onHideMathTrack, me));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -628,22 +630,28 @@ define([
                     }
                 }
             }
-            var i = -1,
-                in_equation = false,
-                locked = false;
-            while (++i < selectedElements.length) {
-                var type = selectedElements[i].get_ObjectType();
-                if (type === Asc.c_oAscTypeSelectElement.Math) {
-                    in_equation = true;
-                } else if (type === Asc.c_oAscTypeSelectElement.Slide) {
-                    var value = selectedElements[i].get_ObjectValue();
-                    value && (locked = locked || value.get_LockDelete());
-                } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
-                    var value = selectedElements[i].get_ObjectValue();
-                    value && (locked = locked || value.get_Locked());
+
+            if (this.mode && this.mode.isEdit) {
+                var i = -1,
+                    in_equation = false,
+                    locked = false;
+                while (++i < selectedElements.length) {
+                    var type = selectedElements[i].get_ObjectType();
+                    if (type === Asc.c_oAscTypeSelectElement.Math) {
+                        in_equation = true;
+                    } else if (type === Asc.c_oAscTypeSelectElement.Slide) {
+                        var value = selectedElements[i].get_ObjectValue();
+                        value && (locked = locked || value.get_LockDelete());
+                    } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                        var value = selectedElements[i].get_ObjectValue();
+                        value && (locked = locked || value.get_Locked());
+                    }
+                }
+                if (in_equation) {
+                    this._state.equationLocked = locked;
+                    this.disableEquationBar();
                 }
             }
-            in_equation && me.mode.isEdit && !me._isDisabled ? this.onEquationPanelShow(locked) : this.onEquationPanelHide();
         },
 
         handleDocumentWheel: function(event){
@@ -2239,7 +2247,11 @@ define([
             }
         },
 
-        onEquationPanelShow: function(disabled) {
+        onShowMathTrack: function(bounds) {
+            if (bounds[3] < 0) {
+                this.onHideMathTrack();
+                return;
+            }
             var me = this,
                 documentHolder = me.documentHolder,
                 eqContainer = documentHolder.cmpEl.find('#equation-container');
@@ -2294,7 +2306,7 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            // restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
+                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                         '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
@@ -2325,8 +2337,12 @@ define([
                 });
             }
 
-            var showPoint = [(me._Width - eqContainer.outerWidth())/2, 0];
-            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+            var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            if (showPoint[1]<0) {
+                showPoint[1] = bounds[3] + 10;
+            }
+            eqContainer.css({left: showPoint[0], top : Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]))});
+            // menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
             if (eqContainer.is(':visible')) {
                 if (me.equationSettingsBtn.menu.isVisible()) {
                     me.equationSettingsBtn.menu.options.initMenu();
@@ -2335,16 +2351,25 @@ define([
             } else {
                 eqContainer.show();
             }
-            me.equationBtns.forEach(function(item){
-                item && item.setDisabled(!!disabled);
-            });
-            me.equationSettingsBtn.setDisabled(!!disabled);
+            me.disableEquationBar();
         },
 
-        onEquationPanelHide: function() {
+        onHideMathTrack: function() {
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
+            }
+        },
+
+        disableEquationBar: function() {
+            var eqContainer = this.documentHolder.cmpEl.find('#equation-container'),
+                disabled = this._isDisabled || this._state.equationLocked;
+
+            if (eqContainer.length>0 && eqContainer.is(':visible')) {
+                this.equationBtns.forEach(function(item){
+                    item && item.setDisabled(!!disabled);
+                });
+                this.equationSettingsBtn.setDisabled(!!disabled);
             }
         },
 
@@ -2360,6 +2385,7 @@ define([
         SetDisabled: function(state) {
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state);
+            this.disableEquationBar();
         },
 
         editComplete: function() {
