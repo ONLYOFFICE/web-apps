@@ -428,6 +428,8 @@ define([
             view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
             view.mnuGridlines.menu.on('item:click', _.bind(me.onGridlinesClick, me));
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
+            view.menuTableEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
         },
 
         getView: function (name) {
@@ -2254,8 +2256,8 @@ define([
                     var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
                     eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
                 }
-                // eqStr += '<div class="separator"></div>';
-                // eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<div class="separator"></div>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -2304,7 +2306,6 @@ define([
                     me.equationBtns.push(btn);
                 }
 
-                /*
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
@@ -2317,35 +2318,42 @@ define([
                     var menu = me.equationSettingsBtn.menu;
                     menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
-                    menu.items[8].setChecked(me.api.asc_IsInlineMath());
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
                     menu.options.initMenu();
                 });
-                */
             }
 
             var showPoint = [(me._Width - eqContainer.outerWidth())/2, 0];
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
             if (eqContainer.is(':visible')) {
-                // if (me.equationSettingsBtn.menu.isVisible()) {
-                //     me.equationSettingsBtn.menu.options.initMenu();
-                //     me.equationSettingsBtn.menu.alignPosition();
-                // }
+                if (me.equationSettingsBtn.menu.isVisible()) {
+                    me.equationSettingsBtn.menu.options.initMenu();
+                    me.equationSettingsBtn.menu.alignPosition();
+                }
             } else {
                 eqContainer.show();
             }
             me.equationBtns.forEach(function(item){
                 item && item.setDisabled(!!disabled);
             });
-            // me.equationSettingsBtn.setDisabled(!!disabled);
+            me.equationSettingsBtn.setDisabled(!!disabled);
         },
 
         onEquationPanelHide: function() {
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
+            }
+        },
+
+        convertEquation: function(menu, item, e) {
+            if (this.api) {
+                if (item.options.type=='input')
+                    this.api.asc_SetMathInputType(item.value);
+                else if (item.options.type=='view')
+                    this.api.asc_ConvertMathView(item.value.linear, item.value.all);
             }
         },
 
