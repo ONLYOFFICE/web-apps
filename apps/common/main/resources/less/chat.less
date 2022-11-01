@@ -20,6 +20,11 @@
         margin-top: 5px;
         margin-bottom: 5px;
         right: 4px !important;
+
+        .rtl & {
+            right: unset !important;
+            left: 4px !important;
+        }
     }
 
     #chat-title {
@@ -60,6 +65,10 @@
             height: 12px;
             border: 1px solid @border-toolbar-ie;
             border: 1px solid @border-toolbar;
+
+            .rtl & {
+                margin: 0 0 3px 5px;
+            }
         }
 
         .name {
@@ -119,6 +128,10 @@
                     border: 1px solid @border-toolbar;
                     margin: 0 5px 3px 0;
                     vertical-align: middle;
+
+                    .rtl & {
+                        margin: 0 0 3px 5px;
+                    }
                 }
 
                 .message {
