@@ -2367,7 +2367,7 @@ define([
                         store: group.get('groupStore'),
                         scrollAlwaysVisible: true,
                         showLast: false,
-                        restoreHeight: group.get('groupHeight') ? parseInt(group.get('groupHeight')) : true,
+                        restoreHeight: 10000,
                         itemTemplate: _.template(
                             '<div class="item-equation" style="" >' +
                             '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
@@ -2391,7 +2391,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'menu-shapes',
                             value: i,
-                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
                                 '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
