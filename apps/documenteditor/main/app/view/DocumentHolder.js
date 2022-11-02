@@ -1151,64 +1151,7 @@ define([
 
             me.menuTableEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
-                menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar shifted-right',
-                    menuAlign: 'tl-tr',
-                    items   : [
-                        new Common.UI.MenuItem({
-                            caption     : me.unicodeText,
-                            iconCls     : 'menu__icon unicode',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.Unicode
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.latexText,
-                            iconCls     : 'menu__icon latex',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.LaTeX
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.currProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.currLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: true}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: true}
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.eqToInlineText,
-                            checkable   : true,
-                            checked     : false,
-                            type        : 'mode'
-                        })
-                    ]
-                })
+                menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
             me.menuTableSelectText = new Common.UI.MenuItem({
@@ -1661,66 +1604,8 @@ define([
 
             me.menuParagraphEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
-                menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar shifted-right',
-                    menuAlign: 'tl-tr',
-                    items   : [
-                        new Common.UI.MenuItem({
-                            caption     : me.unicodeText,
-                            iconCls     : 'menu__icon unicode',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.Unicode
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.latexText,
-                            iconCls     : 'menu__icon latex',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.LaTeX
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.currProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.currLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: true}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: true}
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.eqToInlineText,
-                            checkable   : true,
-                            checked     : false,
-                            type        : 'mode'
-                        })
-                    ]
-                })
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
             });
-
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2976,6 +2861,67 @@ define([
                 default:
                     return this.textRemField;
             }
+        },
+
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.eqToInlineText,
+                        checkable   : true,
+                        checked     : false,
+                        type        : 'mode'
+                    })
+                ]
+            });
         },
 
         focus: function() {

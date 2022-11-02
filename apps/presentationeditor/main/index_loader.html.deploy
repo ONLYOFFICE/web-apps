@@ -321,6 +321,7 @@
     <inline src="../../common/main/resources/img/header/icons.svg" />
     <inline src="../../common/main/resources/img/toolbar/shapetypes.svg" />
     <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
+    <inline src="../../common/main/resources/img/toolbar/equationicons.svg" />
 
     <div id="viewport"></div>
 
