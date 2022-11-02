@@ -256,6 +256,11 @@
             button {
                 &:not(:first-child) {
                     margin-left: 10px;
+
+                    .rtl & {
+                        margin-left: 0;
+                        margin-right: 10px;
+                    }
                 }
             }
         }
@@ -314,6 +319,11 @@
         button {
             &:not(:first-child) {
                 margin-left: 10px;
+
+                .rtl & {
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
             }
         }
     }
