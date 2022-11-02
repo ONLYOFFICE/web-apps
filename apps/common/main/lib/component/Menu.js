@@ -472,8 +472,9 @@ define([
             },
 
             selectCandidate: function() {
-                var index = this._search.index || 0,
+                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                    isFirstCharsEqual = re.test(this.items[index].caption),
                     itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.items.length; i++) {
@@ -482,6 +483,8 @@ define([
                         if (!itemCandidate) {
                             itemCandidate = item;
                             idxCandidate = i;
+                            if(!isFirstCharsEqual) 
+                                break;  
                         }
                         if (this._search.full && i==index || i>index) {
                             itemCandidate = item;
@@ -1059,8 +1062,9 @@ define([
         },
 
         selectCandidate: function() {
-            var index = this._search.index || 0,
+            var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                 re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                isFirstCharsEqual = re.test(this.items[index].caption),
                 itemCandidate, idxCandidate;
 
             for (var i=0; i<this.items.length; i++) {
@@ -1069,6 +1073,8 @@ define([
                     if (!itemCandidate) {
                         itemCandidate = item;
                         idxCandidate = i;
+                        if(!isFirstCharsEqual) 
+                            break;                    
                     }
                     if (this._search.full && i==index || i>index) {
                         itemCandidate = item;

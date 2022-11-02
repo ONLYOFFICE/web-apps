@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Altezza",
   "common.view.modals.txtShare": "Condividi collegamento",
   "common.view.modals.txtWidth": "Larghezza",
+  "common.view.SearchBar.textFind": "Trova",
   "SSE.ApplicationController.convertationErrorText": "Conversione fallita.",
   "SSE.ApplicationController.convertationTimeoutText": "È stato superato il tempo limite della conversione.",
   "SSE.ApplicationController.criticalErrorTitle": "Errore",
@@ -16,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "Si è verificato un errore durante il salvataggio del file. Utilizzare l'opzione 'Scarica come' per salvare il file sul disco rigido del computer o riprovare più tardi.",
   "SSE.ApplicationController.errorLoadingFont": "I caratteri non sono caricati.<br>Si prega di contattare il tuo amministratore di Document Server.",
   "SSE.ApplicationController.errorTokenExpire": "Il token di sicurezza del documento è scaduto.<br>Ti preghiamo di contattare l'amministratore del Document Server.",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, è necessario scaricare il file o copiarne il contenuto per assicurarsi che non vada perso nulla, successivamente ricaricare questa pagina.",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, devi scaricare il file o copiarne il contenuto per assicurarti che nulla vada perso, quindi ricarica questa pagina.",
   "SSE.ApplicationController.errorUserDrop": "Impossibile accedere al file subito.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Avviso",
   "SSE.ApplicationController.openErrorText": "Si è verificato un errore durante l'apertura del file.",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Apri percorso file",
   "SSE.ApplicationView.txtFullScreen": "Schermo intero",
   "SSE.ApplicationView.txtPrint": "Stampa",
+  "SSE.ApplicationView.txtSearch": "Cerca",
   "SSE.ApplicationView.txtShare": "Condividi"
 }

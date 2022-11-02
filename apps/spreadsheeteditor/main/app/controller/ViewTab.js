@@ -111,6 +111,11 @@ define([
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
                     }, this)
+                },
+                'LeftMenu': {
+                    'view:hide': _.bind(function (leftmenu, state) {
+                        this.view.chLeftMenu.setValue(!state, true);
+                    }, this)
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
@@ -154,7 +159,9 @@ define([
         },
 
         applyZoom: function (value) {
-            var val = Math.max(25, Math.min(500, value));
+            var val = Math.max(10, Math.min(500, value));
+            if (this._state.zoomValue === val)
+                this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
             this.api.asc_setZoom(val/100);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },

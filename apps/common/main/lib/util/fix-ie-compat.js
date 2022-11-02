@@ -31,4 +31,10 @@ if ( !window.fetch ) {
             return target;
         };
     }
+
+    if (typeof Object.getOwnPropertySymbols != 'function') {
+        Object.getOwnPropertySymbols = function(target) {
+            return [];
+        };
+    }
 }

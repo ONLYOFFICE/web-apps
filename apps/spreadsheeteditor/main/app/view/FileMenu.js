@@ -56,6 +56,13 @@ define([
                     var item = _.findWhere(this.items, {el: event.currentTarget});
                     if (item) {
                         var panel = this.panels[item.options.action];
+                        if (item.options.action === 'help') {
+                            if ( panel.noHelpContents === true && navigator.onLine ) {
+                                this.fireEvent('item:click', [this, 'external-help', true]);
+                                window.open(panel.urlHelpCenter, '_blank');
+                                return;
+                            }
+                        }
                         this.fireEvent('item:click', [this, item.options.action, !!panel]);
 
                         if (panel) {
@@ -336,7 +343,7 @@ define([
             
             if (!this.panels) {
                 this.panels = {
-                    'opts'      : (new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu:this})).render(this.$el.find('#panel-settings-general')),
+                    'opts'      : (new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu:this})).render(this.$el.find('#panel-settings')),
                     'info'      : (new SSE.Views.FileMenuPanels.DocumentInfo({menu:this})).render(this.$el.find('#panel-info')),
                     'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:this})).render(this.$el.find('#panel-rights'))
                 };
@@ -413,7 +420,6 @@ define([
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
-                    $('a',this.miNew.$el).text(this.btnCreateNewCaption + '...');
                     !this.panels['new'] && (this.panels['new'] = (new SSE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates, blank: this.mode.canRequestCreateNew || !!this.mode.createUrl})).render());
                 }
             }
@@ -581,6 +587,8 @@ define([
         },
 
         SetDisabled: function(disable, options) {
+            if (!this.mode) return;
+
             if ( !this.panels ) {
                 this.mode.disableEditing = disable;
             } else {

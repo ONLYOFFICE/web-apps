@@ -3,11 +3,11 @@
     "textAbout": "O aplikaci",
     "textAddress": "Adresa",
     "textBack": "Zpět",
+    "textEditor": "Editor prezentací",
     "textEmail": "Email",
     "textPoweredBy": "Poháněno",
     "textTel": "Telefon",
-    "textVersion": "Verze",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Verze"
   },
   "Common": {
     "Collaboration": {
@@ -32,7 +32,8 @@
       "textReopen": "Znovu otevřít",
       "textResolve": "Vyřešit",
       "textTryUndoRedo": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
-      "textUsers": "Uživatelé"
+      "textUsers": "Uživatelé",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Bez výplně"
@@ -59,9 +60,10 @@
     "textColumns": "Sloupce",
     "textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
     "textDoNotShowAgain": "Nezobrazovat znovu",
+    "textOk": "OK",
     "textRows": "Řádky",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -116,6 +118,7 @@
       "textRemember": "Zapamatovat moji volbu",
       "textReplaceSkipped": "Nahrazení bylo provedeno. {0} výskytů bylo přeskočeno.",
       "textReplaceSuccess": "Hledání bylo dokončeno. Nahrazeno výskytů: {0}",
+      "textRequestMacros": "Makro vytváří požadavek na URL. Chcete povolit požadavek k přístupu na %1?",
       "textYes": "Ano",
       "titleLicenseExp": "Platnost licence vypršela",
       "titleServerVersion": "Editor byl aktualizován",
@@ -129,8 +132,7 @@
       "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
       "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
       "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
     }
   },
   "Error": {
@@ -169,7 +171,8 @@
     "unknownErrorText": "Neznámá chyba.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím..."
+    "waitText": "Čekejte prosím...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
@@ -245,7 +251,10 @@
       "textSlideNumber": "Číslo snímku",
       "textTable": "Tabulka",
       "textTableSize": "Velikost tabulky",
-      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",
@@ -351,11 +360,8 @@
       "textPt": "pt",
       "textPush": "Posunout",
       "textRemoveChart": "Odstranit graf",
-      "textRemoveImage": "Odstranit obrázek",
-      "textRemoveLink": "Odstranit odkaz",
       "textRemoveShape": "Odstranit obrazec",
       "textRemoveTable": "Odstranit tabulku",
-      "textReorder": "Změnit řazení",
       "textReplace": "Nahradit",
       "textReplaceAll": "Nahradit vše",
       "textReplaceImage": "Nahradit obrázek",
@@ -396,11 +402,20 @@
       "textZoom": "Přiblížení",
       "textZoomIn": "Přiblížit",
       "textZoomOut": "Oddálit",
-      "textZoomRotate": "Přiblížit a otočit"
+      "textZoomRotate": "Přiblížit a otočit",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
       "mniSlideWide": "Širokoúhlý (16:9)",
+      "notcriticalErrorTitle": "Varování",
       "textAbout": "O aplikaci",
       "textAddress": "adresa:",
       "textApplication": "Aplikace",
@@ -423,6 +438,7 @@
       "textEmail": "email:",
       "textEnableAll": "Zapnout vše",
       "textEnableAllMacrosWithoutNotification": "Povolit všechna makra bez notifikací",
+      "textFeedback": "Zpětná vazba a technická podpora",
       "textFind": "Najít",
       "textFindAndReplace": "Najít a nahradit",
       "textFindAndReplaceAll": "Najít a nahradit vše",
@@ -435,6 +451,7 @@
       "textLocation": "Umístění",
       "textMacrosSettings": "Nastavení maker",
       "textNoTextFound": "Text nebyl nalezen",
+      "textOk": "OK",
       "textOwner": "Vlastník",
       "textPoint": "Bod",
       "textPoweredBy": "Poháněno",
@@ -444,6 +461,8 @@
       "textPrint": "Tisk",
       "textReplace": "Nahradit",
       "textReplaceAll": "Nahradit vše",
+      "textRestartApplication": "Pro provedení změn restartujete aplikaci",
+      "textRTL": "RTL",
       "textSearch": "Hledat",
       "textSettings": "Nastavení",
       "textShowNotification": "Zobrazit notifikace",
@@ -476,12 +495,7 @@
       "txtScheme6": "Hala",
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Slévárna",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "txtScheme9": "Slévárna"
     }
   }
 }

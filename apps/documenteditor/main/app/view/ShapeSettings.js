@@ -810,7 +810,7 @@ define([
                 var spectype = control_props.get_SpecificType();
                 control_props = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
                                  spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
-                                spectype==Asc.c_oAscContentControlSpecificType.Picture) &&
+                                spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex) &&
                                 control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
             } else
                 control_props = false;
@@ -851,11 +851,9 @@ define([
 
                 value = props.get_CanBeFlow() && !this._locked;
                 var fromgroup = props.get_FromGroup() || this._locked;
-                if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup) {
-                    this.cmbWrapType.setDisabled(!value || fromgroup);
-                    this._state.CanBeFlow=value;
-                    this._state.FromGroup=fromgroup;
-                }
+                this.cmbWrapType.setDisabled(!value || fromgroup);
+                this._state.CanBeFlow=value;
+                this._state.FromGroup=fromgroup;
 
                 // background colors
                 var rec = null;

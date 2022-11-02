@@ -26,6 +26,7 @@
     "textContinuousPage": "Շարունակվող էջ",
     "textCurrentPosition": "Ընթացիկ դիրք",
     "textDisplay": "Ցուցադրել",
+    "textDone": "Պատրաստ է",
     "textEmptyImgUrl": "Պետք է նշել նկարի URL-ը։",
     "textEvenPage": "Զույգ էջ",
     "textFootnote": "Ծանոթագրություն",
@@ -49,6 +50,8 @@
     "textPictureFromLibrary": "Նկար գրադարանից",
     "textPictureFromURL": "Նկար URL-ից",
     "textPosition": "Դիրք",
+    "textRecommended": "Առաջարկվում է",
+    "textRequired": "Պարտադիր",
     "textRightBottom": "Աջ ներքև",
     "textRightTop": "Աջ վերև",
     "textRows": "Տողեր",
@@ -144,6 +147,7 @@
       "textReviewChange": "Փոփոխումների վերանայում",
       "textRight": "Հավասարեցնել աջից",
       "textShape": "Պատկեր",
+      "textSharingSettings": "Համօգտագործման կարգավորումներ",
       "textShd": "Խորքի գույն",
       "textSmallCaps": "Փոքրատառեր",
       "textSpacing": "Միջատարածք",
@@ -180,6 +184,7 @@
     "menuDelete": "Ջնջել",
     "menuDeleteTable": "Ջնջել աղյուսակը",
     "menuEdit": "Խմբագրել",
+    "menuEditLink": "Խմբագրել հղումը",
     "menuJoinList": "Միացնել նախորդ ցուցակին",
     "menuMerge": "Միաձուլել",
     "menuMore": "Ավել",
@@ -200,7 +205,7 @@
     "textRefreshEntireTable": "Թարմացրել ամբողջ աղյուսակը",
     "textRefreshPageNumbersOnly": "Թարմացնել միայն էջերի համարները",
     "textRows": "Տողեր",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
   },
   "Edit": {
     "notcriticalErrorTitle": "Զգուշացում",
@@ -314,12 +319,11 @@
     "textPictureFromLibrary": "Նկար գրադարանից",
     "textPictureFromURL": "Նկար URL-ից",
     "textPt": "կտ",
+    "textRecommended": "Առաջարկվում է",
     "textRefresh": "Թարմացնել",
     "textRefreshEntireTable": "Թարմացրել ամբողջ աղյուսակը",
     "textRefreshPageNumbersOnly": "Թարմացնել միայն էջերի համարները",
     "textRemoveChart": "Հեռացնել գծապատկերը",
-    "textRemoveImage": "Հեռացնել նկարը",
-    "textRemoveLink": "Հեռացնել հղումը",
     "textRemoveShape": "Հեռացնել պատկերը",
     "textRemoveTable": "Հեռացնել աղյուսակը",
     "textRemoveTableContent": "Հեռացնել բովանդակության ցանկը",
@@ -327,6 +331,7 @@
     "textRepeatAsHeaderRow": "Կրկնել որպես գլխամասի տող",
     "textReplace": "Փոխարինել",
     "textReplaceImage": "Փոխարինել նկարը",
+    "textRequired": "Պարտադիր",
     "textResizeToFitContent": "Չափափոխել ըստ պարունակության",
     "textRightAlign": "Վերև-աջ հավասարեցում",
     "textSa": "ՈԱ",
@@ -356,6 +361,7 @@
     "textTableOfCont": "ԲՑ ",
     "textTableOptions": "Աղյուսակի ընտրանքներ",
     "textText": "Տեքստ",
+    "textTextWrapping": "Տեքստի ծալում",
     "textTh": "Հնգ",
     "textThrough": "Միջով",
     "textTight": "Ձիգ",
@@ -365,7 +371,12 @@
     "textTu": "Երք",
     "textType": "Տեսակ",
     "textWe": "Չրք",
-    "textWrap": "Ծալում"
+    "textWrap": "Ծալում",
+    "textWrappingStyle": "Ծալման ոճ",
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -379,6 +390,7 @@
     "errorDataEncrypted": "Ընդունվել են գաղտնագրված փոփոխությունները, դրանք չեն կարող վերծանելվել։",
     "errorDataRange": "Տվյալների սխալ ընդգրկույթ։",
     "errorDefaultMessage": "Սխալի կոդ՝ %1",
+    "errorDirectUrl": "Խնդրում ենք ստուգել փաստաթղթի հղումը:<br> Այս հղումը պետք է լինի ուղիղ հղում դեպի ներբեռնելու ֆայլը:",
     "errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում սխալ է տեղի ունեցել:<br>Ներբեռնեք փաստաթուղթը՝ ֆայլի կրկնօրինակը տեղում պահելու համար:",
     "errorEmptyTOC": "Սկսել ստեղծել բովանդակության աղյուսակ՝ կիրառելով վերնագրի ոճը ոճերի սրահից ընտրված տեքստում:",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
@@ -393,7 +405,8 @@
     "errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։Խնդրում ենք վերաբեռնել էջը:",
     "errorSessionToken": "Սերվերի հետ կապն ընդհատվել է:Խնդրում ենք վերաբեռնել էջը:",
     "errorStockChart": "Սխալ տողերի հերթականություն:Տվյալների տատանման գծապատկեր կառուցելու համար տվյալները թերթիկի վրա տեղադրեք հետևյալ հաջորդականությամբ.<br> Բացման գին,առավելագույն գին,նվազագույն գին, փակման գին։",
-    "errorUpdateVersionOnDisconnect": "Համացանցային կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք նիշքը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
+    "errorTextFormWrongFormat": "Մուտքագրված արժեքը չի համապատասխանում դաշտի ձևաչափին:",
+    "errorUpdateVersionOnDisconnect": "Կապը վերահաստատվել է,և ֆայլի տարբերակը փոխվել է։<br>Նախքան աշխատանքը շարունակելը ներբեռնեք ֆայլը կամ պատճենեք դրա պարունակությունը՝ վստահ լինելու, որ ոչինչ չի կորել, և ապա նորից բեռնեք այս էջը։",
     "errorUserDrop": "Հնարավոր չէ մուտք գործել ֆայլ այս պահին:",
     "errorUsersExceed": "Օգտատերերի՝ սակագնային պլանով թույլատրված քանակը գերազանցվել է։",
     "errorViewerDisconnect": "Կապը կորել է:Դուք դեռ կարող եք դիտել փաստաթուղթը,<br>բայց Դուք չեք կարողանա ներբեռնել կամ տպել այն, մինչև կապը չվերականգնվի և էջը վերաբեռնվի:",
@@ -438,11 +451,14 @@
     "saveTitleText": "Փաստաթղթի պահպանում",
     "sendMergeText": "Ձուլման ուղարկում․․․",
     "sendMergeTitle": "Ձուլման ուղարկում",
+    "textContinue": "Շարունակել",
     "textLoadingDocument": "Փաստաթղթի բեռնում",
+    "textUndo": "Հետարկել",
     "txtEditingMode": "Սահմանել ցուցակի խմբագրում․․․",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել..."
+    "waitText": "Խնդրում ենք սպասել...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Main": {
     "criticalErrorTitle": "Սխալ",
@@ -606,6 +622,7 @@
     "textMargins": "Լուսանցքներ",
     "textMarginsH": "Վերևի և ներքևի լուսանցքները չափազանց բարձր են տվյալ էջի բարձրության համար",
     "textMarginsW": "Ձախ և աջ լուսանցքները չափազանց լայն են տվյալ էջի լայնության համար",
+    "textMobileView": "Բջջային տեսք",
     "textNavigation": "Նավիգացիա",
     "textNo": "Ոչ",
     "textNoCharacters": "Չտպվող գրանշաններ",
@@ -675,6 +692,9 @@
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
-    "stayButtonText": "Մնալ այս էջում"
+    "stayButtonText": "Մնալ այս էջում",
+    "textOk": "Լավ",
+    "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
+    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի"
   }
 }

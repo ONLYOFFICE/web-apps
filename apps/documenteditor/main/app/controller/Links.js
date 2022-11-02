@@ -94,6 +94,7 @@ define([
             Common.Gateway.on('setactionlink', function (url) {
                 console.log('url with actions: ' + url);
             }.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         setApi: function (api) {
@@ -108,6 +109,7 @@ define([
                 this.api.asc_registerCallback('asc_onAscReplaceCurrentTOF',_.bind(this.onAscReplaceCurrentTOF, this));
                 this.api.asc_registerCallback('asc_onAscTOFUpdate',_.bind(this.onAscTOFUpdate, this));
             }
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             return this;
         },
 
@@ -203,7 +205,7 @@ define([
         },
 
         lockToolbar: function (causes, lock, opts) {
-            Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
+            this.view && Common.Utils.lockControls(causes, lock, opts, this.view.getButtons());
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -570,6 +572,32 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
             })).show();
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.lockToolbar(Common.enumLock.docLockView, props.isReadOnly);
+                this.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
+                this.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
+                this.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
+            }
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                if (me.view) {
+                    me.view.onAppReady(config);
+                    me.onChangeProtectDocument();
+                }
+            });
         }
 
     }, DE.Controllers.Links || {}));

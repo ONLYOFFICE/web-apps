@@ -59,6 +59,9 @@
     "textTable": "Tablo",
     "textTableSize": "Tablo Boyutu",
     "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
     "textTableContents": "Table of Contents",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -160,6 +163,7 @@
       "textTryUndoRedo": "Hızlı birlikte düzenleme modunda geri al/ileri al fonksiyonları devre dışıdır.",
       "textUnderline": "Altı çizili",
       "textUsers": "Kullanıcılar",
+      "textSharingSettings": "Sharing Settings",
       "textWidow": "Widow control"
     },
     "ThemeColorPalette": {
@@ -198,6 +202,7 @@
     "textNumberingValue": "Numaralandırma değeri",
     "textOk": "Tamam",
     "textRows": "Satırlar",
+    "menuEditLink": "Edit Link",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
@@ -287,8 +292,6 @@
     "textPictureFromURL": "URL'den resim",
     "textPt": "pt",
     "textRemoveChart": "Grafiği Kaldır",
-    "textRemoveImage": "Resmi Kaldır",
-    "textRemoveLink": "Linki Kaldır",
     "textRemoveShape": "Şekli Kaldır",
     "textRemoveTable": "Tabloyu Kaldır",
     "textReorder": "Yeniden Sırala",
@@ -323,9 +326,13 @@
     "textAmountOfLevels": "Amount of Levels",
     "textCancel": "Cancel",
     "textCentered": "Centered",
+    "textChangeShape": "Change Shape",
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
     "textDone": "Done",
     "textEmpty": "Empty",
@@ -348,10 +355,12 @@
     "textOnline": "Online",
     "textPageNumbers": "Page Numbers",
     "textParagraphStyle": "Paragraph Style",
+    "textRecommended": "Recommended",
     "textRefresh": "Refresh",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRemoveTableContent": "Remove table of contents",
+    "textRequired": "Required",
     "textRightAlign": "Right Align",
     "textSa": "Sa",
     "textSameCreatedNewStyle": "Same as created new style",
@@ -362,10 +371,12 @@
     "textStyles": "Styles",
     "textSu": "Su",
     "textTableOfCont": "TOC",
+    "textTextWrapping": "Text Wrapping",
     "textTh": "Th",
     "textTitle": "Title",
     "textTu": "Tu",
-    "textWe": "We"
+    "textWe": "We",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
@@ -406,8 +417,10 @@
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
-    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab."
+    "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -442,7 +455,10 @@
     "txtEditingMode": "Düzenleme modunu belirle...",
     "uploadImageTextText": "Resim yükleniyor...",
     "uploadImageTitleText": "Resim Yükleniyor",
-    "waitText": "Lütfen bekleyin..."
+    "waitText": "Lütfen bekleyin...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Hata",
@@ -659,6 +675,7 @@
     "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
     "textLeftToRight": "Left To Right",
+    "textMobileView": "Mobile View",
     "textNavigation": "Navigation",
     "textNo": "No",
     "textPageSize": "Page Size",
@@ -675,6 +692,9 @@
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
-    "stayButtonText": "Bu Sayfada Kal"
+    "stayButtonText": "Bu Sayfada Kal",
+    "textOk": "OK",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

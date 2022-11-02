@@ -263,9 +263,6 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
-                '</tr>',
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
@@ -344,14 +341,6 @@ define([
                 dataHintOffset: 'small'
             });
 
-            this.chInputMode = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-input-mode'),
-                labelText: this.txtHieroglyphs,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
             this.chUseAltKey = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-use-alt-key'),
                 labelText: Common.Utils.isMac ? this.txtUseOptionKey : this.txtUseAltKey,
@@ -359,6 +348,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
@@ -625,9 +615,7 @@ define([
                 this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("pe-spellcheck-ignore-numbers-words"));
             }
 
-            this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
-
-            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pe-settings-use-alt-key"));
+            this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pe-settings-show-alt-hints"));
 
             var value = Common.Utils.InternalSettings.get("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
@@ -690,14 +678,13 @@ define([
                 Common.localStorage.setBool("pe-spellcheck-ignore-uppercase-words", this.chIgnoreUppercase.isChecked());
                 Common.localStorage.setBool("pe-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
             }
-            Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pe-settings-use-alt-key", this.chUseAltKey.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-use-alt-key", Common.localStorage.getBool("pe-settings-use-alt-key"));
+            Common.localStorage.setItem("pe-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", Common.localStorage.getBool("pe-settings-show-alt-hints"));
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && this.mode.canChangeCoAuthoring) {
-                Common.localStorage.setItem("pe-settings-coauthmode", this.rbCoAuthModeFast.getValue());
+                Common.localStorage.setItem("pe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0);
             } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
                 Common.localStorage.setItem("pe-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
@@ -710,7 +697,8 @@ define([
                 Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
+
+            Common.localStorage.setBool("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
 
             Common.localStorage.setItem("pe-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());
@@ -748,7 +736,6 @@ define([
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
         txtFitSlide: 'Fit to Slide',
-        txtInput: 'Alternate Input',
         txtWin: 'as Windows',
         txtMac: 'as OS X',
         txtNative: 'Native',
@@ -767,7 +754,6 @@ define([
         txtInch: 'Inch',
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
-        strForcesave: 'Always save to server (otherwise save to server on document close)',
         txtSpellCheck: 'Spell Checking',
         txtCacheMode: 'Default cache mode',
         strMacrosSettings: 'Macros Settings',
@@ -777,7 +763,6 @@ define([
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
-        strPaste: 'Cut, copy and paste',
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
         strTheme: 'Theme',
@@ -789,7 +774,7 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
@@ -979,6 +964,10 @@ define([
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
                     '<tr>',
+                        '<td class="left"><label>' + this.txtTags + '</label></td>',
+                        '<td class="right"><div id="id-info-tags"></div></td>',
+                    '</tr>',
+                    '<tr>',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
@@ -1065,6 +1054,15 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             }).on('keydown:before', keyDownBefore);
+            this.inputTags = new Common.UI.InputField({
+                el          : $markup.findById('#id-info-tags'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
@@ -1093,7 +1091,7 @@ define([
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1218,8 +1216,15 @@ define([
             this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
-                if (value)
-                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                if (value) {
+                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                    try {
+                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    } catch (e) {
+                        lang = 'en';
+                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    }
+                }
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -1244,8 +1249,15 @@ define([
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
-                if (value)
-                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
+                if (value) {
+                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                    try {
+                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    } catch (e) {
+                        lang = 'en';
+                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
+                    }
+                }
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1255,6 +1267,8 @@ define([
 
                 value = props.asc_getTitle();
                 this.inputTitle.setValue(value || '');
+                value = props.asc_getKeywords();
+                this.inputTags.setValue(value || '');
                 value = props.asc_getSubject();
                 this.inputSubject.setValue(value || '');
                 value = props.asc_getDescription();
@@ -1293,6 +1307,7 @@ define([
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
+                this.inputTags._input.attr('placeholder', '');
                 this.inputSubject._input.attr('placeholder', '');
                 this.inputComment._input.attr('placeholder', '');
                 this.inputAuthor._input.attr('placeholder', '');
@@ -1316,6 +1331,7 @@ define([
         SetDisabled: function() {
             var disable = !this.mode.isEdit || this._locked;
             this.inputTitle.setDisabled(disable);
+            this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);
             this.inputComment.setDisabled(disable);
             this.inputAuthor.setDisabled(disable);
@@ -1327,6 +1343,7 @@ define([
         applySettings: function() {
             if (this.coreProps && this.api) {
                 this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putKeywords(this.inputTags.getValue());
                 this.coreProps.asc_putSubject(this.inputSubject.getValue());
                 this.coreProps.asc_putDescription(this.inputComment.getValue());
                 this.coreProps.asc_putCreator(this.authors.join(';'));
@@ -1341,6 +1358,7 @@ define([
         txtAppName: 'Application',
         txtEditTime: 'Total Editing time',
         txtTitle: 'Title',
+        txtTags: 'Tags',
         txtSubject: 'Subject',
         txtComment: 'Comment',
         txtModifyDate: 'Last Modified',
@@ -1377,7 +1395,7 @@ define([
                 '<table>',
                     '<% _.each(users, function(item) { %>',
                     '<tr>',
-                        '<td><span class="userLink <% if (item.isLink) { %>sharedLink<% } %>"></span><span><%= Common.Utils.String.htmlEncode(item.user) %></span></td>',
+                        '<td><span class="userLink img-commonctrl <% if (item.isLink) { %>sharedLink<% } %>"></span><span><%= Common.Utils.String.htmlEncode(item.user) %></span></td>',
                         '<td><%= Common.Utils.String.htmlEncode(item.permissions) %></td>',
                     '</tr>',
                     '<% }); %>',
@@ -1494,6 +1512,7 @@ define([
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
+            this.urlHelpCenter = '{{HELP_CENTER_WEB_PE}}';
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Presentation Editor user interface", "headername": "Program Interface"},
@@ -1599,12 +1618,13 @@ define([
                             store.fetch(config);
                         } else {
                             if ( Common.Controllers.Desktop.isActive() ) {
-                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() )
+                                if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
+                                    me.noHelpContents = true;
                                     me.iFrame.src = '../../common/main/resources/help/download.html';
-                                else {
+                                } else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;
-                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + lang + '/';
-                                    store.url = me.urlPref + '/Contents.json';
+                                    me.urlPref = Common.Controllers.Desktop.helpUrl() + '/' + store.contentLang + '/';
+                                    store.url = me.urlPref + 'Contents.json';
                                     store.fetch(config);
                                 }
                             } else {

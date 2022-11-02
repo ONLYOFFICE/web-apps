@@ -35,7 +35,7 @@
   "DE.ApplicationController.textSubmited": "<b>Formulár bol úspešne predložený</b><br>Kliknite, aby ste tip zatvorili",
   "DE.ApplicationController.txtClose": "Zatvoriť",
   "DE.ApplicationController.txtEmpty": "(Prázdne)",
-  "DE.ApplicationController.txtPressLink": "Stlačte CTRL a kliknite na odkaz",
+  "DE.ApplicationController.txtPressLink": "Stlačte %1 a kliknite na odkaz",
   "DE.ApplicationController.unknownErrorText": "Neznáma chyba.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Váš prehliadač nie je podporovaný.",
   "DE.ApplicationController.waitText": "Prosím čakajte...",

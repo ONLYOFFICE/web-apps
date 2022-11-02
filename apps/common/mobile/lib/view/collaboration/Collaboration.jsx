@@ -25,7 +25,6 @@ const PageUsers = inject("users")(observer(props => {
                 </NavRight>
                 }
             </Navbar>
-            <BlockTitle>{_t.textEditUser}</BlockTitle>
             <List className="coauth__list">
                 {storeUsers.editUsers.map((user, i) => (
                     <ListItem title={user.name + (user.count > 1 ? ` (${user.count})` : '')} key={i}>
@@ -89,6 +88,8 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const appOptions = props.storeAppOptions;
+    const isViewer = appOptions.isViewer;
+
     return (
         <View style={props.style} stackPages={true} routes={routes} url={props.page && `/${props.page}/`}>
             <Page name="collab__main">
@@ -112,7 +113,7 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
                             <Icon slot="media" icon="icon-insert-comment"></Icon>
                         </ListItem>
                     }
-                    {window.editorType === 'de' && (appOptions.canReview || appOptions.canViewReview) &&
+                    {(window.editorType === 'de' && (appOptions.canReview || appOptions.canViewReview) && !isViewer) &&
                         <ListItem link={'/review/'} title={_t.textReview}>
                             <Icon slot="media" icon="icon-review"></Icon>
                         </ListItem>

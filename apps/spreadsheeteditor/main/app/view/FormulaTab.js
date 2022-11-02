@@ -69,6 +69,9 @@ define([
             me.btnNamedRange.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('function:namedrange', [menu, item, e]);
             });
+            me.btnWatch.on('click', function(b, e){
+                me.fireEvent('function:watch', [b.pressed]);
+            });
         }
         return {
             options: {},
@@ -317,6 +320,21 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnNamedRange);
+
+                this.btnWatch = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-watch-window'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon watch-window',
+                    caption: this.txtWatch,
+                    hint: this.tipWatch,
+                    disabled: true,
+                    enableToggle: true,
+                    lock: [_set.editCell, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnWatch);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -577,7 +595,9 @@ define([
             textCalculateCurrentSheet: 'Calculate current sheet',
             textAutomatic: 'Automatic',
             textManual: 'Manual',
-            tipCalculateTheEntireWorkbook: 'Calculate the entire workbook'
+            tipCalculateTheEntireWorkbook: 'Calculate the entire workbook',
+            txtWatch: 'Watch Window',
+            tipWatch: 'Add cells to the Watch Window list'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

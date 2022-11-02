@@ -45,7 +45,8 @@ define([
         version: '{{PRODUCT_VERSION}}',
         eventloading: true,
         titlebuttons: true,
-        uithemes: true
+        uithemes: true,
+        btnhome: true,
     };
 
     var native = window.desktop || window.AscDesktopEditor;
@@ -90,14 +91,12 @@ define([
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
-                    } else
-                    if ( obj.lockthemes != undefined ) {
-                        // TODO: remove after 7.0.2. depricated. used is_win_xp variable instead
-                        // Common.UI.Themes.setAvailable(!obj.lockthemes);
                     }
+
                     if ( obj.singlewindow !== undefined ) {
-                        $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
+                        // $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
                         native.features.singlewindow = obj.singlewindow;
+                        titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -194,7 +193,19 @@ define([
         };
 
         var _onHintsShow = function (visible, level) {
-            native.execCommand('althints:show', JSON.stringify(visible && !(level > 0)));
+            let info = {
+                visible: visible && !(level > 0),
+            };
+
+            if ( !!titlebuttons ) {
+                info.hints = {};
+                !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
+            }
+
+            native.execCommand('althints:show', JSON.stringify(info));
         }
 
         var _onKeyDown = function (e) {
@@ -236,6 +247,40 @@ define([
                         titlebuttons = {};
                         if ( mode.isEdit ) {
                             var header = webapp.getController('Viewport').getView('Common.Views.Header');
+
+                            {
+                                header.btnHome = (new Common.UI.Button({
+                                    cls: 'btn-header',
+                                    iconCls: 'toolbar__icon icon--inverse btn-home',
+                                    visible: false,
+                                    hint: 'Show Main window',
+                                    dataHint:'0',
+                                    dataHintDirection: 'right',
+                                    dataHintOffset: '10, -18',
+                                    dataHintTitle: 'K'
+                                })).render($('#box-document-title #slot-btn-dt-home'));
+                                titlebuttons['home'] = {btn: header.btnHome};
+
+                                header.btnHome.on('click', event => {
+                                    native.execCommand('title:button', JSON.stringify({click: "home"}));
+                                });
+
+                                $('#id-box-doc-name').on({
+                                    'dblclick': e => {
+                                        native.execCommand('title:dblclick', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mousedown': e => {
+                                        native.execCommand('title:mousedown', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mousemove': e => {
+                                        native.execCommand('title:mousemove', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    },
+                                    'mouseup': e => {
+                                        native.execCommand('title:mouseup', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
+                                    }
+                                });
+                            }
+
                             if (!!header.btnSave) {
                                 titlebuttons['save'] = {btn: header.btnSave};
 
@@ -269,7 +314,8 @@ define([
                         }
 
                         if ( native.features.singlewindow !== undefined ) {
-                            $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
+                            // $('#box-document-title .hedset')[native.features.singlewindow ? 'hide' : 'show']();
+                            !!titlebuttons.home && titlebuttons.home.btn.setVisible(native.features.singlewindow);
                         }
                     });
 
@@ -277,9 +323,13 @@ define([
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'uitheme:changed' : function (name) {
-                            var theme = Common.UI.Themes.get(name);
-                            if ( theme )
-                                native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
+                                native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
+                            } else {
+                                var theme = Common.UI.Themes.get(name);
+                                if ( theme )
+                                    native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                            }
                         },
                         'hints:show': _onHintsShow.bind(this),
                     });
@@ -349,7 +399,7 @@ define([
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
                                     window.PE ? 'presentationeditor' : 'documenteditor';
-                    return nativevars.helpUrl + webapp + '/main/resources/help';
+                    return nativevars.helpUrl + '/' + webapp + '/main/resources/help';
                 }
 
                 return undefined;

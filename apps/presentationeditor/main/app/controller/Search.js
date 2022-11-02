@@ -57,7 +57,13 @@ define([
                 'SearchBar': {
                     'search:back': _.bind(this.onSearchNext, this, 'back'),
                     'search:next': _.bind(this.onSearchNext, this, 'next'),
-                    'search:input': _.bind(this.onInputSearchChange, this),
+                    'search:input': _.bind(function (text) {
+                        if (this._state.searchText === text) {
+                            Common.NotificationCenter.trigger('search:updateresults', this._state.currentResult, this._state.resultsNumber);
+                            return;
+                        }
+                        this.onInputSearchChange(text);
+                    }, this),
                     'search:keydown': _.bind(this.onSearchNext, this, 'keydown')
                 },
                 'Common.Views.SearchPanel': {
@@ -81,7 +87,8 @@ define([
                 searchText: '',
                 matchCase: false,
                 matchWord: false,
-                useRegExp: false
+                useRegExp: false,
+                isContentChanged: false
             };
         },
 
@@ -97,6 +104,8 @@ define([
                 this.api.asc_registerCallback('asc_onEndTextAroundSearch', _.bind(this.onEndTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onGetTextAroundSearchPack', _.bind(this.onApiGetTextAroundSearch, this));
                 this.api.asc_registerCallback('asc_onRemoveTextAroundSearch', _.bind(this.onApiRemoveTextAroundSearch, this));
+                this.api.asc_registerCallback('asc_onSearchEnd', _.bind(this.onApiSearchEnd, this));
+                this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
             }
             return this;
         },
@@ -119,13 +128,29 @@ define([
                     break;
             }
             if (this._state.searchText) {
-                this.hideResults();
-                if (this.onQuerySearch()) {
-                    if (this.searchTimer) {
-                        clearInterval(this.searchTimer);
-                        this.searchTimer = undefined;
+                this.onQuerySearch();
+            }
+        },
+
+        checkPunctuation: function (text) {
+            if (!!text) {
+                var isPunctuation = false;
+                for (var l = 0; l < text.length; l++) {
+                    var charCode = text.charCodeAt(l),
+                        char = text.charAt(l);
+                    if (AscCommon.g_aPunctuation[charCode] !== undefined || char.trim() === '') {
+                        isPunctuation = true;
+                        break;
                     }
-                    this.api.asc_StartTextAroundSearch();
+                }
+                if (isPunctuation) {
+                    if (this._state.matchWord) {
+                        this.view.chMatchWord.setValue(false, true);
+                        this._state.matchWord = false;
+                    }
+                    this.view.chMatchWord.setDisabled(true);
+                } else if (this.view.chMatchWord.isDisabled()) {
+                    this.view.chMatchWord.setDisabled(false);
                 }
             }
         },
@@ -133,48 +158,44 @@ define([
         onSearchNext: function (type, text, e) {
             var isReturnKey = type === 'keydown' && e.keyCode === Common.UI.Keys.RETURN;
             if (text && text.length > 0 && (isReturnKey || type !== 'keydown')) {
+                this.checkPunctuation(text);
                 this._state.searchText = text;
-                if (this.onQuerySearch(type) && (this.searchTimer || isReturnKey)) {
-                    this.hideResults();
-                    if (this.searchTimer) {
-                        clearInterval(this.searchTimer);
-                        this.searchTimer = undefined;
-                    }
-                    if (this.view.$el.is(':visible')) {
-                        this.api.asc_StartTextAroundSearch();
-                    }
-                }
+                this.onQuerySearch(type, !(this.searchTimer || isReturnKey));
             }
         },
 
         onInputSearchChange: function (text) {
             var me = this;
-            if (this._state.searchText !== text) {
+            if ((text && this._state.searchText !== text) || (!text && this._state.newSearchText)) {
                 this._state.newSearchText = text;
                 this._lastInputChange = (new Date());
                 if (this.searchTimer === undefined) {
                     this.searchTimer = setInterval(function(){
                         if ((new Date()) - me._lastInputChange < 400) return;
 
-                        me.hideResults();
+                        me.checkPunctuation(me._state.newSearchText);
                         me._state.searchText = me._state.newSearchText;
-                        if (me._state.newSearchText !== '' && me.onQuerySearch()) {
-                            if (me.view.$el.is(':visible')) {
-                                me.api.asc_StartTextAroundSearch();
-                            }
-                            me.view.disableReplaceButtons(false);
-                        } else if (me._state.newSearchText === '') {
+                        if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
+                            me.api.asc_endFindText();
+                            me.hideResults();
                             me.view.updateResultsNumber('no-results');
+                            me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
+                            clearInterval(me.searchTimer);
+                            me.searchTimer = undefined;
                         }
-                        clearInterval(me.searchTimer);
-                        me.searchTimer = undefined;
                     }, 10);
                 }
             }
         },
 
-        onQuerySearch: function (d, w) {
+        onQuerySearch: function (d, noUpdate) {
+            var update = !noUpdate || this._state.isContentChanged;
+            this._state.isContentChanged = false;
+            this.searchTimer && clearInterval(this.searchTimer);
+            this.searchTimer = undefined;
+            update && this.hideResults();
+
             var searchSettings = new AscCommon.CSearchSettings();
             searchSettings.put_Text(this._state.searchText);
             searchSettings.put_MatchCase(this._state.matchCase);
@@ -188,6 +209,11 @@ define([
                 this.view.disableNavButtons();
                 return false;
             }
+
+            if (update && this.view.$el.is(':visible')) {
+                this.api.asc_StartTextAroundSearch();
+            }
+            this.view.disableReplaceButtons(false);
             return true;
         },
 
@@ -198,7 +224,7 @@ define([
                 searchSettings.put_MatchCase(this._state.matchCase);
                 searchSettings.put_WholeWords(this._state.matchWord);
                 if (!this.api.asc_replaceText(searchSettings, textReplace, false)) {
-                    this.allResultsWasRemoved();
+                    this.removeResultItems();
                 }
             }
         },
@@ -211,14 +237,14 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.allResultsWasRemoved();
+                this.removeResultItems();
             }
         },
 
-        allResultsWasRemoved: function () {
+        removeResultItems: function (type) {
             this.resultItems = [];
             this.hideResults();
-            this.view.updateResultsNumber(undefined, 0);
+            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
@@ -280,7 +306,8 @@ define([
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
                 if (data.length > 300 || !data.length) return;
-                var me = this;
+                var me = this,
+                    selectedInd;
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var el = document.createElement("div"),
@@ -290,17 +317,23 @@ define([
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');
+                        selectedInd = ind;
                     }
 
                     var resultItem = {id: item[0], $el: $(el), el: el, selected: isSelected};
                     me.resultItems.push(resultItem);
                     $(el).on('click', _.bind(function (el) {
+                        if (me._state.isContentChanged) {
+                            me.onQuerySearch();
+                            return;
+                        }
                         var id = item[0];
                         me.api.asc_SelectSearchElement(id);
                     }, me));
                 });
 
                 this.view.$resultsContainer.show();
+                this.scrollToSelectedResult(selectedInd);
             }
         },
 
@@ -328,7 +361,9 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var text = typeof findText === 'string' ? findText : (this.api.asc_GetSelectedText() || this._state.searchText);
+            var selectedText = this.api.asc_GetSelectedText(),
+                text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
+            this.checkPunctuation(text);
             if (text) {
                 this.view.setFindText(text);
             } else if (text !== undefined) { // panel was opened from empty searchbar, clear to start new search
@@ -356,9 +391,7 @@ define([
                 this.view.$resultsContainer.show();
                 this.resultItems.forEach(function (item) {
                     me.view.$resultsContainer.append(item.el);
-                    if (item.selected) {
-                        $(item.el).addClass('selected');
-                    }
+                    $(item.el)[item.selected ? 'addClass' : 'removeClass']('selected');
                     $(item.el).on('click', function (el) {
                         me.api.asc_SelectSearchElement(item.id);
                         $('#search-results').find('.item').removeClass('selected');
@@ -373,8 +406,33 @@ define([
             this.hideResults();
         },
 
+        onApiSearchEnd: function () {
+            if (!this._state.isContentChanged) {
+                this._state.isContentChanged = true;
+                this.view.updateResultsNumber('content-changed');
+                this.view.disableReplaceButtons(true);
+            }
+        },
+
+        onApiTextReplaced: function(found, replaced) {
+            if (found) {
+                !(found - replaced > 0) ?
+                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+            } else {
+                Common.UI.info({msg: this.textNoTextFound});
+            }
+        },
+
+        getSearchText: function () {
+            return this._state.searchText;
+        },
+
         notcriticalErrorTitle: 'Warning',
-        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
+        warnReplaceString: '{0} is not a valid special character for the Replace With box.',
+        textReplaceSuccess: 'Search has been done. {0} occurrences have been replaced',
+        textReplaceSkipped: 'The replacement has been made. {0} occurrences were skipped.',
+        textNoTextFound: 'The data you have been searching for could not be found. Please adjust your search options.'
 
     }, PE.Controllers.Search || {}));
 });

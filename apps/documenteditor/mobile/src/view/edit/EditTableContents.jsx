@@ -68,7 +68,7 @@ const EditTableContents = props => {
     return (
         <Fragment>
             <List>
-                <ListItem title={t('Edit.textStyle')} link="/edit-style-table-contents/" after={activeStyle.displayValue} routeProps={{
+                <ListItem title={t('Edit.textStyle')} link="/edit-style-table-contents/" after={activeStyle ? activeStyle.displayValue : ''} routeProps={{
                     onStyle: props.onStyle, 
                     arrStyles,
                     setStyleValue,
@@ -260,12 +260,12 @@ const PageEditStructureTableContents = props => {
                 <List>
                     {styles.map((style, index) => {
                         return (
-                            <ListItem checkbox key={index} title={style.displayValue} checked={style.checked}>
-                                {!isAndroid && <div slot='after-start'>{style.value}</div>}
+                            <ListItem checkbox key={index} title={style.displayValue} checked={style.checked && style.value >= 1}>
+                                {!isAndroid && <div slot='after-start'>{style.value === 0 ? '' : style.value}</div>}
                                 <div slot='after'>
                                     <Segmented>
                                         <Button outline className='decrement item-link' onClick={() => {
-                                            if(style.value > 1) {
+                                            if(style.value >= 1) {
                                                 setAmountLevels(-1);
                                                 addNewStyle(style);
                                                 props.addStyles(chosenStyles, style.name, style.value - 1);
@@ -273,7 +273,7 @@ const PageEditStructureTableContents = props => {
                                         }}>
                                             {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                                         </Button>
-                                        {isAndroid && <label>{style.value}</label>}
+                                        {isAndroid && <label>{style.value === 0 ? '' : style.value}</label>}
                                         <Button outline className='increment item-link' onClick={() => {
                                             if(style.value < 9) {
                                                 setAmountLevels(-1);

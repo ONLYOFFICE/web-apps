@@ -69,6 +69,9 @@
         .title {
             font-weight: 600;
             color: @text-normal;
+            //line-height: 17px;
+            //max-height: 34px;
+            //overflow: hidden;
         }
         .navbar-inner, .subnavbar-inner {
             z-index: auto;
@@ -166,7 +169,7 @@
         .page-content {
             > .list {
                 &:last-child {
-                    margin-bottom: 30px;
+                    // margin-bottom: 30px;
                 }
             }
         }
@@ -181,6 +184,7 @@
                 margin-top: 21px;
                 box-sizing: border-box;
                 box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
+                background: @fill-white;
             }
             .item-after {
                 .color-preview {
@@ -548,6 +552,15 @@
     .toggle-icon {
         background: transparent;
     }
+
+    // Edit Comment Popup
+
+    .edit-comment-popup {
+        .navbar .title {
+            line-height: normal;
+        }
+    }
+
 }
 
 

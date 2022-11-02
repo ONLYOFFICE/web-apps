@@ -465,6 +465,7 @@ define([
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
                     docInfo.put_Url(data.doc.url);
+                    docInfo.put_DirectUrl(data.doc.directUrl);
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
@@ -777,7 +778,7 @@ define([
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
-                    rightMenu: {clear: true, disable: true},
+                    rightMenu: {clear: !temp, disable: true},
                     statusBar: true,
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true, history: temp},
@@ -841,7 +842,7 @@ define([
                     app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
                 }
                 if (options.plugins) {
-                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').SetDisabled(disable, options.reviewMode, options.fillFormMode);
                 }
                 if (options.protect) {
                     app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
@@ -1093,6 +1094,7 @@ define([
 
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
+                        Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, true);
                         var me = this;
                         statusCallback = function() {
@@ -1218,16 +1220,13 @@ define([
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
+                me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getBool("de-settings-inputmode");
-                Common.Utils.InternalSettings.set("de-settings-inputmode", value);
-                me.api.SetTextBoxInputMode(value);
-
-                value = Common.localStorage.getBool("de-settings-use-alt-key", true);
-                Common.Utils.InternalSettings.set("de-settings-use-alt-key", value);
+                value = Common.localStorage.getBool("de-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                Common.Utils.InternalSettings.set("de-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
                 me._state.fastCoauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
@@ -1259,7 +1258,7 @@ define([
 
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
-                leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
+                leftmenuController.createDelayedElements().setApi(me.api);
 
                 navigationController.setMode(me.appOptions).setApi(me.api);
 
@@ -1363,7 +1362,8 @@ define([
                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
-                if (licType !== undefined && this.appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS))
+                if (licType !== undefined && this.appOptions.canLiveView && (licType===Asc.c_oLicenseResult.ConnectionsLive || licType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
+                                                                             licType===Asc.c_oLicenseResult.UsersViewCount || licType===Asc.c_oLicenseResult.UsersViewCountOS))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady)
@@ -1372,7 +1372,8 @@ define([
 
             applyLicense: function() {
                 if (this.editorConfig.mode === 'view') {
-                    if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS)) {
+                    if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
+                                                        this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
                         // show warning or write to log if Common.Utils.InternalSettings.get("de-settings-coauthmode") was true ???
                         this.disableLiveViewing(true);
                     }
@@ -1566,7 +1567,7 @@ define([
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
-                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
+                this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
 
                 if (this.appOptions.canComments)
@@ -1656,12 +1657,16 @@ define([
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder'),
-                    toolbarController   = app.getController('Toolbar');
+                    toolbarController   = app.getController('Toolbar'),
+                    leftMenu            = app.getController('LeftMenu');
 
                 viewport && viewport.setMode(this.appOptions);
                 statusbarView && statusbarView.setMode(this.appOptions);
                 toolbarController.setMode(this.appOptions);
                 documentHolder.setMode(this.appOptions);
+                leftMenu.setMode(this.appOptions);
+
+                viewport.applyCommonMode();
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
@@ -1691,14 +1696,16 @@ define([
                 var toolbarController   = application.getController('Toolbar');
                 toolbarController   && toolbarController.setApi(me.api);
 
-                if (this.appOptions.isEdit) {
+                if (this.appOptions.isRestrictedEdit)
+                    application.getController('DocProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                else if (this.appOptions.isEdit) {
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
                     fontsControllers    && fontsControllers.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
-                    if (this.appOptions.canProtect)
-                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                    application.getController('DocProtection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
 
@@ -1966,6 +1973,14 @@ define([
 
                     case Asc.c_oAscError.ID.ComplexFieldNoTOC:
                         config.msg = this.errorNoTOC;
+                        break;
+
+                    case Asc.c_oAscError.ID.TextFormWrongFormat:
+                        config.msg = this.errorTextFormWrongFormat;
+                        break;
+
+                    case Asc.c_oAscError.ID.PasswordIsNotCorrect:
+                        config.msg = this.errorPasswordIsNotCorrect;
                         break;
 
                     default:
@@ -2872,6 +2887,24 @@ define([
                 return true;
             },
 
+            onConfirmAction: function(id, apiCallback, data) {
+                var me = this;
+                if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.confirmMaxChangesSize,
+                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
+                        maxwidth: 600,
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback(btn === 'ok');
+                            }
+                            me.onEditComplete();
+                        }, this)
+                    });
+                }
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -3249,7 +3282,12 @@ define([
             errorEmptyTOC: 'Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.',
             errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.',
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
-            textRememberMacros: 'Remember my choice for all macros'
+            textRememberMacros: 'Remember my choice for all macros',
+            errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
+            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
+            confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
+            textUndo: 'Undo',
+            textContinue: 'Continue'
         }
     })(), DE.Controllers.Main || {}))
 });

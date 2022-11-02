@@ -47,7 +47,7 @@ define([
     DE.Views.LineNumbersDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 290,
-            height: 320,
+            height: 332,
             header: true,
             style: 'min-width: 290px;',
             cls: 'modal-dlg',

@@ -78,6 +78,9 @@ define([
                     });
                 });
 
+                this.btnPwd.on('click', function (b, e) {
+                    !b.pressed && me.fireEvent('protect:password', [b, 'delete']);
+                });
                 this.btnPwd.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('protect:password', [menu, item.value]);
                 });
@@ -132,6 +135,8 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-protect',
                         caption: this.txtEncrypt,
+                        split: true,
+                        enableToggle: true,
                         menu: true,
                         visible: false,
                         dataHint    : '1',
@@ -172,7 +177,7 @@ define([
                     if ( config.canProtect) {
                         if ( config.isPasswordSupport) {
                             me.btnAddPwd.updateHint(me.hintAddPwd);
-                            me.btnPwd.updateHint(me.hintPwd);
+                            me.btnPwd.updateHint([me.hintDelPwd, me.hintPwd]);
 
                             me.btnPwd.setMenu(
                                 new Common.UI.Menu({
@@ -342,6 +347,7 @@ define([
                     }
                 }, this);
                 this.btnPwd.setVisible(hasPassword);
+                this.btnPwd.toggle(hasPassword, true);
             },
 
             txtEncrypt: 'Encrypt',
@@ -353,7 +359,8 @@ define([
             txtDeletePwd: 'Delete password',
             txtAddPwd: 'Add password',
             txtInvisibleSignature: 'Add digital signature',
-            txtSignatureLine: 'Add Signature line'
+            txtSignatureLine: 'Add Signature line',
+            hintDelPwd: 'Delete password'
         }
     }()), Common.Views.Protection || {}));
 });

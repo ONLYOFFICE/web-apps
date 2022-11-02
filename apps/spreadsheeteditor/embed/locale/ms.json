@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Ketinggian",
   "common.view.modals.txtShare": "Kongsi Pautan",
   "common.view.modals.txtWidth": "Lebar",
+  "common.view.SearchBar.textFind": "Cari",
   "SSE.ApplicationController.convertationErrorText": "Penukaran telah gagal.",
   "SSE.ApplicationController.convertationTimeoutText": "Melebihi masa tamat penukaran.",
   "SSE.ApplicationController.criticalErrorTitle": "Ralat",
@@ -16,7 +17,7 @@
   "SSE.ApplicationController.errorForceSave": "Terdapat ralat yang berlaku semasa menyimpan fail. Sila gunakan pilihan 'Download as' untuk menyimpan salinan fail sandaran ke pemacu keras komputer anda dan cuba semula nanti.",
   "SSE.ApplicationController.errorLoadingFont": "Fon tidak dimuatkan.<br>Sila hubungi pentadbir Pelayan Dokumen anda.",
   "SSE.ApplicationController.errorTokenExpire": "Dokumen token keselamatan telah tamat tempoh.<br>Sila hubungi pentadbir Pelayan Dokumen.",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan internet telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
   "SSE.ApplicationController.errorUserDrop": "Fail tidak boleh diakses sekarang.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Amaran",
   "SSE.ApplicationController.openErrorText": "Ralat telah berlaku semasa membuka fail.",
@@ -34,5 +35,6 @@
   "SSE.ApplicationView.txtFileLocation": "Buka lokasi fail",
   "SSE.ApplicationView.txtFullScreen": "Skrin penuh",
   "SSE.ApplicationView.txtPrint": "Cetak",
+  "SSE.ApplicationView.txtSearch": "Carian",
   "SSE.ApplicationView.txtShare": "Kongsi"
 }

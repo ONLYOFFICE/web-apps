@@ -60,8 +60,8 @@ define([
     Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
-            width: 280,
-            height: 255,
+            width: 285,
+            height: 261,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -87,9 +87,9 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtType + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
-                                    '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 100px;"></div>',
-                                    '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 100px;"></div>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                    '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 105px;"></div>',
+                                    '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
@@ -97,8 +97,8 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtImport + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
-                                    '<div id="id-dlg-list-image" style="width: 100px;"></div>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                    '<div id="id-dlg-list-image" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
@@ -106,7 +106,7 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtSize + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-size"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
@@ -117,7 +117,7 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text" style="white-space: nowrap;">' + this.txtStart + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-start"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
@@ -126,7 +126,7 @@ define([
                                 '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtColor + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-color"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
@@ -215,7 +215,7 @@ define([
             this.cmbBulletFormat = new Common.UI.ComboBoxCustom({
                 el          : $('#id-dlg-list-bullet-format'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
-                style       : "width: 100px;",
+                style       : "width: 105px;",
                 editable    : false,
                 takeFocusOnClose: true,
                 template    : _.template(template.join('')),
@@ -239,7 +239,7 @@ define([
                         if (record.get('value')===_BulletTypes.symbol)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else if (record.get('value')===_BulletTypes.image) {
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" style="width:12px; height: 12px; margin-left: 4px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" style="width:12px; height: 12px; margin-left: 2px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
                             var bullet = new Asc.asc_CBullet();
                             bullet.asc_fillBulletImage(me.imageProps.id);
                             bullet.drawSquareImage('id-dlg-list-bullet-combo-preview');
@@ -278,6 +278,9 @@ define([
                                     idx = store.indexOf(store.findWhere({value: _BulletTypes.newSymbol}));
                                 store.add({ displayValue: me.txtSymbol + ': ', value: _BulletTypes.symbol, symbol: props.symbol, font: props.font }, {at: idx});
                             }
+                            if (me.imageProps)
+                                me.imageProps.redraw = true;
+
                             combo.setData(store.models);
                             combo.selectRecord(combo.store.findWhere({value: _BulletTypes.symbol, symbol: props.symbol, font: props.font}));
                         },
@@ -316,7 +319,7 @@ define([
             this.spnSize = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-size'),
                 step        : 1,
-                width       : 100,
+                width       : 105,
                 value       : 100,
                 defaultUnit : '',
                 maxValue    : 400,
@@ -342,7 +345,7 @@ define([
             this.spnStart = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-start'),
                 step        : 1,
-                width       : 100,
+                width       : 105,
                 value       : 1,
                 defaultUnit : '',
                 maxValue    : 32767,
@@ -360,7 +363,7 @@ define([
                 caption: this.textSelect,
                 style: 'width: 100%;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 100px;',
+                    style: 'min-width: 105px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: [

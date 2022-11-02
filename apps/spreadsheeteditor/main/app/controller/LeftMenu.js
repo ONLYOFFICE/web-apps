@@ -93,6 +93,9 @@ define([
                 },
                 'SearchBar': {
                     'search:show': _.bind(this.onShowHideSearch, this)
+                },
+                'ViewTab': {
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 }
             });
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
@@ -314,6 +317,7 @@ define([
                         this.showHistory();
                 }
                 break;
+            case 'external-help': close_menu = true; break;
             default: close_menu = false;
             }
 
@@ -429,7 +433,7 @@ define([
             var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
 
-            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
@@ -692,7 +696,7 @@ define([
                         if (this.isSearchPanelVisible()) {
                             selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                             this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                            this.leftMenu.fireEvent('search:aftershow', [selectedText]);
+                            this.leftMenu.fireEvent('search:aftershow', [selectedText ? selectedText : undefined]);
                             return false;
                         } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                             var viewport = this.getApplication().getController('Viewport');
@@ -708,10 +712,10 @@ define([
                             Common.NotificationCenter.trigger('search:show');
                             return false;
                         } else {
-                            this.onShowHideSearch(true, selectedText);
+                            this.onShowHideSearch(true, selectedText ? selectedText : undefined);
                         }
                         this.leftMenu.btnSearchBar.toggle(true,true);
-                        this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
+                        this.leftMenu.panelSearch.focus(selectedText ? s : 'search');
                     }
                     return false;
                 case 'save':
@@ -805,8 +809,8 @@ define([
             this.leftMenu.btnSearchBar.setDisabled(isRangeSelection);
             this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                Common.Utils.lockControls(Common.enumLock.selRangeEdit, isRangeSelection, {array: this.leftMenu.panelPlugins.lockedControls});
                 this.leftMenu.panelPlugins.setLocked(isRangeSelection);
-                this.leftMenu.panelPlugins.disableControls(isRangeSelection);
             }
         },
 
@@ -817,14 +821,15 @@ define([
             this.leftMenu.btnSearchBar.setDisabled(isEditFormula);
             this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
+                Common.Utils.lockControls(Common.enumLock.editFormula, isEditFormula, {array: this.leftMenu.panelPlugins.lockedControls});
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
-                this.leftMenu.panelPlugins.disableControls(isEditFormula);
             }
         },
 
         onPluginOpen: function(panel, type, action) {
             if (type == 'onboard') {
                 if (action == 'open') {
+                    this.tryToShowLeftMenu();
                     this.leftMenu.close();
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
@@ -840,6 +845,7 @@ define([
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
                     Common.UI.Menu.Manager.hideAll();
+                    this.tryToShowLeftMenu();
                     this.leftMenu.showMenu('chat');
                 } else {
                     this.leftMenu.btnChat.toggle(false, true);
@@ -901,6 +907,24 @@ define([
 
         isCommentsVisible: function() {
             return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
+        },
+
+        onLeftMenuHide: function (view, status) {
+            if (this.leftMenu) {
+                !status && this.leftMenu.close();
+                status ? this.leftMenu.show() : this.leftMenu.hide();
+                Common.localStorage.setBool('sse-hidden-leftmenu', !status);
+
+                !view && this.leftMenu.fireEvent('view:hide', [this, !status]);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.leftMenu);
+        },
+
+        tryToShowLeftMenu: function() {
+            if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
+                this.onLeftMenuHide(null, true);
         },
 
         textNoTextFound        : 'Text not found',

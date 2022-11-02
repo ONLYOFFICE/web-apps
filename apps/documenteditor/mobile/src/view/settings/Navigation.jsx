@@ -2,14 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Device } from '../../../../../common/mobile/utils/device';
 import {f7, View, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link, ListButton, Toggle, Actions, ActionsButton, ActionsGroup, Sheet} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import { inject, observer } from "mobx-react";
 
-const NavigationPopover = props => {
+const NavigationPopover = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const api = Common.EditorApi.get();
+    const storeNavigation = props.storeNavigation;
+    const bookmarks = storeNavigation.bookmarks;
     const navigationObject = api.asc_ShowDocumentOutline();
-    const [currentPosition, setCurrentPosition] = useState(navigationObject.get_CurrentPosition());
-    const arrHeaders = props.updateNavigation();
+    const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : bookmarks.length ? bookmarks[0] : null);
+    let arrHeaders = [];
+
+    if(navigationObject) {
+        arrHeaders = props.updateNavigation();
+    } else if(bookmarks.length) {
+        arrHeaders = props.updateViewerNavigation(bookmarks);
+    }
 
     return (
         <Page>
@@ -20,10 +29,10 @@ const NavigationPopover = props => {
                         <p className="empty-screens__text">{t('Settings.textEmptyScreens')}</p>
                     </div>
                 :
-                    <List className="navigation-list">
+                    <List className="navigation-list" style={!Device.phone ? { height: '352px', marginTop: 0 } : null}>
                         {arrHeaders.map((header, index) => {
                             return (
-                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textEmptyHeading') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
+                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
                                     setCurrentPosition(header.index);
                                     props.onSelectItem(header.index);
                                 }}></ListItem>
@@ -33,14 +42,22 @@ const NavigationPopover = props => {
             }
         </Page>
     )
-}
+}));
 
-const NavigationSheet = props => {
+const NavigationSheet = inject('storeNavigation')(observer(props => {
     const { t } = useTranslation();
     const api = Common.EditorApi.get();
+    const storeNavigation = props.storeNavigation;
+    const bookmarks = storeNavigation.bookmarks;
     const navigationObject = api.asc_ShowDocumentOutline();
-    const [currentPosition, setCurrentPosition] = useState(navigationObject.get_CurrentPosition());
-    const arrHeaders = props.updateNavigation();
+    const [currentPosition, setCurrentPosition] = useState(navigationObject ? navigationObject.get_CurrentPosition() : bookmarks.length ? bookmarks[0] : null);
+    let arrHeaders = [];
+
+    if(navigationObject) {
+        arrHeaders = props.updateNavigation();
+    } else if(bookmarks.length) {
+        arrHeaders = props.updateViewerNavigation(bookmarks);
+    }
 
     const [stateHeight, setHeight] = useState('45%');
     const [stateOpacity, setOpacity] = useState(1);
@@ -104,7 +121,7 @@ const NavigationSheet = props => {
                     <List className="navigation-list">
                         {arrHeaders.map((header, index) => {
                             return (
-                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textEmptyHeading') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
+                                <ListItem radio key={index} title={header.isEmptyItem ? t('Settings.textBeginningDocument') : header.name} checked={header.index === currentPosition} style={{paddingLeft: header.level * 16}} onClick={() => {
                                     setCurrentPosition(header.index);
                                     props.onSelectItem(header.index);
                                 }}></ListItem>
@@ -114,7 +131,7 @@ const NavigationSheet = props => {
             }
         </Sheet>
     )
-}
+}));
 
 export {
     NavigationPopover,

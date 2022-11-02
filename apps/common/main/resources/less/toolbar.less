@@ -40,6 +40,8 @@
         .extra {
             background-color: @header-background-color-ie;
             background-color: @header-background-color;
+
+            box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
         }
 
     //&::after {
@@ -62,6 +64,8 @@
         display: flex;
         flex-shrink: 1;
 
+        box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
+
         > ul {
             padding: 4px 0 0;
             margin: 0;
@@ -75,15 +79,19 @@
             display: inline-flex;
             align-items: center;
             height: 100%;
-
+            position: relative;
             &:hover {
                 background-color: @highlight-header-button-hover-ie;
                 background-color: @highlight-header-button-hover;
+
+                box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
             }
 
             &.active {
                 background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
+
+                box-shadow: inset @minus-px 0px 0 0 @border-toolbar-active-panel-top, inset @scaled-one-px-value @scaled-one-px-value 0 0 @border-toolbar-active-panel-top;
             }
 
 
@@ -112,6 +120,29 @@
             }
         }
 
+        &:not(.style-off-tabs *) {
+            &.short {
+                li {
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        background: @border-toolbar-active-panel-top;
+                        height: @scaled-one-px-value;
+                        bottom: 0;
+                        left: 1px;
+                        right: 1px;
+                        z-index: 2;
+                    }
+
+                    &.active {
+                        &:after {
+                            background: @background-toolbar;
+                        }
+                    }
+                }
+            }
+        }
+
         .scroll {
             line-height: @height-tabs;
             min-width: 20px;
@@ -133,7 +164,7 @@
 
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
-                box-shadow: 5px 0 20px 5px @header-background-color;
+                box-shadow: 18px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(135deg);
@@ -142,7 +173,7 @@
             }
             &.right{
                 box-shadow: -5px 0 20px 5px @header-background-color-ie;
-                box-shadow: -5px 0 20px 5px @header-background-color;
+                box-shadow: -10px calc(38px - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(-45deg);
@@ -231,8 +262,18 @@
                 }
             }
         }
+        .group {
+            height: 52px !important;
+        }
         &[data-tab=pivot] {
             padding: 5px 10px 0 0;
+            .group {
+                height: 60px !important;
+            }
+            .separator {
+                margin-top: 4px;
+                margin-bottom: 4px;
+            }
         }
     }
 
@@ -258,7 +299,7 @@
         &.small {
             padding-left: 10px;
 
-            + .separator {
+            + .separator:not(.invisible) {
                 margin-left: 10px;
             }
         }
@@ -288,6 +329,11 @@
 
         &.close {
             margin-left: 5px;
+        }
+
+        &.invisible {
+            margin-left: 0;
+            border: none;
         }
 
         &.long {
@@ -404,7 +450,10 @@
 
                 &.active {
                     background-color: transparent;
-
+                    box-shadow: none;
+                    //> a {
+                    //    padding: 0 12px;
+                    //}
                     &:after {
                         opacity: 1;
                         bottom: 0;
@@ -413,13 +462,19 @@
 
                 &:hover:not(.active) {
                     background-color: rgba(0, 0, 0, .05);
+                    box-shadow: none;
+
+                    .theme-type-dark & {
+                        background-color: rgba(255, 255, 255, .05);
+                    }
+
+                    //background-color: @highlight-button-hover-ie;
                     //background-color: @highlight-button-hover;
                 }
 
                 > a {
                     color: @text-normal-ie;
                     color: @text-normal;
-
                     &::after {
                         display:block;
                         content:attr(data-title);
@@ -546,8 +601,8 @@
             color: @text-normal-ie;
             color: @text-normal;
             &:hover:not(:disabled),&:focus {
-                box-shadow: 0 0 0 1px @highlight-button-hover-ie;
-                box-shadow: 0 0 0 1px @highlight-button-hover;
+                box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-button-hover-ie;
+                box-shadow: 0 0 0 @scaled-one-px-value @highlight-button-hover;
             }
         }
 
@@ -695,7 +750,7 @@
         .background-ximage-all('toolbar/math.png', 1500px, @commonimage: true);
         opacity: @component-normal-icon-opacity;
 
-        .theme-dark & {
+        .theme-type-dark & {
             -webkit-filter: @img-equition-filter;
             filter: @img-equition-filter;
         }

@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Výška",
   "common.view.modals.txtShare": "Odkaz pro sdílení",
   "common.view.modals.txtWidth": "Šířka",
+  "common.view.SearchBar.textFind": "Najít",
   "PE.ApplicationController.convertationErrorText": "Převod se nezdařil.",
   "PE.ApplicationController.convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
   "PE.ApplicationController.criticalErrorTitle": "Chyba",
@@ -16,7 +17,7 @@
   "PE.ApplicationController.errorForceSave": "Při ukládání souboru došlo k chybě. Prosím použijte „Stáhnout jako“ a uložte si soubor k sobě na počítač nebo původní volbu zkuste znovu později.",
   "PE.ApplicationController.errorLoadingFont": "Písma nejsou načtená.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
   "PE.ApplicationController.errorTokenExpire": "Platnost tokenu zabezpečení dokumentu skončila.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Připojení k Internetu bylo obnoveno a verze souboru byla změněna.<br>Než budete moci pokračovat v práci, bude třeba si soubor stáhnout nebo si zkopírovat jeho obsah, abyste si zajistili, že se nic neztratí a až poté tuto stránku znovu načtěte.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Připojení k Internetu bylo obnoveno a verze souboru byla změněna.<br>Než budete moci pokračovat v práci, musíte stáhnout nebo zkopírovat obsah souboru, aby nedošlo ke ztrátě dat. Poté tuto stránku obnovte.",
   "PE.ApplicationController.errorUserDrop": "Tento soubor nyní není přístupný.",
   "PE.ApplicationController.notcriticalErrorTitle": "Varování",
   "PE.ApplicationController.openErrorText": "Při otevírání souboru došlo k chybě.",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Otevřít umístění souboru",
   "PE.ApplicationView.txtFullScreen": "Na celou obrazovku",
   "PE.ApplicationView.txtPrint": "Tisk",
+  "PE.ApplicationView.txtSearch": "Hledat",
   "PE.ApplicationView.txtShare": "Sdílet"
 }

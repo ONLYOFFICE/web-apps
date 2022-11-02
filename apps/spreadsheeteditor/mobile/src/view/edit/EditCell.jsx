@@ -4,7 +4,7 @@ import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTit
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
-import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -144,7 +144,6 @@ const PageCellStyle = props => {
             </Navbar>
             {cellStyles && cellStyles.length ? (
                 <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
-                    <div className="swiper-pagination"></div>
                     <div className="swiper-wrapper">
                         {arraySlides.map((_, indexSlide) => {
                             let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
@@ -161,6 +160,7 @@ const PageCellStyle = props => {
                                 </div>
                         )})}
                     </div>
+                    <div className="swiper-pagination"></div>
                 </div>
             ) : null}
         </Page>

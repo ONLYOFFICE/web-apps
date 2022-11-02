@@ -188,25 +188,16 @@
             }
         }
 
-        #panel-settings-general,
-        #panel-settings-print {
-            & > div {
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                display: flex;
-                flex-direction: column;
-            }
-        }
-
         #panel-info {
             padding: 0;
             display: flex;
             flex-direction: column;
         }
 
-        #panel-settings-general {
+        #panel-settings {
             padding: 0;
+            display: flex;
+            flex-direction: column;
 
             #id-settings-menu {
                 .dataview {
@@ -480,6 +471,7 @@
                         &.selected {
                             background-color: @highlight-button-pressed-ie;
                             background-color: @highlight-button-pressed;
+                            color: @text-normal-pressed-ie;
                             color: @text-normal-pressed;
                         }
                     }
@@ -533,7 +525,6 @@
             }
 
             .userLink {
-                .background-ximage('@{common-image-path}/@{common-controls}', '@{common-image-path}/@{common-controls2x}', 100px);
                 background-position: -81px -234px;
                 background-repeat: no-repeat;
                 padding: 0 0 0 17px;
@@ -680,6 +671,7 @@
                         border-right: none;
                     }
                     &.disabled {
+                        opacity: @component-disabled-opacity-ie;
                         opacity: @component-disabled-opacity;
                     }
 
@@ -760,24 +752,29 @@
             height: 100%;
             position: relative;
         }
-        .header-item {
-            width:16%;
-            display: inline-block;
-            height: 18px;
-            text-align: start;
-            font-weight: normal;
-            padding-left: 4px;
-            padding-top: 2px;
-            &:not(:first-child) {
-                border-left: @scaled-one-px-value-ie solid @border-divider-ie;
-                border-left: @scaled-one-px-value solid @border-divider;
-            }
-            &:last-child {
-                width:36%;
+        .header-items {
+            display: flex;
+            .header-item {
+                width: 16%;
+                height: 18px;
+                text-align: start;
+                font-weight: normal;
+                padding-left: 4px;
+                padding-top: 2px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                &:not(:first-child) {
+                    border-left: @scaled-one-px-value-ie solid @border-divider-ie;
+                    border-left: @scaled-one-px-value solid @border-divider;
+                }
+                &:last-child {
+                    width: 36%;
+                }
             }
         }
         .search-items {
-            height: calc(100% - 24px);
+            height: calc(100% - 28px);
             position: absolute;
             top: 28px;
             width: 100%;

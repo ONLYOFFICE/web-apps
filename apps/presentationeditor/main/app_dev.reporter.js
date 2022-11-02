@@ -48,7 +48,7 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
-        sockjs          : '../vendor/sockjs/sockjs.min',
+        socketio        : '../vendor/socketio/socket.io.min',
         allfonts        : '../../sdkjs/common/AllFonts'
     },
     shim: {
@@ -61,14 +61,14 @@ require.config({
                 'underscore',
                 'allfonts',
                 'xregexp',
-                'sockjs'
+                'socketio'
             ]
         }
     }
 });
 
 require([
-    'sockjs',
+    'socketio',
     'xregexp',
     'underscore'
 ], function () {
@@ -108,6 +108,7 @@ require([
             docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(data.key);
             docInfo.put_Url(data.url);
+            docInfo.put_DirectUrl(data.directUrl);
             docInfo.put_Title(data.title);
             docInfo.put_Format(data.fileType);
             docInfo.put_VKey(data.vkey);

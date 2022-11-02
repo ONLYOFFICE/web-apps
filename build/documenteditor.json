@@ -30,7 +30,7 @@
                         "perfectscrollbar": "common/main/lib/mods/perfect-scrollbar",
                         "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
                         "xregexp": "empty:",
-                        "sockjs": "empty:",
+                        "socketio": "empty:",
                         "coapisettings": "empty:",
                         "allfonts": "empty:",
                         "sdk": "empty:",
@@ -83,7 +83,7 @@
                                 "coapisettings",
                                 "allfonts",
                                 "xregexp",
-                                "sockjs"
+                                "socketio"
                             ]
                         },
                         "gateway": {
@@ -186,12 +186,6 @@
         },
         "svgicons": {
             "common": [
-                {
-                    "expand": true,
-                    "cwd": "../apps/common/main/resources/img",
-                    "src": "**/*.svg",
-                    "dest": "../deploy/web-apps/apps/documenteditor/main/resources/img"
-                },
                 {
                     "expand": true,
                     "cwd": "../apps/documenteditor/main/resources/img",

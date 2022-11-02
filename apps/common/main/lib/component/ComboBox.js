@@ -358,6 +358,9 @@ define([
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
                 if (this.options.takeFocusOnClose) {
                     var me = this;
+                    (me._input && me._input.length>0 && !me.editable) && (me._input[0].selectionStart===me._input[0].selectionEnd) && setTimeout(function() {
+                        me._input[0].selectionStart = me._input[0].selectionEnd = 0;
+                    },1);
                     setTimeout(function(){me.focus();}, 1);
                 }
             },
@@ -404,8 +407,9 @@ define([
             },
 
             selectCandidate: function() {
-                var index = this._search.index || 0,
+                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                    isFirstCharsEqual = re.test(this.store.at(index).get(this.displayField)),
                     itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.store.length; i++) {
@@ -414,6 +418,8 @@ define([
                         if (!itemCandidate) {
                             itemCandidate = item;
                             idxCandidate = i;
+                            if(!isFirstCharsEqual) 
+                                break;  
                         }
                         if (this._search.full && i==index || i>index) {
                             itemCandidate = item;

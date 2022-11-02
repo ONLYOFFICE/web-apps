@@ -32,7 +32,8 @@
       "textReopen": "Redeschidere",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori"
+      "textUsers": "Utilizatori",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Culori particularizate",
@@ -63,9 +64,10 @@
     "notcriticalErrorTitle": "Avertisment",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
+    "textOk": "OK",
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
     "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
       "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+      "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -223,7 +227,7 @@
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
     "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
     "errorUnexpectedGuid": "Eroare externă.<br>GUID neașteptat. Contactați Seviciul de Asistență Clienți.",
-    "errorUpdateVersionOnDisconnect": "Conexiunea la Internet s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
+    "errorUpdateVersionOnDisconnect": "Conexiunea s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
     "errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
     "errorUsersExceed": "Limita de utilizatori stipulată de planul tarifar a fost depășită",
     "errorViewerDisconnect": "Conexiunea a fost pierdută. Încă mai puteți vizualiza documentul,<br>dar nu și să-l descărcați până când conexiunea se restabilește și pagina se reîmprospătează.",
@@ -238,7 +242,8 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -279,7 +284,10 @@
     "txtEditingMode": "Setare modul de editare...",
     "uploadImageTextText": "Încărcarea imaginii...",
     "uploadImageTitleText": "Încărcarea imaginii",
-    "waitText": "Vă rugăm să așteptați..."
+    "waitText": "Vă rugăm să așteptați...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Avertisment",
@@ -370,7 +378,9 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
       "txtSortSelected": "Sortarea selecției",
-      "txtYes": "Da"
+      "txtYes": "Da",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -504,10 +514,7 @@
       "textPt": "pt",
       "textRange": "Zona",
       "textRemoveChart": "Ștergere diagrama",
-      "textRemoveImage": "Ștergere imagine",
-      "textRemoveLink": "Ștergere link",
       "textRemoveShape": "Stergere forma",
-      "textReorder": "Reordonare",
       "textReplace": "Înlocuire",
       "textReplaceImage": "Înlocuire imagine",
       "textRequired": "Obligatoriu",
@@ -552,7 +559,14 @@
       "textYen": "Yen",
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sortare de la cea mai mare la cea mai mică valoare",
-      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare"
+      "txtSortLow2High": "Sortare de la cea mai mică la cea mai mare valoare",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Alegerea opțiunilor CSV",

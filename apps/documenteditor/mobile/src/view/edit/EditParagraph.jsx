@@ -193,24 +193,22 @@ const EditParagraph = props => {
     const curStyleName = storeParagraphSettings.styleName;
     const curStyle = paragraphStyles.find(style => style.name === curStyleName);
     const thumbSize = storeParagraphSettings.styleThumbSize;
-
     const paragraph = props.storeFocusObjects.paragraphObject;
     const curBackColor = storeParagraphSettings.backColor ? storeParagraphSettings.backColor : storeParagraphSettings.getBackgroundColor(paragraph);
-    const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : curBackColor;
-    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
+    const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : '';
     
     return (
         <Fragment>
             <BlockTitle>{t('Edit.textParagraphStyle')}</BlockTitle>
-            <List className={activeStyle} style={{marginBottom: 0}}>
-                <ListItem link="/edit-paragraph-style/" routeProps={{
+            <List style={{marginBottom: 0}}>
+                <ListItem link="/edit-paragraph-style/" title={!curStyle && t('Edit.textCustomStyle')} routeProps={{
                     onStyleClick: props.onStyleClick,
                     onSaveStyle: props.onSaveStyle,
                     onStyleMenuDelete: props.onStyleMenuDelete
                 }}>
-                    <div slot="inner"
-                        style={{backgroundImage: 'url(' + curStyle.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
-                    ></div>
+                    {curStyle && 
+                        <div slot="inner" style={{backgroundImage: 'url(' + curStyle.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#fff'}}></div>
+                    }
                 </ListItem>
             </List>
             <List>
@@ -247,7 +245,6 @@ const EditParagraphStyle = props => {
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
     const curStyleName = storeParagraphSettings.styleName;
     const thumbSize = storeParagraphSettings.styleThumbSize;
-    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
 
     return (
         <Page>
@@ -267,7 +264,7 @@ const EditParagraphStyle = props => {
                     {Device.android && <Icon slot="media" icon="icon-create-style"></Icon>}
                 </ListItem>
             </List>
-            <List className={activeStyle}>
+            <List>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
                         key={index}
@@ -281,7 +278,7 @@ const EditParagraphStyle = props => {
                         }}
                     >
                         <div slot="inner"
-                            style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
+                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#fff'}}
                         ></div>
                         {!api.asc_IsStyleDefault(style.name) && (
                             <div slot="inner-end">
@@ -346,13 +343,12 @@ const ChangeNextParagraphStyle = props => {
     const storeParagraphSettings = props.storeParagraphSettings;
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
     const thumbSize = storeParagraphSettings.styleThumbSize;
-    const activeStyle = Device.android ? 'link no-active-state' : 'no-active-state';
     const [newParagraph, setParagraph] = useState(nextParagraphStyle);
 
     return (
         <Page>
             <Navbar title={t('Edit.textNextParagraphStyle')} backLink={_t.textBack}></Navbar>
-            <List className={activeStyle}>
+            <List>
                 <ListItem style={{paddingLeft: '5px'}} radio radioIcon="start" checked={!newParagraph} onClick={() => {
                     if(newParagraph) {
                         setParagraph('');
@@ -373,7 +369,7 @@ const ChangeNextParagraphStyle = props => {
                         }}
                     >
                         <div slot="inner"
-                            style={{backgroundImage: 'url(' + style.image + ')', width: thumbSize.width + 'px', height: thumbSize.height + 'px', backgroundSize: thumbSize.width + 'px ' + thumbSize.height + 'px', backgroundRepeat: 'no-repeat'}}
+                            style={{backgroundImage: 'url(' + style.image + ')', width: '100%', height: thumbSize.height + 'px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#fff'}}
                         ></div>
                     </ListItem>
                 ))}

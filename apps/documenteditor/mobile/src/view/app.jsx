@@ -13,6 +13,7 @@ import routes from '../router/routes';
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import {MainController} from '../controller/Main';
 import {Device} from '../../../../common/mobile/utils/device'
+import {Themes} from '../../../../common/mobile/lib/controller/Themes'
 
 const f7params = {
     name: 'Desktop Editor', // App name
@@ -26,6 +27,7 @@ export default class extends React.Component {
         super(props);
 
         Common.Notifications = new Notifications();
+        Themes.init();
     }
 
     render() {

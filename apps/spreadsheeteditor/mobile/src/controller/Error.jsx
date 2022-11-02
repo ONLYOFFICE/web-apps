@@ -324,6 +324,10 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
                 config.msg = t('Error.errorCannotUseCommandProtectedSheet');
                 break;
 
+            case Asc.c_oAscError.ID.DirectUrl:
+                config.msg = _t.errorDirectUrl;
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

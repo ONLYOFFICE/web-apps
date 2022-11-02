@@ -32,7 +32,8 @@
       "textReopen": "Redeschide",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori"
+      "textUsers": "Utilizatori",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Fără umplere"
@@ -59,9 +60,10 @@
     "textColumns": "Coloane",
     "textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
     "textDoNotShowAgain": "Nu mai afișa",
+    "textOk": "OK",
     "textRows": "Rânduri",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -155,7 +157,7 @@
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
     "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
-    "errorUpdateVersionOnDisconnect": "Conexiunea la Internet s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
+    "errorUpdateVersionOnDisconnect": "Conexiunea s-a restabilit și versiunea fișierului s-a schimbat.<br>Înainte de a continua, fișierul trebuie descărcat sau conținutul fișierului copiat ca să vă asigurați că nimic nu e pierdut, apoi reîmprospătați această pagină.",
     "errorUserDrop": "Fișierul nu poate fi accesat deocamdată.",
     "errorUsersExceed": "Limita de utilizatori stipulată de planul tarifar a fost depășită",
     "errorViewerDisconnect": "Conexiunea a fost pierdută. Încă mai puteți vizualiza documentul,<br>dar nu și să-l descărcați până când conexiunea se restabilește și pagina se reîmprospătează.",
@@ -169,7 +171,8 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Setare modul de editare...",
     "uploadImageTextText": "Încărcarea imaginii...",
     "uploadImageTitleText": "Încărcare imagine",
-    "waitText": "Vă rugăm să așteptați..."
+    "waitText": "Vă rugăm să așteptați...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -245,7 +251,10 @@
       "textSlideNumber": "Număr diapozitiv",
       "textTable": "Tabel",
       "textTableSize": "Dimensiune tabel",
-      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -351,11 +360,8 @@
       "textPt": "pt",
       "textPush": "Împingere",
       "textRemoveChart": "Ștergere diagrama",
-      "textRemoveImage": "Ștergere imagine",
-      "textRemoveLink": "Ștergere link",
       "textRemoveShape": "Stergere forma",
       "textRemoveTable": "Ștergere tabel",
-      "textReorder": "Reordonare",
       "textReplace": "Înlocuire",
       "textReplaceAll": "Înlocuire peste tot",
       "textReplaceImage": "Înlocuire imagine",
@@ -396,7 +402,15 @@
       "textZoom": "Zoom",
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
-      "textZoomRotate": "Zoom și rotire"
+      "textZoomRotate": "Zoom și rotire",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

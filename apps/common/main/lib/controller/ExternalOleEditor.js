@@ -98,12 +98,14 @@ define([
                         'drag': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:drag', state == 'start');
                         },this),
+                        'resize': _.bind(function(o, state){
+                            externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
+                        },this),
                         'show': _.bind(function(cmp){
                             var h = this.oleEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
-                            if (innerHeight>h && h<700 || innerHeight<h) {
-                                h = Math.min(innerHeight, 700);
-                                this.oleEditorView.setHeight(h);
+                            if (innerHeight<h) {
+                                this.oleEditorView.setHeight(innerHeight);
                             }
 
                             if (externalEditor) {
@@ -131,8 +133,6 @@ define([
                         }, this)
                     }
                 });
-
-
             },
 
             onLaunch: function() {
@@ -142,6 +142,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseOleEditor', _.bind(this.onOleEditingDisabled, this));
+                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 
@@ -185,7 +186,7 @@ define([
                     iconCls: 'warn',
                     buttons: ['ok'],
                     callback: _.bind(function(btn){
-                        this.setControlsDisabled(false);
+                        this.oleEditorView.setControlsDisabled(false);
                         this.oleEditorView.hide();
                     }, this)
                 });
@@ -199,12 +200,15 @@ define([
                 if (this.oleEditorView) {
                     if (eventData.type == 'documentReady') {
                         this.oleEditorView._isExternalDocReady = true;
-                        this.oleEditorView.setControlsDisabled(false);
                         this.isExternalEditorVisible && (isAppFirstOpened = false);
                         this.oleEditorView._oleData && this.setOleData();
                         if (this.needDisableEditing) {
                             this.onOleEditingDisabled();
                         }
+                    } else
+                    if (eventData.type == 'oleEditorReady') {
+                        if (this.needDisableEditing===undefined)
+                            this.oleEditorView.setControlsDisabled(false);
                     } else
                     if (eventData.type == "shortcut") {
                         if (eventData.data.key == 'escape')
@@ -224,12 +228,23 @@ define([
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {
                             this.oleEditorView.binding.dragStop();
+                            if (this.oleEditorView.binding.resizeStop)  this.oleEditorView.binding.resizeStop();
                         } else
                         if (eventData.data.event == 'mouse:move') {
                             var x = parseInt(this.oleEditorView.$window.css('left')) + eventData.data.pagex,
                                 y = parseInt(this.oleEditorView.$window.css('top')) + eventData.data.pagey + 34;
                             this.oleEditorView.binding.drag({pageX:x, pageY:y});
+                            if (this.oleEditorView.binding.resize)  this.oleEditorView.binding.resize({pageX:x, pageY:y});
                         }
+                    }  else
+                    if (eventData.type == "resize") {
+                        var w = eventData.data.width,
+                            h = eventData.data.height;
+                        if (w>0 && h>0)
+                            this.oleEditorView.setInnerSize(w, h);
+                    } else
+                    if (eventData.type == "frameToGeneralData") {
+                        this.api && this.api.asc_getInformationBetweenFrameAndGeneralEditor(eventData.data);
                     } else
                         this.oleEditorView.fireEvent('internalmessage', this.oleEditorView, eventData);
                 }
@@ -241,13 +256,8 @@ define([
                 }
             },
 
-            showExternalEditor: function () {
-                if ( externalEditor ) {
-                    var value = Common.localStorage.getItem("ui-theme-id", "theme-light");
-                    externalEditor.serviceCommand('theme:change', value);
-                }
-
-                this.oleEditorView.show();
+            onSendFromGeneralToFrameEditor: function(data) {
+                externalEditor && externalEditor.serviceCommand('generalToFrameData', data);
             },
 
             warningTitle: 'Warning',

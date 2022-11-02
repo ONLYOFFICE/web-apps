@@ -18,7 +18,7 @@
     background-color: rgb(0,0,0);
     z-index: @zindex-modal - 1;
 
-    .theme-dark & {
+    .theme-type-dark & {
         opacity: 0.6;
     }
 }
@@ -46,8 +46,8 @@
         &:before, &:after {
             content: ' ';
             position: absolute;
-            left: 7px;
-            left: calc(7px / @pixel-ratio-factor);
+            left: 8px;
+            left: calc(8px / @pixel-ratio-factor);
             top: @scaled-one-px-value-ie;
             top: @scaled-one-px-value;
             height: 14px;
@@ -116,6 +116,12 @@
             position: absolute;
             right: 0;
             padding-right: 6px;
+
+            &.left {
+                left: 0;
+                right: auto;
+                padding-left: 6px;
+            }
         }
 
         .tool.help {
@@ -133,6 +139,7 @@
             }
 
             &.disabled {
+                opacity: @component-disabled-opacity-ie;
                 opacity: @component-disabled-opacity;
                 cursor: default;
             }

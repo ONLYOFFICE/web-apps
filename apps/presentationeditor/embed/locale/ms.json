@@ -4,6 +4,7 @@
   "common.view.modals.txtHeight": "Ketinggian",
   "common.view.modals.txtShare": "Kongsi Pautan",
   "common.view.modals.txtWidth": "Lebar",
+  "common.view.SearchBar.textFind": "Cari",
   "PE.ApplicationController.convertationErrorText": "Penukaran telah gagal.",
   "PE.ApplicationController.convertationTimeoutText": "Melebihi masa tamat penukaran.",
   "PE.ApplicationController.criticalErrorTitle": "Ralat",
@@ -16,7 +17,7 @@
   "PE.ApplicationController.errorForceSave": "Terdapat ralat yang berlaku semasa menyimpan fail. Sila gunakan pilihan 'Download as' untuk menyimpan salinan fail sandaran ke pemacu keras komputer anda dan cuba semula nanti.",
   "PE.ApplicationController.errorLoadingFont": "Fon tidak dimuatkan.<br>Sila hubungi pentadbir Pelayan Dokumen anda.",
   "PE.ApplicationController.errorTokenExpire": "Dokumen token keselamatan telah tamat tempoh.<br>Sila hubungi pentadbir Pelayan Dokumen.",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan internet telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Sambungan telah dipulihkan, dan versi fail telah berubah.<br>Sebelum anda boleh terus bekerja, anda perlu memuat turun fail atau menyalin kandungannya untuk memastikan tiada ada yang hilang, dan kemudian muat semula halaman ini.",
   "PE.ApplicationController.errorUserDrop": "Fail tidak boleh diakses sekarang.",
   "PE.ApplicationController.notcriticalErrorTitle": "Amaran",
   "PE.ApplicationController.openErrorText": "Ralat telah berlaku semasa membuka fail.",
@@ -34,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Buka lokasi fail",
   "PE.ApplicationView.txtFullScreen": "Skrin penuh",
   "PE.ApplicationView.txtPrint": "Cetak",
+  "PE.ApplicationView.txtSearch": "Carian",
   "PE.ApplicationView.txtShare": "Kongsi"
 }

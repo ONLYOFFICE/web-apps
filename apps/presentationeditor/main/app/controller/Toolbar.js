@@ -59,7 +59,8 @@ define([
     'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
-    'presentationeditor/main/app/view/SlideshowSettings'
+    'presentationeditor/main/app/view/SlideshowSettings',
+    'presentationeditor/main/app/view/define'
 ], function () { 'use strict';
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -108,7 +109,9 @@ define([
                 in_equation: undefined,
                 in_chart: false,
                 no_columns: false,
-                clrhighlight: undefined
+                clrhighlight: undefined,
+                can_copycut: undefined,
+                needCallApiBullets: undefined
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -126,7 +129,8 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'insert:image'      : this.onInsertImageClick.bind(this),
-                    'insert:text'       : this.onInsertText.bind(this),
+                    'insert:text-btn'   : this.onBtnInsertTextClick.bind(this),
+                    'insert:text-menu'  : this.onMenuInsertTextClick.bind(this),
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'add:slide'         : this.onAddSlide.bind(this),
@@ -134,7 +138,9 @@ define([
                     'duplicate:check'   : this.onDuplicateCheck.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact,
-                    'add:chart'         : this.onSelectChart
+                    'add:chart'         : this.onSelectChart,
+                    'generate:smartart' : this.generateSmartArt,
+                    'insert:smartart'   : this.onInsertSmartArt
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -225,8 +231,12 @@ define([
                 if ( this.toolbar.btnsInsertShape.pressed() )
                     this.toolbar.btnsInsertShape.toggle(false, true);
 
-                if ( this.toolbar.btnsInsertText.pressed() )
+                if ( this.toolbar.btnsInsertText.pressed() ) {
                     this.toolbar.btnsInsertText.toggle(false, true);
+                    this.toolbar.btnsInsertText.forEach(function(button) {
+                        button.menu.clearAll();
+                    });
+                }
 
                 if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
                     this.toolbar.cmbInsertShape.deactivateRecords();
@@ -284,8 +294,10 @@ define([
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
             toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
-            toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
-            toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+            toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+            toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
+            toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
+            toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
@@ -401,6 +413,10 @@ define([
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
+                this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
+                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -469,8 +485,8 @@ define([
 
         onApiVerticalAlign: function(typeBaseline) {
             if (this._state.valign !== typeBaseline) {
-                this.toolbar.btnSuperscript.toggle(typeBaseline==1, true);
-                this.toolbar.btnSubscript.toggle(typeBaseline==2, true);
+                this.toolbar.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
+                this.toolbar.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
                 this._state.valign = typeBaseline;
             }
         },
@@ -514,6 +530,12 @@ define([
         },
 
         onApiBullets: function(v) {
+            if (!(this.toolbar.mnuMarkersPicker && this.toolbar.mnuMarkersPicker.store)) {
+                this._state.needCallApiBullets = v;
+                return;
+            }
+            this._state.needCallApiBullets = undefined;
+
             if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===0x1000) {
                 this._state.bullets.type    = v.get_ListType();
                 this._state.bullets.subtype = v.get_ListSubType();
@@ -717,8 +739,8 @@ define([
                 this._state.no_slides = (count<=0);
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: [
-                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnPaste,
-                    this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart,
+                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnPaste,
+                    this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ]});
@@ -1109,10 +1131,10 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Redo');
         },
 
-        onCopyPaste: function(copy, e) {
+        onCopyPaste: function(type, e) {
             var me = this;
             if (me.api) {
-                var res = (copy) ? me.api.Copy() : me.api.Paste();
+                var res = (type === 'cut') ? me.api.Cut() : ((type === 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
                     if (!Common.localStorage.getBool("pe-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({
@@ -1126,6 +1148,14 @@ define([
                     Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+        },
+
+        onSelectAll: function(e) {
+            if (this.api)
+                this.api.asc_EditSelectAll();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Select All');
         },
 
         onIncrease: function(e) {
@@ -1184,7 +1214,7 @@ define([
             if (!this.toolbar.btnSubscript.pressed) {
                 this._state.valign = undefined;
                 if (this.api)
-                    this.api.put_TextPrBaseline(btn.pressed ? 1 : 0);
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Superscript');
@@ -1195,7 +1225,7 @@ define([
             if (!this.toolbar.btnSuperscript.pressed) {
                 this._state.valign = undefined;
                 if (this.api)
-                    this.api.put_TextPrBaseline(btn.pressed ? 2 : 0);
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Subscript');
@@ -1772,14 +1802,39 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
-        onInsertText: function(status) {
-            if ( status == 'begin' ) {
-                this._addAutoshape(true, 'textRect');
+        onBtnInsertTextClick: function(btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.textboxType) 
+                item.setChecked(true);
+            });
+            if(!btn.pressed) {
+                btn.menu.clearAll();
+            } 
+            this.onInsertText(btn.options.textboxType, btn, e);
+        },
 
-                if ( !this.toolbar.btnsInsertText.pressed() )
-                    this.toolbar.btnsInsertText.toggle(true, true);
-            } else
-                this._addAutoshape(false, 'textRect');
+        onMenuInsertTextClick: function(btn, e) {
+            var self = this;
+            var oldType = btn.options.textboxType;
+            var newType = e.value;
+
+            btn.toggle(true);
+            if(newType != oldType){
+                this.toolbar.btnsInsertText.forEach(function(button) {
+                    button.updateHint([e.caption, self.views.Toolbar.prototype.tipInsertText]);
+                    button.changeIcon({
+                        next: e.options.iconClsForMainBtn,
+                        curr: button.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                    });
+                    button.options.textboxType = newType; 
+                });
+            }
+            this.onInsertText(newType, btn, e);
+        },
+
+        onInsertText: function(type, btn, e) {
+            if (this.api) 
+                this._addAutoshape(btn.pressed, type);
 
             if ( this.toolbar.btnsInsertShape.pressed() )
                 this.toolbar.btnsInsertShape.toggle(false, true);
@@ -2521,6 +2576,7 @@ define([
         activateControls: function() {
             this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
             this.toolbar.lockToolbar(Common.enumLock.disableOnStart, false, {array: this.toolbar.slideOnlyControls.concat(this.toolbar.shapeControls)});
+            this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
             this._state.activated = true;
         },
 
@@ -2549,6 +2605,7 @@ define([
         createDelayedElements: function() {
             this.toolbar.createDelayedElements();
             this.attachUIEvents(this.toolbar);
+            this._state.needCallApiBullets && this.onApiBullets(this._state.needCallApiBullets);
         },
 
         onAppShowed: function (config) {
@@ -2596,6 +2653,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
+                    me.toolbar.processPanelVisible(null, true, true);
                 }
 
                 if ( config.isDesktopApp ) {
@@ -2664,6 +2722,58 @@ define([
 
         onAddVideo: function() {
             this.api && this.api.asc_AddVideo();
+        },
+
+        onApiCanCopyCut: function(can) {
+            if (this._state.can_copycut !== can) {
+                this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
+                this._state.can_copycut = can;
+            }
+        },
+
+        generateSmartArt: function (groupName) {
+            this.api.asc_generateSmartArtPreviews(groupName);
+        },
+
+        onApiBeginSmartArtPreview: function () {
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtData = Common.define.smartArt.getSmartArtData();
+        },
+
+        onApiAddSmartArtPreview: function (previews) {
+            previews.forEach(_.bind(function (preview) {
+                var image = preview.asc_getImage(),
+                    sectionId = preview.asc_getSectionId(),
+                    section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
+                    item = _.findWhere(section.items, {type: image.asc_getName()}),
+                    menu = _.findWhere(this.smartArtGroups, {value: sectionId}),
+                    menuPicker = menu.menuPicker;
+                if (item) {
+                    var arr = [{
+                        tip: item.tip,
+                        value: item.type,
+                        imageUrl: image.asc_getImage()
+                    }];
+                    if (menuPicker.store.length < 1) {
+                        menuPicker.store.reset(arr);
+                    } else {
+                        menuPicker.store.add(arr);
+                    }
+                }
+                this.currentSmartArtMenu = menu;
+            }, this));
+        },
+
+        onApiEndSmartArtPreview: function () {
+            if (this.currentSmartArtMenu) {
+                this.currentSmartArtMenu.menu.alignPosition();
+            }
+        },
+
+        onInsertSmartArt: function (value) {
+            if (this.api) {
+                this.api.asc_createSmartArt(value);
+            }
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

@@ -179,7 +179,8 @@ define([
                     this.$el.width(Common.localStorage.getItem('sse-mainmenu-width') || MENU_SCALE_PART);
                 }
             } else if (!this._state.pluginIsRunning){
-                this.isVisible() && Common.localStorage.setItem('sse-mainmenu-width',this.$el.width());
+                var width = this.$el.width();
+                this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('sse-mainmenu-width',width);
                 this.$el.width(SCALE_MIN);
             }
             this.onCoauthOptions();
@@ -216,6 +217,7 @@ define([
             if (this.panelSearch) {
                 if (this.btnSearchBar.pressed) {
                     this.panelSearch.show();
+                    this.panelSearch.focus();
                 } else {
                     this.panelSearch.hide();
                 }

@@ -122,6 +122,7 @@ SSE.ApplicationController = new(function(){
 
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
+            docInfo.put_DirectUrl(docConfig.directUrl);
             docInfo.put_Title(docConfig.title);
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
@@ -321,7 +322,7 @@ SSE.ApplicationController = new(function(){
             if (api){
                 var f = Math.ceil(api.asc_getZoom() * 10)/10;
                 f -= .1;
-                !(f < .5) && api.asc_setZoom(f);
+                !(f < .1) && api.asc_setZoom(f);
             }
         });
 

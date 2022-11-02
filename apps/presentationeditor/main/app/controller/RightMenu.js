@@ -61,6 +61,9 @@ define([
             this.addListeners({
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
+                },
+                'ViewTab': {
+                    'rightmenu:hide': _.bind(this.onRightMenuHide, this)
                 }
             });
         },
@@ -150,10 +153,14 @@ define([
                     this._settings[settingsType].lockedHeader = !!value.get_LockHeader && value.get_LockHeader();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
-                    if (settingsType == Common.Utils.documentSettingsType.Shape && value.asc_getTextArtProperties()) {
-                        this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
-                        this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
-                        this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
+                    if (settingsType == Common.Utils.documentSettingsType.Shape) {
+                        if (value.asc_getIsMotionPath()) {
+                            this._settings[settingsType].hidden = 1;
+                        } else if (value.asc_getTextArtProperties()) {
+                            this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
+                            this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
+                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
+                        }
                     }
                 }
             }
@@ -292,10 +299,18 @@ define([
 
         onInsertShape:  function() {
             // this._settings[Common.Utils.documentSettingsType.Shape].needShow = true;
+            var idx = this._priorityArr.indexOf(Common.Utils.documentSettingsType.Shape);
+            if (idx>=0)
+                this._priorityArr.splice(idx, 1);
+            this._priorityArr.unshift(Common.Utils.documentSettingsType.Shape);
         },
 
         onInsertTextArt:  function() {
             // this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
+            var idx = this._priorityArr.indexOf(Common.Utils.documentSettingsType.TextArt);
+            if (idx>=0)
+                this._priorityArr.splice(idx, 1);
+            this._priorityArr.unshift(Common.Utils.documentSettingsType.TextArt);
         },
 
         UpdateThemeColors:  function() {
@@ -372,6 +387,17 @@ define([
                 case Asc.c_oAscTypeSelectElement.Chart:
                     return Common.Utils.documentSettingsType.Chart;
             }
+        },
+
+        onRightMenuHide: function (view, status) {
+            if (this.rightmenu) {
+                !status && this.rightmenu.clearSelection();
+                status ? this.rightmenu.show() : this.rightmenu.hide();
+                Common.localStorage.setBool('pe-hidden-rightmenu', !status);
+            }
+
+            Common.NotificationCenter.trigger('layout:changed', 'main');
+            Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         }
     });
 });

@@ -503,7 +503,8 @@ define([
             setMoreButton: function(tab, panel) {
                 var me = this;
                 if (!btnsMore[tab]) {
-                    var box = $('<div class="more-box" style="position: absolute;right: 0; padding-left: 12px;padding-right: 6px;display: none;">' +
+                    var top = panel.position().top;
+                    var box = $('<div class="more-box" style="position: absolute;right: 0; top:'+ top +'px; padding-left: 12px;padding-right: 6px;display: none;">' +
                         '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
                         '<div class="group" style=""><span class="btn-slot text x-huge slot-btn-more"></span></div>' +
                         '</div>');
@@ -561,7 +562,7 @@ define([
                     var need_break = false;
                     for (var i=items.length-1; i>=0; i--) {
                         var item = $(items[i]);
-                        if (!item.is(':visible')) { // move invisible items as is and set special attr
+                        if (!item.is(':visible') && !item.attr('hidden-on-resize')) { // move invisible items as is and set special attr
                             item.attr('data-hidden-tb-item', true);
                             this.$moreBar.prepend(item);
                             hideAllMenus = true;
@@ -585,6 +586,7 @@ define([
                                 this.$moreBar.prepend(item);
                                 if (last_separator) {
                                     last_separator.css('display', '');
+                                    last_separator.removeAttr('hidden-on-resize');
                                 }
                                 hideAllMenus = true;
                             } else if ( offset.left+item_width > _maxright ) {
@@ -595,6 +597,7 @@ define([
                                         this.$moreBar.prepend(item);
                                         if (last_separator) {
                                             last_separator.css('display', '');
+                                            last_separator.removeAttr('hidden-on-resize');
                                         }
                                         hideAllMenus = true;
                                         break;
@@ -612,6 +615,7 @@ define([
                                                 this.$moreBar.prepend(last_group);
                                                 if (last_separator) {
                                                     last_separator.css('display', '');
+                                                    last_separator.removeAttr('hidden-on-resize');
                                                 }
                                             }
                                             last_group.prepend(child);
@@ -638,6 +642,7 @@ define([
                         } else if (item.hasClass('separator')) {
                             this.$moreBar.prepend(item);
                             item.css('display', 'none');
+                            item.attr('hidden-on-resize', true);
                             last_separator = item;
                             hideAllMenus = true;
                         }
@@ -683,6 +688,7 @@ define([
                                     more_section.before(item);
                                     if (last_separator) {
                                         last_separator.css('display', '');
+                                        last_separator.removeAttr('hidden-on-resize');
                                     }
                                     if (this.$moreBar.children().filter('.group').length == 0) {
                                         this.hideMoreBtns();
@@ -717,6 +723,7 @@ define([
                                                     more_section.before(last_group);
                                                     if (last_separator) {
                                                         last_separator.css('display', '');
+                                                        last_separator.removeAttr('hidden-on-resize');
                                                     }
                                                 }
                                                 last_group.append(child);
@@ -747,6 +754,7 @@ define([
                             } else if (item.hasClass('separator')) {
                                 more_section.before(item);
                                 item.css('display', 'none');
+                                item.attr('hidden-on-resize', true);
                                 last_separator = item;
                                 last_width = parseInt(last_separator.css('margin-left')) + parseInt(last_separator.css('margin-right')) + 1;
                                 hideAllMenus = true;
@@ -779,13 +787,13 @@ define([
                     right = Common.Utils.innerWidth() - (showxy.left - parentxy.left + target.width()),
                     top = showxy.top - parentxy.top + target.height() + 10;
 
-                moreContainer.css({right: right, left: 'auto', top : top});
+                moreContainer.css({right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'});
                 moreContainer.show();
             },
 
             hideMoreBtns: function() {
                 for (var btn in btnsMore) {
-                    btnsMore[btn] && btnsMore[btn].toggle(false);
+                    btnsMore[btn] && btnsMore[btn].isActive() && btnsMore[btn].toggle(false);
                 }
             }
         };

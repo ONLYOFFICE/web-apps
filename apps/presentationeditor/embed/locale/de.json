@@ -20,7 +20,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Die Internetverbindung wurde wiederhergestellt und die Dateiversion wurde geändert.<br>Bevor Sie weiterarbeiten können, müssen Sie die Datei herunterladen oder den Inhalt kopieren, um sicherzustellen, dass nichts verloren geht, und diese Seite anschließend neu laden.",
   "PE.ApplicationController.errorUserDrop": "Kein Zugriff auf diese Datei ist möglich.",
   "PE.ApplicationController.notcriticalErrorTitle": "Warnung",
-  "PE.ApplicationController.openErrorText": "Beim Öffnen dieser Datei ist ein Fehler aufgetreten.",
+  "PE.ApplicationController.openErrorText": "Beim Öffnen der Datei ist ein Fehler aufgetreten.",
   "PE.ApplicationController.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
   "PE.ApplicationController.textAnonymous": "Anonym",
   "PE.ApplicationController.textGuest": "Gast",
@@ -35,5 +35,6 @@
   "PE.ApplicationView.txtFileLocation": "Dateispeicherort öffnen",
   "PE.ApplicationView.txtFullScreen": "Vollbild-Modus",
   "PE.ApplicationView.txtPrint": "Drucken",
+  "PE.ApplicationView.txtSearch": "Suche",
   "PE.ApplicationView.txtShare": "Freigeben"
 }

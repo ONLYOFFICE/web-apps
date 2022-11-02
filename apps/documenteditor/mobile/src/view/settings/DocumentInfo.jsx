@@ -8,7 +8,6 @@ const PageDocumentInfo = (props) => {
     const _t = t("Settings", { returnObjects: true });
     const storeInfo = props.storeDocumentInfo;
     const fileType = storeInfo.dataDoc.fileType;
-
     const dataApp = props.getAppProps();
     
     const {
@@ -41,7 +40,7 @@ const PageDocumentInfo = (props) => {
     return (
         <Page>
             <Navbar title={_t.textDocumentInfo} backLink={_t.textBack} />
-            {dataDoc.title ? (
+            {dataDoc?.title ? (
                 <Fragment>
                     <BlockTitle>{_t.textDocumentTitle}</BlockTitle>
                     <List>
@@ -49,7 +48,7 @@ const PageDocumentInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataDoc.info.author || dataDoc.info.owner ? (
+            {dataDoc?.info?.author || dataDoc?.info?.owner ? (
                 <Fragment>
                     <BlockTitle>{_t.textOwner}</BlockTitle>
                     <List>
@@ -57,7 +56,7 @@ const PageDocumentInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataDoc.info.folder ? (
+            {dataDoc?.info?.folder ? (
                 <Fragment>  
                     <BlockTitle>{_t.textLocation}</BlockTitle>
                     <List>
@@ -65,7 +64,7 @@ const PageDocumentInfo = (props) => {
                     </List>
                 </Fragment>
             ) : null}
-            {dataDoc.info.uploaded || dataDoc.info.created ? (  
+            {dataDoc?.info?.uploaded || dataDoc?.info?.created ? (
                 <Fragment>
                     <BlockTitle>{_t.textUploaded}</BlockTitle>
                     <List>

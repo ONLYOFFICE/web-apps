@@ -116,8 +116,8 @@
         line-height: 24px;
 
         &:hover:not(:disabled),&:focus {
-            box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
-            box-shadow: 0 0 0 1px @highlight-header-button-hover;
+            box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-header-button-hover-ie;
+            box-shadow: 0 0 0 @scaled-one-px-value @highlight-header-button-hover;
             border-radius: 1px;
             cursor: text;
         }
@@ -236,6 +236,7 @@
 
     .btn&[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 
@@ -289,6 +290,7 @@
         width: 16px;
         text-align: center;
         overflow: hidden;
+        pointer-events: none;
     }
 
     &:not(:disabled) {
@@ -310,6 +312,7 @@
     }
 
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
         pointer-events: none;
     }
@@ -466,6 +469,7 @@
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
+    z-index: 1;
 
     .btn-slot {
         display: inline-block;
@@ -513,10 +517,11 @@
         background-color: transparent;
         border: 0 none;
         cursor: default;
+        .user-select(text);
 
         &:hover:not(:disabled),&:focus{
-            box-shadow: 0 0 0 1px @highlight-header-button-hover-ie;
-            box-shadow: 0 0 0 1px @highlight-header-button-hover;
+            box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-header-button-hover-ie;
+            box-shadow: 0 0 0 @scaled-one-px-value @highlight-header-button-hover;
             border-radius: 1px;
             cursor: text;
         }

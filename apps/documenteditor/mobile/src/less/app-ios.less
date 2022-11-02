@@ -1,5 +1,4 @@
 .ios {
-
     // Stepper 
     .content-block.stepper-block {
         margin: 20px 0;
@@ -51,6 +50,41 @@
                 color: @text-normal;
                 margin: 0;
             }
+        }
+    }
+
+    // Reader mode
+    .back-reader-mode {
+        margin-left: 10px;
+    }
+
+    // Snackbar
+    .snackbar {
+        max-width: 195px;
+        position: absolute;
+        bottom: 24px;
+        left: calc(50% - 195px / 2);
+        background: rgba(0, 0, 0, .9);
+        border-radius: 4px;
+        z-index: 1000000;
+        &__content {
+            padding: 15px 16.5px;
+        }
+        &__text {
+            margin: 0;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 18px;
+            letter-spacing: -0.078px;
+            color: @fill-white;
+            text-align: center;
+        }
+    }
+
+    @media(max-width: 450px) {
+        .snackbar {
+            bottom: 50px;
         }
     }
 }

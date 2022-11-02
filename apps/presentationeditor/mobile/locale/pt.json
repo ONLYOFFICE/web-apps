@@ -3,11 +3,11 @@
     "textAbout": "Sobre",
     "textAddress": "Endereço",
     "textBack": "Voltar",
+    "textEditor": "Editor de apresentação",
     "textEmail": "Email",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel",
-    "textVersion": "Versão",
-    "textEditor": "Presentation Editor"
+    "textVersion": "Versão"
   },
   "Common": {
     "Collaboration": {
@@ -31,6 +31,7 @@
       "textOk": "OK",
       "textReopen": "Reabrir",
       "textResolve": "Resolver",
+      "textSharingSettings": "Configurações de compartilhamento",
       "textTryUndoRedo": "As funções Desfazer/Refazer estão desabilitadas para o modo de coedição rápido.",
       "textUsers": "Usuários"
     },
@@ -51,6 +52,7 @@
     "menuDelete": "Excluir",
     "menuDeleteTable": "Excluir tabela",
     "menuEdit": "Editar",
+    "menuEditLink": "Editar Link",
     "menuMerge": "Mesclar",
     "menuMore": "Mais",
     "menuOpenLink": "Abrir link",
@@ -59,9 +61,9 @@
     "textColumns": "Colunas",
     "textCopyCutPasteActions": "Copiar, Cortar e Colar",
     "textDoNotShowAgain": "Não volte a aparecer",
+    "textOk": "OK",
     "textRows": "Linhas",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?"
   },
   "Controller": {
     "Main": {
@@ -116,6 +118,7 @@
       "textRemember": "Lembrar minha escolha",
       "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
+      "textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir a solicitação para %1?",
       "textYes": "Sim",
       "titleLicenseExp": "A licença expirou",
       "titleServerVersion": "Editor atualizado",
@@ -129,8 +132,7 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
   "Error": {
@@ -145,6 +147,7 @@
     "errorDataEncrypted": "Alteração criptografadas foram recebidas, e não podem ser decifradas.",
     "errorDataRange": "Intervalo de dados incorreto.",
     "errorDefaultMessage": "Código do erro: %1",
+    "errorDirectUrl": "Por favor, verifique o link para o documento.<br>Este link deve ser o link direto para baixar o arquivo.",
     "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Use a opção 'Download' para salvar a cópia de backup do arquivo localmente.",
     "errorFilePassProtect": "O arquivo é protegido por senha e não pôde ser aberto.",
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite do servidor. <br> Entre em contato com o administrador.",
@@ -200,7 +203,10 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
@@ -219,6 +225,7 @@
       "textComment": "Comente",
       "textDefault": "Texto selecionado",
       "textDisplay": "Exibir",
+      "textDone": "Concluído",
       "textEmptyImgUrl": "Você precisa especificar o URL da imagem.",
       "textExternalLink": "Link externo",
       "textFirstSlide": "Primeiro slide",
@@ -237,6 +244,8 @@
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
       "textPreviousSlide": "Slide anterior",
+      "textRecommended": "Recomendado",
+      "textRequired": "Necessário",
       "textRows": "Linhas",
       "textScreenTip": "Dica de tela",
       "textShape": "Forma",
@@ -264,6 +273,7 @@
       "textAlignTop": "Alinhar em cima",
       "textAllCaps": "Todas maiúsculas",
       "textApplyAll": "Aplicar a todos os slides",
+      "textArrange": "Organizar",
       "textAuto": "Automático",
       "textAutomatic": "Automático",
       "textBack": "Voltar",
@@ -278,8 +288,10 @@
       "textBringToForeground": "Trazer para primeiro plano",
       "textBullets": "Marcadores",
       "textBulletsAndNumbers": "Marcadores e Numerações",
+      "textCancel": "Cancelar",
       "textCaseSensitive": "Maiúsculas e Minúsculas",
       "textCellMargins": "Margens da célula",
+      "textChangeShape": "Mudar forma",
       "textChart": "Gráfico",
       "textClock": "Relógio",
       "textClockwise": "Sentido horário",
@@ -289,6 +301,8 @@
       "textCustomColor": "Personalizar cor",
       "textDefault": "Texto selecionado",
       "textDelay": "Atraso",
+      "textDeleteImage": "Eliminar imagem",
+      "textDeleteLink": "Excluir Link",
       "textDeleteSlide": "Excluir slide",
       "textDesign": "Design",
       "textDisplay": "Exibir",
@@ -324,6 +338,7 @@
       "textHyperlink": "Hiperlink",
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
+      "textInsertImage": "Inserir imagem",
       "textLastColumn": "Última coluna",
       "textLastSlide": "Último slide",
       "textLayout": "Layout",
@@ -350,15 +365,14 @@
       "textPreviousSlide": "Slide anterior",
       "textPt": "Pt",
       "textPush": "Empurrar",
+      "textRecommended": "Recomendado",
       "textRemoveChart": "Remover gráfico",
-      "textRemoveImage": "Remover imagem",
-      "textRemoveLink": "Remover link",
       "textRemoveShape": "Remover forma",
       "textRemoveTable": "Remover tabela",
-      "textReorder": "Reordenar",
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
       "textReplaceImage": "Substituir imagem",
+      "textRequired": "Necessário",
       "textRight": "Direita",
       "textScreenTip": "Dica de tela",
       "textSearch": "Pesquisar",
@@ -401,6 +415,7 @@
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
       "mniSlideWide": "Widescreen (16:9)",
+      "notcriticalErrorTitle": "Aviso",
       "textAbout": "Sobre",
       "textAddress": "Endereço:",
       "textApplication": "Aplicativo",
@@ -423,6 +438,7 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Habilitar todos",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem notificação",
+      "textFeedback": "Feedback e Suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
       "textFindAndReplaceAll": "Encontrar e Substituir Tudo",
@@ -435,6 +451,7 @@
       "textLocation": "Localização",
       "textMacrosSettings": "Configurações de macros",
       "textNoTextFound": "Texto não encontrado",
+      "textOk": "OK",
       "textOwner": "Proprietário",
       "textPoint": "Ponto",
       "textPoweredBy": "Desenvolvido por",
@@ -444,6 +461,8 @@
       "textPrint": "Imprimir",
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
+      "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
+      "textRTL": "Da direita para esquerda",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",
       "textShowNotification": "Mostrar notificação",
@@ -476,12 +495,7 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição",
-      "notcriticalErrorTitle": "Warning",
-      "textFeedback": "Feedback & Support",
-      "textOk": "Ok",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "txtScheme9": "Fundição"
     }
   }
 }

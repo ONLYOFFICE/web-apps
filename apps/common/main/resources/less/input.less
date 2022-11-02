@@ -9,7 +9,9 @@
     border: @scaled-one-px-value solid @border-regular-control;
     background-color: @background-normal-ie;
     background-color: @background-normal;
-
+    &:-ms-input-placeholder {
+        color: @text-tertiary-ie;
+    }
     &:focus {
         border-color: @border-control-focus-ie;
         border-color: @border-control-focus;
@@ -96,6 +98,7 @@ input.error {
 }
 
 .disabled .form-control {
+    opacity: @component-disabled-opacity-ie;
     opacity: @component-disabled-opacity;
     cursor: default !important;
 }

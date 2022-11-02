@@ -126,6 +126,7 @@ define([
                 onKeyUp: _.bind(me.onKeyUp, me)
             };
 
+            me.guideTip = { ttHeight: 20 };
             // Hotkeys
             // ---------------------
             var keymap = {};
@@ -219,6 +220,7 @@ define([
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholderTable, me));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                     me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
+                    me.api.asc_registerCallback('asc_onTrackGuide',   _.bind(me.onTrackGuide, me));
                 }
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
@@ -230,7 +232,7 @@ define([
                 me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(me.onApiUpdateThemeIndex, me));
                 me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(me.onApiLockDocumentTheme, me));
                 me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(me.onApiUnLockDocumentTheme, me));
-                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration));
+                me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration, me));
 
                 me.documentHolder.setApi(me.api);
             }
@@ -342,6 +344,7 @@ define([
                 oleEditor.on('hide', _.bind(function(cmp, message) {
                     if (this.api) {
                         this.api.asc_enableKeyEvents(true);
+                        this.api.asc_onCloseChartFrame();
                     }
                     var me = this;
                     setTimeout(function(){
@@ -367,6 +370,7 @@ define([
             view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
             view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
             view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
+            view.menuSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
@@ -408,6 +412,7 @@ define([
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
             view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
+            view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
             view.mnuGroupImg.on('click', _.bind(me.onGroupImg, me));
             view.mnuUnGroupImg.on('click', _.bind(me.onUnGroupImg, me));
             view.mnuArrangeFront.on('click', _.bind(me.onArrangeFront, me));
@@ -420,6 +425,9 @@ define([
             view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
             view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
             view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
+            view.mnuGuides.menu.on('item:click', _.bind(me.onGuidesClick, me));
+            view.mnuGridlines.menu.on('item:click', _.bind(me.onGridlinesClick, me));
+            view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
         },
 
         getView: function (name) {
@@ -438,6 +446,8 @@ define([
                 if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                     showPoint[0] -= 3;
                     showPoint[1] -= 3;
+                } else {
+                    value && (value.guideId = event.get_Guide());
                 }
 
                 if (!menu.rendered) {
@@ -829,7 +839,7 @@ define([
                             ToolTip = ToolTip.substr(0, 256) + '...';
 
                         if (screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
-                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + me.documentHolder.txtPressLink + '</b>'));
+                            screenTip.toolTip.setTitle(ToolTip + (me.isPreviewVisible ? '' : '<br><b>' + Common.Utils.String.platformKey('Ctrl', me.documentHolder.txtPressLink) + '</b>'));
                             screenTip.tipLength = ToolTip.length;
                             screenTip.strTip = ToolTip;
                             recalc = true;
@@ -1204,7 +1214,12 @@ define([
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
             } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+                var offsetLeft = 0;
+                var sdkPanelLeft = documentHolder.cmpEl.find('#id_panel_left');
+                if (sdkPanelLeft.length)
+                    offsetLeft += (sdkPanelLeft.css('display') !== 'none') ? sdkPanelLeft.width() : 0;
+
+                var showPoint = [Math.max(0, coord.asc_getX() + coord.asc_getWidth() + 3 - offsetLeft), coord.asc_getY() + coord.asc_getHeight() + 3];
                 pasteContainer.css({left: showPoint[0], top : showPoint[1]});
                 pasteContainer.show();
                 setTimeout(function() {
@@ -1258,7 +1273,7 @@ define([
         },
 
         onChangeCropState: function(state) {
-            this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
+            this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
@@ -1336,6 +1351,12 @@ define([
             Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
         },
 
+
+        saveAsPicture: function() {
+            if(this.api) {
+                this.api.asc_SaveDrawingAsPicture();
+            }
+        },
 
         /** coauthoring begin **/
         addComment: function(item, e, eOpt){
@@ -1930,6 +1951,39 @@ define([
             }
         },
 
+        onChartAdvanced: function(item, e){
+            var me = this;
+            if (me.api) {
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                            (new PE.Views.ChartSettingsAdvanced(
+                                {
+                                    chartProps: elValue,
+                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ChartApply(value.chartProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Chart Settings Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
         onGroupImg: function(item) {
             this.api && this.api.groupShapes();
             this.editComplete();
@@ -2077,6 +2131,94 @@ define([
                 }, 100);
             }
             return false;
+        },
+
+        onGuidesClick: function(menu, item) {
+            if (item.value == 'del-guide' && item.options.guideId)
+                this.api.asc_deleteGuide(item.options.guideId);
+            else if (item.value === 'add-vert' || item.value === 'add-hor')
+                this.documentHolder.fireEvent('guides:add', [item.value]);
+            else if (item.value === 'clear')
+                this.documentHolder.fireEvent('guides:clear');
+            else if (item.value === 'smart')
+                this.documentHolder.fireEvent('guides:smart', [item.isChecked()]);
+            else
+                this.documentHolder.fireEvent('guides:show', [item.isChecked()]);
+        },
+
+        onGridlinesClick: function(menu, item) {
+            if (item.value === 'custom')
+                this.documentHolder.fireEvent('gridlines:custom');
+            else if (item.value === 'snap')
+                this.documentHolder.fireEvent('gridlines:snap', [item.isChecked()]);
+            else if (item.value === 'show')
+                this.documentHolder.fireEvent('gridlines:show', [item.isChecked()]);
+            else
+                this.documentHolder.fireEvent('gridlines:spacing', [item.value]);
+        },
+
+        onRulersClick: function(item) {
+            this.documentHolder.fireEvent('rulers:change', [item.isChecked()]);
+        },
+
+        onTrackGuide: function(dPos, x, y) {
+            var tip = this.guideTip;
+            if (dPos === undefined || x<0 || y<0) {
+                if (!tip.isHidden && tip.ref) {
+                    tip.ref.hide();
+                    tip.ref = undefined;
+                    tip.text = '';
+                    tip.isHidden = true;
+                }
+            } else {
+                if (_.isUndefined(this._XY)) {
+                    this._XY = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    ];
+                    this._Width       = this.documentHolder.cmpEl.width();
+                    this._Height      = this.documentHolder.cmpEl.height();
+                    this._BodyWidth   = $('body').width();
+                }
+
+                if (!tip.parentEl) {
+                    tip.parentEl = $('<div id="tip-container-guide" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(tip.parentEl);
+                }
+
+                var str = dPos.toFixed(2);
+                if (tip.ref && tip.ref.isVisible()) {
+                    if (tip.text != str) {
+                        tip.text = str;
+                        tip.ref.setTitle(str);
+                        tip.ref.updateTitle();
+                    }
+                }
+
+                if (!tip.ref || !tip.ref.isVisible()) {
+                    tip.text = str;
+                    tip.ref = new Common.UI.Tooltip({
+                        owner   : tip.parentEl,
+                        html    : true,
+                        title   : str
+                    });
+
+                    tip.ref.show([-10000, -10000]);
+                    tip.isHidden = false;
+                }
+                var showPoint = [x, y];
+                showPoint[0] += (this._XY[0] + 6);
+                showPoint[1] += (this._XY[1] - 20 - tip.ttHeight);
+
+                var tipwidth = tip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this._BodyWidth )
+                    showPoint[0] = this._BodyWidth - tipwidth - 20;
+
+                tip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            }
         },
 
         SetDisabled: function(state) {
