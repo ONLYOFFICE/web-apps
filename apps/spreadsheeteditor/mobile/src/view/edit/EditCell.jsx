@@ -16,6 +16,7 @@ const EditCell = props => {
     const cellStyles = storeCellSettings.cellStyles;
     const curStyleName = storeCellSettings.styleName;
     const curStyle = cellStyles.find(style => style.name === curStyleName);
+    console.log(curStyle);
 
     const fontInfo = storeCellSettings.fontInfo;
     const fontName = fontInfo.name || _t.textFonts;
@@ -114,7 +115,7 @@ const EditCell = props => {
                         }}>
                             {!isAndroid && <Icon slot="media" icon="icon-cell-style" />}
                             <div slot="after">
-                                <div className='preview-cell-style' style={{backgroundImage: `url(${curStyle.image})`}}></div>
+                                <div className='preview-cell-style' style={{backgroundImage: `url(${curStyle ? curStyle.image : null})`}}></div>
                             </div>
                         </ListItem>
                     </List>
