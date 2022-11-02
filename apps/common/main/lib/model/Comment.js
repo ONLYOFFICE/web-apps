@@ -73,6 +73,7 @@ define([
             time                : 0,
             showReply           : false,
             showReplyInPopover  : true,
+            showBtnsInPopover   : false,
             editText            : false,
             editTextInPopover   : false,
             last                : undefined,

@@ -102,7 +102,7 @@ define([
                 var view = this,
                     textBox = $(this.el).find('textarea'),
                     domTextBox = null,
-                    minHeight = 21,
+                    minHeight = 55,
                     lineHeight = 0,
                     scrollPos = 0,
                     oldHeight = 0,

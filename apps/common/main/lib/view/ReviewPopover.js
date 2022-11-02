@@ -140,10 +140,6 @@ define([
                 body.css('position', 'relative');
             }
 
-            me.$window.on('focus', 'textarea', function(e) { me.commentsView.onFocusTextarea(e.currentTarget) });
-            me.$window.on('blur', 'textarea', function(e) { me.commentsView.onBlurTextarea(e.currentTarget) });
-
-
             var CommentsPopoverDataView = Common.UI.DataView.extend((function () {
 
                 var parentView = me;
@@ -154,19 +150,6 @@ define([
                         handleSelect: false,
                         allowScrollbar: false,
                         template: _.template('<div class="dataview-ct inner" style="overflow-y: visible;"></div>')
-                    },
-
-                    onFocusTextarea: function(textarea) {
-                        if($(textarea).parent().hasClass('reply-ct'))
-                            me.$window.find('.reply-ct button').show();
-                    },
-
-                    onBlurTextarea: function(textarea) {
-                        if($(textarea).parent().hasClass('reply-ct')){
-                            setTimeout(() => {
-                                me.$window.find('.reply-ct button').hide();
-                            }, 120);
-                        }
                     },
 
                     getTextBox: function () {
@@ -194,7 +177,7 @@ define([
                         var view = this,
                             textBox = this.$el.find('textarea'),
                             domTextBox = null,
-                            minHeight = 21,
+                            minHeight = parseFloat(textBox.css('height')),
                             lineHeight = 0,
                             scrollPos = 0,
                             oldHeight = 0,
@@ -478,6 +461,11 @@ define([
                                 me.fireEvent('comment:resolve', [commentId]);
 
                                 readdresolves();
+                            } else if(btn.hasClass('msg-reply') && btn.parent().hasClass('reply-ct') && !record.get('showBtnsInPopover')) {
+                                var val = $(e.target).val();
+                                record.set('showBtnsInPopover', true);
+                                this.setFocusToTextBox();
+                                this.getTextBox().val(val);
                             }
                         }
                     });
@@ -502,7 +490,6 @@ define([
 
                     me.on({
                         'show': function (picker, item, record, e) {
-                            me.commentsView.autoHeightTextBox();
                             me.$window.find('textarea').keydown(function (event) {
                                 if (event.keyCode == Common.UI.Keys.ESC) {
                                     me.hide(true); // clear text in dummy comment
@@ -510,6 +497,7 @@ define([
                             });
                         },
                         'animate:before': function () {
+                            me.commentsView.autoHeightTextBox();
                             var text = me.$window.find('textarea');
                             if (text && text.length && !$(text).parent().hasClass('reply-ct')){
                                 me.commentsView.setFocusToTextBox();
