@@ -368,12 +368,17 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
             cssClass: 'error-dialog',
             title   : config.title,
             text    : config.msg,
-            buttons: config.buttons.map( button => (
+            buttons: config.buttons ? config.buttons.map(button => (
                 {
-                    text:button,
+                    text: button,
                     onClick: (_, btn) => config.callback(_, btn)
                 }
-            ))
+            )) : [
+                {
+                    text: t('Error.textOk'),
+                    onClick: (dlg, _) => dlg.close()
+                }
+            ]
         }).open();
 
         Common.component.Analytics.trackEvent('Internal Error', id.toString());
