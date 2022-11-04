@@ -321,7 +321,9 @@ define([
 
                             if (record.get('hint')) {
                                 me.fireEvent('comment:disableHint', [record]);
-                                return;
+
+                                if(!record.get('fullInfoInHint'))
+                                    return;
                             }
 
                             if (btn.hasClass('btn-edit')) {

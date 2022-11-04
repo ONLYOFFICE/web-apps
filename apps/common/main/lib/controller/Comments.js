@@ -74,6 +74,7 @@ define([
         subEditStrings : {},
         filter : undefined,
         hintmode : false,
+        fullInfoHintMode: false,
         viewmode: false,
         isSelectedComment : false,
         uids : [],
@@ -186,7 +187,8 @@ define([
                 this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
                 this.hintmode           =   data['hintmode'] || false;
-                this.viewmode        =   data['viewmode'] || false;
+                this.fullInfoHintMode   =   data['fullInfoHintMode'] || false;
+                this.viewmode           =   data['viewmode'] || false;
             }
         },
         setApi: function (api) {
@@ -1355,6 +1357,7 @@ define([
                 removable           : (this.mode.canDeleteComments || (data.asc_getUserId() == this.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName()),
                 hide                : !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()),
                 hint                : !this.mode.canComments,
+                fullInfoInHint      : this.fullInfoHintMode,
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
             if (comment) {
