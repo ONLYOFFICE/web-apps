@@ -61,7 +61,6 @@ define([
             columns             : 2,
             cellPadding         : 10,
             tablePadding        : 10,
-            clickOffset         : 10,
             overwriteStyle      : true,
             maxBorderSize       : 8,
             defaultBorderSize   : 1,
@@ -78,7 +77,6 @@ define([
             borderColor,
             borderAlfa;
 
-        me.clickOffset          = me.options.clickOffset;
         me.overwriteStyle       = me.options.overwriteStyle;
         me.maxBorderSize        = me.options.maxBorderSize;
         me.defaultBorderSize    = me.options.defaultBorderSize;
