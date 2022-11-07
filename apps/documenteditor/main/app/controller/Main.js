@@ -1494,6 +1494,7 @@ define([
                 }
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac;
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
@@ -1662,6 +1663,9 @@ define([
                 statusbarView && statusbarView.setMode(this.appOptions);
                 toolbarController.setMode(this.appOptions);
                 documentHolder.setMode(this.appOptions);
+
+                var printController = app.getController('Print');
+                printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
@@ -2460,6 +2464,7 @@ define([
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
+                this.getApplication().getController('Print').getView('PrintWithPreview').updateMetricUnit();
             },
 
             onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
@@ -2614,9 +2619,7 @@ define([
 
             onPrint: function() {
                 if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
-                
-                if (this.api)
-                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); // if isChrome or isOpera == true use asc_onPrintUrl event
+                Common.NotificationCenter.trigger('file:print');
                 Common.component.Analytics.trackEvent('Print');
             },
 

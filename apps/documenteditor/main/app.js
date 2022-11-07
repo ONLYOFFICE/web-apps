@@ -157,6 +157,7 @@ require([
             'Main',
             'ViewTab',
             'Search',
+            'Print',
             'Common.Controllers.Fonts',
             'Common.Controllers.History'
             /** coauthoring begin **/
@@ -191,6 +192,7 @@ require([
                 'documenteditor/main/app/controller/Main',
                 'documenteditor/main/app/controller/ViewTab',
                 'documenteditor/main/app/controller/Search',
+                'documenteditor/main/app/controller/Print',
                 'documenteditor/main/app/view/FileMenuPanels',
                 'documenteditor/main/app/view/ParagraphSettings',
                 'documenteditor/main/app/view/HeaderFooterSettings',
