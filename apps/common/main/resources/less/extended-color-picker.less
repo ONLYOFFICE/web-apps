@@ -57,6 +57,10 @@
             &:before {
                 height: 64px;
                 transform: translate(29px, -22px) rotate(73deg);
+
+                .rtl & {
+                    transform: translate(-29px, -22px) rotate(73deg);
+                }
             }
         }
     }
@@ -76,6 +80,15 @@
             &:not(:first-child) {
                 margin-left: 10px;
             }
+        }
+    }
+
+    .color-preview {
+        margin-left: 15px;
+
+        .rtl & {
+            margin-left: 0;
+            margin-right: 15px;
         }
     }
 }

@@ -82,6 +82,12 @@
         margin-left: calc(-3px - @scaled-one-px-value);
         position: absolute;
         background-position: -12px -196px;
+
+        .rtl & {
+            margin-left: 0;
+            margin-right: -4px;
+            margin-right: calc(-3px - @scaled-one-px-value);
+        }
     }
 
     .empty-color {

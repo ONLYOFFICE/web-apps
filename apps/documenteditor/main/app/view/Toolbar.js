@@ -2079,11 +2079,11 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 145px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 153px; margin: 0 0 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 153px;"></div>')},
                             {caption: '--'},
                             this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
+                                cls: 'list-level',
                                 caption: this.textChangeLevel,
-                                style: 'padding-right:20px;',
                                 disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
                                 menu: new Common.UI.Menu({
                                     cls: 'list-settings-level',
@@ -2110,11 +2110,11 @@ define([
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 361px; margin: 0 0 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 361px;"></div>')},
                             {caption: '--'},
                             this.mnuNumberChangeLevel = new Common.UI.MenuItem({
+                                cls: 'list-level',
                                 caption: this.textChangeLevel,
-                                style: 'padding-right:20px;',
                                 disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
                                 menu: new Common.UI.Menu({
                                     cls: 'list-settings-level',
@@ -2141,11 +2141,11 @@ define([
                         cls: 'shifted-left',
                         style: 'min-width: 177px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 362px; margin: 0 0 0 9px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 362px;"></div>')},
                             {caption: '--'},
                             this.mnuMultiChangeLevel = new Common.UI.MenuItem({
+                                cls: 'list-level',
                                 caption: this.textChangeLevel,
-                                style: 'padding-right:20px;',
                                 disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
                                 menu: new Common.UI.Menu({
                                     cls: 'list-settings-level',
