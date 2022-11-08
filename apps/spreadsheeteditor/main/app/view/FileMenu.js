@@ -59,7 +59,7 @@ define([
                         if (item.options.action === 'help') {
                             if ( panel.noHelpContents === true && navigator.onLine ) {
                                 this.fireEvent('item:click', [this, 'external-help', true]);
-                                window.open(panel.urlHelpCenter, '_blank');
+                                !!panel.urlHelpCenter && window.open(panel.urlHelpCenter, '_blank');
                                 return;
                             }
                         }
