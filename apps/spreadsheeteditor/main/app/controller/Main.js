@@ -1980,6 +1980,20 @@ define([
                         config.msg = this.errorDirectUrl;
                         break;
 
+                    case Asc.c_oAscError.ID.ConvertationOpenFormat:
+                        config.maxwidth = 600;
+                        if (errData === 'pdf')
+                            config.msg = this.errorInconsistentExtPdf.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else if  (errData === 'docx')
+                            config.msg = this.errorInconsistentExtDocx.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else if  (errData === 'xlsx')
+                            config.msg = this.errorInconsistentExtXlsx.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else if  (errData === 'pptx')
+                            config.msg = this.errorInconsistentExtPptx.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else
+                            config.msg = this.errorInconsistentExt;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -3680,7 +3694,12 @@ define([
             confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?',
             confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
             textUndo: 'Undo',
-            textContinue: 'Continue'
+            textContinue: 'Continue',
+            errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
+            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
         }
     })(), SSE.Controllers.Main || {}))
 });
