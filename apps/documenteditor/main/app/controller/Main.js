@@ -1983,21 +1983,15 @@ define([
                         config.msg = this.errorPasswordIsNotCorrect;
                         break;
 
-                    case Asc.c_oAscError.ID.InconsistentOpenError:
-                        errData = {
-                            get_Value: function() {
-                                return 'xlsx';
-                            }
-                        }
+                    case Asc.c_oAscError.ID.ConvertationOpenFormat:
                         config.maxwidth = 600;
-                        var errvalue = errData ? errData.get_Value() : '';
-                        if (errvalue === 'pdf')
+                        if (errData === 'pdf')
                             config.msg = this.errorInconsistentExtPdf.replace('%1', this.document.fileType || '');
-                        else if  (errvalue === 'docx')
+                        else if  (errData === 'docx')
                             config.msg = this.errorInconsistentExtDocx.replace('%1', this.document.fileType || '');
-                        else if  (errvalue === 'xlsx')
+                        else if  (errData === 'xlsx')
                             config.msg = this.errorInconsistentExtXlsx.replace('%1', this.document.fileType || '');
-                        else if  (errvalue === 'pptx')
+                        else if  (errData === 'pptx')
                             config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
                         else
                             config.msg = this.errorInconsistentExt;
