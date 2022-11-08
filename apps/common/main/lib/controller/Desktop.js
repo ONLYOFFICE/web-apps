@@ -261,7 +261,7 @@ define([
                                 })).render($('#box-document-title #slot-btn-dt-home'));
                                 titlebuttons['home'] = {btn: header.btnHome};
 
-                                header.btnHome.on('click', event => {
+                                header.btnHome.on('click', function (e) {
                                     native.execCommand('title:button', JSON.stringify({click: "home"}));
                                 });
 
