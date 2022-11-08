@@ -184,7 +184,7 @@ define([
             if (links) {
                 for (var i=0; i<links.length; i++) {
                     arr.push({
-                        value: links[i].asc_getSource(),
+                        value: (links[i].asc_getSource() || '').replace(new RegExp("%20",'g')," "),
                         idx: i,
                         externalRef: links[i]
                     });
