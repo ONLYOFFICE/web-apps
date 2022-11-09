@@ -500,7 +500,7 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
-                if (text.height() < icon_height-10)
+                if (text.height() < icon_height/2)
                     text.css({'vertical-align': 'baseline', 'line-height': icon_height+'px'});
             }
 

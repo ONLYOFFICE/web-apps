@@ -191,16 +191,24 @@
     @huge-icon-background-image: var(--huge-icon-background-image);
 }
 
+.font-size-tiny {
+    .fontsize(calc(@font-size-base-app - 2px)); // 9px
+}
+
 .font-size-small {
-    .fontsize(@font-size-small);
+    .fontsize(calc(@font-size-base-app - 1px)); // 10px
 }
 
 .font-size-normal {
-    .fontsize(@font-size-base);
+    .fontsize(@font-size-base-app); // 11px
+}
+
+.font-size-medium {
+    .fontsize(calc(@font-size-base-app + 1px)); // 12px
 }
 
 .font-size-large {
-    .fontsize(@font-size-large);
+    .fontsize(calc(@font-size-base-app + 2px)); // 13px
 }
 
 // Skeleton of document

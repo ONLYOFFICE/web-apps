@@ -148,6 +148,9 @@
                         reviewDisplay: 'original', // original for viewer, markup for editor
                         trackChanges: undefined // true/false - open editor with track changes mode on/off,
                     },
+                    font: {
+                        size: 11px;
+                    },
                     layout: { // hide elements, but don't disable feature
                         toolbar: {
                             file: { // menu file

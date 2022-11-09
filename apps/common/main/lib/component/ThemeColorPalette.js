@@ -85,14 +85,14 @@ define([
                         '<em><span style="background:#<%=item.color%>;" unselectable="on">&#160;</span></em>' +
                         '</a>' +
                     '<% } else if (me.isCaption(item)) { %>' +
-                    '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=item%></div>' +
+                    '<div class="palette-color-caption"><%=item%></div>' +
                     '<% } %>' +
                 '<% }); %>' +
                 '</div>' +
                 '<% if (me.options.dynamiccolors!==undefined) { %>' +
                 '<div class="palette-color-dynamiccolors" style="padding: 4px 0 0 12px">' +
                     '<div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +
-                    '<div class="palette-color-caption" style="width:100%;float:left;font-size: 11px;"><%=me.textRecentColors%></div>' +
+                    '<div class="palette-color-caption"><%=me.textRecentColors%></div>' +
                     '<% for (var i=0; i<me.options.dynamiccolors; i++) { %>' +
                         '<a class="color-dynamic-<%=i%> dynamic-empty-color <%= me.emptyColorsClass %>" color="" idx="<%=idx++%>">' +
                         '<em><span unselectable="on">&#160;</span></em></a>' +
