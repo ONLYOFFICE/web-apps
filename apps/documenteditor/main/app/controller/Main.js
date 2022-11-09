@@ -381,7 +381,7 @@ define([
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
                 if (this.appOptions.customization.font) {
-                    this.appOptions.customization.font.family && document.documentElement.style.setProperty("--font-family-base-custom", this.appOptions.customization.font.family);
+                    this.appOptions.customization.font.family && document.documentElement.style.setProperty("--font-family-base-custom", "'" + this.appOptions.customization.font.family + "'");
                 }
 
                 this.editorConfig.user          =
