@@ -240,13 +240,14 @@ define([
                         el: $('#id-comments-popover'),
                         itemTemplate: _.template(replaceWords(commentsTemplate, {
                                 textAddReply: me.textAddReply,
+                                textMentionReply: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textAddReply,
                                 textAdd: me.textAdd,
                                 textCancel: me.textCancel,
                                 textEdit: me.textEdit,
                                 textReply: me.textReply,
                                 textClose: me.textClose,
                                 maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
-                                textMention: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : ''
+                                textMentionComment: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textEnterComment
                             })
                         )
                     });
@@ -1294,6 +1295,7 @@ define([
         textFollowMove          : 'Follow Move',
         textMention             : '+mention will provide access to the document and send an email',
         textMentionNotify       : '+mention will notify the user via email',
+        textEnterComment        : 'Enter your comment here',
         textViewResolved        : 'You have not permission for reopen comment',
         txtAccept: 'Accept',
         txtReject: 'Reject',
