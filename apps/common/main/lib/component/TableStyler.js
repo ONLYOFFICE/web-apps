@@ -103,7 +103,7 @@ define([
 
         me.setBordersSize = function (size) {
             borderSize = (size > this.maxBorderSize) ? this.maxBorderSize : size;
-            borderAlfa = (size<1) ? 0.3 : 1;
+            borderAlfa = (size < 1) ? 0.3 : 1;
         };
 
         me.setBordersColor = function( color) {
@@ -123,7 +123,6 @@ define([
 
         me.setVirtualBorderSize = function(size) {
             virtualBorderSize = (size > this.maxBorderSize) ? this.maxBorderSize : size;
-            borderAlfa = (size<1) ? 0.3 : 1;
         };
 
         me.setVirtualBorderColor = function(color){
@@ -224,6 +223,7 @@ define([
             if(borderSize == 0) return;
             var line =  me.getLine();
             me.context.beginPath();
+            me.context.globalAlpha = borderAlfa;
             me.context.lineWidth = me.scaleBorderSize(borderSize);
             me.context.strokeStyle = me.getBorderColor();
             if(me.numInCell < 0) {
@@ -236,6 +236,7 @@ define([
                 });
             }
             me.context.stroke();
+            me.context.globalAlpha = 1;
         };
 
         me.setBorderParams = function (){
@@ -243,7 +244,7 @@ define([
                 me.setBordersSize(0);
                 return;
             }
-            borderSize = virtualBorderSize;
+            me.setBordersSize(virtualBorderSize);
             me.setBordersColor(virtualBorderColor);
         };
 
@@ -283,7 +284,7 @@ define([
                 virtualBorderColor;
             me.id                   = me.options.id || Common.UI.getId();
             me.scale                = Common.Utils.applicationPixelRatio();
-            me.scale                = me.scale>=1 ? me.scale : 1;
+            me.scale                = me.scale >= 1 ? me.scale : 1;
             me.width                = ((me.options.width * me.scale)>>0) / me.scale;
             me.height               = ((me.options.height * me.scale) >> 0) / me.scale;
             me.rows                 = me.options.rows;
@@ -354,7 +355,7 @@ define([
                         me.fireEvent('borderclick', me, 'r',  borderSize.right, borderColor.right.toHex());
                     }
                     else {
-                        for (var i = 0; i < me._cellBorders.length; i++) {
+                        for (var i = 0; i < me._cellBorders.length && !redraw; i++) {
                             if (me._cellBorders[i].inRect(mouseX, mouseY)) {
                                 redraw = true;
                                 me._cellBorders[i].setBorderParams();
@@ -489,19 +490,15 @@ define([
                 size = (size > me.maxBorderSize) ? me.maxBorderSize : size;
                 if (borders.indexOf('t') > -1) {
                     borderSize.top = size;
-                    borderColor.top.toRGBA((borderSize.top < 1)   ? 0.2 : 1);
                 }
                 if (borders.indexOf('r') > -1) {
                     borderSize.right = size;
-                    borderColor.right.toRGBA((borderSize.right < 1)   ? 0.2 : 1);
                 }
                 if (borders.indexOf('b') > -1) {
                     borderSize.bottom = size;
-                    borderColor.bottom.toRGBA((borderSize.bottom < 1)   ? 0.2 : 1);
                 }
                 if (borders.indexOf('l') > -1) {
                     borderSize.left = size;
-                    borderColor.left.toRGBA((borderSize.left < 1)   ? 0.2 : 1);
                 }
             };
 
@@ -549,6 +546,10 @@ define([
                         return borderColor.left.toHex();
                 }
                 return null;
+            };
+
+            me.getBorderAlpha = function (border) {
+                return me.getBorderSize(border)<1 ? 0.2 : 1;
             };
 
             me.setBorderParams = function(border) {
@@ -666,8 +667,9 @@ define([
                     rows            : this.rows,
                     columns         : this.columns
                 };
-                this.createHorizontalBorders(generalOpt, sizeCorner);
+                (!this.spacingMode) && this.createHorizontalBorders(generalOpt, sizeCorner);
                 this.createVerticaLBorders(generalOpt, sizeCorner);
+                (this.spacingMode) && this.createHorizontalBorders(generalOpt, sizeCorner);
 
                 this.drawTable();
             }
@@ -745,7 +747,7 @@ define([
             }
         },
 
-        drawCorners: function () {
+        drawCorners: function (sizeCornerScale, ) {
             var connerLineSize = this.scale >> 0,
                 sizeCornerScale =this.sizeCorner * this.scale,
                 canvWidth = this.width * this.scale,
@@ -876,20 +878,21 @@ define([
             this.context.msImageSmoothingEnabled = false;
             this.context.webkitImageSmoothingEnabled = false;
             this.context.lineWidth = this.scaleBorderSize(size);
+            this.context.globalAlpha = this.getBorderAlpha(border);
             this.context.beginPath();
             this.context.strokeStyle = this.getBorderColor(border);
             this.context.moveTo(points.X1, points.Y1);
             this.context.lineTo(points.X2, points.Y2);
             this.context.stroke();
-
+            this.context.globalAlpha = 1;
         },
 
         fillWithLines: function (){
             var tdPadding = this.maxBorderSize,
                 tdWidth, tdHeight, tdX, tdY, xLeft,x1, w, y1, h;
-            this.context.beginPath();
             this.context.setLineDash([(2 * this.scale + 0.5) >> 0, (2 * this.scale + 0.5) >> 0]);
             this.context.strokeStyle = "#c0c0c0";
+
             if(!this.spacingMode) {
                 tdWidth = (this.width - 2 * this.sizeCorner) / this.columns;
                 tdHeight = (this.height - 2 * this.sizeCorner) / this.rows;
@@ -902,7 +905,7 @@ define([
                     spaceL = tdPadding + this.getBorderSize('l');
                     spaceB = (row < this.rows - 1) ?
                         tdPadding + this.getCellBorder(row, -1).getBorderSize() / (2 * this.scale) :
-                        tdPadding + this.getBorderSize('t');
+                        tdPadding + this.getBorderSize('b');
                     for (var col = 0; col < this.columns; col++) {
                         spaceR = (col < this.columns - 1) ?
                             tdPadding + this.getCellBorder(-1, col).getBorderSize() / (2 * this.scale) :
@@ -912,9 +915,10 @@ define([
                         w = ((tdWidth - spaceL - spaceR) * this.scale + 0.5) >> 0;
                         h = (tdHeight - spaceT - spaceB) * this.scale;
                         this.context.lineWidth = w;
+                        this.context.beginPath();
                         this.context.moveTo(x1 + w / 2, y1 >> 0);
                         this.context.lineTo(x1 + w / 2, (y1 + h) >> 0);
-
+                        this.context.stroke();
                         tdX += tdWidth;
                         spaceL = spaceR;
                     }
@@ -939,14 +943,15 @@ define([
                         h = tdHeight - (((row > 0) | 0) + ((row < this.rows-1) |0)) * cellPadding/2 -2*tdPadding;
                         x1 = ((sizeCorner + col * tdWidth + (col > 0 | 0) * cellPadding/2 + tdPadding)>>0);
                         y1 = sizeCorner + row * tdHeight + (row > 0 | 0) * cellPadding/2 + tdPadding;
+                        this.context.beginPath();
                         this.context.lineWidth = w;
                         this.context.moveTo(x1 + w / 2, y1 >> 0);
                         this.context.lineTo(x1 + w / 2, (y1 + h) >> 0);
+                        this.context.stroke();
                     }
                 }
             }
 
-            this.context.stroke();
             this.context.setLineDash([]);
         },
 
@@ -955,24 +960,24 @@ define([
             var sizeCornerScale = this.sizeCorner * this.scale;
             var tableWidth = (this.width * this.scale  - 2 * sizeCornerScale) >> 0,
                 tableHeight = (this.height * this.scale  - 2 * sizeCornerScale) >> 0;
-
+            this.context.fillStyle = this.backgroundColor;
             if(this.backgroundColor != 'transparent' ){
                 this.context.beginPath();
-                this.context.fillStyle = this.backgroundColor;
                 this.context.fillRect(sizeCornerScale >> 0, sizeCornerScale >> 0, tableWidth , tableHeight);
                 this.context.stroke();
             }
             this.fillCells();
+            this._cellBorders.forEach(function (item){item.drawBorder();});
 
-            this.context.setLineDash([]);
-            this.drawBorder('t');
-            this.drawBorder('b');
             this.drawBorder('l');
             this.drawBorder('r');
+            this.drawBorder('t');
+            this.drawBorder('b');
+
             this.fillWithLines();
             this.context.lineWidth = 0;
 
-            this._cellBorders.forEach(function (item){item.drawBorder();});
+
         },
 
         redrawTable: function() {
