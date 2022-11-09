@@ -75,7 +75,8 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<label class="header">', me.textSource,'</label>',
+                                            '<label class="header" style="display: inline-block; width: 245px;">', me.textSource,'</label>',
+                                            '<label class="header" style="display: inline-block;">', me.textStatus,'</label>',
                                             '<div id="external-links-list" class="range-tableview" style="width:100%; height: 148px;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -102,6 +103,12 @@ define([
                 el: $('#external-links-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                        '<div style="width:240px;padding-right: 5px;"><%= value %></div>',
+                        '<div style="width:175px;"><%= status %></div>',
+                    '</div>'
+                ].join('')),
                 tabindex: 1
             });
 
@@ -186,7 +193,8 @@ define([
                     arr.push({
                         value: (links[i].asc_getSource() || '').replace(new RegExp("%20",'g')," "),
                         idx: i,
-                        externalRef: links[i]
+                        externalRef: links[i],
+                        status: ''
                     });
                 }
             }
@@ -248,7 +256,8 @@ define([
         textDelete: 'Break Links',
         textDeleteAll: 'Break All Links',
         textOpen: 'Open Source',
-        textChange: 'Change Source'
+        textChange: 'Change Source',
+        textStatus: 'Status'
 
     }, SSE.Views.ExternalLinksDlg || {}));
 });
