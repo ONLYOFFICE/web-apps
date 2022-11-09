@@ -380,6 +380,11 @@ define([
                     Common.Utils.InternalSettings.set("guest-username", value);
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
+                if (this.appOptions.customization.font) {
+                    this.appOptions.customization.font.family && document.documentElement.style.setProperty("--font-family-base-custom", this.appOptions.customization.font.family);
+                }
+
+
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
                                                                             Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
@@ -1418,7 +1423,8 @@ define([
                         });
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
-                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
+                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
+                                                                                     this.editorConfig.customization.font.family)) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
