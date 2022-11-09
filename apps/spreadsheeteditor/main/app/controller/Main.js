@@ -378,7 +378,16 @@ define([
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
                 if (this.appOptions.customization.font) {
-                    this.appOptions.customization.font.family && document.documentElement.style.setProperty("--font-family-base-custom", "'" + this.appOptions.customization.font.family + "'");
+                    if (this.appOptions.customization.font.family && typeof this.appOptions.customization.font.family === 'string') {
+                        var arr = this.appOptions.customization.font.family.split(',');
+                        for (var i=0; i<arr.length; i++) {
+                            var item = arr[i].trim();
+                            if (item && (/[\s0-9\.]/).test(item)) {
+                                arr[i] = "'" + item + "'";
+                            }
+                        }
+                        document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
+                    }
                 }
 
                 this.editorConfig.user          =
