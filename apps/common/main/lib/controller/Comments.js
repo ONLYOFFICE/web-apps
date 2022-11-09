@@ -968,11 +968,11 @@ define([
 
                     if (!comment) continue;
 
-                    if (this.subEditStrings[saveTxtId] && !hint) {
+                    if (this.subEditStrings[saveTxtId] && (comment.get('fullInfoInHint') || !hint)) {
                         comment.set('editTextInPopover', true);
                         text = this.subEditStrings[saveTxtId];
                     }
-                    else if (this.subEditStrings[saveTxtReplyId] && !hint) {
+                    else if (this.subEditStrings[saveTxtReplyId] && (comment.get('fullInfoInHint') || !hint)) {
                         comment.set('showReplyInPopover', true);
                         text = this.subEditStrings[saveTxtReplyId];
                     }

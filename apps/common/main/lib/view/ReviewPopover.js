@@ -173,6 +173,17 @@ define([
                         var text = $(this.el).find('textarea');
                         return (text && text.length) ? text.val().trim() : '';
                     },
+                    disableTextBoxButton: function(textboxEl) {
+                        var button = $(textboxEl.siblings('#id-comments-change-popover')[0]);
+
+                        if(textboxEl.val().length > 0) {
+                            button.removeAttr('disabled');
+                            button.removeClass('disabled');
+                        } else {
+                            button.attr('disabled', true);
+                            button.addClass('disabled');
+                        }
+                    },
                     autoHeightTextBox: function () {
                         var view = this,
                             textBox = this.$el.find('textarea'),
@@ -182,6 +193,7 @@ define([
                             scrollPos = 0,
                             oldHeight = 0,
                             newHeight = 0;
+
 
                         function updateTextBoxHeight() {
                             scrollPos = parentView.scroller.getScrollTop();
@@ -211,13 +223,20 @@ define([
                             parentView.autoScrollToEditButtons();
                         }
 
+                        function onTextareaInput(event) {
+                            updateTextBoxHeight();
+                            view.disableTextBoxButton($(event.target));
+                        }
+
+
                         if (textBox && textBox.length && parentView.scroller) {
                             domTextBox = textBox.get(0);
 
+                            view.disableTextBoxButton(textBox);
                             if (domTextBox) {
                                 lineHeight = parseInt(textBox.css('lineHeight'), 10) * 0.25;
                                 updateTextBoxHeight();
-                                textBox.bind('input propertychange', updateTextBoxHeight)
+                                textBox.bind('input propertychange', onTextareaInput)
                             }
                         }
 
@@ -519,8 +538,10 @@ define([
                         },
                         'animate:before': function () {
                             var text = me.$window.find('textarea');
-                            if (text && text.length)
+                            if (text && text.length){
                                 text.focus();
+                                me.commentsView.disableTextBoxButton(text);
+                            }
                         }
                     });
                 }
