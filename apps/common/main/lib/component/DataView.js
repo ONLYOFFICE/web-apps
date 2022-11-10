@@ -1368,12 +1368,30 @@ define([
                 props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
-            if (top + menuH > docH ) {
-                innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
-                this.scroller.update(props);
-            } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
-                innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
-                this.scroller.update(props);
+            var menuUp = false;
+            if (this.parentMenu.menuAlign) {
+                var m = this.parentMenu.menuAlign.match(/^([a-z]+)-([a-z]+)/);
+                menuUp = (m[1]==='bl' || m[1]==='br');
+            }
+            if (menuUp) {
+                var bottom = top + menuH;
+                if (top<0) {
+                    innerEl.css('max-height', (bottom - paddings - margins) + 'px');
+                    menuRoot.css('top', 0);
+                    this.scroller.update(props);
+                } else if (top>0 && innerEl.height() < this.options.restoreHeight) {
+                    innerEl.css('max-height', (Math.min(bottom - paddings - margins, this.options.restoreHeight)) + 'px');
+                    menuRoot.css('top', bottom - menuRoot.outerHeight());
+                    this.scroller.update(props);
+                }
+            } else {
+                if (top + menuH > docH ) {
+                    innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
+                    this.scroller.update(props);
+                } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
+                    innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
+                    this.scroller.update(props);
+                }
             }
         },
 

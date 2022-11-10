@@ -2367,7 +2367,7 @@ define([
                         store: group.get('groupStore'),
                         scrollAlwaysVisible: true,
                         showLast: false,
-                        restoreHeight: 10000,
+                        restoreHeight: 450,
                         itemTemplate: _.template(
                             '<div class="item-equation" style="" >' +
                             '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
@@ -2380,6 +2380,12 @@ define([
                         }
                     });
                     menu.off('show:before', onShowBefore);
+                };
+                var bringForward = function (menu) {
+                    eqContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    eqContainer.removeClass('has-open-menu');
                 };
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationGroup = equationsStore.at(i);
@@ -2399,6 +2405,8 @@ define([
                         })
                     });
                     btn.menu.on('show:before', onShowBefore);
+                    btn.menu.on('show:before', bringForward);
+                    btn.menu.on('hide:after', sendBackward);
                     me.equationBtns.push(btn);
                 }
 
@@ -2430,8 +2438,14 @@ define([
                 showPoint[1] = bounds[3] + 10;
                 !Common.Utils.InternalSettings.get("de-hidden-rulers") && (showPoint[1] -= 26);
             }
-            eqContainer.css({left: showPoint[0], top : Math.min(this._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]))});
-            // menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
+            showPoint[1] = Math.min(me._Height - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
+            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            var menuAlign = (me._Height - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            me.equationBtns.forEach(function(item){
+                item && (item.menu.menuAlign = menuAlign);
+            });
+            me.equationSettingsBtn.menu.menuAlign = menuAlign;
             if (eqContainer.is(':visible')) {
                 if (me.equationSettingsBtn.menu.isVisible()) {
                     me.equationSettingsBtn.menu.options.initMenu();
