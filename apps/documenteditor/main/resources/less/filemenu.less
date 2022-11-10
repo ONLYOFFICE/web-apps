@@ -201,14 +201,18 @@
     width: auto !important;
     tr {
       td {
+        label{
+          .font-size-normal();
+        }
+
         padding: 6px 10px;
         &.group-name label {
-          font-size: 14px;
+          //font-size: 14px;
+          .font-size-huge();
           .font-weight-bold();
         }
 
         &.subgroup-name label{
-          .font-size-normal();
           .font-weight-bold();
         }
 
