@@ -158,7 +158,8 @@
                 &:extend(.dropdown-menu > li > a);
                 padding-top: 4px;
                 cursor: pointer;
-                font-size: 13px;
+                //font-size: 13px;
+                .font-size-large();
 
                 &:hover {
                     text-decoration: none;
@@ -216,15 +217,19 @@
 
                 tr {
                     td {
+                        label{
+                            .font-size-normal();
+                        }
+
                         padding: 6px 10px;
                         width: auto !important;
                         &.group-name  label {
-                            font-size: 14px;
+                            //font-size: 14px;
+                            .font-size-huge();
                             .font-weight-bold();
                         }
 
                         &.subgroup-name label{
-                            font-size: 11px;
                             .font-weight-bold();
                         }
 
@@ -237,7 +242,7 @@
 
                             label {
                                 .font-weight-bold();
-                                font-size: 12px;
+                                .font-size-medium();
                             }
                         }
 
@@ -307,7 +312,7 @@
 
                     .title {
                         width: 104px;
-                        font-size: 12px;
+                        .font-size-medium();
                         line-height: 14px;
                         height: 28px;
                         margin: 8px 8px 12px 8px;
@@ -345,7 +350,7 @@
             .recent-wrap {
                 padding: 5px 10px;
                 cursor: pointer;
-                font-size: 12px;
+                .font-size-medium();
 
                 &:hover,
                 &.over {
@@ -403,7 +408,8 @@
                     width: 100%;
                     .box-shadow(none);
                     margin: 0;
-                    font-size: 12px;
+                    //font-size: 12px;
+                    .font-size-medium();
                     float: none;
 
                     &:not(.header-name) {
@@ -482,7 +488,8 @@
             }
 
             label, span {
-                font-size: 12px;
+                //font-size: 12px;
+                .font-size-medium();
             }
 
             .tool {
@@ -504,7 +511,8 @@
 
         #panel-protect {
             label {
-                font-size: 12px;
+                //font-size: 12px;
+                .font-size-medium();
             }
 
             padding: 30px 30px;

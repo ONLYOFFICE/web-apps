@@ -143,7 +143,8 @@
                 &:extend(.dropdown-menu > li > a);
                 padding-top: 4px;
                 cursor: pointer;
-                font-size: 13px;
+                //font-size: 13px;
+                .font-size-large();
 
                 &:hover {
                     text-decoration: none;
@@ -210,7 +211,8 @@
                         width: 100%;
                         .box-shadow(none);
                         margin: 0;
-                        font-size: 12px;
+                        //font-size: 12px;
+                        .font-size-medium();
 
                         .settings-item-wrap {
                             padding: 4px 2px 4px 20px;
@@ -246,15 +248,19 @@
                 width: auto !important;
                 tr {
                     td {
+                        label{
+                            .font-size-normal();
+                        }
+
                         //padding: 5px 10px;
                         padding: 6px 10px;
                         &.group-name label {
-                            font-size: 14px;
+                            //font-size: 14px;
+                            .font-size-huge();
                             .font-weight-bold();
                         }
 
                         &.subgroup-name label{
-                            font-size: 11px;
                             .font-weight-bold();
                         }
 
@@ -268,7 +274,8 @@
 
                             label {
                                 .font-weight-bold();
-                                font-size: 12px;
+                                .font-size-medium();
+                                //font-size: 12px;
                             }
                         }
 
@@ -362,7 +369,8 @@
 
                     .title {
                         width: 104px;
-                        font-size: 12px;
+                        //font-size: 12px;
+                        .font-size-medium();
                         line-height: 14px;
                         height: 28px;
                         margin: 8px 8px 12px 8px;
@@ -400,7 +408,8 @@
             .recent-wrap {
                 padding: 5px 10px;
                 cursor: pointer;
-                font-size: 12px;
+                //font-size: 12px;
+                .font-size-medium();
 
                 &:hover,
                 &.over {
@@ -458,7 +467,8 @@
                     width: 100%;
                     .box-shadow(none);
                     margin: 0;
-                    font-size: 12px;
+                    //font-size: 12px;
+                    .font-size-medium();
                     float: none;
 
                     &:not(.header-name) {
@@ -537,7 +547,8 @@
             }
 
             label, span {
-                font-size: 12px;
+                //font-size: 12px;
+                .font-size-medium();
             }
 
             .tool {
@@ -559,7 +570,8 @@
 
         #panel-protect {
             label {
-                font-size: 12px;
+                //font-size: 12px;
+                .font-size-medium();
             }
 
             padding: 30px 30px;
@@ -610,8 +622,11 @@
                 flex-direction: column;
                 border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
                 border-right: @scaled-one-px-value solid @border-toolbar;
-                label.header {
-                    font-weight: 700;
+                label {
+                    .font-size-normal();
+                    &.header {
+                        font-weight: 700;
+                    }
                 }
                 .footer {
                     .btn.primary {
