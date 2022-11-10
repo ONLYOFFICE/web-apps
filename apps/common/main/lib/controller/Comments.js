@@ -980,13 +980,16 @@ define([
                     comment.set('hint', !_.isUndefined(hint) ? hint : false);
 
                     if (!hint && this.hintmode) {
-                        if (same_uids && (this.uids.length === 0))
+                        if (same_uids)
                             animate = false;
 
                         if (this.oldUids.length && (0 === _.difference(this.oldUids, uids).length) && (0 === _.difference(uids, this.oldUids).length)) {
                             animate = false;
                             this.oldUids = [];
                         }
+
+                        if (same_uids && !apihint && !this.isModeChanged)
+                            this.api.asc_selectComment(comment.get('uid'));
                     }
 
                     if (this.animate) {
@@ -1008,7 +1011,7 @@ define([
                 this.popoverComments.reset(comments);
 
                 if (this.popoverComments.findWhere({hide: false})) {
-                    if (popover.isVisible()) {
+                    if (popover.isVisible() && (!same_uids || this.isModeChanged)) {
                         popover.hide();
                     }
 
