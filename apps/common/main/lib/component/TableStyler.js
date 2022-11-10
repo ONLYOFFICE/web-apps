@@ -355,7 +355,7 @@ define([
                         me.fireEvent('borderclick', me, 'r',  borderSize.right, borderColor.right.toHex());
                     }
                     else {
-                        for (var i = 0; i < me._cellBorders.length && !redraw; i++) {
+                        for (var i = 0; i < me._cellBorders.length; i++) {
                             if (me._cellBorders[i].inRect(mouseX, mouseY)) {
                                 redraw = true;
                                 me._cellBorders[i].setBorderParams();
@@ -374,6 +374,8 @@ define([
 
                                     (secondBorder) && secondBorder.setBorderParams();
                                 }
+
+                                break;
                             }
                         }
                     }
