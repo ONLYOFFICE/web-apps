@@ -179,7 +179,9 @@
     .separator {
         height: 20px;
     }
-    z-index: @zindex-dropdown - 19;
+    &.has-open-menu {
+        z-index: @zindex-navbar + 1;
+    }
 }
 
 .dropdown-menu.list-settings-level {
