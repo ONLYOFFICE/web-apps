@@ -239,18 +239,18 @@
     "pastInMergeAreaError": "Não é possível alterar uma parte de uma célula mesclada",
     "saveErrorText": "Ocorreu um erro ao gravar o arquivo",
     "scriptLoadError": "A conexão está muito lenta, alguns dos componentes não puderam ser carregados. Por favor recarregue a página.",
+    "textCancel": "Cancelar",
     "textErrorPasswordIsNotCorrect": "A senha fornecida não está correta. <br> Verifique se a tecla CAPS LOCK está desligada e use a capitalização correta.",
+    "textOk": "OK",
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
     "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "textCancel": "Cancel",
-    "textOk": "Ok",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1."
   },
   "LongActions": {
     "advDRMPassword": "Senha",
@@ -281,6 +281,7 @@
     "saveTextText": "Salvando documento...",
     "saveTitleText": "Salvando documento",
     "textCancel": "Cancelar",
+    "textContinue": "Continuar",
     "textErrorWrongPassword": "A senha que você forneceu não está correta.",
     "textLoadingDocument": "Carregando documento",
     "textNo": "Não",
@@ -293,7 +294,6 @@
     "uploadImageTitleText": "Carregando imagem",
     "waitText": "Por favor, aguarde...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
     "textUndo": "Undo"
   },
   "Statusbar": {
