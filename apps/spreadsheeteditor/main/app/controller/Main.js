@@ -378,8 +378,8 @@ define([
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
                 if (this.appOptions.customization.font) {
-                    if (this.appOptions.customization.font.family && typeof this.appOptions.customization.font.family === 'string') {
-                        var arr = this.appOptions.customization.font.family.split(',');
+                    if (this.appOptions.customization.font.name && typeof this.appOptions.customization.font.name === 'string') {
+                        var arr = this.appOptions.customization.font.name.split(',');
                         for (var i=0; i<arr.length; i++) {
                             var item = arr[i].trim();
                             if (item && (/[\s0-9\.]/).test(item)) {
@@ -1139,7 +1139,7 @@ define([
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
-                                                                             this.editorConfig.customization.font && this.editorConfig.customization.font.family)) {
+                                                                             this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
