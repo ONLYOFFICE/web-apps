@@ -1499,6 +1499,7 @@
   "PE.Views.DocumentHolder.textRotate": "Պտտել",
   "PE.Views.DocumentHolder.textRotate270": "Պտտել 90° ժամացույցի սլաքի հակառակ ուղղությամբ",
   "PE.Views.DocumentHolder.textRotate90": "Պտտել 90° ժամացույցի սլաքի ուղղությամբ",
+  "PE.Views.DocumentHolder.textRulers": "Քանոններ",
   "PE.Views.DocumentHolder.textShapeAlignBottom": "Հավասարեցնել ներքևից",
   "PE.Views.DocumentHolder.textShapeAlignCenter": "Հավասարեցնել կենտրոնով",
   "PE.Views.DocumentHolder.textShapeAlignLeft": "Հավասարեցնել ձախից",

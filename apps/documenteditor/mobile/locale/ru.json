@@ -395,6 +395,11 @@
     "errorEmptyTOC": "Начните создавать оглавление, применив к выделенному тексту стиль заголовка из галереи Стилей.",
     "errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
     "errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Пожалуйста, обратитесь к администратору.",
+    "errorInconsistentExt": "При открытии файла произошла ошибка.<br>Содержимое файла не соответствует расширению файла.",
+    "errorInconsistentExtDocx": "При открытии файла произошла ошибка.<br>Содержимое файла соответствует документам (например, docx), но файл имеет несоответствующее расширение: %1.",
+    "errorInconsistentExtPdf": "При открытии файла произошла ошибка.<br>Содержимое файла соответствует одному из следующих форматов: pdf/djvu/xps/oxps, но файл имеет несоответствующее расширение: %1.",
+    "errorInconsistentExtPptx": "При открытии файла произошла ошибка.<br>Содержимое файла соответствует презентациям (например, pptx), но файл имеет несоответствующее расширение: %1.",
+    "errorInconsistentExtXlsx": "При открытии файла произошла ошибка.<br>Содержимое файла соответствует электронным таблицам (например, xlsx), но файл имеет несоответствующее расширение: %1.",
     "errorKeyEncrypt": "Неизвестный дескриптор ключа",
     "errorKeyExpire": "Срок действия дескриптора ключа истек",
     "errorLoadingFont": "Шрифты не загружены.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
@@ -420,12 +425,7 @@
     "unknownErrorText": "Неизвестная ошибка.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
-    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
-    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
-    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка данных...",
