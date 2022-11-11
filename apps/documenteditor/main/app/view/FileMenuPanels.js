@@ -338,9 +338,6 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
-                '<tr class="edit">',
-                    '<td colspan="2"><div id="fms-chb-input-mode"></div></td>',
-                '</tr>',
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
@@ -395,14 +392,6 @@ define([
             var me = this;
             var $markup = $(this.template({scope: this}));
 
-            this.chInputMode = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-input-mode'),
-                labelText: this.txtHieroglyphs,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
             this.chUseAltKey = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-use-alt-key'),
                 labelText: Common.Utils.isMac ? this.txtUseOptionKey : this.txtUseAltKey,
@@ -410,7 +399,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            Common.Utils.isIE && this.chUseAltKey.$el.parent().parent().hide();
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
@@ -789,8 +778,6 @@ define([
         },
 
         updateSettings: function() {
-            this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
-
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-show-alt-hints"));
 
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
@@ -874,7 +861,6 @@ define([
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
-            Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
@@ -1009,7 +995,7 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
         strShowComments: 'Show comments in text',
         strShowResolvedComments: 'Show resolved comments',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
@@ -1227,6 +1213,10 @@ define([
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
                     '<tr class="docx-info">',
+                        '<td class="left"><label>' + this.txtTags + '</label></td>',
+                        '<td class="right"><div id="id-info-tags"></div></td>',
+                    '</tr>',
+                    '<tr class="docx-info">',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
@@ -1312,7 +1302,16 @@ define([
             this.menu = options.menu;
             this.coreProps = null;
             this.authors = [];
-            this._locked = false;
+            this._state = {
+                _locked: false,
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                },
+                disableEditing: false
+            };
         },
 
         render: function(node) {
@@ -1347,6 +1346,15 @@ define([
 
             this.inputTitle = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-title'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('keydown:before', keyDownBefore);
+            this.inputTags = new Common.UI.InputField({
+                el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
@@ -1571,6 +1579,8 @@ define([
 
                 value = props.asc_getTitle();
                 this.inputTitle.setValue(value || '');
+                value = props.asc_getKeywords();
+                this.inputTags.setValue(value || '');
                 value = props.asc_getSubject();
                 this.inputSubject.setValue(value || '');
                 value = props.asc_getDescription();
@@ -1586,7 +1596,7 @@ define([
                     me.authors.push(item);
                 });
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
-                !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
+                this._ShowHideInfoItem(this.tblAuthor, this.mode.isEdit || !!this.authors.length);
             }
             this.SetDisabled();
         },
@@ -1714,6 +1724,8 @@ define([
             this.api.asc_registerCallback('asc_onGetDocInfoEnd', _.bind(this._onGetDocInfoEnd, this));
             // this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
             this.api.asc_registerCallback('asc_onLockCore',  _.bind(this.onLockCore, this));
+            Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            this.onChangeProtectDocument();
             this.updateInfo(this.doc);
             return this;
         },
@@ -1723,14 +1735,17 @@ define([
             this.inputAuthor.setVisible(mode.isEdit);
             this.pnlApply.toggleClass('hidden', !mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
-            if (!mode.isEdit) {
-                this.inputTitle._input.attr('placeholder', '');
-                this.inputSubject._input.attr('placeholder', '');
-                this.inputComment._input.attr('placeholder', '');
-                this.inputAuthor._input.attr('placeholder', '');
-            }
+            this.inputTitle._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputTags._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputSubject._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputComment._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
+            this.inputAuthor._input.attr('placeholder', mode.isEdit ? this.txtAddAuthor : '');
             this.SetDisabled();
             return this;
+        },
+
+        setPreviewMode: function(mode) {
+            this._state.disableEditing = mode;
         },
 
         _onGetDocInfoStart: function() {
@@ -1788,24 +1803,37 @@ define([
         },
 
         onLockCore: function(lock) {
-            this._locked = lock;
+            this._state._locked = lock;
             this.updateFileInfo();
         },
 
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = DE.getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+            }
+        },
+
         SetDisabled: function() {
-            var disable = !this.mode.isEdit || this._locked;
+            var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
+            var disable = !this.mode.isEdit || this._state._locked || isProtected || this._state.disableEditing;
             this.inputTitle.setDisabled(disable);
+            this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);
             this.inputComment.setDisabled(disable);
             this.inputAuthor.setDisabled(disable);
-            this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
+            this.tblAuthor.find('.close').toggleClass('disabled', this._state._locked);
             this.tblAuthor.toggleClass('disabled', disable);
-            this.btnApply.setDisabled(this._locked);
+            this.btnApply.setDisabled(this._state._locked);
         },
 
         applySettings: function() {
             if (this.coreProps && this.api) {
                 this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putKeywords(this.inputTags.getValue());
                 this.coreProps.asc_putSubject(this.inputSubject.getValue());
                 this.coreProps.asc_putDescription(this.inputComment.getValue());
                 this.coreProps.asc_putCreator(this.authors.join(';'));
@@ -1826,6 +1854,7 @@ define([
         txtAppName: 'Application',
         txtEditTime: 'Total Editing time',
         txtTitle: 'Title',
+        txtTags: 'Tags',
         txtSubject: 'Subject',
         txtComment: 'Comment',
         txtModifyDate: 'Last Modified',
@@ -1990,7 +2019,14 @@ define([
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
-            this.urlHelpCenter = '{{HELP_CENTER_WEB_EDITORS}}';
+
+            if ( !Common.Utils.isIE ) {
+                if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
+                    const _url_obj = new URL('{{HELP_CENTER_WEB_DE}}');
+                    _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                    this.urlHelpCenter = _url_obj.toString();
+                }
+            }
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
@@ -2114,7 +2150,7 @@ define([
                         } else {
                             if ( Common.Controllers.Desktop.isActive() ) {
                                 if ( store.contentLang === '{{DEFAULT_LANG}}' || !Common.Controllers.Desktop.helpUrl() ) {
-                                    me.usedHelpCenter = true;
+                                    me.noHelpContents = true;
                                     me.iFrame.src = '../../common/main/resources/help/download.html';
                                 } else {
                                     store.contentLang = store.contentLang === lang ? '{{DEFAULT_LANG}}' : lang;

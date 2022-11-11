@@ -31,9 +31,9 @@
       "textOk": "OK",
       "textReopen": "もう一度開く",
       "textResolve": "解決する",
+      "textSharingSettings": "共有設定",
       "textTryUndoRedo": "高速で共同な編集モードでは、元に戻す/やり直し機能が無効になります。",
-      "textUsers": "ユーザー",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "ユーザー"
     },
     "HighlightColorPalette": {
       "textNoFill": "塗りつぶしなし"
@@ -52,6 +52,7 @@
     "menuDelete": "削除する",
     "menuDeleteTable": "表を削除する",
     "menuEdit": "編集する",
+    "menuEditLink": "リンクの編集",
     "menuMerge": "結合",
     "menuMore": "もっと",
     "menuOpenLink": "リンクを開く",
@@ -62,8 +63,7 @@
     "textDoNotShowAgain": "再度表示しない",
     "textOk": "OK",
     "textRows": "行",
-    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？"
   },
   "Controller": {
     "Main": {
@@ -147,6 +147,7 @@
     "errorDataEncrypted": "暗号化された変更を受け取りましたが、解読できません。",
     "errorDataRange": "データ範囲が正しくありません",
     "errorDefaultMessage": "エラー コード: %1",
+    "errorDirectUrl": "ドキュメントへのリンクを確認してください。<br>このリンクは、ダウンロード用のファイルへの直接リンクである必要があります。",
     "errorEditingDownloadas": "文書を操作中にエラーがありました.<br>ファイルのバックアップコピーを保存するように文書をダウンロードしてください。",
     "errorFilePassProtect": "ファイルはパスワードで保護されており、開けませんでした。",
     "errorFileSizeExceed": "ファイルサイズがサーバーの制限を超えています。<br>管理者にお問い合わせください。",
@@ -172,11 +173,16 @@
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
     "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
     "applyChangesTitleText": "データの読み込み中",
+    "confirmMaxChangesSize": "アクションのサイズがサーバーに設定された制限を超えています。<br>「元に戻す」ボタンを押して最後のアクションをキャンセルするか、「続ける」を押してローカルにアクションを維持してください（何も失われないことを確認するために、ファイルをダウンロードするか、その内容をコピーする必要があります）。",
     "downloadTextText": "文書のダウンロード中...",
     "downloadTitleText": "文書のダウンロード中",
     "loadFontsTextText": "データの読み込み中...",
@@ -199,7 +205,9 @@
     "savePreparingTitle": "保存の準備中です。お待ちください...",
     "saveTextText": "文書を保存中...",
     "saveTitleText": "文書を保存中",
+    "textContinue": "続ける",
     "textLoadingDocument": "文書の読み込み中",
+    "textUndo": "元に戻す",
     "txtEditingMode": "編集モードを設定する",
     "uploadImageTextText": "イメージのアップロード中...",
     "uploadImageTitleText": "イメージのアップロード中",
@@ -222,6 +230,7 @@
       "textComment": "コメント",
       "textDefault": "選択したテキスト",
       "textDisplay": "表示する",
+      "textDone": "完了",
       "textEmptyImgUrl": "イメージのURLを指定すべきです。",
       "textExternalLink": "外部リンク",
       "textFirstSlide": "最初のスライド",
@@ -240,6 +249,8 @@
       "textPictureFromLibrary": "ライブラリからのイメージ",
       "textPictureFromURL": "URLからのイメージ",
       "textPreviousSlide": "前のスライド",
+      "textRecommended": "おすすめ",
+      "textRequired": "必須",
       "textRows": "行",
       "textScreenTip": "ヒント",
       "textShape": "形",
@@ -248,10 +259,7 @@
       "textSlideNumber": "スライド番号",
       "textTable": "表",
       "textTableSize": "表のサイズ",
-      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある",
-      "textDone": "Done",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要がある"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
@@ -270,6 +278,7 @@
       "textAlignTop": "上揃え",
       "textAllCaps": "全ての大字",
       "textApplyAll": "全てのスライドに適用する",
+      "textArrange": "整列",
       "textAuto": "自動",
       "textAutomatic": "自動",
       "textBack": "戻る",
@@ -284,8 +293,10 @@
       "textBringToForeground": "前景に動かす",
       "textBullets": "箇条書き",
       "textBulletsAndNumbers": "箇条書きと段落番号",
+      "textCancel": "キャンセル",
       "textCaseSensitive": "大文字と小文字の区別",
       "textCellMargins": "セルの余白",
+      "textChangeShape": "図形の変更",
       "textChart": "グラフ",
       "textClock": "時計",
       "textClockwise": "時計回り",
@@ -295,6 +306,8 @@
       "textCustomColor": "ユーザー設定の色",
       "textDefault": "選択したテキスト",
       "textDelay": "遅延",
+      "textDeleteImage": "画像の削除",
+      "textDeleteLink": "リンクの削除",
       "textDeleteSlide": "スタンドを削除する",
       "textDesign": "デザイン",
       "textDisplay": "表示する",
@@ -330,6 +343,7 @@
       "textHyperlink": "ハイパーリンク",
       "textImage": "イメージ",
       "textImageURL": "イメージURL",
+      "textInsertImage": "画像の挿入",
       "textLastColumn": "最後の列",
       "textLastSlide": "最後のスライド",
       "textLayout": "レイアウト​​",
@@ -356,12 +370,14 @@
       "textPreviousSlide": "前のスライド",
       "textPt": "pt",
       "textPush": "押す",
+      "textRecommended": "おすすめ",
       "textRemoveChart": "チャートを削除する",
       "textRemoveShape": "形を削除する",
       "textRemoveTable": "表を削除する",
       "textReplace": "並べ替え",
       "textReplaceAll": "全てを置換する",
       "textReplaceImage": "イメージを置換する",
+      "textRequired": "必須",
       "textRight": "右",
       "textScreenTip": "ヒント",
       "textSearch": "検索",
@@ -399,15 +415,7 @@
       "textZoom": "ズーム",
       "textZoomIn": "拡大",
       "textZoomOut": "縮小",
-      "textZoomRotate": "ズームと回転",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textInsertImage": "Insert Image",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textZoomRotate": "ズームと回転"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",

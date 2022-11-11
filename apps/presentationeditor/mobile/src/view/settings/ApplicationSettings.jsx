@@ -3,7 +3,7 @@ import { observer, inject } from "mobx-react";
 import {f7, Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
 import { useTranslation } from "react-i18next";
 import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
-import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.js";
+import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.mjs";
 
 const PageApplicationSettings = props => {
     const { t } = useTranslation();

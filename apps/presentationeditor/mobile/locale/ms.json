@@ -172,7 +172,12 @@
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
     "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
   },
   "LongActions": {
     "applyChangesTextText": "Data dimuatkan…",
@@ -203,7 +208,10 @@
     "txtEditingMode": "Tetapkan mod pengeditan…",
     "uploadImageTextText": "Imej dimuat naik…",
     "uploadImageTitleText": "Imej dimuat naik",
-    "waitText": "Sila, tunggu…"
+    "waitText": "Sila, tunggu…",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda mempunyai perubahan yang tidak disimpan dalam dokumen ini. Klik 'Stay on this Page’ untuk menunggu autosimpan. Klik 'Leave this Page' untuk membuang semua perubahan yang tidak disimpan.",

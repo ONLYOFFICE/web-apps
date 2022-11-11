@@ -121,7 +121,7 @@ Common.UI.HintManager = new(function() {
         _usedTitles = [],
         _appPrefix,
         _staticHints = { // for desktop buttons
-            "btnhome": 'K'
+            // "btnhome": 'K'
         };
 
     var _api;
@@ -457,7 +457,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _init = function(api) {
-        if (Common.Utils.isIE)
+        if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko) // turn off hints on IE and FireFox (shortcut F6 selects link in address bar)
             return;
         _api = api;
 
@@ -480,7 +480,7 @@ Common.UI.HintManager = new(function() {
             _clearHints();
         });
         $(document).on('keyup', function(e) {
-            if (e.keyCode == Common.UI.Keys.ALT && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
+            if ((e.keyCode == Common.UI.Keys.ALT || e.keyCode === 91) && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
                 if (!_hintVisible) {
                     $('input:focus').blur(); // to change value in inputField
@@ -622,10 +622,11 @@ Common.UI.HintManager = new(function() {
                 }
             }
 
-            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey && e.keyCode == Common.UI.Keys.ALT &&
+            _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
+                (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6) &&
                 !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
                 !(window.PE && $('#pe-preview').is(':visible')));
-            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115) {
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115) {
                 e.preventDefault();
             }
         });
@@ -663,7 +664,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _clearHints = function (isComplete) {
-        if (Common.Utils.isIE)
+        if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
             return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {

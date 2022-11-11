@@ -1,10 +1,10 @@
 import {makeObservable, action, observable} from 'mobx';
-import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage';
+import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 export class storeApplicationSettings {
     constructor() {
         makeObservable(this, {
-            unitMeasurement: observable, 
+            unitMeasurement: observable,
             macrosMode: observable,
             macrosRequest: observable,
             formulaLang: observable, 

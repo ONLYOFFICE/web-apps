@@ -576,6 +576,7 @@ define([
 
         onKeyChanged: function(combo, record) {
             if (this.api && !this._noApply) {
+                this._state.Key = undefined;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_Key(record.value);
@@ -1068,14 +1069,10 @@ define([
                 if (formPr) {
                     this._originalFormProps = formPr;
 
-                    var data = [];
-                    if (type == Asc.c_oAscContentControlSpecificType.CheckBox)
-                        data = this.api.asc_GetCheckBoxFormKeys();
-                    else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
-                        data = this.api.asc_GetPictureFormKeys();
+                    if (type == Asc.c_oAscContentControlSpecificType.Picture) 
                         this.labelFormName.text(this.textImage);
-                    } else
-                        data = this.api.asc_GetTextFormKeys();
+
+                    var data = this.api.asc_GetFormKeysByType(type);
                     if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
                         var arr = [];
                         data.forEach(function(item) {
@@ -1446,7 +1443,7 @@ define([
                 }
             } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
                 imageOnly = true;
-            } else if (type == Asc.c_oAscContentControlSpecificType.None) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.None || type == Asc.c_oAscContentControlSpecificType.Complex) {
                 textOnly = !!textProps;
             }
             this.TextOnlySettings.toggleClass('hidden', !textOnly);
@@ -1472,7 +1469,7 @@ define([
         },
 
         onDisconnect: function() {
-            this.onKeyChanged(this.cmbKey, {value: ""});
+            this.onKeyChanged(this.cmbKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
         },
 
         disableListButtons: function() {

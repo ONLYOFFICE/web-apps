@@ -370,12 +370,12 @@
     "textWe": "az.",
     "textWrap": "Doikuntza",
     "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
     "textRecommended": "Recommended",
     "textRequired": "Required",
     "textTextWrapping": "Text Wrapping",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
@@ -420,7 +420,12 @@
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -455,7 +460,10 @@
     "txtEditingMode": "Ezarri edizio modua...",
     "uploadImageTextText": "Irudia kargatzen...",
     "uploadImageTitleText": "Irudia kargatzen",
-    "waitText": "Mesedez, itxaron..."
+    "waitText": "Mesedez, itxaron...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Errorea",

@@ -144,10 +144,20 @@ define([
                     }
                 }, this, area);
             }.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
         onLaunch: function () {
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+            this._state = {
+                disableEditing: false, // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
+                docProtection: {
+                    isReadOnly: false,
+                    isReviewOnly: false,
+                    isFormsOnly: false,
+                    isCommentsOnly: false
+                }
+            };
 
             this.collection                     =   this.getApplication().getCollection('Common.Collections.Comments');
             this.setComparator();
@@ -396,9 +406,11 @@ define([
                     reply = null,
                     addReply = null,
                     ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                    comment = t.findComment(id);
+                    comment = t.findComment(id),
+                    oldCommentVal = '';
 
                 if (comment && ascComment) {
+                    oldCommentVal = comment.get('comment');
                     ascComment.asc_putText(commentVal);
                     ascComment.asc_putQuoteText(comment.get('quote'));
                     ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
@@ -442,6 +454,7 @@ define([
                     }
 
                     t.api.asc_changeComment(id, ascComment);
+                    t.mode && t.mode.canRequestSendNotify && t.view.pickEMail(ascComment.asc_getGuid(), commentVal, oldCommentVal);
 
                     return true;
                 }
@@ -455,7 +468,8 @@ define([
                     reply = null,
                     addReply = null,
                     ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                    comment = me.findComment(id);
+                    comment = me.findComment(id),
+                    oldReplyVal = '';
 
                 if (ascComment && comment) {
                     ascComment.asc_putText(comment.get('comment'));
@@ -479,6 +493,7 @@ define([
                             addReply = buildCommentData();   //  new asc_CCommentData();
                             if (addReply) {
                                 if (reply.get('id') === replyId && !_.isUndefined(replyVal)) {
+                                    oldReplyVal = reply.get('reply');
                                     addReply.asc_putText(replyVal);
                                     addReply.asc_putUserId(me.currentUserId);
                                     addReply.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
@@ -498,7 +513,7 @@ define([
                     }
 
                     me.api.asc_changeComment(id, ascComment);
-
+                    me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), replyVal, oldReplyVal);
                     return true;
                 }
             }
@@ -1645,16 +1660,25 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            if (this.viewmode === mode) return;
-            this.viewmode = mode;
-            if (mode)
+            this._state.disableEditing = mode;
+            this.updatePreviewMode();
+        },
+
+        updatePreviewMode: function() {
+            var docProtection = this._state.docProtection;
+            var viewmode = this._state.disableEditing || docProtection.isReadOnly || docProtection.isFormsOnly;
+
+            if (this.viewmode === viewmode) return;
+            this.viewmode = viewmode;
+
+            if (viewmode)
                 this.prevcanComments = this.mode.canComments;
-            this.mode.canComments = (mode) ? false : this.prevcanComments;
+            this.mode.canComments = (viewmode) ? false : this.prevcanComments;
             this.closeEditing();
             this.setMode(this.mode);
             this.updateComments(true);
             if (this.getPopover())
-                mode ? this.getPopover().hide() : this.getPopover().update(true);
+                viewmode ? this.getPopover().hide() : this.getPopover().update(true);
         },
 
         clearCollections: function() {
@@ -1718,6 +1742,27 @@ define([
                 }
             }
             this.updateComments(true);
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                me.onChangeProtectDocument();
+                Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
+            });
+        },
+
+        onChangeProtectDocument: function(props) {
+            if (!props) {
+                var docprotect = this.getApplication().getController('DocProtection');
+                props = docprotect ? docprotect.getDocProps() : null;
+            }
+            if (props) {
+                this._state.docProtection = props;
+                this.updatePreviewMode();
+            }
         }
 
     }, Common.Controllers.Comments || {}));

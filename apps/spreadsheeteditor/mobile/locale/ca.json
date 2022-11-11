@@ -243,7 +243,14 @@
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "textCancel": "Cancel",
+    "textOk": "Ok",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
   },
   "LongActions": {
     "advDRMPassword": "Contrasenya",
@@ -284,7 +291,10 @@
     "txtEditingMode": "Estableix el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espereu..."
+    "waitText": "Espereu...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Advertiment",
@@ -395,6 +405,7 @@
       "textAllBorders": "Totes les vores",
       "textAngleClockwise": "Angle en sentit horari",
       "textAngleCounterclockwise": "Angle en sentit anti horari",
+      "textArrange": "Organitza",
       "textAuto": "Automàtic",
       "textAutomatic": "Automàtic",
       "textAxisCrosses": "Creus de l'eix",
@@ -557,7 +568,6 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordena de major a menor",
       "txtSortLow2High": "Ordena de menor a major",
-      "textArrange": "Arrange",
       "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",

@@ -247,6 +247,7 @@
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
     "textCustomColor": "Custom Color",
+    "textCustomStyle": "Custom Style",
     "textDecember": "December",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
@@ -375,7 +376,6 @@
     "textType": "Type",
     "textWe": "We",
     "textWrap": "Wrap",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
@@ -420,11 +420,17 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
     "applyChangesTitleText": "Loading Data",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "downloadMergeText": "Downloading...",
     "downloadMergeTitle": "Downloading",
     "downloadTextText": "Downloading document...",
@@ -451,7 +457,9 @@
     "saveTitleText": "Saving Document",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
+    "textContinue": "Continue",
     "textLoadingDocument": "Loading document",
+    "textUndo": "Undo",
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",

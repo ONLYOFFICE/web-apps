@@ -377,6 +377,19 @@ define([
                     Common.Utils.InternalSettings.set("guest-username", value);
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
+                if (this.appOptions.customization.font) {
+                    if (this.appOptions.customization.font.name && typeof this.appOptions.customization.font.name === 'string') {
+                        var arr = this.appOptions.customization.font.name.split(',');
+                        for (var i=0; i<arr.length; i++) {
+                            var item = arr[i].trim();
+                            if (item && (/[\s0-9\.]/).test(item)) {
+                                arr[i] = "'" + item + "'";
+                            }
+                        }
+                        document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
+                    }
+                }
+
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
                                                   Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
@@ -669,6 +682,7 @@ define([
             },
 
             onSelectionChanged: function(info){
+                if (!info) return;
                 if (!this._isChartDataReady && info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
                     this._isChartDataReady = true;
                     Common.Gateway.internalMessage('chartDataReady');
@@ -811,6 +825,7 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         title    = this.textDisconnect;
                         text     = this.textDisconnect;
+                        Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, true);
                         var me = this;
                         statusCallback = function() {
@@ -1123,7 +1138,8 @@ define([
                         });
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
-                    this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
+                    this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
+                                                                             this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1320,7 +1336,7 @@ define([
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle) {
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                    this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
+                    this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 }
 
@@ -1411,6 +1427,8 @@ define([
 //                this.getCellInfo().setMode(this.appOptions);
                 app.getController('Toolbar').setMode(this.appOptions);
                 app.getController('DocumentHolder').setMode(this.appOptions);
+
+                viewport && viewport.applyCommonMode();
 
                 if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) {
                     statusbarView.hide();
@@ -1976,6 +1994,20 @@ define([
                         config.msg = this.errorDirectUrl;
                         break;
 
+                    case Asc.c_oAscError.ID.ConvertationOpenFormat:
+                        config.maxwidth = 600;
+                        if (errData === 'pdf')
+                            config.msg = this.errorInconsistentExtPdf.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else if  (errData === 'docx')
+                            config.msg = this.errorInconsistentExtDocx.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else if  (errData === 'xlsx')
+                            config.msg = this.errorInconsistentExtXlsx.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else if  (errData === 'pptx')
+                            config.msg = this.errorInconsistentExtPptx.replace('%1', this.appOptions.spreadsheet.fileType || '');
+                        else
+                            config.msg = this.errorInconsistentExt;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2379,6 +2411,19 @@ define([
                             if (apiCallback)  {
                                 apiCallback(btn === 'yes');
                             }
+                        }, this)
+                    });
+                } else if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg: this.confirmMaxChangesSize,
+                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
+                        maxwidth: 600,
+                        callback: _.bind(function(btn) {
+                            if (apiCallback)  {
+                                apiCallback(btn === 'ok');
+                            }
+                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                         }, this)
                     });
                 }
@@ -3660,8 +3705,15 @@ define([
             textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
             textRememberMacros: 'Remember my choice for all macros',
             confirmAddCellWatches: 'This action will add {0} cell watches.<br>Do you want to continue?',
-            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?'
-
+            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?',
+            confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
+            textUndo: 'Undo',
+            textContinue: 'Continue',
+            errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
+            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
         }
     })(), SSE.Controllers.Main || {}))
 });

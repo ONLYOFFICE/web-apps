@@ -3,7 +3,7 @@ import { inject } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
-const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocument}) => {
+const ErrorController = inject('storeAppOptions','storePresentationInfo')(({storeAppOptions, storePresentationInfo, LoadingDocument}) => {
     const { t } = useTranslation();
     const _t = t("Error", { returnObjects: true });
 
@@ -175,6 +175,20 @@ const ErrorController = inject('storeAppOptions')(({storeAppOptions, LoadingDocu
 
             case Asc.c_oAscError.ID.DirectUrl:
                 config.msg = _t.errorDirectUrl;
+                break;
+
+            case Asc.c_oAscError.ID.ConvertationOpenFormat:
+                let docExt = storePresentationInfo.dataDoc ? storePresentationInfo.dataDoc.fileType || '' : '';
+                if (errData === 'pdf')
+                    config.msg = _t.errorInconsistentExtPdf.replace('%1', docExt);
+                else if  (errData === 'docx')
+                    config.msg = _t.errorInconsistentExtDocx.replace('%1', docExt);
+                else if  (errData === 'xlsx')
+                    config.msg = _t.errorInconsistentExtXlsx.replace('%1', docExt);
+                else if  (errData === 'pptx')
+                    config.msg = _t.errorInconsistentExtPptx.replace('%1', docExt);
+                else
+                    config.msg = _t.errorInconsistentExt;
                 break;
 
             default:

@@ -48,7 +48,7 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
-        sockjs          : '../vendor/sockjs/sockjs.min',
+        socketio        : '../vendor/socketio/socket.io.min',
         allfonts        : '../../sdkjs/common/AllFonts'
     },
     shim: {
@@ -61,14 +61,14 @@ require.config({
                 'underscore',
                 'allfonts',
                 'xregexp',
-                'sockjs'
+                'socketio'
             ]
         }
     }
 });
 
 require([
-    'sockjs',
+    'socketio',
     'xregexp',
     'underscore'
 ], function () {

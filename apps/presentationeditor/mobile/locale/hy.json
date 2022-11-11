@@ -31,9 +31,9 @@
       "textOk": "Լավ",
       "textReopen": "Նորից բացել",
       "textResolve": "Լուծել",
+      "textSharingSettings": "Համօգտագործման կարգավորումներ",
       "textTryUndoRedo": "Հետարկումն ու վերարկումն գործառույթներն անջատված են արագ համատեղ խմբագրման ռեժիմի համար:",
-      "textUsers": "Օգտատերեր",
-      "textSharingSettings": "Sharing Settings"
+      "textUsers": "Օգտատերեր"
     },
     "HighlightColorPalette": {
       "textNoFill": "Առանց լցման"
@@ -52,6 +52,7 @@
     "menuDelete": "Ջնջել",
     "menuDeleteTable": "Ջնջել աղյուսակը",
     "menuEdit": "Խմբագրել",
+    "menuEditLink": "Խմբագրել հղումը",
     "menuMerge": "Միաձուլել",
     "menuMore": "Ավել",
     "menuOpenLink": "Բացել հղումը",
@@ -62,8 +63,7 @@
     "textDoNotShowAgain": "Այլևս ցույց չտալ",
     "textOk": "Լավ",
     "textRows": "Տողեր",
-    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-    "menuEditLink": "Edit Link"
+    "txtWarnUrl": "Այս հղմանը հետևելը կարող է վնասել ձեր սարքավորումն ու տվյալները:<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
   },
   "Controller": {
     "Main": {
@@ -147,6 +147,7 @@
     "errorDataEncrypted": "Ընդունվել են գաղտնագրված փոփոխությունները. դրանք չեն կարող վերծանվել։",
     "errorDataRange": "Տվյալների սխալ ընդգրկույթ։",
     "errorDefaultMessage": "Սխալի կոդ՝ %1",
+    "errorDirectUrl": "Խնդրում ենք ստուգել փաստաթղթի հղումը:<br> Այս հղումը պետք է լինի ուղիղ հղում դեպի ներբեռնելու ֆայլը:",
     "errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում սխալ է տեղի ունեցել:<br>Օգտագործեք «Ներբեռնում» տարբերակը՝ ֆայլի կրկնօրինակը տեղում պահելու համար:",
     "errorFilePassProtect": "Ֆայլը պաշտպանված է գաղտնաբառով և հնարավոր չէ բացել:",
     "errorFileSizeExceed": "Ֆայլի չափը գերազանցում է Ձեր սերվերի սահմանափակումը:Խնդրում ենք կապվել Ձեր ադմինիստրատորի հետ:",
@@ -172,7 +173,11 @@
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
     "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading."
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -199,11 +204,14 @@
     "savePreparingTitle": "Նախապատրաստում պահպանմանը։ Խնդրում ենք սպասել...",
     "saveTextText": "Փաստաթղթի պահպանում...",
     "saveTitleText": "Փաստաթղթի պահպանում",
+    "textContinue": "Շարունակել",
     "textLoadingDocument": "Փաստաթղթի բեռնում",
+    "textUndo": "Հետարկել",
     "txtEditingMode": "Խմբագրման աշխատակարգի հաստատում...",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել..."
+    "waitText": "Խնդրում ենք սպասել...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք այս փաստաթղթում չպահված փոփոխություններ ունեք:Սեղմեք «Մնալ այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
@@ -222,6 +230,7 @@
       "textComment": "Մեկնաբանություն",
       "textDefault": "Ընտրված տեքստ",
       "textDisplay": "Ցուցադրել",
+      "textDone": "Պատրաստ է",
       "textEmptyImgUrl": "Դուք պետք է նշեք պատկերի URL-ը:",
       "textExternalLink": "Արտաքին հղում",
       "textFirstSlide": "Առաջին սահիկ",
@@ -240,6 +249,8 @@
       "textPictureFromLibrary": "Նկար գրադարանից",
       "textPictureFromURL": "Նկար URL-ից",
       "textPreviousSlide": "Նախորդ սահիկ",
+      "textRecommended": "Առաջարկվում է",
+      "textRequired": "Պարտադիր",
       "textRows": "Տողեր",
       "textScreenTip": "Հուշակի գրվածք",
       "textShape": "Պատկեր",
@@ -248,10 +259,7 @@
       "textSlideNumber": "Սահիկի համարը",
       "textTable": "Աղյուսակ",
       "textTableSize": "Աղյուսակի չափ",
-      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
-      "textDone": "Done",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -270,6 +278,7 @@
       "textAlignTop": "Հավասարեցնել վերևից",
       "textAllCaps": "Բոլորը մեծատառ",
       "textApplyAll": "Գործադրել բոլոր սահիկների համար",
+      "textArrange": "Դասավորել",
       "textAuto": "Ինքնաշխատ",
       "textAutomatic": "Ինքնաշխատ",
       "textBack": "Հետ",
@@ -284,6 +293,7 @@
       "textBringToForeground": "Բերել առջևք ",
       "textBullets": "Պարբերակներ",
       "textBulletsAndNumbers": "Պարբերակներ և համարներ",
+      "textCancel": "Չեղարկել",
       "textCaseSensitive": "Դուրճազգայուն",
       "textCellMargins": "Վանդակի լուսանցքներ",
       "textChart": "Գծապատկեր",
@@ -330,6 +340,7 @@
       "textHyperlink": "Գերհղում",
       "textImage": "Նկար",
       "textImageURL": "Նկարի URL",
+      "textInsertImage": "Զետեղել նկար",
       "textLastColumn": "Վերջին սյունակ",
       "textLastSlide": "Վերջին սահիկ",
       "textLayout": "Դասավորություն ",
@@ -356,12 +367,14 @@
       "textPreviousSlide": "Նախորդ սահիկ",
       "textPt": "կտ",
       "textPush": "Հրում",
+      "textRecommended": "Առաջարկվում է",
       "textRemoveChart": "Հեռացնել գծապատկերը",
       "textRemoveShape": "Հեռացնել պատկերը",
       "textRemoveTable": "Հեռացնել աղյուսակը",
       "textReplace": "Փոխարինել",
       "textReplaceAll": "Փոխարինել բոլորը",
       "textReplaceImage": "Փոխարինել նկարը",
+      "textRequired": "Պարտադիր",
       "textRight": "Աջ",
       "textScreenTip": "Հուշակի գրվածք",
       "textSearch": "Որոնել",
@@ -400,14 +413,9 @@
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
       "textZoomRotate": "Դիտափոխում և պտտում",
-      "textArrange": "Arrange",
-      "textCancel": "Cancel",
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link",
-      "textInsertImage": "Insert Image",
-      "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textDeleteLink": "Delete Link"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",

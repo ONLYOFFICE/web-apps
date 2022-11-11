@@ -77,6 +77,12 @@ define([
             this._currentParaObjDisabled = false;
             this._currLang        = {};
             this._isDisabled = false;
+            this._docProtection = {
+                isReadOnly: false,
+                isReviewOnly: false,
+                isFormsOnly: false,
+                isCommentsOnly: false
+            };
         },
 
         render: function () {
@@ -166,11 +172,11 @@ define([
                         canComment = canComment && !(spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime);
 
-                        canEditControl = spectype !== undefined && (spectype === Asc.c_oAscContentControlSpecificType.None || spectype === Asc.c_oAscContentControlSpecificType.ComboBox) && !control_lock;
+                        canEditControl = spectype !== undefined && (spectype === Asc.c_oAscContentControlSpecificType.None || spectype === Asc.c_oAscContentControlSpecificType.ComboBox || spectype === Asc.c_oAscContentControlSpecificType.Complex) && !control_lock;
                     }
 
                     me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo() || me._docProtection.isReadOnly);
                     me.menuViewCopySeparator.setVisible(isInSign);
 
                     var isRequested = (signProps) ? signProps.asc_getRequested() : false;
@@ -188,15 +194,15 @@ define([
                     }
 
                     me.menuViewAddComment.setVisible(canComment);
-                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    me.menuViewAddComment.setDisabled(value.paraProps && value.paraProps.locked === true || me._docProtection.isReadOnly || me._docProtection.isFormsOnly);
 
                     var disabled = value.paraProps && value.paraProps.locked === true;
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuViewCopy.setDisabled(!cancopy);
                     me.menuViewCut.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewCut.setDisabled(disabled || !cancopy);
+                    me.menuViewCut.setDisabled(disabled || !cancopy || me._docProtection.isReadOnly || me._docProtection.isCommentsOnly);
                     me.menuViewPaste.setVisible(me._fillFormMode && canEditControl);
-                    me.menuViewPaste.setDisabled(disabled);
+                    me.menuViewPaste.setDisabled(disabled || me._docProtection.isReadOnly || me._docProtection.isCommentsOnly);
                     me.menuViewPrint.setVisible(me.mode.canPrint && !me._fillFormMode);
                     me.menuViewPrint.setDisabled(!cancopy);
 
@@ -1151,64 +1157,7 @@ define([
 
             me.menuTableEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
-                menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar shifted-right',
-                    menuAlign: 'tl-tr',
-                    items   : [
-                        new Common.UI.MenuItem({
-                            caption     : me.unicodeText,
-                            iconCls     : 'menu__icon unicode',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.Unicode
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.latexText,
-                            iconCls     : 'menu__icon latex',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.LaTeX
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.currProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.currLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: true}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: true}
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.eqToInlineText,
-                            checkable   : true,
-                            checked     : false,
-                            type        : 'mode'
-                        })
-                    ]
-                })
+                menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
             me.menuTableSelectText = new Common.UI.MenuItem({
@@ -1498,13 +1447,10 @@ define([
                     me.menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
                     /** coauthoring end **/
 
-                    var in_field = me.api.asc_GetCurrentComplexField();
+                    var in_field = me.api.asc_HaveFields(true);
                     me.menuTableRefreshField.setVisible(!!in_field);
                     me.menuTableRefreshField.setDisabled(disabled);
                     menuTableFieldSeparator.setVisible(!!in_field);
-                    if (in_field) {
-                        me.menuTableRefreshField.options.fieldProps = in_field;
-                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -1665,66 +1611,8 @@ define([
 
             me.menuParagraphEquation = new Common.UI.MenuItem({
                 caption     : me.advancedEquationText,
-                menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar shifted-right',
-                    menuAlign: 'tl-tr',
-                    items   : [
-                        new Common.UI.MenuItem({
-                            caption     : me.unicodeText,
-                            iconCls     : 'menu__icon unicode',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.Unicode
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.latexText,
-                            iconCls     : 'menu__icon latex',
-                            checkable   : true,
-                            checkmark   : false,
-                            checked     : false,
-                            toggleGroup : 'popupparaeqinput',
-                            type        : 'input',
-                            value       : Asc.c_oAscMathInputType.LaTeX
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.currProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.currLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: false, linear: true}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allProfText,
-                            iconCls     : 'menu__icon professional-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: false}
-                        }),
-                        new Common.UI.MenuItem({
-                            caption     : me.allLinearText,
-                            iconCls     : 'menu__icon linear-equation',
-                            type        : 'view',
-                            value       : {all: true, linear: true}
-                        }),
-                        { caption     : '--' },
-                        new Common.UI.MenuItem({
-                            caption     : me.eqToInlineText,
-                            checkable   : true,
-                            checked     : false,
-                            type        : 'mode'
-                        })
-                    ]
-                })
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
             });
-
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2150,13 +2038,10 @@ define([
                     me.menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
                     /** coauthoring end **/
 
-                    var in_field = me.api.asc_GetCurrentComplexField();
+                    var in_field = me.api.asc_HaveFields(true);
                     me.menuParaRefreshField.setVisible(!!in_field);
                     me.menuParaRefreshField.setDisabled(disabled);
                     menuParaFieldSeparator.setVisible(!!in_field);
-                    if (in_field) {
-                        me.menuParaRefreshField.options.fieldProps = in_field;
-                    }
 
                     var listId = me.api.asc_GetCurrentNumberingId(),
                         in_list = (listId !== null);
@@ -2991,6 +2876,67 @@ define([
                 default:
                     return this.textRemField;
             }
+        },
+
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.eqToInlineText,
+                        checkable   : true,
+                        checked     : false,
+                        type        : 'mode'
+                    })
+                ]
+            });
         },
 
         focus: function() {

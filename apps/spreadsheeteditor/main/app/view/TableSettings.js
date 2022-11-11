@@ -565,19 +565,6 @@ define([
                             menu.alignPosition();
                         }
                     }
-
-                    var scroller = self.mnuTableTemplatePicker.scroller;
-                    if (scroller) {
-                        scroller.update({alwaysVisibleY: true});
-                        scroller.scrollTop(0);
-                    }
-        
-                    var val = self.mnuTableTemplatePicker.store.findWhere({name: self._state.tablestylename});
-                    if (val)
-                        self.mnuTableTemplatePicker.selectRecord(val);
-                    else
-                        self.mnuTableTemplatePicker.deselectAll();
-                    
                 });
 
                 this.btnTableTemplate.render($('#table-btn-template'));

@@ -68,8 +68,14 @@ module.exports = function(grunt) {
                     from: /\{\{HELP_URL\}\}/g,
                     to: _encode(process.env.HELP_URL) || 'https://helpcenter.onlyoffice.com'
                 }, {
-                    from: /\{\{HELP_CENTER_WEB_EDITORS\}\}/g,
-                    to: _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-index.aspx'
+                    from: /\{\{HELP_CENTER_WEB_DE\}\}/g,
+                    to: _encode(process.env.HELP_CENTER_WEB_DE) || _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-de.aspx'
+                }, {
+                    from: /\{\{HELP_CENTER_WEB_SSE\}\}/g,
+                    to: _encode(process.env.HELP_CENTER_WEB_SSE) || _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-se.aspx'
+                }, {
+                    from: /\{\{HELP_CENTER_WEB_PE\}\}/g,
+                    to: _encode(process.env.HELP_CENTER_WEB_PE) || _encode(process.env.HELP_CENTER_WEB_EDITORS) || 'https://helpcenter.onlyoffice.com/userguides/docs-pe.aspx'
                 }, {
                     from: /\{\{DEFAULT_LANG\}\}/g,
                     to: _encode(process.env.DEFAULT_LANG) || 'en'
@@ -275,7 +281,7 @@ module.exports = function(grunt) {
             },
         }
     });
-    doRegisterTask('sockjs');
+    doRegisterTask('socketio');
     doRegisterTask('xregexp');
     doRegisterTask('megapixel');
     doRegisterTask('jquery');
@@ -667,7 +673,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'imagemin', 'svgmin']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
-    grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-socketio',               ['socketio-init', 'clean', 'copy']);
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);

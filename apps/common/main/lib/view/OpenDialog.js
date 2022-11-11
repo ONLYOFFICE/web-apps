@@ -207,6 +207,7 @@ define([
                         type: 'password',
                         showCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' btn-sheet-view',
                         hideCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' hide-password',
+                        maxLength: this.options.maxPasswordLength,
                         validateOnBlur: false,
                         showPwdOnClick: true,
                         validation  : function(value) {

@@ -63,8 +63,10 @@ define([
             me._currentParaObjDisabled = false;
             me._currentSpellObj = undefined;
             me._currLang        = {};
-            me._state = {};
+            me._state = {unitsChanged: true};
             me._isDisabled = false;
+
+            Common.NotificationCenter.on('settings:unitschanged', _.bind(this.unitsChanged, this));
         },
 
         render: function () {
@@ -959,6 +961,40 @@ define([
                 checked: false
             });
 
+            me.mnuGuides = new Common.UI.MenuItem({
+                caption     : me.textGuides,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        { caption: me.textShowGuides, value: 'show', checkable: true },
+                        { caption: '--'},
+                        { caption: me.textAddVGuides, iconCls: 'menu__icon vertical-guide', value: 'add-vert' },
+                        { caption: me.textAddHGuides, iconCls: 'menu__icon horizontal-guide', value: 'add-hor' },
+                        { caption: me.textDeleteGuide, value: 'del-guide' },
+                        { caption: '--'},
+                        { caption: me.textSmartGuides, value: 'smart', checkable: true },
+                        { caption: me.textClearGuides, value: 'clear' }
+                    ]
+                })
+            });
+            me.mnuGridlines = new Common.UI.MenuItem({
+                caption     : me.textGridlines,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        { caption: me.textShowGridlines, value: 'show', checkable: true },
+                        { caption: me.textSnapObjects, value: 'snap', checkable: true },
+                        { caption: '--'},
+                        { caption: '--'},
+                        { caption: me.textCustom, value: 'custom' }
+                    ]
+                })
+            });
+            me.mnuRulers = new Common.UI.MenuItem({
+                caption : me.textRulers,
+                checkable: true
+            });
+
             me.slideMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -966,8 +1002,8 @@ define([
                     var selectedLast = me.api.asc_IsLastSlideSelected(),
                         selectedFirst = me.api.asc_IsFirstSlideSelected();
                     me.menuSlidePaste.setVisible(value.fromThumbs!==true);
-                    me.slideMenu.items[1].setVisible(value.fromThumbs===true); // New Slide
-                    me.slideMenu.items[2].setVisible(value.isSlideSelect===true); // Duplicate Slide
+                    me.mnuNewSlide.setVisible(value.fromThumbs===true); // New Slide
+                    me.mnuDuplicateSlide.setVisible(value.isSlideSelect===true); // Duplicate Slide
                     me.mnuDeleteSlide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setVisible(value.isSlideSelect===true);
                     me.mnuSlideHide.setChecked(value.isSlideHidden===true);
@@ -977,17 +1013,62 @@ define([
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     me.menuSlideSettings.options.value = null;
-                    me.slideMenu.items[13].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
-                    me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
-                    me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
-                    me.slideMenu.items[16].setVisible(value.fromThumbs===true);
-                    me.slideMenu.items[17].setVisible(value.fromThumbs===true);
-                    
-                    for (var i = 10; i < 13; i++) {
-                        me.slideMenu.items[i].setVisible(value.fromThumbs===true);
-                    }
+
+                    me.slideMenu.items[10].setVisible(!value.fromThumbs); // guides separator
+                    me.mnuGuides.setVisible(!value.fromThumbs);
+                    me.mnuGridlines.setVisible(!value.fromThumbs);
+                    me.mnuRulers.setVisible(!value.fromThumbs);
+                    me.slideMenu.items[14].setVisible(value.fromThumbs===true);
+                    me.mnuSelectAll.setVisible(value.fromThumbs===true);
 
                     me.mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
+                    me.slideMenu.items[17].setVisible((!selectedLast || !selectedFirst) && value.isSlideSelect===true);
+                    me.mnuMoveSlideToEnd.setVisible(!selectedLast && value.isSlideSelect===true);
+                    me.mnuMoveSlideToStart.setVisible(!selectedFirst && value.isSlideSelect===true);
+                    me.slideMenu.items[20].setVisible(value.fromThumbs===true);
+                    me.mnuPreview.setVisible(value.fromThumbs===true);
+
+                    if (!value.fromThumbs) {
+                        me.mnuGuides.menu.items[0].setChecked(me.api.asc_getShowGuides(), true);
+                        me.mnuGuides.menu.items[4].setVisible(!!value.guideId);
+                        me.mnuGuides.menu.items[4].options.guideId = value.guideId;
+                        me.mnuGuides.menu.items[6].setChecked(me.api.asc_getShowSmartGuides(), true);
+                        me.mnuGuides.menu.items[7].setDisabled(!me.api.asc_canClearGuides());
+
+                        me.mnuGridlines.menu.items[0].setChecked(me.api.asc_getShowGridlines(), true);
+                        me.mnuGridlines.menu.items[1].setChecked(me.api.asc_getSnapToGrid(), true);
+
+                        var spacing = Common.Utils.Metric.fnRecalcFromMM(me.api.asc_getGridSpacing()/36000),
+                            items = me.mnuGridlines.menu.items;
+                        if (me._state.unitsChanged) {
+                            for (var i = 3; i < items.length-2; i++) {
+                                me.mnuGridlines.menu.removeItem(items[i]);
+                                i--;
+                            }
+                            var arr = Common.define.gridlineData.getGridlineData(Common.Utils.Metric.getCurrentMetric());
+                            for (var i = 0; i < arr.length; i++) {
+                                var menuItem = new Common.UI.MenuItem({
+                                    caption: arr[i].caption,
+                                    value: arr[i].value,
+                                    checkable: true,
+                                    toggleGroup: 'mnu-gridlines'
+                                });
+                                me.mnuGridlines.menu.insertItem(3+i, menuItem);
+                            }
+                            me._state.unitsChanged = false;
+                        }
+
+                        for (var i=3; i<items.length-2; i++) {
+                            var item = items[i];
+                            if (item.value<1 && Math.abs(item.value - spacing)<0.005)
+                                item.setChecked(true);
+                            else if (item.value>=1 && Math.abs(item.value - spacing)<0.001)
+                                item.setChecked(true);
+                            else
+                                item.setChecked(false);
+                        }
+                        me.mnuRulers.setChecked(!Common.Utils.InternalSettings.get("pe-hidden-rulers"));
+                    }
 
                     var selectedElements = me.api.getSelectedElements(),
                         locked           = false,
@@ -1029,6 +1110,10 @@ define([
                     me.mnuResetSlide,
                     mnuChangeTheme,
                     me.menuSlideSettings,
+                    {caption: '--'},
+                    me.mnuGuides,
+                    me.mnuGridlines,
+                    me.mnuRulers,
                     {caption: '--'},
                     me.mnuSelectAll,
                     me.mnuPrintSelection,
@@ -1710,6 +1795,14 @@ define([
                 })
             });
 
+            me.menuSaveAsPicture = new Common.UI.MenuItem({
+                caption     : me.textSaveAsPicture
+            });
+
+            var menuSaveAsPictureSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             /** coauthoring begin **/
             me.menuAddCommentPara = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-menu-comments',
@@ -1799,6 +1892,16 @@ define([
 
             var menuEquationSeparatorInTable = new Common.UI.MenuItem({
                 caption     : '--'
+            });
+
+            me.menuParagraphEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
+            });
+
+            me.menuTableEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
             me.menuAddToLayoutTable = new Common.UI.MenuItem({
@@ -1935,6 +2038,14 @@ define([
                     } else
                         me.clearEquationMenu(true, 12);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
+
+                    me.menuParagraphEquation.setVisible(isEquation);
+                    me.menuParagraphEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    }
                 },
                 items: [
                     me.menuSpellPara,
@@ -1953,6 +2064,7 @@ define([
                     me.menuParagraphVAlign,
                     me.menuParagraphDirection,
                     me.menuParagraphAdvanced,
+                    me.menuParagraphEquation,
                     menuCommentParaSeparator,
                 /** coauthoring begin **/
                     me.menuAddCommentPara,
@@ -2075,6 +2187,14 @@ define([
                         menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() && eqlen>0);
                     } else
                         me.clearEquationMenu(false, 6);
+
+                    me.menuTableEquation.setVisible(isEquation);
+                    me.menuTableEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -2099,6 +2219,7 @@ define([
                     menuHyperlinkSeparator,
                 /** coauthoring begin **/
                     me.menuAddCommentTable,
+                    me.menuTableEquation,
                 /** coauthoring end **/
                     me.menuAddHyperlinkTable,
                     menuHyperlinkTable,
@@ -2168,6 +2289,7 @@ define([
                     me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible());
+                
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuCommentSeparatorImg.setVisible(me.menuAddCommentImg.isVisible());
@@ -2191,6 +2313,7 @@ define([
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
+                    me.menuSaveAsPicture.setDisabled(disabled);
                     me.menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
@@ -2211,6 +2334,8 @@ define([
                     me.menuShapeAdvanced
                     ,me.menuChartEdit
                     ,me.menuChartAdvanced
+                    ,menuSaveAsPictureSeparator
+                    ,me.menuSaveAsPicture
                 /** coauthoring begin **/
                     ,menuCommentSeparatorImg,
                     me.menuAddCommentImg,
@@ -2263,6 +2388,64 @@ define([
                 me.langParaMenu.menu.resetItems(arrPara);
                 me.langTableMenu.menu.resetItems(arrTable);
             }
+        },
+
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    })
+                ]
+            });
+        },
+
+        unitsChanged: function(m) {
+            this._state.unitsChanged = true;
         },
 
         SetDisabled: function(state) {
@@ -2322,6 +2505,7 @@ define([
         txtSlide                : 'Slide',
         cellAlignText           : 'Cell Vertical Alignment',
         advancedShapeText       : 'Shape Advanced Settings',
+        textSaveAsPicture       : 'Save as picture',
         /** coauthoring begin **/
         addCommentText          : 'Add Comment',
         /** coauthoring end **/
@@ -2451,7 +2635,28 @@ define([
         textEditPoints: 'Edit Points',
         txtMoveSlidesToEnd: 'Move Slide to End',
         txtMoveSlidesToStart: 'Move Slide to Beginning',
-        advancedChartText   : 'Chart Advanced Settings'
+        advancedChartText   : 'Chart Advanced Settings',
+        textGuides: 'Guides',
+        tipGuides: 'Show guides',
+        textShowGuides: 'Show Guides',
+        textAddVGuides: 'Add Vertical Guide',
+        textAddHGuides: 'Add Horizontal Guide',
+        textSmartGuides: 'Smart Guides',
+        textClearGuides: 'Clear Guides',
+        textGridlines: 'Gridlines',
+        textShowGridlines: 'Show Gridlines',
+        textSnapObjects: 'Snap Object to Grid',
+        textCm: 'cm',
+        textCustom: 'Custom',
+        textRulers: 'Rulers',
+        textDeleteGuide: 'Delete Guide',
+        advancedEquationText: 'Equation Settings',
+        unicodeText: 'Unicode',
+        latexText: 'LaTeX',
+        currProfText: 'Current - Professional',
+        currLinearText: 'Current - Linear',
+        allProfText: 'All - Professional',
+        allLinearText: 'All - Linear'
 
     }, PE.Views.DocumentHolder || {}));
 });

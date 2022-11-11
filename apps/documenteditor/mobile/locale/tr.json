@@ -330,6 +330,7 @@
     "textClassic": "Classic",
     "textCreateTextStyle": "Create new text style",
     "textCurrent": "Current",
+    "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
     "textDistinctive": "Distinctive",
@@ -375,7 +376,6 @@
     "textTitle": "Title",
     "textTu": "Tu",
     "textWe": "We",
-    "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
@@ -420,7 +420,12 @@
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -455,7 +460,10 @@
     "txtEditingMode": "Düzenleme modunu belirle...",
     "uploadImageTextText": "Resim yükleniyor...",
     "uploadImageTitleText": "Resim Yükleniyor",
-    "waitText": "Lütfen bekleyin..."
+    "waitText": "Lütfen bekleyin...",
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Hata",
