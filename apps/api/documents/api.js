@@ -194,7 +194,7 @@
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                     },
                     font: {
-                        family: "Arial",
+                        name: "Arial",
                     },
                     chat: true,
                     comments: true,
