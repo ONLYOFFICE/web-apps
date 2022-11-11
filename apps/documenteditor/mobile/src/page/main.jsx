@@ -118,6 +118,8 @@ class MainPage extends Component {
         appOptions.changeViewerMode();
         api.asc_removeRestriction(Asc.c_oAscRestrictionType.View)
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
+
+        f7.navbar.show('.main-navbar');
     };
 
     render() {
