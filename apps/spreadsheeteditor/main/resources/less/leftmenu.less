@@ -177,13 +177,37 @@
         }
 
         #panel-saveas, #panel-savecopy  {
-            table {
-                margin-left: auto;
-                margin-right: auto;
-                margin-bottom: 24px;
+            .content-container {
+                margin: 30px 0 0 10px;
 
-                .btn-doc-format {
-                    margin: 24px 12px 0px;
+                .header {
+                    font-size: 18px;
+                    margin-bottom: 17px;
+                }
+
+                .format-items {
+                    .format-item {
+                        float: left;
+                        margin: 0 24px 34px 0;
+
+                        .btn-doc-format {
+                            width: 70px;
+                            height: 90px;
+                        }
+                    }
+
+                    .divider {
+                        float: left;
+                        width: 0;
+                        height: 0;
+                    }
+
+                    @media(min-width: 800px) {
+                        .divider {
+                            width: 100%;
+                        }
+                    }
+
                 }
             }
         }

@@ -44,35 +44,33 @@ define([
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
-            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
-            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
         ],[
             {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
-            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA},
             {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM}
-        ]
-//        ,[
-//            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML}
-//        ]
-    ],
+            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+        ]],
 
 
         template: _.template([
-            '<table><tbody>',
-                '<% _.each(rows, function(row) { %>',
-                    '<tr>',
+            '<div class="content-container">',
+                '<div class="header"><%= header %></div>',
+                '<div class="format-items">',
+                    '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                            '<td><div><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                            '</div></div></td>',
+                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                    '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                                '</div></div>',
                             '<% } %>',
                         '<% }) %>',
-                    '</tr>',
-                '<% }) %>',
-            '</tbody></table>'
+                        '<div class="divider"></div>',
+                    '<% }) %>',
+                '</div>',
+            '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -83,7 +81,7 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase()}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase(), header: this.textDownloadAs}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -107,7 +105,9 @@ define([
             if (!_.isUndefined(type) && this.menu) {
                 this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
             }
-        }
+        },
+
+        textDownloadAs: "Download as"
     });
 
     SSE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
@@ -115,35 +115,33 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX,  ext: '.xlsx'},
-            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF,   ext: '.pdf'},
-            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS,   ext: '.ods'},
-            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV,   ext: '.csv'}
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
         ],[
-            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX,   ext: '.xltx'},
-            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA,  ext: '.pdf'},
-            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS,    ext: '.ots'},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM,  ext: '.xlsm'}
-        ]
-//        ,[
-//            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML,  ext: '.html'}
-//        ]
-        ],
+            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
+            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
+            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+        ]],
 
         template: _.template([
-            '<table><tbody>',
-                '<% _.each(rows, function(row) { %>',
-                    '<tr>',
+            '<div class="content-container">',
+                '<div class="header"><%= header %></div>',
+                '<div class="format-items">',
+                    '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
-                            '<td><div><div class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                            '</div></div></td>',
+                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                    '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                                '</div></div>',
                             '<% } %>',
                         '<% }) %>',
-                    '</tr>',
-                '<% }) %>',
-            '</tbody></table>'
+                        '<div class="divider"></div>',
+                    '<% }) %>',
+                '</div>',
+            '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -154,7 +152,7 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase()}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase(), header: this.textSaveCopyAs}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -179,7 +177,9 @@ define([
             if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
                 this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
             }
-        }
+        },
+
+        textSaveCopyAs: "Save Copy as"
     });
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({

@@ -56,37 +56,37 @@ define([
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
-        ],[
-            {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
-            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
-            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT},
-            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF}
-        ],[
-            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
             {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF},
             {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM}
         ],[
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML},
+            {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
+            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
+            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT}
+        ],[
+            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF},
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
             {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
-            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB}
-        ]],
-
+            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB},
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
+        ], [] ],
 
         template: _.template([
-            '<table><tbody>',
-                '<% _.each(rows, function(row) { %>',
-                    '<tr>',
-                        '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                            '<td><div><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                                '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                            '</div></div></td>',
-                            '<% } %>',
-                        '<% }) %>',
-                    '</tr>',
-                '<% }) %>',
-            '</tbody></table>'
+            '<div class="content-container">',
+                '<div class="header"><%= header %></div>',
+                '<div class="format-items">',
+                    '<% _.each(rows, function(row) { %>',
+                            '<% _.each(row, function(item) { %>',
+                                '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
+                                    '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                        '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                                    '</div></div>',
+                                '<% } %>',
+                            '<% }) %>',
+                        '<div class="divider"></div>',
+                    '<% }) %>',
+                '</div>',
+            '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -99,11 +99,10 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1); // remove pdf
-                this.formats[1].splice(1, 1); // remove pdfa
-                this.formats[3].push({name: 'PDF',  imgCls: 'pdf', type: ''}); // original pdf
+                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
+                this.formats[1].splice(2, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
-                this.formats[3].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
+                this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
                 this.formats = [[
                     {name: 'DJVU',  imgCls: 'djvu',  type: ''}, // original djvu
@@ -112,12 +111,10 @@ define([
             }
 
             if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[2].splice(1, 2);
-                this.formats[2] = this.formats[2].concat(this.formats[3]);
-                this.formats[3] = undefined;
+                this.formats[0].splice(3, 2); // remove docxf and oform
             }
 
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase(), header: this.textDownloadAs}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -141,7 +138,9 @@ define([
             if (!_.isUndefined(type) && this.menu) {
                 this.menu.fireEvent('saveas:format', [this.menu, type.value ? parseInt(type.value) : undefined]);
             }
-        }
+        },
+
+        textDownloadAs: "Download as"
     });
 
     DE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
@@ -149,40 +148,41 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
-            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'}
+            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF},
+            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM}
         ],[
-            {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
-            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
-            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'},
-            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'}
+            {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
+            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
+            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT}
         ],[
-            {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'},
-            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM, ext: '.oform'}
-        ],[
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'},
-            {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
-            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'}
-        ]],
+            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF},
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
+            {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
+            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB},
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
+        ], [] ],
 
 
         template: _.template([
-            '<table><tbody>',
-                '<% _.each(rows, function(row) { %>',
-                    '<tr>',
+            '<div class="content-container">',
+                '<div class="header"><%= header %></div>',
+                '<div class="format-items">',
+                    '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
                             '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                            '<td><div><div class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
-                            '<div class ="svg-format-<%= item.imgCls %>"></div>',
-                            '</div></div></td>',
+                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                                    '<div class ="svg-format-<%= item.imgCls %>"></div>',
+                                '</div></div>',
                             '<% } %>',
                         '<% }) %>',
-                    '</tr>',
-                '<% }) %>',
-            '</tbody></table>'
+                        '<div class="divider"></div>',
+                    '<% }) %>',
+                '</div>',
+            '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -195,9 +195,8 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1); // remove pdf
-                this.formats[1].splice(1, 1); // remove pdfa
-                this.formats[3].push({name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // original pdf
+                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
+                this.formats[1].splice(2, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[3].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
@@ -208,12 +207,10 @@ define([
             }
 
             if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[2].splice(1, 2);
-                this.formats[2] = this.formats[2].concat(this.formats[3]);
-                this.formats[3] = undefined;
+                this.formats[0].splice(3, 2); // remove docxf and oform
             }
 
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase()}));
+            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase(), header: this.textSaveCopyAs}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -238,7 +235,9 @@ define([
             if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
                 this.menu.fireEvent('saveas:format', [this.menu, type.value ? parseInt(type.value) : undefined, ext.value]);
             }
-        }
+        },
+
+        textSaveCopyAs: "Save Copy as"
     });
 
     DE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
