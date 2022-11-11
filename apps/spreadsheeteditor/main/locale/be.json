@@ -242,6 +242,7 @@
   "Common.Views.ReviewChanges.txtCommentRemMy": "Выдаліць мае каментары",
   "Common.Views.ReviewChanges.txtCommentRemMyCurrent": "Выдаліць мае бягучыя каментары",
   "Common.Views.ReviewChanges.txtCommentRemove": "Выдаліць",
+  "Common.Views.ReviewChanges.txtCommentResolve": "Вырашыць",
   "Common.Views.ReviewChanges.txtDocLang": "Мова",
   "Common.Views.ReviewChanges.txtFinal": "Усе змены ўхваленыя (папярэдні прагляд)",
   "Common.Views.ReviewChanges.txtFinalCap": "Выніковы дакумент",
@@ -1810,6 +1811,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Рэгіянальныя налады",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Прыклад:",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strStrict": "Строгі",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTheme": "Тэма інтэрфейсу",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strThousandsSeparator": "Падзяляльнік разрадаў тысяч",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUnit": "Адзінкі вымярэння",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "Выкарыстоўваць падзяляльнікі на базе рэгіянальных налад",
@@ -3054,10 +3056,12 @@
   "SSE.Views.ViewTab.textFormula": "Панэль формул",
   "SSE.Views.ViewTab.textGridlines": "Лініі сеткі",
   "SSE.Views.ViewTab.textHeadings": "Загалоўкі",
+  "SSE.Views.ViewTab.textInterfaceTheme": "Тэма інтэрфейсу",
   "SSE.Views.ViewTab.textManager": "Кіраўнік мініяцюр",
   "SSE.Views.ViewTab.textZoom": "Маштаб",
   "SSE.Views.ViewTab.tipClose": "Закрыць мініяцюру аркуша",
   "SSE.Views.ViewTab.tipCreate": "Стварыць мініяцюру аркуша",
   "SSE.Views.ViewTab.tipFreeze": "Замацаваць вобласці",
+  "SSE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
   "SSE.Views.ViewTab.tipSheetView": "Мініяцюра аркуша"
 }
