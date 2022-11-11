@@ -1472,6 +1472,7 @@ define([
                     commentsController.setConfig({
                             config      : this.editorConfig,
                             sdkviewname : '#ws-canvas-outer',
+                            fullInfoHintMode : true,
                             hintmode    : true},
                         this.api);
                 }

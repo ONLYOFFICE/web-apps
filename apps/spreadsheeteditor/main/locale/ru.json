@@ -550,6 +550,7 @@
   "Common.Views.ReviewPopover.textEdit": "OK",
   "Common.Views.ReviewPopover.textMention": "+упоминание предоставит доступ к документу и отправит оповещение по почте",
   "Common.Views.ReviewPopover.textMentionNotify": "+упоминание отправит пользователю оповещение по почте",
+  "Common.Views.ReviewPopover.textEnterComment": "Введите здесь свой комментарий",
   "Common.Views.ReviewPopover.textOpenAgain": "Открыть снова",
   "Common.Views.ReviewPopover.textReply": "Ответить",
   "Common.Views.ReviewPopover.textResolve": "Решить",

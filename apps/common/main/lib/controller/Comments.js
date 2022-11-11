@@ -74,6 +74,7 @@ define([
         subEditStrings : {},
         filter : undefined,
         hintmode : false,
+        fullInfoHintMode: false,
         viewmode: false,
         isSelectedComment : false,
         uids : [],
@@ -186,7 +187,8 @@ define([
                 this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
                 this.hintmode           =   data['hintmode'] || false;
-                this.viewmode        =   data['viewmode'] || false;
+                this.fullInfoHintMode   =   data['fullInfoHintMode'] || false;
+                this.viewmode           =   data['viewmode'] || false;
             }
         },
         setApi: function (api) {
@@ -966,11 +968,11 @@ define([
 
                     if (!comment) continue;
 
-                    if (this.subEditStrings[saveTxtId] && !hint) {
+                    if (this.subEditStrings[saveTxtId] && (comment.get('fullInfoInHint') || !hint)) {
                         comment.set('editTextInPopover', true);
                         text = this.subEditStrings[saveTxtId];
                     }
-                    else if (this.subEditStrings[saveTxtReplyId] && !hint) {
+                    else if (this.subEditStrings[saveTxtReplyId] && (comment.get('fullInfoInHint') || !hint)) {
                         comment.set('showReplyInPopover', true);
                         text = this.subEditStrings[saveTxtReplyId];
                     }
@@ -978,13 +980,16 @@ define([
                     comment.set('hint', !_.isUndefined(hint) ? hint : false);
 
                     if (!hint && this.hintmode) {
-                        if (same_uids && (this.uids.length === 0))
+                        if (same_uids)
                             animate = false;
 
                         if (this.oldUids.length && (0 === _.difference(this.oldUids, uids).length) && (0 === _.difference(uids, this.oldUids).length)) {
                             animate = false;
                             this.oldUids = [];
                         }
+
+                        if (same_uids && !apihint && !this.isModeChanged)
+                            this.api.asc_selectComment(comment.get('uid'));
                     }
 
                     if (this.animate) {
@@ -1006,7 +1011,7 @@ define([
                 this.popoverComments.reset(comments);
 
                 if (this.popoverComments.findWhere({hide: false})) {
-                    if (popover.isVisible()) {
+                    if (popover.isVisible() && (!same_uids || this.isModeChanged)) {
                         popover.hide();
                     }
 
@@ -1355,6 +1360,7 @@ define([
                 removable           : (this.mode.canDeleteComments || (data.asc_getUserId() == this.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName()),
                 hide                : !AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()),
                 hint                : !this.mode.canComments,
+                fullInfoInHint      : this.fullInfoHintMode,
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
             if (comment) {

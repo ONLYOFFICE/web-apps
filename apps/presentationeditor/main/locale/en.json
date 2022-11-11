@@ -704,6 +704,7 @@
   "Common.Views.ReviewPopover.textEdit": "OK",
   "Common.Views.ReviewPopover.textMention": "+mention will provide access to the document and send an email",
   "Common.Views.ReviewPopover.textMentionNotify": "+mention will notify the user via email",
+  "Common.Views.ReviewPopover.textEnterComment": "Enter your comment here",
   "Common.Views.ReviewPopover.textOpenAgain": "Open Again",
   "Common.Views.ReviewPopover.textReply": "Reply",
   "Common.Views.ReviewPopover.textResolve": "Resolve",
