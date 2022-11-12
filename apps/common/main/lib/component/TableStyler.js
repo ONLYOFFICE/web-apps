@@ -47,29 +47,6 @@ define([
     'use strict';
     Common.UI.CellBorder = function (options){
         var me =this;
-        me.options = {
-            scale               : 2,
-            sizeCorner          : 10,
-            x1                  : 0,
-            y1                  : 0,
-            x2                  : 0,
-            y2                  : 0,
-            numInCell           : -1,
-            col                 : -1,
-            row                 : -1,
-            rows                : 2,
-            columns             : 2,
-            cellPadding         : 10,
-            tablePadding        : 10,
-            overwriteStyle      : true,
-            maxBorderSize       : 8,
-            defaultBorderSize   : 1,
-            defaultBorderColor  : '#ccc'
-        };
-
-        for( var key in options) {
-            me.options[key] = options[key];
-        }
 
         var virtualBorderSize,
             virtualBorderColor,
@@ -77,23 +54,23 @@ define([
             borderColor,
             borderAlfa;
 
-        me.overwriteStyle       = me.options.overwriteStyle;
-        me.maxBorderSize        = me.options.maxBorderSize;
-        me.defaultBorderSize    = me.options.defaultBorderSize;
-        me.defaultBorderColor   = me.options.defaultBorderColor;
-        me.col                  = me.options.col;
-        me.row                  = me.options.row;
-        me.cellPadding          = me.options.cellPadding;
-        me.tablePadding         = me.options.tablePadding;
-        me.X1                   = me.options.x1;
-        me.Y1                   = me.options.y1;
-        me.X2                   = me.options.x2;
-        me.Y2                   = me.options.y2;
-        me.numInCell            = me.options.numInCell;
-        me.scale                = me.options.scale;
-        me.rows                 = me.options.rows;
-        me.columns              = me.options.columns;
-        me.context              = me.options.context;
+        me.overwriteStyle       = options.overwriteStyle !== undefined ? options.overwriteStyle : true;
+        me.maxBorderSize        = options.maxBorderSize ? options.maxBorderSize : 8;
+        me.defaultBorderSize    = options.defaultBorderSize !== undefined ? options.defaultBorderSize : 1;
+        me.defaultBorderColor   = options.defaultBorderColor ? options.defaultBorderColor : '#ccc';
+        me.col                  = options.col !== undefined ? options.col : -1;
+        me.row                  = options.row !== undefined ? options.row : -1;
+        me.cellPadding          = options.cellPadding !== undefined ? options.cellPadding : 10;
+        me.tablePadding         = options.tablePadding !== undefined ? options.tablePadding : 10;
+        me.X1                   = options.x1 !== undefined ? options.x1 : 0;
+        me.Y1                   = options.y1 !== undefined ? options.y1 : 0;
+        me.X2                   = options.x2 !== undefined ? options.x2 : 0;
+        me.Y2                   = options.y2 !== undefined ? options.y2 : 0;
+        me.numInCell            = options.numInCell !== undefined ? options.numInCell : -1;
+        me.scale                = options.scale !== undefined ? options.scale : 2;
+        me.rows                 = options.rows !== undefined ? options.rows : 2;
+        me.columns              = options.columns !== undefined ? options.columns : 2;
+        me.context              = options.context;
 
         virtualBorderSize       = me.defaultBorderSize;
         virtualBorderColor      = new Common.Utils.RGBColor(me.defaultBorderColor);
@@ -359,7 +336,7 @@ define([
                             if (me._cellBorders[i].inRect(mouseX, mouseY)) {
                                 redraw = true;
                                 me._cellBorders[i].setBorderParams();
-                                me.fireEvent('borderclick:cellborder', me, me._cellBorders[i].options,  me._cellBorders[i].getBorderSize(), me._cellBorders[i].getBorderColor());
+                                me.fireEvent('borderclick:cellborder', me, me._cellBorders[i],  me._cellBorders[i].getBorderSize(), me._cellBorders[i].getBorderColor());
 
                                 if(me.spacingMode) {
                                     var secondBorder = undefined;
