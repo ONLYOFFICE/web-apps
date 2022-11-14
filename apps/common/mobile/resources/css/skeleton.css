@@ -117,8 +117,12 @@ body.theme-type-dark {
     100% { opacity:0.1; }
 }
 
-.navbar.navbar-with-logo {
+.md .navbar.navbar-with-logo {
     height: 34px;
+}
+
+.ios .navbar.navbar-with-logo {
+    height: 26px;
 }
 
 :root .theme-type-dark {
