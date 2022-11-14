@@ -22,4 +22,4 @@ if ( !obj ) {
     localStorage && localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
 }
 
-document.body.classList.add(`theme-type-${obj.type}`);
+document.body.classList.add(`theme-type-${obj.type}`, `${window.editor}-editor`);
