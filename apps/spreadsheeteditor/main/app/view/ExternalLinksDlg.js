@@ -94,6 +94,9 @@ define([
             this.handler    = options.handler;
             this.isUpdating = options.isUpdating || false;
             this.linkStatus = [];
+            this.wrapEvents = {
+                onUpdateExternalReferenceList: _.bind(this.refreshList, this)
+            };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -174,11 +177,18 @@ define([
 
         afterRender: function() {
             this._setDefaults();
+            this.api.asc_registerCallback('asc_onUpdateExternalReferenceList', this.wrapEvents.onUpdateExternalReferenceList);
             this.isUpdating && this.setIsUpdating(this.isUpdating, true);
         },
 
         getFocusedComponents: function() {
             return [ this.btnUpdate, this.btnDelete, this.btnOpen, this.btnChange, this.linksList ];
+        },
+
+        close: function () {
+            this.api.asc_unregisterCallback('asc_onUpdateExternalReferenceList', this.wrapEvents.onUpdateExternalReferenceList);
+
+            Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
         },
 
         getDefaultFocusableComponent: function () {
