@@ -101,7 +101,7 @@ define([
             disableTextBoxButton: function(textboxEl) {
                 var button = $(textboxEl.siblings('#id-comments-change')[0]);
 
-                if(textboxEl.val().trime().length > 0) {
+                if(textboxEl.val().trim().length > 0) {
                     button.removeAttr('disabled');
                     button.removeClass('disabled');
                 } else {
