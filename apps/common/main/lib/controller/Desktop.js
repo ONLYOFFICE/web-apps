@@ -234,7 +234,7 @@ define([
                     Common.NotificationCenter.on('document:ready', function () {
                         if ( config.isEdit ) {
                             var maincontroller = webapp.getController('Main');
-                            if (maincontroller.api.asc_isReadOnly && maincontroller.api.asc_isReadOnly()) {
+                            if (maincontroller.api.asc_getLocalRestrictions && Asc.c_oAscLocalRestrictionType.None !== maincontroller.api.asc_getLocalRestrictions()) {
                                 maincontroller.warningDocumentIsLocked();
                             }
                         }
