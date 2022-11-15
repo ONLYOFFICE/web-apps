@@ -1495,6 +1495,8 @@ define([
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canPreviewPrint = this.appOptions.canPrint && !Common.Utils.isMac;
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && this.appOptions.isDesktopApp &&
+                                                !(this.editorConfig.customization && this.editorConfig.customization.compactHeader);
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
@@ -2650,6 +2652,13 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onPrintQuick: function() {
+                if (!this.appOptions.canPrint) return;
+                // call special quick print
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86))
+                Common.component.Analytics.trackEvent('Print');
             },
 
             onClearDummyComment: function() {

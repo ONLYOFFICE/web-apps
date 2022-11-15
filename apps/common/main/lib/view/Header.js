@@ -80,6 +80,7 @@ define([
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
+                                    '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
                                 '</div>' +
@@ -127,6 +128,7 @@ define([
                                 '<div class="extra"></div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save" data-layout-name="header-save"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
@@ -329,6 +331,13 @@ define([
                 me.btnPrint.updateHint(me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
                 me.btnPrint.on('click', function (e) {
                     me.fireEvent('print', me);
+                });
+            }
+
+            if ( me.btnPrintQuick ) {
+                me.btnPrintQuick.updateHint(me.tipPrintQuick);
+                me.btnPrintQuick.on('click', function (e) {
+                    me.fireEvent('print-quick', me);
                 });
             }
 
@@ -572,6 +581,9 @@ define([
                         if ( config.canPrint )
                             this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
 
+                        if ( config.canQuickPrint )
+                            this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-print-quick', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
+
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
@@ -646,6 +658,8 @@ define([
                     if ( config.canPrint && config.isEdit ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
+                    if ( config.canQuickPrint && config.isEdit )
+                        me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-print-quick', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
                     me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z');
@@ -910,7 +924,8 @@ define([
             textAddFavorite: 'Mark as favorite',
             textHideNotes: 'Hide Notes',
             tipSearch: 'Search',
-            textShare: 'Share'
+            textShare: 'Share',
+            tipPrintQuick: 'Quick print'
         }
     }(), Common.Views.Header || {}))
 });
