@@ -2399,14 +2399,15 @@ define([
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
                 data: [
-                    { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.txtAllPages },
-                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtCurrentPage },
+                    { value: 'all', displayValue: this.txtAllPages },
+                    { value: 'current', displayValue: this.txtCurrentPage },
                     { value: -1, displayValue: this.txtCustomPages }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+            this.cmbRange.setValue('all');
 
             this.inputPages = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-pages'),
