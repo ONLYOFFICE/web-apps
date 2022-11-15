@@ -294,16 +294,12 @@ define([
                     me.btnUpdate.setCaption(status ? me.textUpdating : me.textUpdate);
                 },500);
             }
+            !status && this.refreshList();
         },
 
         setLinkStatus: function(id, result) {
             if (!id) return;
-            var rec = this.linksList.store.findWhere({linkid: id});
-            if (rec) {
-                rec.set('status', result || this.textOk);
-                this.linkStatus[id] = result || this.textOk;
-            } else
-                delete this.linkStatus[id];
+            this.linkStatus[id] = result || this.textOk;
         },
 
         txtTitle: 'External Links',
