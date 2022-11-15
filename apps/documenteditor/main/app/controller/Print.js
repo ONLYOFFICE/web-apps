@@ -114,7 +114,6 @@ define([
                         }
                     }
                     if (res.length>0) {
-                        // me.adjPrintParams.asc_setPages(res);
                         me._state.firstPrintPage = res[0];
                         return true;
                     }
@@ -492,14 +491,13 @@ define([
             else if (this.printSettings.cmbRange.getValue()==='current')
                 this._state.firstPrintPage = this._navigationPreview.currentPage;
 
-            this._isPrint = print;
-
             this.adjPrintParams.asc_setNativeOptions({
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
                 paperSize: this._state.pgsize, //this.api.asc_getPageSize(this._state.firstPrintPage),
                 paperOrientation: this._state.pgorient ? 'portrait' : 'landscape' // this.api.asc_getPageOrient(this._state.firstPrintPage) ? 'portrait' : 'landscape'
             });
 
+            this._isPrint = print;
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);

@@ -2485,10 +2485,10 @@ define([
                         '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div><b><%= scope.getDisplayValue(item) %></b></div>',
                         '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
-                        '<label style="display: block;">' + this.txtTop + ' <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
-                        '<label style="display: block;">' + this.txtLeft + ' <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
-                        '<label style="display: block;">' + this.txtBottom + ' <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
-                        '<label style="display: block;">' + this.txtRight + ' <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<label style="display: block;">' + this.txtTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.txtBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtRight + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
                         '<% } %>',
                     '<% }); %>'
                 ].join('')),
@@ -2648,10 +2648,10 @@ define([
         txtLandscape: 'Landscape',
         txtCustom: 'Custom',
         txtMargins: 'Margins',
-        txtTop: 'Top:',
-        txtBottom: 'Bottom:',
-        txtLeft: 'Left:',
-        txtRight: 'Right:',
+        txtTop: 'Top',
+        txtBottom: 'Bottom',
+        txtLeft: 'Left',
+        txtRight: 'Right',
         txtPage: 'Page',
         txtOf: 'of {0}',
         txtPageNumInvalid: 'Page number invalid',
