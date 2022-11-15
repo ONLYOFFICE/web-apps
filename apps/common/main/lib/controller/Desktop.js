@@ -261,21 +261,21 @@ define([
                                 })).render($('#box-document-title #slot-btn-dt-home'));
                                 titlebuttons['home'] = {btn: header.btnHome};
 
-                                header.btnHome.on('click', event => {
+                                header.btnHome.on('click', function (e) {
                                     native.execCommand('title:button', JSON.stringify({click: "home"}));
                                 });
 
                                 $('#id-box-doc-name').on({
-                                    'dblclick': e => {
+                                    'dblclick': function (e) {
                                         native.execCommand('title:dblclick', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
                                     },
-                                    'mousedown': e => {
+                                    'mousedown': function (e) {
                                         native.execCommand('title:mousedown', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
                                     },
-                                    'mousemove': e => {
+                                    'mousemove': function (e) {
                                         native.execCommand('title:mousemove', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
                                     },
-                                    'mouseup': e => {
+                                    'mouseup': function (e) {
                                         native.execCommand('title:mouseup', JSON.stringify({x: e.originalEvent.screenX, y: e.originalEvent.screenY}))
                                     }
                                 });

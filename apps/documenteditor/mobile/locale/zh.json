@@ -420,11 +420,17 @@
     "unknownErrorText": "未知错误。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有图片上传",
-    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB."
+    "uploadImageSizeMessage": "图片太大了。最大允许的大小是 25 MB.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1."
   },
   "LongActions": {
     "applyChangesTextText": "数据加载中…",
     "applyChangesTitleText": "数据加载中",
+    "confirmMaxChangesSize": "行动的大小超过了对您服务器设置的限制。<br>按 \"撤消\"取消您的最后一次行动，或按\"继续\"在本地保留该行动（您需要下载文件或复制其内容以确保没有任何损失）。",
     "downloadMergeText": "下载中…",
     "downloadMergeTitle": "下载中",
     "downloadTextText": "正在下载文件...",
@@ -451,14 +457,13 @@
     "saveTitleText": "保存文件",
     "sendMergeText": "任务合并",
     "sendMergeTitle": "任务合并",
+    "textContinue": "发送",
     "textLoadingDocument": "文件加载中…",
+    "textUndo": "复原",
     "txtEditingMode": "设置编辑模式..",
     "uploadImageTextText": "上传图片...",
     "uploadImageTitleText": "图片上传中",
-    "waitText": "请稍候...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textContinue": "Continue",
-    "textUndo": "Undo"
+    "waitText": "请稍候..."
   },
   "Main": {
     "criticalErrorTitle": "错误",

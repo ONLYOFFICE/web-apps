@@ -239,11 +239,18 @@
     "pastInMergeAreaError": "Impossible de modifier une partie d'une cellule fusionnée",
     "saveErrorText": "Une erreur s'est produite lors de l'enregistrement du fichier",
     "scriptLoadError": "La connexion est trop lente, certains  éléments ne peuvent pas être chargés. Veuillez recharger la page.",
+    "textCancel": "Annuler",
     "textErrorPasswordIsNotCorrect": "Le mot de passe que vous avez fourni n'est pas correct.<br>Veuillez vérifier que la touche CAPS LOCK est désactivée et assurez-vous d'utiliser la bonne majuscule.",
+    "textOk": "Accepter",
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",

@@ -1321,6 +1321,7 @@
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Налады макрасаў",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Паказваць кнопку параметраў устаўкі падчас устаўкі",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Строгі",
+  "PE.Views.FileMenuPanels.Settings.strTheme": "Тэма інтэрфейсу",
   "PE.Views.FileMenuPanels.Settings.strUnit": "Адзінкі вымярэння",
   "PE.Views.FileMenuPanels.Settings.strZoom": "Прадвызначанае значэнне маштабу",
   "PE.Views.FileMenuPanels.Settings.text10Minutes": "Кожныя 10 хвілін",
@@ -1849,6 +1850,7 @@
   "PE.Views.Toolbar.textTabHome": "Асноўныя функцыі",
   "PE.Views.Toolbar.textTabInsert": "Устаўка",
   "PE.Views.Toolbar.textTabProtect": "Абарона",
+  "PE.Views.Toolbar.textTabView": "Выгляд",
   "PE.Views.Toolbar.textTitleError": "Памылка",
   "PE.Views.Toolbar.textUnderline": "Падкрэслены",
   "PE.Views.Toolbar.tipAddSlide": "Дадаць слайд",
@@ -1960,6 +1962,14 @@
   "PE.Views.Transitions.txtApplyToAll": "Ужыць да ўсіх слайдаў",
   "PE.Views.Transitions.txtParameters": "Параметры",
   "PE.Views.Transitions.txtPreview": "Прагляд",
+  "PE.Views.ViewTab.textAlwaysShowToolbar": "Заўсёды паказваць панэль інструментаў",
   "PE.Views.ViewTab.textFitToSlide": "Па памеры слайда",
-  "PE.Views.ViewTab.textZoom": "Маштаб"
+  "PE.Views.ViewTab.textFitToWidth": "Па шырыні",
+  "PE.Views.ViewTab.textInterfaceTheme": "Тэма інтэрфейсу",
+  "PE.Views.ViewTab.textNotes": "Нататкі",
+  "PE.Views.ViewTab.textStatusBar": "Панэль стану",
+  "PE.Views.ViewTab.textZoom": "Маштаб",
+  "PE.Views.ViewTab.tipFitToSlide": "Па памеры слайда",
+  "PE.Views.ViewTab.tipFitToWidth": "Па шырыні",
+  "PE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }
