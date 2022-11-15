@@ -369,7 +369,10 @@ define([
                 }
 
                 return undefined;
-            }
+            },
+            getDefaultPrinterName: function () {
+                return nativevars ? nativevars.defaultPrinterName : '';
+            },
         };
     };
 
