@@ -313,3 +313,137 @@
         }
     }
 }
+
+#window-chart-data {
+    .up-down-btns {
+        display: inline-block;
+        float: right;
+
+        .rtl & {
+            float: left;
+        }
+
+        #chart-dlg-btn-up {
+            display: inline-block;
+            margin-right: 2px;
+
+            .rtl & {
+                margin-right: 0;
+                margin-left: 2px;
+            }
+        }
+
+        #chart-dlg-btn-down {
+            display: inline-block;
+        }
+    }
+
+    #chart-dlg-btn-add,
+    #chart-dlg-btn-edit,
+    #chart-dlg-btn-delete {
+        min-width: 70px;
+        margin-right: 5px;
+
+        .rtl & {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+    }
+}
+
+#id-dlg-chart-range-lbl1,
+#id-dlg-chart-range-lbl2,
+#id-dlg-chart-range-lbl3 {
+    margin-left: 5px;
+
+    .rtl & {
+        margin-left: 0;
+        margin-right: 5px;
+    }
+}
+
+#chart-type-dlg-series-list {
+    .series-color {
+        width: 8px;
+        height: 12px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .series-value {
+        width: 95px;
+        padding-left: 5px;
+        display: inline-block;
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 5px;
+        }
+    }
+
+    .series-cmb {
+        width: 110px;
+        padding-left: 5px;
+        display: inline-block;
+        vertical-align: middle;
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 5px;
+        }
+    }
+
+    .series-chk {
+        padding-left: 55px;
+        display: inline-block;
+        vertical-align: middle;
+
+        .rtl & {
+            padding-left: 0;
+            padding-right: 55px;
+        }
+    }
+}
+
+#window-header-footer {
+    #id-dlg-hf-btn-even,
+    #id-dlg-hf-btn-first {
+        margin-left: -1px;
+
+        .rtl & {
+            margin-left: 0;
+            margin-right: -1px;
+        }
+    }
+
+    .margin-left-small {
+        margin-left: 2px;
+
+        .rtl & {
+            margin-left: 0;
+            margin-right: 2px;
+        }
+    }
+
+    .margin-left-big {
+        margin-left: 6px;
+
+        .rtl & {
+            margin-left: 0;
+            margin-right: 6px;
+        }
+    }
+
+    .preview-container {
+        margin-right: -1px;
+
+        .rtl & {
+            margin-right: 0;
+            margin-left: -1px;
+        }
+    }
+}

@@ -50,7 +50,8 @@ define([
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 490
+            height: 490,
+            id: 'window-chart-data'
         },
 
         initialize : function(options) {
@@ -81,12 +82,12 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-add" style="min-width: 70px;margin-right:5px;">', me.textAdd, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit" style="min-width: 70px;margin-right:5px;">', me.textEdit, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete" style="min-width: 70px;margin-right:5px;">', me.textDelete, '</button>',
-                                        '<div style="display: inline-block; float: right;">',
-                                        '<div id="chart-dlg-btn-up" style="display: inline-block;margin-right: 2px;"></div>',
-                                        '<div id="chart-dlg-btn-down" style="display: inline-block;"></div>',
+                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-add">', me.textAdd, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit">', me.textEdit, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete">', me.textDelete, '</button>',
+                                        '<div class="up-down-btns">',
+                                        '<div id="chart-dlg-btn-up"></div>',
+                                        '<div id="chart-dlg-btn-down"></div>',
                                         '</div>',
                                     '</td>',
                                 '</tr>',

@@ -884,8 +884,22 @@
 .menu-iconsets {
     margin: 5px 5px 0 10px;
 
+    .rtl & {
+        margin: 5px 10px 0 5px;
+    }
+
+    .group-description {
+        text-align: right;
+    }
+
     .group-items-container > div {
         margin-right: 8px !important;
+
+        .rtl & {
+            margin-right: 4px !important;
+            margin-left: 8px !important;
+        }
+
         &:not(:hover),
         &:not(.selected) {
             .box-shadow(none);
@@ -894,6 +908,10 @@
     .item-iconset {
         img {
             margin: 2px;
+
+            .rtl & {
+                float: right;
+            }
         }
 
         width: 100px;
