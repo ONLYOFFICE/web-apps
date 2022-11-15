@@ -348,6 +348,7 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+            (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
             this.cmbZoom = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-zoom'),
@@ -696,7 +697,8 @@ define([
                 Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
+
+            Common.localStorage.setBool("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
 
             Common.localStorage.setItem("pe-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());
@@ -772,7 +774,7 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
@@ -962,6 +964,10 @@ define([
                         '<td class="right"><div id="id-info-title"></div></td>',
                     '</tr>',
                     '<tr>',
+                        '<td class="left"><label>' + this.txtTags + '</label></td>',
+                        '<td class="right"><div id="id-info-tags"></div></td>',
+                    '</tr>',
+                    '<tr>',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
@@ -1041,6 +1047,15 @@ define([
 
             this.inputTitle = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-title'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on('keydown:before', keyDownBefore);
+            this.inputTags = new Common.UI.InputField({
+                el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false,
@@ -1252,6 +1267,8 @@ define([
 
                 value = props.asc_getTitle();
                 this.inputTitle.setValue(value || '');
+                value = props.asc_getKeywords();
+                this.inputTags.setValue(value || '');
                 value = props.asc_getSubject();
                 this.inputSubject.setValue(value || '');
                 value = props.asc_getDescription();
@@ -1290,6 +1307,7 @@ define([
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
+                this.inputTags._input.attr('placeholder', '');
                 this.inputSubject._input.attr('placeholder', '');
                 this.inputComment._input.attr('placeholder', '');
                 this.inputAuthor._input.attr('placeholder', '');
@@ -1313,6 +1331,7 @@ define([
         SetDisabled: function() {
             var disable = !this.mode.isEdit || this._locked;
             this.inputTitle.setDisabled(disable);
+            this.inputTags.setDisabled(disable);
             this.inputSubject.setDisabled(disable);
             this.inputComment.setDisabled(disable);
             this.inputAuthor.setDisabled(disable);
@@ -1324,6 +1343,7 @@ define([
         applySettings: function() {
             if (this.coreProps && this.api) {
                 this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putKeywords(this.inputTags.getValue());
                 this.coreProps.asc_putSubject(this.inputSubject.getValue());
                 this.coreProps.asc_putDescription(this.inputComment.getValue());
                 this.coreProps.asc_putCreator(this.authors.join(';'));
@@ -1338,6 +1358,7 @@ define([
         txtAppName: 'Application',
         txtEditTime: 'Total Editing time',
         txtTitle: 'Title',
+        txtTags: 'Tags',
         txtSubject: 'Subject',
         txtComment: 'Comment',
         txtModifyDate: 'Last Modified',
@@ -1491,7 +1512,14 @@ define([
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
-            this.urlHelpCenter = '{{HELP_CENTER_WEB_PE}}';
+
+            if ( !Common.Utils.isIE ) {
+                if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_PE}}') ) {
+                    const _url_obj = new URL('{{HELP_CENTER_WEB_PE}}');
+                    _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                    this.urlHelpCenter = _url_obj.toString();
+                }
+            }
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Presentation Editor user interface", "headername": "Program Interface"},

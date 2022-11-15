@@ -13,6 +13,8 @@ import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 import NavigationController from '../controller/settings/Navigation';
+import { AddLinkController } from '../controller/add/AddLink';
+import EditHyperlink from '../controller/edit/EditHyperlink';
 import Snackbar from "../components/Snackbar/Snackbar";
 
 class MainPage extends Component {
@@ -25,8 +27,16 @@ class MainPage extends Component {
             settingsVisible: false,
             collaborationVisible: false,
             navigationVisible: false,
+            addLinkSettingsVisible: false,
+            editLinkSettingsVisible: false,
             snackbarVisible: false
         };
+    }
+
+    componentDidMount() {
+        if ( $$('.skl-container').length ) {
+            $$('.skl-container').remove();
+        }
     }
 
     handleClickToOpenOptions = (opts, showOpts) => {
@@ -51,6 +61,12 @@ class MainPage extends Component {
             } else if( opts === 'navigation') {
                 this.state.navigationVisible && (opened = true);
                 newState.navigationVisible = true;
+            } else if ( opts === 'add-link') {
+                this.state.addLinkSettingsVisible && (opened = true);
+                newState.addLinkSettingsVisible = true;
+            } else if( opts === 'edit-link') {
+                this.state.editLinkSettingsVisible && (opened = true);
+                newState.editLinkSettingsVisible = true;
             } else if( opts === 'snackbar') {
                 this.state.snackbarVisible && (opened = true);
                 newState.snackbarVisible = true;
@@ -85,8 +101,12 @@ class MainPage extends Component {
                     return {settingsVisible: false};
                 else if ( opts == 'coauth' )
                     return {collaborationVisible: false};
-                else if( opts == 'navigation') 
-                    return {navigationVisible: false}
+                else if( opts == 'navigation')
+                    return {navigationVisible: false};
+                else if ( opts === 'add-link') 
+                    return {addLinkSettingsVisible: false};
+                else if( opts === 'edit-link') 
+                    return {editLinkSettingsVisible: false};
                 else if( opts == 'snackbar')
                     return {snackbarVisible: false}
             });
@@ -127,9 +147,6 @@ class MainPage extends Component {
         }
 
         const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-        if ($$('.skl-container').length) {
-            $$('.skl-container').remove();
-        }
 
         return (
             <Page name="home" className={`editor${showLogo ? ' page-with-logo' : ''}`}>
@@ -188,10 +205,16 @@ class MainPage extends Component {
                 }
                 {
                     !this.state.addOptionsVisible ? null :
-                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')}
-                                    showOptions={this.state.addShowOptions}/>
+                        <AddOptions onCloseLinkSettings={this.handleOptionsViewClosed.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
                 }
-                {/*onclosed={this.handleOptionsViewClosed.bind(this, 'settings')}*/}
+                {
+                    !this.state.addLinkSettingsVisible ? null :
+                        <AddLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
+                }
+                {
+                    !this.state.editLinkSettingsVisible ? null :
+                        <EditHyperlink onClosed={this.handleOptionsViewClosed.bind(this)} />
+                }
                 {
                     !this.state.settingsVisible ? null :
                         <Settings openOptions={this.handleClickToOpenOptions.bind(this)}

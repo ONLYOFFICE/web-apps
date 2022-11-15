@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import { useTranslation } from 'react-i18next';
 import {NavLeft, NavRight, NavTitle, Link, Icon} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
@@ -12,19 +12,34 @@ const ToolbarView = props => {
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
+    const docTitle = props.docTitle;
+    const docTitleLength = docTitle.length;
 
-    const shortTitle = (title) => {
-        const arrDocTitle = title.split('.');
-        const ext = arrDocTitle[1];
-        const name = arrDocTitle[0];
+    const correctOverflowedText = el => {
+        if(el) {
+            el.innerText = docTitle;
 
-        if(name.length > 7 && Device.phone) {
-            let shortName = name.substring(0, 7);
-            return `${shortName}...${ext}`;
+            if(el.scrollWidth > el.clientWidth) {
+                const arrDocTitle = docTitle.split('.');
+                const ext = arrDocTitle[1];
+                const name = arrDocTitle[0];
+                const diff = Math.floor(docTitleLength * el.clientWidth / el.scrollWidth - ext.length - 6);
+                const shortName = name.substring(0, diff).trim();
+
+                return `${shortName}...${ext}`;
+            }
+
+           return docTitle;
         }
-
-        return title;
     };
+
+    useEffect(() => {
+        const elemTitle = document.querySelector('.subnavbar .title');
+
+        if (elemTitle) {
+            elemTitle.innerText = correctOverflowedText(elemTitle);
+        }
+    }, [docTitle, isViewer]);
 
     return (
         <Fragment>
@@ -38,7 +53,7 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
             </NavLeft>
-            {(!Device.phone || isViewer) && <NavTitle>{shortTitle(props.docTitle)}</NavTitle>}
+            {(!Device.phone || isViewer) && <div className='title' style={{width: '71%'}}>{docTitle}</div>}
             <NavRight>
                 {(Device.android && props.isEdit && !isViewer) && EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo,
@@ -46,7 +61,8 @@ const ToolbarView = props => {
                     onUndoClick: props.onUndo,
                     onRedoClick: props.onRedo
                 })}
-                {(isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && <Link icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={async e => {
+                {/*isAvailableExt && !props.disabledControls &&*/}
+                {(isViewer || !Device.phone) && <Link className={(!isAvailableExt || props.disabledControls) && 'disabled'} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={async e => {
                     await props.changeMobileView();
                     await props.openOptions('snackbar');
                     setTimeout(() => {
@@ -61,8 +77,9 @@ const ToolbarView = props => {
                     onEditClick: e => props.openOptions('edit'),
                     onAddClick: e => props.openOptions('add')
                 })}
+                {/*props.displayCollaboration &&*/}
                 {Device.phone ? null : <Link className={(props.disabledControls || props.readerMode) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>}
-                {props.displayCollaboration && window.matchMedia("(min-width: 360px)").matches ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => props.openOptions('coauth')}></Link> : null}
+                {!Device.phone ? <Link className={props.disabledControls && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => props.openOptions('coauth')}></Link> : null}
                 <Link className={(props.disabledSettings || props.disabledControls || isDisconnected) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={e => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>

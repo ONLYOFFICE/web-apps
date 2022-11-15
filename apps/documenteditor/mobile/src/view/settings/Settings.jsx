@@ -13,6 +13,7 @@ import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./Docume
 import { MacrosSettings, Direction } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
+import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 
 const routes = [
     {
@@ -68,6 +69,13 @@ const routes = [
     {
         path: '/direction/',
         component: Direction
+    },
+
+    // Sharing Settings
+
+    {
+        path: '/sharing-settings/',
+        component: SharingSettings
     }
 ];
 
@@ -182,6 +190,9 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                     <ListItem title={_t.textApplicationSettings} link="#"
                               onClick={onoptionclick.bind(this, "/application-settings/")}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
+                    </ListItem>
+                    <ListItem title={t('Common.Collaboration.textSharingSettings')} link="#" onClick={onoptionclick.bind(this, "/sharing-settings/")}>
+                        <Icon slot="media" icon="icon-sharing-settings"></Icon>
                     </ListItem>
                     {_canDownload &&
                         <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>

@@ -12,7 +12,7 @@ import routes from '../router/routes.js';
 
 import '../../../../common/main/lib/util/utils.js';
 import '../../../../common/main/lib/util/LanguageInfo.js';
-import {LocalStorage} from '../../../../common/mobile/utils/LocalStorage.js';
+import {LocalStorage} from '../../../../common/mobile/utils/LocalStorage.mjs';
 import Notifications from '../../../../common/mobile/utils/notifications.js';
 import {MainController} from '../controller/Main';
 import {Device} from '../../../../common/mobile/utils/device';

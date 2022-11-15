@@ -236,6 +236,7 @@
 
     .btn&[disabled],
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
 
@@ -311,6 +312,7 @@
     }
 
     &.disabled {
+        opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
         pointer-events: none;
     }

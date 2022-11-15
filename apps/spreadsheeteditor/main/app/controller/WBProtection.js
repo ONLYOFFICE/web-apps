@@ -329,7 +329,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
-            if (!this.view) return;
+            if (!this.view || !info) return;
             if ($('.asc-window.enable-key-events:visible').length>0) return;
 
             var selectionType = info.asc_getSelectionType();

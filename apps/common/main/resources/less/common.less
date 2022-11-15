@@ -23,6 +23,12 @@ label {
         opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
+
+    &.fixed {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }
 
 .menu-shapes {
@@ -211,6 +217,7 @@ label {
         height: 100%;
 
         &.disabled {
+            opacity: @component-disabled-opacity-ie;
             opacity: @component-disabled-opacity;
             cursor: default !important;
         }
@@ -229,6 +236,10 @@ textarea {
     background-color: @background-normal;
     color: @text-normal-ie;
     color: @text-normal;
+    &:-ms-input-placeholder {
+        color: @text-tertiary-ie;
+    }
+    .placeholder();
 }
 
 .btn-edit-table,
@@ -287,4 +298,7 @@ body {
     &.pixel-ratio__1_75 {
         image-rendering: crisp-edges; // FF only
     }
+
+    font-family: @font-family-sans-serif;
+    font-family: @font-family-base;
 }

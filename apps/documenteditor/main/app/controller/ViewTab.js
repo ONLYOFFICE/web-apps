@@ -98,6 +98,11 @@ define([
                     'view:hide': _.bind(function (statusbar, state) {
                         this.view.chStatusbar.setValue(!state, true);
                     }, this)
+                },
+                'LeftMenu': {
+                    'view:hide': _.bind(function (leftmenu, state) {
+                        this.view.chLeftMenu.setValue(!state, true);
+                    }, this)
                 }
             });
         },
@@ -131,18 +136,35 @@ define([
                         me.view.btnInterfaceTheme.$el.closest('.group').remove();
                         me.view.$el.find('.separator-theme').remove();
                     }
+                    var emptyGroup = [];
                     if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                        emptyGroup.push(me.view.chStatusbar.$el.closest('.elset'));
                         me.view.chStatusbar.$el.remove();
-                        var slotChkRulers = me.view.chRulers.$el,
-                            groupRulers = slotChkRulers.closest('.group'),
-                            groupToolbar = me.view.chToolbar.$el.closest('.group');
-                        groupToolbar.find('.elset')[1].append(slotChkRulers[0]);
-                        groupRulers.remove();
-                        me.view.$el.find('.separator-rulers').remove();
                     }
 
-                    if (!config.isEdit) { // if view tab will be visible in view/restricted-editing mode
-                        me.view.chRulers.hide();
+                    if (config.canBrandingExt && config.customization && config.customization.leftMenu === false || !Common.UI.LayoutManager.isElementVisible('leftMenu')) {
+                        emptyGroup.push(me.view.chLeftMenu.$el.closest('.elset'));
+                        me.view.chLeftMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.view.chLeftMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.view.chLeftMenu.$el[0]);
+                    }
+
+                    if (!config.isEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        me.view.chRightMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.view.chRightMenu.$el[0]);
+                    }
+
+                    if (emptyGroup.length>1) { // remove empty group
+                        emptyGroup[emptyGroup.length-1].closest('.group').remove();
+                    }
+
+                    if (!config.isEdit) {
+                        me.view.chRulers.$el.closest('.group').remove();
+                        me.view.chRulers.$el.remove();
                         me.view.$el.find('.separator-rulers').remove();
                     }
 

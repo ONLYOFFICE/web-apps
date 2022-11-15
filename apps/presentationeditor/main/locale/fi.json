@@ -73,8 +73,6 @@
   "Common.Views.CopyWarningDialog.textToPaste": "Liittämistä varten",
   "Common.Views.DocumentAccessDialog.textLoading": "Ladataan...",
   "Common.Views.DocumentAccessDialog.textTitle": "Jakamisen asetukset",
-  "Common.Views.ExternalDiagramEditor.textClose": "Sulje",
-  "Common.Views.ExternalDiagramEditor.textSave": "Tallenna & Poistu",
   "Common.Views.ExternalDiagramEditor.textTitle": "Kaavio editori",
   "Common.Views.Header.labelCoUsersDescr": "Useat käyttäjät muokkaavat tällä hetkellä asiakirjaa.",
   "Common.Views.Header.textAdvSettings": "Laajennetut asetukset",

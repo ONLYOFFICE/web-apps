@@ -16,6 +16,8 @@ import { f7, Link } from 'framework7-react';
 import {FunctionGroups} from "../controller/add/AddFunction";
 import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
+import { AddLinkController } from '../controller/add/AddLink';
+import { EditLinkController } from '../controller/edit/EditLink';
 
 class MainPage extends Component {
     constructor(props) {
@@ -25,7 +27,9 @@ class MainPage extends Component {
             addOptionsVisible: false,
             addShowOptions: null,
             settingsVisible: false,
-            collaborationVisible: false
+            collaborationVisible: false,
+            addLinkSettingsVisible: false,
+            editLinkSettingsVisible: false
         };
     }
 
@@ -48,6 +52,12 @@ class MainPage extends Component {
             } else if ( opts === 'coauth' ) {
                 this.state.collaborationVisible && (opened = true);
                 newState.collaborationVisible = true;
+            } else if ( opts === 'add-link') {
+                this.state.addLinkSettingsVisible && (opened = true);
+                newState.addLinkSettingsVisible = true;
+            } else if( opts === 'edit-link') {
+                this.state.editLinkSettingsVisible && (opened = true);
+                newState.editLinkSettingsVisible = true;
             }
 
             for (let key in this.state) {
@@ -79,6 +89,10 @@ class MainPage extends Component {
                     return {settingsVisible: false};
                 else if ( opts == 'coauth' )
                     return {collaborationVisible: false};
+                else if ( opts === 'add-link') 
+                    return {addLinkSettingsVisible: false};
+                else if( opts === 'edit-link') 
+                    return {editLinkSettingsVisible: false};
             });
             if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
                 f7.navbar.show('.main-navbar');
@@ -133,7 +147,15 @@ class MainPage extends Component {
                 }
                 {
                     !this.state.addOptionsVisible ? null :
-                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} wsLock={wsLock} wsProps={wsProps} showOptions={this.state.addShowOptions} />
+                        <AddOptions onCloseLinkSettings={this.handleOptionsViewClosed.bind(this)} onclosed={this.handleOptionsViewClosed.bind(this, 'add')} wsLock={wsLock} wsProps={wsProps} showOptions={this.state.addShowOptions} />
+                }
+                {
+                    !this.state.addLinkSettingsVisible ? null :
+                        <AddLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
+                }
+                {
+                    !this.state.editLinkSettingsVisible ? null :
+                        <EditLinkController onClosed={this.handleOptionsViewClosed.bind(this)} />
                 }
                 {
                     !this.state.settingsVisible ? null :

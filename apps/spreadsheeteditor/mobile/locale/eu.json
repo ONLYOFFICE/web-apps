@@ -32,7 +32,8 @@
       "textReopen": "Berrireki",
       "textResolve": "Ebatzi",
       "textTryUndoRedo": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.",
-      "textUsers": "Erabiltzaileak"
+      "textUsers": "Erabiltzaileak",
+      "textSharingSettings": "Sharing Settings"
     },
     "ThemeColorPalette": {
       "textCustomColors": "Kolore pertsonalizatuak",
@@ -65,7 +66,8 @@
     "textDoNotShowAgain": "Ez erakutsi berriro",
     "textOk": "Ados",
     "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
-    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?"
+    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -164,7 +166,9 @@
       "warnLicenseUsersExceeded": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan zure administratzailearekin informazio gehiagorako.",
       "warnNoLicense": "Aldibereko konexioen mugara iritsi zara %1 editorerekin. Dokumentu hau bere bistaratzerako bakarrik irekiko da. Jarri harremanetan  %1 salmenta taldearekin eguneraketa pertsonalaren baldintzak jakiteko.",
       "warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
-      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko."
+      "warnProcessRightsChange": "Ez duzu baimenik fitxategia editatzeko.",
+      "titleLicenseExp": "License expired",
+      "warnLicenseExp": "Your license has expired. Please, update your license and refresh the page."
     }
   },
   "Error": {
@@ -223,7 +227,7 @@
     "errorSessionToken": "Zerbitzarira konexioa eten egin da. Mesedez, birkargatu orria.",
     "errorStockChart": "Lerroen ordena okerra. Kotizazio-grafiko bat sortzeko sartu datuak orrian ordena honetan:<br> irekitzeko prezioa, gehienezko prezioa, gutxieneko prezioa, ixteko prezioa.",
     "errorUnexpectedGuid": "Kanpoko errorea.<br>Espero ez zen Guid-a. Mesedez, jarri harremanetan asistentzia teknikoarekin.",
-    "errorUpdateVersionOnDisconnect": "Interneteko konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
+    "errorUpdateVersionOnDisconnect": "Konexioa berrezarri da eta fitxategiaren bertsioa aldatu da.<br>Lanean jarraitu aurretik, beharrezkoa da fitxategia deskargatzea edo edukia kopiatzea, ezer ez dela galduko ziurtatzeko, eta gero orri hau berriro kargatzea.",
     "errorUserDrop": "Ezin da fitxategia atzitu une honetan.",
     "errorUsersExceed": "Prezio-planean baimendutako erabiltzaile-kopurua gainditu da",
     "errorViewerDisconnect": "Konexioa galdu da. Oraindik dokumentua ikus dezakezu,<br>baina ezingo duzu deskargatu edo inprimatu konexioa berreskuratu eta orria birkargatu arte.",
@@ -238,7 +242,15 @@
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "Pasahitza",
@@ -281,8 +293,8 @@
     "uploadImageTitleText": "Irudia kargatzen",
     "waitText": "Mesedez, itxaron...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Abisua",
@@ -373,7 +385,9 @@
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSorting": "Antolaketa",
       "txtSortSelected": "Antolatu hautaturiko objetuak",
-      "txtYes": "Bai"
+      "txtYes": "Bai",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -507,10 +521,7 @@
       "textPt": "pt",
       "textRange": "Barrutia",
       "textRemoveChart": "Ezabatu grafikoa",
-      "textRemoveImage": "Kendu irudia",
-      "textRemoveLink": "Kendu esteka",
       "textRemoveShape": "Kendu forma",
-      "textReorder": "Berrordenatu",
       "textReplace": "Ordeztu",
       "textReplaceImage": "Ordeztu irudia",
       "textRequired": "Nahitaezkoa",
@@ -555,7 +566,14 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera"
+      "txtSortLow2High": "Antolatu txikienetik handienera",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textDone": "Done",
+      "textRecommended": "Recommended"
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",

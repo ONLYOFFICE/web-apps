@@ -32,7 +32,8 @@
       "textReopen": "Redeschide",
       "textResolve": "Rezolvare",
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
-      "textUsers": "Utilizatori"
+      "textUsers": "Utilizatori",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Fără umplere"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Nu mai afișa",
     "textOk": "OK",
     "textRows": "Rânduri",
-    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -169,7 +171,13 @@
     "unknownErrorText": "Eroare necunoscută.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -202,8 +210,8 @@
     "uploadImageTitleText": "Încărcare imagine",
     "waitText": "Vă rugăm să așteptați...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
@@ -248,7 +256,10 @@
       "textSlideNumber": "Număr diapozitiv",
       "textTable": "Tabel",
       "textTableSize": "Dimensiune tabel",
-      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+      "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",
@@ -354,11 +365,8 @@
       "textPt": "pt",
       "textPush": "Împingere",
       "textRemoveChart": "Ștergere diagrama",
-      "textRemoveImage": "Ștergere imagine",
-      "textRemoveLink": "Ștergere link",
       "textRemoveShape": "Stergere forma",
       "textRemoveTable": "Ștergere tabel",
-      "textReorder": "Reordonare",
       "textReplace": "Înlocuire",
       "textReplaceAll": "Înlocuire peste tot",
       "textReplaceImage": "Înlocuire imagine",
@@ -399,7 +407,15 @@
       "textZoom": "Zoom",
       "textZoomIn": "Mărire",
       "textZoomOut": "Micșorare",
-      "textZoomRotate": "Zoom și rotire"
+      "textZoomRotate": "Zoom și rotire",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

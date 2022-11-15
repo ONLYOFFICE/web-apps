@@ -3,11 +3,11 @@
     "textAbout": "Tentang",
     "textAddress": "Alamat",
     "textBack": "Kembali",
+    "textEditor": "Penyunting Spreadsheet",
     "textEmail": "Email",
     "textPoweredBy": "Didukung oleh",
     "textTel": "Tel",
-    "textVersion": "Versi",
-    "textEditor": "Spreadsheet Editor"
+    "textVersion": "Versi"
   },
   "Common": {
     "Collaboration": {
@@ -31,6 +31,7 @@
       "textOk": "OK",
       "textReopen": "Buka lagi",
       "textResolve": "Selesaikan",
+      "textSharingSettings": "Pengaturan Berbagi",
       "textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
       "textUsers": "Pengguna"
     },
@@ -49,6 +50,7 @@
     "menuCell": "Sel",
     "menuDelete": "Hapus",
     "menuEdit": "Sunting",
+    "menuEditLink": "Sunting Tautan",
     "menuFreezePanes": "Freeze Panes",
     "menuHide": "Sembunyikan",
     "menuMerge": "Merge",
@@ -63,9 +65,9 @@
     "notcriticalErrorTitle": "Peringatan",
     "textCopyCutPasteActions": "Salin, Potong dan Tempel",
     "textDoNotShowAgain": "Jangan tampilkan lagi",
-    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?",
-    "textOk": "Ok",
-    "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+    "textOk": "OK",
+    "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?",
+    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?"
   },
   "Controller": {
     "Main": {
@@ -154,17 +156,19 @@
       "textRemember": "Ingat pilihan saya",
       "textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
       "textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti {0}",
+      "textRequestMacros": "Sebuah makro melakukan permintaan ke URL. Apakah Anda akan mengizinkan permintaan ini ke %1?",
       "textYes": "Ya",
+      "titleLicenseExp": "Lisensi kedaluwarsa",
       "titleServerVersion": "Editor mengupdate",
       "titleUpdateVersion": "Versi telah diubah",
       "warnLicenseExceeded": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi admin Anda untuk mempelajari lebih lanjut.",
+      "warnLicenseExp": "Lisensi Anda sudah kedaluwarsa. Silakan perbarui dan muat ulang halaman.",
       "warnLicenseLimitedNoAccess": "Lisensi kadaluwarsa. Anda tidak memiliki akses untuk editing dokumen secara keseluruhan. Silakan hubungi admin Anda.",
       "warnLicenseLimitedRenewed": "Lisensi perlu diperbaharui. Anda memiliki akses terbatas untuk edit dokumen.<br>Silakan hubungi admin Anda untuk mendapatkan akses penuh",
       "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "textRequestMacros": "A macro makes a request to URL. Do you want to allow the request to the %1?"
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
     }
   },
   "Error": {
@@ -192,6 +196,7 @@
     "errorDataRange": "Rentang data salah.",
     "errorDataValidate": "Nilai yang dimasukkan tidak tepat.<br>User memiliki batasan nilai yang bisa dimasukkan ke sel ini.",
     "errorDefaultMessage": "Kode kesalahan: %1",
+    "errorDirectUrl": "Silakan verifikasi tautan ke dokumen.<br>Tautan ini harus merupakan tautan langsung menuju file yang akan diunduh.",
     "errorEditingDownloadas": "Ada kesalahan saat bekerja dengan dokumen.<br>Gunakan menu 'Download' untuk menyimpan file copy backup di lokal.",
     "errorFilePassProtect": "Password file diproteksi dan tidak bisa dibuka.",
     "errorFileRequest": "Error eksternal.<br>Request File. Silakan hubungi support.",
@@ -223,7 +228,7 @@
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
     "errorStockChart": "Urutan baris salah. Untuk membuat diagram garis, masukkan data pada lembar kerja dengan urutan berikut ini:<br>harga pembukaan, harga maksimal, harga minimal, harga penutupan.",
     "errorUnexpectedGuid": "Error eksternal.<br>Unexpected Guid. Silakan hubungi support.",
-    "errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu download file atau copy konten untuk memastikan tidak ada yang hilang, dan muat ulang halaman ini.",
+    "errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu mengunduh file atau salin konten untuk memastikan tidak ada yang hilang, lalu muat ulang halaman ini.",
     "errorUserDrop": "File tidak bisa diakses sekarang.",
     "errorUsersExceed": "Jumlah pengguna telah melebihi jumlah yang diijinkan dalam paket harga.",
     "errorViewerDisconnect": "Koneksi terputus. Anda tetap bisa melihat dokumen,<br>tapi tidak bisa download atau print sampai koneksi terhubung dan halaman dimuat ulang.",
@@ -238,12 +243,20 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
+    "textCancel": "Cancel",
+    "textOk": "Ok"
   },
   "LongActions": {
     "advDRMPassword": "Kata Sandi",
     "applyChangesTextText": "Memuat data...",
     "applyChangesTitleText": "Memuat Data",
+    "confirmMaxChangesSize": "Ukuran tindakan melebihi batas yang ditetapkan untuk server Anda.<br>Tekan \"Batalkan\" untuk membatalkan tindakan terakhir Anda atau tekan \"Lanjutkan\" untuk menyimpan tindakan secara lokal (Anda perlu mengunduh file atau menyalin isinya untuk memastikan tidak ada yang hilang).",
     "confirmMoveCellRange": "Rentang sel yang dituju bisa berisi data. Lanjutkan operasi?",
     "confirmPutMergeRange": "Data sumber memiliki sel merge.<br>Data ini akan di unmerge sebelum di paste ke tabel.",
     "confirmReplaceFormulaInTable": "Formula di baris header akan dihilangkan dan dikonversi menjadi teks statis.<br>Apakah Anda ingin melanjutkan?",
@@ -269,20 +282,19 @@
     "saveTextText": "Menyimpan dokumen...",
     "saveTitleText": "Menyimpan Dokumen",
     "textCancel": "Batalkan",
+    "textContinue": "Lanjutkan",
     "textErrorWrongPassword": "Password yang Anda sediakan tidak tepat.",
     "textLoadingDocument": "Memuat dokumen",
     "textNo": "Tidak",
     "textOk": "OK",
+    "textUndo": "Batalkan",
     "textUnlockRange": "Buka Kunci Rentang",
     "textUnlockRangeWarning": "Rentang yang ingin Anda ubah dilindungi password",
     "textYes": "Ya",
     "txtEditingMode": "Mengatur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",
     "uploadImageTitleText": "Mengunggah Gambar",
-    "waitText": "Silahkan menunggu",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "waitText": "Silahkan menunggu"
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Peringatan",
@@ -305,9 +317,9 @@
     "textRenameSheet": "Ganti Nama Sheet",
     "textSheet": "Sheet",
     "textSheetName": "Nama Sheet",
+    "textTabColor": "Warna Tab",
     "textUnhide": "Tidak Disembunyikan",
-    "textWarnDeleteSheet": "Mungkin ada data di worksheet. Tetap jalankan operasi?",
-    "textTabColor": "Tab Color"
+    "textWarnDeleteSheet": "Mungkin ada data di worksheet. Tetap jalankan operasi?"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
@@ -338,6 +350,7 @@
       "textComment": "Komentar",
       "textDataTableHint": "Kembalikan sel data dari tabel atau kolom tabel yang dihitung",
       "textDisplay": "Tampilan",
+      "textDone": "Selesai",
       "textEmptyImgUrl": "Anda perlu melengkapkan URL gambar.",
       "textExternalLink": "Tautan eksternal",
       "textFilter": "Filter",
@@ -358,6 +371,7 @@
       "textPictureFromLibrary": "Gambar dari Perpustakaan",
       "textPictureFromURL": "Gambar dari URL",
       "textRange": "Rentang",
+      "textRecommended": "Direkomendasikan",
       "textRequired": "Dibutuhkan",
       "textScreenTip": "Tip Layar",
       "textSelectedRange": "Rentang yang dipilih",
@@ -391,6 +405,7 @@
       "textAllBorders": "Semua Pembatas",
       "textAngleClockwise": "Sudut Searah Jarum Jam",
       "textAngleCounterclockwise": "Sudut Berlawanan Jarum Jam",
+      "textArrange": "Susun",
       "textAuto": "Otomatis",
       "textAutomatic": "Otomatis",
       "textAxisCrosses": "Sumbu Berpotongan",
@@ -405,8 +420,11 @@
       "textBottom": "Bawah",
       "textBottomBorder": "Batas Bawah",
       "textBringToForeground": "Tampilkan di Halaman Muka",
+      "textCancel": "Batalkan",
       "textCell": "Sel",
+      "textCellStyle": "Gaya Sel",
       "textCenter": "Tengah",
+      "textChangeShape": "Ubah Bentuk",
       "textChart": "Bagan",
       "textChartTitle": "Judul Grafik",
       "textClearFilter": "Bersihkan Filter",
@@ -419,12 +437,15 @@
       "textDate": "Tanggal",
       "textDefault": "Rentang yang dipilih",
       "textDeleteFilter": "Hapus Filter",
+      "textDeleteImage": "Hapus Gambar",
+      "textDeleteLink": "Hapus Tautan",
       "textDesign": "Desain",
       "textDiagonalDownBorder": "Pembatas Bawah Diagonal",
       "textDiagonalUpBorder": "Pembatas Atas Diagonal",
       "textDisplay": "Tampilan",
       "textDisplayUnits": "Unit Tampilan",
       "textDollar": "Dolar",
+      "textDone": "Selesai",
       "textEditLink": "Edit Link",
       "textEffects": "Efek",
       "textEmptyImgUrl": "Anda perlu melengkapkan URL gambar.",
@@ -505,11 +526,9 @@
       "textPound": "Pound",
       "textPt": "pt",
       "textRange": "Rentang",
+      "textRecommended": "Direkomendasikan",
       "textRemoveChart": "Hilangkan Grafik",
-      "textRemoveImage": "Hilangkan Gambar",
-      "textRemoveLink": "Hilangkan Link",
       "textRemoveShape": "Hilangkan Bentuk",
-      "textReorder": "Reorder",
       "textReplace": "Ganti",
       "textReplaceImage": "Ganti Gambar",
       "textRequired": "Dibutuhkan",
@@ -554,8 +573,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Area ini harus dalam format URL “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
-      "txtSortLow2High": "Sortir Terendah ke Tertinggi",
-      "textCellStyle": "Cell Style"
+      "txtSortLow2High": "Sortir Terendah ke Tertinggi"
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",
@@ -587,6 +605,7 @@
       "textCustomSize": "Custom Ukuran",
       "textDarkTheme": "Tema Gelap",
       "textDelimeter": "Pembatas",
+      "textDirection": "Arah",
       "textDisableAll": "Nonaktifkan Semua",
       "textDisableAllMacrosWithNotification": "Nonaktifkan semua macros dengan notifikasi",
       "textDisableAllMacrosWithoutNotification": "Nonaktifkan semua macros tanpa notifikasi",
@@ -598,6 +617,7 @@
       "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
       "textEncoding": "Enkoding",
       "textExample": "Contoh",
+      "textFeedback": "Masukan & Dukungan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
       "textFindAndReplaceAll": "Temukan dan Ganti Semua",
@@ -613,6 +633,7 @@
       "textLastModified": "Terakhir Dimodifikasi",
       "textLastModifiedBy": "Terakhir Dimodifikasi Oleh",
       "textLeft": "Kiri",
+      "textLeftToRight": "Kiri Ke Kanan",
       "textLocation": "Lokasi",
       "textLookIn": "Melihat Kedalam",
       "textMacrosSettings": "Pengaturan Macros",
@@ -633,7 +654,9 @@
       "textReplace": "Ganti",
       "textReplaceAll": "Ganti Semua",
       "textResolvedComments": "Selesaikan Komentar",
+      "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
       "textRight": "Kanan",
+      "textRightToLeft": "Kanan Ke Kiri",
       "textSearch": "Cari",
       "textSearchBy": "Cari",
       "textSearchIn": "Cari di",
@@ -686,12 +709,7 @@
       "txtSemicolon": "Titik koma",
       "txtSpace": "Spasi",
       "txtTab": "Tab",
-      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
-      "textDirection": "Direction",
-      "textFeedback": "Feedback & Support",
-      "textLeftToRight": "Left To Right",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRightToLeft": "Right To Left"
+      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?"
     }
   }
 }

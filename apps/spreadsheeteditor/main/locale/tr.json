@@ -390,7 +390,6 @@
   "Common.Views.SignDialog.tipFontName": "Yazı Tipi",
   "Common.Views.SignDialog.tipFontSize": "Yazı Boyutu",
   "Common.Views.SignSettingsDialog.textAllowComment": "İmzalayanın imza iletişim kutusuna yorum eklemesine izin ver",
-  "Common.Views.SignSettingsDialog.textInfo": "İmzalayan Bilgileri",
   "Common.Views.SignSettingsDialog.textInfoEmail": "E-posta",
   "Common.Views.SignSettingsDialog.textInfoName": "Ad",
   "Common.Views.SignSettingsDialog.textInfoTitle": "İmzalayan Ünvanı",

@@ -53,7 +53,7 @@ require.config({
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
-        sockjs          : '../vendor/sockjs/sockjs.min',
+        socketio        : '../vendor/socketio/socket.io.min',
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/cell/sdk-all-min',
         api             : 'api/documents/api',
@@ -106,7 +106,7 @@ require.config({
                 'underscore',
                 'allfonts',
                 'xregexp',
-                'sockjs'
+                'socketio'
             ]
         },
         gateway: {

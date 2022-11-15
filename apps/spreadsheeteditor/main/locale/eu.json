@@ -451,7 +451,6 @@
   "Common.Views.SignDialog.tipFontName": "Letra-tipoaren izena",
   "Common.Views.SignDialog.tipFontSize": "Letra-tamaina",
   "Common.Views.SignSettingsDialog.textAllowComment": "Onartu sinatzaileak sinaduraren elkarrizketa-koadroan iruzkina gehitzea",
-  "Common.Views.SignSettingsDialog.textInfo": "Sinatzailearen informazioa",
   "Common.Views.SignSettingsDialog.textInfoEmail": "Posta elektronikoa",
   "Common.Views.SignSettingsDialog.textInfoName": "Izena",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Sinatzailearen titulua",

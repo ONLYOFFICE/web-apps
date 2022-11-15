@@ -7,11 +7,11 @@
         <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getEncodedName(parsedName) %>
     </div>
     <div class="user-date"><%=date%></div>
-    <% if (!editTextInPopover || hint || scope.viewmode) { %>
+    <% if (!editTextInPopover || (hint && !fullInfoInHint) || scope.viewmode) { %>
         <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
     <% } else { %>
         <div class="inner-edit-ct">
-            <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMention"<% } %>><%=comment%></textarea>
+            <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMentionComment"<% } %>><%=comment%></textarea>
             <% if (hideAddReply) { %>
                 <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change-popover">textAdd</button>
             <% } else { %>
@@ -37,7 +37,7 @@
                 <div class="user-date"><%=item.get("date")%></div>
                 <% if (!item.get("editTextInPopover")) { %>
                     <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(item.get("reply"))%></div>
-                    <% if (!hint && !scope.viewmode) { %>
+                    <% if ((fullInfoInHint || !hint) && !scope.viewmode) { %>
                         <div class="btns-reply-ct">
                             <% if (item.get("editable")) { %>
                                 <div class="btn-edit img-commonctrl" data-value="<%=item.get("id")%>"></div>
@@ -61,7 +61,7 @@
 
     <!-- add reply button -->
 
-    <% if (!showReplyInPopover && !hideAddReply && !hint && !scope.viewmode) { %>
+    <% if (!showReplyInPopover && !hideAddReply && (fullInfoInHint || !hint) && !scope.viewmode) { %>
         <% if (replys.length && !add_arrow) { %>
             <label class="user-reply" style="margin-left: 20px; margin-top: 5px;" role="presentation" tabindex="-1">textAddReply</label>
         <% } else { %>
@@ -73,7 +73,7 @@
 
     <% if (!editTextInPopover && !lock) { %>
         <div class="edit-ct">
-            <% if (!hint && !scope.viewmode) { %>
+            <% if ((fullInfoInHint || !hint) && !scope.viewmode) { %>
                 <% if (editable) { %>
                     <div class="btn-edit img-commonctrl"></div>
                 <% } %>
@@ -81,9 +81,9 @@
                     <div class="btn-delete img-commonctrl"></div>
                 <% } %>
             <% } %>
-            <% if (editable && !hint && !scope.viewmode) { %>
+            <% if (editable && (fullInfoInHint || !hint) && !scope.viewmode) { %>
                 <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
-            <% } else if (!hint && (!editable || scope.viewmode) && resolved) { %>
+            <% } else if ((fullInfoInHint || !hint) && (!editable || scope.viewmode) && resolved) { %>
                 <div class="icon-resolve i-comment-resolved" data-toggle="tooltip"></div>
             <% } %>
         </div>
@@ -93,7 +93,7 @@
 
     <% if (showReplyInPopover) { %>
         <div class="reply-ct">
-            <textarea class="msg-reply user-select" placeholder="textAddReply" maxlength="maxCommLength" spellcheck="false"></textarea>
+            <textarea class="msg-reply user-select" placeholder="textMentionReply" maxlength="maxCommLength" spellcheck="false"></textarea>
             <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change-popover">textReply</button>
             <button class="btn normal dlg-btn btn-close">textClose</button>
         </div>

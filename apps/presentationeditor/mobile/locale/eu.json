@@ -32,7 +32,8 @@
       "textReopen": "Ireki berriro",
       "textResolve": "Ebatzi",
       "textTryUndoRedo": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.",
-      "textUsers": "Erabiltzaileak"
+      "textUsers": "Erabiltzaileak",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Betegarririk ez"
@@ -61,7 +62,8 @@
     "textDoNotShowAgain": "Ez erakutsi berriro",
     "textOk": "Ados",
     "textRows": "Errenkadak",
-    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?"
+    "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
+    "menuEditLink": "Edit Link"
   },
   "Controller": {
     "Main": {
@@ -155,7 +157,7 @@
     "errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Mesedez, kargatu berriro orria.",
     "errorSessionToken": "Zerbitzarira konexioa eten egin da. Mesedez, kargatu berriro orria.",
     "errorStockChart": "Errenkaden ordena okerra. Kotizazio-diagrama bat sortzeko, sartu datuak orrian ordena honetan:<br> irekierako prezioa, gehienezko prezioa, gutxieneko prezioa, itxierako prezioa.",
-    "errorUpdateVersionOnDisconnect": "Interneterako konexioa berreskuratu da eta fitxategiaren bertsioa aldatu egin da.<br>Lanean jarraitu aurretik, fitxategia deskargatu edo bere edukia kopiatu dezakezu, ezer galduko ez dela ziurtatzeko, eta ondoren berriro kargatu orri hau.",
+    "errorUpdateVersionOnDisconnect": "Konexioa berreskuratu da eta fitxategiaren bertsioa aldatu egin da.<br>Lanean jarraitu aurretik, fitxategia deskargatu edo bere edukia kopiatu dezakezu, ezer galduko ez dela ziurtatzeko, eta ondoren berriro kargatu orri hau.",
     "errorUserDrop": "Ezin da fitxategia atzitu une honetan.",
     "errorUsersExceed": "Prezio-planean baimendutako erabiltzaile-kopurua gainditu da",
     "errorViewerDisconnect": "Konexioa galdu da. Oraindik dokumentua ikus dezakezu,<br>baina ezingo duzu deskargatu edo inprimatu konexioa berreskuratu eta orria berriz kargatu arte.",
@@ -169,7 +171,13 @@
     "unknownErrorText": "Errore ezezaguna.",
     "uploadImageExtMessage": "Irudi formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1."
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -202,8 +210,8 @@
     "uploadImageTitleText": "Irudia kargatzen",
     "waitText": "Mesedez, itxaron...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
@@ -248,7 +256,10 @@
       "textSlideNumber": "Diapositiba zenbakia",
       "textTable": "Taula",
       "textTableSize": "Taularen tamaina",
-      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+      "textDone": "Done",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -354,11 +365,8 @@
       "textPt": "pt",
       "textPush": "Bultza",
       "textRemoveChart": "Kendu diagrama",
-      "textRemoveImage": "Kendu irudia",
-      "textRemoveLink": "Kendu esteka",
       "textRemoveShape": "Kendu forma",
       "textRemoveTable": "Kendu taula",
-      "textReorder": "Berrordenatu",
       "textReplace": "Ordeztu",
       "textReplaceAll": "Ordeztu guztia",
       "textReplaceImage": "Ordeztu irudia",
@@ -399,7 +407,15 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu"
+      "textZoomRotate": "Zoom eta biratu",
+      "textArrange": "Arrange",
+      "textCancel": "Cancel",
+      "textChangeShape": "Change Shape",
+      "textDeleteImage": "Delete Image",
+      "textDeleteLink": "Delete Link",
+      "textInsertImage": "Insert Image",
+      "textRecommended": "Recommended",
+      "textRequired": "Required"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",

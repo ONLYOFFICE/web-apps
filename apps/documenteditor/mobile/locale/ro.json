@@ -61,7 +61,10 @@
     "textTableSize": "Dimensiune tabel",
     "textWithBlueLinks": "Cu linkuri albastre",
     "textWithPageNumbers": "Cu numere de pagină",
-    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\""
+    "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
+    "textDone": "Done",
+    "textRecommended": "Recommended",
+    "textRequired": "Required"
   },
   "Common": {
     "Collaboration": {
@@ -160,7 +163,8 @@
       "textTryUndoRedo": "Funcții Anulare/Refacere sunt dezactivate în modul Rapid de editare colaborativă.",
       "textUnderline": "Subliniat",
       "textUsers": "Utilizatori",
-      "textWidow": "Control văduvă"
+      "textWidow": "Control văduvă",
+      "textSharingSettings": "Sharing Settings"
     },
     "HighlightColorPalette": {
       "textNoFill": "Fără umplere"
@@ -200,7 +204,8 @@
     "textRefreshEntireTable": "Reîmprospătarea întregului tabel",
     "textRefreshPageNumbersOnly": "Actualizare numai numere de pagină",
     "textRows": "Rânduri",
-    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
+    "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
+    "menuEditLink": "Edit Link"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertisment",
@@ -318,8 +323,6 @@
     "textRefreshEntireTable": "Reîmprospătarea întregului tabel",
     "textRefreshPageNumbersOnly": "Actualizare numai numere de pagină",
     "textRemoveChart": "Ștergere diagramă",
-    "textRemoveImage": "Ștergere imagine",
-    "textRemoveLink": "Ștergere link",
     "textRemoveShape": "Stergere forma",
     "textRemoveTable": "Ștergere tabel",
     "textRemoveTableContent": "Eliminare cuprins",
@@ -365,7 +368,15 @@
     "textTu": "Ma",
     "textType": "Tip",
     "textWe": "Mi",
-    "textWrap": "Încadrare"
+    "textWrap": "Încadrare",
+    "textChangeShape": "Change Shape",
+    "textCustomStyle": "Custom Style",
+    "textDeleteImage": "Delete Image",
+    "textDeleteLink": "Delete Link",
+    "textRecommended": "Recommended",
+    "textRequired": "Required",
+    "textTextWrapping": "Text Wrapping",
+    "textWrappingStyle": "Wrapping Style"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -408,6 +419,12 @@
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
     "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
+    "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPdf": "An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
+    "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field."
   },
   "LongActions": {
@@ -445,8 +462,8 @@
     "uploadImageTitleText": "Încărcarea imaginii",
     "waitText": "Vă rugăm să așteptați...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
-    "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "textUndo": "Undo"
   },
   "Main": {
     "criticalErrorTitle": "Eroare",

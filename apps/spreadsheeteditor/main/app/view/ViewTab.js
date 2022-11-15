@@ -101,6 +101,14 @@ define([
                     '<span class="btn-slot text" id="slot-chk-statusbar"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="group small">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-leftmenu"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
+                '</div>' +
+            '</div>' +
         '</section>';
 
         function setEvents() {
@@ -149,6 +157,12 @@ define([
                 me.fireEvent('editcomplete', me);
             }).on('combo:focusin', _.bind(this.onComboOpen, this, false))
               .on('show:after', _.bind(this.onComboOpen, this, true));
+            me.chLeftMenu.on('change', _.bind(function (checkbox, state) {
+                me.fireEvent('leftmenu:hide', [me.chLeftMenu, state === 'checked']);
+            }, me));
+            me.chRightMenu.on('change', _.bind(function (checkbox, state) {
+                me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
+            }, me));
         }
 
         return {
@@ -307,6 +321,25 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chToolbar);
+
+                this.chRightMenu = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect],
+                    labelText: this.textRightMenu,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chRightMenu);
+
+                this.chLeftMenu = new Common.UI.CheckBox({
+                    lock: [_set.lostConnect],
+                    labelText: this.textLeftMenu,
+                    dataHint    : '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.chLeftMenu);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -334,6 +367,8 @@ define([
                 this.chHeadings && this.chHeadings.render($host.find('#slot-chk-heading'));
                 this.chGridlines && this.chGridlines.render($host.find('#slot-chk-gridlines'));
                 this.chZeros && this.chZeros.render($host.find('#slot-chk-zeros'));
+                this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
+                this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 return this.$el;
             },
 
@@ -391,17 +426,31 @@ define([
                         me.$el.find('.separator-theme').remove();
                     }
 
+                    var emptyGroup = [];
                     if (config.canBrandingExt && config.customization && config.customization.statusBar === false || !Common.UI.LayoutManager.isElementVisible('statusBar')) {
+                        emptyGroup.push(me.chStatusbar.$el.closest('.elset'));
                         me.chStatusbar.$el.remove();
-                        if (!config.isEdit) {
-                            var slotChkFormula = me.chFormula.$el,
-                                groupFormula = slotChkFormula.closest('.group'),
-                                groupToolbar = me.chToolbar.$el.closest('.group');
-                            groupToolbar.find('.elset')[1].append(slotChkFormula[0]);
-                            groupFormula.remove();
-                            me.$el.find('.separator-formula').remove();
-                        }
                     }
+
+                    if (config.canBrandingExt && config.customization && config.customization.leftMenu === false || !Common.UI.LayoutManager.isElementVisible('leftMenu')) {
+                        emptyGroup.push(me.chLeftMenu.$el.closest('.elset'));
+                        me.chLeftMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.chLeftMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.chLeftMenu.$el[0]);
+                    }
+
+                    if (!config.isEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
+                        emptyGroup.push(me.chRightMenu.$el.closest('.elset'));
+                        me.chRightMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.chRightMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.chRightMenu.$el[0]);
+                    }
+                    if (emptyGroup.length>1) { // remove empty group
+                        emptyGroup[emptyGroup.length-1].closest('.group').remove();
+                    }
+
                     if (Common.UI.Themes.available()) {
                         function _fill_themes() {
                             var btn = this.btnInterfaceTheme;
@@ -430,6 +479,15 @@ define([
                             }, me));
                         }
                     }
+
+                    var value = Common.UI.LayoutManager.getInitValue('leftMenu');
+                    value = (value!==undefined) ? !value : false;
+                    me.chLeftMenu.setValue(!Common.localStorage.getBool("sse-hidden-leftmenu", value));
+
+                    value = Common.UI.LayoutManager.getInitValue('rightMenu');
+                    value = (value!==undefined) ? !value : false;
+                    me.chRightMenu.setValue(!Common.localStorage.getBool("sse-hidden-rightmenu", value));
+
                     setEvents.call(me);
                 });
             },
@@ -531,7 +589,9 @@ define([
             textAlwaysShowToolbar: 'Always show toolbar',
             textInterfaceTheme: 'Interface theme',
             textShowFrozenPanesShadow: 'Show frozen panes shadow',
-            tipInterfaceTheme: 'Interface theme'
+            tipInterfaceTheme: 'Interface theme',
+            textLeftMenu: 'Left panel',
+            textRightMenu: 'Right panel'
         }
     }()), SSE.Views.ViewTab || {}));
 });

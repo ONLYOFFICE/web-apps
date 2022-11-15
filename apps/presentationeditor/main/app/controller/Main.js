@@ -339,6 +339,19 @@ define([
                     Common.Utils.InternalSettings.set("guest-username", value);
                     Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 }
+                if (this.appOptions.customization.font) {
+                    if (this.appOptions.customization.font.name && typeof this.appOptions.customization.font.name === 'string') {
+                        var arr = this.appOptions.customization.font.name.split(',');
+                        for (var i=0; i<arr.length; i++) {
+                            var item = arr[i].trim();
+                            if (item && (/[\s0-9\.]/).test(item)) {
+                                arr[i] = "'" + item + "'";
+                            }
+                        }
+                        document.documentElement.style.setProperty("--font-family-base-custom", arr.join(','));
+                    }
+                }
+
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
                                                   Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
@@ -734,6 +747,7 @@ define([
 
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
+                        Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, true);
                         var me = this;
                         statusCallback = function() {
@@ -858,7 +872,17 @@ define([
                 me.api.asc_setAutoSaveGap(Common.Utils.InternalSettings.get("pe-settings-autosave"));
                 /** coauthoring end **/
 
-                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
+                value = Common.localStorage.getBool("pe-settings-showsnaplines", true);
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
+                me.api.asc_setShowSmartGuides(value);
+
+                value = Common.localStorage.getBool("pe-settings-showguides");
+                Common.Utils.InternalSettings.set("pe-settings-showguides", value);
+                me.api.asc_setShowGuides(value);
+
+                value = Common.localStorage.getBool("pe-settings-showgrid");
+                Common.Utils.InternalSettings.set("pe-settings-showgrid", value);
+                me.api.asc_setShowGridlines(value);
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
@@ -1029,7 +1053,8 @@ define([
                         });
                     }
                 } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
-                    this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
+                    this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
+                                                                             this.editorConfig.customization.font && this.editorConfig.customization.font.name)) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
                         msg  : this.textCustomLoader,
@@ -1213,7 +1238,7 @@ define([
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                this.appOptions.canBrandingExt && this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout);
+                this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
 
                 // change = true by default in editor
@@ -1296,6 +1321,7 @@ define([
                 statusbarView && statusbarView.setMode(this.appOptions);
                 toolbarController.setMode(this.appOptions);
                 documentHolder.setMode(this.appOptions);
+                viewport.applyCommonMode();
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
@@ -1561,6 +1587,24 @@ define([
 
                     case Asc.c_oAscError.ID.LoadingFontError:
                         config.msg = this.errorLoadingFont;
+                        break;
+
+                    case Asc.c_oAscError.ID.DirectUrl:
+                        config.msg = this.errorDirectUrl;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenFormat:
+                        config.maxwidth = 600;
+                        if (errData === 'pdf')
+                            config.msg = this.errorInconsistentExtPdf.replace('%1', this.document.fileType || '');
+                        else if  (errData === 'docx')
+                            config.msg = this.errorInconsistentExtDocx.replace('%1', this.document.fileType || '');
+                        else if  (errData === 'xlsx')
+                            config.msg = this.errorInconsistentExtXlsx.replace('%1', this.document.fileType || '');
+                        else if  (errData === 'pptx')
+                            config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
+                        else
+                            config.msg = this.errorInconsistentExt;
                         break;
 
                     default:
@@ -3001,7 +3045,12 @@ define([
             textRememberMacros: 'Remember my choice for all macros',
             confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
             textUndo: 'Undo',
-            textContinue: 'Continue'
+            textContinue: 'Continue',
+            errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
+            errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
+            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
         }
     })(), PE.Controllers.Main || {}))
 });

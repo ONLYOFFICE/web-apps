@@ -9,7 +9,7 @@
         <div class="btn-goto img-commonctrl"></div>
         <% } %>
         <% if (!hint) { %>
-            <% if (scope.appConfig.isReviewOnly) { %>
+            <% if (scope.appConfig.isReviewOnly || docProtection.isReviewOnly) { %>
                 <% if (editable) { %>
                 <div class="btn-delete img-commonctrl"></div>
                 <% } %>
