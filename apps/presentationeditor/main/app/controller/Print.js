@@ -42,11 +42,7 @@ define([
         ],
 
         initialize: function() {
-            var value = Common.localStorage.getItem("pe-print-settings-range");
-            value = (value!==null) ? parseInt(value) : Asc.c_oAscPrintType.ActiveSheets;
-
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
-            this.adjPrintParams.asc_setPrintType(value);
 
             this._state = {};
 
@@ -113,7 +109,6 @@ define([
                         }
                     }
                     if (res.length>0) {
-                        // me.adjPrintParams.asc_setPages(res);
                         return true;
                     }
                 }
@@ -129,8 +124,6 @@ define([
 
             var eventname = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
             this.printSettings.$previewBox.on(eventname, _.bind(this.onPreviewWheel, this));
-
-            this.fillPrintOptions();
         },
 
         setMode: function (mode) {
@@ -146,23 +139,14 @@ define([
             return this;
         },
 
-        fillPrintOptions: function(props) {
-            // fill page numbers, copies, collated
-            var panel = this.printSettings;
-            panel.cmbRange.setValue(this.adjPrintParams.asc_getPrintType());
-            panel.inputPages.setValue(''); // pages numbers
-        },
-
         comboRangeChange: function(combo, record) {
             if (record.value === -1) {
                 var me = this;
                 setTimeout(function(){
                     me.printSettings.inputPages.focus();
                 }, 50);
-                // this.adjPrintParams.asc_setPrintType(record.value)
             } else {
                 this.printSettings.inputPages.setValue('');
-                this.adjPrintParams.asc_setPrintType(record.value)
             }
             this.printSettings.inputPages.showError();
         },
@@ -307,6 +291,12 @@ define([
             if (this._navigationPreview.pageCount<1)
                 return;
 
+            var rec = this.printSettings.cmbPaperSize.getSelectedRecord();
+            this.adjPrintParams.asc_setNativeOptions({
+                pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
+                paperSize: rec ? rec.size : null
+            });
+
             this._isPrint = print;
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
@@ -326,7 +316,7 @@ define([
             this.isInputFirstChange = false;
 
             if (value.length<1)
-                this.printSettings.cmbRange.setValue(Asc.c_oAscPrintType.EntireWorkbook);
+                this.printSettings.cmbRange.setValue('all');
             else if (this.printSettings.cmbRange.getValue()!==-1)
                 this.printSettings.cmbRange.setValue(-1);
         },

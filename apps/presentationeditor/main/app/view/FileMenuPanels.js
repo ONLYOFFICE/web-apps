@@ -1839,6 +1839,8 @@ define([
                                         '<td><%= scope.txtPages %></td><td><div id="print-txt-pages" style="width: 100%;padding-left: 5px;"></div></td>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
+                                    '<tr><td><label class="header"><%= scope.txtPaperSize %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
                                             '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -1872,6 +1874,8 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+
+            this._initSettings = true;
         },
 
         render: function(node) {
@@ -1886,14 +1890,15 @@ define([
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
                 data: [
-                    { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.txtAllPages },
-                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtCurrentPage },
+                    { value: 'all', displayValue: this.txtAllPages },
+                    { value: 'current', displayValue: this.txtCurrentPage },
                     { value: -1, displayValue: this.txtCustomPages }
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+            this.cmbRange.setValue('all');
 
             this.inputPages = new Common.UI.InputField({
                 el: $markup.findById('#print-txt-pages'),
@@ -1905,6 +1910,37 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+
+            this.cmbPaperSize = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-pages'),
+                menuStyle: 'max-height: 280px; min-width: 248px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 0, displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter', size: [215.9, 279.4]},
+                    { value: 1, displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal', size: [215.9, 355.6]},
+                    { value: 2, displayValue:'A4 (21cm x 29,7cm)', caption: 'A4', size: [210, 297]},
+                    { value: 3, displayValue:'A5 (14,8cm x 21cm)', caption: 'A5', size: [148, 210]},
+                    { value: 4, displayValue:'B5 (17,6cm x 25cm)', caption: 'B5', size: [176, 250]},
+                    { value: 5, displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10', size: [104.8, 241.3]},
+                    { value: 6, displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL', size: [110, 220]},
+                    { value: 7, displayValue:'Tabloid (27,94cm x 43,18cm)', caption: 'Tabloid', size: [279.4, 431.8]},
+                    { value: 8, displayValue:'A3 (29,7cm x 42cm)', caption: 'A3', size: [297, 420]},
+                    { value: 9, displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize', size: [304.8, 457.1]},
+                    { value: 10, displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K', size: [196.8, 273]},
+                    { value: 11, displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
+                    { value: 12, displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3', size: [330.2, 482.5]},
+                    { value: 13, displayValue:'A4 (84,1cm x 118,9cm)', caption: 'A0', size: [841, 1189]},
+                    { value: 14, displayValue:'A4 (59,4cm x 84,1cm)', caption: 'A1', size: [594, 841]},
+                    { value: 16, displayValue:'A4 (42cm x 59,4cm)', caption: 'A2', size: [420, 594]},
+                    { value: 17, displayValue:'A4 (10,5cm x 14,8cm)', caption: 'A6', size: [105, 148]}
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbPaperSize.setValue(2);
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
@@ -1973,6 +2009,8 @@ define([
                 }
             });
 
+            this.updateMetricUnit();
+
             this.fireEvent('render:after', this);
 
             return this;
@@ -1980,6 +2018,10 @@ define([
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            if (this._initSettings) {
+                this.updateMetricUnit();
+                this._initSettings = false;
+            }
             this.updateScroller();
             this.fireEvent('show', this);
         },
@@ -2024,6 +2066,22 @@ define([
             this.txtNumberPage.setValue(index + 1);
         },
 
+        updateMetricUnit: function() {
+            var store = this.cmbPaperSize.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i),
+                    size = item.get('size'),
+                    pagewidth = size[0],
+                    pageheight = size[1];
+
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+            }
+            var value = this.cmbPaperSize.getValue();
+            this.cmbPaperSize.onResetItems();
+            this.cmbPaperSize.setValue(value);
+        },
+
         txtPrint: 'Print',
         txtPrintPdf: 'Print to PDF',
         txtPrintRange: 'Print range',
@@ -2034,7 +2092,8 @@ define([
         txtOf: 'of {0}',
         txtPageNumInvalid: 'Slide number invalid',
         txtEmptyTable: 'There is nothing to print because the presentation is empty',
-        txtPages: 'Slides'
+        txtPages: 'Slides',
+        txtPaperSize: 'Paper size'
 
     }, PE.Views.PrintWithPreview || {}));
 });
