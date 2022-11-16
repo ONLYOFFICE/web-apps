@@ -2655,9 +2655,12 @@ define([
             },
 
             onPrintQuick: function() {
-                if (!this.appOptions.canPrint) return;
-                // call special quick print
-                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86))
+                if (!this.appOptions.canQuickPrint) return;
+                var printopt = new Asc.asc_CAdjustPrint();
+                printopt.asc_setNativeOptions({quickPrint: true});
+                var opts = new Asc.asc_CDownloadOptions();
+                opts.asc_setAdvancedOptions(printopt);
+                this.api.asc_Print(opts);
                 Common.component.Analytics.trackEvent('Print');
             },
 
