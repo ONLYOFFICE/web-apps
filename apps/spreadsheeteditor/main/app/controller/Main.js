@@ -1291,6 +1291,8 @@ define([
                 this.appOptions.isEdit         = (this.appOptions.canLicense || this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) && this.permissions.edit !== false && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = (this.permissions.download !== false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
+                this.appOptions.canQuickPrint = this.appOptions.canPrint && this.appOptions.isDesktopApp &&
+                                                !(this.editorConfig.customization && this.editorConfig.customization.compactHeader);
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) &&
                                                 (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
@@ -2871,6 +2873,16 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onPrintQuick: function() {
+                if (!this.appOptions.canQuickPrint) return;
+                var printopt = new Asc.asc_CAdjustPrint();
+                printopt.asc_setNativeOptions({quickPrint: true});
+                var opts = new Asc.asc_CDownloadOptions();
+                opts.asc_setAdvancedOptions(printopt);
+                this.api.asc_Print(opts);
+                Common.component.Analytics.trackEvent('Print');
             },
 
             warningDocumentIsLocked: function() {

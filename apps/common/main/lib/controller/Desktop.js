@@ -201,6 +201,7 @@ define([
             if ( !!titlebuttons ) {
                 info.hints = {};
                 !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['printquick'] && (info.hints['printquick'] = titlebuttons['printquick'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
                 !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
@@ -257,6 +258,9 @@ define([
 
                             if (!!header.btnPrint)
                                 titlebuttons['print'] = {btn: header.btnPrint};
+
+                            if (!!header.btnPrintQuick)
+                                titlebuttons['printquick'] = {btn: header.btnPrintQuick};
 
                             if (!!header.btnUndo)
                                 titlebuttons['undo'] = {btn: header.btnUndo};
