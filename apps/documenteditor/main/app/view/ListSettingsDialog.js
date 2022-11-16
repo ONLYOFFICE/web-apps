@@ -78,15 +78,25 @@ define([
                 '<% if (type == 2) { %>',
                     '<table cols="4" style="width: 100%;">',
                         '<tr>',
-                            '<td colspan="3" style="padding-right: 5px;">',
+                            '<td style="padding-right: 5px;">',
                                 '<label class="input-label">' + this.txtType + '</label>',
                                 '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 120px;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;padding-right: 5px;">',
+                                '<label class="input-label"></label>',
+                                '<div id="id-dlg-chk-tabstop" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-right: 5px;">',
+                                '<label class="input-label"></label>',
+                                '<div id="id-dlg-num-tabstop" style="margin-bottom: 10px;"></div>',
                             '</td>',
                             '<td style="padding-left: 5px;">',
                                 '<label class="input-label"></label>',
                                 '<div id="id-dlg-numbering-restart" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
+                    '</table>',
+                    '<table cols="4" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" style="padding-right: 5px;width: 100%;">',
                                 '<label class="input-label">' + this.txtNumFormatString + '</label>',
@@ -537,6 +547,8 @@ define([
             this.spnAlign.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     this._changedProps.put_NumberPosition(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.spnTabStop.setMinValue(field.getNumberValue());
+                    this.spnTabStop.setValue(this.spnTabStop.getValue(), true);
                 }
                 if (this.api) {
                     this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
@@ -578,6 +590,8 @@ define([
             this.cmbFollow.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps)
                     this._changedProps.put_Suff(record.value);
+                this.chTabStop.setDisabled(record.value!==Asc.c_oAscNumberingSuff.Tab);
+                this.spnTabStop.setDisabled(record.value!==Asc.c_oAscNumberingSuff.Tab || this.chTabStop.getValue()!=='checked');
                 if (this.api) {
                     this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
                 }
@@ -590,6 +604,40 @@ define([
             this.chRestart.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     this._changedProps.put_Restart(field.getValue()=='checked' ? -1 : 0);
+                }
+            }, this));
+
+            this.chTabStop = new Common.UI.CheckBox({
+                el: $window.find('#id-dlg-chk-tabstop'),
+                labelText: this.txtTabStop
+            });
+            this.chTabStop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_StopTab(field.getValue()==='checked' ? Common.Utils.Metric.fnRecalcToMM(this.spnTabStop.getNumberValue()) : null);
+                    this.spnTabStop.setDisabled(field.getValue()!=='checked' || this.cmbFollow.getValue()!==Asc.c_oAscNumberingSuff.Tab);
+                }
+                if (this.api) {
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
+                }
+            }, this));
+
+            this.spnTabStop = new Common.UI.MetricSpinner({
+                el: $window.findById('#id-dlg-num-tabstop'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: 0
+            });
+            this.spinners.push(this.spnTabStop);
+            this.spnTabStop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.put_StopTab(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                }
+                if (this.api) {
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
                 }
             }, this));
 
@@ -885,10 +933,15 @@ define([
                 this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);
                 this.cmbFollow.setValue(levelProps.get_Suff());
                 this.chRestart.setValue(levelProps.get_Restart()===-1);
+                this.chTabStop.setValue(levelProps.get_StopTab()!==null);
+                this.spnTabStop.setMinValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()));
+                this.spnTabStop.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_StopTab()!==null ? levelProps.get_StopTab() : levelProps.get_IndentSize()), true);
 
                 this.txtNumFormat.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.spnStart.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.chRestart.setDisabled(this.level===0);
+                this.chTabStop.setDisabled(levelProps.get_Suff()!==Asc.c_oAscNumberingSuff.Tab);
+                this.spnTabStop.setDisabled(levelProps.get_StopTab()===null || levelProps.get_Suff()!==Asc.c_oAscNumberingSuff.Tab);
 
                 var arr = [];
                 var me = this;
@@ -1225,7 +1278,8 @@ define([
         txtIndent: 'Text Indent',
         txtFollow: 'Follow number with',
         txtRestart: 'Restart list',
-        txtMoreTypes: 'More types'
+        txtMoreTypes: 'More types',
+        txtTabStop: 'Add tab stop at'
 
     }, DE.Views.ListSettingsDialog || {}))
 });
