@@ -48,7 +48,8 @@ define([
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
     'common/main/lib/component/ComboBox',
-    'common/main/lib/view/SymbolTableDialog'
+    'common/main/lib/view/SymbolTableDialog',
+    'documenteditor/main/app/view/ListTypesAdvanced'
 ], function () { 'use strict';
     var nMaxRecent = 5;
 
@@ -223,7 +224,8 @@ define([
             };
             this.spinners = [];
             this.recentBullets = [];
-
+            this.recentNumTypes = [];
+            this.lang = this.api.asc_GetPossibleNumberingLanguage();
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
 
@@ -273,7 +275,7 @@ define([
                 ];
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
+                '<div class="form-control" style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
                 '<div style="display: table-cell;"></div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -305,6 +307,7 @@ define([
             ];
             this._itemNoneBullet = { displayValue: this.txtNone, value: Asc.c_oAscNumberingFormat.None };
             this._itemNewBullet = { displayValue: this.txtNewBullet, value: -1 };
+            this._itemMoreTypes = { displayValue: this.txtMoreTypes, value: -2 };
             this.loadRecent();
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
@@ -314,7 +317,7 @@ define([
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 takeFocusOnClose: true,
-                data        : this.type===1 ? [this._itemNoneBullet].concat(this._arrNumbers) : [],
+                data        : [],
                 updateFormControl: function(record) {
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
@@ -333,6 +336,11 @@ define([
                             me.fillLevelProps(me.levels[me.level]);
                         };
                         this.addNewBullet(callback);
+                    } else if (record.value == -2) {
+                        var callback = function(result) {
+                            me.fillLevelProps(me.levels[me.level]);
+                        };
+                        this.addNewListType(callback);
                     } else {
                         var oldformat = this._changedProps.get_Format();
                         this._changedProps.put_Format(record.value);
@@ -711,6 +719,27 @@ define([
             win.on('symbol:dblclick', handler);
         },
 
+        addNewListType: function(callback) {
+            var me = this,
+                handler = function(result, value) {
+                    if (result == 'ok') {
+                        if (me._changedProps) {
+                            me._changedProps.put_Format(value);
+                            if (me.api) {
+                                me.api.SetDrawImagePreviewBullet('bulleted-list-preview', me.props, me.level, me.type==2);
+                            }
+                        }
+                    }
+                    callback && callback.call(me, result);
+                },
+                win = new DE.Views.ListTypesAdvanced({
+                    modal: true,
+                    lang: me.lang,
+                    handler: handler
+                });
+            win.show();
+        },
+
         _handleInput: function(state) {
             if (this.options.handler) {
                 var props = [], lvlnum = [];
@@ -807,16 +836,40 @@ define([
             this.btnColor.setColor(color);
 
             if (this.type===1) { // numbers
+                if (format !== Asc.c_oAscNumberingFormat.None || this.cmbFormat.store.length<1) {
+                    this.checkRecentNum(format);
+                }
+                var store = [this._itemNoneBullet].concat(this._arrNumbers);
+                this.recentNumTypes.forEach(function(item) {
+                    if (item) {
+                        item = parseInt(item);
+                        store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.lang) + ',...', value: item });
+                    }
+                });
+                store.push(this._itemMoreTypes);
+                this.cmbFormat.setData(store);
                 this.cmbFormat.setValue((format!==undefined) ? format : '');
                 this.makeFormatStr(levelProps);
             } else {
-                if (format == Asc.c_oAscNumberingFormat.Bullet || this.cmbFormat.store.length<1) {
-                    (format == Asc.c_oAscNumberingFormat.Bullet) && this.checkRecent(this.bulletProps.symbol, this.bulletProps.font);
+                if (format !== Asc.c_oAscNumberingFormat.None || this.cmbFormat.store.length<1) {
+                    if (format === Asc.c_oAscNumberingFormat.Bullet)
+                        this.checkRecent(this.bulletProps.symbol, this.bulletProps.font);
+                    else if (format !== Asc.c_oAscNumberingFormat.None)
+                        this.checkRecentNum(format);
                     var store = (this.type===2) ? [this._itemNoneBullet].concat(this._arrNumbers) : [];
+                    if (this.type===2) {
+                        this.recentNumTypes.forEach(function(item) {
+                            if (item) {
+                                item = parseInt(item);
+                                store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.lang) + ',...', value: item });
+                            }
+                        });
+                    }
                     store = store.concat(this._arrBullets);
                     this.recentBullets.forEach(function(item) {
                         store.push({ displayValue: me.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: item.symbol, font: item.font });
                     });
+                    (this.type===2) && store.push(this._itemMoreTypes);
                     store.push(this._itemNewBullet);
                     this.cmbFormat.setData(store);
                 }
@@ -869,7 +922,7 @@ define([
                                 me.levels[num] = me.props.get_Lvl(num);
                             arr[num] = {start: formatStr.length, index: index};
                             var lvl = me.levels[num];
-                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), lvl.get_Format());
+                            formatStr += AscCommon.IntToNumberFormat(lvl.get_Start(), lvl.get_Format(), me.lang);
                             arr[num].end = formatStr.length;
                         }
                     });
@@ -1071,11 +1124,24 @@ define([
                     }
                 }
             }
+
+            sRecents = Common.localStorage.getItem('de-recent-list-formats');
+            if(sRecents !== ''){
+                sRecents = JSON.parse(sRecents);
+            }
+            if(_.isArray(sRecents)){
+                this.recentNumTypes = sRecents;
+            }
         },
 
         saveRecent: function(){
             var sJSON = JSON.stringify(this.recentBullets);
             Common.localStorage.setItem('de-recent-bullets', sJSON);
+        },
+
+        saveRecentNum: function(){
+            var sJSON = JSON.stringify(this.recentNumTypes);
+            Common.localStorage.setItem('de-recent-list-formats', sJSON);
         },
 
         checkRecent: function(sSymbol, sFont){
@@ -1105,6 +1171,32 @@ define([
             this.saveRecent();
         },
 
+        checkRecentNum: function(format){
+            if (format===null || format===undefined) return;
+
+            for(var i = 0; i < this._arrNumbers.length; ++i){
+                if(this._arrNumbers[i].value === format){
+                    return;
+                }
+            }
+            if(this.recentNumTypes.length === 0){
+                this.recentNumTypes.push(format);
+                this.saveRecentNum();
+                return;
+            }
+            for (var i = 0; i < this.recentNumTypes.length; ++i){
+                if(this.recentNumTypes[i] === format){
+                    this.recentNumTypes.splice(i, 1);
+                    break;
+                }
+            }
+            this.recentNumTypes.splice(0, 0, format);
+            if(this.recentNumTypes.length > nMaxRecent){
+                this.recentNumTypes.splice(nMaxRecent, this.recentNumTypes.length - nMaxRecent);
+            }
+            this.saveRecentNum();
+        },
+
         txtTitle: 'List Settings',
         txtSize: 'Size',
         txtColor: 'Color',
@@ -1132,7 +1224,8 @@ define([
         txtAlignAt: 'Align at',
         txtIndent: 'Text Indent',
         txtFollow: 'Follow number with',
-        txtRestart: 'Restart list'
+        txtRestart: 'Restart list',
+        txtMoreTypes: 'More types'
 
     }, DE.Views.ListSettingsDialog || {}))
 });
