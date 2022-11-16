@@ -491,10 +491,11 @@ define([
             else if (this.printSettings.cmbRange.getValue()==='current')
                 this._state.firstPrintPage = this._navigationPreview.currentPage;
 
+            var size = this.api.asc_getPageSize(this._state.firstPrintPage);
             this.adjPrintParams.asc_setNativeOptions({
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
-                paperSize: this._state.pgsize, //this.api.asc_getPageSize(this._state.firstPrintPage),
-                paperOrientation: this._state.pgorient ? 'portrait' : 'landscape' // this.api.asc_getPageOrient(this._state.firstPrintPage) ? 'portrait' : 'landscape'
+                paperSize: size ? [size['W'], size['H']] : size,
+                paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null
             });
 
             this._isPrint = print;
