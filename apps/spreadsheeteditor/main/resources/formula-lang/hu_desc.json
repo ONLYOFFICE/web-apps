@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(logikai1; [logikai2]; ...)",
 		"d": "Logikai „kizárólagos vagy” műveletet végez az összes argumentummal"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Karakterek elválasztását megelőző szöveget küld vissza."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Karakterek elválasztását követő szöveget küld vissza."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "A szöveget sorokra vagy oszlopokra osztja fel a határolókkal."
+	},
+	"WRAPROWS": {
+		"a": "(vektor, tördelés_száma, [kitöltés_ezzel])",
+		"d": "Egy sor- vagy oszlopvektor tördelése megadott számú érték után."
+	},
+	"VSTACK": {
+		"a": "(tömb1, [tömb2], ...)",
+		"d": " A tömböket függőlegesen egy tömbbe halmozza."
+	},
+	"HSTACK": {
+		"a": "(tömb1, [tömb2], ...)",
+		"d": " A tömböket vízszintesen egy tömbbe halmozza."
+	},
+	"CHOOSEROWS": {
+		"a": "(tömb, sor_száma1, [sor_száma2], ...)",
+		"d": "Sorokat ad vissza tömbből vagy hivatkozásból."
+	},
+	"CHOOSECOLS": {
+		"a": "(tömb, oszlop_száma1, [oszlop_száma2], ...)",
+		"d": "Csak a megadott oszlopokat adja vissza tömbből vagy hivatkozásból"
+	},
+	"TOCOL": {
+		"a": "(tömb, [mindenfajta], [vizsgálat_oszloponként])",
+		"d": " Egy oszlopként adja vissza a tömböt. "
+	},
+	"TOROW": {
+		"a": "(tömb, [mindenfajta], [vizsgálat_oszloponként])",
+		"d": "Egy sorként adja vissza a tömböt."
+	},
+	"WRAPCOLS": {
+		"a": "(vektor, tördelés_száma, [kitöltés_ezzel])",
+		"d": "Egy sor- vagy oszlopvektor tördelése megadott számú érték után."
+	},
+	"TAKE": {
+		"a": "(tömb, sorok, [oszlopok])",
+		"d": "Sorokat vagy oszlopokat ad vissza a tömb elejéről vagy végéről."
+	},
+	"DROP": {
+		"a": "(tömb, sorok, [oszlopok])",
+		"d": "Sorokat vagy oszlopokat távolít el a tömb elejéről vagy végéről."
 	}
 }

@@ -1838,5 +1838,57 @@
 	"XOR": {
 		"a": "(valeur_logique1; [valeur_logique2]; ...)",
 		"d": "Renvoie une valeur logique « Ou exclusif » de tous les arguments"
+	},
+	"TEXTBEFORE": {
+		"a": "(texte, délimiteur, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retourne le texte qui précède la délimitation des caractères."
+	},
+	"TEXTAFTER": {
+		"a": "(texte, délimiteur, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retourne du texte qui succède à la délimitation des caractères."
+	},
+	"TEXTSPLIT": {
+		"a": "(texte, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Fractionne le texte en lignes ou colonnes à l’aide de délimiteurs."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Enveloppe un vecteur de ligne ou de colonne après un nombre spécifié de valeurs."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Empile verticalement les tableaux dans un tableau."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Empile horizontalement les tableaux dans un tableau."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Renvoie les lignes d’un tableau ou d’une référence."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Renvoie les colonnes d’un tableau ou d’une référence."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Renvoie le tableau sous la forme d’une colonne."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Retourne le tableau sous la forme d’une ligne."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Enveloppe un vecteur de ligne ou de colonne après un nombre spécifié de valeurs."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Renvoie les lignes ou les colonnes du début ou de la fin du tableau."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Supprime les lignes ou les colonnes du début ou de la fin du tableau."
 	}
 }
