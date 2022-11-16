@@ -266,7 +266,12 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-
+                '<tr class="quick-print">',
+                    '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
+                        '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
+                        '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
+                    '</td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td><span id="fms-cmb-theme"></span></td>',
@@ -535,6 +540,17 @@ define([
                 })).on('click', _.bind(me.applySettings, me));
             });
 
+            this.chQuickPrint = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-quick-print'),
+                labelText: '',
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chQuickPrint.$el.parent().on('click', function (){
+                me.chQuickPrint.setValue(!me.chQuickPrint.isChecked());
+            });
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
@@ -596,6 +612,7 @@ define([
             $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint ? 'show' : 'hide']();
 
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
@@ -657,6 +674,7 @@ define([
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("pe-settings-paste-button"));
+            this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("pe-settings-quick-print-button"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -702,6 +720,7 @@ define([
             Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("pe-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("pe-settings-quick-print-button", this.chQuickPrint.isChecked() ? 1 : 0);
 
             Common.localStorage.save();
 
@@ -777,7 +796,10 @@ define([
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
         strIgnoreWordsWithNumbers: 'Ignore words with numbers',
-        strShowOthersChanges: 'Show changes from other users'
+        strShowOthersChanges: 'Show changes from other users',
+        txtQuickPrint: 'Show the Quick Print button in the editor header',
+        txtQuickPrintTip: 'The document will be printed on the last selected or default printer'
+
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
