@@ -709,6 +709,7 @@ define([
                 if (idx>0)
                     this.fileExtention = this.documentCaption.substring(idx);
                 this.isModified && (value += '*');
+                this.readOnly && (value += ' (' + this.textReadOnly + ')');
                 if ( $labelDocName ) {
                     this.setDocTitle( value );
                 }
@@ -901,6 +902,11 @@ define([
                 return initials;
             },
 
+            setDocumentReadOnly: function (readonly) {
+                this.readOnly = readonly;
+                this.setDocumentCaption(this.documentCaption);
+            },
+
             textBack: 'Go to Documents',
             txtRename: 'Rename',
             txtAccessRights: 'Change access rights',
@@ -925,7 +931,8 @@ define([
             textHideNotes: 'Hide Notes',
             tipSearch: 'Search',
             textShare: 'Share',
-            tipPrintQuick: 'Quick print'
+            tipPrintQuick: 'Quick print',
+            textReadOnly: 'Read only'
         }
     }(), Common.Views.Header || {}))
 });
