@@ -2406,17 +2406,34 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
 
-                value = Common.localStorage.getBool("pe-settings-autoformat-fl-sentence", true);
-                Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-sentence", value);
+                value = Common.localStorage.getBool("pe-settings-letter-exception-sentence", true);
+                Common.Utils.InternalSettings.set("pe-settings-letter-exception-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
 
+                value = Common.localStorage.getBool("pe-settings-letter-exception-cells", true);
+                Common.Utils.InternalSettings.set("pe-settings-letter-exception-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
+               
+                [0x0409, 0x0419].forEach(function(lang) {
+                    var apiFlManager = me.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager();
+                    
+                    value = Common.localStorage.getItem("pe-settings-letter-exception-add-" + lang);
+                    Common.Utils.InternalSettings.set("pe-settings-letter-exception-add-" + lang, value);
+                    arrAdd = value ? JSON.parse(value) : [];
+    
+                    value = Common.localStorage.getItem("pe-settings-letter-exception-rem-" + lang);
+                    Common.Utils.InternalSettings.set("pe-settings-letter-exception-rem-" + lang, value);
+                    arrRem = value ? JSON.parse(value) : [];
+
+                    var arrRes = _.union(apiFlManager.get_Exceptions(lang), arrAdd); 
+                    arrRes = _.difference(arrRes, arrRem);  
+                    arrRes.sort();
+                    apiFlManager.put_Exceptions(arrRes, lang);       
+                });    
+                
                 value = Common.localStorage.getBool("pe-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-hyperlink", value);
                 me.api.asc_SetAutoCorrectHyperlinks(value);
-
-                value = Common.localStorage.getBool("pe-settings-autoformat-fl-cells", true);
-                Common.Utils.InternalSettings.set("pe-settings-autoformat-fl-cells", value);
-                me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
 
                 value = Common.localStorage.getBool("pe-settings-autoformat-double-space", Common.Utils.isMac); // add period with double-space in MacOs by default
                 Common.Utils.InternalSettings.set("pe-settings-autoformat-double-space", value);

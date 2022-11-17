@@ -2848,18 +2848,35 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
 
-                value = Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
-                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-sentence", value);
+                value = Common.localStorage.getBool("de-settings-letter-exception-sentence", true);
+                Common.Utils.InternalSettings.set("de-settings-letter-exception-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
+
+                value = Common.localStorage.getBool("de-settings-letter-exception-cells", true);
+                Common.Utils.InternalSettings.set("de-settings-letter-exception-cells", value);
+                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
+
+                [0x0409, 0x0419].forEach(function(lang) {
+                    var apiFlManager = me.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager();
+                    
+                    value = Common.localStorage.getItem("de-settings-letter-exception-add-" + lang);
+                    Common.Utils.InternalSettings.set("de-settings-letter-exception-add-" + lang, value);
+                    arrAdd = value ? JSON.parse(value) : [];
+    
+                    value = Common.localStorage.getItem("de-settings-letter-exception-rem-" + lang);
+                    Common.Utils.InternalSettings.set("de-settings-letter-exception-rem-" + lang, value);
+                    arrRem = value ? JSON.parse(value) : [];
+
+                    var arrRes = _.union(apiFlManager.get_Exceptions(lang), arrAdd); 
+                    arrRes = _.difference(arrRes, arrRem);  
+                    arrRes.sort();
+                    apiFlManager.put_Exceptions(arrRes, lang);       
+                });                
 
                 value = Common.localStorage.getBool("de-settings-autoformat-hyperlink", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyperlink", value);
                 me.api.asc_SetAutoCorrectHyperlinks(value);
-
-                value = Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
-                Common.Utils.InternalSettings.set("de-settings-autoformat-fl-cells", value);
-                me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
-
+                
                 value = Common.localStorage.getBool("de-settings-autoformat-double-space", Common.Utils.isMac); // add period with double-space in MacOs by default
                 Common.Utils.InternalSettings.set("de-settings-autoformat-double-space", value);
                 me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(value);
