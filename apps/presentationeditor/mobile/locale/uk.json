@@ -177,7 +177,9 @@
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "View": {
     "Add": {

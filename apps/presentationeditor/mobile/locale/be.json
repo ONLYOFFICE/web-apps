@@ -177,7 +177,9 @@
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
     "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",

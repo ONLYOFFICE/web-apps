@@ -88,11 +88,11 @@ const ErrorController = inject('storeAppOptions','storePresentationInfo')(({stor
                 break;
 
             case Asc.c_oAscError.ID.VKeyEncrypt:
-                config.msg = _t.errorKeyEncrypt;
+                config.msg = _t.errorToken;
                 break;
 
             case Asc.c_oAscError.ID.KeyExpire:
-                config.msg = _t.errorKeyExpire;
+                config.msg = _t.errorTokenExpire;
                 break;
 
             case Asc.c_oAscError.ID.UserCountExceed:

@@ -425,7 +425,9 @@
     "unknownErrorText": "Неизвестная ошибка.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка данных...",
