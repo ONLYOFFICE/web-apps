@@ -76,10 +76,10 @@ define([
         initialize: function() {
             this._state = {
                 activated: false,
-                bullets: {
-                    type: undefined,
-                    subtype: undefined
-                },
+                // bullets: {
+                //     type: undefined,
+                //     subtype: undefined
+                // },
                 prstyle: undefined,
                 prcontrolsdisable:undefined,
                 dropcap: Asc.c_oAscDropCap.None,
@@ -535,6 +535,27 @@ define([
         },
 
         onApiBullets: function(v) {
+            var listId = this.api.asc_GetCurrentNumberingId();
+            if (listId !== null) {
+                var numLvl = this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()),
+                    format = numLvl.get_Format();
+                this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet);
+                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(format === Asc.c_oAscNumberingFormat.Bullet);
+                this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
+                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(format !== Asc.c_oAscNumberingFormat.Bullet);
+                this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(false);
+                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(false);
+            } else {
+                this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
+                this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
+                this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
+                this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
+                this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
+                this.toolbar.mnuMultiChangeLevel && this.toolbar.mnuMultiChangeLevel.setDisabled(true);
+            }
+            // TODO: compare v with numberingInfo from dataview store
+            return;
+
             var type = v.get_ListType();
             if (this._state.bullets.type != type || this._state.bullets.subtype != v.get_ListSubType() ||
                 this.toolbar.btnMarkers.pressed && (type!==0) || this.toolbar.btnNumbers.pressed && (type!==1) || this.toolbar.btnMultilevels.pressed && (type!==2) ) {
@@ -1255,10 +1276,7 @@ define([
 
         onMarkers: function(btn, e) {
             var record = {
-                data: {
-                    type: 0,
-                    subtype: btn.pressed ? 0: -1
-                }
+                numberingInfo: btn.pressed ? '{"Type":"bullet"}' : '{"Type":"remove"}'
             };
 
             this.onSelectBullets(null, null, null, record);
@@ -1268,10 +1286,7 @@ define([
 
         onNumbers: function(btn, e) {
             var record = {
-                data: {
-                    type: 1,
-                    subtype: btn.pressed ? 0: -1
-                }
+                numberingInfo: btn.pressed ? '{"Type":"number"}' : '{"Type":"remove"}'
             };
             this.onSelectBullets(null, null, null, record);
 
@@ -1383,9 +1398,10 @@ define([
             var store = picker.store;
             var arr = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                arr.push(data);
+                arr.push({
+                    numberingInfo: JSON.parse(item.get('numberingInfo')),
+                    divId: item.get('id')
+                });
             });
             if (this.api) {
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
@@ -1407,14 +1423,14 @@ define([
                 rawData = record;
             }
 
-            if (btn) {
-                btn.toggle(rawData.data.subtype > -1, true);
-            }
+            // if (btn) {
+            //     btn.toggle(rawData.data.subtype > -1, true);
+            // }
 
-            this._state.bullets.type = undefined;
-            this._state.bullets.subtype = undefined;
+            // this._state.bullets.type = undefined;
+            // this._state.bullets.subtype = undefined;
             if (this.api)
-                this.api.put_ListType(rawData.data.type, rawData.data.subtype);
+                this.api.put_ListTypeCustom(JSON.parse(rawData.numberingInfo));
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
