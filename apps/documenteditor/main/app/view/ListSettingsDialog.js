@@ -932,10 +932,10 @@ define([
                 this.spnAlign.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()), true);
                 this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);
                 this.cmbFollow.setValue(levelProps.get_Suff());
-                this.chRestart.setValue(levelProps.get_Restart()===-1);
-                this.chTabStop.setValue(levelProps.get_StopTab()!==null);
-                this.spnTabStop.setMinValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()));
-                this.spnTabStop.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_StopTab()!==null ? levelProps.get_StopTab() : levelProps.get_IndentSize()), true);
+                this.chRestart.setValue(levelProps.get_Restart()===-1, true);
+                this.chTabStop.setValue(levelProps.get_StopTab()!==null, true);
+                this.spnTabStop.setMinValue(this.spnAlign.getNumberValue());
+                this.spnTabStop.setValue(levelProps.get_StopTab()!==null ? Common.Utils.Metric.fnRecalcFromMM(levelProps.get_StopTab()) : this.spnIndents.getNumberValue(), true);
 
                 this.txtNumFormat.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
                 this.spnStart.setDisabled(format == Asc.c_oAscNumberingFormat.Bullet);
