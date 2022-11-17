@@ -1840,55 +1840,55 @@
 		"d": "Gibt ein logisches \"Ausschließliches Oder\" aller Argumente zurück"
 	},
 	"TEXTBEFORE": {
-		"a": "(tekst, afgrænser, [instance_num], [match_mode], [match_end], [if_not_found])",
-		"d": " Returnerer tekst, der er før afgrænsende tegn."
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Gibt Text zurück, der vor Trennzeichen steht."
 	},
 	"TEXTAFTER": {
-		"a": "(tekst, afgrænser, [instance_num], [match_mode], [match_end], [if_not_found])",
-		"d": " Returnerer tekst, der er efter afgrænsende tegn."
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Gibt Text zurück, der nach Trennzeichen steht."
 	},
 	"TEXTSPLIT": {
-		"a": "(tekst, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
-		"d": " Opdeler tekst i rækker eller kolonner ved hjælp af afgrænsere."
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Teilt Text mithilfe von Trennzeichen in Zeilen oder Spalten auf."
 	},
 	"WRAPROWS": {
-		"a": "(vector, wrap_count, [pad_with])",
-		"d": "Ombryd en række- eller kolonnevektor efter et angivet antal værdier."
+		"a": "(Vektor, wrap_count, [pad_with])",
+		"d": " Umschließt einen Zeilen- oder Spaltenvektor nach einer angegebenen Anzahl von Werten."
 	},
 	"VSTACK": {
-		"a": "(matrix1, [matrix2], ...)",
-		"d": "Stabler matrixer lodret i én matrix."
+		"a": "(array1, [array2], ...)",
+		"d": "Stapelt Matrizes vertikal in eine Matrix."
 	},
 	"HSTACK": {
-		"a": "(matrix1, [matrix2], ...)",
-		"d": "Stabler matrixer vandret i én matrix."
+		"a": "(array1, [array2], ...)",
+		"d": "Stapelt Matrizes horizontal in eine Matrix."
 	},
 	"CHOOSEROWS": {
-		"a": "(matrix, row_num1, [row_num2], ...)",
-		"d": " Returnerer rækker fra en matrix eller reference."
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Gibt Zeilen aus einer Matrix oder einem Verweis zurück."
 	},
 	"CHOOSECOLS": {
-		"a": "(matrix, col_num1, [col_num2], ...)",
-		"d": " Returnerer kolonner fra en matrix eller en reference."
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Gibt Spalten aus einer Matrix oder einem Verweis zurück."
 	},
 	"TOCOL": {
-		"a": "(matrix, [ignorer], [scan_by_column])",
-		"d": "Returnerer matrixen som én kolonne."
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Gibt die Matrix als eine Spalte zurück."
 	},
 	"TOROW": {
-		"a": "(matrix, [ignorer], [scan_by_column])",
-		"d": "Returnerer matrixen som én række."
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Gibt das Array als eine Zeile zurück."
 	},
 	"WRAPCOLS": {
-		"a": "(vector, wrap_count, [pad_with])",
-		"d": "Ombryd en række- eller kolonnevektor efter et angivet antal værdier."
+		"a": "(Vektor, wrap_count, [pad_with])",
+		"d": " Umschließt einen Zeilen- oder Spaltenvektor nach einer angegebenen Anzahl von Werten."
 	},
 	"TAKE": {
-		"a": "(matrix, rækker, [kolonne])",
-		"d": "Returnerer rækker eller kolonner fra matrixens start eller slutning."
+		"a": "(array, rows, [columns])",
+		"d": "Gibt Zeilen oder Spalten vom Anfang oder Ende der Matrix zurück."
 	},
 	"DROP": {
-		"a": "(matrix, rækker, [kolonner])",
-		"d": "Sletter rækker eller kolonner fra matrixens start eller slutning."
+		"a": "(array, rows, [columns])",
+		"d": "Löscht Zeilen oder Spalten vom Anfang oder Ende der Matrix."
 	}
 }
