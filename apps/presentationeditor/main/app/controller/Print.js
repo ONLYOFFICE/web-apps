@@ -45,7 +45,7 @@ define([
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
 
             this._state = {};
-
+            this._paperSize = undefined;
             this._navigationPreview = {
                 pageCount: false,
                 currentPage: 0,
@@ -115,10 +115,12 @@ define([
 
                 return me.txtPrintRangeInvalid;
             };
+            this.printSettings.cmbPaperSize.on('selected', _.bind(this.onPaperSizeSelect, this));
+            this._paperSize = this.printSettings.cmbPaperSize.getSelectedRecord().size;
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                 }
             }, this));
 
@@ -162,7 +164,7 @@ define([
                 if (this._navigationPreview.currentPreviewPage > count - 1)
                     this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
                 if (this.printSettings.isVisible()) {
-                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                    this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                     this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
                 }
             }
@@ -171,7 +173,7 @@ define([
         onCurrentPage: function(number) {
             this._navigationPreview.currentPreviewPage = number;
             if (this.printSettings.isVisible()) {
-                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
         },
@@ -188,7 +190,7 @@ define([
             this.printSettings.$previewEmpty.toggleClass('hidden', !!this._navigationPreview.pageCount);
             if (!!this._navigationPreview.pageCount) {
                 this._navigationPreview.currentPreviewPage = this._navigationPreview.currentPage = this.api.getCurrentPage();
-                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
                 this.SetDisabled();
             }
@@ -319,6 +321,13 @@ define([
                 this.printSettings.cmbRange.setValue('all');
             else if (this.printSettings.cmbRange.getValue()!==-1)
                 this.printSettings.cmbRange.setValue(-1);
+        },
+
+        onPaperSizeSelect: function(combo, record) {
+            if (record) {
+                this._paperSize = record.size;
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
+            }
         },
 
         SetDisabled: function() {
