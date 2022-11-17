@@ -151,6 +151,25 @@ define([
             return this;
         },
 
+        findPagePreset: function(w, h) {
+            var width = (w<h) ? w : h,
+                height = (w<h) ? h : w;
+            var panel = this.printSettings;
+            var store = panel.cmbPaperSize.store,
+                item = null;
+            for (var i=0; i<store.length-1; i++) {
+                var rec = store.at(i),
+                    size = rec.get('size'),
+                    pagewidth = size[0],
+                    pageheight = size[1];
+                if (Math.abs(pagewidth - width) < 0.1 && Math.abs(pageheight - height) < 0.1) {
+                    item = rec;
+                    break;
+                }
+            }
+            return item ? item.get('caption') : undefined;
+        },
+
         onApiPageSize: function(w, h) {
             this._state.pgsize = [w, h];
             if (this.printSettings.isVisible()) {
@@ -494,7 +513,11 @@ define([
             var size = this.api.asc_getPageSize(this._state.firstPrintPage);
             this.adjPrintParams.asc_setNativeOptions({
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
-                paperSize: size ? [size['W'], size['H']] : size,
+                paperSize: {
+                    w: size ? size['W'] : undefined,
+                    h: size ? size['H'] : undefined,
+                    preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
+                },
                 paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null
             });
 
