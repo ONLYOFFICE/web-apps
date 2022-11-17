@@ -296,7 +296,11 @@ define([
             var rec = this.printSettings.cmbPaperSize.getSelectedRecord();
             this.adjPrintParams.asc_setNativeOptions({
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
-                paperSize: rec ? rec.size : null
+                paperSize: {
+                    w: rec ? rec.size[0] : undefined,
+                    h: rec ? rec.size[1] : undefined,
+                    preset: rec ? rec.caption : undefined
+                }
             });
 
             this._isPrint = print;
