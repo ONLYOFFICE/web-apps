@@ -7,20 +7,10 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <!-- debug begin -->
-
-        <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
-        <link rel="stylesheet/less" type="text/css" href="resources/less/application.less" />
-        <!-- debug end -->
+        <link href="../../../test/spreadsheeteditor/main/resources/css/app-all.css" rel="stylesheet">
     </head>
 
     <body class="main-body">
-
-        <!-- debug begin -->
-        <script type="text/javascript">var less=less||{};less.env='development';</script>
-        <script src="../../../vendor/less/dist/less.js" type="text/javascript"></script>
-        <!-- debug end -->
-
         <script>
             var  userAgent = navigator.userAgent.toLowerCase();
 
@@ -69,21 +59,13 @@
         <script type="text/javascript" src="../../../vendor/socketio/socket.io.min.js"></script>
         <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
 
-        <script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/cell/scripts.js"></script>
-        <script>
-            window.sdk_scripts.forEach(function(item){
-                document.write('<script type="text/javascript" src="' + item + '"><\/script>');
-            });
-        </script>
+
+        <!--sdk-->
+        <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
+        <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>
+        <script type="text/javascript" src="../../../../sdkjs/cell/sdk-all-min.js"></script>
 
         <!--application-->
-        <script type="text/javascript" src="../../common/Gateway.js"></script>
-        <script type="text/javascript" src="../../common/main/lib/util/utils.js"></script>
-
-        <script type="text/javascript" src="js/CellEditorView.js"></script>
-        <script type="text/javascript" src="js/CellEditorController.js"></script>
-        <script type="text/javascript" src="js/ApplicationView.js"></script>
-        <script type="text/javascript" src="js/ApplicationController.js"></script>
-        <script type="text/javascript" src="js/application.js"></script>
+        <script type="text/javascript" src="../../../test/spreadsheeteditor/main/app-all.js"></script>
     </body>
 </html>
