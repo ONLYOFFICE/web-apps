@@ -40,19 +40,6 @@ SSE.ApplicationController = new(function(){
         created = false;
 
     var LoadingDocument = -256;
-
-    // Check browser
-    // -------------------------
-
-    if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
-        console.error( this.unsupportedBrowserErrorText);
-        return;
-    }
-
-    common.localStorage.setId('text');
-    common.localStorage.setKeysFilter('sse-,asc.table');
-    common.localStorage.sync();
-
     // Handlers
     // -------------------------
 
@@ -70,14 +57,7 @@ SSE.ApplicationController = new(function(){
                 docInfo = new Asc.asc_CDocInfo(),
                 _user = new Asc.asc_CUserInfo();
 
-            var canRenameAnonymous = !((typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') && (config.customization.anonymous.request===false)),
-                guestName = (typeof (config.customization) == 'object') && (typeof (config.customization.anonymous) == 'object') &&
-                (typeof (config.customization.anonymous.label) == 'string') && config.customization.anonymous.label.trim()!=='' ?
-                    common.utils.htmlEncode(config.customization.anonymous.label) : me.textGuest,
-                value = canRenameAnonymous ? common.localStorage.getItem("guest-username") : null,
-                user = common.utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + guestName + ')' ) : me.textAnonymous,
-                    common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
-            user.anonymous && common.localStorage.setItem("guest-id", user.id);
+            var user = common.utils.fillUserInfo(config.user, config.lang, me.textAnonymous, ('uid-' + Date.now()));
 
             _user.put_Id(user.id);
             _user.put_FullName(user.fullname);
@@ -303,7 +283,6 @@ SSE.ApplicationController = new(function(){
     }
 
     function onBeforeUnload () {
-        common.localStorage.save();
     }
 
     function onDocumentResize() {
