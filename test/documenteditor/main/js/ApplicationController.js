@@ -124,17 +124,16 @@ DE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
-
         var licType = params.asc_getLicenseType();
         appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-        appOptions.canFillForms   = appOptions.canLicense && (permissions.fillForms===true) && (config.mode !== 'view');
-        appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
+        appOptions.isEdit         = appOptions.canLicense && (permissions.edit !== false) && (config.mode !== 'view');
 
         api.asc_SetFastCollaborative(true);
         api.asc_setAutoSaveGap(1);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+        api.asc_setViewMode(!appOptions.isEdit);
         api.asc_LoadDocument();
         api.Resize();
     }

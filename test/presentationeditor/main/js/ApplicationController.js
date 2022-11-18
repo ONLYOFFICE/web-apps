@@ -36,6 +36,7 @@ PE.ApplicationController = new(function(){
         config = {},
         docConfig = {},
         permissions = {},
+        appOptions = {},
         created = false;
 
     var LoadingDocument = -256;
@@ -118,8 +119,12 @@ PE.ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
+        var licType = params.asc_getLicenseType();
+        appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
+        appOptions.isEdit         = appOptions.canLicense && (permissions.edit !== false) && (config.mode !== 'view');
+
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-        api.asc_setViewMode(false);
+        api.asc_setViewMode(!appOptions.isEdit);
 
         api.asc_LoadDocument();
         api.Resize();
