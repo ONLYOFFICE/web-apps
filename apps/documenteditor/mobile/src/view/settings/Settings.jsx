@@ -84,6 +84,7 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const appOptions = props.storeAppOptions;
+    const sharingSettingsUrl = appOptions.sharingSettingsUrl;
     const storeReview = props.storeReview;
     const displayMode = storeReview.displayMode;
     const navbar = <Navbar title={_t.textSettings}>
@@ -191,9 +192,12 @@ const SettingsList = inject("storeAppOptions", "storeReview")(observer(props => 
                               onClick={onoptionclick.bind(this, "/application-settings/")}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={t('Common.Collaboration.textSharingSettings')} link="#" onClick={onoptionclick.bind(this, "/sharing-settings/")}>
-                        <Icon slot="media" icon="icon-sharing-settings"></Icon>
-                    </ListItem>
+                    {sharingSettingsUrl &&
+                        <ListItem title={t('Common.Collaboration.textSharingSettings')} link="#"
+                                  onClick={onoptionclick.bind(this, "/sharing-settings/")}>
+                            <Icon slot="media" icon="icon-sharing-settings"></Icon>
+                        </ListItem>
+                    }
                     {_canDownload &&
                         <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
                             <Icon slot="media" icon="icon-download"></Icon>
