@@ -4,11 +4,10 @@ import { Popover, List, ListItem, Navbar, NavRight, Sheet, BlockTitle, Page, Vie
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../utils/device";
-
 import {ReviewController, ReviewChangeController} from "../../controller/collaboration/Review";
 import {PageDisplayMode} from "./Review";
-
 import {ViewCommentsController, ViewCommentsSheetsController} from "../../controller/collaboration/Comments";
+import SharingSettings from "../SharingSettings";
 
 const PageUsers = inject("users")(observer(props => {
     const { t } = useTranslation();
@@ -81,6 +80,10 @@ const routes = [
                 allComments: true
             }
         }
+    },
+    {
+        path: '/sharing-settings/',
+        component: SharingSettings
     }
 ];
 
@@ -88,6 +91,7 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const appOptions = props.storeAppOptions;
+    const sharingSettingsUrl = appOptions.sharingSettingsUrl;
     const isViewer = appOptions.isViewer;
 
     return (
@@ -103,6 +107,11 @@ const PageCollaboration = inject('storeAppOptions', 'users')(observer(props => {
                     }
                 </Navbar>
                 <List>
+                    {sharingSettingsUrl &&
+                        <ListItem title={t('Common.Collaboration.textSharingSettings')} link="/sharing-settings/">
+                            <Icon slot="media" icon="icon-sharing-settings"></Icon>
+                        </ListItem>
+                    }
                     {props.users.editUsers.length > 0 &&
                         <ListItem link={'/users/'} title={_t.textUsers}>
                             <Icon slot="media" icon="icon-users"></Icon>
