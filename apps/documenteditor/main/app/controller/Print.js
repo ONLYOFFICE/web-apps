@@ -89,6 +89,9 @@ define([
                 if (!_.isEmpty(value) && /[0-9,\-]/.test(value)) {
                     var res = [],
                         arr = value.split(',');
+                    if (me._isPrint && arr.length>1)
+                        return me.txtPrintRangeSingleRange;
+
                     for (var i=0; i<arr.length; i++) {
                         var item = arr[i];
                         if (!item) // empty
@@ -418,7 +421,7 @@ define([
 
         onHidePrintMenu: function () {
             if (this._isPreviewVisible) {
-                this.api.asc_closePrintPreview && this.api.asc_closePrintPreview(this._isPrint);
+                this.api.asc_closePrintPreview && this.api.asc_closePrintPreview();
                 this._isPreviewVisible = false;
             }
         },
@@ -500,6 +503,7 @@ define([
         },
 
         onBtnPrint: function(print) {
+            this._isPrint = print;
             if (this.printSettings.cmbRange.getValue()===-1 && this.printSettings.inputPages.checkValidate() !== true)  {
                 this.printSettings.inputPages.focus();
                 this.isInputFirstChange = true;
@@ -521,12 +525,10 @@ define([
                 paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null
             });
 
-            this._isPrint = print;
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
                 this.api.asc_Print(opts);
-                this._isPrint = false;
             } else {
                 var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -566,6 +568,7 @@ define([
 
         txtCustom: 'Custom',
         txtPrintRangeInvalid: 'Invalid print range',
-        textMarginsLast: 'Last Custom'
+        textMarginsLast: 'Last Custom',
+        txtPrintRangeSingleRange: 'Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.'
     }, DE.Controllers.Print || {}));
 });

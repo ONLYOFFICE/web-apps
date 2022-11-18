@@ -957,6 +957,7 @@
   "DE.Controllers.Print.txtCustom": "Custom",
   "DE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
   "DE.Controllers.Print.textMarginsLast": "Last Custom",
+  "DE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single page number or a single page range (for example, 5-12). Or you can Print to PDF.",
   "DE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the system fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "DE.Controllers.Toolbar.dataUrl": "Paste a data URL",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Warning",

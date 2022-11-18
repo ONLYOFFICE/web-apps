@@ -1012,6 +1012,7 @@
   "PE.Controllers.Main.textUndo": "Undo",
   "PE.Controllers.Main.textContinue": "Continue",
   "PE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
+  "PE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single slide number or a single slide range (for example, 5-12). Or you can Print to PDF.",
   "PE.Controllers.Search.notcriticalErrorTitle": "Warning",
   "PE.Controllers.Search.textNoTextFound": "The data you have been searching for could not be found. Please adjust your search options.",
   "PE.Controllers.Search.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
