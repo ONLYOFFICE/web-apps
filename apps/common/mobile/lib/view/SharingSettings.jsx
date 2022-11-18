@@ -9,7 +9,6 @@ const SharingSettings = props => {
     const storeAppOptions = props.storeAppOptions;
     const sharingSettingsUrl = storeAppOptions.sharingSettingsUrl;
     const _t = t('Common.Collaboration', {returnObjects: true});
-    // const url = 'https://nct.onlyoffice.com/Products/Files/Share.aspx?fileid=142278';
 
     return (
         <Page>
