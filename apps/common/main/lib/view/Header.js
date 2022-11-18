@@ -80,8 +80,8 @@ define([
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
-                                    '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print"></div>' +
+                                    '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
                                 '</div>' +
                                 '<div class="hedset" data-layout-name="header-users">' +
@@ -128,8 +128,8 @@ define([
                                 '<div class="extra"></div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save" data-layout-name="header-save"></div>' +
-                                    '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
