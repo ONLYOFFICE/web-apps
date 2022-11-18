@@ -483,7 +483,7 @@ define([
                             data = {referenceData: item.asc_getData()};
                             break;
                     }
-                    data && me.externalData.stackRequests.push({data: data, id: item.asc_getId()});
+                    data && me.externalData.stackRequests.push({data: data, id: item.asc_getId(), isExternal: item.asc_isExternalLink()});
                 });
                 me.externalData.callback = callback;
                 me.requestReferenceData();
@@ -494,6 +494,7 @@ define([
             if (this.externalData.stackRequests.length>0) {
                 var item = this.externalData.stackRequests.shift();
                 this.externalData.linkStatus.id = item.id;
+                this.externalData.linkStatus.isExternal = item.isExternal;
                 Common.Gateway.requestReferenceData(item.data);
             }
         },
@@ -502,7 +503,7 @@ define([
             if (this.toolbar.mode.isEdit && this.toolbar.editMode) {
                 if (data) {
                     this.externalData.stackResponse.push(data);
-                    this.externalData.linkStatus.result = data.error || '';
+                    this.externalData.linkStatus.result = this.externalData.linkStatus.isExternal ? '' : data.error || '';
                     if (this.externalLinksDlg) {
                         this.externalLinksDlg.setLinkStatus(this.externalData.linkStatus.id, this.externalData.linkStatus.result);
                     }
