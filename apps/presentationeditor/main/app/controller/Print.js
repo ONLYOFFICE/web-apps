@@ -84,6 +84,9 @@ define([
                 if (!_.isEmpty(value) && /[0-9,\-]/.test(value)) {
                     var res = [],
                         arr = value.split(',');
+                    if (me._isPrint && arr.length>1)
+                        return me.txtPrintRangeSingleRange;
+
                     for (var i=0; i<arr.length; i++) {
                         var item = arr[i];
                         if (!item) // empty
@@ -203,7 +206,7 @@ define([
 
         onHidePrintMenu: function () {
             if (this._isPreviewVisible) {
-                this.api.asc_closePrintPreview && this.api.asc_closePrintPreview(this._isPrint);
+                this.api.asc_closePrintPreview && this.api.asc_closePrintPreview();
                 this._isPreviewVisible = false;
             }
         },
@@ -285,6 +288,7 @@ define([
         },
 
         onBtnPrint: function(print) {
+            this._isPrint = print;
             if (this.printSettings.cmbRange.getValue()===-1 && this.printSettings.inputPages.checkValidate() !== true)  {
                 this.printSettings.inputPages.focus();
                 this.isInputFirstChange = true;
@@ -303,12 +307,10 @@ define([
                 }
             });
 
-            this._isPrint = print;
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
                 this.api.asc_Print(opts);
-                this._isPrint = false;
             } else {
                 var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -340,6 +342,7 @@ define([
             }
         },
 
-        txtPrintRangeInvalid: 'Invalid print range'
+        txtPrintRangeInvalid: 'Invalid print range',
+        txtPrintRangeSingleRange: 'Enter either a single slide number or a single slide range (for example, 5-12). Or you can Print to PDF.'
     }, PE.Controllers.Print || {}));
 });
