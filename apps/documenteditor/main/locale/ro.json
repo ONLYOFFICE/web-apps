@@ -1425,6 +1425,8 @@
   "DE.Views.DateTimeDialog.textLang": "Limbă",
   "DE.Views.DateTimeDialog.textUpdate": "Actualizarea automată",
   "DE.Views.DateTimeDialog.txtTitle": "Dată și oră",
+  "DE.Views.DocProtection.hintProtectDoc": "Protejare document",
+  "DE.Views.DocProtection.txtProtectDoc": "Protejare document",
   "DE.Views.DocumentHolder.aboveText": "Deasupra",
   "DE.Views.DocumentHolder.addCommentText": "Adaugă comentariu",
   "DE.Views.DocumentHolder.advancedDropCapText": "Setări majusculă încorporată",
