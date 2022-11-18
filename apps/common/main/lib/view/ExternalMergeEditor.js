@@ -46,6 +46,7 @@ define([
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
+                id: 'id-external-merge-editor',
                 title: this.textTitle,
                 storageName: 'merge-editor',
                 sdkplaceholder: 'id-merge-editor-placeholder',
