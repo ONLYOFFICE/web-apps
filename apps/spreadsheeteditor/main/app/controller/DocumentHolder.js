@@ -119,11 +119,7 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
-            me.externalData = {
-                stackRequests: [],
-                stackResponse: [],
-                callback: undefined
-            };
+
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this),
@@ -268,6 +264,7 @@ define([
                 view.menuImgMacro.on('click',                       _.bind(me.onImgMacro, me));
                 view.menuImgEditPoints.on('click',                  _.bind(me.onImgEditPoints, me));
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
+                view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -379,10 +376,8 @@ define([
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
                 if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
-                if (this.permissions.canRequestReferenceData) {
-                    this.api.asc_registerCallback('asc_onUpdateExternalReference', _.bind(this.onUpdateExternalReference, this));
-                    Common.Gateway.on('setreferencedata', _.bind(this.setReferenceData, this));
-                }
+                this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
+                this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
@@ -1855,6 +1850,7 @@ define([
                     me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
                 ];
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
+                me.tooltips.coauth.apiWidth = me.documentHolder.cmpEl.width();
                 var rightMenu = $('#right-menu');
                 me.tooltips.coauth.rightMenuWidth = rightMenu.is(':visible') ? rightMenu.width() : 0;
                 me.tooltips.coauth.bodyWidth = $(window).width();
@@ -1983,6 +1979,28 @@ define([
             if (!this.mouse.isLeftButtonDown && !this.rangeSelectionMode &&
                 this.currentMenu && this.currentMenu.isVisible()){
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
+            }
+
+            if (!this.mouse.isLeftButtonDown) return;
+
+            if (this.permissions && this.permissions.isEdit) {
+                var selectedObjects = this.api.asc_getGraphicObjectProps(),
+                    i = -1,
+                    in_equation = false,
+                    locked = false;
+                while (++i < selectedObjects.length) {
+                    var type = selectedObjects[i].asc_getObjectType();
+                    if (type === Asc.c_oAscTypeSelectElement.Math) {
+                        in_equation = true;
+                    } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                        var value = selectedObjects[i].asc_getObjectValue();
+                        value && (locked = locked || value.asc_getLocked());
+                    }
+                }
+                if (in_equation) {
+                    this._state.equationLocked = locked;
+                    this.disableEquationBar();
+                }
             }
         },
 
@@ -2267,6 +2285,14 @@ define([
                 } else
                     this.clearEquationMenu(4);
 
+                documentHolder.menuParagraphEquation.setVisible(isEquation);
+                documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
+                if (isEquation) {
+                    var eq = this.api.asc_GetMathInputType();
+                    documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                }
+
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
 
                 documentHolder.menuParagraphBullets.setDisabled(isSmartArt || isSmartArtInternal);
@@ -2422,6 +2448,7 @@ define([
                 documentHolder.menuParagraphVAlign.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
+                documentHolder.menuParagraphEquation.setVisible(false);
                 documentHolder.textInShapeMenu.items[9].setVisible(false);
                 documentHolder.menuParagraphBullets.setVisible(false);
                 documentHolder.textInShapeMenu.items[3].setVisible(false);
@@ -4233,48 +4260,155 @@ define([
             }
         },
 
-        onUpdateExternalReference: function(arr, callback) {
-            if (this.permissions.isEdit && !this._isDisabled) {
-                var me = this;
-                me.externalData = {
-                    stackRequests: [],
-                    stackResponse: [],
-                    callback: undefined
+        onShowMathTrack: function(bounds) {
+            if (bounds[3] < 0) {
+                this.onHideMathTrack();
+                return;
+            }
+            var me = this,
+                documentHolder = me.documentHolder,
+                eqContainer = documentHolder.cmpEl.find('#equation-container');
+
+            // Prepare menu container
+            if (eqContainer.length < 1) {
+                var equationsStore = me.getApplication().getCollection('EquationGroups'),
+                    eqStr = '<div id="equation-container" style="position: absolute;">';
+
+                me.getApplication().getController('Toolbar').onMathTypes();
+
+                me.equationBtns = [];
+                for (var i = 0; i < equationsStore.length; ++i) {
+                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                }
+                eqStr += '<div class="separator"></div>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '</div>';
+                eqContainer = $(eqStr);
+                documentHolder.cmpEl.append(eqContainer);
+                var onShowBefore = function (menu) {
+                    var index = menu.options.value,
+                        group = equationsStore.at(index);
+                    var equationPicker = new Common.UI.DataViewSimple({
+                        el: $('#id-document-holder-btn-equation-menu-' + index, menu.cmpEl),
+                        parentMenu: menu,
+                        store: group.get('groupStore'),
+                        scrollAlwaysVisible: true,
+                        showLast: false,
+                        restoreHeight: 450,
+                        itemTemplate: _.template(
+                            '<div class="item-equation" style="" >' +
+                            '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                            '</div>')
+                    });
+                    equationPicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            if (record)
+                                me.api.asc_AddMath(record.get('data').equationType);
+                        }
+                    });
+                    menu.off('show:before', onShowBefore);
                 };
-                arr && arr.length>0 && arr.forEach(function(item) {
-                    var data;
-                    switch (item.asc_getType()) {
-                        case Asc.c_oAscExternalReferenceType.link:
-                            data = {link: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.path:
-                            data = {path: item.asc_getData()};
-                            break;
-                        case Asc.c_oAscExternalReferenceType.referenceData:
-                            data = {referenceData: item.asc_getData()};
-                            break;
-                    }
-                    data && me.externalData.stackRequests.push(data);
+                var bringForward = function (menu) {
+                    eqContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    eqContainer.removeClass('has-open-menu');
+                };
+                for (var i = 0; i < equationsStore.length; ++i) {
+                    var equationGroup = equationsStore.at(i);
+                    var btn = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-equation-' + i, documentHolder.cmpEl),
+                        cls         : 'btn-toolbar no-caret',
+                        iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
+                        hint        : equationGroup.get('groupName'),
+                        menu        : new Common.UI.Menu({
+                            cls: 'menu-shapes',
+                            value: i,
+                            restoreHeight: equationGroup.get('groupHeight') ? parseInt(equationGroup.get('groupHeight')) : true,
+                            items: [
+                                { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
+                                        '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                        equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                            ]
+                        })
+                    });
+                    btn.menu.on('show:before', onShowBefore);
+                    btn.menu.on('show:before', bringForward);
+                    btn.menu.on('hide:after', sendBackward);
+                    me.equationBtns.push(btn);
+                }
+
+                me.equationSettingsBtn = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
+                    cls         : 'btn-toolbar no-caret',
+                    iconCls     : 'toolbar__icon more-vertical',
+                    hint        : me.documentHolder.advancedEquationText,
+                    menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
-                me.externalData.callback = callback;
-                me.requestReferenceData();
+                me.equationSettingsBtn.menu.options.initMenu = function() {
+                    var eq = me.api.asc_GetMathInputType();
+                    var menu = me.equationSettingsBtn.menu;
+                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                };
+                me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
+                me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    menu.options.initMenu();
+                });
+            }
+
+            if (!me.tooltips.coauth.XY)
+                me.onDocumentResize();
+
+            var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            if (showPoint[1]<0) {
+                showPoint[1] = bounds[3] + 10;
+            }
+            showPoint[1] = Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
+            eqContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            var menuAlign = (me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            me.equationBtns.forEach(function(item){
+                item && (item.menu.menuAlign = menuAlign);
+            });
+            me.equationSettingsBtn.menu.menuAlign = menuAlign;
+            if (eqContainer.is(':visible')) {
+                if (me.equationSettingsBtn.menu.isVisible()) {
+                    me.equationSettingsBtn.menu.options.initMenu();
+                    me.equationSettingsBtn.menu.alignPosition();
+                }
+            } else {
+                eqContainer.show();
+            }
+            me.disableEquationBar();
+        },
+
+        onHideMathTrack: function() {
+            var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
+            if (eqContainer.is(':visible')) {
+                eqContainer.hide();
             }
         },
 
-        requestReferenceData: function() {
-            if (this.externalData.stackRequests.length>0) {
-                var data = this.externalData.stackRequests.shift();
-                Common.Gateway.requestReferenceData(data);
+        disableEquationBar: function() {
+            var eqContainer = this.documentHolder.cmpEl.find('#equation-container'),
+                disabled = this._isDisabled || this._state.equationLocked;
+
+            if (eqContainer.length>0 && eqContainer.is(':visible')) {
+                this.equationBtns.forEach(function(item){
+                    item && item.setDisabled(!!disabled);
+                });
+                this.equationSettingsBtn.setDisabled(!!disabled);
             }
         },
 
-        setReferenceData: function(data) {
-            if (this.permissions.isEdit && !this._isDisabled) {
-                data && this.externalData.stackResponse.push(data);
-                if (this.externalData.stackRequests.length>0)
-                    this.requestReferenceData();
-                else if (this.externalData.callback)
-                    this.externalData.callback(this.externalData.stackResponse);
+        convertEquation: function(menu, item, e) {
+            if (this.api) {
+                if (item.options.type=='input')
+                    this.api.asc_SetMathInputType(item.value);
+                else if (item.options.type=='view')
+                    this.api.asc_ConvertMathView(item.value.linear, item.value.all);
             }
         },
 
@@ -4301,6 +4435,7 @@ define([
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
+            this.disableEquationBar();
         },
 
         guestText               : 'Guest',

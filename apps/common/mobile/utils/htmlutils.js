@@ -15,11 +15,11 @@ if ( localStorage && localStorage.getItem('mobile-mode-direction') === 'rtl' ) {
     load_stylesheet('./css/framework7.css')
 }
 
-let obj = !localStorage ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("ui-theme"));
+let obj = !localStorage ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("mobile-ui-theme"));
 if ( !obj ) {
     obj = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?
         {id: 'theme-dark', type: 'dark'} : {id: 'theme-light', type: 'light'};
-    localStorage && localStorage.setItem("ui-theme", JSON.stringify(obj));
+    localStorage && localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
 }
 
-document.body.classList.add(`theme-type-${obj.type}`);
+document.body.classList.add(`theme-type-${obj.type}`, `${window.asceditor}-editor`);

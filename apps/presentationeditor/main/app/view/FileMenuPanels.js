@@ -1512,7 +1512,14 @@ define([
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
-            this.urlHelpCenter = '{{HELP_CENTER_WEB_PE}}';
+
+            if ( !Common.Utils.isIE ) {
+                if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_PE}}') ) {
+                    const _url_obj = new URL('{{HELP_CENTER_WEB_PE}}');
+                    _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                    this.urlHelpCenter = _url_obj.toString();
+                }
+            }
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Presentation Editor user interface", "headername": "Program Interface"},

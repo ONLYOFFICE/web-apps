@@ -46,6 +46,7 @@ define([
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
+                id: 'id-external-diagram-editor',
                 title: this.textTitle,
                 storageName: 'diagram-editor',
                 sdkplaceholder: 'id-diagram-editor-placeholder',

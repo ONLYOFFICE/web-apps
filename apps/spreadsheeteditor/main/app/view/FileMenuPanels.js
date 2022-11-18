@@ -1900,7 +1900,14 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.menu = options.menu;
             this.urlPref = 'resources/help/{{DEFAULT_LANG}}/';
             this.openUrl = null;
-            this.urlHelpCenter = '{{HELP_CENTER_WEB_SSE}}';
+
+            if ( !Common.Utils.isIE ) {
+                if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_SSE}}') ) {
+                    const _url_obj = new URL('{{HELP_CENTER_WEB_SSE}}');
+                    _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
+                    this.urlHelpCenter = _url_obj.toString();
+                }
+            }
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Spreadsheet Editor user interface", "headername": "Program Interface"},

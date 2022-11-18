@@ -209,6 +209,11 @@
     "errorFrmlMaxReference": "Չեք կարող մտցնել այս բանաձևը, քանի որ այն ունի շատ արժեքներ,<br>վանդակների հղումներ և/կամ անուններ։",
     "errorFrmlMaxTextLength": "Բանաձևերում տեքստային արժեքները սահմանափակվում են 255 նիշով:<br>Օգտագործեք Շղթայակցել ֆունկցիան կամ շղթայակցման օպերատորը(&)",
     "errorFrmlWrongReferences": "Ֆունկցիան վերաբերում է թերթին, որը գոյություն չունի:<br>Խնդրում ենք ստուգել տվյալները և նորից փորձել:",
+    "errorInconsistentExt": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը չի համապատասխանում ֆայլի ընդլայնմանը:",
+    "errorInconsistentExtDocx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է տեքստային փաստաթղթերին (օրինակ՝ docx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում՝ %1:",
+    "errorInconsistentExtPdf": "Ֆայլը բացելիս սխալ է տեղի ունեցել:Ֆայլի բովանդակությունը համապատասխանում է հետևյալ ձևաչափերից մեկին՝pdf/djvu/xps/oxps,բայց ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
+    "errorInconsistentExtPptx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է ներկայացումներին (օրինակ՝ pptx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
+    "errorInconsistentExtXlsx": "Ֆայլը բացելիս սխալ է տեղի ունեցել:<br>Ֆայլի բովանդակությունը համապատասխանում է աղյուսակներին (օր. xlsx), սակայն ֆայլն ունի անհամապատասխան ընդլայնում. %1:",
     "errorInvalidRef": "Մուտքագրեք ընտրվածքի համար ճիշտ անուն կամ անցման համար թույլատրելի հղում։",
     "errorKeyEncrypt": "Բանալու անհայտ նկարագրիչ",
     "errorKeyExpire": "Բանալու նկարագրիչի ժամկետը սպառվել է",
@@ -239,16 +244,21 @@
     "pastInMergeAreaError": "Հնարավոր չէ փոխել ձուլված վանդակի մի մասը",
     "saveErrorText": "Ֆայլը պահելիս սխալ է տեղի ունեցել",
     "scriptLoadError": "Կապը չափազանց դանդաղ է, որոշ բաղադրիչներ չհաջողվեց բեռնել:Խնդրում ենք վերաբեռնել էջը:",
+    "textCancel": "Չեղարկել",
     "textErrorPasswordIsNotCorrect": "Ձեր տրամադրած գաղտնաբառը ճիշտ չէ:<br>Ստուգեք, որ CAPS LOCK ստեղնը անջատված է և օգտագործեք ճիշտ գլխատառացումը:",
+    "textOk": "Լավ",
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
     "applyChangesTextText": "Տվյալների բեռնում...",
     "applyChangesTitleText": "Տվյալների բեռնում",
+    "confirmMaxChangesSize": "Գործողությունների չափը գերազանցում է Ձեր սերվերի համար սահմանված սահմանափակումը:<br>Սեղմեք «Հետարկել»՝ Ձեր վերջին գործողությունը չեղարկելու համար կամ սեղմեք «Շարունակել»՝ գործողությունը տեղում պահելու համար (Դուք պետք է ներբեռնեք ֆայլը կամ պատճենեք դրա բովանդակությունը՝ համոզվելու համար, որ ոչինչ կորած չէ):",
     "confirmMoveCellRange": "Նպատակային վանդակների տիրույթը կարող է պարունակել տվյալներ:Շարունակե՞լ գործողությունը։",
     "confirmPutMergeRange": "Աղբյուրի տվյալները պարունակում են ձուլված վանդակներ:<br>Դրանք կապաձուլվեն մինչև աղյուսակում դրվելը:",
     "confirmReplaceFormulaInTable": "Վերնագրի տողի բանաձևերը կհեռացվեն և կվերածվեն ստատիկ տեքստի:<br>Ցանկանու՞մ եք շարունակել։",
@@ -286,8 +296,7 @@
     "txtEditingMode": "Սահմանել ցուցակի խմբագրում․․․",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Խնդրում ենք սպասել..."
   },
   "Statusbar": {
     "notcriticalErrorTitle": "Զգուշացում",
@@ -417,6 +426,7 @@
       "textCell": "Վանդակ",
       "textCellStyle": "Վանդակի ոճ",
       "textCenter": "Կենտրոն",
+      "textChangeShape": "Փոխել ձևը",
       "textChart": "Գծապատկեր",
       "textChartTitle": "Գծապատկերի վերնագիր",
       "textClearFilter": "Մաքրել զտիչը",
@@ -429,6 +439,8 @@
       "textDate": "Ամիս-ամսաթիվ",
       "textDefault": "Ընտրված ընդգրկույթ",
       "textDeleteFilter": "Ջնջել զտիչը",
+      "textDeleteImage": "Ջնջել պատկերը",
+      "textDeleteLink": "Ջնջել հղումը",
       "textDesign": "Ձևավորում",
       "textDiagonalDownBorder": "Անկյունագծային իջնող եզրագիծ",
       "textDiagonalUpBorder": "Անկյունագծային բարձրացող եզրագիծ",
@@ -563,10 +575,7 @@
       "textYen": "Յուան",
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
-      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
-      "textChangeShape": "Change Shape",
-      "textDeleteImage": "Delete Image",
-      "textDeleteLink": "Delete Link"
+      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:"
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",

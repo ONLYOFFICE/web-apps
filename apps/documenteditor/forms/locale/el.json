@@ -65,7 +65,7 @@
   "Common.Views.ImageFromUrlDialog.textUrl": "Επικόλληση URL εικόνας:",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "Αυτό το πεδίο είναι υποχρεωτικό",
   "Common.Views.ImageFromUrlDialog.txtNotUrl": "Αυτό το πεδίο πρέπει να είναι διεύθυνση URL με τη μορφή «http://www.example.com»",
-  "Common.Views.OpenDialog.closeButtonText": "Κλείσιμο Αρχείου",
+  "Common.Views.OpenDialog.closeButtonText": "Κλείσιμο αρχείου",
   "Common.Views.OpenDialog.txtEncoding": "Κωδικοποίηση",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Το συνθηματικό είναι εσφαλμένο.",
   "Common.Views.OpenDialog.txtOpenFile": "Εισάγετε συνθηματικό για να ανοίξετε το αρχείο",

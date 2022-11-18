@@ -26,6 +26,7 @@
   "DE.ApplicationController.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Φορτώστε ξανά τη σελίδα.",
   "DE.ApplicationController.textAnonymous": "Ανώνυμος",
   "DE.ApplicationController.textClear": "Εκκαθάριση Όλων των Πεδίων",
+  "DE.ApplicationController.textCtrl": "Ctrl",
   "DE.ApplicationController.textGotIt": "Ελήφθη",
   "DE.ApplicationController.textGuest": "Επισκέπτης",
   "DE.ApplicationController.textLoadingDocument": "Φόρτωση εγγράφου",

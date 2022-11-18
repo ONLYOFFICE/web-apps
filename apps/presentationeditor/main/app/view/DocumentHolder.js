@@ -1894,6 +1894,16 @@ define([
                 caption     : '--'
             });
 
+            me.menuParagraphEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popupparaeqinput', 'tl-tr')
+            });
+
+            me.menuTableEquation = new Common.UI.MenuItem({
+                caption     : me.advancedEquationText,
+                menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
+            });
+
             me.menuAddToLayoutTable = new Common.UI.MenuItem({
                 caption     : me.addToLayoutText
             });
@@ -2028,6 +2038,14 @@ define([
                     } else
                         me.clearEquationMenu(true, 12);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
+
+                    me.menuParagraphEquation.setVisible(isEquation);
+                    me.menuParagraphEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        me.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    }
                 },
                 items: [
                     me.menuSpellPara,
@@ -2046,6 +2064,7 @@ define([
                     me.menuParagraphVAlign,
                     me.menuParagraphDirection,
                     me.menuParagraphAdvanced,
+                    me.menuParagraphEquation,
                     menuCommentParaSeparator,
                 /** coauthoring begin **/
                     me.menuAddCommentPara,
@@ -2168,6 +2187,14 @@ define([
                         menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() && eqlen>0);
                     } else
                         me.clearEquationMenu(false, 6);
+
+                    me.menuTableEquation.setVisible(isEquation);
+                    me.menuTableEquation.setDisabled(disabled);
+                    if (isEquation) {
+                        var eq = me.api.asc_GetMathInputType();
+                        me.menuTableEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                        me.menuTableEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -2192,6 +2219,7 @@ define([
                     menuHyperlinkSeparator,
                 /** coauthoring begin **/
                     me.menuAddCommentTable,
+                    me.menuTableEquation,
                 /** coauthoring end **/
                     me.menuAddHyperlinkTable,
                     menuHyperlinkTable,
@@ -2360,6 +2388,60 @@ define([
                 me.langParaMenu.menu.resetItems(arrPara);
                 me.langTableMenu.menu.resetItems(arrTable);
             }
+        },
+
+        createEquationMenu: function(toggleGroup, menuAlign) {
+            return new Common.UI.Menu({
+                cls: 'ppm-toolbar shifted-right',
+                menuAlign: menuAlign,
+                items   : [
+                    new Common.UI.MenuItem({
+                        caption     : this.unicodeText,
+                        iconCls     : 'menu__icon unicode',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.Unicode
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.latexText,
+                        iconCls     : 'menu__icon latex',
+                        checkable   : true,
+                        checkmark   : false,
+                        checked     : false,
+                        toggleGroup : toggleGroup,
+                        type        : 'input',
+                        value       : Asc.c_oAscMathInputType.LaTeX
+                    }),
+                    { caption     : '--' },
+                    new Common.UI.MenuItem({
+                        caption     : this.currProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.currLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: false, linear: true}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allProfText,
+                        iconCls     : 'menu__icon professional-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: false}
+                    }),
+                    new Common.UI.MenuItem({
+                        caption     : this.allLinearText,
+                        iconCls     : 'menu__icon linear-equation',
+                        type        : 'view',
+                        value       : {all: true, linear: true}
+                    })
+                ]
+            });
         },
 
         unitsChanged: function(m) {
@@ -2567,7 +2649,14 @@ define([
         textCm: 'cm',
         textCustom: 'Custom',
         textRulers: 'Rulers',
-        textDeleteGuide: 'Delete Guide'
+        textDeleteGuide: 'Delete Guide',
+        advancedEquationText: 'Equation Settings',
+        unicodeText: 'Unicode',
+        latexText: 'LaTeX',
+        currProfText: 'Current - Professional',
+        currLinearText: 'Current - Linear',
+        allProfText: 'All - Professional',
+        allLinearText: 'All - Linear'
 
     }, PE.Views.DocumentHolder || {}));
 });
