@@ -867,7 +867,7 @@ define([
         },
 
         fillWithLines: function (){
-            var tdPadding = this.maxBorderSize,
+            var tdPadding = this.maxBorderSize + 4,
                 tdWidth, tdHeight, tdX, tdY, xLeft,x1, w, y1, h;
             this.context.setLineDash([(2 * this.scale + 0.5) >> 0, (2 * this.scale + 0.5) >> 0]);
             this.context.strokeStyle = "#c0c0c0";
@@ -878,31 +878,22 @@ define([
                 tdY = this.sizeCorner;
                 xLeft = this.sizeCorner;
 
-                var spaceL, spaceR, spaceT = tdPadding + this.getBorderSize('t'), spaceB;
                 for (var row = 0; row < this.rows; row++) {
                     tdX = xLeft;
-                    spaceL = tdPadding + this.getBorderSize('l');
-                    spaceB = (row < this.rows - 1) ?
-                        tdPadding + this.getCellBorder(row, -1).getBorderSize() / (2 * this.scale) :
-                        tdPadding + this.getBorderSize('b');
                     for (var col = 0; col < this.columns; col++) {
-                        spaceR = (col < this.columns - 1) ?
-                            tdPadding + this.getCellBorder(-1, col).getBorderSize() / (2 * this.scale) :
-                            tdPadding + this.getBorderSize('r');
-                        x1 = ((tdX + spaceL) * this.scale) >> 0;
-                        y1 = (tdY + spaceT) * this.scale;
-                        w = ((tdWidth - spaceL - spaceR) * this.scale + 0.5) >> 0;
-                        h = (tdHeight - spaceT - spaceB) * this.scale;
+                        x1 = ((tdX + tdPadding) * this.scale) >> 0;
+                        y1 = (tdY + tdPadding) * this.scale;
+                        w = ((tdWidth - 2 * tdPadding) * this.scale + 0.5) >> 0;
+                        h = (tdHeight - 2 * tdPadding) * this.scale;
                         this.context.lineWidth = w;
                         this.context.beginPath();
                         this.context.moveTo(x1 + w / 2, y1 >> 0);
                         this.context.lineTo(x1 + w / 2, (y1 + h) >> 0);
                         this.context.stroke();
                         tdX += tdWidth;
-                        spaceL = spaceR;
+
                     }
                     tdY += tdHeight;
-                    spaceT = spaceB;
                 }
             }
             else {
@@ -910,7 +901,7 @@ define([
                     cellPadding = this.cellPadding * this.scale;
                 tdWidth = (this.width * this.scale - 2 * sizeCorner)/this.columns;
                 tdHeight = (this.height * this.scale - 2 * sizeCorner)/this.rows;
-                tdPadding +=2;
+                //tdPadding +=2;
                 tdPadding *= this.scale;
 
                 this.context.beginPath();
