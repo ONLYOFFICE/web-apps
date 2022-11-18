@@ -73,7 +73,7 @@ define([
                         '<label>' + t.txtRepeat + '</label>',
                     '</div>',
                     '<div id="id-protect-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
-                    '<div class="input-row" style="margin-bottom: 5px;">',
+                    '<div class="" style="margin-bottom: 5px;">',
                         '<label style="font-weight: bold;letter-spacing: 0.01em;margin-bottom: 5px;">' + t.txtAllow + '</label>',
                     '</div>',
                     '<div id="id-protect-radio-view" style="margin-bottom: 8px;"></div>',
