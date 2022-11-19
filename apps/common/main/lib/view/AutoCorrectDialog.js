@@ -48,7 +48,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
     var _mathStore = new Common.UI.DataViewStore();
     var _functionsStore = new Common.UI.DataViewStore();
     var _exciptionsStore = new Common.UI.DataViewStore();
-    var _exciptionsLangs = [0x409, 0x0419];
+    var _exciptionsLangs = [0x0409, 0x0419];
 
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
@@ -354,7 +354,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
 
                 // AutoCorrect
-                var exciptionsActiveLang = this.api.asc_getDefaultLanguage();
+                var exciptionsActiveLang;
                 this.exceptionsLangCmb = new Common.UI.ComboBox({
                     el          : $window.find('#auto-correct-exceptions-lang'),
                     style       : 'width: 145px;',
@@ -364,7 +364,12 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     cls         : 'input-group-nr',
                     dataHintDirection: 'bottom',
                     data        : _exciptionsLangs.map(function(lang){
-                        return { displayValue: Common.util.LanguageInfo.getLocalLanguageName(lang)[1], value: lang };
+                        var langName = Common.util.LanguageInfo.getLocalLanguageName(lang);
+                        return { 
+                            displayValue: langName[1], 
+                            shortName: langName[0],
+                            value: lang
+                        };
                     })
                 }).on('selected', function(combo, record) {
                     if(exciptionsActiveLang != record.value) {
@@ -373,10 +378,17 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         me.onChangeInputException(me.exceptionsFindInput, me.exceptionsFindInput.getValue());
                     }
                 });
-                this.exceptionsLangCmb.setValue(exciptionsActiveLang);
 
+                exciptionsActiveLang = this.exceptionsLangCmb.store.findWhere({value: this.api.asc_getDefaultLanguage()});
+                if (!exciptionsActiveLang) {
+                    var nameLang = Common.util.LanguageInfo.getLocalLanguageName(this.api.asc_getDefaultLanguage())[0].split(/[\-\_]/)[0];
+                    exciptionsActiveLang = this.exceptionsLangCmb.store.find(function(lang){
+                        return lang.get('shortName').indexOf(nameLang)==0;
+                    });
+                }
+                this.exceptionsLangCmb.setValue(exciptionsActiveLang ? exciptionsActiveLang.get('value') : _exciptionsLangs[0]);
 
-                this.onInitExceptionsList();
+                this.onInitExceptionsList(true);
                 this.exceptionsList = new Common.UI.ListView({
                     el: $window.find('#auto-correct-exceptions-list'),
                     store: new Common.UI.DataViewStore(_exciptionsStore.slice(0, 6)),
@@ -496,11 +508,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             var arr = [
                     this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
                     this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
-                    this.chHyperlink, // 2 tab
-                    this.exceptionsFindInput, this.exceptionsList, this.btnResetExceptions, this.btnAddExceptions, this.btnDeleteExceptions,
                 ];
-            arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
-            arr = arr.concat(this.chkSentenceExceptions ? [this.chkSentenceExceptions, this.chFLCells] : []);
+            arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chHyperlink, this.chDoubleSpaces, this.chBulleted, this.chNumbered]);
+            arr = arr.concat(this.chkSentenceExceptions ? [this.chkSentenceExceptions, this.chkSentenceCells, this.exceptionsLangCmb, this.exceptionsFindInput, this.exceptionsList, this.btnResetExceptions, this.btnAddExceptions, this.btnDeleteExceptions] : []);
             return arr;
         },
 
@@ -940,9 +950,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.btnAddRec.setDisabled(!!rec || !value);
         },
 
-        onInitExceptionsList: function(hasChangeLang = false) {
+        onInitExceptionsList: function(overrideNotEmptyStore) {
             console.log(this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager().get_Exceptions(this.exceptionsLangCmb.getValue()));
-            if (_exciptionsStore.length>0 && !hasChangeLang) return;
+            if (_exciptionsStore.length>0 && !overrideNotEmptyStore) return;
 
             _exciptionsStore.comparator = function(item1, item2) {
                 var n1 = item1.get('value').toLowerCase(),

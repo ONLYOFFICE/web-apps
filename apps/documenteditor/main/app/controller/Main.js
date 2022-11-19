@@ -2847,12 +2847,14 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-hyphens", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
-
-                value = Common.localStorage.getBool("de-settings-letter-exception-sentence", true);
+   
+                value = Common.localStorage.getItem("de-settings-letter-exception-sentence");
+                value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("de-settings-autoformat-fl-sentence", true);
                 Common.Utils.InternalSettings.set("de-settings-letter-exception-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
 
-                value = Common.localStorage.getBool("de-settings-letter-exception-cells", true);
+                value = Common.localStorage.getItem("de-settings-letter-exception-cells");
+                value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("de-settings-autoformat-fl-cells", true);
                 Common.Utils.InternalSettings.set("de-settings-letter-exception-cells", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
 
