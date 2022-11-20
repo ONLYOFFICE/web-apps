@@ -2260,6 +2260,14 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                     '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-ignore" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td class="padding-large">',
+                                        '<div class="pages">',
+                                            '<label><%= scope.txtPages %></label>',
+                                            '<div id="print-spin-pages-from"></div>',
+                                            '<label><%= scope.txtTo %></label>',
+                                            '<div id="print-spin-pages-to"></div>',
+                                        '</div>',
+                                    '</td></tr>',
                                     '<tr><td><label class="header"><%= scope.txtSettingsOfSheet %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-sheets" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
@@ -2368,7 +2376,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
                 data: [
-                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtCurrentSheet },
+                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.txtActiveSheets },
                     { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.txtAllSheets },
                     { value: Asc.c_oAscPrintType.Selection, displayValue: this.txtSelection }
                 ],
@@ -2384,6 +2392,32 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
+            });
+
+            this.spnPagesFrom = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-pages-from'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: '1',
+                maxValue: 1000,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.spnPagesTo = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-pages-to'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: '1',
+                maxValue: 1000,
+                minValue: 1,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             this.cmbSheet = new Common.UI.ComboBox({
@@ -2768,6 +2802,14 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             return (this.chIgnorePrintArea.getValue()=='checked');
         },
 
+        getPagesFrom: function () {
+            return this.spnPagesFrom.getValue();
+        },
+
+        getPagesTo: function () {
+            return this.spnPagesTo.getValue();
+        },
+
         comboRangeChange: function(combo, record) {
             this.fireEvent('changerange', this);
         },
@@ -2797,6 +2839,9 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtSave: 'Save',
         txtPrintRange: 'Print range',
         txtCurrentSheet: 'Current sheet',
+        txtActiveSheets: 'Active sheets',
+        txtPages: 'Pages:',
+        txtTo: 'to',
         txtAllSheets: 'All sheets',
         txtSelection: 'Selection',
         txtSettingsOfSheet: 'Settings of sheet',
