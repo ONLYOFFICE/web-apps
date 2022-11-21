@@ -124,7 +124,7 @@ define([
                 for (var l = 0; l < text.length; l++) {
                     var charCode = text.charCodeAt(l),
                         char = text.charAt(l);
-                    if (AscCommon.g_aPunctuation[charCode] !== undefined || char.trim() === '') {
+                    if (AscCommon.IsPunctuation(charCode) !== undefined || char.trim() === '') {
                         isPunctuation = true;
                         break;
                     }

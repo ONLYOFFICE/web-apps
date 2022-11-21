@@ -2045,7 +2045,7 @@
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "새로 만들기",
   "SSE.Views.FileMenuPanels.DocumentInfo.okButtonText": "적용",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtAddAuthor": "저자 추가",
-  "SSE.Views.FileMenuPanels.DocumentInfo.txtAddText": "문장 추가",
+  "SSE.Views.FileMenuPanels.DocumentInfo.txtAddText": "텍스트추가",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtAppName": "어플리케이션",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "작성자",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "액세스 권한 변경",

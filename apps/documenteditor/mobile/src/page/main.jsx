@@ -33,6 +33,12 @@ class MainPage extends Component {
         };
     }
 
+    componentDidMount() {
+        if ( $$('.skl-container').length ) {
+            $$('.skl-container').remove();
+        }
+    }
+
     handleClickToOpenOptions = (opts, showOpts) => {
         f7.popover.close('.document-menu.modal-in', false);
 
@@ -142,6 +148,7 @@ class MainPage extends Component {
 
         const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
         const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+        
         if ($$('.skl-container').length) {
             $$('.skl-container').remove();
         }

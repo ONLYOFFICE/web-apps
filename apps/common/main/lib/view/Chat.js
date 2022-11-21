@@ -336,9 +336,24 @@ define([
             // text box setup autosize input text
 
             this.setupAutoSizingTextBox();
-            this.txtMessage.bind('input propertychange',  _.bind(this.updateHeightTextBox, this));
+            this.disableTextBoxButton($(this.txtMessage));
+            this.txtMessage.bind('input propertychange',  _.bind(this.onTextareaInput, this));
         },
+        onTextareaInput: function(event) {
+            this.updateHeightTextBox(event);
+            this.disableTextBoxButton($(event.target));
+        },
+        disableTextBoxButton: function(textboxEl) {
+            var button = $(textboxEl.siblings('#chat-msg-btn-add')[0]);
 
+            if(textboxEl.val().trim().length > 0) {
+                button.removeAttr('disabled');
+                button.removeClass('disabled');
+            } else {
+                button.attr('disabled', true);
+                button.addClass('disabled');
+            }
+        },
         updateLayout: function (applyUsersAutoSizig) {
             var me = this;
             var height = this.panelBox.height();

@@ -83,7 +83,7 @@
     border-radius: 0;
     padding: 3px 10px;
     color: #fff;
-    font: 11px arial;
+    .font-size-normal();
     white-space: nowrap;
     letter-spacing: 1px;
     overflow: hidden;
@@ -110,6 +110,9 @@
     padding: 4px;
     .separator {
         height: 20px;
+    }
+    &.has-open-menu {
+        z-index: @zindex-navbar + 1;
     }
 }
 
