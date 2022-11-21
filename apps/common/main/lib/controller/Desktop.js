@@ -234,21 +234,19 @@ define([
 
                     Common.NotificationCenter.on('document:ready', function () {
                         if ( config.isEdit ) {
-                            // var maincontroller = webapp.getController('Main');
-                            // if (maincontroller.api.asc_getLocalRestrictions && Asc.c_oAscLocalRestrictionType.None !== maincontroller.api.asc_getLocalRestrictions()) {
-                                // maincontroller.warningDocumentIsLocked();
-                            // }
-                        }
-                    });
+                            function get_locked_message (t) {
+                                switch (t) {
+                                // case Asc.c_oAscLocalRestrictionType.Nosafe:
+                                case Asc.c_oAscLocalRestrictionType.ReadOnly:
+                                    return Common.Locale.get("tipFileReadOnly",{name:"Common.Translation", default: "Document is read only. You can make changes and save its local copy later."});
+                                default: return Common.Locale.get("tipFileLocked",{name:"Common.Translation", default: "Document is locked for editing. You can make changes and save its local copy later."});
+                                }
+                            }
 
-                    Common.NotificationCenter.on('app:face', function (mode) {
-                        features.viewmode = !mode.isEdit;
-                        features.crypted = mode.isCrypted;
-
-                        const header = webapp.getController('Viewport').getView('Common.Views.Header');
-                        if ( mode.isEdit ) {
+                            const header = webapp.getController('Viewport').getView('Common.Views.Header');
                             const api = webapp.getController('Main').api;
-                            if ( api.asc_getLocalRestrictions && Asc.c_oAscLocalRestrictionType.None !== api.asc_getLocalRestrictions()) {
+                            const locktype = api.asc_getLocalRestrictions ? api.asc_getLocalRestrictions() : Asc.c_oAscLocalRestrictionType.None;
+                            if ( Asc.c_oAscLocalRestrictionType.None !== locktype ) {
                                 features.readonly = true;
 
                                 header.setDocumentReadOnly(true);
@@ -258,18 +256,23 @@ define([
                                     extCls: 'no-arrow',
                                     placement: 'bottom',
                                     target: $('.toolbar'),
-                                    text: Common.Locale.get("tipFileLocked",{name:"Common.Translation", default: "Document is locked for editing. You can make changes and save it as local copy later."}),
+                                    text: get_locked_message(locktype),
                                     showLink: false,
                                 })).on('closeclick', function () {
                                     this.close();
                                 }).show();
                             }
                         }
+                    });
 
+                    Common.NotificationCenter.on('app:face', function (mode) {
+                        features.viewmode = !mode.isEdit;
+                        features.crypted = mode.isCrypted;
                         native.execCommand('webapps:features', JSON.stringify(features));
 
                         titlebuttons = {};
                         if ( mode.isEdit ) {
+                            const header = webapp.getController('Viewport').getView('Common.Views.Header');
                             if (!!header.btnSave) {
                                 titlebuttons['save'] = {btn: header.btnSave};
 

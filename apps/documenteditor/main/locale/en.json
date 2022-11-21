@@ -128,6 +128,7 @@
   "Common.Translation.textMoreButton": "More",
   "Common.Translation.warnFileLocked": "You can't edit this file because it's being edited in another app.",
   "Common.Translation.tipFileLocked": "Document is locked for editing. You can make changes and save it as local copy later.",
+  "Common.Translation.tipFileReadOnly": "Document is read only and locked for editing. You can make changes and save its local copy later.",
   "Common.Translation.warnFileLockedBtnEdit": "Create a copy",
   "Common.Translation.warnFileLockedBtnView": "Open for viewing",
   "Common.UI.ButtonColored.textAutoColor": "Automatic",
