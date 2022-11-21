@@ -2656,12 +2656,35 @@ define([
 
             onPrintQuick: function() {
                 if (!this.appOptions.canQuickPrint) return;
-                var printopt = new Asc.asc_CAdjustPrint();
-                printopt.asc_setNativeOptions({quickPrint: true});
-                var opts = new Asc.asc_CDownloadOptions();
-                opts.asc_setAdvancedOptions(printopt);
-                this.api.asc_Print(opts);
-                Common.component.Analytics.trackEvent('Print');
+
+                var value = Common.localStorage.getBool("de-hide-quick-print-warning"),
+                    me = this,
+                    handler = function () {
+                        var printopt = new Asc.asc_CAdjustPrint();
+                        printopt.asc_setNativeOptions({quickPrint: true});
+                        var opts = new Asc.asc_CDownloadOptions();
+                        opts.asc_setAdvancedOptions(printopt);
+                        me.api.asc_Print(opts);
+                        Common.component.Analytics.trackEvent('Print');
+                    };
+
+                if (value) {
+                    handler.call(this);
+                } else {
+                    Common.UI.warning({
+                        msg: this.textTryQuickPrint,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        dontshow: true,
+                        maxwidth: 500,
+                        callback: function(btn, dontshow){
+                            dontshow && Common.localStorage.setBool("de-hide-quick-print-warning", true);
+                            if (btn === 'yes') {
+                                setTimeout(handler, 1);
+                            }
+                        }
+                    });
+                }
             },
 
             onClearDummyComment: function() {
@@ -3290,7 +3313,8 @@ define([
             errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
             confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
             textUndo: 'Undo',
-            textContinue: 'Continue'
+            textContinue: 'Continue',
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?'
         }
     })(), DE.Controllers.Main || {}))
 });

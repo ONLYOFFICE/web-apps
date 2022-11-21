@@ -942,6 +942,7 @@
   "DE.Controllers.Main.confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
   "DE.Controllers.Main.textUndo": "Undo",
   "DE.Controllers.Main.textContinue": "Continue",
+  "DE.Controllers.Main.textTryQuickPrint": "You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Search.notcriticalErrorTitle": "Warning",
