@@ -45,7 +45,8 @@ define([
         version: '{{PRODUCT_VERSION}}',
         eventloading: true,
         titlebuttons: true,
-        uithemes: true
+        uithemes: true,
+        quickprint: true,
     };
 
     var native = window.desktop || window.AscDesktopEditor;
@@ -166,7 +167,8 @@ define([
                 action: action,
                 icon: config.icon || undefined,
                 hint: config.btn.options.hint,
-                disabled: config.btn.isDisabled()
+                disabled: config.btn.isDisabled(),
+                visible: config.visible,
             };
         };
 
@@ -214,6 +216,19 @@ define([
             if ( Common.UI.HintManager.isHintVisible() ) {
                 native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
                 console.log('hint keydown', e.keyCode);
+            }
+        }
+
+        const _onApplySettings = function (menu) {
+            if ( !!titlebuttons.printquick ) {
+                if ( titlebuttons.printquick.visible != titlebuttons.printquick.btn.isVisible() ) {
+                    const obj = {
+                        visible: {
+                            quickprint: titlebuttons.printquick.btn.isVisible(),
+                        }
+                    };
+                    native.execCommand('title:button', JSON.stringify(obj));
+                }
             }
         }
 
@@ -283,8 +298,12 @@ define([
                             if (!!header.btnPrint)
                                 titlebuttons['print'] = {btn: header.btnPrint};
 
-                            if (!!header.btnPrintQuick)
-                                titlebuttons['printquick'] = {btn: header.btnPrintQuick};
+                            if (!!header.btnPrintQuick) {
+                                titlebuttons['printquick'] = {
+                                    btn: header.btnPrintQuick,
+                                    visible: header.btnPrintQuick.isVisible(),
+                                };
+                            }
 
                             if (!!header.btnUndo)
                                 titlebuttons['undo'] = {btn: header.btnUndo};
@@ -340,6 +359,7 @@ define([
                                     menu.hide();
                                 }
                             },
+                            'settings:apply': _onApplySettings.bind(this),
                         },
                     }, {id: 'desktop'});
 
