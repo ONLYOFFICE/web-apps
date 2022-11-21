@@ -402,9 +402,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             var arr = [
                     this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
                     this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
-                    this.chHyperlink // 2 tab
                 ];
-            arr = arr.concat(this.chNewRows ? [this.chNewRows] : [this.chQuotes, this.chHyphens, this.chBulleted, this.chNumbered]);
+            arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chHyperlink, this.chDoubleSpaces, this.chBulleted, this.chNumbered]);
             arr = arr.concat(this.chFLSentence ? [this.chFLSentence, this.chFLCells] : []);
             return arr;
         },
