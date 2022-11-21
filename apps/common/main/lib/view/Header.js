@@ -579,7 +579,7 @@ define([
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print-preview', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
+                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'), undefined, 'bottom', 'big', 'P');
 
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
@@ -656,7 +656,7 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print-preview', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
+                        me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
                     if ( config.canQuickPrint && config.isEdit )
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');

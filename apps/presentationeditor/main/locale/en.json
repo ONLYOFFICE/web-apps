@@ -1013,6 +1013,7 @@
   "PE.Controllers.Main.confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
   "PE.Controllers.Main.textUndo": "Undo",
   "PE.Controllers.Main.textContinue": "Continue",
+  "PE.Controllers.Main.textTryQuickPrint": "You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?",
   "PE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
   "PE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single slide number or a single slide range (for example, 5-12). Or you can Print to PDF.",
   "PE.Controllers.Search.notcriticalErrorTitle": "Warning",

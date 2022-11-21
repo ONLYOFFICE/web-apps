@@ -1126,6 +1126,7 @@
   "SSE.Controllers.Main.confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
   "SSE.Controllers.Main.textUndo": "Undo",
   "SSE.Controllers.Main.textContinue": "Continue",
+  "SSE.Controllers.Main.textTryQuickPrint": "You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
   "SSE.Controllers.Print.textFirstRow": "First row",
