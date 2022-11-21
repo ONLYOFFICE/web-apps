@@ -2,8 +2,13 @@
     <div class="padding-large inner-content" >
         <div id="printadv-dlg-combo-range" class="input-group-nr"></div>
         <div id="printadv-dlg-chb-ignore" style="margin-top: 5px;"></div>
+        <div id="printadv-dlg-pages">
+            <label><%= scope.textPages %></label>
+            <div id="printadv-dlg-spin-pages-from"></div>
+            <label><%= scope.textTo %></label>
+            <div id="printadv-dlg-spin-pages-to"></div>
+        </div>
     </div>
-    <div class="padding-small"></div>
     <div class="padding-large inner-content" >
         <div id="printadv-dlg-combo-sheets" class="input-group-nr"></div>
     </div>

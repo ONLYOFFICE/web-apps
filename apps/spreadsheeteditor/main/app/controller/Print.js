@@ -274,7 +274,7 @@ define([
                 menu.cmbSheet.setValue(item.get('value'));
                 this.comboSheetsChange(menu, menu.cmbSheet, item.toJSON());
             }
-            //menu.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
+            menu.cmbSheet.setDisabled(printtype === Asc.c_oAscPrintType.Selection || printtype === Asc.c_oAscPrintType.ActiveSheets && menu.cmbSheet.store.length < 2);
             menu.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
 
             if (!isDlg) {
@@ -406,6 +406,9 @@ define([
                     this.adjPrintParams.asc_setPrintType(printtype);
                     this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
+                    this.adjPrintParams.asc_setActiveSheetsArray(SSE.getController('Statusbar').getSelectTabs());
+                    this.adjPrintParams.asc_setStartPageIndex(this.printSettingsDlg.getPagesFrom() - 1);
+                    this.adjPrintParams.asc_setEndPageIndex(this.printSettingsDlg.getPagesTo() - 1);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     if ( this.printSettingsDlg.type=='print' ) {
