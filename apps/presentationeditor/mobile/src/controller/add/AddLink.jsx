@@ -28,7 +28,7 @@ class AddLinkController extends Component {
 
     closeModal () {
         if ( Device.phone ) {
-            f7.popup.close('#add-link-popup');
+            f7.popup.close('.add-popup');
         } else {
             f7.popover.close('#add-link-popover');
         }
@@ -112,7 +112,7 @@ class AddLinkController extends Component {
             props.put_Text(null);
 
         api.add_Hyperlink(props);
-        this.props.isNavigate ? f7.views.current.router.back() : this.closeModal();
+        this.props.isNavigate && !Device.phone ? f7.views.current.router.back() : this.closeModal();
     }
 
     getTextDisplay () {

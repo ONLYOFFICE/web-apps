@@ -13,6 +13,7 @@ import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 import { AddLinkController } from '../controller/add/AddLink';
 import { EditLinkController } from '../controller/edit/EditLink';
+
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -112,26 +113,32 @@ class MainPage extends Component {
         const appOptions = this.props.storeAppOptions;
         const config = appOptions.config;
 
-        let showLogo = !(appOptions.canBrandingExt && (config.customization && (config.customization.loaderName || config.customization.loaderLogo)));
+        let showLogo = !(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
         if ( !Object.keys(config).length ) {
             showLogo = !/&(?:logo)=/.test(window.location.search);
         }
 
         const showPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+        const isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+
         return (
             <Fragment>
                 {!this.state.previewVisible ? null : <Preview onclosed={this.handleOptionsViewClosed.bind(this, 'preview')} />}
                 <Page name="home" className={`editor${ showLogo ? ' page-with-logo' : ''}`}>
                     {/* Top Navbar */}
-                    <Navbar id='editor-navbar' className={`main-navbar${showLogo ? ' navbar-with-logo' : ''}`}>
-                        {showLogo && appOptions.canBranding !== undefined && <div className="main-logo" onClick={() => {
-                            window.open(`${__PUBLISHER_URL__}`, "_blank");
-                        }}><Icon icon="icon-logo"></Icon></div>}
-                        <Subnavbar>
-                            <Toolbar openOptions={this.handleClickToOpenOptions} closeOptions={this.handleOptionsViewClosed}/>
-                            <Search useSuspense={false}/>
-                        </Subnavbar>
-                    </Navbar>
+                    {config?.customization &&
+                        <Navbar id='editor-navbar'
+                                className={`main-navbar${(!isBranding && showLogo) ? ' navbar-with-logo' : ''}`}>
+                            {(!isBranding && showLogo) && <div className="main-logo" onClick={() => {
+                                window.open(`${__PUBLISHER_URL__}`, "_blank");
+                            }}><Icon icon="icon-logo"></Icon></div>}
+                            <Subnavbar>
+                                <Toolbar openOptions={this.handleClickToOpenOptions}
+                                         closeOptions={this.handleOptionsViewClosed}/>
+                                <Search useSuspense={false}/>
+                            </Subnavbar>
+                        </Navbar>
+                    }
                     {/* Page content */}
                     <View id="editor_sdk" />
 
