@@ -354,12 +354,13 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
 
                 // AutoCorrect
-                var exciptionsActiveLang;
+                var exciptionsActiveLang = Common.Utils.InternalSettings.get('settings-letter-exception-lang');
                 this.exceptionsLangCmb = new Common.UI.ComboBox({
                     el          : $window.find('#auto-correct-exceptions-lang'),
                     style       : 'width: 145px;',
                     menuStyle   : 'min-width:100%;',
                     editable    : false,
+                    takeFocusOnClose : true,
                     menuCls     : 'menu-aligned',
                     cls         : 'input-group-nr',
                     dataHintDirection: 'bottom',
@@ -374,19 +375,23 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 }).on('selected', function(combo, record) {
                     if(exciptionsActiveLang != record.value) {
                         exciptionsActiveLang = record.value;
+                        Common.Utils.InternalSettings.set('settings-letter-exception-lang', exciptionsActiveLang);
                         me.onInitExceptionsList(true);
                         me.onChangeInputException(me.exceptionsFindInput, me.exceptionsFindInput.getValue());
                     }
                 });
 
-                exciptionsActiveLang = this.exceptionsLangCmb.store.findWhere({value: this.api.asc_getDefaultLanguage()});
-                if (!exciptionsActiveLang) {
-                    var nameLang = Common.util.LanguageInfo.getLocalLanguageName(this.api.asc_getDefaultLanguage())[0].split(/[\-\_]/)[0];
-                    exciptionsActiveLang = this.exceptionsLangCmb.store.find(function(lang){
-                        return lang.get('shortName').indexOf(nameLang)==0;
-                    });
+                if(!exciptionsActiveLang) {
+                    var curLangObj = this.exceptionsLangCmb.store.findWhere({value: this.api.asc_getDefaultLanguage()});
+                    if (!curLangObj) {
+                        var nameLang = Common.util.LanguageInfo.getLocalLanguageName(this.api.asc_getDefaultLanguage())[0].split(/[\-\_]/)[0];
+                        curLangObj = this.exceptionsLangCmb.store.find(function(lang){
+                            return lang.get('shortName').indexOf(nameLang)==0;
+                        });
+                    }
+                    if(curLangObj) exciptionsActiveLang = curLangObj.get('value');
                 }
-                this.exceptionsLangCmb.setValue(exciptionsActiveLang ? exciptionsActiveLang.get('value') : _exciptionsLangs[0]);
+                this.exceptionsLangCmb.setValue(exciptionsActiveLang ? exciptionsActiveLang : _exciptionsLangs[0]);
 
                 this.onInitExceptionsList(true);
                 this.exceptionsList = new Common.UI.ListView({
@@ -951,7 +956,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         onInitExceptionsList: function(overrideNotEmptyStore) {
-            console.log(this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager().get_Exceptions(this.exceptionsLangCmb.getValue()));
             if (_exciptionsStore.length>0 && !overrideNotEmptyStore) return;
 
             _exciptionsStore.comparator = function(item1, item2) {
